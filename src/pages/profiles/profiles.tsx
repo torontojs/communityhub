@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import ProfileList from '../../components/Profile.js';
+import ProfileList from '../../components/ProfileList.js';
 
 import 'open-props';
 import './style.css';
