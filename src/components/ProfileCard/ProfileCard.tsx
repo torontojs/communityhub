@@ -43,7 +43,7 @@ const ProfileCard = () => {
 					setIsErrorProfile(true);
 				}
 				const jsonDataProfile = await responseProfile.json();
-				// REMOVE: Filtering won't be required with API, remove filtering when integrating with backend
+				// !FIXME: Filtering won't be required with API, remove filtering when integrating with backend
 				setProfileData(jsonDataProfile.filter((profile: MemberProfile) => profile.id === profileId)[0]);
 			} catch (error) {
 				setIsErrorProfile(true);

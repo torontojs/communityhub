@@ -44,19 +44,20 @@ picture {
 	flex-wrap: wrap;
 	gap: 1rem;
 	justify-content: center;
-	padding: 3rem;
-	width: 100%;
+	padding: 3rem 0;
 }
 
 .user-profile-column {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	flex-shrink: 0;
 	justify-content: center;
-	min-width: 460px;
+	max-width: 50%;
+	min-width: 280px;
 	width: 460px;
 }
+
+.user-profile-details { padding: 0.75rem; }
 
 .user-profile-column figcaption {
 	font-weight: 600;
