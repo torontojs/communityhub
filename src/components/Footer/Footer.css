@@ -1,0 +1,35 @@
+footer {
+	align-items: center;
+	column-gap: 1rem;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+
+	p {
+		color: var(--color-helper);
+		font-weight: var(--weight-bold);
+	}
+
+	ul {
+		column-gap: 1rem;
+		display: flex;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	img {
+		height: 1rem;
+		width: 1rem;
+	}
+}
+
+.sr-only:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
