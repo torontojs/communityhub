@@ -30,3 +30,6 @@ certs
 
 # Typescript build info
 *.tsbuildinfo
+
+# Tests 
+test-results/
