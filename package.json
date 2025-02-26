@@ -28,6 +28,7 @@
 		"@typescript-eslint/eslint-plugin": "8.16.0",
 		"@typescript-eslint/parser": "8.16.0",
 		"@vitejs/plugin-react": "^4.3.4",
+		"dprint": "^0.49.0",
 		"eslint": "9.16.0",
 		"eslint-plugin-react": "^7.37.2",
 		"eslint-plugin-react-hooks": "^5.0.0",
