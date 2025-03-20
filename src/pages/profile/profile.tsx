@@ -5,6 +5,7 @@ import ProfileList from '../../components/Profile.js';
 
 import 'open-props';
 import './style.css';
+import '../../index.css';
 
 const root = document.getElementById('root') as HTMLDivElement;
 
