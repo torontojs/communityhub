@@ -1,5 +1,6 @@
 import './Footer.css';
 
+// TODO: make changes based on this comment: https://github.com/torontojs/volunteer/pull/19#discussion_r1972736358
 const Footer = () => (
 	<footer>
 		<p className='text-helper'>TorontoJS</p>
