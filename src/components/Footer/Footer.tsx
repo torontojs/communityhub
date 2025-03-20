@@ -1,8 +1,8 @@
 import './Footer.css';
 
 // TODO: make changes based on this comment: https://github.com/torontojs/volunteer/pull/19#discussion_r1972736358
-const Footer = () => (
-	<footer>
+const FooterNav = () => (
+	<footer id='footer-nav'>
 		<p className='text-helper'>TorontoJS</p>
 
 		<nav aria-label='Secondary Navigation'>
@@ -177,4 +177,4 @@ const Footer = () => (
 	</footer>
 );
 
-export default Footer;
+export default FooterNav;
