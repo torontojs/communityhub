@@ -16,11 +16,12 @@ const LoginForm = () => (
 			<input type='checkbox' id='remember-me' name='remember-me' />
 		</div>
 		<button type='submit'>Log-in</button>
-		<link ref='/forgot-password'>I don't remember my password</link>
+		<a href='/forgot-password'>I don't remember my password</a>
 		<div id='line-seperator'></div>
 		<div>
 			<p>
-				If you're a member of TorontoJS and don't have your account, <link>click here to sign up</link>
+				If you're a member of TorontoJS and don't have your account, <a href="/path-to-other-page">Click here to go to another page</a>
+
 			</p>
 		</div>
 	</form>

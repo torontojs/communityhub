@@ -13,7 +13,7 @@ const root = document.getElementById('root') as HTMLDivElement;
 createRoot(root).render(
 	(
 		<StrictMode>
-			<div className='App'>
+			<div className='Sign-in-page'>
 				<header>
 					<Logo />
 					<HeaderTitle>Welcome to TorontoJS Community Hub</HeaderTitle>
