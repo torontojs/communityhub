@@ -1,3 +1,61 @@
+/* --- General Reset and Box-Sizing --- */
+
+/* Ensure consistent box-sizing across all elements */
+*, *::before, *::after {
+  box-sizing: border-box; /* Prevents padding and borders from affecting element size */
+}
+
+/* Reset margin and padding for all elements */
+* {
+  margin: 0;
+  padding: 0; /* Removes default spacing */
+}
+
+/* --- Remove Default Styling for Lists --- */
+ul, ol {
+  list-style: none; /* Removes default bullet points and numbering */
+}
+
+/* --- Remove Default Button Styles --- */
+button {
+  all: unset; /* Removes all default styles applied by the browser */
+  cursor: pointer; /* Ensures buttons have a clickable cursor */
+}
+
+/* --- Ensure Images are Responsive --- */
+img {
+  max-width: 100%; /* Makes images responsive to their container width */
+  height: auto; /* Ensures the aspect ratio is maintained */
+  display: block; /* Removes inline-block spacing issues */
+}
+
+/* --- Inherit Font for Form Elements --- */
+input, textarea, select, button {
+  font: inherit; /* Inherits the font-family from parent elements */
+}
+
+/* --- Set Full Height for HTML and Body --- */
+html, body {
+  height: 100%; /* Ensures full-height layouts work as expected */
+}
+
+/* --- Link Styling --- */
+a {
+  text-decoration: none; /* Removes the default underline */
+  color: inherit; /* Inherits text color from parent elements */
+}
+
+/* --- Reset Scrollbars --- */
+html, body {
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+/* --- Spacing --- */
+body {
+  padding: 0;
+  margin: 0;
+}
+
 /* Font settings */
 :root {
 	--font-primary: 'Uai', 'Source Sans Pro', 'Montserrat', 'Roboto', Helvetica, Arial, sans-serif; /* Default fonts */
@@ -31,7 +89,7 @@
 	--text-sm: calc(var(--text-base) * pow(var(--text-scale-ratio), -1)); /* Small text size */
 	--text-md: calc(var(--text-base) * pow(var(--text-scale-ratio), 1)); /* Medium text size */
 	--text-lg: calc(var(--text-base) * pow(var(--text-scale-ratio), 2)); /* Large text size */
-	--text-xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 3)); /* Extra large text size */
+	--text-xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 4)); /* Extra large text size */
 	--text-2xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 4)); /* 2x Extra large text size */
 	--text-3xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 5)); /* 3x Extra large text size */
 	--text-4xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 6)); /* 4x Extra large text size */
