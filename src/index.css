@@ -73,6 +73,7 @@ body {
 	font-family: var(--font-primary);
 	font-size: var(--text-base);
 	line-height: var(--leading-base);
+	width: 100%;
 }
 
 a { color: var(--color-accent); }

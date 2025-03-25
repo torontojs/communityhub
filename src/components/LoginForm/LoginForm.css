@@ -1,1 +1,5 @@
-
+.login-form {
+	border: 1px solid #cccccc;
+	border-radius: var(--rounded-md);
+	padding: var(--spacing-sm);
+}

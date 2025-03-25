@@ -1,0 +1,10 @@
+header {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 246px;
+	text-align: center;
+
+	picture { margin-bottom: 40px; }
+}

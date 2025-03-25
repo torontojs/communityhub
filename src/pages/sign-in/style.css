@@ -1,6 +1,14 @@
-.Sign-in-page { 
-    display: flex; 
-    flex-direction:column;
-    justify-content: center;
-    align-items: center;
+.app {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
+}
+
+.Sign-in-page {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	max-width: 390px;
 }
