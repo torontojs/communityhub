@@ -1,25 +1,42 @@
+/* Font settings */
 :root {
-	--font-primary: 'Uai', 'Source Sans Pro', 'Montserrat', 'Roboto', Helvetica, Arial, sans-serif;
-	--text-base: 18px;
-	--text-scale-ratio: 1.067;
-	--spacing-base: 8px;
-	--rounded-base: 2px;
-	--leading-base: 1.6em;
-	--shadow-base: 2px;
-	--leading-h6: calc(var(--leading-base) - 0 * 0.08em);
-	--leading-h5: calc(var(--leading-base) - 1 * 0.08em);
-	--leading-h4: calc(var(--leading-base) - 2 * 0.08em);
-	--leading-h3: calc(var(--leading-base) - 3 * 0.08em);
-	--leading-h2: calc(var(--leading-base) - 4 * 0.08em);
-	--leading-h1: calc(var(--leading-base) - 5 * 0.08em);
-	--text-xs: calc(1em * pow(var(--text-scale-ratio), -2)); /* e.g.: helpers */
-	--text-sm: calc(var(--text-base) * pow(var(--text-scale-ratio), -1)); /* e.g.: input values, buttons */
-	--text-md: calc(var(--text-base) * pow(var(--text-scale-ratio), 1)); /* e.g.: h6 */
-	--text-lg: calc(var(--text-base) * pow(var(--text-scale-ratio), 2)); /* e.g.: h5 */
-	--text-xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 3)); /* e.g.: h4 */
-	--text-2xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 4)); /* e.g.: h3 */
-	--text-3xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 5)); /* e.g.: h2 */
-	--text-4xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 6)); /* e.g.: h1 */
+	--font-primary: 'Uai', 'Source Sans Pro', 'Montserrat', 'Roboto', Helvetica, Arial, sans-serif; /* Default fonts */
+	
+	/* Text settings */
+	--text-base: 18px; /* Base font size */
+	--text-scale-ratio: 1.067; /* Scaling ratio for text size */
+	
+	/* Spacing settings */
+	--spacing-base: 8px; /* Base spacing unit */
+	
+	/* Border radius settings */
+	--rounded-base: 2px; /* Default border radius */
+	
+	/* Line height settings */
+	--leading-base: 1.6em; /* Base line height */
+	
+	/* Shadow settings */
+	--shadow-base: 2px; /* Base shadow size */
+	
+	/* Heading line-height adjustments */
+	--leading-h6: calc(var(--leading-base) - 0 * 0.08em); /* Adjusted line height for h6 */
+	--leading-h5: calc(var(--leading-base) - 1 * 0.08em); /* Adjusted line height for h5 */
+	--leading-h4: calc(var(--leading-base) - 2 * 0.08em); /* Adjusted line height for h4 */
+	--leading-h3: calc(var(--leading-base) - 3 * 0.08em); /* Adjusted line height for h3 */
+	--leading-h2: calc(var(--leading-base) - 4 * 0.08em); /* Adjusted line height for h2 */
+	--leading-h1: calc(var(--leading-base) - 5 * 0.08em); /* Adjusted line height for h1 */
+	
+	/* Text size settings based on scale */
+	--text-xs: calc(1em * pow(var(--text-scale-ratio), -2)); /* Extra small text size */
+	--text-sm: calc(var(--text-base) * pow(var(--text-scale-ratio), -1)); /* Small text size */
+	--text-md: calc(var(--text-base) * pow(var(--text-scale-ratio), 1)); /* Medium text size */
+	--text-lg: calc(var(--text-base) * pow(var(--text-scale-ratio), 2)); /* Large text size */
+	--text-xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 3)); /* Extra large text size */
+	--text-2xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 4)); /* 2x Extra large text size */
+	--text-3xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 5)); /* 3x Extra large text size */
+	--text-4xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 6)); /* 4x Extra large text size */
+	
+	/* Font weight settings */
 	--weight-thin: 100;
 	--weight-extralight: 200;
 	--weight-light: 300;
@@ -29,55 +46,69 @@
 	--weight-bold: 700;
 	--weight-extrabold: 800;
 	--weight-black: 900;
-	--color-foreground: hsla(0, 0%, 20%, 1);
-	--color-background: hsla(0, 0%, 100%, 1);
-	--color-border: hsla(0, 0%, 80%, 1);
-	--color-card: hsla(0, 0%, 90%, 1);
-	--color-helper: hsla(0, 0%, 60%, 1);
-	--color-accent: hsla(2, 84%, 56%, 1);
-	--color-error: hsla(0, 100%, 50%, 1);
-	--color-warning: hsla(44, 98%, 44%, 1);
-	--color-success: hsla(120, 100%, 30%, 1);
-	--color-info: hsla(224, 100%, 60%, 1);
-	--color-white: hsla(0, 0%, 100%, 1);
-	--color-black: hsla(0, 0%, 20%, 1);
-	--color-button: hsla(0, 0%, 0%, 0.15);
-	--color-shadow-light: hsla(0, 0%, 0%, 0.1);
-	--color-shadow-heavy: hsla(0, 0%, 0%, 0.125);
-	--spacing-xs: calc(1 * var(--spacing-base));
-	--spacing-sm: calc(2 * var(--spacing-base));
-	--spacing-md: calc(3 * var(--spacing-base));
-	--spacing-lg: calc(5 * var(--spacing-base));
-	--spacing-xl: calc(10 * var(--spacing-base));
-	--spacing-xl: calc(10 * var(--spacing-base));
-	--rounded-xs: calc(1 * var(--rounded-base));
-	--rounded-sm: calc(2 * var(--rounded-base));
-	--rounded-md: calc(4 * var(--rounded-base));
-	--rounded-lg: calc(8 * var(--rounded-base));
-	--rounded-xl: calc(12 * var(--rounded-base));
-	--rounded-full: 50%;
-	--border: var(--border-base) solid var(--color-border);
-	--border-base: 1px;
-	--shadow-xs: 0 calc(0.5 * var(--shadow-base)) calc(0 * var(--shadow-base)) var(--color-shadow-light);
-	--shadow-sm: 0 calc(0.5 * var(--shadow-base)) calc(1 * var(--shadow-base)) var(--color-shadow-light);
-	--shadow-md: 0 calc(1 * var(--shadow-base)) calc(2 * var(--shadow-base)) var(--color-shadow-light);
-	--shadow-lg: 0 calc(2 * var(--shadow-base)) calc(4 * var(--shadow-base)) var(--color-shadow-heavy);
-	--shadow-xl: 0 calc(4 * var(--shadow-base)) calc(8 * var(--shadow-base)) var(--color-shadow-heavy);
-	--shadow-2xl: 0 calc(8 * var(--shadow-base)) calc(12 * var(--shadow-base)) var(--color-shadow-heavy);
-	accent-color: var(--color-accent);
+	
+	/* Color settings */
+	--color-foreground: hsla(0, 0%, 20%, 1); /* Default text color */
+	--color-background: hsla(0, 0%, 100%, 1); /* Background color */
+	--color-border: hsla(0, 0%, 80%, 1); /* Border color */
+	--color-card: hsla(0, 0%, 90%, 1); /* Card background color */
+	--color-helper: hsla(0, 0%, 60%, 1); /* Helper text color */
+	--color-accent: hsla(2, 84%, 56%, 1); /* Accent color (used for links, highlights) */
+	--color-error: hsla(0, 100%, 50%, 1); /* Error color */
+	--color-warning: hsla(44, 98%, 44%, 1); /* Warning color */
+	--color-success: hsla(120, 100%, 30%, 1); /* Success color */
+	--color-info: hsla(224, 100%, 60%, 1); /* Info color */
+	--color-white: hsla(0, 0%, 100%, 1); /* White color */
+	--color-black: hsla(0, 0%, 20%, 1); /* Black color */
+	--color-button: hsla(0, 0%, 0%, 0.15); /* Button color */
+	--color-shadow-light: hsla(0, 0%, 0%, 0.1); /* Light shadow color */
+	--color-shadow-heavy: hsla(0, 0%, 0%, 0.125); /* Heavy shadow color */
+	
+	/* Spacing utilities */
+	--spacing-xs: calc(1 * var(--spacing-base)); /* Extra small spacing */
+	--spacing-sm: calc(2 * var(--spacing-base)); /* Small spacing */
+	--spacing-md: calc(3 * var(--spacing-base)); /* Medium spacing */
+	--spacing-lg: calc(5 * var(--spacing-base)); /* Large spacing */
+	--spacing-xl: calc(10 * var(--spacing-base)); /* Extra large spacing */
+	
+	/* Border radius utilities */
+	--rounded-xs: calc(1 * var(--rounded-base)); /* Extra small border radius */
+	--rounded-sm: calc(2 * var(--rounded-base)); /* Small border radius */
+	--rounded-md: calc(4 * var(--rounded-base)); /* Medium border radius */
+	--rounded-lg: calc(8 * var(--rounded-base)); /* Large border radius */
+	--rounded-xl: calc(12 * var(--rounded-base)); /* Extra large border radius */
+	--rounded-full: 50%; /* Full circle border radius */
+	
+	/* Border settings */
+	--border: var(--border-base) solid var(--color-border); /* Default border style */
+	--border-base: 1px; /* Base border width */
+	
+	/* Shadow utilities */
+	--shadow-xs: 0 calc(0.5 * var(--shadow-base)) calc(0 * var(--shadow-base)) var(--color-shadow-light); /* Extra small shadow */
+	--shadow-sm: 0 calc(0.5 * var(--shadow-base)) calc(1 * var(--shadow-base)) var(--color-shadow-light); /* Small shadow */
+	--shadow-md: 0 calc(1 * var(--shadow-base)) calc(2 * var(--shadow-base)) var(--color-shadow-light); /* Medium shadow */
+	--shadow-lg: 0 calc(2 * var(--shadow-base)) calc(4 * var(--shadow-base)) var(--color-shadow-heavy); /* Large shadow */
+	--shadow-xl: 0 calc(4 * var(--shadow-base)) calc(8 * var(--shadow-base)) var(--color-shadow-heavy); /* Extra large shadow */
+	--shadow-2xl: 0 calc(8 * var(--shadow-base)) calc(12 * var(--shadow-base)) var(--color-shadow-heavy); /* 2x extra large shadow */
+	
+	/* Accent color */
+	accent-color: var(--color-accent); /* Accent color used throughout the site */
 }
 
+/* Basic styling for html and body */
 html,
 body {
-	color: var(--color-foreground);
-	font-family: var(--font-primary);
-	font-size: var(--text-base);
-	line-height: var(--leading-base);
+	color: var(--color-foreground); /* Apply foreground color */
+	font-family: var(--font-primary); /* Apply primary font */
+	font-size: var(--text-base); /* Apply base font size */
+	line-height: var(--leading-base); /* Apply base line height */
 	width: 100%;
 }
 
-a { color: var(--color-accent); }
+/* Link color */
+a { color: var(--color-accent); } /* Accent color for links */
 
+/* Remove default margin and padding for common elements */
 h1,
 h2,
 h3,
@@ -95,70 +126,46 @@ p {
 	padding: 0;
 }
 
+/* Heading styles */
 h1,
 .text-h1 {
-	font-size: var(--text-4xl);
-	font-weight: var(--weight-black);
-	line-height: var(--leading-h1);
+	font-size: var(--text-4xl); /* Size for h1 */
+	font-weight: var(--weight-black); /* Bold weight for h1 */
+	line-height: var(--leading-h1); /* Line height for h1 */
 }
 
+/* Similarly, style other headings */
 h2,
 .text-h2 {
-	font-size: var(--text-3xl);
-	font-weight: var(--weight-bold);
-	line-height: var(--leading-h2);
+	font-size: var(--text-3xl); /* Size for h2 */
+	font-weight: var(--weight-bold); /* Bold weight for h2 */
+	line-height: var(--leading-h2); /* Line height for h2 */
 }
 
+/* Additional heading styles */
 h3,
-.text-h3 {
-	font-size: var(--text-2xl);
-	font-weight: var(--weight-bold);
-	line-height: var(--leading-h3);
-}
-
+.text-h3 { font-size: var(--text-2xl); }
 h4,
-.text-h4 {
-	font-size: var(--text-xl);
-	font-weight: var(--weight-bold);
-	line-height: var(--leading-h4);
-}
-
+.text-h4 { font-size: var(--text-xl); }
 h5,
-.text-h5 {
-	font-size: var(--text-lg);
-	font-weight: var(--weight-bold);
-	line-height: var(--leading-h5);
-}
-
+.text-h5 { font-size: var(--text-lg); }
 h6,
-.text-h6 {
-	font-size: var(--text-md);
-	font-weight: var(--weight-bold);
-	line-height: var(--leading-h6);
-}
+.text-h6 { font-size: var(--text-md); }
 
+/* Helper text size */
 .text-helper { font-size: var(--text-sm); }
 
+/* Color utility classes */
 .color-accent { color: var(--color-accent); }
-
 .color-error { color: var(--color-error); }
-
 .color-warning { color: var(--color-warning); }
-
 .color-success { color: var(--color-success); }
-
 .color-info { color: var(--color-info); }
-
 .color-helper { color: var(--color-helper); }
 
-.sr-only:not(:focus):not(:active) {
-	clip: rect(0 0 0 0);
-	clip-path: inset(50%);
-	height: 1px;
-	overflow: hidden;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
+/* Responsive adjustments for text scaling */
+@media screen and (min-width: 640px) { 
+	:root { 
+		--text-scale-ratio: 1.125; /* Increase text scale ratio on larger screens */
+	} 
 }
-
-@media screen and (min-width: 640px) { :root { --text-scale-ratio: 1.125; } }
