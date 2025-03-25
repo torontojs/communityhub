@@ -10,5 +10,6 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	max-width: 390px;
+	max-width: 400px;
+	height: 575px;
 }

@@ -4,18 +4,20 @@
 	border-radius: var(--rounded-md);
 	color: var(var(--color-black));
 	font-weight: var(--weight-bold);
-	height: 2.625rem;
+	height: 59px;
 	text-align: center;
-
+	box-sizing: border-box;
+	width: 100%;
+	
 	&.small {
 		font-size: var(--text-xs);
 		padding: var(--spacing-xs) var(--spacing-sm);
 		/* width: 19.375rem; */
 	}
 	&.large {
-		font-size: var(--text-xl);
-		height: 3.6875rem;
-		/* width: 23rem; */
+		font-size: var(--text-sm);
+		height: 59px;
+		/* width: 310px; */
 		padding: 12px 16px;
 	}
 
