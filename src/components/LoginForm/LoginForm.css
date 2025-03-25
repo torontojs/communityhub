@@ -1,4 +1,3 @@
-
 .login-form {
 	border: 1px solid #cccccc;
 	border-radius: var(--rounded-md);
@@ -11,45 +10,40 @@
 }
 
 .inputDim {
+	border: var(--border-sm);
+	border-radius: var(--rounded-xs);
 	height: 79px;
 	margin-bottom: var(--spacing-sm);
 	width: 100%;
-	border-radius: var(--rounded-xs);
-	border: var(--border-sm)
 }
 
 .inputDim label {
 	font-weight: var(--weight-semibold);
-	margin-bottom: var(--spacing-xs);
 	height: 29px;
+	margin-bottom: var(--spacing-xs);
 }
-
 
 .inputDim input {
 	background-color: #e5e5e5;
-	border-radius: var(--rounded-xs);
 	border: solid 1px #cccccc;
-	width: 100%;
-	height:42px;
+	border-radius: var(--rounded-xs);
+	color: #cccccc;
+	height: 42px;
 	padding: var(--spacing-xs);
-	color: #cccccc
+	width: 100%;
 }
 
-
-.inputDimRadio{
-	height:26px;
-	margin-bottom: var(--spacing-xs);
+.inputDimRadio {
+	color: #000000;
 	font-size: var(--text-sm);
-	color: #000;
 	font-weight: var(--weight-semibold);
-} 
-
-
-.forgot-password{
-	text-decoration: solid underline 1px;
-   border: #cccccc 1px; 
+	height: 26px;
+	margin-bottom: var(--spacing-xs);
 }
 
-
+.forgot-password {
+	border: #cccccc 1px;
+	text-decoration: solid underline 1px;
+}
 
 .block { display: block; }
