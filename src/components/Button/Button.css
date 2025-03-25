@@ -2,13 +2,13 @@
 	background-color: var(--color-button);
 	border: 0;
 	border-radius: var(--rounded-md);
+	box-sizing: border-box;
 	color: var(var(--color-black));
 	font-weight: var(--weight-bold);
 	height: 59px;
 	text-align: center;
-	box-sizing: border-box;
 	width: 100%;
-	
+
 	&.small {
 		font-size: var(--text-xs);
 		padding: var(--spacing-xs) var(--spacing-sm);
