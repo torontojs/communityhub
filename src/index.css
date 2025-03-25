@@ -1,23 +1,17 @@
 /* Font settings */
 :root {
 	--font-primary: 'Uai', 'Source Sans Pro', 'Montserrat', 'Roboto', Helvetica, Arial, sans-serif; /* Default fonts */
-	
 	/* Text settings */
 	--text-base: 18px; /* Base font size */
 	--text-scale-ratio: 1.067; /* Scaling ratio for text size */
-	
 	/* Spacing settings */
 	--spacing-base: 8px; /* Base spacing unit */
-	
 	/* Border radius settings */
 	--rounded-base: 2px; /* Default border radius */
-	
 	/* Line height settings */
 	--leading-base: 1.6em; /* Base line height */
-	
 	/* Shadow settings */
 	--shadow-base: 2px; /* Base shadow size */
-	
 	/* Heading line-height adjustments */
 	--leading-h6: calc(var(--leading-base) - 0 * 0.08em); /* Adjusted line height for h6 */
 	--leading-h5: calc(var(--leading-base) - 1 * 0.08em); /* Adjusted line height for h5 */
@@ -25,7 +19,6 @@
 	--leading-h3: calc(var(--leading-base) - 3 * 0.08em); /* Adjusted line height for h3 */
 	--leading-h2: calc(var(--leading-base) - 4 * 0.08em); /* Adjusted line height for h2 */
 	--leading-h1: calc(var(--leading-base) - 5 * 0.08em); /* Adjusted line height for h1 */
-	
 	/* Text size settings based on scale */
 	--text-xs: calc(1em * pow(var(--text-scale-ratio), -2)); /* Extra small text size */
 	--text-sm: calc(var(--text-base) * pow(var(--text-scale-ratio), -1)); /* Small text size */
@@ -35,7 +28,6 @@
 	--text-2xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 4)); /* 2x Extra large text size */
 	--text-3xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 5)); /* 3x Extra large text size */
 	--text-4xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 6)); /* 4x Extra large text size */
-	
 	/* Font weight settings */
 	--weight-thin: 100;
 	--weight-extralight: 200;
@@ -46,7 +38,6 @@
 	--weight-bold: 700;
 	--weight-extrabold: 800;
 	--weight-black: 900;
-	
 	/* Color settings */
 	--color-foreground: hsla(0, 0%, 20%, 1); /* Default text color */
 	--color-background: hsla(0, 0%, 100%, 1); /* Background color */
@@ -63,14 +54,12 @@
 	--color-button: hsla(0, 0%, 0%, 0.15); /* Button color */
 	--color-shadow-light: hsla(0, 0%, 0%, 0.1); /* Light shadow color */
 	--color-shadow-heavy: hsla(0, 0%, 0%, 0.125); /* Heavy shadow color */
-	
 	/* Spacing utilities */
 	--spacing-xs: calc(1 * var(--spacing-base)); /* Extra small spacing */
 	--spacing-sm: calc(2 * var(--spacing-base)); /* Small spacing */
 	--spacing-md: calc(3 * var(--spacing-base)); /* Medium spacing */
 	--spacing-lg: calc(5 * var(--spacing-base)); /* Large spacing */
 	--spacing-xl: calc(10 * var(--spacing-base)); /* Extra large spacing */
-	
 	/* Border radius utilities */
 	--rounded-xs: calc(1 * var(--rounded-base)); /* Extra small border radius */
 	--rounded-sm: calc(2 * var(--rounded-base)); /* Small border radius */
@@ -78,11 +67,9 @@
 	--rounded-lg: calc(8 * var(--rounded-base)); /* Large border radius */
 	--rounded-xl: calc(12 * var(--rounded-base)); /* Extra large border radius */
 	--rounded-full: 50%; /* Full circle border radius */
-	
 	/* Border settings */
 	--border: var(--border-base) solid var(--color-border); /* Default border style */
 	--border-base: 1px; /* Base border width */
-	
 	/* Shadow utilities */
 	--shadow-xs: 0 calc(0.5 * var(--shadow-base)) calc(0 * var(--shadow-base)) var(--color-shadow-light); /* Extra small shadow */
 	--shadow-sm: 0 calc(0.5 * var(--shadow-base)) calc(1 * var(--shadow-base)) var(--color-shadow-light); /* Small shadow */
@@ -90,7 +77,6 @@
 	--shadow-lg: 0 calc(2 * var(--shadow-base)) calc(4 * var(--shadow-base)) var(--color-shadow-heavy); /* Large shadow */
 	--shadow-xl: 0 calc(4 * var(--shadow-base)) calc(8 * var(--shadow-base)) var(--color-shadow-heavy); /* Extra large shadow */
 	--shadow-2xl: 0 calc(8 * var(--shadow-base)) calc(12 * var(--shadow-base)) var(--color-shadow-heavy); /* 2x extra large shadow */
-	
 	/* Accent color */
 	accent-color: var(--color-accent); /* Accent color used throughout the site */
 }
@@ -164,8 +150,4 @@ h6,
 .color-helper { color: var(--color-helper); }
 
 /* Responsive adjustments for text scaling */
-@media screen and (min-width: 640px) { 
-	:root { 
-		--text-scale-ratio: 1.125; /* Increase text scale ratio on larger screens */
-	} 
-}
+@media screen and (min-width: 640px) { :root { --text-scale-ratio: 1.125; /* Increase text scale ratio on larger screens */ } }
