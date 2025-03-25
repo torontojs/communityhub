@@ -3,8 +3,8 @@ header {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	margin: var(--spacing-lg) 0;
 	min-height: 246px;
 	text-align: center;
-	margin-bottom: var(--spacing-lg);
 	picture { margin-bottom: 40px; }
 }

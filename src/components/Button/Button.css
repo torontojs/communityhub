@@ -8,6 +8,7 @@
 	height: 59px;
 	text-align: center;
 	width: 100%;
+	margin: 8px 0 ;
 
 	&.small {
 		font-size: var(--text-xs);
