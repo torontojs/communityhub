@@ -12,12 +12,18 @@
 .inputDim {
 	height: 79px;
 	width: 100%;
-	/* gap: var(--spacing-sm) */
+	margin-bottom: var(--spacing-sm)
 }
 
 .inputDim label {
 	font-weight: var(--weight-semibold);
 	margin-bottom: var(--spacing-xs);
+}
+
+.inputDim input {
+	border: #cccccc;
+	background-color:#E5E5E5;
+	width: 100%
 }
 
 .block { display: block; }
