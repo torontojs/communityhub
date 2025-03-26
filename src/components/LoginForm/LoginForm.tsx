@@ -1,24 +1,11 @@
 import './LoginForm.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Button from '../Button/Button';
 
 const LoginForm = (): React.JSX.Element => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData(e.target as HTMLFormElement);
-
-		const emailE = formData.get('email') as string;
-		const passwordE = formData.get('password') as string;
-
-		setEmail(emailE);
-		setPassword(passwordE);
-
-		console.log('Email:', email);
-		console.log('Password:', password);
-	};
 
 	const signIn = async () => {
 		const response = await fetch('https//torontojs.com/vms/sign-in', {
@@ -38,9 +25,25 @@ const LoginForm = (): React.JSX.Element => {
 		}
 	};
 
-	useEffect(() => {
-		signIn();
-	}, []);
+
+
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const formData = new FormData(e.target as HTMLFormElement);
+
+		const emailE = formData.get('email') as string;
+		const passwordE = formData.get('password') as string;
+
+		setEmail(emailE);
+		setPassword(passwordE);
+
+		console.log('Email:', email);
+		console.log('Password:', password);
+		await signIn();
+	};
+
+	
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
