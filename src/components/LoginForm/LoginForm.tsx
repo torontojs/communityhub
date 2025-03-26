@@ -29,12 +29,12 @@ const LoginForm = (): React.JSX.Element => {
 			body: JSON.stringify({ email, password })
 		});
 		// Validate the res status
-		if(response.ok){
+		if (response.ok) {
 			const data = await response.json();
-			console.log(data)
-			window.location.href = "https//torontojs.com/vms/home";
+			console.log(data);
+			window.location.href = 'https//torontojs.com/vms/home';
 		} else {
-			throw Error
+			throw Error('Backend error!');
 		}
 	};
 
