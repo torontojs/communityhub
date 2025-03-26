@@ -1,5 +1,5 @@
 import './LoginForm.css';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../Button/Button';
 
 const LoginForm = (): React.JSX.Element => {
@@ -20,24 +20,27 @@ const LoginForm = (): React.JSX.Element => {
 		console.log('Password:', password);
 	};
 
+	const signIn = async () => {
+		const response = await fetch('https//torontojs.com/vms/sign-in', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ email, password })
+		});
+		// Validate the res status
+		if(response.ok){
+			const data = await response.json();
+			console.log(data)
+			window.location.href = "https//torontojs.com/vms/home";
+		} else {
+			throw Error
+		}
+	};
 
-const signIn = async () => {
-	const response = await fetch('https//torontojs.com/vms/sign-in', {
-		method: 'POST',
-		headers: {
-			"Content-Type": 'application/json'
-		},
-	 	body: JSON.stringify({email, password}),
-	})
-	// Validate the res status
-	
-	const data = await response.json()
-
-}	
-
-useEffect(()=>{
-	signIn()
-},[])
+	useEffect(() => {
+		signIn();
+	}, []);
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
