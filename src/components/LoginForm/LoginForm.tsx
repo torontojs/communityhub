@@ -1,15 +1,15 @@
 import './LoginForm.css';
+import { useState, useEffect } from 'react';
 import Button from '../Button/Button';
-import { useState } from 'react';
 
 const LoginForm = (): React.JSX.Element => {
-	const [email, setEmail] = useState<string>(''); 
+	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.target as HTMLFormElement);
-		
+
 		const emailE = formData.get('email') as string;
 		const passwordE = formData.get('password') as string;
 
@@ -19,6 +19,25 @@ const LoginForm = (): React.JSX.Element => {
 		console.log('Email:', email);
 		console.log('Password:', password);
 	};
+
+
+const signIn = async () => {
+	const response = await fetch('https//torontojs.com/vms/sign-in', {
+		method: 'POST',
+		headers: {
+			"Content-Type": 'application/json'
+		},
+	 	body: JSON.stringify({email, password}),
+	})
+	// Validate the res status
+	
+	const data = await response.json()
+
+}	
+
+useEffect(()=>{
+	signIn()
+},[])
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
