@@ -45,7 +45,7 @@ const FooterNav = () => (
 							</defs>
 						</svg>
 
-						<span id='TorontoJS' className='sr-only'>TorontoJS</span>
+						{/* <span id='TorontoJS' className='sr-only'>TorontoJS</span> */}
 					</a>
 				</li>
 				<li>
@@ -69,7 +69,7 @@ const FooterNav = () => (
 							/>
 						</svg>
 
-						<span id='Youtube' className='sr-only'>YouTube</span>
+						{/* <span id='Youtube' className='sr-only'>YouTube</span> */}
 					</a>
 				</li>
 				<li>
@@ -100,12 +100,12 @@ const FooterNav = () => (
 							</defs>
 						</svg>
 
-						<span
+						{/* <span
 							id='Instagram'
 							className='sr-only'
 						>
 							Instagram
-						</span>
+						</span> */}
 					</a>
 				</li>
 				<li>
@@ -135,12 +135,12 @@ const FooterNav = () => (
 								</clipPath>
 							</defs>
 						</svg>
-						<span
+						{/* <span
 							id='Twitter'
 							className='sr-only'
 						>
 							Twitter
-						</span>
+						</span> */}
 					</a>
 				</li>
 				<li>
@@ -164,12 +164,12 @@ const FooterNav = () => (
 							/>
 						</svg>
 
-						<span
+						{/* <span
 							id='LinkedIn'
 							className='sr-only'
 						>
 							LinkedIn
-						</span>
+						</span> */}
 					</a>
 				</li>
 			</ul>
