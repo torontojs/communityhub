@@ -6,7 +6,6 @@ const LoginForm = (): React.JSX.Element => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
-
 	const signIn = async () => {
 		const response = await fetch('https//torontojs.com/vms/sign-in', {
 			method: 'POST',
@@ -25,9 +24,6 @@ const LoginForm = (): React.JSX.Element => {
 		}
 	};
 
-
-
-
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.target as HTMLFormElement);
@@ -42,8 +38,6 @@ const LoginForm = (): React.JSX.Element => {
 		console.log('Password:', password);
 		await signIn();
 	};
-
-	
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
