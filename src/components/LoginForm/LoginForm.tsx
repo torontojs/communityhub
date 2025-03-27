@@ -5,7 +5,8 @@ import Button from '../Button/Button';
 const LoginForm = (): React.JSX.Element => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
-
+	const dev: boolean = import.meta.env.DEV; 
+	
 	const signIn = async () => {
 		const response = await fetch('https//torontojs.com/vms/sign-in', {
 			method: 'POST',
