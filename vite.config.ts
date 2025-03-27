@@ -29,9 +29,10 @@ export default defineConfig(({ mode }) => {
 			outDir: '../dist',
 			rollupOptions: {
 				input: {
-					index: fileURLToPath(new URL('./src/index.html', import.meta.url)),
-					profile: fileURLToPath(new URL('./src/pages/profile/index.html', import.meta.url)),
-					team: fileURLToPath(new URL('./src/pages/team/index.html', import.meta.url))
+					'index': fileURLToPath(new URL('./src/index.html', import.meta.url)),
+					'profile': fileURLToPath(new URL('./src/pages/profile/index.html', import.meta.url)),
+					'team': fileURLToPath(new URL('./src/pages/team/index.html', import.meta.url)),
+					'complete-profile': fileURLToPath(new URL('./src/pages/complete-profile/index.html', import.meta.url))
 				}
 			}
 		},
