@@ -6,34 +6,34 @@ const LoginForm = (): React.JSX.Element => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const devVsProd: boolean = import.meta.env.DEV;
-	const urlSignIn = devVsProd ? 'localhost:8787/auth/sign-in': 'https//torontojs.com/vms/auth/sign-in';
-	const urlHome = devVsProd? 'localhost:3000/volunteer/home': 'https//torontojs.com/volunteer/home'
+	const urlSignIn = devVsProd ? 'localhost:8787/auth/sign-in' : 'https//torontojs.com/vms/auth/sign-in';
+	const urlHome = devVsProd ? 'localhost:3000/volunteer/home' : 'https//torontojs.com/volunteer/home';
 	const signIn = async () => {
-		try{
-		const response = await fetch( urlSignIn, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ email, password })
-		});
-		// Validate the res status
-		if (!response.ok) {
-			const errorData = await response.json();
-			console.log("Response not ok: ", errorData);
-		}
-		
-		const data = await response.json();
-		console.log("data received from sign in ", data);
-		window.location.href = urlHome;
+		try {
+			const response = await fetch(urlSignIn, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ email, password })
+			});
+			// Validate the res status
+			if (!response.ok) {
+				const errorData = await response.json();
+				console.log('Response not ok: ', errorData);
+			}
+
+			const data = await response.json();
+			console.log('data received from sign in ', data);
+			window.location.href = urlHome;
 		} catch (e) {
-			if(e instanceof Error){
-				console.error(e.name)
-				console.error(e.cause)
-				console.error(e.message)
-				console.error(e.stack)
+			if (e instanceof Error) {
+				console.error(e.name);
+				console.error(e.cause);
+				console.error(e.message);
+				console.error(e.stack);
 			} else {
-				throw new Error('Sign-in unknown error!')
+				throw new Error('Sign-in unknown error!');
 			}
 		}
 	};
