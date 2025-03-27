@@ -3,6 +3,14 @@ import { createRoot } from 'react-dom/client';
 
 import 'open-props';
 import '../../index.css';
+import Button from '../../components/Button/Button';
+import { BlueSky } from '../../components/Icons/Social/BlueSky';
+import { DevTo } from '../../components/Icons/Social/DevTo';
+import { Facebook } from '../../components/Icons/Social/Facebook';
+import { Instagram } from '../../components/Icons/Social/Instagram';
+import { LinkedIn } from '../../components/Icons/Social/LinkedIn';
+import { Threads } from '../../components/Icons/Social/Threads';
+import { XTwitter } from '../../components/Icons/Social/XTwitter';
 
 const root = document.getElementById('root') as HTMLDivElement;
 
@@ -117,13 +125,106 @@ createRoot(root).render(
 				{/* TODO: Image upload */}
 				<details open>
 					<summary>Avatar</summary>
+					<picture>
+						<img hidden />
+					</picture>
 					<div>
 						<label>Upload Product Image:</label>
 						<input type='file' accept='image/png, image/jpeg' />
 					</div>
 				</details>
 
-				<button type='submit'>submit</button>
+				<details open>
+					<summary>More Information</summary>
+					<div>
+						<div>
+							<label htmlFor='linkedInProfile'>LinkedIn profile</label>
+							<input id='linkedInProfile' name='linkedInProfile' type='url' />
+						</div>
+						<div>
+							<label htmlFor='githubProfile'>GitHub profile</label>
+							<input id='githubProfile' name='githubProfile' type='url' />
+						</div>
+
+						<div>
+							<label htmlFor='portfolio'>Site/portfolio</label>
+							<input id='portfolio' name='portfolio' type='url' />
+						</div>
+					</div>
+
+					<div>
+						<label htmlFor='skills'>Your skills</label>
+						<textarea id='skills' name='skills' />
+					</div>
+
+					<div>
+						<p>Other social accounts (optional):</p>
+						<div>
+							<button>
+								<Instagram />
+							</button>
+
+							<button>
+								<Threads />
+							</button>
+
+							<button>
+								<Facebook />
+							</button>
+
+							<button>
+								<LinkedIn />
+							</button>
+
+							<button>
+								<XTwitter />
+							</button>
+
+							<button>
+								<BlueSky />
+							</button>
+
+							<button>
+								<DevTo />
+							</button>
+						</div>
+					</div>
+
+					<div>
+						<div>
+							<label htmlFor='threads'>Threads</label>
+							<input id='threads' name='threads' type='url' />
+						</div>
+						<div>
+							<label htmlFor='facebook'>Facebook</label>
+							<input id='facebook' name='facebook' type='url' />
+						</div>
+						<div>
+							<label htmlFor='instagram'>Instagram</label>
+							<input id='instagram' name='instagram' type='url' />
+						</div>
+						<div>
+							<label htmlFor='mastodon'>Mastodon</label>
+							<input id='mastodon' name='mastodon' type='url' />
+						</div>
+						<div>
+							<label htmlFor='twitter'>Twitter</label>
+							<input id='twitter' name='twitter' type='url' />
+						</div>
+						<div>
+							<label htmlFor='bluesky'>Bluesky</label>
+							<input id='bluesky' name='bluesky' type='url' />
+						</div>
+						<div>
+							<label htmlFor='dev-to'>DEV.to</label>
+							<input id='dev-to' name='dev-to' type='url' />
+						</div>
+					</div>
+				</details>
+
+				<Button isPrimary>
+					Complete My Profile
+				</Button>
 			</form>
 		</StrictMode>
 	)
