@@ -5,10 +5,12 @@ import Button from '../Button/Button';
 const LoginForm = (): React.JSX.Element => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
-	const dev: boolean = import.meta.env.DEV; 
-	
+	const devVsProd: boolean = import.meta.env.DEV;
+	const urlSignIn = devVsProd ? 'localhost:8787/auth/sign-in': 'https//torontojs.com/vms/auth/sign-in';
+	const urlHome = devVsProd? 'localhost:3000/volunteer/home': 'https//torontojs.com/volunteer/home'
 	const signIn = async () => {
-		const response = await fetch('https//torontojs.com/vms/sign-in', {
+		try{
+		const response = await fetch( urlSignIn, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -16,12 +18,23 @@ const LoginForm = (): React.JSX.Element => {
 			body: JSON.stringify({ email, password })
 		});
 		// Validate the res status
-		if (response.ok) {
-			const data = await response.json();
-			console.log(data);
-			window.location.href = 'https//torontojs.com/vms/home';
-		} else {
-			throw Error('Backend error!');
+		if (!response.ok) {
+			const errorData = await response.json();
+			console.log("Response not ok: ", errorData);
+		}
+		
+		const data = await response.json();
+		console.log("data received from sign in ", data);
+		window.location.href = urlHome;
+		} catch (e) {
+			if(e instanceof Error){
+				console.error(e.name)
+				console.error(e.cause)
+				console.error(e.message)
+				console.error(e.stack)
+			} else {
+				throw new Error('Sign-in unknown error!')
+			}
 		}
 	};
 
@@ -34,9 +47,6 @@ const LoginForm = (): React.JSX.Element => {
 
 		setEmail(emailE);
 		setPassword(passwordE);
-
-		console.log('Email:', email);
-		console.log('Password:', password);
 		await signIn();
 	};
 
