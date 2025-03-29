@@ -1,7 +1,8 @@
 /* --- General Reset and Box-Sizing --- */
 
 /* Ensure consistent box-sizing across all elements */
-*, *::before, *::after { box-sizing: border-box; /* Prevents padding and borders from affecting element size */ }
+/* Prevents padding and borders from affecting element size */ 
+*, *::before, *::after { box-sizing: border-box; }
 
 /* Reset margin and padding for all elements */
 * {
