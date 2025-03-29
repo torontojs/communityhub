@@ -11,7 +11,7 @@
 }
 
 /* --- Remove Default Styling for Lists --- */
-ul, ol { list-style: none; /* Removes default bullet points and numbering */ }
+nav :is(ul, ol) { list-style: none; /* Removes default bullet points and numbering */ }
 
 /* --- Remove Default Button Styles --- */
 button {
