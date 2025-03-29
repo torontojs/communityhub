@@ -20,7 +20,7 @@ button {
 }
 
 /* --- Ensure Images are Responsive --- */
-img {
+:where(img, iframe, svg) {
 	display: block; /* Removes inline-block spacing issues */
 	height: auto; /* Ensures the aspect ratio is maintained */
 	max-width: 100%; /* Makes images responsive to their container width */
