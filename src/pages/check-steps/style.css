@@ -1,0 +1,34 @@
+@import 'open-props/open-props.min.css';
+
+.App {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--spacing-lg);
+
+	padding: var(--spacing-lg) var(--spacing-md);
+}
+
+.intro {
+	text-align: center;
+}
+
+.cards {
+	display: flex;
+	flex-direction: row;
+	gap: var(--spacing-sm);
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: var(--spacing-xs);
+
+	padding: var(--spacing-sm);
+	border-radius: var(--rounded-lg);
+	border-width: var(--border-sm);
+	border: var(--border);
+	text-align: center;
+}
