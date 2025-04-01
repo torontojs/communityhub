@@ -1,0 +1,96 @@
+@import 'open-props/open-props.min.css';
+
+.App {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-lg);
+	padding: var(--spacing-lg) var(--spacing-md);
+}
+
+.intro {
+	font-weight: var(--weight-regular);
+	text-align: center;
+}
+
+.nutshell-box {
+	border: var(--border-base) solid var(--color-accent);
+	border-radius: var(--rounded-lg);
+	width: 100%;
+}
+
+.nutshell-title {
+	background-color: var(--color-accent);
+	border-radius: var(--rounded-lg) var(--rounded-lg) 0 0;
+	color: var(--color-white);
+	height: 32px;
+	padding-bottom: var(--spacing-xs);
+	padding-left: var(--spacing-sm);
+	padding-right: var(--spacing-sm);
+	padding-top: var(--spacing-xs);
+}
+
+.nutshell-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-sm);
+}
+
+.nutshell-item {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	gap: var(--spacing-sm);
+}
+
+.step-label {
+	font-weight: var(--weight-semibold);
+	line-height: 160%;
+}
+
+.number {
+	background-color: var(--color-accent);
+	border-radius: var(--rounded-full);
+	color: var(--color-white);
+	font-size: var(--text-xl);
+	font-weight: var(--weight-black);
+	height: 36px;
+	line-height: 36px;
+	min-width: 36px;
+	text-align: center;
+	width: 36px;
+}
+
+.forms-section {
+	background-color: var(--color-accent);
+	border: var(--border-base) solid var(--color-accent);
+	border-radius: var(--rounded-lg);
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.dropdown {
+	background-color: var(--color-accent);
+	border: none;
+	border-radius: var(--rounded-lg);
+	color: var(--color-white);
+	font-size: var(--text-md);
+	font-weight: var(--weight-bold);
+	line-height: 160%;
+	padding-bottom: var(--spacing-xs);
+	padding-left: var(--spacing-sm);
+	padding-right: var(--spacing-sm);
+	padding-top: var(--spacing-xs);
+}
+
+.checkbox-label {
+	align-items: center;
+	display: flex;
+}
+
+.checkbox {
+	height: 16px;
+	width: 16px;
+}
