@@ -4,12 +4,6 @@
 /* Prevents padding and borders from affecting element size */ 
 *, *::before, *::after { box-sizing: border-box; }
 
-/* Reset margin and padding for all elements */
-* {
-	margin: 0;
-	padding: 0; /* Removes default spacing */
-}
-
 /* --- Remove Default Styling for Lists --- */
 nav :is(ul, ol) { list-style: none; /* Removes default bullet points and numbering */ }
 
