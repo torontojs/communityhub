@@ -19,9 +19,6 @@ button {
 	max-width: 100%; /* Makes images responsive to their container width */
 }
 
-/* --- Inherit Font for Form Elements --- */
-input, textarea, select, button { font: inherit; /* Inherits the font-family from parent elements */ }
-
 /* --- Set Full Height for HTML and Body --- */
 html, body { height: 100%; /* Ensures full-height layouts work as expected */ }
 
