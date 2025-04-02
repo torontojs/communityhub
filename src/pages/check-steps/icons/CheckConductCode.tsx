@@ -1,5 +1,5 @@
 export const CheckConductCode = () => (
-	<svg width='54' height='54' viewBox='0 0 54 54' fill='none' xmlns='http://www.w3.org/2000/svg'>
+	<svg width='72' height='72' viewBox='0 0 54 54' fill='none' xmlns='http://www.w3.org/2000/svg'>
 		<path d='M27 47.25V15.75' stroke='#ED342F' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' />
 		<path d='M36 27L40.5 31.5L49.5 22.5' stroke='#ED342F' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' />
 		<path

@@ -1,34 +1,43 @@
 @import 'open-props/open-props.min.css';
 
 .App {
+	align-items: center;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	gap: var(--spacing-lg);
-
 	padding: var(--spacing-lg) var(--spacing-md);
 }
 
 .intro {
+	font-weight: var(--weight-regular);
 	text-align: center;
 }
 
 .cards {
-	display: flex;
-	flex-direction: row;
+	display: grid;
 	gap: var(--spacing-sm);
+	grid-template-columns: 1fr 1fr;
 }
 
 .card {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-	gap: var(--spacing-xs);
-
-	padding: var(--spacing-sm);
+	border: var(--border);
 	border-radius: var(--rounded-lg);
 	border-width: var(--border-sm);
-	border: var(--border);
+	display: flex;
+	flex-direction: column;
+	font-weight: var(--weight-bold);
+	gap: var(--spacing-xs);
+	justify-content: start;
+	padding: var(--spacing-sm);
 	text-align: center;
+}
+
+button {
+	height: 59px;
+	padding-bottom: 12px;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-top: 12px;
+	width: 298px;
 }
