@@ -9,7 +9,6 @@ nav :is(ul, ol) { list-style: none; /* Removes default bullet points and numberi
 
 /* --- Remove Default Button Styles --- */
 button {
-	all: unset; /* Removes all default styles applied by the browser */
 	cursor: pointer; /* Ensures buttons have a clickable cursor */
 }
 
