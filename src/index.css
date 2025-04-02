@@ -1,39 +1,6 @@
-/* --- General Reset and Box-Sizing --- */
+@import 'basic-css-reset';
 
-/* Ensure consistent box-sizing across all elements */
-/* Prevents padding and borders from affecting element size */ 
-*, *::before, *::after { box-sizing: border-box; }
-
-/* --- Remove Default Styling for Lists --- */
-nav :is(ul, ol) { list-style: none; /* Removes default bullet points and numbering */ }
-
-/* --- Remove Default Button Styles --- */
-button {
-	cursor: pointer; /* Ensures buttons have a clickable cursor */
-}
-
-/* --- Ensure Images are Responsive --- */
-:where(img, iframe, svg) {
-	display: block; /* Removes inline-block spacing issues */
-	height: auto; /* Ensures the aspect ratio is maintained */
-	max-width: 100%; /* Makes images responsive to their container width */
-}
-
-/* --- Set Full Height for HTML and Body --- */
-html, body { height: 100%; /* Ensures full-height layouts work as expected */ }
-
-/* --- Link Styling --- */
-a {
-	color: inherit; /* Inherits text color from parent elements */
-}
-
-/* --- Spacing --- */
-body {
-	margin: 0;
-	padding: 0;
-}
-
-/* Font settings */
+/* Design system */
 :root {
 	--font-primary: 'Uai', 'Source Sans Pro', 'Montserrat', 'Roboto', Helvetica, Arial, sans-serif; /* Default fonts */
 	/* Text settings */
