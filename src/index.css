@@ -28,9 +28,6 @@ a {
 	text-decoration: none; /* Removes the default underline */
 }
 
-/* --- Reset Scrollbars --- */
-html, body { overflow-x: hidden; /* Prevents horizontal scrolling */ }
-
 /* --- Spacing --- */
 body {
 	margin: 0;
