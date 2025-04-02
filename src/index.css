@@ -25,7 +25,6 @@ html, body { height: 100%; /* Ensures full-height layouts work as expected */ }
 /* --- Link Styling --- */
 a {
 	color: inherit; /* Inherits text color from parent elements */
-	text-decoration: none; /* Removes the default underline */
 }
 
 /* --- Spacing --- */
