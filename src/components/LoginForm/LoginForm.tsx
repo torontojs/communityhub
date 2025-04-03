@@ -1,13 +1,23 @@
 import './LoginForm.css';
 import { useState } from 'react';
 import Button from '../Button/Button';
+import { passwordValidateMultiRegex } from '../../utilities/passwordValidation'
 
 const LoginForm = (): React.JSX.Element => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
+	const [isValidEmail, setIsValidEmail] = useState<boolean | null>(null);
+	const [isValidPassword, setIsValidPassword] = useState<boolean | null>(null);
+	const [errorEmail, setErrorEmail] = useState<string | null>(null);
+	const [errorPassword, setErrorPassword] = useState<string | null>(null);
 	const devVsProd: boolean = import.meta.env.DEV;
 	const urlSignIn = devVsProd ? 'localhost:8787/auth/sign-in' : 'https//torontojs.com/vms/auth/sign-in';
 	const urlHome = devVsProd ? 'localhost:3000/volunteer/home' : 'https//torontojs.com/volunteer/home';
+	
+	const validateFormFields = () => {
+		
+	};
+	
 	const signIn = async () => {
 		try {
 			const response = await fetch(urlSignIn, {
