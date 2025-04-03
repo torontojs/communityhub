@@ -22,20 +22,22 @@ const CompleteProfile = () => (
 						<span>In a nutshell:</span>
 					</summary>
 
-					<div className='details-content-wrapper'>
+				<div className='details-content-wrapper'>
+					<div className='inputs-row-wrapper'>
+						{/* TODO: Create input components with their own css */}
 						<div>
 							<label htmlFor='name'>Name</label>
 							<input id='name' name='name' type='text' />
 						</div>
 						<div>
-							<label htmlFor='email'>
+							<label htmlFor='email' className='input-row-required'>
 								E-mail
 								<span>REQUIRED</span>
 							</label>
 							<input id='email' name='email' type='email' required />
 						</div>
 						<div>
-							<label htmlFor='slack-handle'>
+							<label htmlFor='slack-handle' className='input-row-required'>
 								Slack handle
 								<span>REQUIRED</span>
 							</label>
@@ -47,6 +49,8 @@ const CompleteProfile = () => (
 								placeholder='Your slack handle to TorontoJS'
 							/>
 						</div>
+					</div>
+					<div className='inputs-row-wrapper'>
 						<div>
 							<label htmlFor='pronouns'>Pronouns</label>
 							<input id='pronouns' name='pronouns' type='text' list='pronouns-options' placeholder='Your pronouns (optional)' />
@@ -74,7 +78,6 @@ const CompleteProfile = () => (
 								<option value='11'>November</option>
 								<option value='12'>December</option>
 							</select>
-
 							<label htmlFor='day'>Day</label>
 							<select id='day' name='day'>
 								<option value='01'>1</option>
@@ -110,18 +113,19 @@ const CompleteProfile = () => (
 								<option value='31'>31</option>
 							</select>
 						</div>
-
-						<div>
-							<input id='isBasedOnGTA' name='isBasedOnGTA' type='checkbox' />
-							<label htmlFor='isBasedOnGTA'>I'm based in Toronto or Greater Toronto Area</label>
-						</div>
-
-						<div>
-							<input id='canJoinLocalEvents' name='canJoinLocalEvents' type='checkbox' />
-							<label htmlFor='canJoinLocalEvents'>I can join TorontoJS's local events</label>
+						<div className='slider-wrapper'>
+							<div className='slider-checkbox-row'>
+								<input id='isBasedOnGTA' name='isBasedOnGTA' type='checkbox' />
+								<label htmlFor='isBasedOnGTA'>I'm based in Toronto or Greater Toronto Area</label>
+							</div>
+							<div className='slider-checkbox-row'>
+								<input id='canJoinLocalEvents' name='canJoinLocalEvents' type='checkbox' />
+								<label htmlFor='canJoinLocalEvents'>I can join TorontoJS's local events</label>
+							</div>
 						</div>
 					</div>
-				</details>
+				</div>
+			</details>
 
 				{/* TODO: Image upload */}
 				<details open>

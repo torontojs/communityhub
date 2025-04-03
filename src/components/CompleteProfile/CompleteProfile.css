@@ -55,6 +55,38 @@
 			}
 
 			.details-content-wrapper { padding: var(--spacing-sm); }
+
+			.inputs-row-wrapper {
+				display: grid;
+				gap: var(--spacing-sm);
+				grid-template-columns: 1fr 1fr 1fr;
+				justify-content: space-between;
+				/* grid: repeat(3, 80px)  */
+
+				/* TODO: move input styles to its own component */
+				input { width: 100%; }
+			}
+
+			/* Media query for smaller screens */
+			@media (max-width: 768px) { .inputs-row-wrapper { grid-template-columns: 1fr; } }
+
+			.input-row-required {
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.slider-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: var(--spacing-xs);
+				width: 100%;
+			}
+
+			.slider-checkbox-row {
+				display: grid;
+				gap: var(--spacing-xs);
+				grid-template-columns: 1fr 8fr;
+			}
 		}
 	}
 }
