@@ -5,8 +5,8 @@ import Button from '../Button/Button';
 import Xicon from '../Icons/Utilities/Xicon';
 
 const LoginForm = (): React.JSX.Element => {
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
+	// const [email, setEmail] = useState<string>('');
+	// const [password, setPassword] = useState<string>('');
 	const [isValidEmail, setIsValidEmail] = useState<boolean | null>(null);
 	const [isValidPassword, setIsValidPassword] = useState<boolean | null>(null);
 	const [errorEmail, setErrorEmail] = useState<string | null>(null);
@@ -97,7 +97,7 @@ const LoginForm = (): React.JSX.Element => {
 			)}
 			<div className='inputDim'>
 				<label className='block' htmlFor='password'>Password</label>
-				<input type='password' name='password' pattern='(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}' placeholder='Your password' required/>
+				<input type='password' name='password' pattern='(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}' placeholder='Your password' required />
 			</div>
 			{isValidPassword && (
 				<input className='emailError'>
