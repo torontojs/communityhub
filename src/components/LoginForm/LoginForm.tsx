@@ -1,7 +1,7 @@
 import './LoginForm.css';
 import { useState } from 'react';
-import { passwordValidateMultiRegex, emailValidateMultiRegex } from '../../utilities/passwordValidation';
-import Button from '../Button/Button'
+import { emailValidateMultiRegex, passwordValidateMultiRegex } from '../../utilities/passwordValidation';
+import Button from '../Button/Button';
 import Xicon from '../Icons/Utilities/Xicon';
 
 const LoginForm = (): React.JSX.Element => {
@@ -16,28 +16,24 @@ const LoginForm = (): React.JSX.Element => {
 	const urlHome = devVsProd ? 'localhost:3000/volunteer/home' : 'https//torontojs.com/volunteer/home';
 
 	const validateFormFields = () => {
-		if(password === null || password === '') {
+		if (password === null || password === '') {
 			setIsValidPassword(false);
 			setErrorPassword('Password can not be empty');
-		}
-		else if(!passwordValidateMultiRegex(password)) {
+		} else if (!passwordValidateMultiRegex(password)) {
 			setIsValidPassword(false);
 			setErrorPassword('Your password is incorrect!');
-		}
-		else if(passwordValidateMultiRegex(password)) {
+		} else if (passwordValidateMultiRegex(password)) {
 			setIsValidPassword(true);
 			setErrorPassword(null);
-		} 
+		}
 
-		if(email === null || email === '') {
+		if (email === null || email === '') {
 			setIsValidEmail(false);
 			setErrorEmail('Email can not be empty!');
-		}
-		else if(!emailValidateMultiRegex(email)) {
+		} else if (!emailValidateMultiRegex(email)) {
 			setIsValidEmail(false);
 			setErrorEmail('This is not a valid e-mail address!');
-		}
-		else if(emailValidateMultiRegex(email)) {
+		} else if (emailValidateMultiRegex(email)) {
 			setIsValidEmail(true);
 			setErrorEmail(null);
 		}
@@ -84,7 +80,7 @@ const LoginForm = (): React.JSX.Element => {
 		// setPassword(passwordE.trim());
 		// validateFormFields();
 		// if(isValidEmail && isValidPassword) await signIn();
-		await signIn()
+		await signIn();
 	};
 
 	return (
@@ -94,12 +90,21 @@ const LoginForm = (): React.JSX.Element => {
 				<label className='block' htmlFor='email'>E-mail</label>
 				<input type='email' name='email' pattern='[^\s@]+@[^\s@]+\.[^\s@]+' placeholder='Your account e-mail' required />
 			</div>
-			{isValidEmail && <input className='emailError'><Xicon></Xicon> {errorEmail}</input> }
+			{isValidEmail && (
+				<input className='emailError'>
+					<Xicon></Xicon> {errorEmail}
+				</input>
+			)}
 			<div className='inputDim'>
 				<label className='block' htmlFor='password'>Password</label>
-				<input type='password' name='password' pattern='(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}' placeholder='Your password' />
+				<input type='password' name='password' pattern='(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}' placeholder='Your password' required/>
 			</div>
-			{isValidPassword && <input className='emailError'><Xicon></Xicon>{errorPassword}</input> }
+			{isValidPassword && (
+				<input className='emailError'>
+					<Xicon></Xicon>
+					{errorPassword}
+				</input>
+			)}
 			<div className='inputDimRadio flex'>
 				<input type='checkbox' id='remember-me' name='remember-me' />
 				<label htmlFor='remember-me' className='padding-left-2px'>Remember my password</label>
@@ -107,7 +112,8 @@ const LoginForm = (): React.JSX.Element => {
 			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }}>Log In</Button>
 			<a className='center block underline' href='/forgot-password'>I don't remember my password</a>
 			<div className='line'></div>
-			<div className='tb-margin'>2
+			<div className='tb-margin'>
+				2
 				<p className='not-member'>
 					If you're a member of TorontoJS and don't have your account, <a href='/path-to-other-page' className='underline'>click here to sign-up</a>
 				</p>
