@@ -56,7 +56,7 @@
 
 			.details-content-wrapper { padding: var(--spacing-sm); }
 
-			.inputs-row-wrapper {
+			.details-content-grid {
 				display: grid;
 				gap: var(--spacing-sm);
 				grid-template-columns: 1fr 1fr 1fr;
@@ -64,15 +64,49 @@
 				/* grid: repeat(3, 80px)  */
 
 				/* TODO: move input styles to its own component */
-				input { width: 100%; }
+				.text-input { 
+					width: 100%;
+					height: 2.33rem;
+					box-sizing: border-box;
+					-webkit-box-sizing:border-box;
+					-moz-box-sizing: border-box;
+					background-color: var(--color-card);
+					border: var(--border);
+					border-radius: var(--rounded-xs);
+					padding: var(--spacing-xs);
+
+				}
+				
+				/* .text-input#pronouns {
+					&::after {
+						background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' viewBox='0 0 12 6' fill='none'%3E%3Cpath d='M6 6L0 0H12L6 6Z' fill='%23999999'/%3E%3C/svg%3E");
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: contain;
+						content: '';
+						display: inline-block;
+						height: 1rem;
+						width: 1rem;
+					}
+				} */
 			}
 
 			/* Media query for smaller screens */
-			@media (max-width: 768px) { .inputs-row-wrapper { grid-template-columns: 1fr; } }
+			@media (max-width: 768px) { .details-content-grid { grid-template-columns: 1fr; } }
 
-			.input-row-required {
+			.input-required {
+				& > span {
+					color: var(--color-accent);
+					height: 1rem;
+					line-height: 160%;
+					letter-spacing: 0;
+					font-weight: 400;
+					font-size: 0.56rem;
+				}
+				
 				display: flex;
 				justify-content: space-between;
+				align-items: center;
 			}
 
 			.slider-wrapper {

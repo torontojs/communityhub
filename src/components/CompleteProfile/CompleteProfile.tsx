@@ -23,25 +23,26 @@ const CompleteProfile = () => (
 					</summary>
 
 				<div className='details-content-wrapper'>
-					<div className='inputs-row-wrapper'>
+					<div className='details-content-grid'>
 						{/* TODO: Create input components with their own css */}
 						<div>
 							<label htmlFor='name'>Name</label>
-							<input id='name' name='name' type='text' />
+							<input className='text-input' id='name' name='name' type='text' />
 						</div>
-						<div>
-							<label htmlFor='email' className='input-row-required'>
+						<div> 
+							<label htmlFor='email' className='input-required'>
 								E-mail
 								<span>REQUIRED</span>
 							</label>
-							<input id='email' name='email' type='email' required />
+							<input className='text-input' id='email' name='email' type='email' required />
 						</div>
 						<div>
-							<label htmlFor='slack-handle' className='input-row-required'>
+							<label htmlFor='slack-handle' className='input-required'>
 								Slack handle
 								<span>REQUIRED</span>
 							</label>
 							<input
+							className='text-input'
 								id='slack-handle'
 								name='slack-handle'
 								type='text'
@@ -49,11 +50,11 @@ const CompleteProfile = () => (
 								placeholder='Your slack handle to TorontoJS'
 							/>
 						</div>
-					</div>
-					<div className='inputs-row-wrapper'>
 						<div>
 							<label htmlFor='pronouns'>Pronouns</label>
-							<input id='pronouns' name='pronouns' type='text' list='pronouns-options' placeholder='Your pronouns (optional)' />
+							<input
+							className='text-input'
+								id='pronouns' name='pronouns' type='text' list='pronouns-options' placeholder='Your pronouns (optional)' />	
 							<datalist id='pronouns-options'>
 								<option>He/him</option>
 								<option>She/her</option>
