@@ -62,7 +62,7 @@
 	width: 36px;
 }
 
-.forms-section {
+.dropdown-list {
 	background-color: var(--color-accent);
 	border: var(--border-base) solid var(--color-accent);
 	border-radius: var(--rounded-lg);
@@ -76,8 +76,11 @@
 	border: none;
 	border-radius: var(--rounded-lg);
 	color: var(--color-white);
+	display: flex;
+	flex-direction: row;
 	font-size: var(--text-md);
 	font-weight: var(--weight-bold);
+	justify-content: space-between;
 	line-height: 160%;
 	padding-bottom: var(--spacing-xs);
 	padding-left: var(--spacing-sm);
@@ -94,3 +97,5 @@
 	height: 16px;
 	width: 16px;
 }
+
+#complete-profile-button { width: 100%; }

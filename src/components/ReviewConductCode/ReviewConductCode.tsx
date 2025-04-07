@@ -1,5 +1,6 @@
 import Button from '../Button/Button';
 import HeaderTitle from '../HeaderTitle/HeaderTitle';
+import { Dropdown } from './icon/Dropdown';
 import './ReviewConductCode.css';
 
 const ReviewConductCode = () => (
@@ -31,23 +32,26 @@ const ReviewConductCode = () => (
 			</ol>
 		</div>
 
-		<div className='forms-section'>
-			<select className='dropdown'>
-				<option>TorontoJS Code of Conduct</option>
-			</select>
-			<select className='dropdown'>
-				<option>Volunteering Agreement</option>
-			</select>
-			<select className='dropdown'>
-				<option>Image Release Form</option>
-			</select>
-		</div>
+		<ul className='dropdown-list'>
+			<li className='dropdown'>
+				<span>TorontoJS Code of Conduct</span>
+				<Dropdown />
+			</li>
+			<li className='dropdown'>
+				<span>Volunteering Agreement</span>
+				<Dropdown />
+			</li>
+			<li className='dropdown'>
+				<span>Image Release Form</span>
+				<Dropdown />
+			</li>
+		</ul>
 
 		<label className='checkbox-label'>
 			<input type='checkbox' className='checkbox' />I agree to TorontoJS’s conduct code and other forms
 		</label>
 
-		<Button isPrimary disabled>
+		<Button isPrimary disabled id='complete-profile-button'>
 			Let me complete my profile
 		</Button>
 	</div>
