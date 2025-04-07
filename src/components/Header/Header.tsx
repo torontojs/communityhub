@@ -5,11 +5,12 @@ import './Header.css';
 
 interface Props {
 	children: ReactNode;
+	isLogoLarge?: boolean;
 }
 
-const Header = ({ children }: Props) => (
+const Header = ({ children, isLogoLarge = true }: Props) => (
 	<header>
-		<Logo />
+		<Logo isLarge={isLogoLarge} />
 		<HeaderTitle>{children}</HeaderTitle>
 	</header>
 );

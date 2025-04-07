@@ -7,7 +7,7 @@ import './CheckSteps.css';
 const CheckSteps = () => (
 	<div className='check-steps-wrapper'>
 		<div className='check-steps'>
-			<Header>Welcome to TorontoJS Community Hub!</Header>
+			<Header isLogoLarge={false}>Welcome to TorontoJS Community Hub!</Header>
 			<p className='intro'>Your account is active, and you're almost ready to get in. Let's complete a few more steps:</p>
 			<ul className='cards'>
 				<li className='card'>
