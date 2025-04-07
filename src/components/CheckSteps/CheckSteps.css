@@ -9,7 +9,6 @@
 	gap: var(--spacing-lg);
 	margin-inline: auto;
 	padding: var(--spacing-lg) var(--spacing-md);
-	width: 100%;
 
 	@media screen and (min-width: 640px) { max-width: 400px; }
 }

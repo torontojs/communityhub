@@ -7,7 +7,7 @@ import './ReviewConductCode.css';
 const ReviewConductCode = () => (
 	<>
 		<StepBar step={2} />
-		<div className='conduct-code-wrapper'>
+		<div className='conduct-code'>
 			<HeaderTitle>Review our conduct code</HeaderTitle>
 
 			<p className='intro'>

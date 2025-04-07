@@ -1,11 +1,14 @@
 @import 'open-props/open-props.min.css';
 
-.conduct-code-wrapper {
+.conduct-code {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-lg);
+	margin-inline: auto;
 	padding: var(--spacing-lg) var(--spacing-md);
+
+	@media screen and (min-width: 640px) { max-width: 400px; }
 }
 
 .intro {
