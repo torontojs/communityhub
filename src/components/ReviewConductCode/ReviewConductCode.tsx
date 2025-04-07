@@ -48,7 +48,7 @@ const ReviewConductCode = () => (
 		</ul>
 
 		<label className='checkbox-label'>
-			<input type='checkbox' className='checkbox' />I agree to TorontoJS’s conduct code and other forms
+			<input type='checkbox' />I agree to TorontoJS’s conduct code and other forms
 		</label>
 
 		<Button isPrimary disabled id='complete-profile-button'>
