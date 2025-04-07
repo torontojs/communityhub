@@ -66,6 +66,7 @@ const ReviewConductCode = () => {
 
 				<Button
 					isPrimary
+					isLarge
 					disabled={!agreementChecked}
 					id='complete-profile-button'
 					onClick={() => {
