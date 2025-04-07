@@ -21,7 +21,13 @@ const CheckSteps = () => (
 					<p className='text-h6'>Complete your profile</p>
 				</li>
 			</ul>
-			<Button isPrimary isLarge>
+			<Button
+				isPrimary
+				isLarge
+				onClick={() => {
+					window.open('/pages/review-conduct-code/', '_self');
+				}}
+			>
 				Let's continue
 			</Button>
 		</div>

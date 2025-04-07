@@ -3,6 +3,7 @@
 	border: 0;
 	border-radius: var(--rounded-md);
 	color: var(var(--color-black));
+	cursor: pointer;
 	font-weight: var(--weight-bold);
 	height: 2.625rem;
 	text-align: center;
@@ -30,11 +31,14 @@
 		border: var(--border-base) solid var(--color-accent);
 		color: var(--color-white);
 
-		&:disabled, &[aria-disabled='true'] { color: var(--color-white); }
+		&:disabled,
+		&[aria-disabled='true'] { color: var(--color-white); }
 	}
 
-	&:disabled, &[aria-disabled='true'] {
+	&:disabled,
+	&[aria-disabled='true'] {
 		color: var(--color-black);
+		cursor: not-allowed;
 		opacity: 50%;
 	}
 }
