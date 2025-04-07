@@ -59,3 +59,10 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 	display: inline-block;
 	margin-left: 8px;
 }
+
+#email-error {
+	display: none;
+	outline: solid red thin;
+}
+
+.login-form:has(#email-input:user-invalid) #email-error { display: block; }

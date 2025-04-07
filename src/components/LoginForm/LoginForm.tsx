@@ -1,115 +1,168 @@
 import './LoginForm.css';
 import { useState } from 'react';
-import { emailValidateMultiRegex, passwordValidateMultiRegex } from '../../utilities/passwordValidation';
+// Import { emailValidateMultiRegex, passwordValidateMultiRegex } from '../../utilities/passwordValidation';
+import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button';
-import Xicon from '../Icons/Utilities/Xicon';
+// Import Xicon from '../Icons/Utilities/Xicon';
+
+// Interface FormErrors {
+//   Name?: string;
+//   Email?: string;
+//   Age?: string;
+// }
 
 const LoginForm = (): React.JSX.Element => {
-	// const [email, setEmail] = useState<string>('');
-	// const [password, setPassword] = useState<string>('');
-	const [isValidEmail, setIsValidEmail] = useState<boolean | null>(null);
-	const [isValidPassword, setIsValidPassword] = useState<boolean | null>(null);
-	const [errorEmail, setErrorEmail] = useState<string | null>(null);
-	const [errorPassword, setErrorPassword] = useState<string | null>(null);
-	const devVsProd: boolean = import.meta.env.DEV;
-	const urlSignIn = devVsProd ? 'localhost:8787/auth/sign-in' : 'https//torontojs.com/vms/auth/sign-in';
-	const urlHome = devVsProd ? 'localhost:3000/volunteer/home' : 'https//torontojs.com/volunteer/home';
+	// Const [email, setEmail] = useState<string>('');
+	// Const [password, setPassword] = useState<string>('');
+	// Const [isValidEmail, setIsValidEmail] = useState<boolean | null>(null);
+	// Const [isValidPassword, setIsValidPassword] = useState<boolean | null>(null);
+	// Const [errorEmail, setErrorEmail] = useState<string>('');
+	// Const [errorPassword, setErrorPassword] = useState<string>('');
+	// Const devVsProd: boolean = import.meta.env.DEV;
+	// Const urlSignIn = devVsProd ? 'localhost:8787/auth/sign-in' : 'https//torontojs.com/vms/auth/sign-in';
+	// Const urlHome = devVsProd ? 'localhost:3000/volunteer/home' : 'https//torontojs.com/volunteer/home';
 
-	const validateFormFields = () => {
-		if (password === null || password === '') {
-			setIsValidPassword(false);
-			setErrorPassword('Password can not be empty');
-		} else if (!passwordValidateMultiRegex(password)) {
-			setIsValidPassword(false);
-			setErrorPassword('Your password is incorrect!');
-		} else if (passwordValidateMultiRegex(password)) {
-			setIsValidPassword(true);
-			setErrorPassword(null);
-		}
+	const [password, setPassword] = useState('');
+	const [strength, setStrength] = useState<number | null>(null);
+	const [feedback, setFeedback] = useState<string>('');
 
-		if (email === null || email === '') {
-			setIsValidEmail(false);
-			setErrorEmail('Email can not be empty!');
-		} else if (!emailValidateMultiRegex(email)) {
-			setIsValidEmail(false);
-			setErrorEmail('This is not a valid e-mail address!');
-		} else if (emailValidateMultiRegex(email)) {
-			setIsValidEmail(true);
-			setErrorEmail(null);
-		}
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const password = event.target.value;
+		setPassword(password);
+
+		const result = zxcvbn(password);
+		setStrength(result.score);
+		setFeedback(result.feedback.suggestions.join(', '));
 	};
 
-	const signIn = async () => {
-		try {
-			const response = await fetch(urlSignIn, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ email, password })
-			});
-			// Validate the res status4:00pm
-			if (!response.ok) {
-				const errorData = await response.json();
-				console.log('Response not ok: ', errorData);
-			}
+	const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 
-			const data = await response.json();
-			console.log('data received from sign in ', data);
-			window.location.href = urlHome;
-		} catch (e) {
-			if (e instanceof Error) {
-				console.error(e.name);
-				console.error(e.cause);
-				console.error(e.message);
-				console.error(e.stack);
-			} else {
-				throw new Error('Sign-in unknown error!');
-			}
-		}
-	};
+	// Const validateFormFields = () => {
+	// 	If (password === null || password === '') {
+	// 		SetIsValidPassword(false);
+	// 		SetErrorPassword('Password can not be empty');
+	// 	} else if (!passwordValidateMultiRegex(password)) {
+	// 		SetIsValidPassword(false);
+	// 		SetErrorPassword('Your password is incorrect!');
+	// 	} else if (passwordValidateMultiRegex(password)) {
+	// 		SetIsValidPassword(true);
+	// 		SetErrorPassword(null);
+	// 	}
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData(e.target as HTMLFormElement);
+	// 	If (email === null || email === '') {
+	// 		SetIsValidEmail(false);
+	// 		SetErrorEmail('Email can not be empty!');
+	// 	} else if (!emailValidateMultiRegex(email)) {
+	// 		SetIsValidEmail(false);
+	// 		SetErrorEmail('This is not a valid e-mail address!');
+	// 	} else if (emailValidateMultiRegex(email)) {
+	// 		SetIsValidEmail(true);
+	// 		SetErrorEmail(null);
+	// 	}
+	// };
 
-		const emailE = formData.get('email') as string;
-		const passwordE = formData.get('password') as string;
+	// Const signIn = async () => {
+	// 	Try {
+	// 		Const response = await fetch(urlSignIn, {
+	// 			Method: 'POST',
+	// 			Headers: {
+	// 				'Content-Type': 'application/json'
+	// 			},
+	// 			Body: JSON.stringify({ email, password })
+	// 		});
+	// 		// Validate the res status4:00pm
+	// 		If (!response.ok) {
+	// 			Const errorData = await response.json();
+	// 			Console.log('Response not ok: ', errorData);
+	// 		}
 
-		// setEmail(emailE.trim());
-		// setPassword(passwordE.trim());
-		// validateFormFields();
-		// if(isValidEmail && isValidPassword) await signIn();
-		await signIn();
-	};
+	// 		Const data = await response.json();
+	// 		Console.log('data received from sign in ', data);
+	// 		Window.location.href = urlHome;
+	// 	} catch (e) {
+	// 		If (e instanceof Error) {
+	// 			Console.error(e.name);
+	// 			Console.error(e.cause);
+	// 			Console.error(e.message);
+	// 			Console.error(e.stack);
+	// 		} else {
+	// 			Throw new Error('Sign-in unknown error!');
+	// 		}
+	// 	}
+	// };
+
+	// Const handleEmailValidity = (e: React.FocusEvent<HTMLInputElement>) => {
+	// 	E.target.checkValidity();
+	// 	SetIsValidEmail(null);
+
+	// 	SetEmail(e.target.value);
+	// 	If (e.target.validity.valueMissing) {
+	// 	    SetIsValidEmail(false)
+	// 		SetErrorEmail('email is required');
+	// 	}
+	// }
+
+	// Const handlePasswordValidity = (e: React.FocusEvent<HTMLInputElement>) => {
+	// 	E.target.checkValidity();
+	// 	SetIsValidPassword(null);
+
+	// 	SetPassword(e.target.value);
+	// 	If (e.target.validity.valueMissing) {
+	// 	    SetIsValidPassword(false)
+	// 		SetErrorPassword('password is required');
+	// 	}
+	// }
+
+	// Const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	// 	E.preventDefault();
+	// };
 
 	return (
-		<form className='login-form' onSubmit={handleSubmit}>
+		<form className='login-form' onError={() => console.log('Form error!')}>
 			<p className='center'>Enter your e-mail and password to log-in.</p>
-			<div className='inputDim'>
+			{
+				/* <div className='inputDim'>
 				<label className='block' htmlFor='email'>E-mail</label>
-				<input type='email' name='email' pattern='[^\s@]+@[^\s@]+\.[^\s@]+' placeholder='Your account e-mail' required />
+				<input id="email-input" type='email' name='email' placeholder='Your account e-mail' onBlur={handleEmailValidity}/>
+
 			</div>
-			{isValidEmail && (
-				<input className='emailError'>
-					<Xicon></Xicon> {errorEmail}
-				</input>
-			)}
-			<div className='inputDim'>
+			<span id="email-error">
+				<Xicon></Xicon> EMAIL ERROR!!!
+			</span> */
+			}
+			<div>
+				<label htmlFor='password'>Password:</label>
+				<input
+					type='password'
+					id='password'
+					value={password}
+					onChange={handleChange}
+					placeholder='Enter your password'
+				/>
+				{password && (
+					<div>
+						<p>Password Strength: {strengthLabels[strength || 0]}</p>
+						<p>Feedback: {feedback}</p>
+					</div>
+				)}
+			</div>
+			{
+				/* <div className='inputDim'>
 				<label className='block' htmlFor='password'>Password</label>
-				<input type='password' name='password' pattern='(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}' placeholder='Your password' required />
+				<input type='password' name='password' minLength={16} placeholder='Your password' onBlur={handlePasswordValidity}/>
 			</div>
-			{isValidPassword && (
-				<input className='emailError'>
+			{isValidPassword === null || isValidPassword === true ? '' : (
+				<span className='passwordError'>
 					<Xicon></Xicon>
 					{errorPassword}
-				</input>
-			)}
+				</span>
+			)} */
+			}
 			<div className='inputDimRadio flex'>
 				<input type='checkbox' id='remember-me' name='remember-me' />
 				<label htmlFor='remember-me' className='padding-left-2px'>Remember my password</label>
 			</div>
-			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }}>Log In</Button>
+			<Button type='submit' isLarge={true} onClick={() => console.log('Button click!')} style={{ color: 'white', background: '#ED343F' }}>Log In</Button>
 			<a className='center block underline' href='/forgot-password'>I don't remember my password</a>
 			<div className='line'></div>
 			<div className='tb-margin'>
