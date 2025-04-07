@@ -1,7 +1,7 @@
-import { CheckConductCode } from '../../pages/check-steps/icons/CheckConductCode';
-import { CompleteProfile } from '../../pages/check-steps/icons/CompleteProfile';
 import Button from '../Button/Button';
 import Header from '../Header/Header';
+import { CheckConductCode } from './icons/CheckConductCode';
+import { CompleteProfile } from './icons/CompleteProfile';
 import './CheckSteps.css';
 
 const CheckSteps = () => (
