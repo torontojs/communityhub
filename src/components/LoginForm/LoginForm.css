@@ -67,13 +67,6 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 
 .login-form:has(#email-input:user-invalid) #email-error { display: block; }
 
-.red {
-	color:var(--color-error); 
-}
+.red { color: var(--color-error); }
 
-.text-size{
-	font-size: var(--text-sm);
-}
-
-
-
+.text-size { font-size: var(--text-sm); }

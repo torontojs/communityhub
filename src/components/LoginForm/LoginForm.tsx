@@ -130,7 +130,7 @@ const LoginForm = (): React.JSX.Element => {
 				<Xicon></Xicon> EMAIL ERROR!!!
 			</span> */
 			}
-			<div className="inputDim">
+			<div className='inputDim'>
 				<label className='block' htmlFor='password'>Password:</label>
 				<input
 					type='password'
@@ -139,30 +139,33 @@ const LoginForm = (): React.JSX.Element => {
 					onChange={handleChange}
 					placeholder='Your password'
 				/>
-				</div>
-				{password && (
-					<span className='passwordError'>
+			</div>
+			{password && (
+				<span className='passwordError'>
 					<div className='red text-size'>
-					<Xicon/><span>{strengthLabels[strength||0]}</span>
+						<Xicon />
+						<span>{strengthLabels[strength || 0]}</span>
 					</div>
-					</span>
-					)}
-					{/* </span>
+				</span>
+			)}
+			{
+				/* </span>
 						<p>Password Strength: {strengthLabels[strength || 0]}</p>
 						<p>Feedback: {feedback}</p>
-					</div> */}
+					</div> */
+			}
 
 			{
-			// 	<div className='inputDim'>
-			// 	<label className='block' htmlFor='password'>Password</label>
-			// 	<input type='password' name='password' minLength={16} placeholder='Your password' onBlur={handlePasswordValidity}/>
-			// </div>
-			// {isValidPassword === null || isValidPassword === true ? '' : (
-			// 	<span className='passwordError'>
-			// 		<Xicon></Xicon>
-			// 		{errorPassword}
-			// 	</span>
-			// )}
+				// 	<div className='inputDim'>
+				// 	<label className='block' htmlFor='password'>Password</label>
+				// 	<input type='password' name='password' minLength={16} placeholder='Your password' onBlur={handlePasswordValidity}/>
+				// </div>
+				// {isValidPassword === null || isValidPassword === true ? '' : (
+				// 	<span className='passwordError'>
+				// 		<Xicon></Xicon>
+				// 		{errorPassword}
+				// 	</span>
+				// )}
 			}
 			<div className='inputDimRadio flex'>
 				<input type='checkbox' id='remember-me' name='remember-me' />
