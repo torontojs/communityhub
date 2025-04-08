@@ -12,13 +12,40 @@ const SignUpForm = (): React.JSX.Element => {
 	const [password, setPassword] = useState('');
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
+	const [dynamicColor,setDynamicColor] = useState<string>('');
 
+
+
+		function sDynamicColor(strength:number){
+			switch(strength){
+				case 0:
+					setDynamicColor('red');
+					break;
+				case 1:
+					setDynamicColor('red');
+					break;	
+				case 2:
+					setDynamicColor('yellow');
+					break;
+				case 3:
+					setDynamicColor('green');
+					break;
+				case 4:
+					setDynamicColor('green');
+					break;
+				default:
+					setDynamicColor('grey');
+			}
+		}
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
 		setPassword(password);
 
+
+
 		const result = zxcvbn(password);
 		setStrength(result.score);
+		sDynamicColor(result.score);
 		setFeedback(result.feedback.suggestions.join(', '));
 	};
 
@@ -85,8 +112,12 @@ const SignUpForm = (): React.JSX.Element => {
 				<span className='passwordError'>
 					<div className=' text-size'>
 						<div>
-							<span className='red'>Password strength: {strengthLabels[strength || 0]}</span>
-							<span></span>
+							<span className={`${dynamicColor}`}>Password strength: {strengthLabels[strength || 0]}</span>							
+						</div>
+						<div className = 'password-meter'>
+							<span className='password-meter-level' style={{backgroundColor : `${ strength !== null ? `${dynamicColor}` : 'var(--color-card)'}`} }></span>
+							<span className='password-meter-level' style={{backgroundColor : `${ strength && strength >= 2 ? `${dynamicColor}` : 'var(--color-card)'}`}}></span>
+							<span className='password-meter-level' style={{backgroundColor : `${ strength && strength > 3 ? `${dynamicColor}` : 'var(--color-card)'}`}}></span>
 						</div>
 						<div>
 							<p>Suggestions: {feedback}</p>
@@ -94,8 +125,9 @@ const SignUpForm = (): React.JSX.Element => {
 					</div>
 				</span>
 			)}
+			
 			<Button type='submit' isLarge={true} onClick={() => console.log('Button click!')} style={{ color: 'white', background: '#ED343F' }}>Create Account</Button>
-			<div className='line'></div>
+
 			<div className='tb-margin'>
 				<p className='not-member'>
 					If you already have an account, <a href='/path-to-other-page' className='underline'>click here to log-in</a>
