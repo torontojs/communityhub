@@ -3,7 +3,7 @@ import { useState } from 'react';
 // Import { emailValidateMultiRegex, passwordValidateMultiRegex } from '../../utilities/passwordValidation';
 import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button';
-// Import Xicon from '../Icons/Utilities/Xicon';
+import Xicon from '../Icons/Utilities/Xicon';
 
 // Interface FormErrors {
 //   Name?: string;
@@ -24,7 +24,7 @@ const LoginForm = (): React.JSX.Element => {
 
 	const [password, setPassword] = useState('');
 	const [strength, setStrength] = useState<number | null>(null);
-	const [feedback, setFeedback] = useState<string>('');
+	// Const [feedback, setFeedback] = useState<string>('');
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
@@ -32,7 +32,7 @@ const LoginForm = (): React.JSX.Element => {
 
 		const result = zxcvbn(password);
 		setStrength(result.score);
-		setFeedback(result.feedback.suggestions.join(', '));
+		// SetFeedback(result.feedback.suggestions.join(', '));
 	};
 
 	const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
@@ -130,33 +130,39 @@ const LoginForm = (): React.JSX.Element => {
 				<Xicon></Xicon> EMAIL ERROR!!!
 			</span> */
 			}
-			<div>
-				<label htmlFor='password'>Password:</label>
+			<div className="inputDim">
+				<label className='block' htmlFor='password'>Password:</label>
 				<input
 					type='password'
-					id='password'
+					name='password'
 					value={password}
 					onChange={handleChange}
-					placeholder='Enter your password'
+					placeholder='Your password'
 				/>
+				</div>
 				{password && (
-					<div>
+					<span className='passwordError'>
+					<div className='red text-size'>
+					<Xicon/><span>{strengthLabels[strength||0]}</span>
+					</div>
+					</span>
+					)}
+					{/* </span>
 						<p>Password Strength: {strengthLabels[strength || 0]}</p>
 						<p>Feedback: {feedback}</p>
-					</div>
-				)}
-			</div>
+					</div> */}
+
 			{
-				/* <div className='inputDim'>
-				<label className='block' htmlFor='password'>Password</label>
-				<input type='password' name='password' minLength={16} placeholder='Your password' onBlur={handlePasswordValidity}/>
-			</div>
-			{isValidPassword === null || isValidPassword === true ? '' : (
-				<span className='passwordError'>
-					<Xicon></Xicon>
-					{errorPassword}
-				</span>
-			)} */
+			// 	<div className='inputDim'>
+			// 	<label className='block' htmlFor='password'>Password</label>
+			// 	<input type='password' name='password' minLength={16} placeholder='Your password' onBlur={handlePasswordValidity}/>
+			// </div>
+			// {isValidPassword === null || isValidPassword === true ? '' : (
+			// 	<span className='passwordError'>
+			// 		<Xicon></Xicon>
+			// 		{errorPassword}
+			// 	</span>
+			// )}
 			}
 			<div className='inputDimRadio flex'>
 				<input type='checkbox' id='remember-me' name='remember-me' />
@@ -166,7 +172,6 @@ const LoginForm = (): React.JSX.Element => {
 			<a className='center block underline' href='/forgot-password'>I don't remember my password</a>
 			<div className='line'></div>
 			<div className='tb-margin'>
-				2
 				<p className='not-member'>
 					If you're a member of TorontoJS and don't have your account, <a href='/path-to-other-page' className='underline'>click here to sign-up</a>
 				</p>
