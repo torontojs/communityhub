@@ -14,7 +14,7 @@
 		/* width: 19.375rem; */
 	}
 	&.large {
-		font-size: var(--text-xl);
+		font-size: var(--text-lg);
 		height: 3.6875rem;
 		/* width: 23rem; */
 		padding: 12px 16px;
