@@ -16,15 +16,10 @@
 	text-align: center;
 }
 
-.nutshell-box {
-	border: var(--border-base) solid var(--color-accent);
-	border-radius: var(--rounded-lg);
-	width: 100%;
-}
-
 .nutshell-title {
 	background-color: var(--color-accent);
-	border-radius: var(--rounded-lg) var(--rounded-lg) 0 0;
+	border-start-end-radius: var(--rounded-lg);
+	border-start-start-radius: var(--rounded-lg);
 	color: var(--color-white);
 	font-weight: var(--weight-bold);
 	height: 32px;
@@ -36,6 +31,9 @@
 }
 
 .nutshell-list {
+	border: var(--border-base) solid var(--color-accent);
+	border-end-end-radius: var(--rounded-lg);
+	border-end-start-radius: var(--rounded-lg);
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-sm);
@@ -68,20 +66,30 @@
 }
 
 .dropdown-list {
-	border: var(--border-base) solid var(--color-accent);
-	border-radius: var(--rounded-lg);
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 
-	li:nth-child(1) .dropdown-title { border-radius: var(--rounded-lg) var(--rounded-lg) 0 0; }
+	li:nth-child(1) .dropdown-title {
+		border-start-end-radius: var(--rounded-lg);
+		border-start-start-radius: var(--rounded-lg);
+	}
 
-	li:last-child .dropdown-title { border-radius: 0 0 var(--rounded-lg) var(--rounded-lg); }
+	li:last-child .dropdown-title {
+		border-end-end-radius: var(--rounded-lg);
+		border-end-start-radius: var(--rounded-lg);
+	}
+
+	li:last-child details:open .dropdown-title { border-radius: 0; }
+
+	li:last-child details:open .details-content {
+		border-end-end-radius: var(--rounded-lg);
+		border-end-start-radius: var(--rounded-lg);
+	}
 }
 
 .dropdown-title {
 	background-color: var(--color-accent);
-	border: none;
 	color: var(--color-white);
 	display: flex;
 	flex-direction: row;
@@ -95,7 +103,17 @@
 	padding-top: var(--spacing-xs);
 }
 
+#arrow-down-icon { display: block; }
+
+#arrow-up-icon { display: none; }
+
+/* When details is open, swap visibility */
+details:open .dropdown-title #arrow-down-icon { display: none; }
+
+details:open .dropdown-title #arrow-up-icon { display: block; }
+
 .details-content {
+	border: var(--border-base) solid var(--color-accent);
 	padding-bottom: var(--spacing-xs);
 	padding-left: var(--spacing-sm);
 	padding-right: var(--spacing-sm);

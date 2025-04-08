@@ -2,7 +2,8 @@ import { useState } from 'react';
 import Button from '../Button/Button';
 import HeaderTitle from '../HeaderTitle/HeaderTitle';
 import StepBar from '../StepBar/StepBar';
-import { Dropdown } from './icon/Dropdown';
+import { ArrowDown } from './icons/ArrowDown';
+import { ArrowUp } from './icons/ArrowUp';
 import './ReviewConductCode.css';
 
 const ReviewConductCode = () => {
@@ -19,7 +20,7 @@ const ReviewConductCode = () => {
 					a few key rules.
 				</p>
 
-				<div className='nutshell-box'>
+				<div>
 					<p className='nutshell-title text-h6'>In a nutshell:</p>
 					<ol className='nutshell-list'>
 						<li className='nutshell-item'>
@@ -44,7 +45,8 @@ const ReviewConductCode = () => {
 						<details>
 							<summary className='dropdown-title'>
 								<span>TorontoJS Code of Conduct</span>
-								<Dropdown />
+								<ArrowDown />
+								<ArrowUp />
 							</summary>
 							<div className='details-content'>
 								Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro suscipit harum doloremque, quod tempora architecto atque unde corrupti, ipsa in
@@ -56,7 +58,8 @@ const ReviewConductCode = () => {
 						<details>
 							<summary className='dropdown-title'>
 								<span>Volunteering Agreement</span>
-								<Dropdown />
+								<ArrowDown />
+								<ArrowUp />
 							</summary>
 							<div className='details-content'>
 								Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid incidunt quibusdam, temporibus accusamus eos dolore suscipit? Cum excepturi
@@ -68,7 +71,8 @@ const ReviewConductCode = () => {
 						<details>
 							<summary className='dropdown-title'>
 								<span>Image Release Form</span>
-								<Dropdown />
+								<ArrowDown />
+								<ArrowUp />
 							</summary>
 							<div className='details-content'>
 								Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem impedit consequatur, fugiat sit asperiores, sunt possimus delectus incidunt, iste atque
