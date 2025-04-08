@@ -72,12 +72,12 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 .text-size { font-size: var(--text-xm); }
 
 .password-meter {
- 	display:flex;
- 	gap:8px;		
+	display: flex;
+	gap: 8px;
 }
 
 .password-meter-level {
-	width: 100%;
-	height: 0.5rem;		
 	background-color: var(--color-card);
+	height: 0.5rem;
+	width: 100%;
 }
