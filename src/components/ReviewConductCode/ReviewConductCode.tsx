@@ -20,7 +20,7 @@ const ReviewConductCode = () => {
 				</p>
 
 				<div className='nutshell-box'>
-					<h2 className='nutshell-title'>In a nutshell:</h2>
+					<p className='nutshell-title text-h6'>In a nutshell:</p>
 					<ol className='nutshell-list'>
 						<li className='nutshell-item'>
 							<span className='number'>1</span>

@@ -26,7 +26,9 @@
 	background-color: var(--color-accent);
 	border-radius: var(--rounded-lg) var(--rounded-lg) 0 0;
 	color: var(--color-white);
+	font-weight: var(--weight-bold);
 	height: 32px;
+	line-height: 160%;
 	padding-bottom: var(--spacing-xs);
 	padding-left: var(--spacing-sm);
 	padding-right: var(--spacing-sm);
