@@ -1,15 +1,7 @@
 import './LoginForm.css';
 import { useState } from 'react';
-// Import { emailValidateMultiRegex, passwordValidateMultiRegex } from '../../utilities/passwordValidation';
 import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button';
-import Xicon from '../Icons/Utilities/Xicon';
-
-// Interface FormErrors {
-//   Name?: string;
-//   Email?: string;
-//   Age?: string;
-// }
 
 const LoginForm = (): React.JSX.Element => {
 	// Const [email, setEmail] = useState<string>('');
@@ -24,7 +16,7 @@ const LoginForm = (): React.JSX.Element => {
 
 	const [password, setPassword] = useState('');
 	const [strength, setStrength] = useState<number | null>(null);
-	// Const [feedback, setFeedback] = useState<string>('');
+	const [feedback, setFeedback] = useState<string>('');
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
@@ -32,7 +24,7 @@ const LoginForm = (): React.JSX.Element => {
 
 		const result = zxcvbn(password);
 		setStrength(result.score);
-		// SetFeedback(result.feedback.suggestions.join(', '));
+		setFeedback(result.feedback.suggestions.join(', '));
 	};
 
 	const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
@@ -142,9 +134,14 @@ const LoginForm = (): React.JSX.Element => {
 			</div>
 			{password && (
 				<span className='passwordError'>
-					<div className='red text-size'>
-						<Xicon />
-						<span>{strengthLabels[strength || 0]}</span>
+					<div className=' text-size'>
+						<div>
+							<span className='red'>Password strength: {strengthLabels[strength || 0]}</span>
+							<span></span>
+						</div>
+						<div>
+							<p>Suggestions: {feedback}</p>
+						</div>
 					</div>
 				</span>
 			)}

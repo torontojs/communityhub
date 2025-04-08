@@ -69,4 +69,4 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 
 .red { color: var(--color-error); }
 
-.text-size { font-size: var(--text-sm); }
+.text-size { font-size: var(--text-xm); }
