@@ -40,17 +40,41 @@ const ReviewConductCode = () => {
 				</div>
 
 				<ul className='dropdown-list'>
-					<li className='dropdown'>
-						<span>TorontoJS Code of Conduct</span>
-						<Dropdown />
+					<li>
+						<details>
+							<summary className='dropdown-title'>
+								<span>TorontoJS Code of Conduct</span>
+								<Dropdown />
+							</summary>
+							<div className='details-content'>
+								Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro suscipit harum doloremque, quod tempora architecto atque unde corrupti, ipsa in
+								expedita et provident vel dignissimos modi exercitationem neque reiciendis dicta.
+							</div>
+						</details>
 					</li>
-					<li className='dropdown'>
-						<span>Volunteering Agreement</span>
-						<Dropdown />
+					<li>
+						<details>
+							<summary className='dropdown-title'>
+								<span>Volunteering Agreement</span>
+								<Dropdown />
+							</summary>
+							<div className='details-content'>
+								Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid incidunt quibusdam, temporibus accusamus eos dolore suscipit? Cum excepturi
+								reiciendis quis nam, provident temporibus laboriosam animi molestias harum optio magni amet.
+							</div>
+						</details>
 					</li>
-					<li className='dropdown'>
-						<span>Image Release Form</span>
-						<Dropdown />
+					<li>
+						<details>
+							<summary className='dropdown-title'>
+								<span>Image Release Form</span>
+								<Dropdown />
+							</summary>
+							<div className='details-content'>
+								Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem impedit consequatur, fugiat sit asperiores, sunt possimus delectus incidunt, iste atque
+								qui doloremque rerum. Ratione mollitia dicta corporis minus est neque.
+							</div>
+						</details>
 					</li>
 				</ul>
 
