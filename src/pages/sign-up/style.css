@@ -1,0 +1,15 @@
+.app {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
+}
+
+.Sign-in-page {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	/* height: 575px; */
+	justify-content: center;
+	max-width: 400px;
+}
