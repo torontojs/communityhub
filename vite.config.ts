@@ -34,7 +34,7 @@ export default defineConfig(({ mode }) => {
 					'team': fileURLToPath(new URL('./src/pages/team/index.html', import.meta.url)),
 					'complete-profile': fileURLToPath(new URL('./src/pages/complete-profile/index.html', import.meta.url)),
 					'sign-up': fileURLToPath(new URL('./src/pages/sign-up/index.html', import.meta.url)),
-					'sign-in': fileURLToPath(new URL('./src/pages/sign-in/index.html', import.meta.url)),
+					'sign-in': fileURLToPath(new URL('./src/pages/sign-in/index.html', import.meta.url))
 				}
 			}
 		},

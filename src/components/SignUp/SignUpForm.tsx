@@ -60,16 +60,14 @@ const SignUpForm = (): React.JSX.Element => {
 
 			<div className='inputDim'>
 				<label className='block' htmlFor='name'>Name</label>
-				<input id="name-input" type='input' name='name' placeholder='Your name'/>
+				<input id='name-input' type='input' name='name' placeholder='Your name' />
 			</div>
-			
 
 			<div className='inputDim'>
 				<label className='block' htmlFor='email'>E-mail</label>
-				<input id="email-input" type='email' name='email' placeholder='Your account e-mail'/>
-
+				<input id='email-input' type='email' name='email' placeholder='Your account e-mail' />
 			</div>
-			<span id="email-error">
+			<span id='email-error'>
 				<Xicon></Xicon> EMAIL ERROR!!!
 			</span>
 			{/* STUB: CSS Needs to be implemented for password compponent. Potentially move password component to it's own file. */}
@@ -96,7 +94,7 @@ const SignUpForm = (): React.JSX.Element => {
 					</div>
 				</span>
 			)}
-			<Button type='submit' isLarge={true} onClick={() => console.log('Button click!')} style={{ color: 'white', background: '#ED343F' }}>Create Account</Button>			
+			<Button type='submit' isLarge={true} onClick={() => console.log('Button click!')} style={{ color: 'white', background: '#ED343F' }}>Create Account</Button>
 			<div className='line'></div>
 			<div className='tb-margin'>
 				<p className='not-member'>
