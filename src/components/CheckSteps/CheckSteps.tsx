@@ -25,7 +25,7 @@ const CheckSteps = () => (
 				isPrimary
 				isLarge
 				onClick={() => {
-					window.open('/pages/review-conduct-code/', '_self');
+					window.location.assign('/pages/review-conduct-code/');
 				}}
 			>
 				Let's continue
