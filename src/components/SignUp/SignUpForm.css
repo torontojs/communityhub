@@ -24,9 +24,17 @@
 }
 
 .inputDim label {
+	display: flex;
 	font-weight: var(--weight-semibold);
 	height: 29px;
+	justify-content: space-between;
 	margin-bottom: var(--spacing-xs);
+
+	& span {
+		color: var(--color-error);
+		font-size: var(--text-2xs);
+		font-weight: var(--weight-thin);
+	}
 }
 
 .inputDim input {
@@ -40,8 +48,8 @@
 }
 
 .inputDim input:focus {
-    border-color: var(--color-error); 
-    outline: none; 
+	border-color: var(--color-error);
+	outline: none;
 }
 
 .inputDimRadio {
@@ -84,7 +92,7 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 
 .red { color: var(--color-error); }
 
-.text-size { font-size: var(--text-xm); }
+.text-size { font-size: var(--text-xs); }
 
 .password-meter {
 	display: flex;
@@ -100,8 +108,25 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 .suggestion {
 	background-color: var(--color-card);
 	border-radius: var(--rounded-md);
-	font-size: var(--text-xm);
+	font-size: var(--text-sm);
+	letter-spacing: 0%;
+	line-height: 1.6;
 	margin: 0.5rem 0;
-	padding: 0.5rem;
+	padding: 0.5rem 0.85rem;
+	position: relative;
 	text-align: center;
+}
+
+.suggestion-icon {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12 8V16' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.5 14L15.5 10' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.5 10L15.5 14' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	content: '';
+	display: inline-block;
+	height: 1.1rem;
+	left: 0.5rem;
+	position: absolute;
+	top: 0.5rem;
+	width: 1.1rem;
 }

@@ -83,7 +83,9 @@ const SignUpForm = (): React.JSX.Element => {
 			</div>
 
 			<div className='inputDim'>
-				<label className='block' htmlFor='email'>E-mail</label>
+				<label className='block' htmlFor='email'>
+					E-mail<span>REQUIRED</span>
+				</label>
 				<input id='email-input' type='email' name='email' placeholder='Your account e-mail' />
 				<p>Insert the email you'll use for this account</p>
 			</div>
@@ -92,7 +94,9 @@ const SignUpForm = (): React.JSX.Element => {
 			</span>
 			{/* STUB: CSS Needs to be implemented for password compponent. Potentially move password component to it's own file. */}
 			<div className='inputDim'>
-				<label className='block' htmlFor='password'>Password:</label>
+				<label className='block' htmlFor='password'>
+					Password:<span>REQUIRED</span>
+				</label>
 				<input
 					type='password'
 					name='password'
@@ -105,16 +109,19 @@ const SignUpForm = (): React.JSX.Element => {
 				<span className='passwordError'>
 					<div className=' text-size'>
 						<div>
-							<span className={`${dynamicColor}`}>Password strength: {strengthLabels[strength || 0]}</span>
+							<span className={dynamicColor}>Password strength: {strengthLabels[strength || 0]}</span>
 						</div>
 						<div className='password-meter'>
-							<span className='password-meter-level' style={{ backgroundColor: `${strength !== null ? `${dynamicColor}` : 'var(--color-card)'}` }}></span>
-							<span className='password-meter-level' style={{ backgroundColor: `${strength && strength >= 2 ? `${dynamicColor}` : 'var(--color-card)'}` }}></span>
-							<span className='password-meter-level' style={{ backgroundColor: `${strength && strength >= 3 ? `${dynamicColor}` : 'var(--color-card)'}` }}></span>
+							<span className='password-meter-level' style={{ backgroundColor: strength !== null ? dynamicColor : 'var(--color-card)' }}></span>
+							<span className='password-meter-level' style={{ backgroundColor: strength && strength >= 2 ? dynamicColor : 'var(--color-card)' }}></span>
+							<span className='password-meter-level' style={{ backgroundColor: strength && strength >= 3 ? dynamicColor : 'var(--color-card)' }}></span>
 						</div>
-						<div className='suggestion'>
-							<p>Suggestions: {feedback}</p>
-						</div>
+						{strength !== null && strength < 3 && (
+							<div className='suggestion'>
+								<span className='suggestion-icon' />
+								<p>Suggestions: {feedback}</p>
+							</div>
+						)}
 					</div>
 				</span>
 			)}

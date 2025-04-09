@@ -68,6 +68,9 @@ body {
 	--leading-h2: calc(var(--leading-base) - 4 * 0.08em); /* Adjusted line height for h2 */
 	--leading-h1: calc(var(--leading-base) - 5 * 0.08em); /* Adjusted line height for h1 */
 	/* Text size settings based on scale */
+	--text-3xs: calc(1em * pow(var(--text-scale-ratio), -8)); /* Extra small text size */
+	--text-2xs: calc(1em * pow(var(--text-scale-ratio), -5)); /* Extra small text size */
+	--text-sm: calc(var(--text-base) * pow(var(--text-scale-ratio), -1)); /* Small text size */
 	--text-xs: calc(1em * pow(var(--text-scale-ratio), -2)); /* Extra small text size */
 	--text-sm: calc(var(--text-base) * pow(var(--text-scale-ratio), -1)); /* Small text size */
 	--text-md: calc(var(--text-base) * pow(var(--text-scale-ratio), 1)); /* Medium text size */
