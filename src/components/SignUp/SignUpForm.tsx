@@ -17,8 +17,6 @@ const SignUpForm = (): React.JSX.Element => {
 	function sDynamicColor(strength: number) {
 		switch (strength) {
 			case 0:
-				setDynamicColor('red');
-				break;
 			case 1:
 				setDynamicColor('red');
 				break;
@@ -26,8 +24,6 @@ const SignUpForm = (): React.JSX.Element => {
 				setDynamicColor('yellow');
 				break;
 			case 3:
-				setDynamicColor('green');
-				break;
 			case 4:
 				setDynamicColor('green');
 				break;
@@ -89,6 +85,7 @@ const SignUpForm = (): React.JSX.Element => {
 			<div className='inputDim'>
 				<label className='block' htmlFor='email'>E-mail</label>
 				<input id='email-input' type='email' name='email' placeholder='Your account e-mail' />
+				<p>Insert the email you'll use for this account</p>
 			</div>
 			<span id='email-error'>
 				<Xicon></Xicon> EMAIL ERROR!!!
@@ -113,9 +110,9 @@ const SignUpForm = (): React.JSX.Element => {
 						<div className='password-meter'>
 							<span className='password-meter-level' style={{ backgroundColor: `${strength !== null ? `${dynamicColor}` : 'var(--color-card)'}` }}></span>
 							<span className='password-meter-level' style={{ backgroundColor: `${strength && strength >= 2 ? `${dynamicColor}` : 'var(--color-card)'}` }}></span>
-							<span className='password-meter-level' style={{ backgroundColor: `${strength && strength > 3 ? `${dynamicColor}` : 'var(--color-card)'}` }}></span>
+							<span className='password-meter-level' style={{ backgroundColor: `${strength && strength >= 3 ? `${dynamicColor}` : 'var(--color-card)'}` }}></span>
 						</div>
-						<div>
+						<div className='suggestion'>
 							<p>Suggestions: {feedback}</p>
 						</div>
 					</div>

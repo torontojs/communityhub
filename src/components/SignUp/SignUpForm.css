@@ -12,9 +12,16 @@
 .inputDim {
 	border: var(--border-sm);
 	border-radius: var(--rounded-xs);
-	height: 79px;
+	/* height: 79px; */
 	margin-bottom: var(--spacing-sm);
 	width: 100%;
+
+	& p {
+		color: var(--color-helper); 
+		font-size: var(--text-xs);
+		font-weight: var(--weight-regular);
+	}
+
 }
 
 .inputDim label {
@@ -47,7 +54,13 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 
 .underline { text-decoration: underline; /* Just in case */ }
 
-.tb-margin { margin: 16px 0; }
+.tb-margin { 
+	margin: 1rem 0;
+	
+	& p {
+		text-align: center;
+	}
+}
 
 .line {
 	background-color: #cccccc; /* Line color */
@@ -73,11 +86,20 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 
 .password-meter {
 	display: flex;
-	gap: 8px;
+	gap: 0.5rem;
 }
 
 .password-meter-level {
 	background-color: var(--color-card);
 	height: 0.5rem;
 	width: 100%;
+}
+
+.suggestion{
+	background-color: var(--color-card);
+	margin: 0.5rem 0; 
+	padding: 0.5rem; 
+	text-align: center;
+	font-size: var(--text-xm);
+	border-radius: var(--rounded-md)
 }
