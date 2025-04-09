@@ -17,11 +17,10 @@
 	width: 100%;
 
 	& p {
-		color: var(--color-helper); 
+		color: var(--color-helper);
 		font-size: var(--text-xs);
 		font-weight: var(--weight-regular);
 	}
-
 }
 
 .inputDim label {
@@ -40,6 +39,11 @@
 	width: 100%;
 }
 
+.inputDim input:focus {
+    border-color: var(--color-error); 
+    outline: none; 
+}
+
 .inputDimRadio {
 	color: #000000;
 	font-size: var(--text-sm);
@@ -54,12 +58,10 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 
 .underline { text-decoration: underline; /* Just in case */ }
 
-.tb-margin { 
+.tb-margin {
 	margin: 1rem 0;
-	
-	& p {
-		text-align: center;
-	}
+
+	& p { text-align: center; }
 }
 
 .line {
@@ -95,11 +97,11 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 	width: 100%;
 }
 
-.suggestion{
+.suggestion {
 	background-color: var(--color-card);
-	margin: 0.5rem 0; 
-	padding: 0.5rem; 
-	text-align: center;
+	border-radius: var(--rounded-md);
 	font-size: var(--text-xm);
-	border-radius: var(--rounded-md)
+	margin: 0.5rem 0;
+	padding: 0.5rem;
+	text-align: center;
 }
