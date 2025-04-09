@@ -1,4 +1,4 @@
-import Button from '../Button/Button';
+import ButtonLink from '../ButtonLink/ButtonLink';
 import Header from '../Header/Header';
 import StepBar from '../StepBar/StepBar';
 import './CheckSteps.css';
@@ -21,15 +21,13 @@ const CheckSteps = () => (
 					<p className='text-h6'>Complete your profile</p>
 				</li>
 			</ul>
-			<Button
+			<ButtonLink
 				isPrimary
 				isLarge
-				onClick={() => {
-					window.location.assign('/pages/review-conduct-code/');
-				}}
+				href='/pages/review-conduct-code/'
 			>
 				Let's continue
-			</Button>
+			</ButtonLink>
 		</div>
 	</div>
 );
