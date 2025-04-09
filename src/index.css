@@ -54,6 +54,7 @@
 	--color-card: hsla(0, 0%, 90%, 1); /* Card background color */
 	--color-helper: hsla(0, 0%, 60%, 1); /* Helper text color */
 	--color-accent: hsla(2, 84%, 56%, 1); /* Accent color (used for links, highlights) */
+	--color-accent-muted: hsla(2, 84%, 78%, 1); /* Muted accent color */
 	--color-error: hsla(0, 100%, 50%, 1); /* Error color */
 	--color-warning: hsla(44, 98%, 44%, 1); /* Warning color */
 	--color-success: hsla(120, 100%, 30%, 1); /* Success color */

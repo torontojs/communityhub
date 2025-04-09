@@ -37,8 +37,9 @@
 
 	&:disabled,
 	&[aria-disabled='true'] {
+		background-color: var(--color-accent-muted);
+		border-color: var(--color-accent-muted);
 		color: var(--color-black);
 		cursor: not-allowed;
-		opacity: 50%;
 	}
 }
