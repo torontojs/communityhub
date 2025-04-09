@@ -131,4 +131,10 @@ input[type='checkbox'] {
 	width: 23px;
 }
 
+.agreement-form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-lg);
+}
+
 #complete-profile-button { width: 100%; }

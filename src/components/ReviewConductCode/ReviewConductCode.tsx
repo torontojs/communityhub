@@ -29,9 +29,7 @@ const ReviewConductCode = () => {
 						</li>
 						<li className='nutshell-item'>
 							<span className='number'>2</span>
-							<span className='step-label'>
-								Developers, designers and other tech workers are welcome to collaborate in projects and events for the community.
-							</span>
+							<span className='step-label'>Developers, designers and other tech workers are welcome to collaborate in projects and events for the community.</span>
 						</li>
 						<li className='nutshell-item'>
 							<span className='number'>3</span>
@@ -82,27 +80,29 @@ const ReviewConductCode = () => {
 					</li>
 				</ul>
 
-				<label className='checkbox-label'>
-					<input
-						type='checkbox'
-						onChange={() => {
-							setAgreementChecked(!agreementChecked);
-						}}
-					/>
-					I agree to TorontoJS’s conduct code and other forms
-				</label>
-
-				<Button
-					isPrimary
-					isLarge
-					disabled={!agreementChecked}
-					id='complete-profile-button'
-					onClick={() => {
-						window.open('/pages/complete-profile/', '_self');
+				<form
+					className='agreement-form'
+					onSubmit={(e) => {
+						e.preventDefault();
+						window.location.assign('/pages/complete-profile/');
 					}}
 				>
-					Let me complete my profile
-				</Button>
+					<label htmlFor='agreement' className='checkbox-label'>
+						<input
+							type='checkbox'
+							id='agreement'
+							required
+							onChange={() => {
+								setAgreementChecked(!agreementChecked);
+							}}
+						/>
+						I agree to TorontoJS’s conduct code and other forms
+					</label>
+
+					<Button type='submit' isPrimary isLarge disabled={!agreementChecked} id='complete-profile-button'>
+						Let me complete my profile
+					</Button>
+				</form>
 			</div>
 		</>
 	);
