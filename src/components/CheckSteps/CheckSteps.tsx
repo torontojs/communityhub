@@ -21,11 +21,7 @@ const CheckSteps = () => (
 					<p className='text-h6'>Complete your profile</p>
 				</li>
 			</ul>
-			<ButtonLink
-				isPrimary
-				isLarge
-				href='/pages/review-conduct-code/'
-			>
+			<ButtonLink id='continue-button' isPrimary isLarge href='/pages/review-conduct-code/'>
 				Let's continue
 			</ButtonLink>
 		</div>
