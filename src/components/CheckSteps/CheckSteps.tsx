@@ -6,9 +6,9 @@ import { CheckConductCode } from './icons/CheckConductCode';
 import { CompleteProfile } from './icons/CompleteProfile';
 
 const CheckSteps = () => (
-	<div className='check-steps-wrapper'>
+	<div id='check-steps-wrapper'>
 		<StepBar step={1} />
-		<div className='check-steps'>
+		<div id='check-steps'>
 			<Header isLogoLarge={false}>Welcome to TorontoJS Community Hub!</Header>
 			<p className='intro'>Your account is active, and you're almost ready to get in. Let's complete a few more steps:</p>
 			<ul className='cards'>

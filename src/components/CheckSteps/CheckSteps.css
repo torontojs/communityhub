@@ -1,6 +1,6 @@
-.check-steps-wrapper { width: 100%; }
+#check-steps-wrapper { width: 100%; }
 
-.check-steps {
+#check-steps {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
@@ -37,7 +37,7 @@
 }
 
 #continue-button {
-	height: 35px;
+	height: 33px;
 	padding-bottom: 12px;
 	padding-left: 16px;
 	padding-right: 16px;
