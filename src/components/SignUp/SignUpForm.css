@@ -108,13 +108,15 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 .suggestion {
 	background-color: var(--color-card);
 	border-radius: var(--rounded-md);
+	display: flex;
 	font-size: var(--text-sm);
+	margin: 8px 0;
+}
+
+.suggestion p {
 	letter-spacing: 0%;
 	line-height: 1.6;
-	margin: 0.5rem 0;
-	padding: 0.5rem 0.85rem;
-	position: relative;
-	text-align: center;
+	margin: 8px 0;
 }
 
 .suggestion-icon {
@@ -124,9 +126,8 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 	background-size: contain;
 	content: '';
 	display: inline-block;
+	flex-shrink: 0;
 	height: 1.1rem;
-	left: 0.5rem;
-	position: absolute;
-	top: 0.5rem;
-	width: 1.1rem;
+	margin: 6px;
+	width: 1.5rem;
 }
