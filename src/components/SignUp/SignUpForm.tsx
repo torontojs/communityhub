@@ -2,13 +2,8 @@ import './SignUpForm.css';
 import { useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button';
-import Xicon from '../Icons/Utilities/Xicon';
 
 const SignUpForm = (): React.JSX.Element => {
-	// Const [email, setEmail] = useState<string>('');
-	// Const [isValidEmail, setIsValidEmail] = useState<boolean | null>(null);
-	// Const [errorEmail, setErrorEmail] = useState<string>('');
-
 	const [password, setPassword] = useState('');
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
@@ -79,7 +74,17 @@ const SignUpForm = (): React.JSX.Element => {
 
 			<div className='inputDim'>
 				<label className='block' htmlFor='name'>Name</label>
-				<input id='name-input' type='input' name='name' placeholder='Your name' />
+				<input
+					id='name-input'
+					type='text'
+					name='name'
+					placeholder='Your name'
+					minLength={1}
+					maxLength={20}
+					pattern='[A-Za-z]+'
+					required
+					title='Please enter a valid name (only letters allowed, max 20 characters)'
+				/>
 			</div>
 
 			<div className='inputDim'>
@@ -89,10 +94,6 @@ const SignUpForm = (): React.JSX.Element => {
 				<input id='email-input' type='email' name='email' placeholder='Your account e-mail' />
 				<p>Insert the email you'll use for this account</p>
 			</div>
-			<span id='email-error'>
-				<Xicon></Xicon> EMAIL ERROR!!!
-			</span>
-			{/* STUB: CSS Needs to be implemented for password compponent. Potentially move password component to it's own file. */}
 			<div className='inputDim'>
 				<label className='block' htmlFor='password'>
 					Password:<span>REQUIRED</span>
@@ -125,9 +126,7 @@ const SignUpForm = (): React.JSX.Element => {
 					</div>
 				</span>
 			)}
-
 			<Button type='submit' isLarge={true} onClick={() => console.log('Button click!')} style={{ color: 'white', background: '#ED343F' }}>Create Account</Button>
-
 			<div className='tb-margin'>
 				<p className='not-member'>
 					If you already have an account, <a href='/path-to-other-page' className='underline'>click here to log-in</a>

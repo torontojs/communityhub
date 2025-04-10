@@ -67,7 +67,7 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 .underline { text-decoration: underline; /* Just in case */ }
 
 .tb-margin {
-	margin: 1rem 0;
+	margin: 8px 0;
 
 	& p { text-align: center; }
 }
