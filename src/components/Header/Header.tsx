@@ -9,7 +9,7 @@ interface Props {
 }
 
 const Header = ({ children, isLogoLarge = true }: Props) => (
-	<header>
+	<header id='header-with-logo'>
 		<Logo isLarge={isLogoLarge} />
 		<HeaderTitle>{children}</HeaderTitle>
 	</header>

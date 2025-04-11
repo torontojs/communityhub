@@ -1,4 +1,4 @@
-header {
+#header-with-logo {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
