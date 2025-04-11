@@ -32,7 +32,7 @@
 
 	& span {
 		color: var(--color-error);
-		font-size: var(--text-2xs);
+		font-size: 12px;
 		font-weight: var(--weight-thin);
 	}
 }
