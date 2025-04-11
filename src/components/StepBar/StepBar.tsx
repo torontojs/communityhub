@@ -3,11 +3,12 @@ import './StepBar.css';
 
 interface Props {
 	currentStep: number;
-	steps: Array<{ label: string }>;
+	steps: { label: string }[];
 }
 
 const StepBar = ({ currentStep, steps }: Props) => (
 	<nav aria-label='Registration Steps'>
+		{/* eslint-disable-next-line @typescript-eslint/consistent-type-assertions */}
 		<ol className='step-list' style={{ '--js-grid-items': steps.length.toString() } as React.CSSProperties}>
 			{steps.map(({ label }, index) => (
 				<li
