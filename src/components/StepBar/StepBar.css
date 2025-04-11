@@ -1,4 +1,4 @@
-.step-bar {
+.step-list {
 	align-items: center;
 	display: flex;
 	flex-direction: row;
@@ -19,7 +19,18 @@
 	height: 100%;
 	min-width: 48px;
 
-	&.current { width: 100%; }
+	.step-text {
+		display: none;
+		font-weight: var(--weight-semibold);
+
+		@media screen and (min-width: 640px) { display: inline; }
+	}
+
+	&.current {
+		width: 100%;
+
+		.step-text { display: inline; }
+	}
 
 	&.active {
 		border-bottom: 4px solid var(--color-accent);
@@ -45,5 +56,3 @@
 	text-align: center;
 	width: 48px;
 }
-
-.step-text { font-weight: var(--weight-semibold); }
