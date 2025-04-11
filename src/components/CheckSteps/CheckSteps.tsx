@@ -7,7 +7,7 @@ import { CompleteProfile } from './icons/CompleteProfile';
 
 const CheckSteps = () => (
 	<div id='check-steps-wrapper'>
-		<StepBar step={1} />
+		<StepBar currentStep={1} steps={[{ label: 'Account confirmed' }, { label: 'Check the conduct code' }, { label: 'Complete your profile' }]} />
 		<div id='check-steps'>
 			<Header isLogoLarge={false}>Welcome to TorontoJS Community Hub!</Header>
 			<p className='intro'>Your account is active, and you're almost ready to get in. Let's complete a few more steps:</p>

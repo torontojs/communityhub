@@ -10,7 +10,7 @@ const ReviewConductCode = () => {
 
 	return (
 		<>
-			<StepBar step={2} />
+			<StepBar currentStep={2} steps={[{ label: 'Account confirmed' }, { label: 'Check the conduct code' }, { label: 'Complete your profile' }]} />
 			<div className='conduct-code'>
 				<HeaderTitle>Review our conduct code</HeaderTitle>
 
@@ -76,13 +76,7 @@ const ReviewConductCode = () => {
 					</li>
 				</ul>
 
-				<form
-					className='agreement-form'
-					onSubmit={(e) => {
-						e.preventDefault();
-						window.location.assign('/pages/complete-profile/');
-					}}
-				>
+				<form className='agreement-form' action='/pages/complete-profile/'>
 					<label htmlFor='agreement' className='checkbox-label'>
 						<input
 							type='checkbox'
@@ -95,7 +89,7 @@ const ReviewConductCode = () => {
 						I agree to TorontoJS’s conduct code and other forms
 					</label>
 
-					<Button type='submit' isPrimary isLarge disabled={!agreementChecked} id='complete-profile-button'>
+					<Button type='submit' isPrimary isLarge aria-disabled={!agreementChecked} id='complete-profile-button'>
 						Let me complete my profile
 					</Button>
 				</form>
