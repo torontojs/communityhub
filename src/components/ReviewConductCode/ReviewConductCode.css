@@ -103,12 +103,7 @@ summary {
 
 #arrow-down-icon { display: block; }
 
-#arrow-up-icon { display: none; }
-
-/* When details is open, swap visibility */
-details:open summary #arrow-down-icon { display: none; }
-
-details:open summary #arrow-up-icon { display: block; }
+details:open summary #arrow-down-icon { transform: rotate(0.5turn); }
 
 .details-content {
 	border: var(--border-base) solid var(--color-accent);
@@ -127,8 +122,8 @@ details:open summary #arrow-up-icon { display: block; }
 }
 
 input[type='checkbox'] {
-	height: 16px;
-	width: 23px;
+	height: 1rem;
+	width: 1rem;
 }
 
 .agreement-form {

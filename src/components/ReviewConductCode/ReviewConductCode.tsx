@@ -3,7 +3,6 @@ import Button from '../Button/Button';
 import HeaderTitle from '../HeaderTitle/HeaderTitle';
 import StepBar from '../StepBar/StepBar';
 import { ArrowDown } from './icons/ArrowDown';
-import { ArrowUp } from './icons/ArrowUp';
 import './ReviewConductCode.css';
 
 const ReviewConductCode = () => {
@@ -44,7 +43,6 @@ const ReviewConductCode = () => {
 							<summary>
 								<span>TorontoJS Code of Conduct</span>
 								<ArrowDown />
-								<ArrowUp />
 							</summary>
 							<div className='details-content'>
 								Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro suscipit harum doloremque, quod tempora architecto atque unde corrupti, ipsa in
@@ -57,7 +55,6 @@ const ReviewConductCode = () => {
 							<summary>
 								<span>Volunteering Agreement</span>
 								<ArrowDown />
-								<ArrowUp />
 							</summary>
 							<div className='details-content'>
 								Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid incidunt quibusdam, temporibus accusamus eos dolore suscipit? Cum excepturi
@@ -70,7 +67,6 @@ const ReviewConductCode = () => {
 							<summary>
 								<span>Image Release Form</span>
 								<ArrowDown />
-								<ArrowUp />
 							</summary>
 							<div className='details-content'>
 								Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem impedit consequatur, fugiat sit asperiores, sunt possimus delectus incidunt, iste atque
