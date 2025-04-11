@@ -9,38 +9,38 @@
 	padding: var(--spacing-lg) var(--spacing-md);
 
 	@media screen and (min-width: 640px) { max-width: 400px; }
-}
 
-.intro {
-	font-weight: var(--weight-regular);
-	text-align: center;
-}
+	.intro {
+		font-weight: var(--weight-regular);
+		text-align: center;
+	}
 
-.cards {
-	display: grid;
-	gap: var(--spacing-sm);
-	grid-template-columns: 1fr 1fr;
-}
+	.cards {
+		display: grid;
+		gap: var(--spacing-sm);
+		grid-template-columns: 1fr 1fr;
+	}
 
-.card {
-	align-items: center;
-	border: var(--border);
-	border-radius: var(--rounded-lg);
-	border-width: var(--border-sm);
-	display: flex;
-	flex-direction: column;
-	font-weight: var(--weight-bold);
-	gap: var(--spacing-xs);
-	justify-content: start;
-	padding: var(--spacing-sm);
-	text-align: center;
-}
+	.card {
+		align-items: center;
+		border: var(--border);
+		border-radius: var(--rounded-lg);
+		border-width: var(--border-sm);
+		display: flex;
+		flex-direction: column;
+		font-weight: var(--weight-bold);
+		gap: var(--spacing-xs);
+		justify-content: start;
+		padding: var(--spacing-sm);
+		text-align: center;
+	}
 
-#continue-button {
-	height: 57px;
-	padding-bottom: 12px;
-	padding-left: 16px;
-	padding-right: 16px;
-	padding-top: 12px;
-	width: 298px;
+	#continue-button {
+		height: 57px;
+		padding-bottom: 12px;
+		padding-left: 16px;
+		padding-right: 16px;
+		padding-top: 12px;
+		width: 298px;
+	}
 }
