@@ -12,7 +12,7 @@ function getDynamicColor(strength: number): string {
 			return 'yellow';
 		case 3:
 		case 4:
-			return 'green';
+			return '#009900';
 		default:
 			return 'grey';
 	}
@@ -29,7 +29,8 @@ const SignUpForm = (): React.JSX.Element => {
 	const [dynamicColor, setDynamicColor] = useState<string>('');
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const password = event.target.value;
+		const password = event.currentTarget.textContent
+		if(password == null) return
 		setPassword(password);
 
 		const result = zxcvbn(password);
@@ -40,7 +41,7 @@ const SignUpForm = (): React.JSX.Element => {
 
 	const signup = async () => {
 		try {
-			const response = await fetch('localhost:8787', {
+			const response = await fetch('http://localhost:8787', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -65,16 +66,23 @@ const SignUpForm = (): React.JSX.Element => {
 			}
 		}
 	};
-
-	const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const { name, email, password } = e.target;
-		setName(name.trim());
-		setEmail(email.trim());
-		setPassword(password.trim());
-
+	
+		const form = e.currentTarget;
+		const formData = new FormData(form);
+	
+		const nameValue = (formData.get('name') as string).trim();
+		const emailValue = (formData.get('email') as string).trim();
+		const passwordValue = (formData.get('password') as string).trim();
+	
+		setName(nameValue);
+		setEmail(emailValue);
+		setPassword(passwordValue);
+	
 		await signup();
 	};
+	
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
