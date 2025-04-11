@@ -3,20 +3,20 @@ import { useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button';
 
-function getDynamicColor(strength: number):string {
+function getDynamicColor(strength: number): string {
 	switch (strength) {
 		case 0:
 		case 1:
-			return 'red';				
+			return 'red';
 		case 2:
-			return 'yellow';				
+			return 'yellow';
 		case 3:
 		case 4:
-			return 'green';				
+			return 'green';
 		default:
 			return 'grey';
 	}
-};
+}
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 
@@ -27,7 +27,7 @@ const SignUpForm = (): React.JSX.Element => {
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
 	const [dynamicColor, setDynamicColor] = useState<string>('');
-	
+
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
 		setPassword(password);
@@ -36,11 +36,11 @@ const SignUpForm = (): React.JSX.Element => {
 		setStrength(result.score);
 		setDynamicColor(getDynamicColor(result.score));
 		setFeedback(result.feedback.suggestions.join(', '));
-	};	
+	};
 
 	const signup = async () => {
 		try {
-			const response = await fetch("localhost:8787", {
+			const response = await fetch('localhost:8787', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -50,13 +50,12 @@ const SignUpForm = (): React.JSX.Element => {
 			if (!response.ok) {
 				const errorData = await response.json();
 				console.log('Response not ok: ', errorData);
-
 			} else {
-				window.location.href = "/profile-completion";
+				window.location.href = '/profile-completion';
 			}
 		} catch (e) {
 			// STUB only console.log if in development
-			if (e instanceof Error ) {
+			if (e instanceof Error) {
 				console.error(e.name);
 				console.error(e.cause);
 				console.error(e.message);
@@ -66,7 +65,7 @@ const SignUpForm = (): React.JSX.Element => {
 			}
 		}
 	};
-	
+
 	const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const { name, email, password } = e.target;
@@ -75,8 +74,8 @@ const SignUpForm = (): React.JSX.Element => {
 		setPassword(password.trim());
 
 		await signup();
-	}
-	
+	};
+
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
 			<p className='center'>Welcome! Let's set up your account.</p>
