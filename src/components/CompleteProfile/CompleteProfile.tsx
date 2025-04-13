@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { BlueSky } from '../Icons/Social/BlueSky.tsx';
 import { DevTo } from '../Icons/Social/DevTo.tsx';
@@ -9,10 +10,20 @@ import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
 
-const CompleteProfile = () => (
-	<>
-		<StepBar currentStep={3} steps={[{ label: 'Account confirmed' }, { label: 'Check the conduct code' }, { label: 'Complete your profile' }]} />
-		<form action='' encType='multipart/form-data' id='complete-profile-form'>
+const CompleteProfile = () => {
+	const [photoFile, setPhotoFile] = useState<string | null>(null);
+
+	const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files?.[0];
+		if (file) {
+			setPhotoFile(URL.createObjectURL(file));
+		}
+	};
+
+	return (
+		<>
+			<StepBar currentStep={3} steps={[{ label: 'Account confirmed' }, { label: 'Check the conduct code' }, { label: 'Complete your profile' }]} />
+			<form action='' encType='multipart/form-data' id='complete-profile-form'>
 			<h2>Complete your profile</h2>
 
 			<div id='fields-wrapper'>
@@ -22,152 +33,181 @@ const CompleteProfile = () => (
 						<span>In a nutshell:</span>
 					</summary>
 
-				<div className='details-content-wrapper'>
-					<div className='details-content-grid'>
-						{/* TODO: Create input components with their own css */}
-						<div>
-							<label htmlFor='name'>Name</label>
-							<input className='text-input' id='name' name='name' type='text' />
-						</div>
-						<div>
-							<label htmlFor='email' className='input-required'>
-								E-mail
-								<span>REQUIRED</span>
-							</label>
-							<input
-								className='text-input'
-								id='email'
-								name='email'
-								type='email'
-								required
-							/>
-						</div>
-						<div>
-							<label htmlFor='slack-handle' className='input-required'>
-								Slack handle
-								<span>REQUIRED</span>
-							</label>
-							<input
-								className='text-input'
-								id='slack-handle'
-								name='slack-handle'
-								type='text'
-								aria-description='Your slack handle to TorontoJS'
-								placeholder='Your slack handle to TorontoJS'
-							/>
-						</div>
-						<div>
-							<label htmlFor='pronouns'>Pronouns</label>
-							<input
-								className='text-input'
-								id='pronouns'
-								name='pronouns'
-								type='text'
-								list='pronouns-options'
-								placeholder='Your pronouns (optional)'
-							/>
-							<datalist id='pronouns-options'>
-								<option>He/him</option>
-								<option>She/her</option>
-								<option>They/them</option>
-							</datalist>
-						</div>
-						<div>
-							<span>Date of birth</span>
-							<br />
-							<div className='dob-wrapper'>
-								<label htmlFor='month'>Month</label>
-								<select id='month' name='month'>
-									<option value='01'>January</option>
-									<option value='02'>February</option>
-									<option value='03'>March</option>
-									<option value='04'>April</option>
-									<option value='05'>May</option>
-									<option value='06'>June</option>
-									<option value='07'>July</option>
-									<option value='08'>August</option>
-									<option value='09'>September</option>
-									<option value='10'>October</option>
-									<option value='11'>November</option>
-									<option value='12'>December</option>
-								</select>
-								<label htmlFor='day'>Day</label>
-								<select id='day' name='day'>
-									<option value='01'>1</option>
-									<option value='02'>2</option>
-									<option value='03'>3</option>
-									<option value='04'>4</option>
-									<option value='05'>5</option>
-									<option value='06'>6</option>
-									<option value='07'>7</option>
-									<option value='08'>8</option>
-									<option value='09'>9</option>
-									<option value='10'>10</option>
-									<option value='11'>11</option>
-									<option value='12'>12</option>
-									<option value='13'>13</option>
-									<option value='14'>14</option>
-									<option value='15'>15</option>
-									<option value='16'>16</option>
-									<option value='17'>17</option>
-									<option value='18'>18</option>
-									<option value='19'>19</option>
-									<option value='20'>20</option>
-									<option value='21'>21</option>
-									<option value='22'>22</option>
-									<option value='23'>23</option>
-									<option value='24'>24</option>
-									<option value='25'>25</option>
-									<option value='26'>26</option>
-									<option value='27'>27</option>
-									<option value='28'>28</option>
-									<option value='29'>29</option>
-									<option value='30'>30</option>
-									<option value='31'>31</option>
-								</select>
-							</div>
-						</div>
-						<div className='slider-wrapper'>
-							<div className='slider-checkbox-row'>
+					<div className='details-content-wrapper'>
+						<div className='details-content-grid'>
+							{/* TODO: Create input components with their own css */}
+							<div>
+								<label htmlFor='name'>Name</label>
 								<input
-									id='isBasedOnGTA'
-									name='isBasedOnGTA'
-									type='checkbox'
-									className='slider-checkbox'
+									className='text-input'
+									id='name'
+									name='name'
+									type='text'
 								/>
-								<label htmlFor='isBasedOnGTA'>
-									I'm based in Toronto or Greater Toronto Area
-								</label>
 							</div>
-							<div className='slider-checkbox-row'>
-								<input
-									id='canJoinLocalEvents'
-									name='canJoinLocalEvents'
-									type='checkbox'
-									className='slider-checkbox'
-								/>
-								<label htmlFor='canJoinLocalEvents'>
-									I can join TorontoJS's local events
+							<div>
+								<label htmlFor='email' className='input-required'>
+									E-mail
+									<span>REQUIRED</span>
 								</label>
+								<input
+									className='text-input'
+									id='email'
+									name='email'
+									type='email'
+									required
+								/>
+							</div>
+							<div>
+								<label htmlFor='slack-handle' className='input-required'>
+									Slack handle
+									<span>REQUIRED</span>
+								</label>
+								<input
+									className='text-input'
+									id='slack-handle'
+									name='slack-handle'
+									type='text'
+									aria-description='Your slack handle to TorontoJS'
+									placeholder='Your slack handle to TorontoJS'
+								/>
+							</div>
+							<div>
+								<label htmlFor='pronouns'>Pronouns</label>
+								<input
+									className='text-input'
+									id='pronouns'
+									name='pronouns'
+									type='text'
+									list='pronouns-options'
+									placeholder='Your pronouns (optional)'
+								/>
+								<datalist id='pronouns-options'>
+									<option>He/him</option>
+									<option>She/her</option>
+									<option>They/them</option>
+								</datalist>
+							</div>
+							<div>
+								<span>Date of birth</span>
+								<br />
+								<div className='dob-wrapper'>
+									<label htmlFor='month'>Month</label>
+									<select id='month' name='month'>
+										<option value='01'>January</option>
+										<option value='02'>February</option>
+										<option value='03'>March</option>
+										<option value='04'>April</option>
+										<option value='05'>May</option>
+										<option value='06'>June</option>
+										<option value='07'>July</option>
+										<option value='08'>August</option>
+										<option value='09'>September</option>
+										<option value='10'>October</option>
+										<option value='11'>November</option>
+										<option value='12'>December</option>
+									</select>
+									<label htmlFor='day'>Day</label>
+									<select id='day' name='day'>
+										<option value='01'>1</option>
+										<option value='02'>2</option>
+										<option value='03'>3</option>
+										<option value='04'>4</option>
+										<option value='05'>5</option>
+										<option value='06'>6</option>
+										<option value='07'>7</option>
+										<option value='08'>8</option>
+										<option value='09'>9</option>
+										<option value='10'>10</option>
+										<option value='11'>11</option>
+										<option value='12'>12</option>
+										<option value='13'>13</option>
+										<option value='14'>14</option>
+										<option value='15'>15</option>
+										<option value='16'>16</option>
+										<option value='17'>17</option>
+										<option value='18'>18</option>
+										<option value='19'>19</option>
+										<option value='20'>20</option>
+										<option value='21'>21</option>
+										<option value='22'>22</option>
+										<option value='23'>23</option>
+										<option value='24'>24</option>
+										<option value='25'>25</option>
+										<option value='26'>26</option>
+										<option value='27'>27</option>
+										<option value='28'>28</option>
+										<option value='29'>29</option>
+										<option value='30'>30</option>
+										<option value='31'>31</option>
+									</select>
+								</div>
+							</div>
+							<div className='slider-wrapper'>
+								<div className='slider-checkbox-row'>
+									<input
+										id='isBasedOnGTA'
+										name='isBasedOnGTA'
+										type='checkbox'
+										className='slider-checkbox'
+									/>
+									<label htmlFor='isBasedOnGTA'>
+										I'm based in Toronto or Greater Toronto Area
+									</label>
+								</div>
+								<div className='slider-checkbox-row'>
+									<input
+										id='canJoinLocalEvents'
+										name='canJoinLocalEvents'
+										type='checkbox'
+										className='slider-checkbox'
+									/>
+									<label htmlFor='canJoinLocalEvents'>
+										I can join TorontoJS's local events
+									</label>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</details>
+				</details>
 
 				{/* TODO: Image upload */}
+				{/* TODO: Add green check icon on successful section completion */}
 				<details open>
 					<summary className='text-h6'>
 						<span>Avatar:</span>
 					</summary>
 
-					<div className='details-content-wrapper'>
-						<picture>
-							<img hidden />
-						</picture>
-						<div>
-							<label>Upload Product Image:</label>
-							<input type='file' accept='image/png, image/jpeg' />
+					<div className='details-content-wrapper'>						
+						<div className='details-content-file-upload'>
+							{photoFile && (
+								<picture>
+									<img src={photoFile} />
+								</picture>
+							)}
+
+							<div className='details-file-upload-buttons-wrapper'>
+								{photoFile && <span className='file-upload-success'>Avatar uploaded successfully</span>}
+
+								<label htmlFor='image-upload' className='custom-file-upload'>
+									Upload {photoFile ? 'New' : 'Your'} Photo{' '}
+								</label>
+								<input
+									id='image-upload'
+									type='file'
+									accept='image/png, image/jpeg'
+									onChange={handlePhotoUpload}
+								/>
+								{photoFile && (
+									<button
+										onClick={() => setPhotoFile(null)}
+										className='custom-file-upload'
+									>
+										Remove Photo
+									</button>
+								)}
+								</div>
+								
 						</div>
 					</div>
 				</details>
@@ -271,6 +311,8 @@ const CompleteProfile = () => (
 			</Button>
 		</form>
 	</>
-);
+
+	);
+};
 
 export default CompleteProfile;
