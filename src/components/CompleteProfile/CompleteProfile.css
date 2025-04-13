@@ -1,5 +1,5 @@
 #complete-profile-form {
-	padding: 2.22rem;
+	padding: var(--spacing-lg) var(--spacing-md);
 
 	h2, #submit-button, #fields-wrapper {
 		display: block;

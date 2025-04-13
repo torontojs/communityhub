@@ -178,7 +178,7 @@ const CompleteProfile = () => {
 						<span>Avatar:</span>
 					</summary>
 
-					<div className='details-content-wrapper'>						
+					<div className='details-content-wrapper'>
 						<div className='details-content-file-upload'>
 							{photoFile && (
 								<picture>
@@ -207,7 +207,7 @@ const CompleteProfile = () => {
 									</button>
 								)}
 								</div>
-								
+
 						</div>
 					</div>
 				</details>
