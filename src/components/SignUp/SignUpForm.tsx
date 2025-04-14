@@ -3,7 +3,9 @@ import { useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button';
 
-const apiUrl = import.meta.env.MODE === 'production' ? import.meta.env['APP_API_URL'] : import.meta.env['APP_API_URL'];
+const apiUrl = import.meta.env.MODE === 'production'
+	? import.meta.env['APP_API_URL_PROD']
+	: import.meta.env['APP_API_URL_DEV'];
 
 function getDynamicColor(strength: number): string {
 	switch (strength) {
@@ -31,7 +33,7 @@ const SignUpForm = (): React.JSX.Element => {
 	const [dynamicColor, setDynamicColor] = useState<string>('');
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const password = event.currentTarget.textContent;
+		const password = event.target.value;
 		if (password === null) { return; }
 		setPassword(password);
 
@@ -57,14 +59,15 @@ const SignUpForm = (): React.JSX.Element => {
 				window.location.href = `${apiUrl}profile-completion`;
 			}
 		} catch (e) {
-			// STUB only console.log if in development
-			if (e instanceof Error) {
-				console.error(e.name);
-				console.error(e.cause);
-				console.error(e.message);
-				console.error(e.stack);
-			} else {
-				throw new Error('Sign-in unknown error!');
+			if (import.meta.env.MODE === 'development') {
+				if (e instanceof Error) {
+					console.error(e.name);
+					console.error(e.cause);
+					console.error(e.message);
+					console.error(e.stack);
+				} else {
+					throw new Error('Error sign-up');
+				}
 			}
 		}
 	};
@@ -100,6 +103,7 @@ const SignUpForm = (): React.JSX.Element => {
 					maxLength={20}
 					required
 					title='Please enter a valid name (only letters allowed, max 20 characters)'
+					aria-label='Please input a valid name (only letters allowed, max 20 characters)'
 				/>
 			</div>
 
@@ -107,7 +111,7 @@ const SignUpForm = (): React.JSX.Element => {
 				<label className='block' htmlFor='email'>
 					E-mail<span>REQUIRED</span>
 				</label>
-				<input id='email-input' type='email' name='email' placeholder='Your account e-mail' />
+				<input id='email-input' type='email' name='email' placeholder='Your account e-mail' aria-label='Input your account e-mail' />
 				<p>Insert the email you'll use for this account</p>
 			</div>
 			<div className='inputDim'>
@@ -120,10 +124,11 @@ const SignUpForm = (): React.JSX.Element => {
 					value={password}
 					onChange={handleChange}
 					placeholder='Your password'
+					aria-label='Input your password'
 				/>
 			</div>
 			{password && (
-				<span className='passwordError'>
+				<div aria-live='polite' className='passwordError'>
 					<div className=' text-size'>
 						<div>
 							<span className={dynamicColor}>Password strength: {strengthLabels[strength || 0]}</span>
@@ -140,12 +145,12 @@ const SignUpForm = (): React.JSX.Element => {
 							</div>
 						)}
 					</div>
-				</span>
+				</div>
 			)}
-			<Button type='submit' isLarge={true} onClick={() => console.log('Button click!')} style={{ color: 'white', background: '#ED343F' }}>Create Account</Button>
+			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} aria-label='Complete sign-up form button'>Create Account</Button>
 			<div className='tb-margin'>
 				<p className='not-member'>
-					If you already have an account, <a href='/sign-in' className='underline'>click here to log-in</a>
+					If you already have an account, <a href={`${apiUrl}sign-in`} className='underline'>Click here to log-in</a>
 				</p>
 			</div>
 		</form>
