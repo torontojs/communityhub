@@ -3,6 +3,8 @@ import { useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button';
 
+const apiUrl = import.meta.env.MODE === 'production' ? import.meta.env['APP_API_URL'] : import.meta.env['APP_API_URL'];
+
 function getDynamicColor(strength: number): string {
 	switch (strength) {
 		case 0:
@@ -41,7 +43,7 @@ const SignUpForm = (): React.JSX.Element => {
 
 	const signup = async () => {
 		try {
-			const response = await fetch('http://localhost:8787', {
+			const response = await fetch(`${apiUrl}sign-up`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -52,7 +54,7 @@ const SignUpForm = (): React.JSX.Element => {
 				const errorData = await response.json();
 				console.log('Response not ok: ', errorData);
 			} else {
-				window.location.href = '/profile-completion';
+				window.location.href = `${apiUrl}profile-completion`;
 			}
 		} catch (e) {
 			// STUB only console.log if in development
