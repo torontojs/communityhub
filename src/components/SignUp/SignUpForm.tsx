@@ -29,8 +29,8 @@ const SignUpForm = (): React.JSX.Element => {
 	const [dynamicColor, setDynamicColor] = useState<string>('');
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const password = event.currentTarget.textContent
-		if(password == null) return
+		const password = event.currentTarget.textContent;
+		if (password === null) { return; }
 		setPassword(password);
 
 		const result = zxcvbn(password);
@@ -68,21 +68,20 @@ const SignUpForm = (): React.JSX.Element => {
 	};
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-	
+
 		const form = e.currentTarget;
 		const formData = new FormData(form);
-	
+
 		const nameValue = (formData.get('name') as string).trim();
 		const emailValue = (formData.get('email') as string).trim();
 		const passwordValue = (formData.get('password') as string).trim();
-	
+
 		setName(nameValue);
 		setEmail(emailValue);
 		setPassword(passwordValue);
-	
+
 		await signup();
 	};
-	
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
