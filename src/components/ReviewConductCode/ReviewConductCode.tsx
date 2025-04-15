@@ -11,7 +11,7 @@ const ReviewConductCode = () => {
 	return (
 		<>
 			<StepBar currentStep={2} steps={[{ label: 'Account confirmed' }, { label: 'Check the conduct code' }, { label: 'Complete your profile' }]} />
-			<div className='conduct-code'>
+			<div id='conduct-code'>
 				<HeaderTitle>Review our conduct code</HeaderTitle>
 
 				<p className='intro'>
