@@ -17,18 +17,19 @@ function getDynamicColor(strength: number): string {
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 
 const SignUpForm = (): React.JSX.Element => {
-	const [password] = useState('');
+	const [password, setPassword] = useState('');
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
 	const [dynamicColor, setDynamicColor] = useState<string>('');
 	const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
 	const [isNameValid, setIsNameValid] = useState<boolean>(false);
 	const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
-		if (password === null) { return; }
 		const result = zxcvbn(password);
+		setPassword(password);
 		setStrength(result.score);
 		setDynamicColor(getDynamicColor(result.score));
 		setFeedback(result.feedback.suggestions.join(', '));
@@ -44,6 +45,7 @@ const SignUpForm = (): React.JSX.Element => {
 				body: JSON.stringify({ name, email, password })
 			});
 			if (!response.ok) {
+				setIsLoading(false);
 				const errorData = await response.json();
 				console.log('Response not ok: ', errorData);
 			} else {
@@ -60,6 +62,7 @@ const SignUpForm = (): React.JSX.Element => {
 					throw new Error('Error sign-up');
 				}
 			}
+			setIsLoading(false);
 		}
 	};
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -75,7 +78,7 @@ const SignUpForm = (): React.JSX.Element => {
 		// Use built-in validation
 		const nameIsValid = nameInput.checkValidity();
 		const emailIsValid = emailInput.checkValidity();
-		const passwordIsValid = passwordInput.value.length === 3;
+		const passwordIsValid = passwordInput.value.length > 2;
 
 		setIsNameValid(nameIsValid);
 		setIsEmailValid(emailIsValid);
@@ -90,6 +93,7 @@ const SignUpForm = (): React.JSX.Element => {
 		const emailValue = (formData.get('email') as string ?? '').trim();
 		const passwordValue = (formData.get('password') as string ?? '').trim();
 
+		setIsLoading(true);
 		await signup(nameValue, emailValue, passwordValue);
 	};
 
@@ -180,7 +184,9 @@ const SignUpForm = (): React.JSX.Element => {
 					</div>
 				</div>
 			)}
-			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} aria-label='Complete sign-up form button'>Create Account</Button>
+			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} aria-label='Complete sign-up form button' disabled={isLoading}>
+				{isLoading ? 'Creating Account' : 'Crerate Account'}
+			</Button>
 			<div className='tb-margin'>
 				<p className='not-member'>
 					If you already have an account, <a href={`${apiUrl}sign-in`} className='underline'>Click here to log-in</a>
