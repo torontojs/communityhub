@@ -86,9 +86,9 @@ const SignUpForm = (): React.JSX.Element => {
 		}
 
 		const formData = new FormData(form);
-		const nameValue = (formData.get('name') ?? '').toString().trim();
-		const emailValue = (formData.get('email') ?? '').toString().trim();
-		const passwordValue = (formData.get('password') ?? '').toString().trim();
+		const nameValue = (formData.get('name') as string ?? '').trim();
+		const emailValue = (formData.get('email') as string ?? '').trim();
+		const passwordValue = (formData.get('password') as string ?? '').trim();
 
 		await signup(nameValue, emailValue, passwordValue);
 	};
