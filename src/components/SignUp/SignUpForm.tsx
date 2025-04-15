@@ -8,26 +8,16 @@ const apiUrl = import.meta.env.MODE === 'production'
 	: import.meta.env['APP_API_URL_DEV'];
 
 function getDynamicColor(strength: number): string {
-	switch (strength) {
-		case 0:
-		case 1:
-			return 'red';
-		case 2:
-			return 'yellow';
-		case 3:
-		case 4:
-			return '#009900';
-		default:
-			return 'grey';
-	}
+	if (strength <= 1) return 'red';
+	if (strength === 2) return 'yellow';
+	if (strength >= 3) return '#009900';
+	return 'grey';
 }
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 
 const SignUpForm = (): React.JSX.Element => {
-	const [name, setName] = useState<string>('');
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState('');
+	const [password] = useState('');
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
 	const [dynamicColor, setDynamicColor] = useState<string>('');
@@ -44,7 +34,7 @@ const SignUpForm = (): React.JSX.Element => {
 		setFeedback(result.feedback.suggestions.join(', '));
 	};
 
-	const signup = async () => {
+	const signup = async (name:string, email:string, password:string) => {
 		try {
 			const response = await fetch(`${apiUrl}sign-up`, {
 				method: 'POST',
@@ -85,7 +75,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 	// Use built-in validation
 	const nameIsValid = nameInput.checkValidity();
 	const emailIsValid = emailInput.checkValidity();
-	const passwordIsValid = passwordInput.value.length == 3; 
+	const passwordIsValid = passwordInput.value.length === 3; 
 
 	setIsNameValid(nameIsValid);
 	setIsEmailValid(emailIsValid);
@@ -96,15 +86,11 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 	}
 
 	const formData = new FormData(form);
-	const nameValue = (formData.get('name') as string).trim();
-	const emailValue = (formData.get('email') as string).trim();
-	const passwordValue = (formData.get('password') as string).trim();
+	const nameValue = (formData.get('name') ?? '').toString().trim();
+	const emailValue = (formData.get('email') ?? '').toString().trim();
+	const passwordValue = (formData.get('password') ?? '').toString().trim()
 
-	setName(nameValue);
-	setEmail(emailValue);
-	setPassword(passwordValue);
-
-	await signup();
+	await signup(nameValue, emailValue, passwordValue);
 };
 
 const handleEmailBlur = () => {
@@ -167,7 +153,7 @@ const handlePasswordBlur = () => {
 				/>
 			</div>
 			{password && (
-				<div aria-live='polite' aria-invalid={strength !== null && strength < 2} onBlur={handlePasswordBlur}className='passwordError'>
+				<div aria-live='polite' aria-invalid={strength !== null && strength < 2} className='passwordError'>
 					<div className=' text-size'>
 						<div>
 							<span className={dynamicColor}>Password strength: {strengthLabels[strength || 0]}</span>
