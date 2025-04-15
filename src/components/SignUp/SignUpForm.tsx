@@ -128,7 +128,7 @@ const SignUpForm = (): React.JSX.Element => {
 				/>
 			</div>
 			{password && (
-				<div aria-live='polite' className='passwordError'>
+				<div aria-live='polite' aria-invalid={strength !== null && strength < 2} className='passwordError'>
 					<div className=' text-size'>
 						<div>
 							<span className={dynamicColor}>Password strength: {strengthLabels[strength || 0]}</span>
