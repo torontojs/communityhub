@@ -32,13 +32,13 @@
 		color: var(--color-white);
 
 		&:disabled,
-		&[aria-disabled='true'] { color: var(--color-white); }
+		&[aria-disabled='true'] { color: var(--color-black); }
 	}
 
 	&:disabled,
 	&[aria-disabled='true'] {
-		background-color: var(--color-accent-muted);
-		border-color: var(--color-accent-muted);
+		background-color: var(--color-button);
+		border: 0;
 		color: var(--color-black);
 		cursor: not-allowed;
 	}
