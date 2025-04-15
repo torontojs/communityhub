@@ -31,12 +31,13 @@ const SignUpForm = (): React.JSX.Element => {
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
 	const [dynamicColor, setDynamicColor] = useState<string>('');
+	const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
+	const [isNameValid, setIsNameValid] = useState<boolean>(false);
+	const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
 		if (password === null) { return; }
-		setPassword(password);
-
 		const result = zxcvbn(password);
 		setStrength(result.score);
 		setDynamicColor(getDynamicColor(result.score));
@@ -71,22 +72,56 @@ const SignUpForm = (): React.JSX.Element => {
 			}
 		}
 	};
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	e.preventDefault();
 
-		const form = e.currentTarget;
-		const formData = new FormData(form);
+	const form = e.currentTarget;
 
-		const nameValue = (formData.get('name') as string).trim();
-		const emailValue = (formData.get('email') as string).trim();
-		const passwordValue = (formData.get('password') as string).trim();
+	// Get references to the inputs
+	const nameInput = form.querySelector('#name-input') as HTMLInputElement;
+	const emailInput = form.querySelector('#email-input') as HTMLInputElement;
+	const passwordInput = form.querySelector('input[name="password"]') as HTMLInputElement;
 
-		setName(nameValue);
-		setEmail(emailValue);
-		setPassword(passwordValue);
+	// Use built-in validation
+	const nameIsValid = nameInput.checkValidity();
+	const emailIsValid = emailInput.checkValidity();
+	const passwordIsValid = passwordInput.value.length == 3; 
 
-		await signup();
-	};
+	setIsNameValid(nameIsValid);
+	setIsEmailValid(emailIsValid);
+	setIsPasswordValid(passwordIsValid);
+
+	if (!nameIsValid || !emailIsValid || !passwordIsValid) {
+		return; 
+	}
+
+	const formData = new FormData(form);
+	const nameValue = (formData.get('name') as string).trim();
+	const emailValue = (formData.get('email') as string).trim();
+	const passwordValue = (formData.get('password') as string).trim();
+
+	setName(nameValue);
+	setEmail(emailValue);
+	setPassword(passwordValue);
+
+	await signup();
+};
+
+const handleEmailBlur = () => {
+    const emailInput = document.querySelector('#email-input') as HTMLInputElement;
+    if (emailInput) {
+        const isValid = emailInput.checkValidity(); 
+		setIsEmailValid(isValid); 
+    }
+};
+
+const handlePasswordBlur = () => {
+    const passwordInput = document.querySelector('#password-input') as HTMLInputElement;
+    if (passwordInput) {
+        const isValid = passwordInput.checkValidity(); 
+		setIsPasswordValid(isValid); 
+    }
+};
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
@@ -104,6 +139,7 @@ const SignUpForm = (): React.JSX.Element => {
 					required
 					title='Please enter a valid name (only letters allowed, max 20 characters)'
 					aria-label='Please input a valid name (only letters allowed, max 20 characters)'
+					aria-invalid={!isNameValid}
 				/>
 			</div>
 
@@ -111,7 +147,7 @@ const SignUpForm = (): React.JSX.Element => {
 				<label className='block' htmlFor='email'>
 					E-mail<span>REQUIRED</span>
 				</label>
-				<input id='email-input' type='email' name='email' placeholder='Your account e-mail' aria-label='Input your account e-mail' />
+				<input id='email-input' type='email' name='email' placeholder='Your account e-mail' aria-label='Input your account e-mail' aria-invalid={!isEmailValid} onBlur={handleEmailBlur} />
 				<p>Insert the email you'll use for this account</p>
 			</div>
 			<div className='inputDim'>
@@ -119,16 +155,19 @@ const SignUpForm = (): React.JSX.Element => {
 					Password:<span>REQUIRED</span>
 				</label>
 				<input
+					id="password-input"
 					type='password'
 					name='password'
 					value={password}
 					onChange={handleChange}
 					placeholder='Your password'
 					aria-label='Input your password'
+					aria-invalid={!isPasswordValid}
+					onBlur={handlePasswordBlur}
 				/>
 			</div>
 			{password && (
-				<div aria-live='polite' aria-invalid={strength !== null && strength < 2} className='passwordError'>
+				<div aria-live='polite' aria-invalid={strength !== null && strength < 2} onBlur={handlePasswordBlur}className='passwordError'>
 					<div className=' text-size'>
 						<div>
 							<span className={dynamicColor}>Password strength: {strengthLabels[strength || 0]}</span>
