@@ -8,9 +8,9 @@ const apiUrl = import.meta.env.MODE === 'production'
 	: import.meta.env['APP_API_URL_DEV'];
 
 function getDynamicColor(strength: number): string {
-	if (strength <= 1) { return 'red'; }
-	if (strength === 2) { return 'yellow'; }
-	if (strength >= 3) { return '#009900'; }
+	if (strength <= 1) return 'red';
+	if (strength === 2) return 'yellow';
+	if (strength >= 3) return '#009900';
 	return 'grey';
 }
 
@@ -34,7 +34,7 @@ const SignUpForm = (): React.JSX.Element => {
 		setFeedback(result.feedback.suggestions.join(', '));
 	};
 
-	const signup = async (name: string, email: string, password: string) => {
+	const signup = async (name:string, email:string, password:string) => {
 		try {
 			const response = await fetch(`${apiUrl}sign-up`, {
 				method: 'POST',
@@ -62,52 +62,52 @@ const SignUpForm = (): React.JSX.Element => {
 			}
 		}
 	};
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	e.preventDefault();
 
-		const form = e.currentTarget;
+	const form = e.currentTarget;
 
-		// Get references to the inputs
-		const nameInput = form.querySelector('#name-input') as HTMLInputElement;
-		const emailInput = form.querySelector('#email-input') as HTMLInputElement;
-		const passwordInput = form.querySelector('input[name="password"]') as HTMLInputElement;
+	// Get references to the inputs
+	const nameInput = form.querySelector('#name-input') as HTMLInputElement;
+	const emailInput = form.querySelector('#email-input') as HTMLInputElement;
+	const passwordInput = form.querySelector('input[name="password"]') as HTMLInputElement;
 
-		// Use built-in validation
-		const nameIsValid = nameInput.checkValidity();
-		const emailIsValid = emailInput.checkValidity();
-		const passwordIsValid = passwordInput.value.length === 3;
+	// Use built-in validation
+	const nameIsValid = nameInput.checkValidity();
+	const emailIsValid = emailInput.checkValidity();
+	const passwordIsValid = passwordInput.value.length === 3; 
 
-		setIsNameValid(nameIsValid);
-		setIsEmailValid(emailIsValid);
-		setIsPasswordValid(passwordIsValid);
+	setIsNameValid(nameIsValid);
+	setIsEmailValid(emailIsValid);
+	setIsPasswordValid(passwordIsValid);
 
-		if (!nameIsValid || !emailIsValid || !passwordIsValid) {
-			return;
-		}
+	if (!nameIsValid || !emailIsValid || !passwordIsValid) {
+		return; 
+	}
 
-		const formData = new FormData(form);
-		const nameValue = (formData.get('name') ?? '').toString().trim();
-		const emailValue = (formData.get('email') ?? '').toString().trim();
-		const passwordValue = (formData.get('password') ?? '').toString().trim();
+	const formData = new FormData(form);
+	const nameValue = (formData.get('name') ?? '').toString().trim();
+	const emailValue = (formData.get('email') ?? '').toString().trim();
+	const passwordValue = (formData.get('password') ?? '').toString().trim();
 
-		await signup(nameValue, emailValue, passwordValue);
-	};
+	await signup(nameValue, emailValue, passwordValue);
+};
 
-	const handleEmailBlur = () => {
-		const emailInput = document.querySelector('#email-input') as HTMLInputElement;
-		if (emailInput) {
-			const isValid = emailInput.checkValidity();
-			setIsEmailValid(isValid);
-		}
-	};
+const handleEmailBlur = () => {
+    const emailInput = document.querySelector('#email-input') as HTMLInputElement;
+    if (emailInput) {
+        const isValid = emailInput.checkValidity(); 
+		setIsEmailValid(isValid); 
+    }
+};
 
-	const handlePasswordBlur = () => {
-		const passwordInput = document.querySelector('#password-input') as HTMLInputElement;
-		if (passwordInput) {
-			const isValid = passwordInput.checkValidity();
-			setIsPasswordValid(isValid);
-		}
-	};
+const handlePasswordBlur = () => {
+    const passwordInput = document.querySelector('#password-input') as HTMLInputElement;
+    if (passwordInput) {
+        const isValid = passwordInput.checkValidity(); 
+		setIsPasswordValid(isValid); 
+    }
+};
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
@@ -133,15 +133,7 @@ const SignUpForm = (): React.JSX.Element => {
 				<label className='block' htmlFor='email'>
 					E-mail<span>REQUIRED</span>
 				</label>
-				<input
-					id='email-input'
-					type='email'
-					name='email'
-					placeholder='Your account e-mail'
-					aria-label='Input your account e-mail'
-					aria-invalid={!isEmailValid}
-					onBlur={handleEmailBlur}
-				/>
+				<input id='email-input' type='email' name='email' placeholder='Your account e-mail' aria-label='Input your account e-mail' aria-invalid={!isEmailValid} onBlur={handleEmailBlur} />
 				<p>Insert the email you'll use for this account</p>
 			</div>
 			<div className='inputDim'>
@@ -149,7 +141,7 @@ const SignUpForm = (): React.JSX.Element => {
 					Password:<span>REQUIRED</span>
 				</label>
 				<input
-					id='password-input'
+					id="password-input"
 					type='password'
 					name='password'
 					value={password}
