@@ -1,0 +1,72 @@
+
+/* Basic styling for html and body */
+@layer basic-styling{
+html,
+body {
+	color: var(--color-foreground); /* Apply foreground color */
+	font-family: var(--font-primary); /* Apply primary font */
+	font-size: var(--text-base); /* Apply base font size */
+	line-height: var(--leading-base); /* Apply base line height */
+}
+
+/* Link color */
+a { color: var(--color-accent); } /* Accent color for links */
+
+/* Remove default margin and padding for common elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.text-h1,
+.text-h2,
+.text-h3,
+.text-h4,
+.text-h5,
+.text-h6,
+p {
+	margin: 0;
+	padding: 0;
+}
+
+/* Heading styles */
+h1,
+.text-h1 {
+	font-size: var(--text-4xl); /* Size for h1 */
+	font-weight: var(--weight-black); /* Bold weight for h1 */
+	line-height: var(--leading-h1); /* Line height for h1 */
+}
+
+/* Similarly, style other headings */
+h2,
+.text-h2 {
+	font-size: var(--text-3xl); /* Size for h2 */
+	font-weight: var(--weight-bold); /* Bold weight for h2 */
+	line-height: var(--leading-h2); /* Line height for h2 */
+}
+
+/* Additional heading styles */
+h3,
+.text-h3 { font-size: var(--text-2xl); }
+h4,
+.text-h4 { font-size: var(--text-xl); }
+h5,
+.text-h5 { font-size: var(--text-lg); }
+h6,
+.text-h6 { font-size: var(--text-md); }
+
+/* Helper text size */
+.text-helper { font-size: var(--text-sm); }
+
+/* Color utility classes */
+.color-accent { color: var(--color-accent); }
+.color-error { color: var(--color-error); }
+.color-warning { color: var(--color-warning); }
+.color-success { color: var(--color-success); }
+.color-info { color: var(--color-info); }
+.color-helper { color: var(--color-helper); }
+
+/* Responsive adjustments for text scaling */
+@media screen and (min-width: 640px) { :root { --text-scale-ratio: 1.125; /* Increase text scale ratio on larger screens */ } }
+}
