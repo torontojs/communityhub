@@ -1,6 +1,7 @@
 /* Basic styling for html and body */
 @layer basic-styling {
-	html,
+	:root {
+    html,
 	body {
 		color: var(--color-foreground); /* Apply foreground color */
 		font-family: var(--font-primary); /* Apply primary font */
@@ -68,4 +69,5 @@
 
 	/* Responsive adjustments for text scaling */
 	@media screen and (min-width: 640px) { :root { --text-scale-ratio: 1.125; /* Increase text scale ratio on larger screens */ } }
+}
 }
