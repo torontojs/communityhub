@@ -36,7 +36,7 @@
 	--text-sm: calc(var(--text-base) * pow(var(--text-scale-ratio), -1)); /* Small text size */
 	--text-md: calc(var(--text-base) * pow(var(--text-scale-ratio), 1)); /* Medium text size */
 	--text-lg: calc(var(--text-base) * pow(var(--text-scale-ratio), 2)); /* Large text size */
-	--text-xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 4)); /* Extra large text size */
+	--text-xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 3)); /* Extra large text size */
 	--text-2xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 4)); /* 2x Extra large text size */
 	--text-3xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 5)); /* 3x Extra large text size */
 	--text-4xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 6)); /* 4x Extra large text size */
