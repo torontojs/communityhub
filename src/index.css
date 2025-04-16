@@ -8,7 +8,7 @@
 /**
  * Import the reset into the reset layer.
  */
-@import './basic-css-reset.css' layer(reset);
+@import './basic-css-reset.css' layer(general-reset);
 
 /* Design system */
 :root {
