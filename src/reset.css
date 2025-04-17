@@ -1,5 +1,5 @@
 /* general-reset-layer.css */
-@layer general-reset {
+@layer reset {
 	/* --- General Reset and Box-Sizing --- */
 	/* Ensure consistent box-sizing across all elements */
 	*, *::before, *::after { box-sizing: border-box; }

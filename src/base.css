@@ -1,5 +1,5 @@
 /* Basic styling for html and body */
-@layer basic-styling {
+@layer basic {
 	:root {
 		html,
 		body {
