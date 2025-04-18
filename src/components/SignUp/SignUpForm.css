@@ -1,34 +1,24 @@
 .login-form {
 	border: 1px solid #cccccc;
 	border-radius: var(--rounded-md);
-	padding: 0 var(--spacing-md);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md) 0;
+	justify-content: center;
+	padding: var(--spacing-md);
 }
 
-.center {
-	margin: var(--spacing-md) 0;
-	text-align: center;
-}
-
-.inputDim {
+.input-block {
 	border: var(--border-sm);
 	border-radius: var(--rounded-xs);
-	/* height: 79px; */
-	margin-bottom: var(--spacing-sm);
 	width: 100%;
-
-	& p {
-		color: var(--color-helper);
-		font-size: var(--text-xs);
-		font-weight: var(--weight-regular);
-	}
 }
 
-.inputDim label {
+.input-block label {
 	display: flex;
 	font-weight: var(--weight-semibold);
 	height: 29px;
 	justify-content: space-between;
-	margin-bottom: var(--spacing-xs);
 
 	& span {
 		color: var(--color-error);
@@ -37,7 +27,7 @@
 	}
 }
 
-.inputDim input {
+.input-block input {
 	background-color: #e5e5e5;
 	border: solid 1px #cccccc;
 	border-radius: var(--rounded-xs);
@@ -47,56 +37,37 @@
 	width: 100%;
 }
 
-.inputDim input:focus {
+.input-block input:focus {
 	border-color: var(--color-error);
 	outline: none;
 }
 
-.inputDimRadio {
-	color: #000000;
-	font-size: var(--text-sm);
-	font-weight: var(--weight-semibold);
-	height: 26px;
-	margin-bottom: var(--spacing-xs);
-}
+.underline { text-decoration: underline; }
 
-form a .forgot-password { text-decoration: solid underline 1px !important; }
-
-.block { display: block; }
-
-.underline { text-decoration: underline; /* Just in case */ }
-
-.tb-margin {
-	margin: 8px 0;
-
-	& p { text-align: center; }
-}
+.have-account { & p { text-align: center; } }
 
 .line {
-	background-color: #cccccc; /* Line color */
+	background-color: #cccccc;
+	display: block;
 	height: 1px;
 	width: 100%;
 }
 
-.padding-left-2px {
-	display: inline-block;
-	margin-left: 8px;
-}
-
-#email-error {
-	display: none;
-	outline: solid red thin;
-}
-
 .login-form:has(#email-input:user-invalid) #email-error { display: block; }
-
-.red { color: var(--color-error); }
 
 .text-size { font-size: var(--text-xs); }
 
 .password-meter {
 	display: flex;
 	gap: 0.5rem;
+
+	.password-meter-level { background-color: grey; }
+
+	&[data-password-strength='Weak'] .password-meter-level:nth-of-type(1) { background-color: red; }
+	&[data-password-strength='Fair'] .password-meter-level:is(:nth-of-type(1), :nth-of-type(2)) { background-color: yellow; }
+	&[data-password-strength='Good'] .password-meter-level:is(:nth-of-type(1), :nth-of-type(2)) { background-color: yellow; }
+	&[data-password-strength='Strong'] .password-meter-level:is(:nth-of-type(1), :nth-of-type(2), :nth-of-type(3)) { background-color: #009900; }
+	&[data-password-strength='Very Strong'] .password-meter-level:is(:nth-of-type(1), :nth-of-type(2), :nth-of-type(3)) { background-color: #009900; }
 }
 
 .password-meter-level {
@@ -108,15 +79,17 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 .suggestion {
 	background-color: var(--color-card);
 	border-radius: var(--rounded-md);
-	display: flex;
+	display: none;
 	font-size: var(--text-sm);
-	margin: 8px 0;
+
+	&[data-password-strength='Weak'] { display: flex; }
+	&[data-password-strength='Fair'] { display: flex; }
+	&[data-password-strength='Good'] { display: flex; }
 }
 
 .suggestion p {
 	letter-spacing: 0%;
 	line-height: 1.6;
-	margin: 8px 0;
 }
 
 .suggestion-icon {
@@ -131,3 +104,6 @@ form a .forgot-password { text-decoration: solid underline 1px !important; }
 	margin: 6px;
 	width: 1.5rem;
 }
+
+#name-input-helper-text { display: none; }
+#name-input:not(:focus):user-invalid ~ #name-input-helper-text { display: block; }

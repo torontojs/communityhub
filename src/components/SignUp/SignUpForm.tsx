@@ -1,29 +1,21 @@
 import './SignUpForm.css';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import zxcvbn from 'zxcvbn';
+import { getApiUrl } from '../../utilities/getApiUrl';
 import Button from '../Button/Button';
 
-const apiUrl = import.meta.env.MODE === 'production'
-	? import.meta.env['APP_API_URL_PROD']
-	: import.meta.env['APP_API_URL_DEV'];
-
-function getDynamicColor(strength: number): string {
-	if (strength <= 1) { return 'red'; }
-	if (strength === 2) { return 'yellow'; }
-	if (strength >= 3) { return '#009900'; }
-	return 'grey';
-}
+const apiUrl = getApiUrl();
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 
 const SignUpForm = (): React.JSX.Element => {
+	const nameInputRef = useRef<HTMLInputElement>(null);
+	const emailInputRef = useRef<HTMLInputElement>(null);
+	const passwordInputRef = useRef<HTMLInputElement>(null);
+
 	const [password, setPassword] = useState('');
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
-	const [dynamicColor, setDynamicColor] = useState<string>('');
-	const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
-	const [isNameValid, setIsNameValid] = useState<boolean>(false);
-	const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +23,6 @@ const SignUpForm = (): React.JSX.Element => {
 		const result = zxcvbn(password);
 		setPassword(password);
 		setStrength(result.score);
-		setDynamicColor(getDynamicColor(result.score));
 		setFeedback(result.feedback.suggestions.join(', '));
 	};
 
@@ -68,25 +59,14 @@ const SignUpForm = (): React.JSX.Element => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const form = e.currentTarget;
-
-		// Get references to the inputs
-		const nameInput = form.querySelector('#name-input') as HTMLInputElement;
-		const emailInput = form.querySelector('#email-input') as HTMLInputElement;
-		const passwordInput = form.querySelector('input[name="password"]') as HTMLInputElement;
-
-		// Use built-in validation
-		const nameIsValid = nameInput.checkValidity();
-		const emailIsValid = emailInput.checkValidity();
-		const passwordIsValid = passwordInput.value.length > 2;
-
-		setIsNameValid(nameIsValid);
-		setIsEmailValid(emailIsValid);
-		setIsPasswordValid(passwordIsValid);
+		const nameIsValid = nameInputRef.current?.checkValidity() ?? false;
+		const emailIsValid = emailInputRef.current?.checkValidity() ?? false;
+		const passwordIsValid = passwordInputRef.current?.checkValidity() ?? false;
 
 		if (!nameIsValid || !emailIsValid || !passwordIsValid) {
 			return;
 		}
+		const form = e.currentTarget;
 
 		const formData = new FormData(form);
 		const nameValue = (formData.get('name') as string ?? '').trim();
@@ -97,44 +77,30 @@ const SignUpForm = (): React.JSX.Element => {
 		await signup(nameValue, emailValue, passwordValue);
 	};
 
-	const handleEmailBlur = () => {
-		const emailInput = document.querySelector('#email-input') as HTMLInputElement;
-		if (emailInput) {
-			const isValid = emailInput.checkValidity();
-			setIsEmailValid(isValid);
-		}
-	};
-
-	const handlePasswordBlur = () => {
-		const passwordInput = document.querySelector('#password-input') as HTMLInputElement;
-		if (passwordInput) {
-			const isValid = passwordInput.checkValidity();
-			setIsPasswordValid(isValid);
-		}
-	};
-
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
-			<p className='center'>Welcome! Let's set up your account.</p>
-
-			<div className='inputDim'>
-				<label className='block' htmlFor='name'>Name</label>
+			<div>
+				<h2 className='center'>Welcome! Let's set up your account.</h2>
+			</div>
+			<div className='input-block'>
+				<label className='block' htmlFor='name-input'>Name</label>
 				<input
 					id='name-input'
 					type='text'
 					name='name'
 					placeholder='Your name'
 					minLength={1}
-					maxLength={20}
 					required
-					title='Please enter a valid name (only letters allowed, max 20 characters)'
-					aria-label='Please input a valid name (only letters allowed, max 20 characters)'
-					aria-invalid={!isNameValid}
+					aria-describedby='name-input-helper-text'
+					ref={nameInputRef}
 				/>
+				<div id='name-input-helper-text'>
+					<span>Please enter a valid name that is at least 1 character long.</span>
+				</div>
 			</div>
 
-			<div className='inputDim'>
-				<label className='block' htmlFor='email'>
+			<div className='input-block'>
+				<label className='block' htmlFor='email-input'>
 					E-mail<span>REQUIRED</span>
 				</label>
 				<input
@@ -142,14 +108,17 @@ const SignUpForm = (): React.JSX.Element => {
 					type='email'
 					name='email'
 					placeholder='Your account e-mail'
-					aria-label='Input your account e-mail'
-					aria-invalid={!isEmailValid}
-					onBlur={handleEmailBlur}
+					required
+					aria-describedby='email-input-helper-text'
+					ref={emailInputRef}
 				/>
-				<p>Insert the email you'll use for this account</p>
+				<div id='email-input-helper-text'>
+					<span>Insert the email you'll use for this account</span>
+				</div>
 			</div>
-			<div className='inputDim'>
-				<label className='block' htmlFor='password'>
+
+			<div className='input-block'>
+				<label className='block' htmlFor='password-input'>
 					Password:<span>REQUIRED</span>
 				</label>
 				<input
@@ -159,35 +128,37 @@ const SignUpForm = (): React.JSX.Element => {
 					value={password}
 					onChange={handleChange}
 					placeholder='Your password'
-					aria-label='Input your password'
-					aria-invalid={!isPasswordValid}
-					onBlur={handlePasswordBlur}
+					required
+					aria-describedby='password-input-strength password-input-suggestion'
+					ref={passwordInputRef}
 				/>
-			</div>
-			{password && (
-				<div aria-live='polite' aria-invalid={strength !== null && strength < 2} className='passwordError'>
-					<div className=' text-size'>
-						<div>
-							<span className={dynamicColor}>Password strength: {strengthLabels[strength || 0]}</span>
+				<div className='passwordError' hidden={strength === null}>
+					<div className='text-size'>
+						<div id='password-input-strength' aria-live='polite'>
+							<span>Password strength: {strengthLabels[strength || 0]}</span>
 						</div>
-						<div className='password-meter'>
-							<span className='password-meter-level' style={{ backgroundColor: strength !== null ? dynamicColor : 'var(--color-card)' }}></span>
-							<span className='password-meter-level' style={{ backgroundColor: strength && strength >= 2 ? dynamicColor : 'var(--color-card)' }}></span>
-							<span className='password-meter-level' style={{ backgroundColor: strength && strength >= 3 ? dynamicColor : 'var(--color-card)' }}></span>
+						<div className='password-meter' data-password-strength={strengthLabels[strength || 0]} aria-hidden='true'>
+							<span className='password-meter-level'></span>
+							<span className='password-meter-level'></span>
+							<span className='password-meter-level'></span>
 						</div>
-						{strength !== null && strength < 3 && (
-							<div className='suggestion'>
-								<span className='suggestion-icon' />
-								<p>Suggestions: {feedback}</p>
-							</div>
-						)}
+						<div id='password-input-suggestion' className='suggestion' data-password-strength={strengthLabels[strength || 0]}>
+							<span className='suggestion-icon' />
+							<p>Suggestions: {feedback}</p>
+						</div>
 					</div>
 				</div>
-			)}
+			</div>
+
 			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} aria-label='Complete sign-up form button' disabled={isLoading}>
-				{isLoading ? 'Creating Account' : 'Crerate Account'}
+				{isLoading ? 'Creating Account' : 'Create Account'}
 			</Button>
-			<div className='tb-margin'>
+
+			<div>
+				<span className='line'></span>
+			</div>
+
+			<div className='have-account'>
 				<p className='not-member'>
 					If you already have an account, <a href={`${apiUrl}sign-in`} className='underline'>Click here to log-in</a>
 				</p>
