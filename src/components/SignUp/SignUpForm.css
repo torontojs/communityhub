@@ -108,6 +108,5 @@
 #name-input-helper-text { display: none; }
 #name-input:not(:focus):user-invalid ~ #name-input-helper-text { display: block; }
 
-
-#email-input-helper-text {display: none; }
-#email-input:not(:focus):user-invalid ~ #email-input-helper-text {display: block}
+#email-input-helper-text { display: none; }
+#email-input:not(:focus):user-invalid ~ #email-input-helper-text { display: block; }
