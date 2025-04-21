@@ -1,8 +1,12 @@
 import './Logo.css';
 
-const Logo = () => (
-	<picture className='logo'>
-		<img src='/torontojs-logo.png' alt='TorontoJS logo featuring the CN Tower and the letters JS, representing JavaScript' />
+interface Props {
+	isLarge?: boolean;
+}
+
+const Logo = ({ isLarge = true }: Props) => (
+	<picture className={`logo ${isLarge ? 'large' : 'small'}`}>
+		<img src='/torontojs-logo.png' alt='TorontoJS Logo' />
 	</picture>
 );
 

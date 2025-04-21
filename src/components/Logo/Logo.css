@@ -1,4 +1,18 @@
-.logo img {
-	height: 128px;
-	width: 128px;
+.logo img { display: block; }
+
+.logo {
+	&.small {
+		margin-bottom: var(--spacing-md);
+		img {
+			height: 64px;
+			width: 64px;
+		}
+	}
+	&.large {
+		margin-bottom: var(--spacing-lg);
+		img {
+			height: 128px;
+			width: 128px;
+		}
+	}
 }

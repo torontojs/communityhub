@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import 'open-props';
-import '../../index.css';
+import '../../basic-css-reset.css';
 import Button from '../../components/Button/Button';
 import { BlueSky } from '../../components/Icons/Social/BlueSky';
 import { DevTo } from '../../components/Icons/Social/DevTo';
@@ -11,12 +11,15 @@ import { Instagram } from '../../components/Icons/Social/Instagram';
 import { LinkedIn } from '../../components/Icons/Social/LinkedIn';
 import { Threads } from '../../components/Icons/Social/Threads';
 import { XTwitter } from '../../components/Icons/Social/XTwitter';
+import StepBar from '../../components/StepBar/StepBar';
+import '../../index.css';
 
 const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
 		<StrictMode>
+			<StepBar currentStep={3} steps={[{ label: 'Account confirmed' }, { label: 'Check the conduct code' }, { label: 'Complete your profile' }]} />
 			<form action='' encType='multipart/form-data'>
 				<h2>Complete your profile</h2>
 
