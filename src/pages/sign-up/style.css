@@ -5,11 +5,10 @@
 	justify-items: center;
 }
 
-.Sign-in-page {
+.Sign-up-page {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	/* height: 575px; */
 	justify-content: center;
 	max-width: 400px;
 }

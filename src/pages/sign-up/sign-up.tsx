@@ -13,7 +13,7 @@ createRoot(root).render(
 	(
 		<StrictMode>
 			<div className='app'>
-				<div className='Sign-in-page'>
+				<div className='Sign-up-page'>
 					<Header>Sign Up to TorontoJS Community Hub</Header>
 					<SignUpForm />
 					<FooterNav />
