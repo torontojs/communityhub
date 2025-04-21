@@ -3,7 +3,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import FooterNav from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
-import LoginForm from '../../components/LoginForm/LoginForm';
+import SignInForm from '../../components/SignIn/SignInForm';
 import '../../index.css';
 import './style.css';
 
@@ -15,7 +15,7 @@ createRoot(root).render(
 			<div className='app'>
 				<div className='Sign-in-page'>
 					<Header>Welcome to TorontoJS Community Hub</Header>
-					<LoginForm />
+					<SignInForm />
 					<FooterNav />
 				</div>
 			</div>
