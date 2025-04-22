@@ -23,6 +23,7 @@
 
 	& span {
 		color: var(--color-error);
+		/* TODO: Need smaller text variables */
 		font-size: 12px;
 		font-weight: var(--weight-thin);
 	}
@@ -61,7 +62,7 @@
 #email-input:not(:focus):user-invalid ~ #email-input-helper-text { display: block; }
 
 .do-not-remember-password {
-	color: #ed342f;
+	color: var(--color-accent);
 	display: block;
 	text-align: center;
 	text-decoration: underline;
