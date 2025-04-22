@@ -34,7 +34,8 @@ export default defineConfig(({ mode }) => {
 					'team': fileURLToPath(new URL('./src/pages/team/index.html', import.meta.url)),
 					'complete-profile': fileURLToPath(new URL('./src/pages/complete-profile/index.html', import.meta.url)),
 					'check-steps': fileURLToPath(new URL('./src/pages/check-steps/index.html', import.meta.url)),
-					'review-conduct-code': fileURLToPath(new URL('./src/pages/review-conduct-code/index.html', import.meta.url))
+					'review-conduct-code': fileURLToPath(new URL('./src/pages/review-conduct-code/index.html', import.meta.url)),
+					'sign-in': fileURLToPath(new URL('./src/pages/signin/index.html', import.meta.url))
 				}
 			}
 		},
