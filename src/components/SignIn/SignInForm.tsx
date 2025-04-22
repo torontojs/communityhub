@@ -96,9 +96,12 @@ const SignInForm = (): React.JSX.Element => {
 					autoComplete='password'
 					placeholder='Your password'
 					required
-					aria-describedby='password-input-strength password-input-suggestion'
+					aria-describedby='password-input-helper-text'
 					ref={passwordInputRef}
 				/>
+				<div id='password-input-helper-text'>
+					<span>Insert your password</span>
+				</div>
 			</div>
 
 			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} aria-label='Complete sign-up form button' disabled={isLoading}>
@@ -115,7 +118,7 @@ const SignInForm = (): React.JSX.Element => {
 
 			<div className='have-account'>
 				<p className='not-member'>
-					If you are a member of ToronoJS and don't have your acocunt, <a href={`${apiUrl}sign-up`} className='underline'>click here to sign-up</a>
+					If you are a member of ToronoJS and don't have your account, <a href={`${apiUrl}sign-up`} className='underline'>click here to sign-up</a>
 				</p>
 			</div>
 		</form>

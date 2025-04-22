@@ -43,8 +43,6 @@
 	outline: none;
 }
 
-.underline { text-decoration: underline; }
-
 .have-account { & p { text-align: center; } }
 
 .line {
@@ -54,60 +52,10 @@
 	width: 100%;
 }
 
-.login-form:has(#email-input:user-invalid) #email-error { display: block; }
-
 .text-size { font-size: var(--text-xs); }
 
-.password-meter {
-	display: flex;
-	gap: 0.5rem;
-
-	.password-meter-level { background-color: grey; }
-
-	&[data-password-strength='Weak'] .password-meter-level:nth-of-type(1) { background-color: red; }
-	&[data-password-strength='Fair'] .password-meter-level:is(:nth-of-type(1), :nth-of-type(2)) { background-color: yellow; }
-	&[data-password-strength='Good'] .password-meter-level:is(:nth-of-type(1), :nth-of-type(2)) { background-color: yellow; }
-	&[data-password-strength='Strong'] .password-meter-level:is(:nth-of-type(1), :nth-of-type(2), :nth-of-type(3)) { background-color: #009900; }
-	&[data-password-strength='Very Strong'] .password-meter-level:is(:nth-of-type(1), :nth-of-type(2), :nth-of-type(3)) { background-color: #009900; }
-}
-
-.password-meter-level {
-	background-color: var(--color-card);
-	height: 0.5rem;
-	width: 100%;
-}
-
-.suggestion {
-	background-color: var(--color-card);
-	border-radius: var(--rounded-md);
-	display: none;
-	font-size: var(--text-sm);
-
-	&[data-password-strength='Weak'] { display: flex; }
-	&[data-password-strength='Fair'] { display: flex; }
-	&[data-password-strength='Good'] { display: flex; }
-}
-
-.suggestion p {
-	letter-spacing: 0%;
-	line-height: 1.6;
-}
-
-.suggestion-icon {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12 8V16' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.5 14L15.5 10' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.5 10L15.5 14' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: contain;
-	content: '';
-	display: inline-block;
-	flex-shrink: 0;
-	height: 1.1rem;
-	margin: 6px;
-	width: 1.5rem;
-}
-
-#name-input-helper-text { display: none; }
-#name-input:not(:focus):user-invalid ~ #name-input-helper-text { display: block; }
+#password-input-helper-text { display: none; }
+#password-input:not(:focus):user-invalid ~ #password-input-helper-text { display: block; }
 
 #email-input-helper-text { display: none; }
 #email-input:not(:focus):user-invalid ~ #email-input-helper-text { display: block; }
