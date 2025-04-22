@@ -27,13 +27,13 @@ const SignInForm = (): React.JSX.Element => {
 			} else {
 				window.location.href = `${apiUrl}home`;
 			}
-		} catch (e) {
+		} catch (event) {
 			if (import.meta.env.MODE === 'development') {
-				if (e instanceof Error) {
-					console.error(e.name);
-					console.error(e.cause);
-					console.error(e.message);
-					console.error(e.stack);
+				if (event instanceof Error) {
+					console.error(event.name);
+					console.error(event.cause);
+					console.error(event.message);
+					console.error(event.stack);
 				} else {
 					throw new Error('Error sign-up');
 				}
@@ -41,8 +41,8 @@ const SignInForm = (): React.JSX.Element => {
 			setIsLoading(false);
 		}
 	};
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 
 		const emailIsValid = emailInputRef.current?.checkValidity() ?? false;
 		const passwordIsValid = passwordInputRef.current?.checkValidity() ?? false;
@@ -50,7 +50,7 @@ const SignInForm = (): React.JSX.Element => {
 		if (!emailIsValid || !passwordIsValid) {
 			return;
 		}
-		const form = e.currentTarget;
+		const form = event.currentTarget;
 
 		const formData = new FormData(form);
 		const emailValue = (formData.get('email') as string ?? '').trim();
