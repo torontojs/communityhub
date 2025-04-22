@@ -1,9 +1,9 @@
 import ButtonLink from '../ButtonLink/ButtonLink';
 import Header from '../Header/Header';
+import { CheckConductCodeIcon } from '../Icons/CheckConductCodeIcon';
+import { CompleteProfileIcon } from '../Icons/CompleteProfileIcon';
 import StepBar from '../StepBar/StepBar';
 import './CheckSteps.css';
-import { CheckConductCode } from '../Icons/CheckConductCode';
-import { CompleteProfile } from '../Icons/CompleteProfile';
 
 const CheckSteps = () => (
 	<div id='check-steps-wrapper'>
@@ -13,11 +13,11 @@ const CheckSteps = () => (
 			<p className='intro'>Your account is active, and you're almost ready to get in. Let's complete a few more steps:</p>
 			<ul className='cards'>
 				<li className='card'>
-					<CheckConductCode />
+					<CheckConductCodeIcon />
 					<p className='text-h6'>Check the TorontoJS's conduct code</p>
 				</li>
 				<li className='card'>
-					<CompleteProfile />
+					<CompleteProfileIcon />
 					<p className='text-h6'>Complete your profile</p>
 				</li>
 			</ul>
