@@ -74,6 +74,7 @@ const SignInForm = (): React.JSX.Element => {
 					id='email-input'
 					type='email'
 					name='email'
+					autoComplete='email'
 					placeholder='Your account e-mail'
 					required
 					aria-describedby='email-input-helper-text'
@@ -92,8 +93,7 @@ const SignInForm = (): React.JSX.Element => {
 					id='password-input'
 					type='password'
 					name='password'
-					// Value={password}
-					// OnChange={handleChange}
+					autoComplete='password'
 					placeholder='Your password'
 					required
 					aria-describedby='password-input-strength password-input-suggestion'
@@ -101,16 +101,12 @@ const SignInForm = (): React.JSX.Element => {
 				/>
 			</div>
 
-			<div>
-				<p>Remember my password</p>
-			</div>
-
 			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} aria-label='Complete sign-up form button' disabled={isLoading}>
 				{isLoading ? 'Logging In' : 'Log In'}
 			</Button>
 
 			<div>
-				<p>I don't remember my password</p>
+				<a href={`${apiUrl}forgot-passsword`} className='do-not-remember-password'>I don't remember my password</a>
 			</div>
 
 			<div>
