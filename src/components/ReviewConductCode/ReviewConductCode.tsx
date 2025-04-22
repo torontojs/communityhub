@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Button from '../Button/Button';
 import HeaderTitle from '../HeaderTitle/HeaderTitle';
 import StepBar from '../StepBar/StepBar';
-import { ArrowDown } from './icons/ArrowDown';
+import { ArrowDown } from '../Icons/ArrowDown';
 import './ReviewConductCode.css';
 
 const ReviewConductCode = () => {

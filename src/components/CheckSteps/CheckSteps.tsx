@@ -2,8 +2,8 @@ import ButtonLink from '../ButtonLink/ButtonLink';
 import Header from '../Header/Header';
 import StepBar from '../StepBar/StepBar';
 import './CheckSteps.css';
-import { CheckConductCode } from './icons/CheckConductCode';
-import { CompleteProfile } from './icons/CompleteProfile';
+import { CheckConductCode } from '../Icons/CheckConductCode';
+import { CompleteProfile } from '../Icons/CompleteProfile';
 
 const CheckSteps = () => (
 	<div id='check-steps-wrapper'>
