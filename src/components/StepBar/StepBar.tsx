@@ -1,4 +1,4 @@
-import { CheckIcon } from './icons/CheckIcon';
+import { CheckIcon } from '../Icons/CheckIcon';
 import './StepBar.css';
 
 interface Props {

@@ -1,4 +1,4 @@
-export const CompleteProfile = () => (
+export const CompleteProfileIcon = () => (
 	<svg width='72' height='72' viewBox='0 0 52 52' fill='none' xmlns='http://www.w3.org/2000/svg'>
 		<path
 			d='M24.9167 32.5H15.1667C12.8681 32.5 10.6637 33.4131 9.03841 35.0384C7.41309 36.6637 6.5 38.8681 6.5 41.1667V45.5'
