@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Button from '../Button/Button';
 import HeaderTitle from '../HeaderTitle/HeaderTitle';
+import { ArrowDownIcon } from '../Icons/ArrowDownIcon';
 import StepBar from '../StepBar/StepBar';
-import { ArrowDown } from './icons/ArrowDown';
 import './ReviewConductCode.css';
 
 const ReviewConductCode = () => {
@@ -42,7 +42,7 @@ const ReviewConductCode = () => {
 						<details>
 							<summary>
 								<span>TorontoJS Code of Conduct</span>
-								<ArrowDown />
+								<ArrowDownIcon />
 							</summary>
 							<div className='details-content'>
 								Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro suscipit harum doloremque, quod tempora architecto atque unde corrupti, ipsa in
@@ -54,7 +54,7 @@ const ReviewConductCode = () => {
 						<details>
 							<summary>
 								<span>Volunteering Agreement</span>
-								<ArrowDown />
+								<ArrowDownIcon />
 							</summary>
 							<div className='details-content'>
 								Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid incidunt quibusdam, temporibus accusamus eos dolore suscipit? Cum excepturi
@@ -66,7 +66,7 @@ const ReviewConductCode = () => {
 						<details>
 							<summary>
 								<span>Image Release Form</span>
-								<ArrowDown />
+								<ArrowDownIcon />
 							</summary>
 							<div className='details-content'>
 								Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem impedit consequatur, fugiat sit asperiores, sunt possimus delectus incidunt, iste atque
