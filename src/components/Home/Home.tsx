@@ -18,7 +18,7 @@ useEffect(() => {
 		}
 	};
 
-	const isAuthenticated = fetchHeartBeat();
+	// const isAuthenticated = fetchHeartBeat();
 }, []);
 
 const handleLogOut = () => console.log('haha');
