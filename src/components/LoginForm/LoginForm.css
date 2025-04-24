@@ -23,13 +23,13 @@
 	}
 
 	& input {
-	background-color: #e5e5e5;
-	border: solid 1px #cccccc;
-	border-radius: var(--rounded-xs);
-	color: #999999;
-	height: 42px;
-	padding: var(--spacing-xs);
-	width: 100%;
+		background-color: #e5e5e5;
+		border: solid 1px #cccccc;
+		border-radius: var(--rounded-xs);
+		color: #999999;
+		height: 42px;
+		padding: var(--spacing-xs);
+		width: 100%;
 	}
 }
 
