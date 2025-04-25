@@ -78,7 +78,7 @@ const SignUpForm = (): React.JSX.Element => {
 	};
 
 	return (
-		<form className='login-form' onSubmit={handleSubmit}>
+		<form className='sign-form' onSubmit={handleSubmit}>
 			<div>
 				<h2 className='center'>Welcome! Let's set up your account.</h2>
 			</div>

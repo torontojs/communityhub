@@ -5,6 +5,7 @@
  */
 @layer reset, fonts, design-system, base, pages, components, theme, print, accessibility;
 
-@import './reset.css' layer(reset);
-@import './base.css' layer(base);
-@import './design-system.css' layer(design-system);
+@import './css-layers/reset.css' layer(reset);
+@import './css-layers/design-system.css' layer(design-system);
+@import './css-layers/base.css' layer(base);
+@import './css-layers/utilities.css' layer(utilities);
