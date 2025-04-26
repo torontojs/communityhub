@@ -32,7 +32,7 @@ const CompleteProfile = () => {
 
 	const handleInputSkill = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		const target = event.currentTarget;
-		if ((event.key === 'Enter' || event.key === ',') && target.id === 'skill') {
+		if ((event.key === 'Enter' || event.key === ',' || event.key === ' ') && target.id === 'skill') {
 			event.preventDefault();
 			handleAddSkill(target.value);
 		}
@@ -296,7 +296,7 @@ const CompleteProfile = () => {
 											{skills.map((skill, i) => (
 												<span key={i}>
 													{skill}
-													<button onClick={() => handleRemoveSkill(i)}>
+													<button aria-label='Remove Skill' onClick={() => handleRemoveSkill(i)}>
 														x
 													</button>
 												</span>
