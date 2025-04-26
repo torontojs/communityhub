@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { BlueSky } from '../Icons/Social/BlueSky.tsx';
 import { DevTo } from '../Icons/Social/DevTo.tsx';
@@ -12,12 +12,34 @@ import './CompleteProfile.css';
 
 const CompleteProfile = () => {
 	const [photoFile, setPhotoFile] = useState<string | null>(null);
+	const [skills, setSkills] = useState<string[]>([]);
+
+	const skillInputRef = useRef<HTMLInputElement>(null);
 
 	const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
 			setPhotoFile(URL.createObjectURL(file));
 		}
+	};
+
+	const handleAddSkill = (skill: string) => {
+		if (skill.trim() !== '') {
+			setSkills([...skills, skill]);
+			if (skillInputRef.current) { skillInputRef.current.value = ''; }
+		}
+	};
+
+	const handleInputSkill = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		const target = event.currentTarget;
+		if ((event.key === 'Enter' || event.key === ',') && target.id === 'skill') {
+			event.preventDefault();
+			handleAddSkill(target.value);
+		}
+	};
+
+	const handleRemoveSkill = (index: number) => {
+		setSkills((prevSkill) => prevSkill.filter((_, i) => i !== index));
 	};
 
 	return (
@@ -251,15 +273,44 @@ const CompleteProfile = () => {
 								</div>
 								<div>
 									<label htmlFor='githubProfile'>GitHub profile</label>
-									<input id='githubProfile' name='githubProfile' type='url' className='text-input' />
+									<input
+										id='githubProfile'
+										name='githubProfile'
+										type='url'
+										className='text-input'
+									/>
 								</div>
 								<div>
 									<label htmlFor='portfolio'>Site/portfolio</label>
-									<input id='portfolio' name='portfolio' type='url' className='text-input' />
+									<input
+										id='portfolio'
+										name='portfolio'
+										type='url'
+										className='text-input'
+									/>
 								</div>
 								<div id='details-information-skills'>
-									<label htmlFor='skills'>Your skills</label>
-									<textarea id='skills' name='skills' />
+									<label htmlFor='skill'>
+										Your skills
+										<div id='skills'>
+											{skills.map((skill, i) => (
+												<span key={i}>
+													{skill}
+													<button onClick={() => handleRemoveSkill(i)}>
+														x
+													</button>
+												</span>
+											))}
+											<input
+												id='skill'
+												ref={skillInputRef}
+												onKeyDown={handleInputSkill}
+												placeholder={skills.length === 0
+													? 'Insert some of your skills and separate them with commas (e.g.: JavaScript, HTML, CSS)'
+													: 'type here ...'}
+											/>
+										</div>
+									</label>
 								</div>
 
 								<div id='details-social-accounts'>
@@ -315,32 +366,67 @@ const CompleteProfile = () => {
 									{(
 										<div>
 											<label htmlFor='threads'>Threads</label>
-											<input id='threads' name='threads' type='url' className='text-input' />
+											<input
+												id='threads'
+												name='threads'
+												type='url'
+												className='text-input'
+											/>
 										</div>
 									)}
 									<div>
 										<label htmlFor='facebook'>Facebook</label>
-										<input id='facebook' name='facebook' type='url' className='text-input' />
+										<input
+											id='facebook'
+											name='facebook'
+											type='url'
+											className='text-input'
+										/>
 									</div>
 									<div>
 										<label htmlFor='instagram'>Instagram</label>
-										<input id='instagram' name='instagram' type='url' className='text-input' />
+										<input
+											id='instagram'
+											name='instagram'
+											type='url'
+											className='text-input'
+										/>
 									</div>
 									<div>
 										<label htmlFor='mastodon'>Mastodon</label>
-										<input id='mastodon' name='mastodon' type='url' className='text-input' />
+										<input
+											id='mastodon'
+											name='mastodon'
+											type='url'
+											className='text-input'
+										/>
 									</div>
 									<div>
 										<label htmlFor='twitter'>Twitter</label>
-										<input id='twitter' name='twitter' type='url' className='text-input' />
+										<input
+											id='twitter'
+											name='twitter'
+											type='url'
+											className='text-input'
+										/>
 									</div>
 									<div>
 										<label htmlFor='bluesky'>Bluesky</label>
-										<input id='bluesky' name='bluesky' type='url' className='text-input' />
+										<input
+											id='bluesky'
+											name='bluesky'
+											type='url'
+											className='text-input'
+										/>
 									</div>
 									<div>
 										<label htmlFor='dev-to'>DEV.to</label>
-										<input id='dev-to' name='dev-to' type='url' className='text-input' />
+										<input
+											id='dev-to'
+											name='dev-to'
+											type='url'
+											className='text-input'
+										/>
 									</div>
 								</div>
 							</div>

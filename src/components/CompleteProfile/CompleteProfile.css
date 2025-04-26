@@ -88,7 +88,7 @@
 			}
 
 			/* Media query for smaller screens */
-			@media (max-width: 768px) { .details-content-grid { grid-template-columns: 1fr; } }
+			@media (max-width: 768px) { .details-nutshell-grid { grid-template-columns: 1fr; } }
 
 			.input-required {
 				& > span {
@@ -250,6 +250,63 @@
 			display: flex;
 			flex-direction: column;
 			grid-column: 1 / span 3;
+
+			> label {
+				/* TODO: should add font weight to all labels or none */
+				/* font-weight: var(--weight-semibold); */
+				font-size: var(--text-base);
+				letter-spacing: 0;
+				line-height: 160%;
+			}
+
+			#skills {
+				align-items: baseline;
+				background-color: var(--color-card);
+				border: var(--border-base);
+				border-color: var(--color-border);
+				border-radius: var(--rounded-base);
+				border-style: solid;
+				display: flex;
+				flex-wrap: wrap;
+				gap: var(--spacing-xs);
+				min-height: 4rem;
+				padding: var(--spacing-xs);
+				resize: none;
+
+				> span {
+					align-items: center;
+					background-color: var(--color-accent);
+					border-radius: 99px;
+					color: var(--color-white);
+					display: flex;
+					font-size: 14px;
+					font-weight: var(--weight-semibold);
+					gap: var(--spacing-xs);
+					height: 1.375rem;
+					letter-spacing: 0;
+					line-height: 160%;
+					padding-left: var(--spacing-xs);
+					padding-right: var(--spacing-xs);
+
+					> button {
+						background: none;
+						border: none;
+						color: white;
+						font: inherit;
+						padding: none;
+					}
+				}
+
+				input#skill {
+					background: none;
+					border: none;
+					flex-grow: 1;
+					flex-shrink: 1;
+					height: auto;
+					min-width: 10rem;
+					outline: none;
+				}
+			}
 		}
 
 		#details-social-accounts {
@@ -273,6 +330,10 @@
 			}
 		}
 	}
+
+	/* TODO: Fix for More Information section */
+	/* Media query for smaller screens */
+	/* @media (max-width: 768px) { #details-information-grid { grid-template-columns: 1fr; } } */
 
 	/* TODO: move input styles to its own component */
 	.text-input {
