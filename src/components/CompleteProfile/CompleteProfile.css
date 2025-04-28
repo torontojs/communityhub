@@ -246,14 +246,17 @@
 		grid-template-columns: repeat(3, 1fr);
 		justify-content: space-between;
 
+		label[for='linkedInProfile'], label[for='githubProfile'], label[for='portfolio'] {
+			display: inline-block;
+			margin-bottom: var(--spacing-xs);
+		}
+
 		#details-information-skills {
 			display: flex;
 			flex-direction: column;
 			grid-column: 1 / span 3;
 
 			> label {
-				/* TODO: should add font weight to all labels or none */
-				/* font-weight: var(--weight-semibold); */
 				font-size: var(--text-base);
 				letter-spacing: 0;
 				line-height: 160%;
@@ -297,7 +300,7 @@
 						padding: none;
 					}
 
-					&:hover, &:focus-within {
+					&:hover, &:focus-within, &:has(:active) {
 						background-color: var(--color-white);
 						color: var(--color-accent);
 						> button { color: var(--color-accent); }
@@ -328,7 +331,6 @@
 			gap: var(--spacing-sm);
 			grid-column: 1 / span 3;
 
-			/* TODO: should change more meaningful name */
 			> div {
 				align-items: center;
 				display: flex;
@@ -339,14 +341,65 @@
 					border: none;
 					height: 1rem;
 					width: 1rem;
+
+					> svg { fill: var(--color-accent) !important; }
+				}
+			}
+		}
+
+		#details-social-inputs {
+			display: grid;
+			gap: var(--spacing-sm);
+			grid-column: 1 / span 3;
+			grid-template-columns: repeat(3, 1fr);
+
+			> div {
+				display: flex;
+				flex-direction: column;
+				gap: var(--spacing-xs);
+
+				> label {
+					align-items: center;
+					display: flex;
+					justify-content: space-between;
+					letter-spacing: 0;
+					line-height: 160%;
+
+					> button {
+						background-color: var(--color-white);
+						background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 17 17' fill='none'%3E%3Cpath d='M12.6699 4.5L4.66992 12.5' stroke='%23ED342F' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4.66992 4.5L12.6699 12.5' stroke='%23ED342F' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: contain;
+						border: solid var(--border-base) var(--color-accent);
+						border-radius: var(--rounded-base);
+						content: '';
+						content: '';
+						height: 1rem;
+						width: 1rem;
+					}
 				}
 			}
 		}
 	}
 
-	/* TODO: Fix for More Information section */
 	/* Media query for smaller screens */
-	/* @media (max-width: 768px) { #details-information-grid { grid-template-columns: 1fr; } } */
+	@media (max-width: 768px) {
+		#details-information-grid {
+			grid-template-columns: repeat(1, 1fr);
+
+			#details-information-skills, #details-social-accounts, #details-social-inputs { grid-column: 1 / span 1; }
+
+			#details-social-accounts {
+				align-items: flex-start;
+				flex-direction: column;
+			}
+
+			#details-social-inputs { grid-template-columns: repeat(1, 1fr); }
+		}
+	}
+
+	> div > label { margin-bottom: var(--spacing-sm); }
 
 	/* TODO: move input styles to its own component */
 	.text-input {

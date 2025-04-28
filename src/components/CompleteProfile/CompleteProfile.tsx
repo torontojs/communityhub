@@ -9,12 +9,27 @@ import { Threads } from '../Icons/Social/Threads.tsx';
 import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
+interface SocialIcons {
+	name: string;
+	element: JSX.Element;
+	visible: boolean;
+}
 
 const CompleteProfile = () => {
+	const skillInputRef = useRef<HTMLInputElement>(null);
+
 	const [photoFile, setPhotoFile] = useState<string | null>(null);
 	const [skills, setSkills] = useState<string[]>([]);
-
-	const skillInputRef = useRef<HTMLInputElement>(null);
+	const [socialIcons, setSocialIcons] = useState<SocialIcons[]>([
+		{ name: 'Instagram', element: <Instagram />, visible: true },
+		{ name: 'Facebook', element: <Facebook />, visible: true },
+		{ name: 'Threads', element: <Threads />, visible: true },
+		{ name: 'LinkedIn', element: <LinkedIn />, visible: true },
+		{ name: 'BlueSky', element: <BlueSky />, visible: true },
+		{ name: 'X ', element: <XTwitter />, visible: true },
+		{ name: 'Dev.to', element: <DevTo />, visible: true }
+	]);
+	const [socialAccountInputs, setSocialAccountInputs] = useState<string[]>([]);
 
 	const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
@@ -40,6 +55,25 @@ const CompleteProfile = () => {
 
 	const handleRemoveSkill = (index: number) => {
 		setSkills((prevSkill) => prevSkill.filter((_, i) => i !== index));
+	};
+
+	const toggleIconVisibility = (iconName: string) => {
+		setSocialIcons((prevIcons) => prevIcons.map((icon) => icon.name === iconName ? { ...icon, visible: !icon.visible } : icon));
+	};
+
+	const handleAddSocialAccount = (socialAccountToAdd: string) => {
+		setSocialAccountInputs((previousAccounts) => {
+			if (!previousAccounts?.includes(socialAccountToAdd)) {
+				return [...previousAccounts, socialAccountToAdd];
+			}
+			return previousAccounts;
+		});
+		toggleIconVisibility(socialAccountToAdd);
+	};
+
+	const handleRemoveSocialAccount = (socialAccountToRemove: string) => {
+		setSocialAccountInputs((previousAccounts) => previousAccounts.filter((socialAccount: string) => socialAccount !== socialAccountToRemove));
+		toggleIconVisibility(socialAccountToRemove);
 	};
 
 	return (
@@ -296,7 +330,10 @@ const CompleteProfile = () => {
 											{skills.map((skill, i) => (
 												<span key={i}>
 													{skill}
-													<button aria-label='Remove Skill' onClick={() => handleRemoveSkill(i)}>
+													<button
+														aria-label='Remove Skill'
+														onClick={() => handleRemoveSkill(i)}
+													>
 														x
 													</button>
 												</span>
@@ -315,119 +352,34 @@ const CompleteProfile = () => {
 
 								<div id='details-social-accounts'>
 									<p>Other social accounts (optional):</p>
-									{/* TODO: Implement this */}
-									{
-										/* {selectableSocialMedias.map((media) => {
-										return <div>
-											<button onClick={() => {
-												// remove this social media icon
-												//  add this social media input
-											}}>{icon[media]}</button>
-										</div>
-									})} */
-									}
 									<div>
-										<button>
-											<Instagram />
-										</button>
-										<button>
-											<Threads />
-										</button>
-										<button>
-											<Facebook />
-										</button>
-										<button>
-											<LinkedIn />
-										</button>
-										<button>
-											<XTwitter />
-										</button>
-										<button>
-											<BlueSky />
-										</button>
-										<button>
-											<DevTo />
-										</button>
+										{socialIcons.map(
+											(socialIcon) =>
+												socialIcon.visible && (
+													<button
+														onClick={() => handleAddSocialAccount(socialIcon.name)}
+													>
+														{socialIcon.element}
+													</button>
+												)
+										)}
 									</div>
-									{/* TODO: Implement this */}
-									{
-										/* {
-										// render 'x' button for remove input and add icon
-										selectedSocialAccounts.map((selectedSocialAccount) => {
-											return <div>
-												<label htmlFor='threads'>Threads</label>
-										<input id='threads' name='threads' type='url' className='text-input'/>
-											</div
-										})
-									} */
-									}
 								</div>
-								<div className='details-social-inputs'>
-									{(
+								<div id='details-social-inputs'>
+									{socialAccountInputs.map((socialInput) => (
 										<div>
-											<label htmlFor='threads'>Threads</label>
+											<label htmlFor={socialInput}>
+												{socialInput}
+												<button onClick={() => handleRemoveSocialAccount(socialInput)} />
+											</label>
 											<input
-												id='threads'
-												name='threads'
+												id={socialInput}
+												name={socialInput}
 												type='url'
 												className='text-input'
 											/>
 										</div>
-									)}
-									<div>
-										<label htmlFor='facebook'>Facebook</label>
-										<input
-											id='facebook'
-											name='facebook'
-											type='url'
-											className='text-input'
-										/>
-									</div>
-									<div>
-										<label htmlFor='instagram'>Instagram</label>
-										<input
-											id='instagram'
-											name='instagram'
-											type='url'
-											className='text-input'
-										/>
-									</div>
-									<div>
-										<label htmlFor='mastodon'>Mastodon</label>
-										<input
-											id='mastodon'
-											name='mastodon'
-											type='url'
-											className='text-input'
-										/>
-									</div>
-									<div>
-										<label htmlFor='twitter'>Twitter</label>
-										<input
-											id='twitter'
-											name='twitter'
-											type='url'
-											className='text-input'
-										/>
-									</div>
-									<div>
-										<label htmlFor='bluesky'>Bluesky</label>
-										<input
-											id='bluesky'
-											name='bluesky'
-											type='url'
-											className='text-input'
-										/>
-									</div>
-									<div>
-										<label htmlFor='dev-to'>DEV.to</label>
-										<input
-											id='dev-to'
-											name='dev-to'
-											type='url'
-											className='text-input'
-										/>
-									</div>
+									))}
 								</div>
 							</div>
 						</div>
