@@ -13,15 +13,13 @@ const SignUpForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
-	const [password, setPassword] = useState('');
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
 		const result = zxcvbn(password);
-		setPassword(password);
 		setStrength(result.score);
 		setFeedback(result.feedback.suggestions.join(', '));
 	};
@@ -56,8 +54,8 @@ const SignUpForm = (): React.JSX.Element => {
 			setIsLoading(false);
 		}
 	};
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 
 		const nameIsValid = nameInputRef.current?.checkValidity() ?? false;
 		const emailIsValid = emailInputRef.current?.checkValidity() ?? false;
@@ -66,7 +64,7 @@ const SignUpForm = (): React.JSX.Element => {
 		if (!nameIsValid || !emailIsValid || !passwordIsValid) {
 			return;
 		}
-		const form = e.currentTarget;
+		const form = event.currentTarget;
 
 		const formData = new FormData(form);
 		const nameValue = (formData.get('name') as string ?? '').trim();
@@ -125,8 +123,7 @@ const SignUpForm = (): React.JSX.Element => {
 					id='password-input'
 					type='password'
 					name='password'
-					value={password}
-					onInput={handleChange}
+					onInput={handleOnInput}
 					placeholder='Your password'
 					required
 					aria-describedby='password-input-strength password-input-suggestion'
@@ -150,7 +147,7 @@ const SignUpForm = (): React.JSX.Element => {
 				</div>
 			</div>
 
-			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} aria-label='Complete sign-up form button' disabled={isLoading}>
+			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }}  disabled={isLoading}>
 				{isLoading ? 'Creating Account' : 'Create Account'}
 			</Button>
 
