@@ -46,15 +46,6 @@
 
 .have-account { & p { text-align: center; } }
 
-.line {
-	background-color: #cccccc;
-	display: block;
-	height: 1px;
-	width: 100%;
-}
-
-.text-size { font-size: var(--text-xs); }
-
 #password-input-helper-text { display: none; }
 #password-input:not(:focus):user-invalid ~ #password-input-helper-text { display: block; }
 

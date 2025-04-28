@@ -44,8 +44,6 @@ const FooterNav = () => (
 								</clipPath>
 							</defs>
 						</svg>
-
-						{/* <span id='TorontoJS' className='sr-only'>TorontoJS</span> */}
 					</a>
 				</li>
 				<li>
@@ -68,8 +66,6 @@ const FooterNav = () => (
 								fill='#999999'
 							/>
 						</svg>
-
-						{/* <span id='Youtube' className='sr-only'>YouTube</span> */}
 					</a>
 				</li>
 				<li>
@@ -99,15 +95,6 @@ const FooterNav = () => (
 								</clipPath>
 							</defs>
 						</svg>
-
-						{
-							/* <span
-							id='Instagram'
-							className='sr-only'
-						>
-							Instagram
-						</span> */
-						}
 					</a>
 				</li>
 				<li>
@@ -137,14 +124,6 @@ const FooterNav = () => (
 								</clipPath>
 							</defs>
 						</svg>
-						{
-							/* <span
-							id='Twitter'
-							className='sr-only'
-						>
-							Twitter
-						</span> */
-						}
 					</a>
 				</li>
 				<li>
@@ -167,15 +146,6 @@ const FooterNav = () => (
 								fill='#999999'
 							/>
 						</svg>
-
-						{
-							/* <span
-							id='LinkedIn'
-							className='sr-only'
-						>
-							LinkedIn
-						</span> */
-						}
 					</a>
 				</li>
 			</ul>

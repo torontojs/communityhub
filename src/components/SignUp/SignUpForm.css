@@ -42,20 +42,9 @@
 	outline: none;
 }
 
-.underline { text-decoration: underline; }
-
 .have-account { & p { text-align: center; } }
 
-.line {
-	background-color: #cccccc;
-	display: block;
-	height: 1px;
-	width: 100%;
-}
-
-.login-form:has(#email-input:user-invalid) #email-error { display: block; }
-
-.text-size { font-size: var(--text-xs); }
+.passwordError { margin-top: 0.5rem; }
 
 .password-meter {
 	display: flex;
@@ -85,11 +74,11 @@
 	&[data-password-strength='Weak'] { display: flex; }
 	&[data-password-strength='Fair'] { display: flex; }
 	&[data-password-strength='Good'] { display: flex; }
-}
 
-.suggestion p {
-	letter-spacing: 0%;
-	line-height: 1.6;
+	p {
+		letter-spacing: 0%;
+		line-height: 1.6;
+	}
 }
 
 .suggestion-icon {
@@ -110,3 +99,8 @@
 
 #email-input-helper-text { display: none; }
 #email-input:not(:focus):user-invalid ~ #email-input-helper-text { display: block; }
+
+.button-styling {
+	background: #ef343f;
+	color: white;
+}
