@@ -126,7 +126,7 @@ const SignUpForm = (): React.JSX.Element => {
 					type='password'
 					name='password'
 					value={password}
-					onChange={handleChange}
+					onInput={handleChange}
 					placeholder='Your password'
 					required
 					aria-describedby='password-input-strength password-input-suggestion'
