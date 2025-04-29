@@ -1,0 +1,44 @@
+/* TODO: Remove this duplicate base style */
+.check-email-page {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-lg);
+	margin-inline: auto;
+	max-width: min(100%, 400px);
+	padding: var(--spacing-lg) var(--spacing-md);
+
+	@media screen and (min-width: 640px) { padding: var(--spacing-lg) 0; }
+}
+
+.check-email-main {
+	align-items: center;
+	border: var(--border);
+	border-radius: var(--rounded-md);
+	display: flex;
+	flex-direction: column;
+	font-size: var(--text-md);
+	gap: var(--spacing-md);
+	justify-content: center;
+	padding: var(--spacing-sm);
+	text-align: center;
+
+	hr {
+		border-bottom: none;
+		border-top: var(--border);
+		width: 100%;
+	}
+}
+
+.check-email-change {
+	color: var(--color-accent);
+	text-decoration: underline;
+}
+
+.check-email-wait {
+	align-items: center;
+	color: var(--color-helper);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+}
