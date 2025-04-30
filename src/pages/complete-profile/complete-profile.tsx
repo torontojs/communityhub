@@ -2,7 +2,6 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import 'open-props';
-import '../../basic-css-reset.css';
 import Button from '../../components/Button/Button';
 import { BlueSky } from '../../components/Icons/Social/BlueSky';
 import { DevTo } from '../../components/Icons/Social/DevTo';
