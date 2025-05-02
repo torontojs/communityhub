@@ -26,7 +26,7 @@ const CompleteProfile = () => {
 		{ name: 'Threads', element: <Threads />, visible: true },
 		{ name: 'LinkedIn', element: <LinkedIn />, visible: true },
 		{ name: 'BlueSky', element: <BlueSky />, visible: true },
-		{ name: 'X ', element: <XTwitter />, visible: true },
+		{ name: 'X', element: <XTwitter />, visible: true },
 		{ name: 'Dev.to', element: <DevTo />, visible: true }
 	]);
 	const [socialAccountInputs, setSocialAccountInputs] = useState<string[]>([]);
@@ -90,7 +90,6 @@ const CompleteProfile = () => {
 				<h2>Complete your profile</h2>
 
 				<div id='fields-wrapper'>
-					{/* TODO: Make this details component */}
 					<details open>
 						<summary className='text-h6'>
 							<span>In a nutshell:</span>
@@ -98,7 +97,7 @@ const CompleteProfile = () => {
 
 						<div className='details-content-wrapper'>
 							<div className='details-nutshell-grid'>
-								{/* TODO: Create input components with their own css */}
+								{/* TODO: Create resuable input components later */}
 								<div>
 									<label htmlFor='name'>Name</label>
 									<input
@@ -133,6 +132,7 @@ const CompleteProfile = () => {
 										type='text'
 										aria-description='Your slack handle to TorontoJS'
 										placeholder='Your slack handle to TorontoJS'
+										required
 									/>
 								</div>
 								<div>
@@ -234,8 +234,7 @@ const CompleteProfile = () => {
 						</div>
 					</details>
 
-					{/* TODO: Image upload */}
-					{/* TODO: Add green check icon on successful section completion */}
+					{/* TODO: Need to confirm adding green check icon on successful section completion on mobile view */}
 					<details open>
 						<summary className='text-h6'>
 							<span>Avatar:</span>
@@ -274,6 +273,7 @@ const CompleteProfile = () => {
 									/>
 									{photoFile && (
 										<button
+											type='button'
 											onClick={() => setPhotoFile(null)}
 											className='custom-file-upload'
 										>
@@ -331,6 +331,7 @@ const CompleteProfile = () => {
 												<span key={i}>
 													{skill}
 													<button
+														type='button'
 														aria-label='Remove Skill'
 														onClick={() => handleRemoveSkill(i)}
 													>
@@ -357,6 +358,7 @@ const CompleteProfile = () => {
 											(socialIcon) =>
 												socialIcon.visible && (
 													<button
+														type='button'
 														onClick={() => handleAddSocialAccount(socialIcon.name)}
 													>
 														{socialIcon.element}
@@ -370,7 +372,10 @@ const CompleteProfile = () => {
 										<div>
 											<label htmlFor={socialInput}>
 												{socialInput}
-												<button onClick={() => handleRemoveSocialAccount(socialInput)} />
+												<button
+													type='button'
+													onClick={() => handleRemoveSocialAccount(socialInput)}
+												/>
 											</label>
 											<input
 												id={socialInput}
