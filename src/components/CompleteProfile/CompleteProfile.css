@@ -61,19 +61,6 @@
 				gap: var(--spacing-sm);
 				grid-template-columns: repeat(3, 1fr);
 				justify-content: space-between;
-
-				/* .text-input#pronouns {
-					&::after {
-						background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' viewBox='0 0 12 6' fill='none'%3E%3Cpath d='M6 6L0 0H12L6 6Z' fill='%23999999'/%3E%3C/svg%3E");
-						background-position: center;
-						background-repeat: no-repeat;
-						background-size: contain;
-						content: '';
-						display: inline-block;
-						height: 1rem;
-						width: 1rem;
-					}
-				} */
 			}
 
 			.dob-wrapper {
@@ -407,8 +394,6 @@
 		border: var(--border);
 		border-radius: var(--rounded-xs);
 		box-sizing: border-box;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
 		height: 2.33rem;
 		padding: var(--spacing-xs);
 		width: 100%;
