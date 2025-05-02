@@ -9,6 +9,7 @@ import { Threads } from '../Icons/Social/Threads.tsx';
 import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
+
 interface SocialIcons {
 	name: string;
 	element: JSX.Element;
@@ -240,13 +241,6 @@ const CompleteProfile = () => {
 							<span>Avatar:</span>
 						</summary>
 
-					<div className='details-content-wrapper'>
-						<div className='details-content-file-upload'>
-							{photoFile && (
-								<picture>
-									<img src={photoFile} />
-								</picture>
-							)}
 						<div className='details-content-wrapper'>
 							<div className='details-content-file-upload'>
 								{photoFile && (
@@ -281,10 +275,6 @@ const CompleteProfile = () => {
 										</button>
 									)}
 								</div>
-
-						</div>
-					</div>
-				</details>
 							</div>
 						</div>
 					</details>
