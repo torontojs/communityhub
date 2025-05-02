@@ -54,8 +54,8 @@ const CompleteProfile = () => {
 		}
 	};
 
-	const handleRemoveSkill = (index: number) => {
-		setSkills((prevSkill) => prevSkill.filter((_, i) => i !== index));
+	const handleRemoveSkill = (targetSkill: string) => {
+		setSkills((prevSkills) => prevSkills.filter((skill) => skill !== targetSkill));
 	};
 
 	const toggleIconVisibility = (iconName: string) => {
@@ -317,13 +317,13 @@ const CompleteProfile = () => {
 									<label htmlFor='skill'>
 										Your skills
 										<div id='skills'>
-											{skills.map((skill, i) => (
-												<span key={i}>
+											{skills.map((skill) => (
+												<span key={skill}>
 													{skill}
 													<button
 														type='button'
 														aria-label='Remove Skill'
-														onClick={() => handleRemoveSkill(i)}
+														onClick={() => handleRemoveSkill(skill)}
 													>
 														x
 													</button>
@@ -348,6 +348,7 @@ const CompleteProfile = () => {
 											(socialIcon) =>
 												socialIcon.visible && (
 													<button
+														key={socialIcon.name}
 														type='button'
 														onClick={() => handleAddSocialAccount(socialIcon.name)}
 													>
