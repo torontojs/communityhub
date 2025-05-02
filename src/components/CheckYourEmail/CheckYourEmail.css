@@ -30,12 +30,19 @@
 	}
 }
 
-.check-email-change {
+.change-email,
+.resend-link {
 	color: var(--color-accent);
 	text-decoration: underline;
 }
 
-.check-email-wait {
+.new-link-sent {
+	color: var(--color-accent);
+	opacity: 0.5;
+	text-decoration: underline;
+}
+
+.wait-for-link {
 	align-items: center;
 	color: var(--color-helper);
 	display: flex;

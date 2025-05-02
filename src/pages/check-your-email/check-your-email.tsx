@@ -10,7 +10,7 @@ const root = document.getElementById('root') as HTMLDivElement;
 createRoot(root).render(
 	(
 		<StrictMode>
-			<CheckYourEmail />
+			<CheckYourEmail email='hadi.kamal@gmail.com' />
 		</StrictMode>
 	)
 );
