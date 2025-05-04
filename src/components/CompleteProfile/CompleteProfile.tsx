@@ -16,11 +16,16 @@ interface SocialIcons {
 	visible: boolean;
 }
 
+interface Skill {
+	id: string;
+	name: string;
+}
+
 const CompleteProfile = () => {
 	const skillInputRef = useRef<HTMLInputElement>(null);
 
 	const [photoFile, setPhotoFile] = useState<string | null>(null);
-	const [skills, setSkills] = useState<string[]>([]);
+	const [skills, setSkills] = useState<Skill[]>([]);
 	const [socialIcons, setSocialIcons] = useState<SocialIcons[]>([
 		{ name: 'Instagram', element: <Instagram />, visible: true },
 		{ name: 'Facebook', element: <Facebook />, visible: true },
@@ -39,9 +44,10 @@ const CompleteProfile = () => {
 		}
 	};
 
-	const handleAddSkill = (skill: string) => {
-		if (skill.trim() !== '') {
-			setSkills([...skills, skill]);
+	const handleAddSkill = (skillName: string) => {
+		if (skillName.trim() !== '') {
+			const skillId = skillName + Date.now();
+			setSkills([...skills, { id: skillId, name: skillName }]);
 			if (skillInputRef.current) { skillInputRef.current.value = ''; }
 		}
 	};
@@ -55,7 +61,7 @@ const CompleteProfile = () => {
 	};
 
 	const handleRemoveSkill = (targetSkill: string) => {
-		setSkills((prevSkills) => prevSkills.filter((skill) => skill !== targetSkill));
+		setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== targetSkill));
 	};
 
 	const toggleIconVisibility = (iconName: string) => {
@@ -318,12 +324,12 @@ const CompleteProfile = () => {
 										Your skills
 										<div id='skills'>
 											{skills.map((skill) => (
-												<span key={skill}>
-													{skill}
+												<span key={skill.id}>
+													{skill.name}
 													<button
 														type='button'
 														aria-label='Remove Skill'
-														onClick={() => handleRemoveSkill(skill)}
+														onClick={() => handleRemoveSkill(skill.id)}
 													>
 														x
 													</button>
