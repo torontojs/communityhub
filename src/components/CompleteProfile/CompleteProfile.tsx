@@ -1,14 +1,15 @@
-import { useRef, useState } from 'react';
+import { type FormEventHandler, useRef, useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { BlueSky } from '../Icons/Social/BlueSky.tsx';
 import { DevTo } from '../Icons/Social/DevTo.tsx';
 import { Facebook } from '../Icons/Social/Facebook.tsx';
 import { Instagram } from '../Icons/Social/Instagram.tsx';
-import { LinkedIn } from '../Icons/Social/LinkedIn.tsx';
+import { Mastodon } from '../Icons/Social/Mastodon.tsx';
 import { Threads } from '../Icons/Social/Threads.tsx';
 import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
+import { getApiUrl } from '../../utilities/getApiUrl.ts';
 
 interface SocialIcons {
 	name: string;
@@ -20,6 +21,53 @@ interface Skill {
 	id: string;
 	name: string;
 }
+
+const apiUrl = getApiUrl();
+
+// TODO: Know how to get the profileId to get profile data
+const profileId = '184910384091324';
+
+interface UpdateProfileParams {
+	email: string;
+	slackHandle: string;
+	isBasedOnGTA: boolean;
+	canJoinLocalEvents: boolean;
+	name?: string;
+	skills?: string[];
+	pronouns?: string;
+	socialAccounts?: string[];
+
+	birthday?: string;
+	avatar?: string;
+	links?: string[];
+}
+
+const updateProfile = async (args: UpdateProfileParams) => {
+	try {
+		const response = await fetch(`${apiUrl}/profiles/${profileId}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ ...args })
+		});
+		if (!response.ok) {
+			const errorData = await response.json();
+			console.log('Response not ok: ', errorData);
+		}
+	} catch (e) {
+		if (import.meta.env.MODE === 'development') {
+			if (e instanceof Error) {
+				console.error(e.name);
+				console.error(e.cause);
+				console.error(e.message);
+				console.error(e.stack);
+			} else {
+				throw new Error('Error sign-up');
+			}
+		}
+	}
+};
 
 const CompleteProfile = () => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -43,6 +91,9 @@ const CompleteProfile = () => {
 	const handleUploadPhotoButtonClick = () => {
 		fileInputRef.current?.click();
 	};
+
+	// Const [isLoading, setIsLoading] = useState<boolean>(false);
+	// Const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 	const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
@@ -95,6 +146,24 @@ const CompleteProfile = () => {
 		toggleIconVisibility(socialAccountToRemove);
 	};
 
+	const getUpdateProfileParams = (_formData: FormData): UpdateProfileParams => ({} as unknown as UpdateProfileParams);
+
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+		event.preventDefault();
+		// 1. extract data we need from the form
+		const formData = new FormData(event.currentTarget);
+		const updateProfileParams = getUpdateProfileParams(formData);
+
+		try {
+			// SetIsLoading(true);
+			await updateProfile(updateProfileParams);
+		} catch (error) {
+			// SetErrorMessage(error.message);
+		} finally {
+			// SetIsLoading(false);
+		}
+	};
+
 	return (
 		<>
 			<StepBar
@@ -105,7 +174,7 @@ const CompleteProfile = () => {
 					{ label: 'Complete your profile' }
 				]}
 			/>
-			<form action='' encType='multipart/form-data' id='complete-profile-form'>
+			<form onSubmit={handleSubmit} encType='multipart/form-data' id='complete-profile-form'>
 				<h2>Complete your profile</h2>
 
 				<div id='fields-wrapper'>
