@@ -33,7 +33,7 @@ const CompleteProfile = () => {
 		{ name: 'Instagram', element: <Instagram />, visible: true },
 		{ name: 'Facebook', element: <Facebook />, visible: true },
 		{ name: 'Threads', element: <Threads />, visible: true },
-		{ name: 'LinkedIn', element: <LinkedIn />, visible: true },
+		{ name: 'Mastodon', element: <Mastodon />, visible: true },
 		{ name: 'BlueSky', element: <BlueSky />, visible: true },
 		{ name: 'X', element: <XTwitter />, visible: true },
 		{ name: 'Dev.to', element: <DevTo />, visible: true }
