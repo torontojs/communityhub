@@ -6,6 +6,7 @@ import './CheckYourEmail.css';
 
 const CheckYourEmail = ({ email }: { email: string }) => {
 	const RESEND_MINUTES = 10;
+	const MILLISECONDS_PER_MINUTE = 60 * 1000;
 	const [minutes, setMinutes] = useState(RESEND_MINUTES);
 	const [hasResent, setHasResent] = useState(false);
 
@@ -19,7 +20,7 @@ const CheckYourEmail = ({ email }: { email: string }) => {
 				}
 				return prevMinutes - 1;
 			});
-		}, 60 * 1000);
+		}, MILLISECONDS_PER_MINUTE);
 
 		return () => clearInterval(timer);
 	}, [hasResent]);
