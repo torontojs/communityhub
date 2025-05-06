@@ -75,7 +75,7 @@
 			}
 
 			/* Media query for smaller screens */
-			@media (max-width: 768px) { .details-nutshell-grid { grid-template-columns: 1fr; } }
+			@media (max-width: 48rem) { .details-nutshell-grid { grid-template-columns: 1fr; } }
 
 			.input-required {
 				& > span {
@@ -131,31 +131,31 @@
 				background-color: white;
 				border: var(--border);
 				border-color: var(--color-accent);
-				border-radius: 10px;
+				border-radius: 0.625rem;
 				content: '';
-				height: 18px;
+				height: 1.125rem;
 				margin-right: 0.4rem;
-				min-width: 36px;
+				min-width: 2.25rem;
 				transition: 300ms ease-in-out;
-				width: 36px;
+				width: 2.25rem;
 			}
 
 			.slider-checkbox:checked + label::before { background-color: var(--color-accent); }
 
 			.slider-checkbox + label::after {
 				background-color: var(--color-accent);
-				border-radius: 10px;
+				border-radius: 0.625rem;
 				content: '';
-				height: 14px;
-				left: 3px;
+				height: 0.875rem;
+				left: 0.188rem;
 				position: absolute;
 				transition: 300ms ease-in-out;
-				width: 14px;
+				width: 0.875rem;
 			}
 
 			.slider-checkbox:checked + label::after {
 				background-color: white;
-				left: 20px;
+				left: 1.25rem;
 			}
 		}
 	}
@@ -167,10 +167,10 @@
 		justify-content: center;
 
 		& picture {
-			max-height: 128px;
-			max-width: 128px;
-			min-height: 52px;
-			min-width: 52px;
+			max-height: 8rem;
+			max-width: 8rem;
+			min-height: 3.25rem;
+			min-width: 3.25rem;
 
 			& img {
 				aspect-ratio: 1;
@@ -186,8 +186,8 @@
 			flex-direction: column;
 			gap: var(--spacing-xs);
 			justify-content: start;
-			min-width: 244px;
-			width: 244px;
+			min-width: 15.25rem;
+			width: 15.25rem;
 
 			& input[type='file'] { display: none; }
 
@@ -267,7 +267,7 @@
 					align-items: center;
 					background-color: var(--color-accent);
 					border: solid var(--border-base) var(--color-accent);
-					border-radius: 99px;
+					border-radius: 6.188rem;
 					color: var(--color-white);
 					display: flex;
 					font-size: var(--text-xs);
@@ -297,7 +297,7 @@
 				input#skill {
 					background: none;
 					border: solid var(--border-base) var(--color-grey);
-					border-radius: 99px;
+					border-radius: 6.188rem;
 					color: inherit;
 					flex-grow: 1;
 					flex-shrink: 1;
@@ -371,7 +371,7 @@
 	}
 
 	/* Media query for smaller screens */
-	@media (max-width: 768px) {
+	@media (max-width: 48rem) {
 		#details-information-grid {
 			grid-template-columns: repeat(1, 1fr);
 
