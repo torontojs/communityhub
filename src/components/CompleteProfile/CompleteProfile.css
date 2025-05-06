@@ -233,7 +233,7 @@
 		grid-template-columns: repeat(3, 1fr);
 		justify-content: space-between;
 
-		label[for='linkedInProfile'], label[for='githubProfile'], label[for='portfolio'] {
+		label:is([for='linkedInProfile'], [for='githubProfile'], [for='portfolio']) {
 			display: inline-block;
 			margin-bottom: var(--spacing-xs);
 		}
@@ -243,7 +243,7 @@
 			flex-direction: column;
 			grid-column: 1 / span 3;
 
-			> label {
+			& > label {
 				font-size: var(--text-base);
 				letter-spacing: 0;
 				line-height: 160%;
@@ -263,11 +263,11 @@
 				padding: var(--spacing-xs);
 				resize: none;
 
-				> span {
+				& > span {
 					align-items: center;
 					background-color: var(--color-accent);
 					border: solid var(--border-base) var(--color-accent);
-					border-radius: 6.188rem;
+					border-radius: 100vmax;		
 					color: var(--color-white);
 					display: flex;
 					font-size: var(--text-xs);
@@ -279,7 +279,7 @@
 					padding-right: var(--spacing-xs);
 					transition: all ease-in-out 300ms;
 
-					> button {
+					& > button {
 						background: none;
 						border: none;
 						color: white;
@@ -290,14 +290,13 @@
 					&:hover, &:focus-within, &:has(:active) {
 						background-color: var(--color-white);
 						color: var(--color-accent);
-						> button { color: var(--color-accent); }
+						& > button { color: var(--color-accent); }
 					}
 				}
 
 				input#skill {
 					background: none;
-					border: solid var(--border-base) var(--color-grey);
-					border-radius: 6.188rem;
+					border: solid var(--border-base) var(--color-grey);					
 					color: inherit;
 					flex-grow: 1;
 					flex-shrink: 1;
@@ -318,18 +317,16 @@
 			gap: var(--spacing-sm);
 			grid-column: 1 / span 3;
 
-			> div {
+			& > div {
 				align-items: center;
 				display: flex;
 				gap: var(--spacing-sm);
 
-				button {
+				& > button {
 					background-color: transparent;
 					border: none;
 					height: 1rem;
 					width: 1rem;
-
-					> svg { fill: var(--color-accent) !important; }
 				}
 			}
 		}
@@ -340,19 +337,19 @@
 			grid-column: 1 / span 3;
 			grid-template-columns: repeat(3, 1fr);
 
-			> div {
+			& > div {
 				display: flex;
 				flex-direction: column;
 				gap: var(--spacing-xs);
 
-				> label {
+				& > label {
 					align-items: center;
 					display: flex;
 					justify-content: space-between;
 					letter-spacing: 0;
 					line-height: 160%;
 
-					> button {
+					& > button {
 						background-color: var(--color-white);
 						background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 17 17' fill='none'%3E%3Cpath d='M12.6699 4.5L4.66992 12.5' stroke='%23ED342F' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4.66992 4.5L12.6699 12.5' stroke='%23ED342F' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 						background-position: center;
@@ -386,7 +383,7 @@
 		}
 	}
 
-	> div > label { margin-bottom: var(--spacing-sm); }
+	& > div & > label { margin-bottom: var(--spacing-sm); }
 
 	/* TODO: move input styles to its own component */
 	.text-input {
