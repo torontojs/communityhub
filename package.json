@@ -1,10 +1,9 @@
 {
-	"name": "vms-fe-mvp",
-	"private": true,
-	"version": "0.0.1",
-	"type": "module",
-	"scripts": {
-		"start": "npm run dev",
+  "name": "vms_test_1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run dev",
 		"prepare": "husky",
 		"dev": "vite",
 		"build": "vite build",
@@ -14,15 +13,21 @@
 		"lint": "npm run typecheck && npm run lint:js",
 		"prepreview": "npm run build",
 		"preview": "vite preview"
-	},
-	"dependencies": {
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+
+  "dependencies": {
 		"open-props": "^1.7.13",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"zxcvbn": "^4.4.2"
 	},
-	"devDependencies": {
-		"@types/node": "22.12.0",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "22.14.0",
 		"@types/react": "^18.3.1",
 		"@types/react-dom": "^18.3.1",
 		"@types/zxcvbn": "^4.4.5",
@@ -37,24 +42,6 @@
 		"husky": "9.1.7",
 		"typescript": "5.8.2",
 		"vite": "^6.2.2"
-	},
-	"volta": {
-		"node": "22.12.0"
-	},
-	"overrides": {
-		"array-includes": "npm:@nolyfill/array-includes@^1",
-		"array.prototype.findlast": "npm:@nolyfill/array.prototype.findlast@^1",
-		"array.prototype.flat": "npm:@nolyfill/array.prototype.flat@^1",
-		"array.prototype.flatmap": "npm:@nolyfill/array.prototype.flatmap@^1",
-		"array.prototype.tosorted": "npm:@nolyfill/array.prototype.tosorted@^1",
-		"es-iterator-helpers": "npm:@nolyfill/es-iterator-helpers@^1",
-		"hasown": "npm:@nolyfill/hasown@^1",
-		"is-core-module": "npm:@nolyfill/is-core-module@^1",
-		"object.assign": "npm:@nolyfill/object.assign@^1",
-		"object.entries": "npm:@nolyfill/object.entries@^1",
-		"object.fromentries": "npm:@nolyfill/object.fromentries@^1",
-		"object.values": "npm:@nolyfill/object.values@^1",
-		"string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1",
-		"string.prototype.repeat": "npm:@nolyfill/string.prototype.repeat@^1"
-	}
+
+  }
 }

@@ -1,0 +1,100 @@
+import { test, expect } from '@playwright/test';
+
+test('has title', async ({ page }) => {
+  await page.goto('http://localhost:3000/pages/profiles/');
+
+  // Expect a title "to contain" a substring.
+  await expect(page.locator('h3')).toHaveText('Volunteer Profile');
+
+});
+
+test('Profile Record Field Test', async ({ page }) => {
+  await page.goto('http://localhost:3000/pages/profiles/');
+
+  await page.waitForSelector('.profile-header div p strong');
+  const locator_list = await page.locator('.profile-header div p strong').all();
+
+  // Expect a title "to contain" a substring.
+  const fieldCount = await page.locator('.profile-header').count();
+  console.log(fieldCount);
+
+  // console.log(await page.locator('.profile-header div p').all());
+  console.log(await page.getByLabel('ID:'));
+
+  const profileNames_Collection = page.locator('.profile-header div p strong');
+  console.log(await profileNames_Collection.allInnerTexts());
+
+  test.setTimeout(10000);
+
+  const profileFields = [
+    'ID:',
+    'Email:',
+    'Name:',
+    'Description:',
+    'Created At:',
+    'Inserted At:'
+  ]
+
+
+
+let i = 0;
+let id_num = 0;
+let s1, s2;
+for (const lo of await locator_list) {
+ 
+  console.log(await lo.textContent());
+
+  if(await lo.textContent() == profileFields[0]) {
+    s1 = lo.textContent();
+    // s2 = s1
+
+  }
+
+  if (await lo.textContent() == profileFields[i]) {
+    console.log("&&&&************************************");
+
+  } else {
+
+  }
+  i++;
+
+  if (i > profileFields.length) { i = 0;}
+}
+
+for (const lo2 of await page.getByRole('paragraph').all()) {
+  console.log(await lo2.textContent())
+}
+
+
+  
+  // console.log(profileNames_Collection);
+  // expect(await profileNames_Collection.allInnerTexts()).toEqual(profileFields);
+
+
+});
+
+
+
+/*
+test("all Facebook links are valid", async ({page, request}) => {
+    await page.setContent('html');
+    const links = await page.locator("a")
+      .evaluateAll(els => els.map(el => el.href));
+    const chunk = 3;
+  
+    for (let i = 0; i < links.length; i += chunk) {
+      await Promise.all(links.slice(i, i + chunk).map(e => request.get(e)));
+    }
+  });
+  */
+ 
+
+test('get started link', async ({ page }) => {
+  await page.goto('http://localhost:3000/pages/profiles/');
+
+  // Click the get started link.
+  await page.getByRole('link', { name: 'Get started' }).click();
+
+  // Expects page to have a heading with the name of Installation.
+  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+});
