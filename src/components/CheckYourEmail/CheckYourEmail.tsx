@@ -31,7 +31,7 @@ const CheckYourEmail = ({ email }: { email: string }) => {
 			<main className='check-email-main'>
 				<p>
 					We&apos;ve sent a message to your e-mail <b>{email}</b> (Is it wrong?{' '}
-					<a href='#' className='change-email'>
+					<a href='#'>
 						Change it
 					</a>
 					) with a link to activate your account.
@@ -41,10 +41,10 @@ const CheckYourEmail = ({ email }: { email: string }) => {
 					If you didn&apos;t get the link, check your spam folder or resend it in {RESEND_MINUTES} minutes.
 				</p>
 				<hr />
-				{hasResent && minutes > 0 && <p className='new-link-sent'>New activation link sent</p>}
+				{hasResent && minutes > 0 && <p className='color-accent link-sent'>New activation link sent</p>}
 				{minutes > 0 ?
 					(
-						<div className='wait-for-link'>
+						<div className='color-helper'>
 							<ClockIcon />
 							<p>Wait {minutes} minutes for a new activation link</p>
 						</div>
@@ -52,7 +52,6 @@ const CheckYourEmail = ({ email }: { email: string }) => {
 					(
 						<a
 							href='#'
-							className='resend-link'
 							onClick={() => {
 								setHasResent(true);
 								setMinutes(RESEND_MINUTES);

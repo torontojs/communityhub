@@ -30,22 +30,8 @@
 	}
 }
 
-.change-email,
-.resend-link {
-	color: var(--color-accent);
-	text-decoration: underline;
-}
-
-.new-link-sent {
-	color: var(--color-accent);
+/* When showing the 'New activation link sent' message */
+.link-sent {
 	opacity: 0.5;
 	text-decoration: underline;
-}
-
-.wait-for-link {
-	align-items: center;
-	color: var(--color-helper);
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacing-xs);
 }
