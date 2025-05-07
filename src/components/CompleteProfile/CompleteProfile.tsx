@@ -22,6 +22,8 @@ interface Skill {
 }
 
 const CompleteProfile = () => {
+	const fileInputRef = useRef<HTMLInputElement>(null);
+	const uploadPhotoButtonRef = useRef<HTMLButtonElement>(null);
 	const skillInputRef = useRef<HTMLInputElement>(null);
 
 	const [photoFile, setPhotoFile] = useState<string | null>(null);
@@ -37,11 +39,20 @@ const CompleteProfile = () => {
 	]);
 	const [socialAccountInputs, setSocialAccountInputs] = useState<string[]>([]);
 
+	const handleUploadPhotoButtonClick = () => {
+		fileInputRef.current?.click();
+	};
+
 	const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
 			setPhotoFile(URL.createObjectURL(file));
 		}
+	};
+
+	const handleRemovePhoto = () => {
+		setPhotoFile(null);
+		uploadPhotoButtonRef.current?.focus();
 	};
 
 	const handleAddSkill = (skillName: string) => {
@@ -117,7 +128,6 @@ const CompleteProfile = () => {
 								<div>
 									<label htmlFor='email' className='input-required'>
 										E-mail
-										<span>REQUIRED</span>
 									</label>
 									<input
 										className='text-input'
@@ -130,15 +140,14 @@ const CompleteProfile = () => {
 								<div>
 									<label htmlFor='slack-handle' className='input-required'>
 										Slack handle
-										<span>REQUIRED</span>
 									</label>
 									<input
 										className='text-input'
 										id='slack-handle'
 										name='slack-handle'
 										type='text'
-										aria-description='Your slack handle to TorontoJS'
 										placeholder='Your slack handle to TorontoJS'
+										aria-label='Your slack handle to TorontoJS'
 										required
 									/>
 								</div>
@@ -164,6 +173,9 @@ const CompleteProfile = () => {
 									<div className='dob-wrapper'>
 										<label htmlFor='month'>Month</label>
 										<select id='month' name='month'>
+											<option selected disabled hidden value=''>
+												Select a month
+											</option>
 											<option value='01'>January</option>
 											<option value='02'>February</option>
 											<option value='03'>March</option>
@@ -179,6 +191,7 @@ const CompleteProfile = () => {
 										</select>
 										<label htmlFor='day'>Day</label>
 										<select id='day' name='day'>
+											<option selected disabled hidden value=''>Select a day</option>
 											<option value='01'>1</option>
 											<option value='02'>2</option>
 											<option value='03'>3</option>
@@ -262,23 +275,29 @@ const CompleteProfile = () => {
 										</span>
 									)}
 
-									<label htmlFor='image-upload' className='custom-file-upload'>
+									<Button
+										type='button'
+										onClick={handleUploadPhotoButtonClick}
+										// TODO: Uncomment after updating the Button Component Issue #57
+										// ref={uploadPhotoButtonRef}
+									>
 										Upload {photoFile ? 'New' : 'Your'} Photo{' '}
-									</label>
+									</Button>
 									<input
+										ref={fileInputRef}
 										id='image-upload'
 										type='file'
 										accept='image/png, image/jpeg'
 										onChange={handlePhotoUpload}
 									/>
 									{photoFile && (
-										<button
+										<Button
 											type='button'
-											onClick={() => setPhotoFile(null)}
-											className='custom-file-upload'
+											hasOutline
+											onClick={handleRemovePhoto}
 										>
 											Remove Photo
-										</button>
+										</Button>
 									)}
 								</div>
 							</div>
@@ -321,7 +340,7 @@ const CompleteProfile = () => {
 								</div>
 								<div id='details-information-skills'>
 									<label htmlFor='skill'>
-										Your skills
+										<span>Your skills</span>
 										<div id='skills'>
 											{skills.map((skill) => (
 												<span key={skill.id}>
@@ -354,6 +373,7 @@ const CompleteProfile = () => {
 											(socialIcon) =>
 												socialIcon.visible && (
 													<button
+														aria-label={`Add ${socialIcon.name} account`}
 														key={socialIcon.name}
 														type='button'
 														onClick={() => handleAddSocialAccount(socialIcon.name)}
