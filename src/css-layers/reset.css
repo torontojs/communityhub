@@ -11,7 +11,7 @@
 	}
 
 	/* --- Remove Default Styling for Lists --- */
-	ul, ol { list-style: none; }
+	nav :is(ul, ol) { list-style: none; }
 
 	/* --- Remove Default Button Styles --- */
 	button { cursor: pointer; }

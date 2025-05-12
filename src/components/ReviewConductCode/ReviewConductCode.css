@@ -67,6 +67,7 @@
 .dropdown-list {
 	display: flex;
 	flex-direction: column;
+	list-style: none;
 	width: 100%;
 
 	li:nth-child(1) summary {
