@@ -6,6 +6,8 @@ export const CodeOfConduct = () => (
 			<br />
 			<a className='hide-print' href='/pages/print-documents/?document=code-of-conduct' target='_blank'>View this document in a full page</a>
 		</p>
+
+		<h3>The short version</h3>
 		<p>
 			Toronto JS is dedicated to providing a harassment-free environment for everyone, regardless of their gender, sexual orientation, disability, physical appearance, body
 			size, race, or religion. This community welcomes participation from people of different skill levels, orientations and backgrounds.
@@ -23,9 +25,9 @@ export const CodeOfConduct = () => (
 		</p>
 		<p>Thank you for helping us create a welcoming space for all.</p>
 
-		<h2>The longer version</h2>
+		<h3>The longer version</h3>
 
-		<h3>Welcoming behavior</h3>
+		<h4>Welcoming behavior</h4>
 		<p>Examples of behavior that contributes to creating a positive environment include:</p>
 		<ul>
 			<li>Using welcoming and inclusive language</li>
@@ -39,20 +41,20 @@ export const CodeOfConduct = () => (
 			<li>Showing empathy towards other community members</li>
 		</ul>
 
-		<h3>Unacceptable behavior</h3>
+		<h4>Unacceptable behavior</h4>
 		<p>The following types of behavior are unacceptable at Toronto JS, both online and in-person, and constitute code of conduct violations.</p>
 
-		<h3>Abusive behavior</h3>
+		<h4>Abusive behavior</h4>
 		<ul>
 			<li>
 				Harassment: offensive verbal comments related to gender, sexual orientation, disability, physical appearance, body size, race, religion, sexual images in public
 				spaces, deliberate intimidation, stalking, following, harassing photography or recording, sustained disruption of talks or other events, inappropriate physical
 				contact or telecommunication, derisive comments regarding technical background, and unwelcome sexual or romantic attention.
 			</li>
-			<li>Threats: threatening someone physically or verbally. For example, threatening to publicize sensitive information about someone’s personal life.</li>
+			<li>Threats: threatening someone physically or verbally. For example, threatening to publicize sensitive information about someone"s personal life.</li>
 		</ul>
 
-		<h3>Unwelcoming behavior</h3>
+		<h4>Unwelcoming behavior</h4>
 		<ul>
 			<li>
 				Blatant -isms, saying things that are explicitly racist, sexist, homophobic, etc. For example, arguing that some people are less intelligent because of their
@@ -62,10 +64,10 @@ export const CodeOfConduct = () => (
 			</li>
 			<li>
 				Maliciousness towards other community members—deliberately attempting to make others feel bad, name-calling, singling out others for derision or exclusion. For
-				example, telling someone they’re not a real programmer or that they don’t belong at Toronto JS.
+				example, telling someone they"re not a real programmer or that they don"t belong at Toronto JS.
 			</li>
 			<li>
-				Being especially unpleasant or elitist—for example, if we’ve received reports from multiple members or organizer of annoying, rude, or especially distracting
+				Being especially unpleasant or elitist—for example, if we"ve received reports from multiple members or organizer of annoying, rude, or especially distracting
 				behavior.
 			</li>
 		</ul>
@@ -96,7 +98,7 @@ export const CodeOfConduct = () => (
 			strategy. That's why our social rules are designed to curtail specific behavior we've found to be destructive to a supportive, productive, and fun learning environment.
 		</p>
 
-		<h3>No feigning surprise</h3>
+		<h4>No feigning surprise</h4>
 		<p>
 			The first rule means you shouldn't act surprised when people say they don't know something. This applies to both technical things ("What?! I can't believe you don't
 			know what the stack is!") and non-technical things ("You don't know who RMS is?!"). Feigning surprise has absolutely no social or educational benefit: When people feign
@@ -104,22 +106,22 @@ export const CodeOfConduct = () => (
 			probably already guessed, this rule is tightly coupled to our belief in the importance of people feeling comfortable saying "I don't know" and "I don't understand."
 		</p>
 
-		<h3>No well-actually's</h3>
+		<h4>No well-actually's</h4>
 		<p>
 			A well-actually happens when someone says something that's almost - but not entirely - correct, and you say, "well, actually…" and then give a minor correction. This is
 			especially annoying when the correction has no bearing on the actual conversation. This doesn't mean that Toronto JS isn't about truth-seeking or that we don't care
-			about being precise. Almost all well-actually's in our experience are about grandstanding, not truth-seeking. (Source:{' '}
+			about being precise. Almost all well-actually's in our experience are about grandstanding, not truth-seeking. (Source:
 			<a href='http://tirania.org/'>Miguel de Icaza</a>)
 		</p>
 
-		<h3>No back-seat driving (in irl, face-to-face contexts)</h3>
+		<h4>No back-seat driving (in irl, face-to-face contexts)</h4>
 		<p>
 			If you overhear people working through a problem, please don't intermittently lob advice across the room. This can lead to a "too many cooks" problem, but more
 			important, it can be rude and disruptive to half-participate in a conversation. This isn't to say you shouldn't help, offer advice, or join conversations. On the
 			contrary, we encourage all those things. Rather, it just means that when you help or work with others, you should fully engage and not butt in sporadically.
 		</p>
 
-		<h3>No subtle "-isms"</h3>
+		<h4>No subtle "-isms"</h4>
 		<p>
 			Our last social rule bans subtle racism, sexism, homophobia, transphobia, ableism and other kinds of bias. This one is different from the rest, because it covers a
 			class of behaviors instead of one very specific pattern.
@@ -137,9 +139,9 @@ export const CodeOfConduct = () => (
 		</p>
 		<p>Moderators will not act on complaints regarding:</p>
 		<ul>
-			<li>‘Reverse’ -isms, including ‘reverse racism,’ ‘reverse sexism,’ and ‘cisphobia’</li>
-			<li>Reasonable communication of boundaries, such as 'leave me alone,' 'go away,' or 'I’m not discussing this with you.'</li>
-			<li>Someone’s refusal to explain or debate social justice concepts</li>
+			<li>"Reverse" -isms, including "reverse racism," "reverse sexism," and "cisphobia"</li>
+			<li>Reasonable communication of boundaries, such as "leave me alone," "go away," or "I'm not discussing this with you."</li>
+			<li>Someone"s refusal to explain or debate social justice concepts</li>
 			<li>Criticisms of racist, sexist, cissexist, or otherwise oppressive behavior or assumptions</li>
 		</ul>
 		<p>
@@ -151,7 +153,7 @@ export const CodeOfConduct = () => (
 			places.
 		</p>
 
-		<h3>Why have social rules?</h3>
+		<h4>Why have social rules?</h4>
 		<p>
 			The goal isn't to burden everyone with a bunch of annoying rules, or to give us a stick to bludgeon people with for "being bad." Rather, these rules are designed to
 			help all of us build a pleasant, productive, and fearless community.
@@ -168,7 +170,7 @@ export const CodeOfConduct = () => (
 			If you have any questions about any part of the code of conduct or social rules, please feel free to reach out to any of organizers or moderators.
 		</p>
 
-		<h2>Contact Information</h2>
+		<h3>Contact Information</h3>
 		<p>
 			If you have any concerns around social conduct or notice that someone may be the target harassment or oppressive behaviour, please reach out to a Toronto JS organizer
 			or volunteer. Please contact
@@ -180,43 +182,43 @@ export const CodeOfConduct = () => (
 			online community. We value your attendance.
 		</p>
 
-		<h2>
-			Report a Violation <br />(with or without your name)
-		</h2>
-		<p>Please provide the following information:</p>
-		<ul>
-			<li>the time and place the harassment took place</li>
-			<li>the member(s) involved in the event</li>
-			<li>any surrounding details you think are relevant to the report</li>
-		</ul>
-		<form
-			action='https://formspree.io/f/mayvyvzk'
-			method='POST'
-		>
-			<label htmlFor='report-replyto'>Email</label>
-			<input type='email' name='_replyto' id='report-replyto' />
-			<br />
-			<label htmlFor='report-message'>Description</label>
-			<textarea id='report-message' name='message' rows={5}></textarea>
-			<br />
-			<button type='submit'>Send</button>
-		</form>
+		<div className='hide-print'>
+			<h3>
+				Report a Violation (with or without your name)
+			</h3>
+			<p>Please provide the following information:</p>
+			<ul>
+				<li>the time and place the harassment took place</li>
+				<li>the member(s) involved in the event</li>
+				<li>any surrounding details you think are relevant to the report</li>
+			</ul>
+			<form
+				action='https://formspree.io/f/mayvyvzk'
+				method='POST'
+			>
+				<label htmlFor='report-replyto'>Email</label>
+				<input type='email' name='_replyto' id='report-replyto' />
+				<br />
+				<label htmlFor='report-message'>Description</label>
+				<textarea id='report-message' name='message' rows={5}></textarea>
+				<br />
+				<button type='submit'>Send</button>
+			</form>
+		</div>
 
-		<h2>License</h2>
+		<h3>License</h3>
 		<p>
-			The Toronto JS Code of Conduct is under a
-			<a href='http://creativecommons.org/about/cc0'>Creative Commons Zero</a> license. Our Code of Conduct was adapted from the{' '}
-			<a href='https://dev.to/code-of-conduct'>Dev.to Code Of Conduct</a>
-			It was forked from the
-			<a href='http://bangbangcon.com/conduct.html'>!!Con Code of Conduct</a>, which is also licensed under a
-			<a href='http://creativecommons.org/about/cc0'>Creative Commons Zero</a> license, and which itself was forked from
-			<a href='https://us.pycon.org/2013/about/code-of-conduct/'>PyCon 2013 Code of Conduct</a>, which is licensed under a
-			<a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 Unported License</a>, and which itself was forked from
+			The Toronto JS Code of Conduct is under a <a href='http://creativecommons.org/about/cc0'>Creative Commons Zero</a> license. Our Code of Conduct was adapted from the
+			{' '}
+			<a href='https://dev.to/code-of-conduct'>Dev.to Code Of Conduct.</a> It was forked from the{' '}
+			<a href='http://bangbangcon.com/conduct.html'>!!Con Code of Conduct</a>, which is also licensed under a{' '}
+			<a href='http://creativecommons.org/about/cc0'>Creative Commons Zero</a> license, and which itself was forked from{' '}
+			<a href='https://us.pycon.org/2013/about/code-of-conduct/'>PyCon 2013 Code of Conduct</a>, which is licensed under a{' '}
+			<a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 Unported License</a>, and which itself was forked from{' '}
 			<a href='http://geekfeminism.wikia.com/wiki/Conference_anti-harassment/Policy'>
 				an example policy from the Geek Feminism wiki, created by the Ada Initiative and other volunteers
-			</a>
-			and available under a
-			<a href='http://creativecommons.org/about/cc0'>Creative Commons Zero</a> license.
+			</a>{' '}
+			and available under a <a href='http://creativecommons.org/about/cc0'>Creative Commons Zero</a> license.
 		</p>
 	</>
 );
