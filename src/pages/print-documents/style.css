@@ -1,0 +1,30 @@
+@import url('../../index.css');
+
+@layer pages {
+	html { padding: 1rem; }
+
+	@media print {
+		:root {
+			color-scheme: light;
+			font-size: 12pt;
+		}
+
+		@page {
+			margin-block: 3rem;
+			margin-inline: 1.5rem;
+		}
+
+		h1, h2, h3, h4, h5, h6 { page-break-after: avoid; }
+
+		p, li, blockquote, figure, img, pre .line { page-break-inside: avoid; }
+
+		a { text-decoration: underline; }
+
+		a:not(:has(> :is(img, picture)))[href]::after {
+			content: '\00a0(' attr(href) ')';
+			font-size: smaller;
+		}
+
+		.hide-print { display: none; }
+	}
+}
