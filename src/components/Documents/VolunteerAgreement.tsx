@@ -3,6 +3,12 @@ export const VolunteerAgreement = () => {
 
 	return (
 		<>
+			<h2>Toronto JS - Volunteer Agreement</h2>
+			<p>
+				<em>Last Updated: May 11th, 2025</em>
+				<br />
+				<a className='hide-print' href='/pages/print-documents/?document=volunteer-agreement' target='_blank'>View this document in a full page</a>
+			</p>
 			<p>
 				<strong>The Volunteer and Toronto JS</strong>
 				(hereinafter the "organization") have agreed to enter into a volunteer relationship and wish to reflect the terms of their agreement in writing.

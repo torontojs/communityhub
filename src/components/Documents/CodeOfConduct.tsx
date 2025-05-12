@@ -1,6 +1,11 @@
 export const CodeOfConduct = () => (
 	<>
-		<h2>The short version</h2>
+		<h2>Toronto JS - Code of Conduct</h2>
+		<p>
+			<em>Last Updated: May 11th, 2025</em>
+			<br />
+			<a className='hide-print' href='/pages/print-documents/?document=code-of-conduct' target='_blank'>View this document in a full page</a>
+		</p>
 		<p>
 			Toronto JS is dedicated to providing a harassment-free environment for everyone, regardless of their gender, sexual orientation, disability, physical appearance, body
 			size, race, or religion. This community welcomes participation from people of different skill levels, orientations and backgrounds.
