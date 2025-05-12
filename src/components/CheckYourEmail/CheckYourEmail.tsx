@@ -30,7 +30,7 @@ const CheckYourEmail = ({ email }: { email: string }) => {
 			<Header>Check your e-mail</Header>
 			<main className='check-email-main'>
 				<p>
-					We&apos;ve sent a message to your e-mail <b>{email}</b> (Is it wrong?{' '}
+					We've sent a message to your e-mail <b>{email}</b> (Is it wrong?{' '}
 					<a href='#'>
 						Change it
 					</a>
@@ -38,7 +38,7 @@ const CheckYourEmail = ({ email }: { email: string }) => {
 				</p>
 				<hr />
 				<p>
-					If you didn&apos;t get the link, check your spam folder or resend it in {RESEND_MINUTES} minutes.
+					If you didn't get the link, check your spam folder or resend it in {RESEND_MINUTES} minutes.
 				</p>
 				<hr />
 				{hasResent && minutes > 0 && <p className='color-accent link-sent'>New activation link sent</p>}
