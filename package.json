@@ -2,46 +2,13 @@
   "name": "vms_test_1",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "start": "npm run dev",
-		"prepare": "husky",
-		"dev": "vite",
-		"build": "vite build",
-		"format": "dprint fmt --staged",
-		"typecheck": "tsc --noEmit",
-		"lint:js": "eslint --fix",
-		"lint": "npm run typecheck && npm run lint:js",
-		"prepreview": "npm run build",
-		"preview": "vite preview"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
-
-  "dependencies": {
-		"open-props": "^1.7.13",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"zxcvbn": "^4.4.2"
-	},
   "devDependencies": {
     "@playwright/test": "^1.52.0",
-    "@types/node": "22.14.0",
-		"@types/react": "^18.3.1",
-		"@types/react-dom": "^18.3.1",
-		"@types/zxcvbn": "^4.4.5",
-		"@typescript-eslint/eslint-plugin": "8.27.0",
-		"@typescript-eslint/parser": "8.27.0",
-		"@vitejs/plugin-react": "^4.3.4",
-		"eslint": "9.22.0",
-		"eslint-plugin-react": "^7.37.4",
-		"eslint-plugin-react-hooks": "^5.2.0",
-		"eslint-plugin-react-refresh": "^0.4.19",
-		"globals": "16.0.0",
-		"husky": "9.1.7",
-		"typescript": "5.8.2",
-		"vite": "^6.2.2"
-
+    "@types/node": "^22.14.0"
   }
 }
