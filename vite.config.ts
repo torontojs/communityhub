@@ -36,7 +36,8 @@ export default defineConfig(({ mode }) => {
 					'check-steps': fileURLToPath(new URL('./src/pages/check-steps/index.html', import.meta.url)),
 					'review-conduct-code': fileURLToPath(new URL('./src/pages/review-conduct-code/index.html', import.meta.url)),
 					'sign-up': fileURLToPath(new URL('./src/pages/sign-up/index.html', import.meta.url)),
-					'sign-in': fileURLToPath(new URL('./src/pages/sign-in/index.html', import.meta.url))
+					'sign-in': fileURLToPath(new URL('./src/pages/sign-in/index.html', import.meta.url)),
+					'check-your-email': fileURLToPath(new URL('./src/pages/check-your-email/index.html', import.meta.url))
 				}
 			}
 		},
