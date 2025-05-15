@@ -148,7 +148,6 @@ const CompleteProfile = () => {
 										name='slack-handle'
 										type='text'
 										placeholder='Your slack handle to TorontoJS'
-										aria-label='Your slack handle to TorontoJS'
 										required
 									/>
 								</div>
@@ -169,7 +168,7 @@ const CompleteProfile = () => {
 									</datalist>
 								</div>
 								<div>
-									<span>Date of birth</span>
+									<label>Date of birth</label>
 									<br />
 									<div className='dob-wrapper'>
 										<label htmlFor='month'>Month</label>
@@ -236,7 +235,7 @@ const CompleteProfile = () => {
 											className='slider-checkbox'
 										/>
 										<label htmlFor='isBasedOnGTA'>
-											I'm based in Toronto or Greater Toronto Area
+											<span>I'm based in Toronto or Greater Toronto Area</span>
 										</label>
 									</div>
 									<div className='slider-checkbox-row'>
@@ -247,7 +246,7 @@ const CompleteProfile = () => {
 											className='slider-checkbox'
 										/>
 										<label htmlFor='canJoinLocalEvents'>
-											I can join TorontoJS's local events
+											<span>I can join TorontoJS's local events</span>
 										</label>
 									</div>
 								</div>
@@ -366,7 +365,7 @@ const CompleteProfile = () => {
 								</div>
 
 								<div id='details-social-accounts'>
-									<p>Other social accounts (optional):</p>
+									<label>Other social accounts (optional):</label>
 									<div>
 										{socialIcons.map(
 											(socialIcon) =>
@@ -390,6 +389,7 @@ const CompleteProfile = () => {
 												{socialInput}
 												<button
 													type='button'
+													aria-label={`Close ${socialInput} input`}
 													onClick={() => handleRemoveSocialAccount(socialInput)}
 												/>
 											</label>
