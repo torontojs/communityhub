@@ -25,6 +25,7 @@ const CompleteProfile = () => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const uploadPhotoButtonRef = useRef<HTMLButtonElement>(null);
 	const skillInputRef = useRef<HTMLInputElement>(null);
+	const avatarUploadStatusRef = useRef<HTMLSpanElement>(null);
 
 	const [photoFile, setPhotoFile] = useState<string | null>(null);
 	const [skills, setSkills] = useState<Skill[]>([]);
@@ -269,11 +270,9 @@ const CompleteProfile = () => {
 								)}
 
 								<div className='details-file-upload-buttons-wrapper'>
-									{photoFile && (
-										<span className='file-upload-success'>
-											Avatar uploaded successfully
-										</span>
-									)}
+									<span ref={avatarUploadStatusRef} aria-live='polite' aria-atomic='true' role='status' className='file-upload-success'>
+										{photoFile ? 'Avatar uploaded successfully' : ''}
+									</span>
 
 									<Button
 										type='button'
