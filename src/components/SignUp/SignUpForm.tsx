@@ -4,7 +4,7 @@ import zxcvbn from 'zxcvbn';
 import { getApiUrl } from '../../utilities/getApiUrl';
 import Button from '../Button/Button';
 
-const {BE_URL, FE_URL} = getApiUrl();
+const { BE_URL, FE_URL } = getApiUrl();
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 
@@ -26,7 +26,7 @@ const SignUpForm = (): React.JSX.Element => {
 
 	const signup = async (name: string, email: string, password: string) => {
 		try {
-			const response = await fetch(`${BE_URL}sign-up`, {
+			const response = await fetch(`${BE_URL}auth/sign-up`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

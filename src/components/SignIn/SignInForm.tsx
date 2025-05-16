@@ -13,7 +13,7 @@ const SignInForm = (): React.JSX.Element => {
 
 	const signin = async (email: string, password: string) => {
 		try {
-			const response = await fetch(`${BE_URL}sign-in`, {
+			const response = await fetch(`${BE_URL}auth/sign-in`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

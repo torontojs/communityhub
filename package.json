@@ -13,7 +13,8 @@
 		"lint:js": "eslint --fix",
 		"lint": "npm run typecheck && npm run lint:js",
 		"prepreview": "npm run build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"kill:3000": "lsof -ti:3000 | xargs kill -9"
 	},
 	"dependencies": {
 		"open-props": "^1.7.13",

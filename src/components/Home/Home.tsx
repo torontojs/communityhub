@@ -13,7 +13,7 @@ export const Home = () => {
 				if (response.status === 200) {
 					setAuthenticated(true);
 				} else {
-					console.log(FE_URL)
+					console.log(FE_URL);
 					window.location.href = `${FE_URL}sign-in`;
 				}
 			} catch (err) {
