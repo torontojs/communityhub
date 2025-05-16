@@ -37,7 +37,7 @@
 		"useDefineForClassFields": true,
 		"useUnknownInCatchVariables": false,
 		"verbatimModuleSyntax": true,
-		"types": ["@types/react", "@types/react-dom"],
+		"types": ["@types/react", "@types/react-dom", "vite/client"],
 		"jsx": "react-jsx"
 	}
 }

@@ -1,0 +1,14 @@
+.app {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
+}
+
+.page {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	max-width: 400px;
+}

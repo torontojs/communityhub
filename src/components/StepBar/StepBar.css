@@ -1,18 +1,3 @@
-/* Screen Reader Only */
-.sr-only {
-	border: 0;
-	clip: rect(0 0 0 0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	pointer-events: none;
-	position: absolute;
-	user-select: none;
-	white-space: nowrap;
-	width: 1px;
-}
-
 .step-list {
 	align-items: stretch;
 	display: grid;

@@ -1,0 +1,60 @@
+.login-form {
+	border: 1px solid #cccccc;
+	border-radius: var(--rounded-md);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md) 0;
+	justify-content: center;
+	margin-top: var(--spacing-lg);
+	padding: var(--spacing-md);
+}
+
+.input-block {
+	border: var(--border-sm);
+	border-radius: var(--rounded-xs);
+	width: 100%;
+}
+
+.input-block label {
+	display: flex;
+	font-weight: var(--weight-semibold);
+	height: 29px;
+	justify-content: space-between;
+
+	& span {
+		color: var(--color-error);
+		/* TODO: Need smaller text variables */
+		font-size: 12px;
+		font-weight: var(--weight-thin);
+	}
+}
+
+.input-block input {
+	background-color: #e5e5e5;
+	border: solid 1px #cccccc;
+	border-radius: var(--rounded-xs);
+	color: #999999;
+	height: 42px;
+	padding: var(--spacing-xs);
+	width: 100%;
+}
+
+.input-block input:focus {
+	border-color: var(--color-error);
+	outline: none;
+}
+
+.have-account { & p { text-align: center; } }
+
+#password-input-helper-text { display: none; }
+#password-input:not(:focus):user-invalid ~ #password-input-helper-text { display: block; }
+
+#email-input-helper-text { display: none; }
+#email-input:not(:focus):user-invalid ~ #email-input-helper-text { display: block; }
+
+.do-not-remember-password {
+	color: var(--color-accent);
+	display: block;
+	text-align: center;
+	text-decoration: underline;
+}

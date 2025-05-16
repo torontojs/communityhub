@@ -3,8 +3,10 @@
  * It allows us to define styles that can be overriden by the next step without using !important everywhere.
  * And not have to be fighting the cascade.
  */
-@layer reset, fonts, design-system, base, pages, components, theme, print, accessibility;
+@layer reset, fonts, design-system, base, utilities, pages, components, theme, print, accessibility;
 
-@import './reset.css' layer(reset);
-@import './base.css' layer(base);
-@import './design-system.css' layer(design-system);
+@import './css-layers/reset.css' layer(reset);
+@import './css-layers/design-system.css' layer(design-system);
+@import './css-layers/base.css' layer(base);
+@import './css-layers/pages.css' layer(pages);
+@import './css-layers/utilities.css' layer(utilities);

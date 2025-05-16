@@ -2,11 +2,14 @@
 	background-color: var(--color-button);
 	border: 0;
 	border-radius: var(--rounded-md);
+	box-sizing: border-box;
 	color: var(var(--color-black));
 	cursor: pointer;
 	font-weight: var(--weight-bold);
-	height: 2.625rem;
+	height: 59px;
+	margin: 8px 0;
 	text-align: center;
+	width: 100%;
 
 	&.small {
 		font-size: var(--text-xs);
