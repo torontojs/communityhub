@@ -10,11 +10,11 @@ export const Home = () => {
 		const fetchHeartBeat = async () => {
 			try {
 				const response = await fetch(`${BE_URL}auth/heartbeat`);
-				const data = await response.json();
-				if (data.ok) {
+				if (response.status === 200) {
 					setAuthenticated(true);
 				} else {
-					window.location.href = `${FE_URL}pages/sign-in`;
+					console.log(FE_URL)
+					window.location.href = `${FE_URL}sign-in`;
 				}
 			} catch (err) {
 				if (import.meta.env.MODE === 'development') {
@@ -36,12 +36,12 @@ export const Home = () => {
 
 	const handleLogOut = () => console.log('haha');
 
-	(
+	return (
 		<>
 			<nav>
 				<button type='button' onClick={handleLogOut}></button>
 			</nav>
-			<div>Is Authenticated: {authenticated}</div>;
+			<div>Is Authenticated: {authenticated.toString()}</div>
 		</>
 	);
 };
