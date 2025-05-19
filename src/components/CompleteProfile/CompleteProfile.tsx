@@ -385,16 +385,18 @@ const CompleteProfile = () => {
 								<div id='details-social-inputs'>
 									{socialAccountInputs.map((socialInput) => (
 										<div>
-											<label htmlFor={socialInput}>
-												{socialInput}
+											<span>
+												<label htmlFor={`${socialInput}-input`}>
+													{socialInput}
+												</label>
 												<button
 													type='button'
 													aria-label={`Close ${socialInput} input`}
 													onClick={() => handleRemoveSocialAccount(socialInput)}
 												/>
-											</label>
+											</span>
 											<input
-												id={socialInput}
+												id={`${socialInput}-input`}
 												name={socialInput}
 												type='url'
 												className='text-input'

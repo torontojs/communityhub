@@ -368,7 +368,7 @@
 				flex-direction: column;
 				gap: var(--spacing-xs);
 
-				& > label {
+				& > span {
 					align-items: center;
 					display: flex;
 					justify-content: space-between;
@@ -382,7 +382,6 @@
 						background-size: contain;
 						border: solid var(--border-base) var(--color-accent);
 						border-radius: var(--rounded-base);
-						content: '';
 						content: '';
 						height: 1rem;
 						width: 1rem;
