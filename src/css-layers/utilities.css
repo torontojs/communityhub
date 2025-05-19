@@ -1,14 +1,12 @@
 @layer utilities {
-.font-size-sx { font-size: var(--text-xs); }
+	.font-size-sx { font-size: var(--text-xs); }
 
-.line {
-	background-color: #cccccc;
-	display: block;
-	height: 1px;
-	width: 100%;
+	.line {
+		background-color: #cccccc;
+		display: block;
+		height: 1px;
+		width: 100%;
+	}
+
+	.underline { text-decoration: underline; }
 }
-
-.underline { text-decoration: underline; }
-
-}
-
