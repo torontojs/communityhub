@@ -37,12 +37,34 @@ export const Home = () => {
 		fetchHeartBeat();
 	}, []);
 
-	const handleLogOut = () => console.log('haha');
+	const handleLogOut = async () => {
+		try {
+			const response = await fetch(`${BE_URL}auth/sign-out`, {
+				method: 'POST',
+				credentials: 'include'
+			});
+
+			if (response.status === 200) {
+				window.location.href = `${FE_URL}sign-in/`;
+			}
+		} catch (err) {
+			if (import.meta.env.MODE === 'development') {
+				if (err instanceof Error) {
+					console.error(err.name);
+					console.error(err.cause);
+					console.error(err.message);
+					console.error(err.stack);
+				} else {
+					throw new Error('Error login out');
+				}
+			}
+		}
+	};
 
 	return (
 		<>
 			<nav>
-				<button type='button' onClick={handleLogOut}></button>
+				<button type='button' onClick={handleLogOut}>Log Out button</button>
 			</nav>
 			<div>Is Authenticated: {authenticated.toString()}</div>
 		</>
