@@ -276,8 +276,7 @@ const CompleteProfile = () => {
 									<Button
 										type='button'
 										onClick={handleUploadPhotoButtonClick}
-										// TODO: Uncomment after updating the Button Component Issue #57
-										// ref={uploadPhotoButtonRef}
+										ref={uploadPhotoButtonRef}
 									>
 										Upload {photoFile ? 'New' : 'Your'} Photo{' '}
 									</Button>
@@ -409,7 +408,7 @@ const CompleteProfile = () => {
 					</details>
 				</div>
 
-				<Button isPrimary id='submit-button' type='submit'>
+				<Button isPrimary isLarge id='submit-button' type='submit'>
 					Complete My Profile
 				</Button>
 			</form>
