@@ -15,17 +15,18 @@ const SignInForm = (): React.JSX.Element => {
 		try {
 			const response = await fetch(`${BE_URL}auth/sign-in`, {
 				method: 'POST',
+				credentials: 'include',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ email, password })
 			});
-			if (!response.ok) {
+			if (response.status !== 201) {
 				setIsLoading(false);
 				const errorData = await response.json();
 				console.log('Response not ok: ', errorData);
 			} else {
-				window.location.href = `${FE_URL}home`;
+				window.location.href = `${FE_URL}home/`;
 			}
 		} catch (event) {
 			if (import.meta.env.MODE === 'development') {

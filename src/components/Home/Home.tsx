@@ -9,12 +9,15 @@ export const Home = () => {
 	useEffect(() => {
 		const fetchHeartBeat = async () => {
 			try {
-				const response = await fetch(`${BE_URL}auth/heartbeat`);
+				const response = await fetch(`${BE_URL}auth/heartbeat`, {
+					method: 'GET',
+					credentials: 'include'
+				});
+				// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 				if (response.status === 200) {
 					setAuthenticated(true);
 				} else {
-					console.log(FE_URL);
-					window.location.href = `${FE_URL}sign-in`;
+					window.location.href = `${FE_URL}sign-in/`;
 				}
 			} catch (err) {
 				if (import.meta.env.MODE === 'development') {
