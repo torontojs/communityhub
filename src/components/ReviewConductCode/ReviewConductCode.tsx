@@ -42,7 +42,7 @@ const ReviewConductCode = () => {
 
 				<ul className='dropdown-list'>
 					<li>
-						<details>
+						<details name='waiver-document'>
 							<summary>
 								<span>TorontoJS Code of Conduct</span>
 								<ArrowDownIcon />
@@ -53,7 +53,7 @@ const ReviewConductCode = () => {
 						</details>
 					</li>
 					<li>
-						<details>
+						<details name='waiver-document'>
 							<summary>
 								<span>Volunteering Agreement</span>
 								<ArrowDownIcon />
@@ -64,7 +64,7 @@ const ReviewConductCode = () => {
 						</details>
 					</li>
 					<li>
-						<details>
+						<details name='waiver-document'>
 							<summary>
 								<span>Image Release Form</span>
 								<ArrowDownIcon />
