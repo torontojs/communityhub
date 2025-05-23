@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
+import Button from '../../components/Button/Button.tsx';
 import { CodeOfConduct } from '../../components/Documents/CodeOfConduct.tsx';
 import { ImageReleaseForm } from '../../components/Documents/ImageReleaseForm.tsx';
 import { VolunteerAgreement } from '../../components/Documents/VolunteerAgreement.tsx';
@@ -35,9 +36,11 @@ createRoot(root).render(
 	(
 		<StrictMode>
 			<nav className='hide-on-print'>
-				<button aria-label='Print document' onClick={() => window.print()}>🖨️</button>
+				<Button aria-label='Print document' onClick={() => window.print()} isPrimary>🖨️</Button>
 			</nav>
-			<Waiver />
+			<main>
+				<Waiver />
+			</main>
 		</StrictMode>
 	)
 );
