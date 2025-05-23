@@ -3,6 +3,8 @@
 	display: grid;
 	grid-template-columns: repeat(var(--js-grid-items, 3), 1fr);
 	height: 48px;
+	margin: 0;
+	padding: 0;
 	width: 100%;
 
 	@media (max-width: 640px) { display: flex; }

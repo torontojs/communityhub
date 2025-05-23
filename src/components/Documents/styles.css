@@ -1,0 +1,14 @@
+@layer components {
+	#code-of-conduct-report-form div {
+		display: flex;
+		flex-direction: column;
+		margin: var(--spacing-sm);
+		margin-inline: auto;
+		max-width: 60ch;
+
+		button {
+			align-self: center;
+			min-width: 10ch;
+		}
+	}
+}

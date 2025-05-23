@@ -12,24 +12,6 @@
 		/* Link color */
 		a { color: var(--color-accent); } /* Accent color for links */
 
-		/* Remove default margin and padding for common elements */
-		h1,
-		h2,
-		h3,
-		h4,
-		h5,
-		h6,
-		.text-h1,
-		.text-h2,
-		.text-h3,
-		.text-h4,
-		.text-h5,
-		.text-h6,
-		p {
-			margin: 0;
-			padding: 0;
-		}
-
 		/* Heading styles */
 		h1,
 		.text-h1 {

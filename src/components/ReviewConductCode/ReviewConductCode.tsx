@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import Button from '../Button/Button';
+import { CodeOfConduct } from '../Documents/CodeOfConduct.tsx';
+import { ImageReleaseForm } from '../Documents/ImageReleaseForm.tsx';
+import { VolunteerAgreement } from '../Documents/VolunteerAgreement.tsx';
 import HeaderTitle from '../HeaderTitle/HeaderTitle';
 import { ArrowDownIcon } from '../Icons/ArrowDownIcon';
 import StepBar from '../StepBar/StepBar';
@@ -20,7 +23,7 @@ const ReviewConductCode = () => {
 				</p>
 
 				<div>
-					<p className='nutshell-title text-h6'>In a nutshell:</p>
+					<h2 className='nutshell-title text-h6'>In a nutshell:</h2>
 					<ol className='nutshell-list'>
 						<li className='nutshell-item'>
 							<span className='number'>1</span>
@@ -39,38 +42,35 @@ const ReviewConductCode = () => {
 
 				<ul className='dropdown-list'>
 					<li>
-						<details>
+						<details name='waiver-document'>
 							<summary>
 								<span>TorontoJS Code of Conduct</span>
 								<ArrowDownIcon />
 							</summary>
 							<div className='details-content'>
-								Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro suscipit harum doloremque, quod tempora architecto atque unde corrupti, ipsa in
-								expedita et provident vel dignissimos modi exercitationem neque reiciendis dicta.
+								<CodeOfConduct />
 							</div>
 						</details>
 					</li>
 					<li>
-						<details>
+						<details name='waiver-document'>
 							<summary>
 								<span>Volunteering Agreement</span>
 								<ArrowDownIcon />
 							</summary>
 							<div className='details-content'>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid incidunt quibusdam, temporibus accusamus eos dolore suscipit? Cum excepturi
-								reiciendis quis nam, provident temporibus laboriosam animi molestias harum optio magni amet.
+								<VolunteerAgreement />
 							</div>
 						</details>
 					</li>
 					<li>
-						<details>
+						<details name='waiver-document'>
 							<summary>
 								<span>Image Release Form</span>
 								<ArrowDownIcon />
 							</summary>
 							<div className='details-content'>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem impedit consequatur, fugiat sit asperiores, sunt possimus delectus incidunt, iste atque
-								qui doloremque rerum. Ratione mollitia dicta corporis minus est neque.
+								<ImageReleaseForm />
 							</div>
 						</details>
 					</li>
