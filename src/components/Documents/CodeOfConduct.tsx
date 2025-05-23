@@ -1,3 +1,6 @@
+import Button from '../Button/Button.tsx';
+import './styles.css';
+
 export const CodeOfConduct = () => (
 	<>
 		<h2>Toronto JS - Code of Conduct</h2>
@@ -195,14 +198,19 @@ export const CodeOfConduct = () => (
 			<form
 				action='https://formspree.io/f/mayvyvzk'
 				method='POST'
+				id='code-of-conduct-report-form'
 			>
-				<label htmlFor='report-replyto'>Email</label>
-				<input type='email' name='_replyto' id='report-replyto' />
-				<br />
-				<label htmlFor='report-message'>Description</label>
-				<textarea id='report-message' name='message' rows={5}></textarea>
-				<br />
-				<button type='submit'>Send</button>
+				<div>
+					<label htmlFor='report-replyto'>Email</label>
+					<input type='email' name='_replyto' id='report-replyto' />
+				</div>
+				<div>
+					<label htmlFor='report-message'>Message</label>
+					<textarea id='report-message' name='message' rows={10} cols={20}></textarea>
+				</div>
+				<div>
+					<Button type='submit' hasOutline>Send</Button>
+				</div>
 			</form>
 		</div>
 
