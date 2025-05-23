@@ -34,7 +34,7 @@ switch (selectedWaiver) {
 createRoot(root).render(
 	(
 		<StrictMode>
-			<nav className='hide-print'>
+			<nav className='hide-on-print'>
 				<button aria-label='Print document' onClick={() => window.print()}>🖨️</button>
 			</nav>
 			<Waiver />

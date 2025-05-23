@@ -182,7 +182,7 @@ export const CodeOfConduct = () => (
 			online community. We value your attendance.
 		</p>
 
-		<div className='hide-print'>
+		<div className='hide-on-print'>
 			<h3>
 				Report a Violation (with or without your name)
 			</h3>
