@@ -1,4 +1,4 @@
-import { DBTables, DEFAULT_TEAM_ID, generateBaseDBfields } from '../../../src/utils/db.ts';
+import { DBTables, DEFAULT_TEAM_ID, generateBaseDBfields } from '../../utils/db.ts';
 import { EventLog } from '../event-log/data.ts';
 import type { CreateProfileData, Profile, ProfileLink, ProfileSkill, UpdateProfileData } from './validation.ts';
 

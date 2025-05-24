@@ -1,5 +1,5 @@
-import type { AccessLevel } from '../../../src/utils/auth.ts';
-import { DBTables } from '../../../src/utils/db.ts';
+import type { AccessLevel } from '../../utils/auth.ts';
+import { DBTables } from '../../utils/db.ts';
 
 export async function getLoginInfo(database: D1Database, email: string) {
 	const loginInfo = await database

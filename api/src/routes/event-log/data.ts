@@ -1,4 +1,4 @@
-import { DBTables, DEFAULT_TEAM_ID, generateBaseDBfields } from '../../../src/utils/db.ts';
+import { DBTables, DEFAULT_TEAM_ID, generateBaseDBfields } from '../../utils/db.ts';
 import { type EventLog as EventLogType, LogItemSource } from './validation.ts';
 
 export class EventLog {

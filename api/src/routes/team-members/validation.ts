@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../../src/utils/db.ts';
+import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
 
 export const TeamMembershipSchema = BaseDbEntitySchema.merge(z.object({
 	name: z

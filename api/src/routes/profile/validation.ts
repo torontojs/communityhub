@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../../src/utils/db.ts';
+import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
 
 export const PlatformEnum = z.enum(['Slack', 'LinkedIn', 'GitHub', 'Portfolio', 'Instagram', 'Threads', 'Facebook', 'BlueSky', 'Mastadon', 'Twitter', 'Dev']);
 
