@@ -4,7 +4,7 @@ import { swaggerUI } from '@hono/swagger-ui';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { cors } from 'hono/cors';
 import { ZodError } from 'zod';
-import packageJson from '../package.json' with { type: 'json' };
+import packageJson from '../../package.json' with { type: 'json' };
 import { authRoutes } from './routes/auth/index.ts';
 import { healthCheckRoutes } from './routes/health-check/index.ts';
 import { profileRoutes } from './routes/profile/index.ts';
@@ -16,8 +16,12 @@ const app = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
 
+const apiRoutes = new OpenAPIHono<EnvironmentBindings>({
+	defaultHook: statusResponseFormatter
+});
+
 // Catch all error handler.
-app.onError((err, context) => {
+apiRoutes.onError((err, context) => {
 	// TODO: add better error logging?
 
 	if (err instanceof ZodError) {
@@ -30,7 +34,7 @@ app.onError((err, context) => {
 });
 
 // CORS middleware22
-app.use(
+apiRoutes.use(
 	'/*',
 	cors({
 		origin: [env.BASE_URL, env.FRONTEND_URL],
@@ -40,7 +44,7 @@ app.use(
 	})
 );
 
-app.doc('/open-api.json', {
+apiRoutes.doc('/open-api.json', {
 	openapi: '3.0.0',
 	servers: [
 		{
@@ -63,16 +67,19 @@ app.doc('/open-api.json', {
 	}
 });
 
-app.get('/docs', swaggerUI({ url: '/open-api.json' }));
+apiRoutes.get('/docs', swaggerUI({ url: '/open-api.json' }));
 
 // Handle static assets using Cloudflare Workers
-app.get('/assets/*', async (context) => context.env.Assets.fetch(context.req.raw));
+apiRoutes.get('/assets/*', async (context) => context.env.Assets.fetch(context.req.raw));
 
-app.route('/', healthCheckRoutes);
-app.route('/auth', authRoutes);
-app.route('/profiles', profileRoutes);
-app.route('/teams', teamRoutes);
+apiRoutes.route('/', healthCheckRoutes);
+apiRoutes.route('/auth', authRoutes);
+apiRoutes.route('/profiles', profileRoutes);
+apiRoutes.route('/teams', teamRoutes);
 // All routes follow the format /teams/{id}/members
-app.route('/teams', teamMemberRoutes);
+apiRoutes.route('/teams', teamMemberRoutes);
+
+// Make all routes prefixed to /api
+app.route('/api', apiRoutes);
 
 export default app;

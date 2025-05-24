@@ -1,10 +1,10 @@
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
+import { createSession, deleteSession, getSession, revalidateSession } from '../../../src/utils/auth.ts';
+import { hashPassword, validatePassword } from '../../../src/utils/password-hashing.ts';
+import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../../src/utils/responses.ts';
 import { sendAccountConfirmationEmail } from '../../email/index.ts';
 import { authorizeVolunteer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
-import { createSession, deleteSession, getSession, revalidateSession } from '../../utils/auth.ts';
-import { hashPassword, validatePassword } from '../../utils/password-hashing.ts';
-import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { insertProfile } from '../profile/data.ts';
 import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo } from './data.ts';
 import { type HeartbeatResponse, HeartbeatResponseSchema } from './responses.ts';

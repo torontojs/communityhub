@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IdAndSchemaVersionSchema, InsertionTimestampsSchema } from '../../utils/db.ts';
+import { IdAndSchemaVersionSchema, InsertionTimestampsSchema } from '../../../src/utils/db.ts';
 
 export const LogItemSource = {
 	PROFILE: 'profile',
