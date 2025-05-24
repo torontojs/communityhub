@@ -1,0 +1,89 @@
+{
+	"editor.tabSize": 4,
+	"editor.insertSpaces": false,
+	"[css]": {
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"[html]": {
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"[jsonl]": {
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "explicit",
+		"source.fixAll.eslint": "always",
+		"source.organizeImports": "never"
+	},
+	"editor.defaultFormatter": "dprint.dprint",
+	"editor.formatOnPaste": true,
+	"editor.formatOnSave": true,
+	"editor.formatOnSaveMode": "file",
+	"editor.trimAutoWhitespace": true,
+	"eslint.format.enable": true,
+	"eslint.lintTask.enable": true,
+	"eslint.lintTask.options": ". --fix",
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact"
+	],
+	"files.encoding": "utf8",
+	"files.eol": "\n",
+	"files.exclude": {
+		"**/node_modules": true
+	},
+	"files.insertFinalNewline": true,
+	"files.trimFinalNewlines": true,
+	"files.trimTrailingWhitespace": true,
+	"git.branchRandomName.dictionary": [
+		"adjectives",
+		"colors",
+		"animals"
+	],
+	"git.branchRandomName.enable": true,
+	"git.enableCommitSigning": true,
+	"git.ignoreMissingGitWarning": true,
+	"git.inputValidation": true,
+	"git.inputValidationLength": 180,
+	"git.inputValidationSubjectLength": 80,
+	"javascript.format.enable": false,
+	"javascript.format.insertSpaceAfterConstructor": false,
+	"javascript.preferences.importModuleSpecifier": "relative",
+	"javascript.preferences.importModuleSpecifierEnding": "js",
+	"javascript.preferences.quoteStyle": "single",
+	"javascript.preferences.useAliasesForRenames": true,
+	"typescript.format.enable": false,
+	"typescript.format.insertSpaceAfterConstructor": false,
+	"typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
+	"typescript.format.insertSpaceAfterTypeAssertion": true,
+	"typescript.preferences.importModuleSpecifier": "relative",
+	"typescript.preferences.importModuleSpecifierEnding": "js",
+	"typescript.preferences.preferTypeOnlyAutoImports": true,
+	"typescript.preferences.quoteStyle": "single",
+	"typescript.preferences.useAliasesForRenames": true,
+	"prettier.enable": false,
+	"prettier.requireConfig": true,
+	"prettier.requirePragma": true,
+	"prettier.tabWidth": 4,
+	"prettier.useTabs": true
+}

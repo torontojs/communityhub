@@ -1,21 +1,25 @@
 {
 	"include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/env.d.ts"],
-	"exclude": ["dist/**/*"],
+	"exclude": ["node_modules/**/*", "dist/**/*"],
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
 		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
 		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
 		"baseUrl": ".",
 		"checkJs": true,
 		"composite": true,
+		"erasableSyntaxOnly": true,
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
 		"incremental": true,
+		"isolatedModules": true,
+		"isolatedDeclarations": false,
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"module": "ESNext",
-		"moduleResolution": "Node",
+		"moduleResolution": "NodeNext",
 		"newLine": "LF",
 		"noEmit": true,
 		"noFallthroughCasesInSwitch": true,
@@ -28,6 +32,7 @@
 		"noUnusedParameters": true,
 		"removeComments": true,
 		"resolveJsonModule": true,
+		"rewriteRelativeImportExtensions": true,
 		"skipDefaultLibCheck": true,
 		"skipLibCheck": true,
 		"sourceMap": false,
@@ -37,7 +42,10 @@
 		"useDefineForClassFields": true,
 		"useUnknownInCatchVariables": false,
 		"verbatimModuleSyntax": true,
-		"types": ["@types/react", "@types/react-dom", "vite/client"],
+		"types": ["@types/react", "@types/react-dom", "vite/client", "./src/env.d.ts", "node"],
+		"paths": {
+			"cloudflare:test": ["./src/types/cloudflare-test.d.ts"]
+		},
 		"jsx": "react-jsx"
 	}
 }

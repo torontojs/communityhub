@@ -1,0 +1,102 @@
+# Top-level configuration
+name = "vms-local"
+main = "src/index.ts"
+compatibility_date = "2025-04-02"
+compatibility_flags = ["nodejs_compat"]
+keep_vars = false
+send_metrics = false
+preserve_file_names = true
+minify = true
+workers_dev = true
+preview_urls = false
+
+[dev]
+ip = "localhost"
+port = 4242
+local_protocol = "http"
+upstream_protocol = "https"
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[assets]
+directory = "./public/"
+binding = "Assets"
+
+[vars]
+NODE_ENV = "local"
+BASE_URL = "http://localhost:4242"
+FRONTEND_URL = "http://localhost:3000"
+
+[[d1_databases]]
+binding = "Database"
+database_name = "vms-local"
+database_id = "vms-local"
+preview_database_id = "vms-local"
+migrations_table = "migrations"
+migrations_dir = "migrations"
+
+[[kv_namespaces]]
+binding = "SessionTokens"
+id = "vms-local-session-token"
+preview_id = "vms-local-session-token"
+
+[[kv_namespaces]]
+binding = "ActivationTokens"
+id = "vms-local-activation-token"
+preview_id = "vms-local-activation-token"
+
+# DEV env configurations
+[env.dev]
+name = "vms-dev"
+workers_dev = true
+preview_urls = false
+
+[env.dev.vars]
+NODE_ENV = "development"
+SENDER_EMAIL="organizers+dev@torontojs.com"
+BASE_URL = "https://vms-dev.torontojs.com"
+FRONTEND_URL = "https://volunteer-dev.torontojs.com"
+
+[[env.dev.d1_databases]]
+binding = "Database"
+database_name = "vms-dev"
+database_id = "72806519-1579-4df2-8db8-d3bdee7fd797"
+
+[[env.dev.kv_namespaces]]
+binding = "SessionTokens"
+id = "eab316e48e664803b32ce9d21684a89f"
+preview_id = "vms-dev-session-tokens"
+
+[[env.dev.kv_namespaces]]
+binding = "ActivationTokens"
+id = "4fc17eeab6964947ba5ee0d50aeec1de"
+preview_id = "vms-dev-activation-tokens"
+
+# PRODUCTION env configuration
+[env.production]
+name = "vms-production"
+workers_dev = true
+preview_urls = false
+
+[env.production.vars]
+NODE_ENV = "production"
+SENDER_EMAIL="organizers@torontojs.com"
+BASE_URL = "https://vms.torontojs.com"
+FRONTEND_URL = "https://volunteer.torontojs.com"
+
+[[env.production.d1_databases]]
+binding = "Database"
+database_name = "vms-production"
+database_id = "e6210263-1cd7-4af4-8241-afca8b93fb14"
+
+[[env.production.kv_namespaces]]
+binding = "SessionTokens"
+id = "6ab77ca6fa014a66b8f24d9b9974f9aa"
+preview_id = "vms-production-session-tokens"
+
+[[env.production.kv_namespaces]]
+binding = "ActivationTokens"
+id = "987a04058cc34aad84b9f54c658f6a01"
+preview_id = "vms-production-activation-tokens"
