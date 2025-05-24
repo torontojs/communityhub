@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import Button from '../Button/Button';
+import Button from '../Button/Button.tsx';
 import { CodeOfConduct } from '../Documents/CodeOfConduct.tsx';
 import { ImageReleaseForm } from '../Documents/ImageReleaseForm.tsx';
 import { VolunteerAgreement } from '../Documents/VolunteerAgreement.tsx';
-import HeaderTitle from '../HeaderTitle/HeaderTitle';
-import { ArrowDownIcon } from '../Icons/ArrowDownIcon';
-import StepBar from '../StepBar/StepBar';
+import HeaderTitle from '../HeaderTitle/HeaderTitle.tsx';
+import { ArrowDownIcon } from '../Icons/ArrowDownIcon.tsx';
+import StepBar from '../StepBar/StepBar.tsx';
 import './ReviewConductCode.css';
 
 const ReviewConductCode = () => {

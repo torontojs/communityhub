@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Teams.css';
-import TeamMemberCard from '../TeamMemberCard/TeamMemberCard';
+import TeamMemberCard from '../TeamMemberCard/TeamMemberCard.tsx';
 
 interface Team {
 	id: string;

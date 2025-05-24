@@ -1,7 +1,7 @@
 import './SignInForm.css';
 import { useRef, useState } from 'react';
-import { getApiUrl } from '../../utilities/getApiUrl';
-import Button from '../Button/Button';
+import { getApiUrl } from '../../utilities/getApiUrl.ts';
+import Button from '../Button/Button.tsx';
 
 const apiUrl = getApiUrl();
 

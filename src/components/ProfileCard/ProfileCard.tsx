@@ -1,8 +1,8 @@
 import { type ReactElement, useEffect, useState } from 'react';
 import './ProfileCard.css';
-import { Facebook } from '../Icons/Social/Facebook';
-import { LinkedIn } from '../Icons/Social/LinkedIn';
-import { XTwitter } from '../Icons/Social/XTwitter';
+import { Facebook } from '../Icons/Social/Facebook.tsx';
+import { LinkedIn } from '../Icons/Social/LinkedIn.tsx';
+import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 
 export interface MemberProfile {
 	id: string;

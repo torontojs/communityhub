@@ -1,9 +1,9 @@
 import 'open-props';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import FooterNav from '../../components/Footer/Footer';
-import Header from '../../components/Header/Header';
-import SignInForm from '../../components/SignIn/SignInForm';
+import FooterNav from '../../components/Footer/Footer.tsx';
+import Header from '../../components/Header/Header.tsx';
+import SignInForm from '../../components/SignIn/SignInForm.tsx';
 import '../../index.css';
 
 const root = document.getElementById('root') as HTMLDivElement;
