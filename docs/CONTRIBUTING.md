@@ -111,7 +111,7 @@ npm run lint:js
 npm run format
 ```
 
-For more information, please refer to the [Coding Standards docs](./docs/Coding%20Standard/).
+For more information, please refer to the [Coding Standards docs](./Coding Standard).
 
 ## Branches and forks
 
