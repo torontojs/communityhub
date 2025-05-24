@@ -1,12 +1,10 @@
 # Top-level configuration
-name = "vms-local"
-main = "src/index.ts"
+name = "community-hub"
+main = "api/src/index.ts"
 compatibility_date = "2025-04-02"
 compatibility_flags = ["nodejs_compat"]
 keep_vars = false
 send_metrics = false
-preserve_file_names = true
-minify = true
 workers_dev = true
 preview_urls = false
 
@@ -21,8 +19,9 @@ enabled = true
 head_sampling_rate = 1
 
 [assets]
-directory = "./public/"
 binding = "Assets"
+not_found_handling = "none"
+html_handling = "auto-trailing-slash"
 
 [vars]
 NODE_ENV = "local"
@@ -35,7 +34,7 @@ database_name = "vms-local"
 database_id = "vms-local"
 preview_database_id = "vms-local"
 migrations_table = "migrations"
-migrations_dir = "migrations"
+migrations_dir = "db/migrations"
 
 [[kv_namespaces]]
 binding = "SessionTokens"
@@ -48,11 +47,6 @@ id = "vms-local-activation-token"
 preview_id = "vms-local-activation-token"
 
 # DEV env configurations
-[env.dev]
-name = "vms-dev"
-workers_dev = true
-preview_urls = false
-
 [env.dev.vars]
 NODE_ENV = "development"
 SENDER_EMAIL="organizers+dev@torontojs.com"
@@ -75,11 +69,6 @@ id = "4fc17eeab6964947ba5ee0d50aeec1de"
 preview_id = "vms-dev-activation-tokens"
 
 # PRODUCTION env configuration
-[env.production]
-name = "vms-production"
-workers_dev = true
-preview_urls = false
-
 [env.production.vars]
 NODE_ENV = "production"
 SENDER_EMAIL="organizers@torontojs.com"

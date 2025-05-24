@@ -1,5 +1,5 @@
 {
-	"include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/env.d.ts"],
+	"include": ["src/**/*", "api/**/*"],
 	"exclude": ["node_modules/**/*", "dist/**/*"],
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
@@ -17,8 +17,7 @@
 		"incremental": true,
 		"isolatedModules": true,
 		"isolatedDeclarations": false,
-		"lib": ["DOM", "DOM.Iterable", "ESNext"],
-		"module": "ESNext",
+		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
 		"newLine": "LF",
 		"noEmit": true,
@@ -38,14 +37,11 @@
 		"sourceMap": false,
 		"strict": true,
 		"target": "ESNext",
-		"tsBuildInfoFile": "dist/.tsbuildinfo",
+		"tsBuildInfoFile": "./node_modules/.tmp/.tsbuildinfo",
 		"useDefineForClassFields": true,
 		"useUnknownInCatchVariables": false,
 		"verbatimModuleSyntax": true,
 		"types": ["@types/react", "@types/react-dom", "vite/client", "./src/env.d.ts", "node"],
-		"paths": {
-			"cloudflare:test": ["./src/types/cloudflare-test.d.ts"]
-		},
 		"jsx": "react-jsx"
 	}
 }

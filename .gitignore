@@ -1,9 +1,6 @@
 # Build output
 dist/
 
-# Local db
-db/
-
 # Dependencies
 node_modules/
 .wrangler/
@@ -39,4 +36,4 @@ certs
 coverage
 
 # Generated env file
-src/env.d.ts
+env.d.ts
