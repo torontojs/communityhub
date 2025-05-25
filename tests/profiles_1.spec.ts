@@ -1,8 +1,17 @@
 import { test, expect } from '@playwright/test';
 import { execPath } from 'process';
 
+/*
+test.beforeEach(async ({page }) => {
+
+  
+   // await page.goto('http://localhost:3000/pages/profiles/'); 
+
+}) */
+
 test('has title', async ({ page }) => {
-  await page.goto('http://localhost:3000/pages/profiles/');
+
+  await page.goto("http://localhost:3000/pages/profiles/");
 
   // Expect a title "to contain" a substring.
   // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -12,11 +21,12 @@ test('has title', async ({ page }) => {
     expect(await row.textContent() == 'Volunteer Profile');
   }
 
-  page.close;
+  await page.close();
 });
 
 test('Check Profile Record Fields', async ({ page }) => {
-      await page.goto('http://localhost:3000/pages/profiles/');
+
+      await page.goto("http://localhost:3000/pages/profiles/");
 
       await page.waitForSelector('.profile-header div p strong');
       const locator_list = await page.locator('.profile-header div p strong').all();
@@ -107,7 +117,7 @@ test('Check Profile Record Fields', async ({ page }) => {
   // console.log(profileNames_Collection);
   // expect(await profileNames_Collection.allInnerTexts()).toEqual(profileFields);
 
-  page.close;
+  await page.close();
 });
 
 
@@ -126,13 +136,17 @@ test("all Facebook links are valid", async ({page, request}) => {
   */
  
 
-test('Check Links', async ({ page }) => {
-  await page.goto('http://localhost:3000/pages/profiles/');
+test('Check Links', async ({ browser }) => {
+
+    const browser_context = await browser.newContext();
+    const page = await browser_context.newPage();
+
+    await page.goto("http://localhost:3000/pages/profiles/"); 
 
   // Click the get started link.
   await page.getByRole('link', { name: 'Facebook' }).isVisible;
 
-  console.log(await page.getByRole('link', { name: 'Facebook' }));
+  // console.log(await page.getByRole('link', { name: 'Facebook' }));
 
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('link', { name: 'Twitter' })).toBeVisible();
@@ -142,5 +156,29 @@ test('Check Links', async ({ page }) => {
     expect(await row.textContent() == 'Volunteer Profile');
   }
 
-  page.close;
+  for (const row of await page.locator('.social-links a').all()) {
+     let temp = await row.textContent();
+     console.log(temp);
+     
+     let [newPage_1] = await Promise.all([
+            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            await row.click()
+        ]);
+        
+      let pp = await newPage_1.evaluate(() => window.location.href);
+      console.log(pp);
+      // console.log("----");
+
+      if(temp != "Twitter") { 
+        expect(pp).toContain(temp?.toLowerCase());
+
+      } else {
+         expect(pp).toContain("x.com");
+      }
+
+      await newPage_1.close();
+    // expect(await row.textContent() == 'Volunteer Profile');
+  }
+
+  await page.close();
 });

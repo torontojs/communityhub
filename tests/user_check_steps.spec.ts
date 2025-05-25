@@ -44,6 +44,8 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
       console.log(await row.textContent());
       expect(await row.textContent() == 'Volunteer Profile');
     } */
+
+    await page.close();           
   });
 
   test('Account Confirmed - Lets Continue Button examination', async ({ page }) => {
@@ -126,7 +128,7 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
   await page.waitForTimeout(100);
 
 
-  page.close;
+  await page.close;
    
   });
 
@@ -269,13 +271,10 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
       console.log(await row2.textContent());
       
       if(await row2.textContent() == "Complete your profile") {
-          console.log(":::"); 
 
           const color = await row2.evaluate((ele) => {
             return window.getComputedStyle(ele).getPropertyValue("color");
           });
-      
-          console.log(color);
   
         await expect(row2).toHaveCSS('color', `rgb(237, 55, 49)`);
       } else {
@@ -285,9 +284,10 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
       
     }
 
-    
       
     await page.close();
 
   });
+
+
 });
