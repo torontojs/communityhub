@@ -13,7 +13,7 @@ preview_urls = false
 crons = [ "0 2 * * *" ]
 
 [dev]
-ip = "localhost"
+host = "localhost"
 port = 4242
 local_protocol = "http"
 upstream_protocol = "https"
