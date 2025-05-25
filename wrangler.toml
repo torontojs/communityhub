@@ -25,6 +25,7 @@ head_sampling_rate = 1
 [assets]
 directory = "public"
 binding = "Assets"
+directory = "./public/"
 not_found_handling = "none"
 html_handling = "auto-trailing-slash"
 
