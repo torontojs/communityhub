@@ -27,6 +27,8 @@ html_handling = "auto-trailing-slash"
 NODE_ENV = "local"
 BASE_URL = "http://localhost:4242"
 FRONTEND_URL = "http://localhost:3000"
+CRON_UPLOAD_USER = 'torontojs'
+CRON_UPLOAD_REPO = 'volunteer-data'
 
 [[d1_databases]]
 binding = "Database"
@@ -52,6 +54,8 @@ NODE_ENV = "development"
 SENDER_EMAIL="organizers+dev@torontojs.com"
 BASE_URL = "https://vms-dev.torontojs.com"
 FRONTEND_URL = "https://volunteer-dev.torontojs.com"
+CRON_UPLOAD_USER = 'torontojs'
+CRON_UPLOAD_REPO = 'volunteer-data'
 
 [[env.dev.d1_databases]]
 binding = "Database"
@@ -74,6 +78,8 @@ NODE_ENV = "production"
 SENDER_EMAIL="organizers@torontojs.com"
 BASE_URL = "https://vms.torontojs.com"
 FRONTEND_URL = "https://volunteer.torontojs.com"
+CRON_UPLOAD_USER = 'torontojs'
+CRON_UPLOAD_REPO = 'volunteer-data'
 
 [[env.production.d1_databases]]
 binding = "Database"
