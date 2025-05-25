@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import app from '../../index.ts';
+import { app } from '../../index.ts';
 import type { StatusResponse } from '../../utils/responses.ts';
 import { MockEnvBindings } from '../../utils/testing.ts';
 
