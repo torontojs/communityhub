@@ -10,6 +10,7 @@ import { healthCheckRoutes } from './routes/health-check/index.ts';
 import { profileRoutes } from './routes/profile/index.ts';
 import { teamMemberRoutes } from './routes/team-members/index.ts';
 import { teamRoutes } from './routes/team/index.ts';
+import { SchedulerHandler } from './scheduler/index.ts';
 import { StatusCodes, statusResponseFormatter } from './utils/responses.ts';
 
 const app = new OpenAPIHono<EnvironmentBindings>({
@@ -82,4 +83,7 @@ apiRoutes.route('/teams', teamMemberRoutes);
 // Make all routes prefixed to /api
 app.route('/api', apiRoutes);
 
-export default app;
+export default {
+	fetch: app.fetch,
+	scheduled: new SchedulerHandler(app).handler
+};
