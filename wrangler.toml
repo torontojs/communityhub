@@ -8,6 +8,10 @@ send_metrics = false
 workers_dev = true
 preview_urls = false
 
+[triggers]
+# Every day at 2:00 am
+crons = [ "0 2 * * *" ]
+
 [dev]
 ip = "localhost"
 port = 4242
