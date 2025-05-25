@@ -13,7 +13,7 @@ import { teamRoutes } from './routes/team/index.ts';
 import { cronHandler } from './scheduler/index.ts';
 import { StatusCodes, statusResponseFormatter } from './utils/responses.ts';
 
-const app = new OpenAPIHono<EnvironmentBindings>({
+export const app = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
 
