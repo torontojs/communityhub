@@ -1,13 +1,13 @@
 import type { Context } from 'hono';
 
 // NOTE: please update the schema of new environment variables here
-type IgnoredVariables = 'ActivationTokens' | 'Assets' | 'Database' | 'SessionTokens';
-const ignoredVariables: readonly (keyof Pick<Cloudflare.Env, IgnoredVariables>)[] = [
+const ignoredVariables = [
 	'ActivationTokens',
 	'Assets',
 	'Database',
 	'SessionTokens'
 ] as const;
+type IgnoredVariables = typeof ignoredVariables[number];
 
 const requiredVariables: readonly [...(keyof Omit<Cloudflare.Env, IgnoredVariables>)[]] = [
 	'NODE_ENV',
