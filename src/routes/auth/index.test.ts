@@ -18,7 +18,6 @@ describe('Sign-up route', () => {
 		}, MOCK_ENV);
 
 		const json: StatusResponse = await response.json();
-		console.log('SIGN-UPPITY', json);
 		return json;
 	};
 
@@ -88,7 +87,6 @@ describe('Sign-in route', () => {
 				password: 'hashed_password_1'
 			})
 		}, MOCK_ENV);
-		console.log('SIGN-INNIT', response);
 		const json: StatusResponse = await response.json();
 
 		expect(json.message).toBe('Authorized successfully');
