@@ -1,12 +1,12 @@
 export const getHeartBeat = async (appUrl: string) => {
 	try {
-		const response = await fetch(`${appUrl}auth/heartbeat`, {
+		const response = await fetch(`${appUrl}api/auth/heartbeat`, {
 			method: 'GET',
 			credentials: 'include'
 		});
 		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 		if (response.status !== 200) {
-			window.location.href = `${appUrl}sign-in/`;
+			window.location.href = 'pages/sign-in/';
 		}
 	} catch (err) {
 		if (import.meta.env.MODE === 'development') {

@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import { getApiUrl } from '../../utilities/getApiUrl.ts';
 import Button from '../Button/Button.tsx';
 
-const { APP_URL } = getApiUrl();
+const APP_URL = getApiUrl();
 
 const SignInForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
@@ -13,7 +13,7 @@ const SignInForm = (): React.JSX.Element => {
 
 	const signin = async (email: string, password: string) => {
 		try {
-			const response = await fetch(`${APP_URL}auth/sign-in`, {
+			const response = await fetch(`${APP_URL}api/auth/sign-in`, {
 				method: 'POST',
 				credentials: 'include',
 				headers: {
@@ -26,7 +26,7 @@ const SignInForm = (): React.JSX.Element => {
 				const errorData = await response.json();
 				console.log('Response not ok: ', errorData);
 			} else {
-				window.location.href = `${APP_URL}home/`;
+				window.location.href = `${APP_URL}pages/home/`;
 			}
 		} catch (event) {
 			if (import.meta.env.MODE === 'development') {
@@ -119,7 +119,7 @@ const SignInForm = (): React.JSX.Element => {
 
 			<div className='have-account'>
 				<p className='not-member'>
-					If you are a member of ToronoJS and don't have your account, <a href={`${APP_URL}sign-up`} className='underline'>click here to sign-up</a>
+					If you are a member of ToronoJS and don't have your account, <a href={`${APP_URL}pages/sign-up`} className='underline'>click here to sign-up</a>
 				</p>
 			</div>
 		</form>

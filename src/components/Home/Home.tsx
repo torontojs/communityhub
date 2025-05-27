@@ -5,7 +5,7 @@ import { getHeartBeat } from '../../utilities/getHeartbeat.ts';
 import { handleLogOut } from '../../utilities/handleLogOut.ts';
 
 export const Home = () => {
-	const { APP_URL } = getApiUrl();
+	const APP_URL = getApiUrl();
 
 	useEffect(() => {
 		getHeartBeat(APP_URL);
