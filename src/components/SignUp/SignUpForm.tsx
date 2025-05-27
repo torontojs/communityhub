@@ -4,7 +4,7 @@ import zxcvbn from 'zxcvbn';
 import { getApiUrl } from '../../utilities/getApiUrl.ts';
 import Button from '../Button/Button.tsx';
 
-const { BE_URL, FE_URL } = getApiUrl();
+const { APP_URL } = getApiUrl();
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 
@@ -26,7 +26,7 @@ const SignUpForm = (): React.JSX.Element => {
 
 	const signup = async (name: string, email: string, password: string) => {
 		try {
-			const response = await fetch(`${BE_URL}auth/sign-up`, {
+			const response = await fetch(`${APP_URL}auth/sign-up`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ const SignUpForm = (): React.JSX.Element => {
 				const errorData = await response.json();
 				console.log('Response not ok: ', errorData);
 			} else {
-				window.location.href = `${FE_URL}}profile-completion`;
+				window.location.href = `${APP_URL}}profile-completion`;
 			}
 		} catch (e) {
 			if (import.meta.env.MODE === 'development') {
@@ -157,7 +157,7 @@ const SignUpForm = (): React.JSX.Element => {
 
 			<div className='have-account'>
 				<p className='not-member'>
-					If you already have an account, <a href={`${FE_URL}sign-in`} className='underline'>Click here to log-in</a>
+					If you already have an account, <a href={`${APP_URL}sign-in`} className='underline'>Click here to log-in</a>
 				</p>
 			</div>
 		</form>
