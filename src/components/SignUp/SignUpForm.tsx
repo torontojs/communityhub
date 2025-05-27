@@ -1,8 +1,8 @@
 import './SignUpForm.css';
 import { useRef, useState } from 'react';
 import zxcvbn from 'zxcvbn';
-import { getApiUrl } from '../../utilities/getApiUrl';
-import Button from '../Button/Button';
+import { getApiUrl } from '../../utilities/getApiUrl.ts';
+import Button from '../Button/Button.tsx';
 
 const { BE_URL, FE_URL } = getApiUrl();
 

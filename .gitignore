@@ -15,6 +15,7 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+*.vars
 
 # MacOS-specific files
 .DS_Store
@@ -30,3 +31,9 @@ certs
 
 # Typescript build info
 *.tsbuildinfo
+
+# Test Coverage
+coverage
+
+# Generated env file
+env.d.ts

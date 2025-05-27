@@ -3,14 +3,21 @@
 
 import { fileURLToPath } from 'node:url';
 
+import { cloudflare } from '@cloudflare/vite-plugin';
 import react from '@vitejs/plugin-react';
-import { defineConfig, type UserConfig } from 'vite';
 
-const IS_DEBUG = false;
+import { defineConfig, type UserConfig } from 'vite';
 
 export default defineConfig(({ mode }) => {
 	const config: UserConfig = {
-		plugins: [react()],
+		plugins: [
+			react(),
+			cloudflare({
+				configPath: '../wrangler.toml',
+				persistState: { path: '../.wrangler/state' }
+			})
+		],
+		appType: 'mpa',
 		esbuild: { target: 'esnext' },
 		envPrefix: 'APP_',
 		envDir: '../',
@@ -39,7 +46,8 @@ export default defineConfig(({ mode }) => {
 					'sign-in': fileURLToPath(new URL('./src/pages/sign-in/index.html', import.meta.url)),
 					'check-your-email': fileURLToPath(new URL('./src/pages/check-your-email/index.html', import.meta.url)),
 					'home': fileURLToPath(new URL('./src/pages/home/index.html', import.meta.url)),
-					'button-usage': fileURLToPath(new URL('./src/pages/button-usage/index.html', import.meta.url))
+					'button-usage': fileURLToPath(new URL('./src/pages/button-usage/index.html', import.meta.url)),
+					'print-documents': fileURLToPath(new URL('./src/pages/print-documents/index.html', import.meta.url)),
 				}
 			}
 		},

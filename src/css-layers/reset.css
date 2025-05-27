@@ -1,13 +1,10 @@
 /* general-reset-layer.css */
 @layer reset {
 	/* --- General Reset and Box-Sizing --- */
-	/* Ensure consistent box-sizing across all elements */
-	*, *::before, *::after { box-sizing: border-box; }
-
-	/* Reset margin and padding for all elements */
-	* {
-		margin: 0;
-		padding: 0;
+	/* Ensure consistent box-sizing across all elements, and set all elements to inherit the patern's font */
+	*, *::before, *::after {
+		box-sizing: border-box;
+		font-family: inherit;
 	}
 
 	/* --- Remove Default Styling for Lists --- */

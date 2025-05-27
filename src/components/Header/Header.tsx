@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import HeaderTitle from '../HeaderTitle/HeaderTitle';
-import Logo from '../Logo/Logo';
+import HeaderTitle from '../HeaderTitle/HeaderTitle.tsx';
+import Logo from '../Logo/Logo.tsx';
 import './Header.css';
 
 interface Props {

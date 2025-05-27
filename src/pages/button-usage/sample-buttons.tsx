@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import Button from '../../components/Button/Button.js';
+import Button from '../../components/Button/Button.tsx';
 
 import 'open-props';
 import './style.css';
