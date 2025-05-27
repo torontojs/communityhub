@@ -1,4 +1,4 @@
-import { CheckIcon } from '../Icons/CheckIcon';
+import { CheckIcon } from '../Icons/CheckIcon.tsx';
 import './StepBar.css';
 
 interface Props {

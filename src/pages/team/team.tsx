@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import Teams from '../../components/Teams/Teams.js';
+import Teams from '../../components/Teams/Teams.tsx';
 
 import 'open-props';
 import './style.css';

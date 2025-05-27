@@ -3,14 +3,21 @@
 
 import { fileURLToPath } from 'node:url';
 
+import { cloudflare } from '@cloudflare/vite-plugin';
 import react from '@vitejs/plugin-react';
-import { defineConfig, type UserConfig } from 'vite';
 
-const IS_DEBUG = false;
+import { defineConfig, type UserConfig } from 'vite';
 
 export default defineConfig(({ mode }) => {
 	const config: UserConfig = {
-		plugins: [react()],
+		plugins: [
+			react(),
+			cloudflare({
+				configPath: '../wrangler.toml',
+				persistState: { path: '../.wrangler/state' }
+			})
+		],
+		appType: 'mpa',
 		esbuild: { target: 'esnext' },
 		envPrefix: 'APP_',
 		envDir: '../',

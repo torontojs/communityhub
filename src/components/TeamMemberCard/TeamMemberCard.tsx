@@ -1,5 +1,5 @@
 import './TeamMemberCard.css';
-import type { TeamMemberProfile } from '../Teams/Teams';
+import type { TeamMemberProfile } from '../Teams/Teams.tsx';
 
 const TeamMemberCard = (props: TeamMemberProfile) => (
 	<article className='team-member-card'>

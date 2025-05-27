@@ -18,4 +18,4 @@ The VMS is a platform for managing volunteers for Toronto JS and keeping track o
 
 ## Contributing
 
-If you want to contribute to the project, please visit our [Project Page](https://github.com/orgs/torontojs/projects/6), or the [Contributing Guide](./CONTRIBUTING.md)
+If you want to contribute to the project, please visit our [Project Page](https://github.com/orgs/torontojs/projects/6), or the [Contributing Guide](./docs/CONTRIBUTING.md)

@@ -6,22 +6,28 @@
 	"scripts": {
 		"prepare": "husky",
 		"start": "npm run dev",
-		"dev": "vite",
-		"dev:api": "wrangler dev src/index.ts",
-		"generate:types": "wrangler types src/env.d.ts",
-		"deploy:dev": "wrangler deploy --minify --env dev",
-		"deploy:prod": "wrangler deploy --minify --env production",
+		"dev": "vite dev",
+
+		"generate:types": "wrangler types api/src/env.d.ts",
+		"db:setup": "wrangler d1 migrations apply vms-local --local",
+		"db:seed": "wrangler d1 execute vms-local --local --file=./db/seeds/seed-data.sql",
+
 		"build": "vite build",
-		"format": "dprint fmt --staged",
-		"typecheck": "tsc --noEmit",
-		"lint:js": "eslint",
-		"lint": "npm run typecheck && npm run lint:js",
 		"prepreview": "npm run build",
 		"preview": "vite preview",
+		"predeploy:dev": "npm run build",
+		"deploy:dev": "wrangler deploy --minify --env dev",
+		"predeploy:prod": "npm run build",
+		"deploy:prod": "wrangler deploy --minify --env production",
+
+		"format": "dprint fmt --staged",
+		"typecheck:api": "tsc -p ./api --noEmit",
+		"typecheck:client": "tsc -p ./src --noEmit",
+		"lint:js": "eslint",
+		"lint": "npm run typecheck:api && npm run typecheck:client && npm run lint:js",
+
 		"test": "vitest",
-		"coverage": "vitest run --coverage",
-		"db:setup": "wrangler d1 migrations apply vms-local --local",
-		"db:seed": "wrangler d1 execute vms-local --local --file=./seeds/seed-data.sql"
+		"coverage": "vitest run --coverage"
 	},
 	"dependencies": {
 		"@hono/swagger-ui": "0.5.1",
@@ -34,6 +40,7 @@
 		"zxcvbn": "^4.4.2"
 	},
 	"devDependencies": {
+		"@cloudflare/vite-plugin": "1.2.3",
 		"@cloudflare/vitest-pool-workers": "0.8.32",
 		"@types/node": "^22.15.21",
 		"@types/react": "^18.3.1",
