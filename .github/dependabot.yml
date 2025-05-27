@@ -3,6 +3,9 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
     directory: "/"
     schedule:
       interval: "monthly"

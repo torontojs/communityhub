@@ -1,0 +1,4 @@
+#! /bin/bash
+
+npm install --save-dev
+npm run generate:types
