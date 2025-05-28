@@ -10,7 +10,7 @@ const SignInForm = (): React.JSX.Element => {
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-
+	console.log(APP_URL);
 	const signin = async (email: string, password: string) => {
 		try {
 			const response = await fetch(`${APP_URL}api/auth/sign-in`, {

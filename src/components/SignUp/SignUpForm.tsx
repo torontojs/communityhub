@@ -27,7 +27,7 @@ const SignUpForm = (): React.JSX.Element => {
 	const signup = async (name: string, email: string, password: string) => {
 		try {
 			console.log('APP_URL:', APP_URL);
-			const response = await fetch(`${APP_URL}api/auth/sign-up/`, {
+			const response = await fetch(`${APP_URL}api/auth/sign-up`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

@@ -6,7 +6,7 @@ export const getHeartBeat = async (appUrl: string) => {
 		});
 		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 		if (response.status !== 200) {
-			window.location.href = 'pages/sign-in/';
+			window.location.href = 'pages/sign-in';
 		}
 	} catch (err) {
 		if (import.meta.env.MODE === 'development') {
