@@ -1,10 +1,7 @@
 import './SignUpForm.css';
 import { useRef, useState } from 'react';
 import zxcvbn from 'zxcvbn';
-import { getApiUrl } from '../../utilities/getApiUrl.ts';
 import Button from '../Button/Button.tsx';
-
-const APP_URL = getApiUrl();
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 
@@ -26,8 +23,7 @@ const SignUpForm = (): React.JSX.Element => {
 
 	const signup = async (name: string, email: string, password: string) => {
 		try {
-			console.log('APP_URL:', APP_URL);
-			const response = await fetch(`${APP_URL}api/auth/sign-up`, {
+			const response = await fetch('/api/auth/sign-up', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -39,7 +35,7 @@ const SignUpForm = (): React.JSX.Element => {
 				const errorData = await response.json();
 				console.log('Response not ok: ', errorData);
 			} else {
-				window.location.href = `${APP_URL}pages/profile-completion/`;
+				window.location.href = '/pages/profile-completion/';
 			}
 		} catch (e) {
 			if (import.meta.env.MODE === 'development') {
@@ -158,7 +154,7 @@ const SignUpForm = (): React.JSX.Element => {
 
 			<div className='have-account'>
 				<p className='not-member'>
-					If you already have an account, <a href={`${APP_URL}pages/sign-in`} className='underline'>Click here to log-in</a>
+					If you already have an account, <a href='/pages/sign-in' className='underline'>Click here to log-in</a>
 				</p>
 			</div>
 		</form>

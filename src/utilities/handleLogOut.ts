@@ -1,12 +1,12 @@
-export const handleLogOut = async (appUrl: string) => {
+export const handleLogOut = async () => {
 	try {
-		const response = await fetch(`${appUrl}api/auth/sign-out`, {
+		const response = await fetch('/api/auth/sign-out', {
 			method: 'POST',
 			credentials: 'include'
 		});
 
 		if (response.status === 200) {
-			window.location.href = `${appUrl}pages/sign-in`;
+			window.location.href = '/pages/sign-in';
 		}
 	} catch (err) {
 		if (import.meta.env.MODE === 'development') {
