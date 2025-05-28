@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
+
 export const getHeartBeat = async () => {
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
 			credentials: 'include'
 		});
-		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 		if (response.status !== 200) {
 			window.location.href = '/pages/sign-in';
 		}
@@ -20,4 +21,10 @@ export const getHeartBeat = async () => {
 			}
 		}
 	}
+};
+
+export const useHeartBeat = () => {
+	useEffect(() => {
+		void getHeartBeat();
+	}, []);
 };
