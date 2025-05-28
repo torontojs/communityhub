@@ -35,7 +35,7 @@ const SignUpForm = (): React.JSX.Element => {
 				const errorData = await response.json();
 				console.log('Response not ok: ', errorData);
 			} else {
-				window.location.href = '/pages/profile-completion/';
+				window.location.href = '/pages/check-your-email/';
 			}
 		} catch (e) {
 			if (import.meta.env.MODE === 'development') {
