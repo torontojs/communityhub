@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "email": "profile1@example.com",
-  "password": "securePassword123#"
+  "password": "abcd"
 }
 
 HTTP 201
