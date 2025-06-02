@@ -41,7 +41,9 @@ export class SignInPage {
     }
 
     async navigate() {
-         await this.page.goto(this.url); 
+        await this.page.goto(this.url); 
+        console.log(this.page.url())
+        expect(this.page.url()).toBe(this.url);
     }
 
     async fill_fields(email: string, password: string) {

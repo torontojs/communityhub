@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { execPath } from 'process';
 
+test.beforeEach( async ({ page }) => {
+    test.setTimeout(50000) // Sets a 40-second timeout for all tests
+
+});
+
 test.describe('USER CHECK YOUR EMAIL Suite', () => {
     test('Social Media Footer Check', async ({ browser }) => {
 

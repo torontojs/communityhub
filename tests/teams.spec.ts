@@ -1,12 +1,19 @@
 import { test, expect } from '@playwright/test';
+import { TeamsPage } from '../page_object_models/pom_teams';
 import { execPath } from 'process';
 
-test('Design Dragon links', async ({ browser }) => {
+test('CHECK Design Dragon links', async ({ browser }) => {
+
 
     const browser_context = await browser.newContext();
     const page = await browser_context.newPage();
 
-    await page.goto("http://localhost:3000/pages/team/"); 
+    const teamsPage = new TeamsPage(page);
+
+    teamsPage.navigate();
+
+
+   // await page.goto("http://localhost:3000/pages/team/"); 
 
    // const design_team = await page.getByText('Toronto JS').getByRole("link").all();
 
@@ -24,6 +31,10 @@ test('Design Dragon links', async ({ browser }) => {
   
   await page.waitForTimeout(2000);
   console.log((await page.getByText('Toronto JS\' awesome creative minds!Team members').getByRole("link").all()).length);
+
+  await teamsPage.check_profile_links(teamsPage.dragon_link_base, browser_context, "linkedin.com");
+
+  /*
   
   for (const row of await page.getByText('Toronto JS\' awesome creative minds!Team members').getByRole("link").all()) {
      let temp = await row.textContent();
@@ -35,11 +46,8 @@ test('Design Dragon links', async ({ browser }) => {
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
             row.hover(),
             await row.click()    
-        ]);
-
-     // expect(newPage_1.getByRole('link', { name: 'About' } ));
+      ]);
         
-      // newPage_1.waitForTimeout(1000);
       console.log(newPage_1.url());
       let pp = newPage_1.url();
       // let pp = await newPage_1.evaluate(() => window.location.href);
@@ -53,67 +61,46 @@ test('Design Dragon links', async ({ browser }) => {
     
 
   } 
-
-
+  */
 
   await page.close();
 });
 
-test('DEVELOPMENT DRUIDS links', async ({ browser }) => {
+test('CHECK DEVELOPMENT DRUIDS Profile links', async ({ browser }) => {
 
-    const browser_context = await browser.newContext();
-    const page = await browser_context.newPage();
+  const browser_context = await browser.newContext();
+  const page = await browser_context.newPage();
 
-    await page.goto("http://localhost:3000/pages/team/"); 
+  const teamsPage = new TeamsPage(page);
+
+  teamsPage.navigate();
+
+    // await page.goto("http://localhost:3000/pages/team/"); 
 
   await page.waitForTimeout(2000);
+  console.log((await page.getByText('Toronto JS\' awesome creative minds!Team members').getByRole("link").all()).length);
 
-  for (const row of await page.getByText('Toronto JS\' tournament wizards!Team membersJohn DoelinkedinJane').getByRole("link").all()) {
-     let temp = await row.textContent();
-     console.log(temp);
-     
-     let [newPage_1] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            await row.click()    
-        ]);
+  await teamsPage.check_profile_links(teamsPage.druid_link_base, browser_context, "linkedin.com");
 
-      console.log(newPage_1.url());
-      let pp = newPage_1.url();
-
-      expect(pp.includes("linkedin.com"));
-
-      await newPage_1.close();
-  } 
+  await page.waitForTimeout(2000);
 
   await page.close();
 });
 
 test('COMMUNITY CRAFTERS links', async ({ browser }) => {
 
-    const browser_context = await browser.newContext();
-    const page = await browser_context.newPage();
+  const browser_context = await browser.newContext();
+  const page = await browser_context.newPage();
 
-    await page.goto("http://localhost:3000/pages/team/"); 
+  const teamsPage = new TeamsPage(page);
+
+  teamsPage.navigate();
 
   await page.waitForTimeout(2000);
 
-  for (const row of await page.getByText('Toronto JS\' tournament wizards!Team membersJohn DoelinkedinJane').getByRole("link").all()) {
-     let temp = await row.textContent();
-     console.log(temp);
-     
-     let [newPage_1] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            await row.click()    
-        ]);
+  await teamsPage.check_profile_links(teamsPage.crafters_link_base, browser_context, "linkedin.com");
 
-      console.log(newPage_1.url());
-      let pp = newPage_1.url();
-
-      expect(pp.includes("linkedin.com"));
-
-      await newPage_1.close();
-  } 
-
+  await page.waitForTimeout(2000);
 
 
   await page.close();
@@ -121,29 +108,16 @@ test('COMMUNITY CRAFTERS links', async ({ browser }) => {
 
 test('OMNIPOTENT ORGANISERS links', async ({ browser }) => {
 
-    const browser_context = await browser.newContext();
-    const page = await browser_context.newPage();
+  const browser_context = await browser.newContext();
+  const page = await browser_context.newPage();
 
-    await page.goto("http://localhost:3000/pages/team/"); 
+  const teamsPage = new TeamsPage(page);
+
+  teamsPage.navigate();
 
   await page.waitForTimeout(2000);
 
-  for (const row of await page.getByText('Toronto JS\' overseeing overlords!Team membersJohn DoelinkedinJane').getByRole("link").all()) {
-     let temp = await row.textContent();
-     console.log(temp);
-     
-     let [newPage_1] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            await row.click()    
-        ]);
-
-      console.log(newPage_1.url());
-      let pp = newPage_1.url();
-
-      expect(pp.includes("linkedin.com"));
-
-      await newPage_1.close();
-  } 
+  await teamsPage.check_profile_links(teamsPage.organisers_link_base, browser_context, "linkedin.com");
 
   await page.close();
 });

@@ -59,9 +59,11 @@ export class SignUpPage {
     }
 
     async navigate() {
-         await this.page.goto(this.url); 
+        await this.page.goto(this.url); 
+        console.log(this.page.url())
+        expect(this.page.url()).toBe(this.url);
     }
-
+    
     async fill_fields(username: string, email: string, password: string) {
 
         await this.name_field.isVisible();

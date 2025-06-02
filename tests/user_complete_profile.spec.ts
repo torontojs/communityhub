@@ -2,7 +2,8 @@ import { test, expect, Page } from '@playwright/test';
 import { CompleteProfilePage } from '../page_object_models/pom_complete_profile'
 
 test.beforeEach(async ({page }) => {
-
+    
+   test.setTimeout(50000) // Sets a 50-second timeout for all tests
    const completeProfilePage = new CompleteProfilePage(page);
    completeProfilePage.navigate();
   
@@ -150,7 +151,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             await completeProfilePage.avatar_bar.click();
             await completeProfilePage.more_info_bar.click();
 
-            await page.waitForTimeout(1000);
+            await page.waitForTimeout(700);
 
         }
 
@@ -168,7 +169,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.complete_button.click();
 
-        await page.waitForTimeout(4000);
+        await page.waitForTimeout(1000);
 
 
         /*

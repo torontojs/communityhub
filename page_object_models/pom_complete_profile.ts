@@ -87,10 +87,12 @@ export class CompleteProfilePage {
     
     async navigate() {
         await this.page.goto(this.url); 
+        console.log(this.page.url())
+        expect(this.page.url()).toBe(this.url);
     }
 
     async upload_avatar_image(image_path: string) {
-        this.upload_Button.isVisible();
+        await this.upload_Button.isVisible();
         await this.upload_Button.click();
         //### FILE PICKER
         await this.file_picker.setInputFiles(image_path);

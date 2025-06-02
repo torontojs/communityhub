@@ -1,9 +1,10 @@
 import { test, expect, type Page, type Locator } from '@playwright/test';
+import { assert } from 'console';
 
-export class CheckSteps {
+export class CheckStepsPage {
     readonly page: Page;
-    readonly url_1: string = 'http://localhost:3000/pages/check-steps/'; 
-    readonly url_2: string = 'http://localhost:3000/pages/review-conduct-code/';
+    readonly url: string = 'http://localhost:3000/pages/check-steps/'; 
+    // readonly url_2: string = 'http://localhost:3000/pages/review-conduct-code/';
     // 'https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/';
 
     readonly welcome_title: Locator;
@@ -20,7 +21,10 @@ export class CheckSteps {
 
     readonly continue_button: Locator;
 
+    readonly content_wrapper: Locator;
+
     public constructor(page: Page) {
+        this.page = page;
         this.welcome_title = page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub!'});
 
         this.account_confirm_tab = page.getByRole('listitem', {name: 'Account confirmed'});
@@ -34,10 +38,12 @@ export class CheckSteps {
 
         this.continue_button = page.getByRole('link', {name: "Let\'s continue"});
 
+        this.content_wrapper = page.locator('#check-steps').getByText('Complete your profile');
+
 
     }
 
-    async convertHexToRGB(hex) {
+    async convertHexToRGB(hex: string) {
         // Remove the '#' if it's included in the input
         hex = hex.replace(/^#/, '');
 
@@ -52,6 +58,12 @@ export class CheckSteps {
             green: green,
             blue: blue,
         };
+    }
+
+    async navigate() {
+        await this.page.goto(this.url); 
+        console.log(this.page.url())
+        expect(this.page.url()).toBe(this.url);
     }
 
 
