@@ -106,7 +106,7 @@ const SignInForm = (): React.JSX.Element => {
 			</Button>
 
 			<div>
-				<a href='pages/forgot-passsword' className='do-not-remember-password'>I don't remember my password</a>
+				<a href='/pages/forgot-passsword' className='do-not-remember-password'>I don't remember my password</a>
 			</div>
 
 			<div>
