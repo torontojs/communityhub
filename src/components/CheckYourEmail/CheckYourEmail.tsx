@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Footer from '../../components/Footer/Footer';
-import Header from '../../components/Header/Header';
-import ClockIcon from '../../components/Icons/ClockIcon';
+import Footer from '../../components/Footer/Footer.tsx';
+import Header from '../../components/Header/Header.tsx';
+import ClockIcon from '../../components/Icons/ClockIcon.tsx';
 import './CheckYourEmail.css';
 
 const CheckYourEmail = () => {

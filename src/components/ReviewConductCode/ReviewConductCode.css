@@ -23,6 +23,7 @@
 	font-weight: var(--weight-bold);
 	height: 46px;
 	line-height: 160%;
+	margin: 0;
 	padding-bottom: var(--spacing-xs);
 	padding-left: var(--spacing-sm);
 	padding-right: var(--spacing-sm);
@@ -36,6 +37,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-sm);
+	margin: 0;
 	padding: var(--spacing-sm);
 }
 
@@ -68,6 +70,8 @@
 	display: flex;
 	flex-direction: column;
 	list-style: none;
+	margin: 0;
+	padding: 0;
 	width: 100%;
 
 	li:nth-child(1) summary {
@@ -109,10 +113,11 @@ details:open summary #arrow-down-icon { transform: rotate(0.5turn); }
 
 .details-content {
 	border: var(--border-base) solid var(--color-accent);
-	padding-bottom: var(--spacing-xs);
-	padding-left: var(--spacing-sm);
-	padding-right: var(--spacing-sm);
-	padding-top: var(--spacing-xs);
+	max-height: 50svh;
+	overflow: auto;
+	padding-block: var(--spacing-md);
+	padding-inline: var(--spacing-lg);
+	scrollbar-gutter: stable both;
 }
 
 .checkbox-label {

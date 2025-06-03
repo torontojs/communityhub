@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import 'open-props';
 import './style.css';
 import '../../index.css';
-import ProfileCard from '../../components/ProfileCard/ProfileCard';
+import ProfileCard from '../../components/ProfileCard/ProfileCard.tsx';
 
 const root = document.getElementById('root') as HTMLDivElement;
 

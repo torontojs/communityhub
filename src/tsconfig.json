@@ -1,0 +1,10 @@
+{
+	"extends": "../tsconfig.base.json",
+	"include": ["./**/*"],
+	"exclude": ["./.wrangler/**/*"],
+	"compilerOptions": {
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"types": ["./vite-env.d.ts"],
+		"jsx": "react-jsx"
+	}
+}

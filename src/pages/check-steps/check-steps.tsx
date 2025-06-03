@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import 'open-props';
-import CheckSteps from '../../components/CheckSteps/CheckSteps';
+import CheckSteps from '../../components/CheckSteps/CheckSteps.tsx';
 import '../../index.css';
 
 const root = document.getElementById('root') as HTMLDivElement;

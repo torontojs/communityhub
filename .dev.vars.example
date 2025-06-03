@@ -1,0 +1,21 @@
+# Api key created in the Resend account
+# This is used for sending emails
+RESEND_API_KEY=your-api-key-here
+
+# Email to use for sending confirmation and notification emails.
+# For local development, this must be set by the developer.
+#
+# If you want to tag your emails to a specific version or test,
+# Add a "+" and a string to the end of the email.
+# E.g.: email+special-test-2025-01-01@example.com
+SENDER_EMAIL=email+special-test-2025-01-01@example.com
+
+# Flag that allows sending emails to the external provider.
+# If this is set to true, emails will NOT be send!
+# Instead the email information will be printed to the console.
+#
+# If set to false, or not set, emails will be sent normally to the external provider.
+#
+# For local testing, we advise to keep this flag as true.
+# Unless you specifically want to test sending emails.
+ARE_EMAILS_LOCAL_ONLY=true

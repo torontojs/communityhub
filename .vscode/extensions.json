@@ -1,0 +1,13 @@
+{
+	"recommendations": [
+		"aaron-bond.better-comments",
+		"dprint.dprint",
+		"dbaeumer.vscode-eslint",
+		"mhutchie.git-graph",
+		"bierner.jsdoc-markdown-highlighting",
+		"ms-vsliveshare.vsliveshare"
+	],
+	"unwantedRecommendations": [
+		"esbenp.prettier-vscode"
+	]
+}

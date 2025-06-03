@@ -1,8 +1,8 @@
-import ButtonLink from '../ButtonLink/ButtonLink';
-import Header from '../Header/Header';
-import { CheckConductCodeIcon } from '../Icons/CheckConductCodeIcon';
-import { CompleteProfileIcon } from '../Icons/CompleteProfileIcon';
-import StepBar from '../StepBar/StepBar';
+import ButtonLink from '../ButtonLink/ButtonLink.tsx';
+import Header from '../Header/Header.tsx';
+import { CheckConductCodeIcon } from '../Icons/CheckConductCodeIcon.tsx';
+import { CompleteProfileIcon } from '../Icons/CompleteProfileIcon.tsx';
+import StepBar from '../StepBar/StepBar.tsx';
 import './CheckSteps.css';
 
 const CheckSteps = () => (

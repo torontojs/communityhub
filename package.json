@@ -1,46 +1,70 @@
 {
-	"name": "vms-fe-mvp",
-	"private": true,
+	"name": "vms",
 	"version": "0.0.1",
+	"private": true,
 	"type": "module",
 	"scripts": {
-		"start": "npm run dev",
 		"prepare": "husky",
-		"dev": "vite",
+		"start": "npm run dev",
+		"dev": "vite dev",
+
+		"generate:types": "wrangler types api/src/env.d.ts",
+		"db:setup": "wrangler d1 migrations apply vms-local --local",
+		"db:seed": "wrangler d1 execute vms-local --local --file=./db/seeds/seed-data.sql",
+
 		"build": "vite build",
-		"format": "dprint fmt --staged",
-		"typecheck": "tsc --noEmit",
-		"lint:js": "eslint --fix",
-		"lint": "npm run typecheck && npm run lint:js",
 		"prepreview": "npm run build",
 		"preview": "vite preview",
-		"kill:3000": "lsof -ti:3000 | xargs kill -9"
+
+		"predeploy:dev": "npm run build",
+		"deploy:dev": "wrangler deploy --minify --env dev",
+		"predeploy:prod": "npm run build",
+		"deploy:prod": "wrangler deploy --minify --env production",
+
+		"format": "dprint fmt --staged",
+		"typecheck:api": "tsc -p ./api --noEmit",
+		"typecheck:client": "tsc -p ./src --noEmit",
+		"lint:js": "eslint",
+		"lint": "npm run typecheck:api && npm run typecheck:client && npm run lint:js",
+
+		"test": "vitest",
+		"coverage": "vitest run --coverage"
 	},
 	"dependencies": {
+		"@hono/swagger-ui": "0.5.1",
+		"@hono/zod-openapi": "0.19.6",
+		"hono": "^4.7.10",
 		"open-props": "^1.7.13",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
+		"resend": "^4.5.1",
 		"zxcvbn": "^4.4.2"
 	},
 	"devDependencies": {
-		"@types/node": "22.12.0",
+		"@cloudflare/vite-plugin": "1.2.3",
+		"@cloudflare/vitest-pool-workers": "0.8.32",
+		"@types/node": "^22.15.21",
 		"@types/react": "^18.3.1",
 		"@types/react-dom": "^18.3.1",
 		"@types/zxcvbn": "^4.4.5",
-		"@typescript-eslint/eslint-plugin": "8.27.0",
-		"@typescript-eslint/parser": "8.27.0",
+		"@typescript-eslint/eslint-plugin": "8.32.1",
+		"@typescript-eslint/parser": "8.32.1",
 		"@vitejs/plugin-react": "^4.3.4",
-		"eslint": "9.22.0",
+		"@vitest/coverage-v8": "^3.1.4",
+		"dprint": "0.50.0",
+		"eslint": "9.27.0",
 		"eslint-plugin-react": "^7.37.4",
 		"eslint-plugin-react-hooks": "^5.2.0",
 		"eslint-plugin-react-refresh": "^0.4.19",
-		"globals": "16.0.0",
+		"globals": "16.1.0",
 		"husky": "9.1.7",
-		"typescript": "5.8.2",
-		"vite": "^6.2.2"
+		"typescript": "5.8.3",
+		"vite": "^6.2.2",
+		"wrangler": "^4.16.1",
+		"zod": "^3.25.28"
 	},
 	"volta": {
-		"node": "22.12.0"
+		"node": "22.15.0"
 	},
 	"overrides": {
 		"array-includes": "npm:@nolyfill/array-includes@^1",
