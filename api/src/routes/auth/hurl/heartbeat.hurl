@@ -14,6 +14,7 @@ auth-token-cookie-var: cookie "auth_token"
 status == 201
 
 # Heartbeat intergration test NOT FOUND
+
 POST http://localhost:4242/auth/heartbeat
 Content-Type: application/json
 
@@ -22,6 +23,7 @@ HTTP 404
 status == 404
 
 # # Heartbeat intergration test UNAUTHORIZED
+
 # POST http://localhost:4242/auth/heartbeat
 # Content-Type: application/json
 
@@ -30,6 +32,7 @@ status == 404
 # status == 401
 
 # # Sign in intergration test
+
 # POST http://localhost:4242/auth/sign-in
 # Content-Type: application/json
 #
