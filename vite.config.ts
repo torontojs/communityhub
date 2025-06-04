@@ -47,7 +47,7 @@ export default defineConfig(({ mode }) => {
 					'check-your-email': fileURLToPath(new URL('./src/pages/check-your-email/index.html', import.meta.url)),
 					'home': fileURLToPath(new URL('./src/pages/home/index.html', import.meta.url)),
 					'button-usage': fileURLToPath(new URL('./src/pages/button-usage/index.html', import.meta.url)),
-					'print-documents': fileURLToPath(new URL('./src/pages/print-documents/index.html', import.meta.url)),
+					'print-documents': fileURLToPath(new URL('./src/pages/print-documents/index.html', import.meta.url))
 				}
 			}
 		},

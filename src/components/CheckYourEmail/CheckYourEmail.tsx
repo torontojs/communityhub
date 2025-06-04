@@ -4,11 +4,17 @@ import Header from '../../components/Header/Header.tsx';
 import ClockIcon from '../../components/Icons/ClockIcon.tsx';
 import './CheckYourEmail.css';
 
-const CheckYourEmail = ({ email }: { email: string }) => {
+const CheckYourEmail = () => {
+	const [email, setEmail] = useState('');
 	const RESEND_MINUTES = 10;
 	const MILLISECONDS_PER_MINUTE = 60 * 1000;
 	const [minutes, setMinutes] = useState(RESEND_MINUTES);
 	const [hasResent, setHasResent] = useState(false);
+
+	useEffect(() => {
+		const params = new URLSearchParams(window.location.search);
+		setEmail(params.get('email') || '');
+	}, []);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
