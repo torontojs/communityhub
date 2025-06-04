@@ -1,4 +1,6 @@
-# Sign-up success
+# TODO: Data needs to be sanitized on the sign-up auth sub route
+
+# Sign-up success OKAY
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -13,7 +15,7 @@ Content-Type: application/json
 HTTP 200
 
 
-# Sign-up duplicate email
+# Sign-up duplicate email OKAY
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -28,7 +30,7 @@ Content-Type: application/json
 HTTP 200
 
 
-# FIX ME: Sign-up duplicate email with different casing
+# FIX ME: Sign-up duplicate email with different casing OKAY
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -43,7 +45,7 @@ Content-Type: application/json
 HTTP 200
 
 
-# FIX ME: Sign-up weak password check
+# TODO: Sign-up weak password check(needs to be updated)
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -103,7 +105,7 @@ Content-Type: application/json
 HTTP 422
 
 
-# Sign-up name extra spaces(FIX ME ???)
+# TODO: Sign-up name extra spaces(FIX ME ???)
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -133,7 +135,7 @@ Content-Type: application/json
 HTTP 422
 
 
-# Sign-up password extra spaces(FIX ME)
+# TODO: Sign-up password extra spaces(FIX ME)
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -198,7 +200,7 @@ POST http://localhost:3000/api/auth/sign-up
 HTTP 200
 
 
-# FIX ME: ign-up name should not be longer than 100 characters
+# TODO: sign-up name should not be longer than 100 characters(Fix Me)
 
 POST http://localhost:3000/api/auth/sign-up
 
