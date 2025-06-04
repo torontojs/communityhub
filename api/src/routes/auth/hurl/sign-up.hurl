@@ -15,7 +15,6 @@ HTTP 200
 
 # Sign-up duplicate email
 
-
 POST http://localhost:3000/api/auth/sign-up
 
 Content-Type: application/json
@@ -28,19 +27,35 @@ Content-Type: application/json
 
 HTTP 200
 
-# # Sign-up weak password check(same has front end)
 
-# POST http://localhost:3000/api/auth/sign-up
+# FIX ME: Sign-up duplicate email with different casing
 
-# Content-Type: application/json
+POST http://localhost:3000/api/auth/sign-up
 
-# {
-# 	"name":"Mr Weak Password",
-# 	"email":"weak@weakpassword.com",
-# 	"password":"quoison"
-# }
+Content-Type: application/json
 
-# HTTP 422
+{
+	"name":"Mr Duplicate Email",
+	"email":"SIGN-up@example.com",
+	"password":"FruityThisIs911!@#"
+}
+
+HTTP 200
+
+
+# FIX ME: Sign-up weak password check
+
+POST http://localhost:3000/api/auth/sign-up
+
+Content-Type: application/json
+
+{
+	"name":"Mr Weak Password",
+	"email":"weak@weakpassword.com",
+	"password":"quoison"
+}
+
+HTTP 200
 
 
 # Sign-up missing name field
@@ -117,6 +132,7 @@ Content-Type: application/json
 
 HTTP 422
 
+
 # Sign-up password extra spaces(FIX ME)
 
 POST http://localhost:3000/api/auth/sign-up
@@ -124,7 +140,7 @@ POST http://localhost:3000/api/auth/sign-up
 Content-Type: application/json
 
 {
-	"name":" Mr Edgar Extra Spaces ",
+	"name":"Mr Edgar Extra Spaces",
 	"email":"email@extra-spaces.com",
 	"password":" ExtraS paces911!@#$ "
 }
@@ -145,6 +161,7 @@ Content-Type: application/json
 }
 
 HTTP 422
+
 
 # Sign-up single digit name
 
@@ -168,7 +185,7 @@ POST http://localhost:3000/api/auth/sign-up
 HTTP 422
 
 
-# Sign-up missing content-Type
+# FIX ME:  Sign-up missing content-Type
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -181,12 +198,12 @@ POST http://localhost:3000/api/auth/sign-up
 HTTP 200
 
 
-# Sign-up name should not be longer than 100 characters(FIX ME 200)
+# FIX ME: ign-up name should not be longer than 100 characters
 
 POST http://localhost:3000/api/auth/sign-up
 
 {
-	"name":"Maximiliano-Alexanderthegreat VonSchwarzensteinberg-MacDonaldson O'Flannagan-Smith-Johansson-Ricci",
+	"name":"BortMaximiliano-Alexanderthegreat VonSchwarzensteinberg-MacDonaldson O'Flannagan-Smith-Johansson-Ricci",
 	"email":"longname@header.com",
 	"password":"ShouldNotBeLongerThan100124!@#$"
 }
