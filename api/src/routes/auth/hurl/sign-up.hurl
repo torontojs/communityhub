@@ -15,6 +15,7 @@ HTTP 200
 
 # Sign-up duplicate email
 
+
 POST http://localhost:3000/api/auth/sign-up
 
 Content-Type: application/json
@@ -125,7 +126,7 @@ Content-Type: application/json
 {
 	"name":" Mr Edgar Extra Spaces ",
 	"email":"email@extra-spaces.com",
-	"password":" ExtraSpaces911!@#$ "
+	"password":" ExtraS paces911!@#$ "
 }
 
 HTTP 200
@@ -154,7 +155,7 @@ Content-Type: application/json
 {
 	"name":"x",
 	"email":"single-digit-name@example.com",
-	"password":"abcd"
+	"password":"SingleDigitName84!#$"
 }
 
 HTTP 200
