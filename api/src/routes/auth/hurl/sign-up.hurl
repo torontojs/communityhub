@@ -21,11 +21,25 @@ Content-Type: application/json
 
 {
 	"name":"Mr Duplicate Email",
-	"email":"SIGN-UP@example.com",
+	"email":"sign-up@example.com",
 	"password":"FruityThisIs911!@#"
 }
 
 HTTP 200
+
+# # Sign-up weak password check(same has front end)
+
+# POST http://localhost:3000/api/auth/sign-up
+
+# Content-Type: application/json
+
+# {
+# 	"name":"Mr Weak Password",
+# 	"email":"weak@weakpassword.com",
+# 	"password":"quoison"
+# }
+
+# HTTP 422
 
 
 # Sign-up missing name field
@@ -42,6 +56,7 @@ Content-Type: appplication/json
 
 HTTP 422
 
+
 # Sign-up missing email field
 
 POST http://localhost:3000/api/auth/sign-up
@@ -57,7 +72,7 @@ Content-Type: application/json
 HTTP 422
 
 
-# Sign-up missing passworld field
+# Sign-up missing password field
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -72,7 +87,7 @@ Content-Type: application/json
 HTTP 422
 
 
-# Sign-up name extra spaces
+# Sign-up name extra spaces(FIX ME ???)
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -118,18 +133,17 @@ HTTP 200
 
 # Invalid email format
 
-# POST http://localhost:3000/api/auth/sign-up
+POST http://localhost:3000/api/auth/sign-up
 
-# Content-Type: application/json
+Content-Type: application/json
 
-# {
-# 	"name":"Invalid Eamil Format",
-# 	"email":"invalid-format.com",
-# 	"password":"invalidEmailF911!@#$"
-# }
+{
+	"name":"Invalid Eamil Format",
+	"email":"invalid-format.com",
+	"password":"invalidEmailF911!@#$"
+}
 
-# HTTP 422
-
+HTTP 422
 
 # Sign-up single digit name
 
