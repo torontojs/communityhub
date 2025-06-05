@@ -62,7 +62,7 @@ GET http://localhost:3000/api/auth/heartbeat
 HTTP 401
 
 
-# TODO: Heartbeat invalid token(needs seed data)
+# TODO: Heartbeat invalid token(needs seed data)(Send uuid made up of 0's)
 # TODO: Heartbeat session expired(needs seed data)
 # TODO: Heartbeat session not found
 
@@ -108,7 +108,7 @@ HTTP 200
 [Asserts]
 status == 200
 
-# TODO: Heartbeat accessing page requiring organizer or admini access FORBIDDEN
+# TODO: Heartbeat accessing page requiring organizer or admin access FORBIDDEN
 
 # TODO: Sign-out succesfully logged out NO_CONTENT(Returns 200 but it should be 204)
 
@@ -120,7 +120,7 @@ HTTP 200
 status == 200
 
 
-# # Sign-out invalid token BAD_REQUEST
+# TODO: Sign-out invalid token BAD_REQUEST(needs seed data)
 
 # GET http://localhost:4242/auth/sign-out
 # Cookie: auth_token={{ auth-token-cookie-var }}
@@ -128,6 +128,15 @@ status == 200
 # HTTP 400
 # [Asserts]
 # status == 400
+
+
+# TODO: Missing token returns 400 BAD_REQUEST(Fix me should be 400)
+
+POST http://localhost:3000/api/auth/sign-out
+
+HTTP 401
+[Asserts]
+status == 401
 
 
 # # TODO: Need seed data. Activate invalid token BAD_REQUESTS

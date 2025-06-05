@@ -1,5 +1,6 @@
 # TODO: Data needs to be sanitized on the sign-up auth sub route
-
+# Give zod and extra function to validate passwords and route inputs
+# Inner spaces ok
 # Sign-up success OKAY
 
 POST http://localhost:3000/api/auth/sign-up
@@ -187,7 +188,7 @@ POST http://localhost:3000/api/auth/sign-up
 HTTP 422
 
 
-# FIX ME:  Sign-up missing content-Type
+# FIX ME:  Sign-up missing content-Type(ADD incorect content-type)
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -199,7 +200,8 @@ POST http://localhost:3000/api/auth/sign-up
 
 HTTP 200
 
-
+# Maximum name email password 512 characters
+# For create profile field 10240(10kb) characters(text area, profile description, longer text areas and )
 # TODO: sign-up name should not be longer than 100 characters(Fix Me)
 
 POST http://localhost:3000/api/auth/sign-up
