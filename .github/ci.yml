@@ -1,0 +1,32 @@
+name: CI (Continuous Integration)
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  test:
+    name: 🔎 Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Optional: Only if needed for testing later
+      # - name: Build project
+      #   run: npm run build
+
+      - name: Run tests
+        run: npm test
