@@ -296,25 +296,26 @@ const CompleteProfile = () => {
 	}, [profileData.links]);
 
 	useEffect(() => {
-		setIsLoading(true);
-		fetch(`/api/profiles/self`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			credentials: 'include'
-		})
-			.then(async (response) => {
+		(async () => {
+			setIsLoading(true);
+			
+			try {
+				const response = await fetch(`/api/profiles/self`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					credentials: 'include'
+				});
+				
 				// If not authenticated, redirect to Sign In page
 				if (response.status === 401) {
 					window.location.href = `/pages/sign-in/`;
 				} else if (!response.ok) {
 					throw new Error('Network response was not ok');
 				}
-				setIsLoading(false);
-				return response.json();
-			})
-			.then((data) => {
+
+				const data = await response.json();
 				const fetchedFields = {
 					id: data.data?.id,
 					name: data.data?.name,
@@ -322,19 +323,20 @@ const CompleteProfile = () => {
 					isBasedOnGTA: data.data?.isBasedOnGTA,
 					canJoinLocalEvents: data.data?.canJoinLocalEvents
 				};
-
+			
 				setProfileData((prev) => ({
 					...prev,
 					...fetchedFields
 				}));
 
 				setProfileId(data.data.id);
-				setIsLoading(false);
-			})
-			.catch((_error) => {
+			} catch (err) {
 				// setErrorMessage(error.message);
+
+			} finally {
 				setIsLoading(false);
-			});
+			}
+		})();
 	}, []);
 
 	useEffect(() => {
