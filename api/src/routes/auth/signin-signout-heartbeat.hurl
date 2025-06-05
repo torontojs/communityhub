@@ -81,8 +81,6 @@ Content-Type: application/json
 HTTP 201
 [Captures]
 auth-token-cookie-var: cookie "auth_token"
-[Asserts]
-status == 201
 
 
 # Sign in intergration test already signed in BAD REQUEST
@@ -105,8 +103,6 @@ GET http://localhost:3000/api/auth/heartbeat
 Cookie: auth_token={{ auth-token-cookie-var }}
 
 HTTP 200
-[Asserts]
-status == 200
 
 # TODO: Heartbeat accessing page requiring organizer or admin access FORBIDDEN
 
@@ -128,7 +124,7 @@ HTTP 204
 # status == 400
 
 
-# TODO: Missing token returns 400 BAD_REQUEST(Fix me should be 400)
+# Sign out missing token BAD_REQUEST
 
 POST http://localhost:3000/api/auth/sign-out
 
