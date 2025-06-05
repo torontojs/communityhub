@@ -6,7 +6,7 @@
 
   {
     "email": "profile1@example.com",
-    "password": "abc"
+    "password": "WrongPassword911!$"
   }
 
   HTTP 401
@@ -41,7 +41,7 @@
 
 
 
-# FIX ME: Sign in intergration test missing email
+# Sign in intergration test missing email
 
 POST http://localhost:3000/api/auth/sign-in
 
