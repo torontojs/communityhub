@@ -31,11 +31,33 @@ interface UpdateProfileParams {
 }
 
 // Validation helpers
+/**
+ * Checks whether a birthday string is in the valid MM-DD format.
+ *
+ * A valid format must follow the pattern: two-digit month (01–12)
+ * followed by a dash and a two-digit day (01–31).
+ * This function does not validate actual calendar dates (e.g., "02-30" would be considered valid).
+ *
+ * @param birthday - The birthday string to validate, expected in MM-DD format.
+ * @returns `true` if the format is valid, otherwise `false`.
+ */
 const isValidBirthdayFormat = (birthday: string): boolean => {
 	const regex = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 	return regex.test(birthday);
 };
 
+/**
+ * Determines whether a birthday string represents a real calendar date.
+ *
+ * The input must be in MM-DD format and represent a valid calendar day.
+ * This function uses a placeholder year (2000, a leap year) to account for month lengths,
+ * including February 29th. It assumes no year context is needed and is used primarily for validation.
+ *
+ * @deprecated We will remove update this when Temporal becomes stable
+ *
+ * @param birthday - The birthday string to validate, expected in MM-DD format.
+ * @returns `true` if the string is a valid date in the MM-DD format, otherwise `false`.
+ */
 const isRealDate = (birthday: string): boolean => {
 	if (!isValidBirthdayFormat(birthday)) { return false; }
 
