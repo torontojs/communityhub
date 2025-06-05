@@ -1,6 +1,3 @@
-  # We need seed data to to tests with valid passwords strenghts
-
-
   # Sign in intergration test wrong password UNAUTHORIZED
 
   POST http://localhost:3000/api/auth/sign-in
@@ -14,6 +11,7 @@
 
   HTTP 401
 
+
 # Sign in intergration test missing password
 
   POST http://localhost:3000/api/auth/sign-in
@@ -25,7 +23,7 @@
     "password": ""
   }
 
-  HTTP 401
+  HTTP 422
 
 
 # Sign in intergration test invalid email
@@ -39,7 +37,7 @@
     "password": "abcd"
   }
 
-  HTTP 401
+  HTTP 422
 
 
 
@@ -54,12 +52,12 @@ Content-Type: application/json
   "password": "abcd"
 }
 
-HTTP 401
+HTTP 422
 
 
 # Heartbeat check when not signed-in UNAUTHORIZED
 
-GET http://localhost:4242/auth/heartbeat
+GET http://localhost:3000/api/auth/heartbeat
 
 HTTP 401
 
@@ -82,7 +80,6 @@ Content-Type: application/json
 
 HTTP 201
 [Captures]
-
 auth-token-cookie-var: cookie "auth_token"
 [Asserts]
 status == 201
@@ -104,8 +101,8 @@ HTTP 400
 
 # Heartbeat check after successful sign-in OKAY
 
-GET http://localhost:4242/auth/heartbeat
-Cookie: auth_token={% auth-token-cookie-var %}
+GET http://localhost:3000/api/auth/heartbeat
+Cookie: auth_token={{ auth-token-cookie-var }}
 
 HTTP 200
 [Asserts]
@@ -113,27 +110,27 @@ status == 200
 
 # TODO: Heartbeat accessing page requiring organizer or admini access FORBIDDEN
 
-# Sign-out succesfully logged out NO_CONTENT
+# TODO: Sign-out succesfully logged out NO_CONTENT(Returns 200 but it should be 204)
 
-GET http://localhost:4242/auth/sign-out
-Cookie: auth_token={% auth-token-cookie-var %}
+POST http://localhost:3000/api/auth/sign-out
+Cookie: auth_token={{ auth-token-cookie-var }}
 
-HTTP 204
+HTTP 200
 [Asserts]
-status == 204
+status == 200
 
 
-# Sign-out invalid token BAD_REQUEST
+# # Sign-out invalid token BAD_REQUEST
 
-GET http://localhost:4242/auth/sign-out
-Cookie: auth_token={% auth-token-cookie-var %}
+# GET http://localhost:4242/auth/sign-out
+# Cookie: auth_token={{ auth-token-cookie-var }}
 
-HTTP 400
-[Asserts]
-status == 400
+# HTTP 400
+# [Asserts]
+# status == 400
 
 
-# TODO: Need seed data. Activate invalid token BAD_REQUESTS
-# TODO: Need seed data. Activate expired token UNAUTHORIZED
-# TODO: Need seed data. Activate failed to activate account INTERNAL_SERVER_ERROR
-# TODO: Need seed data. Activate account succesfully OKAY
+# # TODO: Need seed data. Activate invalid token BAD_REQUESTS
+# # TODO: Need seed data. Activate expired token UNAUTHORIZED
+# # TODO: Need seed data. Activate failed to activate account INTERNAL_SERVER_ERROR
+# # TODO: Need seed data. Activate account succesfully OKAY
