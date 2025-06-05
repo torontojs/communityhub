@@ -1,6 +1,3 @@
-# TODO: Data needs to be sanitized on the sign-up auth sub route
-# Give zod and extra function to validate passwords and route inputs
-# Inner spaces ok
 # Sign-up success OKAY
 
 POST http://localhost:3000/api/auth/sign-up
@@ -31,7 +28,7 @@ Content-Type: application/json
 HTTP 200
 
 
-# FIX ME: Sign-up duplicate email with different casing OKAY
+# Sign-up duplicate email with different casing OKAY
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -46,7 +43,7 @@ Content-Type: application/json
 HTTP 200
 
 
-# TODO: Sign-up weak password check(needs to be updated)
+# Sign-up weak password check
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -106,7 +103,7 @@ Content-Type: application/json
 HTTP 422
 
 
-# TODO: Sign-up name extra spaces(FIX ME ???)
+# Sign-up name extra spaces
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -136,7 +133,7 @@ Content-Type: application/json
 HTTP 422
 
 
-# TODO: Sign-up password extra spaces(FIX ME)
+# Sign-up password extra spaces
 
 POST http://localhost:3000/api/auth/sign-up
 
@@ -188,9 +185,11 @@ POST http://localhost:3000/api/auth/sign-up
 HTTP 422
 
 
-# FIX ME:  Sign-up missing content-Type(ADD incorect content-type)
+# Sign-up missing content-Type
 
 POST http://localhost:3000/api/auth/sign-up
+
+Content-Type: application/image
 
 {
 	"name":"Missinger Header",
@@ -198,13 +197,15 @@ POST http://localhost:3000/api/auth/sign-up
 	"password":"ThisMissingHeader911!@#$"
 }
 
-HTTP 200
+HTTP 422
 
 # Maximum name email password 512 characters
 # For create profile field 10240(10kb) characters(text area, profile description, longer text areas and )
 # TODO: sign-up name should not be longer than 100 characters(Fix Me)
 
 POST http://localhost:3000/api/auth/sign-up
+
+Content-Type: application/json
 
 {
 	"name":"BortMaximiliano-Alexanderthegreat VonSchwarzensteinberg-MacDonaldson O'Flannagan-Smith-Johansson-Ricci",
