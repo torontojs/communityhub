@@ -258,7 +258,7 @@
 		grid-template-columns: repeat(3, 1fr);
 		justify-content: space-between;
 
-		label:is([for='linkedInProfile'], [for='githubProfile'], [for='portfolio']) {
+		label:is([for='linkedin-profile'], [for='github-profile'], [for='portfolio']) {
 			display: inline-block;
 			margin-bottom: var(--spacing-xs);
 		}
@@ -352,6 +352,7 @@
 					background-color: transparent;
 					border: none;
 					height: 1rem;
+					padding: 0;
 					width: 1rem;
 				}
 			}
