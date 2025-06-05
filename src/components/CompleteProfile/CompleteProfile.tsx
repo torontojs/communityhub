@@ -298,7 +298,7 @@ const CompleteProfile = () => {
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
-			
+
 			try {
 				const response = await fetch(`/api/profiles/self`, {
 					method: 'GET',
@@ -307,7 +307,7 @@ const CompleteProfile = () => {
 					},
 					credentials: 'include'
 				});
-				
+
 				// If not authenticated, redirect to Sign In page
 				if (response.status === 401) {
 					window.location.href = `/pages/sign-in/`;
@@ -323,7 +323,7 @@ const CompleteProfile = () => {
 					isBasedOnGTA: data.data?.isBasedOnGTA,
 					canJoinLocalEvents: data.data?.canJoinLocalEvents
 				};
-			
+
 				setProfileData((prev) => ({
 					...prev,
 					...fetchedFields
@@ -332,7 +332,6 @@ const CompleteProfile = () => {
 				setProfileId(data.data.id);
 			} catch (err) {
 				// setErrorMessage(error.message);
-
 			} finally {
 				setIsLoading(false);
 			}
@@ -535,7 +534,6 @@ const CompleteProfile = () => {
 						</div>
 					</details>
 
-					{/* TODO: Need to confirm adding green check icon on successful section completion on mobile view */}
 					<details open>
 						<summary className='text-h6'>
 							<span>Avatar:</span>
@@ -590,10 +588,10 @@ const CompleteProfile = () => {
 						<div className='details-content-wrapper'>
 							<div id='details-information-grid'>
 								<div>
-									<label htmlFor='linkedInProfile'>LinkedIn profile</label>
+									<label htmlFor='linkedin-profile'>LinkedIn profile</label>
 									<input
-										id='linkedInProfile'
-										name='linkedInProfile'
+										id='linkedin-profile'
+										name='linkedin-profile'
 										type='url'
 										className='text-input'
 										value={linksByPlatform['LinkedIn'] ?? ''}
@@ -601,10 +599,10 @@ const CompleteProfile = () => {
 									/>
 								</div>
 								<div>
-									<label htmlFor='githubProfile'>GitHub profile</label>
+									<label htmlFor='github-profile'>GitHub profile</label>
 									<input
-										id='githubProfile'
-										name='githubProfile'
+										id='github-profile'
+										name='github-profile'
 										type='url'
 										className='text-input'
 										value={linksByPlatform['GitHub'] ?? ''}
