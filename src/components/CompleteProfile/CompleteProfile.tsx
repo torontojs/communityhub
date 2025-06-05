@@ -149,15 +149,12 @@ const CompleteProfile = () => {
 	};
 
 	const handleAddSkill = (skillName: string) => {
-		const index = profileData.skills.findIndex((skill) => skill.trim().toLocaleLowerCase() === skillName.trim().toLocaleLowerCase());
-		if (skillName.trim() !== '' && index == -1) {
-			setProfileData((prev) => {
-				return {
-					...prev,
-					skills: [...prev.skills, skillName]
-				};
-			});
-		}
+		setProfileData((prev) => {
+			return {
+				...prev,
+				skills: [...new Set([...prev.skills, skillName.toLowerCase()])]
+			};
+		});
 		if (skillInputRef.current) { skillInputRef.current.value = ''; }
 	};
 
