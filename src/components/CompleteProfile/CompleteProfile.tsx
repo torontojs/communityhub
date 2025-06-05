@@ -69,18 +69,19 @@ const isRealDate = (birthday: string): boolean => {
 	return date.getMonth() + 1 === month && date.getDate() === day;
 };
 
-const updateProfile = async (args: UpdateProfileParams, profileId: string) => {
+const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 	try {
 		const response = await fetch(`/api/profiles/${profileId}`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ ...args }),
+			body: JSON.stringify({ ...data }),
 			credentials: 'include'
 		});
-		if (!response.ok) {
+		if (response.status !== 200) {
 			const errorData = await response.json();
+			// TODO: Replace console log with error message once the design becomes available
 			console.log('Response not ok: ', errorData);
 		}
 	} catch (e) {
