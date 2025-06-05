@@ -246,6 +246,6 @@ authRoutes.openapi(
 
 		await deleteSession({ context, sessionToken: session.token });
 
-		return context.json(StatusCodes.NO_CONTENT);
+		return context.body(null, StatusCodes.NO_CONTENT);
 	}
 );

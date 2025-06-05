@@ -6,7 +6,7 @@
 
   {
     "email": "profile1@example.com",
-    "password": "WrongPassword911!$"
+    "password": "abc"
   }
 
   HTTP 401
@@ -49,7 +49,7 @@ Content-Type: application/json
 
 {
   "email": "",
-  "password": "abcd"
+  "password": "MissingeEmail911!@$"
 }
 
 HTTP 422
@@ -67,7 +67,7 @@ HTTP 401
 # TODO: Heartbeat session not found
 
 
-# TODO: Sign in intergration test(Fix me) CREATED
+# Sign in intergration test CREATED
 
 POST http://localhost:3000/api/auth/sign-in
 
@@ -85,7 +85,7 @@ auth-token-cookie-var: cookie "auth_token"
 status == 201
 
 
-# TODO: Sign in intergration test already signed in BAD REQUEST (Fix me)
+# Sign in intergration test already signed in BAD REQUEST
 
 POST http://localhost:3000/api/auth/sign-in
 
@@ -115,9 +115,7 @@ status == 200
 POST http://localhost:3000/api/auth/sign-out
 Cookie: auth_token={{ auth-token-cookie-var }}
 
-HTTP 200
-[Asserts]
-status == 200
+HTTP 204
 
 
 # TODO: Sign-out invalid token BAD_REQUEST(needs seed data)
@@ -137,9 +135,3 @@ POST http://localhost:3000/api/auth/sign-out
 HTTP 401
 [Asserts]
 status == 401
-
-
-# # TODO: Need seed data. Activate invalid token BAD_REQUESTS
-# # TODO: Need seed data. Activate expired token UNAUTHORIZED
-# # TODO: Need seed data. Activate failed to activate account INTERNAL_SERVER_ERROR
-# # TODO: Need seed data. Activate account succesfully OKAY
