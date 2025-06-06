@@ -7,8 +7,8 @@ on:
     branches: [main, dev]
 
 jobs:
-  test:
-    name: 🔎 Test
+  lint:
+    name: 🔎 Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -27,9 +27,56 @@ jobs:
       - name: Run lint
         run: npm run lint
 
+  test:
+    name: 🧪 Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
       # Optional: Only if needed for testing later
       # - name: Build project
       #   run: npm run build
 
-      - name: Run tests
+      - name: Run unit tests
         run: npm test
+
+      - name: Start preview server (background)
+        run: |
+          npm run build
+          npx vite preview --port 3000 &
+          echo $! > preview.pid
+          sleep 3
+
+      - name: Install Hurl CLI
+        run: |
+          VERSION=6.1.1
+          curl --location --remote-name https://github.com/Orange-OpenSource/hurl/releases/download/$VERSION/hurl_${VERSION}_amd64.deb
+          sudo apt update
+          sudo apt install -y ./hurl_${VERSION}_amd64.deb
+
+      - name: Run integration tests
+        run: |
+          set -e
+          find . -name "*.hurl" | while read file;
+          do
+            echo "Running: $file";
+            hurl "$file";
+          done
+
+      - name: Kill preview server
+        if: always()
+        run: |
+          if [ -f preview.pid ]; then
+            kill $(cat preview.pid)
+          fi
