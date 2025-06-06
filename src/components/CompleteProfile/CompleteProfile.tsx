@@ -79,10 +79,12 @@ const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 			body: JSON.stringify({ ...data }),
 			credentials: 'include'
 		});
-		if (response.status !== 200) {
+		if (response.status === 200) {
+			window.location.href = '/pages/home/';
+		} else {
 			const errorData = await response.json();
 			// TODO: Replace console log with error message once the design becomes available
-			console.log('Response not ok: ', errorData);
+			console.log('Response not ok: ', errorData ?? 'An Error Occurred!');
 		}
 	} catch (e) {
 		if (import.meta.env.MODE === 'development') {
