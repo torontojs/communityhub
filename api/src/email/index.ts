@@ -57,3 +57,32 @@ export async function sendAccountConfirmationEmail(context: Context, {
 		`
 	});
 }
+
+interface PasswordResetEmailParams {
+	token: string;
+	email: string;
+	apiKey: string;
+	senderEmail: string;
+}
+
+export async function sendPasswordResetEmail(context: Context, {
+	token,
+	email,
+	apiKey,
+	senderEmail
+}: PasswordResetEmailParams) {
+	const resetUrl = new URL(`/pages/reset-password?token=${token}`, context.req.url).toString();
+
+	return sendEmail(context, {
+		apiKey,
+		from: senderEmail,
+		to: email,
+		subject: '[TorontoJS] Reset your password',
+		text: `You requested a password reset.\n\nPlease reset your password by visiting: ${resetUrl}`,
+		html: `
+			<h2>You requested a password reset</h2>
+			<p>Please reset your password by visiting the link below</p>
+			<p><a href="${resetUrl}">${resetUrl}</a></p>
+		`
+	});
+}
