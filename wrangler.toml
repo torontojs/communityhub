@@ -46,6 +46,11 @@ binding = "ActivationTokens"
 id = "vms-local-activation-token"
 preview_id = "vms-local-activation-token"
 
+[[kv_namespaces]]
+binding = "PasswordResetTokens"
+id = "vms-local-password-reset-tokens"
+preview_id = "vms-local-password-reset-tokens"
+
 # DEV env configurations
 [env.dev.vars]
 NODE_ENV = "development"
@@ -68,6 +73,11 @@ binding = "ActivationTokens"
 id = "4fc17eeab6964947ba5ee0d50aeec1de"
 preview_id = "vms-dev-activation-tokens"
 
+[[env.dev.kv_namespaces]]
+binding = "PasswordResetTokens"
+id = "682d719e25304b57a5c95db6815da556"
+preview_id = "vms-dev-password-reset-tokens"
+
 # PRODUCTION env configuration
 [env.production.vars]
 NODE_ENV = "production"
@@ -89,3 +99,8 @@ preview_id = "vms-production-session-tokens"
 binding = "ActivationTokens"
 id = "987a04058cc34aad84b9f54c658f6a01"
 preview_id = "vms-production-activation-tokens"
+
+[[env.production.kv_namespaces]]
+binding = "PasswordResetTokens"
+id = "f917eef00a5f4146a2d8d8fc2d274fba"
+preview_id = "vms-production-password-reset-tokens"

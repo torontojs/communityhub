@@ -1,5 +1,5 @@
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
-import { sendAccountConfirmationEmail } from '../../email/index.ts';
+import { sendAccountConfirmationEmail, sendPasswordResetEmail } from '../../email/index.ts';
 import { authorizeVolunteer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { createSession, deleteSession, getSession, revalidateSession } from '../../utils/auth.ts';
@@ -8,7 +8,7 @@ import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusRespon
 import { insertProfile } from '../profile/data.ts';
 import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo } from './data.ts';
 import { type HeartbeatResponse, HeartbeatResponseSchema } from './responses.ts';
-import { ActivateSchema, SignInSchema, SignUpSchema } from './validation.ts';
+import { ActivateSchema, ForgotPasswordSchema, SignInSchema, SignUpSchema } from './validation.ts';
 
 export const authRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
@@ -218,6 +218,64 @@ authRoutes.openapi(
 		}
 
 		return context.json(heartbeatInfo satisfies HeartbeatResponse, StatusCodes.OKAY);
+	}
+);
+
+authRoutes.openapi(
+	createRoute({
+		method: 'post',
+		path: '/forgot-password',
+		operationId: 'requestPasswordRecovery',
+		summary: 'Request password recovery link',
+		description:
+			"Initiates the password recovery process by sending a reset link to the user's registered email address. This endpoint does not reveal whether the email exists in the system for security purposes.",
+		tags: ['Authentication'],
+		request: {
+			body: { content: { 'application/json': { schema: ForgotPasswordSchema } }, required: true }
+		},
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Password recovery request processed successfully. If the email exists in our system, a recovery link has been sent to the provided email address.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.BAD_REQUEST]: {
+				description: 'Invalid request data. The email format is invalid or required fields are missing.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.INTERNAL_SERVER_ERROR]: {
+				description: 'Internal server error occurred while processing the password recovery request.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		}
+	}),
+	async (context) => {
+		const { email } = context.req.valid('json');
+
+		const response = { message: 'If an account with that e-mail exists, a password reset link has been sent.' };
+
+		const emailExists = await checkExistingEmail(context.env.Database, email);
+		if (!emailExists) {
+			return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
+		}
+
+		const resetToken = crypto.randomUUID();
+		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+		const TEN_MINUTES_IN_SECONDS = 60 * 10;
+
+		await context.env.PasswordResetTokens.put(
+			resetToken,
+			email,
+			{ expirationTtl: TEN_MINUTES_IN_SECONDS }
+		);
+
+		await sendPasswordResetEmail(context, {
+			apiKey: context.env.RESEND_API_KEY,
+			senderEmail: context.env.SENDER_EMAIL,
+			token: resetToken,
+			email
+		});
+
+		return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
 	}
 );
 
