@@ -1,7 +1,10 @@
+#root { height: inherit; }
+
 .app {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
+	height: inherit;
 	justify-items: center;
 }
 
@@ -9,6 +12,7 @@
 	align-items: center;
 	display: flex;
 	flex-direction: column;
+	height: inherit;
 	justify-content: center;
-	max-width: 400px;
+	width: clamp(20rem, 90vw, 25rem);
 }

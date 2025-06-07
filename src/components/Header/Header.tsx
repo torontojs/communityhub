@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import HeaderTitle from '../HeaderTitle/HeaderTitle.tsx';
 import Logo from '../Logo/Logo.tsx';
 import './Header.css';
@@ -6,12 +6,13 @@ import './Header.css';
 interface Props {
 	children: ReactNode;
 	isLogoLarge?: boolean;
+	textProps?: ComponentProps<'h1'>;
 }
 
-const Header = ({ children, isLogoLarge = true }: Props) => (
+const Header = ({ children, isLogoLarge = true, textProps }: Props) => (
 	<header id='header-with-logo'>
 		<Logo isLarge={isLogoLarge} />
-		<HeaderTitle>{children}</HeaderTitle>
+		<HeaderTitle {...textProps}>{children}</HeaderTitle>
 	</header>
 );
 
