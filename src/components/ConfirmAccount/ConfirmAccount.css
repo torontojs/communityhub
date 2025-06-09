@@ -1,0 +1,57 @@
+.confirm-account-page-container {
+	align-items: center;
+	background-color: #e5e5e5;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-lg);
+	justify-content: center;
+	margin-inline: auto;
+	max-width: min(100%);
+	min-height: 100vh;
+	padding: var(--spacing-lg) var(--spacing-md);
+
+	@media screen and (min-width: 640px) { padding: var(--spacing-lg) 0; }
+}
+
+.confirm-account-page-card {
+	align-items: center;
+	background-color: #ffffff;
+	border-bottom: 4px solid #ed342f;
+	border-top: 4px solid #ed342f;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+	margin-inline: auto;
+	max-width: min(100%, 400px);
+	padding-bottom: 40px;
+	padding-top: 40px;
+
+	@media screen and (min-width: 640px) { padding: var(--spacing-lg) 0; }
+}
+
+.confirm-account-page-body {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	justify-content: center;
+	padding: var(--spacing-sm);
+	text-align: center;
+}
+
+.confirm-account-page-text { font-size: 18px; }
+
+.confirm-account-page-text-subtext { font-size: 14px; }
+
+.confirm-account-page-btn {
+	font-size: 12px;
+	font-weight: 700;
+	max-width: 200px;
+}
+
+.text-helper {
+	font-size: 14px;
+	gap: 16px;
+	display: flex;
+	align-items: center;
+}
