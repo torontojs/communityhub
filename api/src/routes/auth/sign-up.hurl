@@ -45,17 +45,17 @@ HTTP 200
 
 # Sign-up weak password check
 
-POST http://localhost:3000/api/auth/sign-up
+# POST http://localhost:3000/api/auth/sign-up
+# https://github.com/torontojs/communityhub/issues/96
+#Content-Type: application/json
 
-Content-Type: application/json
+#{
+#	"name":"Mr Weak Password",
+#	"email":"weak@weakpassword.com",
+#	"password":"quoison"
+#}
 
-{
-	"name":"Mr Weak Password",
-	"email":"weak@weakpassword.com",
-	"password":"quoison"
-}
-
-HTTP 200
+#HTTP 400
 
 
 # Sign-up missing name field
@@ -104,7 +104,7 @@ HTTP 422
 
 
 # Sign-up name extra spaces
-
+# https://github.com/torontojs/communityhub/issues/118
 POST http://localhost:3000/api/auth/sign-up
 
 Content-Type: application/json
@@ -119,7 +119,7 @@ HTTP 200
 
 
 # Sign-up email extra spaces
-
+# https://github.com/torontojs/communityhub/issues/118
 POST http://localhost:3000/api/auth/sign-up
 
 Content-Type: application/json
@@ -134,7 +134,7 @@ HTTP 422
 
 
 # Sign-up password extra spaces
-
+# https://github.com/torontojs/communityhub/issues/118
 POST http://localhost:3000/api/auth/sign-up
 
 Content-Type: application/json
@@ -201,16 +201,17 @@ HTTP 422
 
 # Maximum name email password 512 characters
 # For create profile field 10240(10kb) characters(text area, profile description, longer text areas and )
-# TODO: sign-up name should not be longer than 100 characters(Fix Me)
+# Sign-up name should not be longer than 100 characters
+# https://github.com/torontojs/communityhub/issues/122
 
-POST http://localhost:3000/api/auth/sign-up
+# POST http://localhost:3000/api/auth/sign-up
 
-Content-Type: application/json
+# Content-Type: application/json
 
-{
-	"name":"BortMaximiliano-Alexanderthegreat VonSchwarzensteinberg-MacDonaldson O'Flannagan-Smith-Johansson-Ricci",
-	"email":"longname@header.com",
-	"password":"ShouldNotBeLongerThan100124!@#$"
-}
+# {
+#	"name":"BortMaximiliano-Alexanderthegreat VonSchwarzensteinberg-MacDonaldson O'Flannagan-Smith-Johansson-Ricci",
+#	"email":"longname@header.com",
+#	"password":"ShouldNotBeLongerThan100124!@#$"
+#}
 
-HTTP 200
+#HTTP 200
