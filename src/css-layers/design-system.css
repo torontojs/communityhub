@@ -1,11 +1,11 @@
 /* Design system */
 @font-face {
+	font-display: swap;
 	font-family: Uai;
 	font-style: normal;
 	font-weight: 100 900;
-	font-display: swap;
 	src: url('../../public/assets/Uai-Variable.woff2') format('woff2');
-  }
+}
 @layer design-system {
 	:root {
 		--font-primary: 'Uai', 'Source Sans Pro', 'Montserrat', 'Roboto', Helvetica, Arial, sans-serif; /* Default fonts */

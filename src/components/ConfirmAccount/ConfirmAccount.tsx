@@ -53,7 +53,7 @@ const ConfirmAccount = () => {
 						Hello! Click the button below to confirm your TorontoJS Community Hub account.
 					</p>
 					<div className='confirm-account-page-btn'>
-						<Button isPrimary isLarge>
+						<Button isPrimary size="medium">
 							Confirm my e-mail
 						</Button>
 					</div>

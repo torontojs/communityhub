@@ -50,8 +50,8 @@
 }
 
 .text-helper {
+	align-items: center;
+	display: flex;
 	font-size: 14px;
 	gap: 16px;
-	display: flex;
-	align-items: center;
 }
