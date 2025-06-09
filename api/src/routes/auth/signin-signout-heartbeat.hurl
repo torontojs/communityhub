@@ -1,5 +1,5 @@
-  # Sign in intergration test wrong password UNAUTHORIZED
-
+# FIX ME: Sign in intergration test wrong password UNAUTHORIZED
+# https://github.com/torontojs/communityhub/issues/96
   POST http://localhost:3000/api/auth/sign-in
 
   Content-Type: application/json
@@ -26,8 +26,8 @@
   HTTP 422
 
 
-# Sign in intergration test invalid email
-
+# FIX ME: Sign in intergration test invalid email
+# https://github.com/torontojs/communityhub/issues/96
   POST http://localhost:3000/api/auth/sign-in
 
   Content-Type: application/json
@@ -62,7 +62,7 @@ GET http://localhost:3000/api/auth/heartbeat
 HTTP 401
 
 
-# TODO: Heartbeat invalid token(needs seed data)(Send uuid made up of 0's)
+# Heartbeat invalid token.
 
 GET http://localhost:3000/api/auth/heartbeat
 
@@ -91,8 +91,8 @@ HTTP 201
 auth-token-cookie-var: cookie "auth_token"
 
 
-# Sign in intergration test already signed in BAD REQUEST
-
+# FIX ME: Sign in intergration test already signed in BAD REQUEST
+# https://github.com/torontojs/communityhub/issues/96
 POST http://localhost:3000/api/auth/sign-in
 
 Content-Type: application/json
@@ -122,7 +122,7 @@ Cookie: auth_token={{ auth-token-cookie-var }}
 HTTP 204
 
 
-# TODO: Sign-out invalid token BAD_REQUEST(needs seed data)
+# Sign-out invalid token BAD_REQUEST
 
 GET http://localhost:3000/api/auth/sign-out
 Cookie: auth_token=00000000-0000-0000-0000-000000000000
