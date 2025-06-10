@@ -1,3 +1,5 @@
+# hurl --variable host=http://localhost:3000 sign-up.hurl --verbose --test
+
 # FIX ME: Sign in intergration test wrong password UNAUTHORIZED
 # https://github.com/torontojs/communityhub/issues/96
   POST {{host}}/api/auth/sign-in
