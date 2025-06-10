@@ -1,6 +1,9 @@
+# To run tests:
+# hurl --variable host=http://localhost:3000 sign-up.hurl --verbose --test
+
 # Sign-up success OKAY
 
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
 
@@ -15,7 +18,7 @@ HTTP 200
 
 # Sign-up duplicate email OKAY
 
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
 
@@ -30,7 +33,7 @@ HTTP 200
 
 # Sign-up duplicate email with different casing OKAY
 
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
 
@@ -60,7 +63,7 @@ HTTP 200
 
 # Sign-up missing name field
 
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: appplication/json
 
@@ -75,7 +78,7 @@ HTTP 422
 
 # Sign-up missing email field
 
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
 
@@ -90,7 +93,7 @@ HTTP 422
 
 # Sign-up missing password field
 
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
 
@@ -105,7 +108,7 @@ HTTP 422
 
 # Sign-up name extra spaces
 # https://github.com/torontojs/communityhub/issues/118
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
 
@@ -120,7 +123,7 @@ HTTP 200
 
 # Sign-up email extra spaces
 # https://github.com/torontojs/communityhub/issues/118
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
 
@@ -135,7 +138,7 @@ HTTP 422
 
 # Sign-up password extra spaces
 # https://github.com/torontojs/communityhub/issues/118
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
 
@@ -150,7 +153,7 @@ HTTP 200
 
 # Invalid email format
 
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
 
@@ -165,7 +168,7 @@ HTTP 422
 
 # Sign-up single digit name
 
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
 
@@ -180,14 +183,14 @@ HTTP 200
 
 # Sign-up empty body
 
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 HTTP 422
 
 
 # Sign-up missing content-Type
 
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 Content-Type: application/image
 
