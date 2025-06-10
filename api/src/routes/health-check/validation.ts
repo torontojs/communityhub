@@ -16,10 +16,7 @@ const requiredVariables: readonly [...(keyof Omit<Cloudflare.Env, IgnoredVariabl
 ] as const;
 
 const optionalVariables: readonly [...(keyof Omit<Cloudflare.Env, IgnoredVariables>)[]] = [
-	'ARE_EMAILS_LOCAL_ONLY',
-	'CRON_UPLOAD_REPO',
-	'CRON_UPLOAD_USER',
-	'GITHUB_TOKEN'
+	'ARE_EMAILS_LOCAL_ONLY'
 ] as const;
 
 export function checkEnvVars(env: Context<EnvironmentBindings>['env']) {
