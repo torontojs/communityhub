@@ -1,4 +1,4 @@
-// FIXME: readd checks for existing ids, based on the doesTeamExist function
+// FIXME: read checks for existing ids, based on the doesTeamExist function
 
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
