@@ -1,5 +1,7 @@
+# hurl --variable host=http://localhost:3000 profile.hurl --verbose --test
+
 # Public profiles GET (Testing the first tree basic data points)
-GET http://localhost:3000/api/profiles
+GET {{host}}/api/profiles
 
 HTTP 200
 [Asserts]
@@ -18,7 +20,7 @@ jsonpath "$.data[2].name" == "Emily Davis"
 # TODO test pagination when feature is constructed: public profiles GET
 
 # GET self profile
-POST http://localhost:3000/api/auth/sign-in
+POST {{host}}/api/auth/sign-in
 
 Content-Type: application/json
 
@@ -31,7 +33,7 @@ HTTP 201
 [Captures]
 auth-token-cookie-var: cookie "auth_token"
 
-GET http://localhost:3000/api/profiles/self
+GET {{host}}/api/profiles/self
 Cookie: auth_auth={{ auth-token-cookie-var }}
 HTTP 200
 
@@ -43,7 +45,7 @@ jsonpath "$.data.isBasedOnGTA" == true
 jsonpath "$.data.canJoinLocalEvents" == true
 
 # GET profile using id
-GET http://localhost:3000/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
+GET {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
 HTTP 200
 
 [Asserts]
@@ -56,7 +58,7 @@ jsonpath "$.data.canJoinLocalEvents" == true
 
 
 # GET profile using non existant id
-GET http://localhost:3000/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42122
+GET {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42122
 HTTP 404
 
 # TODO: Patch profile by id.
