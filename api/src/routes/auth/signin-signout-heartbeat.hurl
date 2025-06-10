@@ -1,12 +1,12 @@
 # FIX ME: Sign in intergration test wrong password UNAUTHORIZED
 # https://github.com/torontojs/communityhub/issues/96
-  POST http://localhost:3000/api/auth/sign-in
+  POST {{host}}/api/auth/sign-in
 
   Content-Type: application/json
 
   {
     "email": "profile1@example.com",
-    "password": "abc"
+    "password": "wrongPassword9111!@$"
   }
 
   HTTP 401
