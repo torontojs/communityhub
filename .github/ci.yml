@@ -12,44 +12,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "npm"
+      - run: npm ci
+      - run: npm run lint
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run lint
-        run: npm run lint
-
-  test:
-    name: 🧪 Tests
+  unit-tests:
+    name: 🧪 Unit Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "npm"
+      - run: npm ci
+      - run: npm test
 
-      - name: Install dependencies
-        run: npm ci
+  integration-tests:
+    name: 🧪 Integration Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+      - run: npm ci
 
       # Optional: Only if needed for testing later
       # - name: Build project
       #   run: npm run build
-
-      - name: Run unit tests
-        run: npm test
 
       - name: Start preview server (background)
         run: |
