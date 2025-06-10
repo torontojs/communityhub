@@ -10,40 +10,22 @@ jobs:
   lint:
     name: 🔎 Lint
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: "npm"
-      - run: npm ci
+      - uses: ./.github/actions/setup-node-deps
       - run: npm run lint
 
   unit-tests:
     name: 🧪 Unit Tests
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: "npm"
-      - run: npm ci
+      - uses: ./.github/actions/setup-node-deps
       - run: npm test
 
   integration-tests:
     name: 🧪 Integration Tests
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: "npm"
-      - run: npm ci
+      - uses: ./.github/actions/setup-node-deps
 
       # Optional: Only if needed for testing later
       # - name: Build project
