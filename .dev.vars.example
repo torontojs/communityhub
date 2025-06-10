@@ -19,10 +19,3 @@ SENDER_EMAIL=email+special-test-2025-01-01@example.com
 # For local testing, we advise to keep this flag as true.
 # Unless you specifically want to test sending emails.
 ARE_EMAILS_LOCAL_ONLY=true
-
-# A GitHub API token.
-# Used for the CRON job that uploads volunteer information.
-#
-# This variable is only needed if you are testing the upload CRON job.
-# If you don't need it, leave it as is.
-GITHUB_TOKEN=github-token

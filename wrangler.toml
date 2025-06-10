@@ -32,8 +32,6 @@ html_handling = "auto-trailing-slash"
 NODE_ENV = "local"
 BASE_URL = "http://localhost:4242"
 FRONTEND_URL = "http://localhost:3000"
-CRON_UPLOAD_USER = 'torontojs'
-CRON_UPLOAD_REPO = 'volunteer-data'
 
 [[d1_databases]]
 binding = "Database"
@@ -53,14 +51,16 @@ binding = "ActivationTokens"
 id = "vms-local-activation-token"
 preview_id = "vms-local-activation-token"
 
+[[r2_buckets]]
+binding = "ExportedFiles"
+bucket_name = "vms-local-exported-files"
+
 # DEV env configurations
 [env.dev.vars]
 NODE_ENV = "development"
 SENDER_EMAIL="organizers+dev@torontojs.com"
 BASE_URL = "https://vms-dev.torontojs.com"
 FRONTEND_URL = "https://volunteer-dev.torontojs.com"
-CRON_UPLOAD_USER = 'torontojs'
-CRON_UPLOAD_REPO = 'volunteer-data'
 
 [[env.dev.d1_databases]]
 binding = "Database"
@@ -77,14 +77,16 @@ binding = "ActivationTokens"
 id = "4fc17eeab6964947ba5ee0d50aeec1de"
 preview_id = "vms-dev-activation-tokens"
 
+[[env.dev.r2_buckets]]
+binding = "ExportedFiles"
+bucket_name = "vms-exported-files"
+
 # PRODUCTION env configuration
 [env.production.vars]
 NODE_ENV = "production"
 SENDER_EMAIL="organizers@torontojs.com"
 BASE_URL = "https://vms.torontojs.com"
 FRONTEND_URL = "https://volunteer.torontojs.com"
-CRON_UPLOAD_USER = 'torontojs'
-CRON_UPLOAD_REPO = 'volunteer-data'
 
 [[env.production.d1_databases]]
 binding = "Database"
@@ -100,3 +102,7 @@ preview_id = "vms-production-session-tokens"
 binding = "ActivationTokens"
 id = "987a04058cc34aad84b9f54c658f6a01"
 preview_id = "vms-production-activation-tokens"
+
+[[env.production.r2_buckets]]
+binding = "ExportedFiles"
+bucket_name = "vms-exported-files"
