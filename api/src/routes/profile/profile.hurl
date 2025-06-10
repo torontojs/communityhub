@@ -1,6 +1,6 @@
 # hurl --variable host=http://localhost:3000 profile.hurl --verbose --test
 
-# Public profiles GET (Testing the first tree basic data points)
+# Public profiles GET (Testing the first tree basic data points) OKAY
 GET {{host}}/api/profiles
 
 HTTP 200
@@ -19,7 +19,13 @@ jsonpath "$.data[2].name" == "Emily Davis"
 
 # TODO test pagination when feature is constructed: public profiles GET
 
-# GET self profile
+# Get self profile UNAUTHORIZED
+GET {{host}}/api/auth/profiles/self
+
+HTTP 401
+
+# FIX ME: GET self profile OKAY
+# https://github.com/torontojs/communityhub/issues/96
 POST {{host}}/api/auth/sign-in
 
 Content-Type: application/json
@@ -44,7 +50,7 @@ jsonpath "$.data.name" == "John Doe"
 jsonpath "$.data.isBasedOnGTA" == true
 jsonpath "$.data.canJoinLocalEvents" == true
 
-# GET profile using id
+# GET profile using id OKEY
 GET {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
 HTTP 200
 
@@ -56,12 +62,30 @@ jsonpath "$.data.isBasedOnGTA" == true
 jsonpath "$.data.canJoinLocalEvents" == true
 
 
-
-# GET profile using non existant id
+# GET profile using non existant id NOT_FOUND
 GET {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42122
 HTTP 404
 
-# TODO: Patch profile by id.
+
+# Patch profile by id not authorized UNAUTHORIZED
+PATCH {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
+
+HTTP 401
+
+
+# Patch profile by id (volunteer patch self) OKEY
+PATCH {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
+Cookie: auth_auth={{ auth-token-cookie-var }}
+
+HTTP 200
+
+#Patch profile by id(volunteer trying to patch someone else) FORBIDDEN
+PATCH {{host}}/api/profiles/aa7e8915-8034-43d9-b910-a2e3ebdb947f
+Cookie: auth_auth={{ auth-token-cookie-var }}
+
+HTTP 403
+
+#TODO Patch profile by id using admin token
 
 # TODO: Delete profile by id.
 
