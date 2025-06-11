@@ -42,7 +42,7 @@ const ProfileCard = () => {
 				if (!responseProfile.ok) {
 					setIsErrorProfile(true);
 				}
-				const jsonDataProfile = await responseProfile.json();
+				const jsonDataProfile = await responseProfile.json<MemberProfile[]>();
 				// !FIXME: Filtering won't be required with API, remove filtering when integrating with backend
 				setProfileData(jsonDataProfile.filter((profile: MemberProfile) => profile.id === profileId)[0]);
 			} catch (error) {
