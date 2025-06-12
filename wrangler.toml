@@ -18,7 +18,8 @@ upstream_protocol = "https"
 enabled = true
 head_sampling_rate = 1
 
-[directory]
+[assets]
+directory = "./public"
 binding = "Assets"
 not_found_handling = "none"
 html_handling = "auto-trailing-slash"
