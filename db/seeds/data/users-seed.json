@@ -1,0 +1,327 @@
+[
+	{
+		"email": "root@torontojs.com",
+		"isActivated": true,
+		"name": "root",
+		"password": "correct horse battery staple",
+		"skills": [],
+		"pronouns": "they/them",
+		"description": "root",
+		"birthday": "01-01",
+		"role": "admin",
+		"links": [
+			{ "platform": "site", "handle": "torontojs.com" }
+		]
+	},
+	{
+		"email": "king.arthur@camelot.uk",
+		"isActivated": true,
+		"name": "King Arthur",
+		"password": "H0lyGr@il42!",
+		"skills": ["Leadership", "Questing", "Table Management"],
+		"pronouns": "he/him",
+		"description": "Gallant monarch forever seeking sacred drinkware.",
+		"birthday": "03-14",
+		"role": "organizer",
+		"links": [
+			{ "platform": "twitter", "handle": "arthur_king" },
+			{ "platform": "github", "handle": "arthur-king" },
+			{ "platform": "linkedin", "handle": "arthur.king" },
+			{ "platform": "mastodon", "handle": "arthur_king@mastodon.social" },
+			{ "platform": "instagram", "handle": "arthur_king" }
+		]
+	},
+	{
+		"email": "black.knight@bridgeguard.io",
+		"isActivated": true,
+		"name": "Black Knight",
+		"password": "ItzJustaFsh!",
+		"skills": ["Swordplay", "Tenacity", "Trash-talking"],
+		"pronouns": "he/him",
+		"description": "Won’t let minor flesh wounds hinder workplace performance.",
+		"birthday": "10-31",
+		"role": "organizer",
+		"links": [
+			{ "platform": "twitter", "handle": "black_knight" }
+		]
+	},
+	{
+		"email": "sir.robin@cowardly.co",
+		"isActivated": true,
+		"name": "Sir Robin",
+		"password": "RunAway!1234",
+		"skills": ["Strategic Retreat", "Lute Playing", "Brand Representation"],
+		"pronouns": "he/him",
+		"description": "Bravely runs from every KPI imaginable.",
+		"birthday": "07-07",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "twitter", "handle": "robin_brave" },
+			{ "platform": "instagram", "handle": "robin_brave" },
+			{ "platform": "bluesky", "handle": "robin.brave" }
+		]
+	},
+	{
+		"email": "lancelot@heroics.inc",
+		"isActivated": true,
+		"name": "Sir Lancelot",
+		"password": "LeapotFaith!",
+		"skills": ["Rescue Missions", "Dance Fighting", "Door-kicking"],
+		"pronouns": "he/him",
+		"description": "Over-zealous champion who solves problems with a flying tackle.",
+		"birthday": "01-26",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "twitter", "handle": "lancelot_daring" },
+			{ "platform": "instagram", "handle": "lancelot_daring" },
+			{ "platform": "linkedin", "handle": "lancelot.daring" },
+			{ "platform": "github", "handle": "lancelot-daring" },
+			{ "platform": "threads", "handle": "lancelot_daring" }
+		]
+	},
+	{
+		"email": "galahad@verypure.org",
+		"isActivated": true,
+		"name": "Sir Galahad",
+		"password": "ChasteKnght1",
+		"skills": ["Chivalry", "Data Purity", "Monastery Negotiation"],
+		"pronouns": "he/him",
+		"description": "Keeps projects—and himself—untouched by corruption.",
+		"birthday": "04-02",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "instagram", "handle": "galahad_pure" },
+			{ "platform": "mastodon", "handle": "galahad_pure@mastodon.social" }
+		]
+	},
+	{
+		"email": "patsy@coconutlogistics.com",
+		"isActivated": true,
+		"name": "Patsy Steward",
+		"password": "ClopClopClop",
+		"skills": ["Pack-muling", "Sound Effects", "Project Support"],
+		"pronouns": "they/them",
+		"description": "Carries everyone else’s baggage, literally and figuratively.",
+		"birthday": "05-19",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "slack", "handle": "patsy_loyal" },
+			{ "platform": "twitter", "handle": "patsy_loyal" },
+			{ "platform": "github", "handle": "patsy-loyal" }
+		]
+	},
+	{
+		"email": "tim@enkanta.io",
+		"isActivated": true,
+		"name": "Tim Enchanter",
+		"password": "BOOM!!Fire12",
+		"skills": ["Pyrotechnics", "Risk Assessment", "Goat-wrangling"],
+		"pronouns": "he/him",
+		"description": "Prefers explosive stand-ups—sometimes literally.",
+		"birthday": "09-09",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "twitter", "handle": "tim_enchanter" },
+			{ "platform": "github", "handle": "tim-enchanter" },
+			{ "platform": "mastodon", "handle": "tim_enchanter@mastodon.social" },
+			{ "platform": "instagram", "handle": "tim_enchanter" }
+		]
+	},
+	{
+		"email": "dennis@anarcho-peasants.org",
+		"isActivated": true,
+		"name": "Dennis Peasant",
+		"password": "HelpHelpImBN",
+		"skills": ["Collective Bargaining", "Ditch-digging", "Political Theory"],
+		"pronouns": "they/them",
+		"description": "Self-appointed voice of the oppressed cubicle worker.",
+		"birthday": "11-05",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "instagram", "handle": "dennis_peasant" },
+			{ "platform": "twitter", "handle": "dennis_peasant" },
+			{ "platform": "linkedin", "handle": "dennis.peasant" },
+			{ "platform": "github", "handle": "dennis-peasant" },
+			{ "platform": "devto", "handle": "dennispeasant" }
+		]
+	},
+	{
+		"email": "roger@shrubbery.ltd",
+		"isActivated": true,
+		"name": "Roger Shrubber",
+		"password": "Shrubbery4Ni",
+		"skills": ["Landscape Design", "Supply Chain", "Negotiation"],
+		"pronouns": "he/him",
+		"description": "Can acquire, shape, and deliver any shrub at scale.",
+		"birthday": "06-22",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "twitter", "handle": "shrubber" }
+		]
+	},
+	{
+		"email": "brother.maynard@holyhand.biz",
+		"isActivated": true,
+		"name": "Brother Maynard",
+		"password": "HolyHand993!",
+		"skills": ["Documentation", "Explosive Ordinance", "Counting to Three"],
+		"pronouns": "he/him",
+		"description": "Keeps sacred texts and grenades perfectly catalogued.",
+		"birthday": "12-03",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "twitter", "handle": "maynard_the_holy" },
+			{ "platform": "instagram", "handle": "maynard_the_holy" }
+		]
+	},
+	{
+		"email": "prince.herbert@castleanthrax.uk",
+		"isActivated": true,
+		"name": "Prince Herbert",
+		"password": "SongLuvLark!",
+		"skills": ["Falsetto Singing", "Window Escape", "Event Planning"],
+		"pronouns": "he/him",
+		"description": "Longs to turn every memo into a power ballad.",
+		"birthday": "08-12",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "linkedin", "handle": "p.herbert" },
+			{ "platform": "twitter", "handle": "p_herbert" },
+			{ "platform": "mastodon", "handle": "p_herbert@mastodon.social" },
+			{ "platform": "github", "handle": "p-herbert" }
+		]
+	},
+	{
+		"email": "concorde@swiftcourier.io",
+		"isActivated": true,
+		"name": "Concorde Squire",
+		"password": "SwiftSwallow",
+		"skills": ["Message Delivery", "Glide Path Analysis", "Faux-French"],
+		"pronouns": "he/him",
+		"description": "Gets messages across enemy lines faster than an unladen swallow.",
+		"birthday": "02-24",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "slack", "handle": "concorde_squire" },
+			{ "platform": "twitter", "handle": "concorde_the_squire" },
+			{ "platform": "github", "handle": "concorde-the-squire" }
+		]
+	},
+	{
+		"email": "lady.zoot@castleanthrax.uk",
+		"isActivated": true,
+		"name": "Lady Zoot",
+		"password": "ZootZing2024",
+		"skills": ["Hospitality", "Torch Bearing", "Mischief"],
+		"pronouns": "she/her",
+		"description": "Caters corporate retreats with perilous peril.",
+		"birthday": "04-28",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "twitter", "handle": "lady_zoot" },
+			{ "platform": "instagram", "handle": "lady_zoot" },
+			{ "platform": "bluesky", "handle": "lady.zoot" }
+		]
+	},
+	{
+		"email": "knight.ni@forestsayni.com",
+		"isActivated": true,
+		"name": "Knight Ni",
+		"password": "NiNiNiNi42?!",
+		"skills": ["Intimidation", "Shrubbery Procurement", "Word-based Blackmail"],
+		"pronouns": "they/them",
+		"description": "Negotiation style: say ‘Ni’ until opponents cave.",
+		"birthday": "09-17",
+		"role": "volunteer",
+		"links": []
+	},
+	{
+		"email": "historian@grail-docu.net",
+		"isActivated": true,
+		"name": "Grail Historian",
+		"password": "GrailQuiz1!X",
+		"skills": ["Narration", "Archival Footage", "Dramatic Pointing"],
+		"pronouns": "they/them",
+		"description": "Keeps getting cut off by sudden cavalry charges.",
+		"birthday": "01-11",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "twitter", "handle": "grail_hist" },
+			{ "platform": "instagram", "handle": "grail_hist" },
+			{ "platform": "linkedin", "handle": "grail.hist" },
+			{ "platform": "github", "handle": "grail-hist" },
+			{ "platform": "mastodon", "handle": "grail_hist@mastodon.social" }
+		]
+	},
+	{
+		"email": "bridge.keeper@threequestions.org",
+		"isActivated": false,
+		"name": "Bridge Keeper",
+		"password": "BridgeAns33?",
+		"skills": ["Gatekeeping", "Trivia", "Aerial Dynamics"],
+		"pronouns": "he/him",
+		"description": "You must answer him these questions three—before entering any meeting.",
+		"birthday": "03-30",
+		"role": "volunteer",
+		"links": []
+	},
+	{
+		"email": "mrs.bun@whizzo.choc",
+		"isActivated": false,
+		"name": "Mrs Bun",
+		"password": "DeadParrot!!",
+		"skills": ["Confectionery", "Complaint Handling", "Alibi Crafting"],
+		"pronouns": "she/her",
+		"description": "Only sells chocolates with at least one outrageous surprise inside.",
+		"birthday": "12-20",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "twitter", "handle": "mrs_bun" },
+			{ "platform": "instagram", "handle": "mrs_bun" },
+			{ "platform": "github", "handle": "mrs-bun" },
+			{ "platform": "devto", "handle": "mrs.bun" }
+		]
+	},
+	{
+		"email": "camel.spotter@zoology.co",
+		"isActivated": false,
+		"name": "Camel Spotter",
+		"password": "CamelSpotr9!",
+		"skills": ["Pattern Recognition", "Sanitation", "Denial"],
+		"pronouns": "they/them",
+		"description": "Hasn’t actually seen a camel—claims they all flew away.",
+		"birthday": "07-29",
+		"role": "volunteer",
+		"links": []
+	},
+	{
+		"email": "knight.truth@roundtable.ai",
+		"isActivated": true,
+		"name": "Knight OTruth",
+		"password": "KnightOTruth",
+		"skills": ["Fact Checking", "Sword Logic", "HR Investigations"],
+		"pronouns": "he/him",
+		"description": "Slices through red tape—and sometimes interns—seeking honesty.",
+		"birthday": "05-15",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "twitter", "handle": "knight_otruth" },
+			{ "platform": "mastodon", "handle": "knight_otruth@mastodon.social" }
+		]
+	},
+	{
+		"email": "fish.slapper@dance-troupe.com",
+		"isActivated": true,
+		"name": "Fsh Slapper",
+		"password": "FshSlapper22",
+		"skills": ["Choreography", "Piscine Weaponry", "Comedic Timing"],
+		"pronouns": "they/them",
+		"description": "Delivers constructive feedback via lightly-smoked haddock.",
+		"birthday": "11-27",
+		"role": "volunteer",
+		"links": [
+			{ "platform": "twitter", "handle": "fsh" },
+			{ "platform": "instagram", "handle": "fsh" }
+		]
+	}
+]
