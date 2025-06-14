@@ -1,6 +1,6 @@
 # Testing Scheduled CRON jobs
 
-**NOTE**: There is [no support yet](https://github.com/cloudflare/workers-sdk/issues/8466) to test this trhough vite.
+**NOTE**: There is [no support yet](https://github.com/cloudflare/workers-sdk/issues/8466) to test this through vite.
 
 To test the execution of scheduled cron job, we need to run the following command:
 
