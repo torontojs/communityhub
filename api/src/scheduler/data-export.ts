@@ -59,6 +59,7 @@ async function getTeamMembers(app: OpenAPIHono<EnvironmentBindings>, env: Env, c
 
 async function getEventLog(_app: OpenAPIHono<EnvironmentBindings>, _env: Env, _context: ExecutionContext) {
 	// TODO: implement when we have endpoints for event logs
+	// Issue: https://github.com/torontojs/communityhub/issues/152
 	return Promise.resolve([] as EventLog[]);
 }
 
