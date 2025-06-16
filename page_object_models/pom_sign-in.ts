@@ -4,6 +4,8 @@ export class SignInPage {
 
     readonly page: Page;
     readonly url: string = 'http://localhost:3000/pages/sign-in/'; 
+    readonly signup_url = 'http://localhost:3000/pages/sign-up/';
+    readonly forgot_page_url = 'http://localhost:3000/pages/forgot-passsword';
 
     readonly page_title_1: Locator;
 
@@ -19,9 +21,12 @@ export class SignInPage {
     readonly instagram_icon: Locator;
     readonly twitter_x_icon: Locator;
 
+    readonly signup_link: Locator;
+    readonly forgot_link: Locator;
+
     public constructor(page: Page) { 
         this.page = page;
-        this.url = this.url;
+        // this.url = this.url;
 
         this.page_title_1 = page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'});
 
@@ -37,6 +42,8 @@ export class SignInPage {
 
         this.login_button = page.getByRole('button', { name: 'Complete sign-up form button' }); 
 
+        this.signup_link = page.getByRole('link', { name: 'click here to sign-up' });
+        this.forgot_link = page.getByRole('link', { name: 'I don\'t remember my password' });
 
     }
 

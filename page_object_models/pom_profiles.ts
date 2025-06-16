@@ -1,4 +1,4 @@
-import { test, expect, type Page, type Locator, Browser, BrowserContext } from '@playwright/test';
+import { expect, type Page, type Locator, BrowserContext } from '@playwright/test';
 
 export class ProfilesPages {
 
@@ -22,6 +22,12 @@ export class ProfilesPages {
         this.profile_field_base = page.getByRole('paragraph');
         this.profile_field_wrapper_base = page.locator('.profile-header');
         this.social_media_link_base = page.locator('.social-links a');
+    
+        this.facebook_link_base = page.getByRole('link', { name: 'Facebook' });
+        this.linkedin_link_base = page.getByRole('link', { name: 'Twitter' });
+        this.twitter_x_link_base = page.getByRole('link', { name: 'Twitter' });
+
+
     }
 
     async navigate() {
@@ -30,19 +36,20 @@ export class ProfilesPages {
         expect(this.page.url()).toBe(this.url);
     }
 
-    async click_social_links(base_locator: Locator, browser_context: BrowserContext) {
+    async click_social_links(base_locator: Locator, page: Page) {
         for (const row of await base_locator.locator('.social-links a').all()) {
             let temp = await row.textContent();
             console.log(temp);
             
             let [newPage_1] = await Promise.all([
-                    browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+                    page.waitForEvent("popup"), // pending, fullfilled or rejected
                     await row.click()
                 ]);
+
+            await page.waitForTimeout(1000);
                 
             let pp = await newPage_1.evaluate(() => window.location.href);
             console.log(pp);
-            // console.log("----");
 
             if(temp != "Twitter") { 
                 expect(pp).toContain(temp?.toLowerCase());
@@ -78,7 +85,7 @@ export class ProfilesPages {
             
         } */
 
-       // await page.waitForTimeout(5000);
+       await page.waitForTimeout(1000);
 
        if(t.length > 0) {
 

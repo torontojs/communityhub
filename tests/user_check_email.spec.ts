@@ -1,32 +1,39 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from './base.ts';
 import { execPath } from 'process';
 
-test.beforeEach( async ({ page }) => {
+test.beforeEach( async ({checkEmailPage }) => {
     test.setTimeout(50000) // Sets a 40-second timeout for all tests
+    checkEmailPage.navigate();
+});
 
+test.afterEach( async ({checkEmailPage }) => {
+    test.setTimeout(500) // Sets a 40-second timeout for all tests
+    checkEmailPage.page.close();
 });
 
 test.describe('USER CHECK YOUR EMAIL Suite', () => {
-    test('Social Media Footer Check', async ({ browser }) => {
+    test('Social Media Footer Check', async ({ checkEmailPage }) => {
 
-            const browser_context = await browser.newContext();
-            const page = await browser_context.newPage();
+            await checkEmailPage.page_title.isVisible();
+            await checkEmailPage.home_icon.isVisible();
+            await checkEmailPage.youtube_icon.isVisible();
+            await checkEmailPage.instagram_icon.isVisible();
+            await checkEmailPage.twitter_x_icon.isVisible();
+            await checkEmailPage.linkedin_icon.isVisible();
 
-            await page.goto('http://localhost:3000/pages/check-your-email/');
-
-            await page.getByRole('heading', {name: 'Check your e-mail'}).isVisible()
-
-
+            
+            /*
             const home_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').first();
             const youtube_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(1);
             const instagram_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(2);
             const twitter_x_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(3);
             const linkedin_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(4);
-            
+            */
 
             const [newPage_0] = await Promise.all([
-                browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-                home_icon.click()
+                checkEmailPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
+                checkEmailPage.home_icon.click()
             ]);
             
             await expect(newPage_0).toHaveURL("https://torontojs.com/");
@@ -35,8 +42,8 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
             newPage_0.close();
 
             const [newPage_1] = await Promise.all([
-                browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-                youtube_icon.click()
+                checkEmailPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
+                checkEmailPage.youtube_icon.click()
             ]);
             
             await expect(newPage_1).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
@@ -45,8 +52,8 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
             newPage_1.close();
 
             const [newPage_2] = await Promise.all([
-                browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-                instagram_icon.click(),
+                checkEmailPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
+                checkEmailPage.instagram_icon.click(),
             ]);
 
             await expect(newPage_2).toHaveURL("https://www.instagram.com/toronto.js/");
@@ -55,8 +62,8 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
             newPage_2.close();
 
             const [newPage_3] = await Promise.all([
-                browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-                twitter_x_icon.click()
+                checkEmailPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
+                checkEmailPage.twitter_x_icon.click()
             ]);
 
             // await expect(newPage_3).toHaveURL("https://twitter.com/torontojs");
@@ -64,12 +71,14 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
             console.log(pp);
             expect(pp.includes("x.com"));
 
-            await newPage_3.getByTestId('app-bar-close').click();
+            // await newPage_3.getByTestId('app-bar-close').click();
+            checkEmailPage.page.on('dialog', dialog => dialog.accept());
+            
             newPage_3.close();
 
             const [newPage_4] = await Promise.all([
-                browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-                linkedin_icon.click()
+                checkEmailPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
+                checkEmailPage.linkedin_icon.click()
             ]);
 
             await expect(newPage_4).toHaveURL("https://www.linkedin.com/company/torontojs");
@@ -77,7 +86,8 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
             console.log(pp);
             newPage_4.close();
 
-            await page.close();
     });
+
+    
 
 });
