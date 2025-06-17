@@ -88,7 +88,6 @@ profileRoutes.openapi(
 	async (context) => {
 		const sessionData = getSession(context);
 		const profile = await getProfileById(context.env.Database, sessionData.id);
-		console.log('profile', profile);
 		if (!profile || profile.id !== sessionData.id) {
 			return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}

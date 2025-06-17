@@ -3,105 +3,98 @@ GET {{host}}/api/profiles
 
 HTTP 200
 [Asserts]
-jsonpath "$.data[0].id" == "3227114d-43c4-42ed-8aea-f3860fe42222"
-jsonpath "$.data[0].schemaVersion" == 1
-jsonpath "$.data[0].email" == "profile1@example.com"
-jsonpath "$.data[0].name" == "John Doe"
-jsonpath "$.data[0].description" == "A sample profile description"
-jsonpath "$.data[0].isBasedOnGTA" == true
-jsonpath "$.data[0].canJoinLocalEvents" == true
-jsonpath "$.data[0].happenedAt" == "2025-01-20T10:00:00Z"
-jsonpath "$.data[0].insertedAt" == "2025-01-20T10:00:00Z"
-jsonpath "$.data[0].activatedAt" == "2025-01-20T10:05:00Z"
-jsonpath "$.data[0].links" count == 0
-jsonpath "$.data[0].skills" count == 0
+jsonpath "$.data[1].id" == "3c5123c0-8548-4a02-a83c-32e9ce67eae8"
+jsonpath "$.data[2].id" == "bf950534-e8f9-4f5a-a246-610aa63faf21"
+jsonpath "$.data[3].id" == "37a4882c-3b7d-46c0-b019-c37e2445dae8"
+jsonpath "$.data[4].id" == "890cae10-7bbd-4f0c-961a-df495ec7527b"
 
-jsonpath "$.data[1].id" == "aa7e8915-8034-43d9-b910-a2e3ebdb947f"
-jsonpath "$.data[1].schemaVersion" == 1
-jsonpath "$.data[1].email" == "profile2@example.com"
-jsonpath "$.data[1].name" == "Jane Smith"
-jsonpath "$.data[1].description" == "Another sample profile description"
-jsonpath "$.data[1].isBasedOnGTA" == true
-jsonpath "$.data[1].canJoinLocalEvents" == true
-jsonpath "$.data[1].happenedAt" == "2025-01-20T11:00:00Z"
-jsonpath "$.data[1].insertedAt" == "2025-01-20T11:00:00Z"
-jsonpath "$.data[1].activatedAt" == "2025-01-20T11:10:00Z"
-jsonpath "$.data[1].links" count == 0
-jsonpath "$.data[1].skills" count == 0
 
-# TODO test pagination when feature is constructed: public profiles GET
+# TODO test pagination when feature is constructed
 
-# Fix me(should be 401) Get self profile UNAUTHORIZED
+
+# Fix me: (should be 401) Get self profile UNAUTHORIZED
 GET {{host}}/api/auth/profiles/self
 
 HTTP 404
 
-# FIX ME: GET self profile OKAY
-# https://github.com/torontojs/communityhub/issues/96
+
+# GET self profile OKAY
 POST {{host}}/api/auth/sign-in
 
 Content-Type: application/json
 
 {
-  "email": "profile1@example.com",
-  "password": "abcd"
+  "email": "sir.robin@cowardly.co",
+  "password": "RunAway!1234"
 }
 
 HTTP 201
 [Captures]
 auth-token-cookie-var: cookie "auth_token"
 
+
 GET {{host}}/api/profiles/self
 Cookie: auth_auth={{ auth-token-cookie-var }}
+
 HTTP 200
 [Asserts]
-jsonpath "$.data.id" == "3227114d-43c4-42ed-8aea-f3860fe42222"
-jsonpath "$.data.schemaVersion" == 1
-jsonpath "$.data.email" == "profile1@example.com"
-jsonpath "$.data.name" == "John Doe"
-jsonpath "$.data.description" == "A sample profile description"
-jsonpath "$.data.isBasedOnGTA" == true
-jsonpath "$.data.canJoinLocalEvents" == true
-jsonpath "$.data.happenedAt" == "2025-01-20T10:00:00Z"
-jsonpath "$.data.insertedAt" == "2025-01-20T10:00:00Z"
-jsonpath "$.data.activatedAt" == "2025-01-20T10:05:00Z"
-jsonpath "$.data.links" count == 0
-jsonpath "$.data.skills" count == 0
+jsonpath "$.data.id" == "37a4882c-3b7d-46c0-b019-c37e2445dae8"
+
+
+POST {{host}}/api/auth/sign-out
+Cookie: auth_token={{ auth-token-cookie-var }}
+
+HTTP 204
 
 
 # GET profile using id OKEY
-GET {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
+GET {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
 HTTP 200
 
 [Asserts]
-jsonpath "$.data.id" == "3227114d-43c4-42ed-8aea-f3860fe42222"
-jsonpath "$.data.schemaVersion" == 1
-jsonpath "$.data.email" == "profile1@example.com"
-jsonpath "$.data.name" == "John Doe"
-jsonpath "$.data.description" == "A sample profile description"
-jsonpath "$.data.isBasedOnGTA" == true
-jsonpath "$.data.canJoinLocalEvents" == true
-jsonpath "$.data.happenedAt" == "2025-01-20T10:00:00Z"
-jsonpath "$.data.insertedAt" == "2025-01-20T10:00:00Z"
-jsonpath "$.data.activatedAt" == "2025-01-20T10:05:00Z"
-jsonpath "$.data.links" count == 0
-jsonpath "$.data.skills" count == 0
-
+jsonpath "$.data.id" == "37a4882c-3b7d-46c0-b019-c37e2445dae8"
 
 
 # GET profile using non existant id NOT_FOUND
 GET {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42122
+
 HTTP 404
 
 
 # Fix me(Should be 404): Patch profile by id not authorized UNAUTHORIZED
 PATCH {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
 
-HTTP 422
+HTTP 401
+
+
+# Patch profile by id UNAUTHORIZED
+PATCH {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
+
+Content-Type: application/json
+
+{
+  "name":"new name"
+}
+
+HTTP 401
 
 
 # Patch profile by id (volunteer patch self) OKEY
-PATCH {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
+
+POST {{host}}/api/auth/sign-in
+
+Content-Type: application/json
+
+{
+  "email": "sir.robin@cowardly.co",
+  "password": "RunAway!1234"
+}
+
+HTTP 201
+[Captures]
+auth-token-cookie-var: cookie "auth_token"
+
+PATCH {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
 Cookie: auth_auth={{ auth-token-cookie-var }}
 
 Content-Type: application/json
@@ -113,44 +106,143 @@ Content-Type: application/json
 HTTP 200
 
 
-GET {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
+GET {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
 
 HTTP 200
 
 [Asserts]
 jsonpath "$.data.name" == "new name"
-jsonpath "$.data.email" == "profile1@example.com"
+jsonpath "$.data.email" == "sir.robin@cowardly.co"
 
 
-PATCH {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
+PATCH {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
 Cookie: auth_auth={{ auth-token-cookie-var }}
 
 Content-Type: application/json
 
 {
-  "name":"John Doe"
+  "name":"Sir Robin"
 }
 
 HTTP 200
 
-#TODO Patch profile by id using admin token
 
-# TODO: Delete profile by id.
+GET {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
 
-# FIX ME: Admin deletes user by id. Requires admin account in seed data.
-# http://github.com/toronotjs/communityhub/issue/96
-# POST http://localhost:3000/api/auth/sign-in
+HTTP 200
 
-# Content-Type: application/json
+[Asserts]
+jsonpath "$.data.name" == "Sir Robin"
+jsonpath "$.data.email" == "sir.robin@cowardly.co"
 
-#{
-#  "email":"profile1@example.com",
-#  "password":"abcd"
-#}
 
-#HTTP 201
-#[Captures]
-#auth-token-cookie-var: cookie "auth_token"
+POST {{host}}/api/auth/sign-out
+Cookie: auth_token={{ auth-token-cookie-var }}
 
-#DELETE http://localhost:3000/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
-#HTTP 200
+HTTP 204
+
+
+# Delete profile with no token
+DELETE {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
+
+HTTP 401
+
+
+GET {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
+
+HTTP 200
+
+
+# Delete profile with insuficient authorization
+DELETE {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
+Cookie: auth_auth={{ auth-token-cookie-var }}
+
+HTTP 401
+
+
+POST {{host}}/api/auth/sign-in
+
+Content-Type: application/json
+
+{
+  "email": "root@torontojs.com",
+  "password": "correct horse battery staple"
+}
+
+HTTP 201
+[Captures]
+auth-token-cookie-var: cookie "auth_token"
+
+
+# Delete incorect id
+DELETE {{host}}/api/profiles/7a4882c-3b7d-46c0-b019-c37e2445dae
+Cookie: auth_auth={{ auth-token-cookie-var }}
+
+HTTP 422
+
+# Patch user using root account
+
+PATCH {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
+Cookie: auth_auth={{ auth-token-cookie-var }}
+
+Content-Type: application/json
+
+{
+  "name":"Je veux un Quoison"
+}
+
+HTTP 200
+
+
+GET {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
+
+HTTP 200
+[Asserts]
+jsonpath "$.data.id" == "37a4882c-3b7d-46c0-b019-c37e2445dae8"
+jsonpath "$.data.name" == "Je veux un Quoison"
+
+
+# Delete succesfully
+DELETE {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
+Cookie: auth_auth={{ auth-token-cookie-var }}
+
+HTTP 200
+
+
+POST {{host}}/api/auth/sign-out
+Cookie: auth_token={{ auth-token-cookie-var }}
+
+HTTP 204
+
+
+# Patch with organizer account
+POST {{host}}/api/auth/sign-in
+
+Content-Type: application/json
+
+{
+  "email": "king.arthur@camelot.uk",
+  "password": "H0lyGr@il42!"
+}
+
+HTTP 201
+[Captures]
+auth-token-cookie-var: cookie "auth_token"
+
+
+PATCH {{host}}/api/profiles/890cae10-7bbd-4f0c-961a-df495ec7527b
+Cookie: auth_token={{ auth-token-cookie-var }}
+
+Content-Type: applicaion/json
+
+{
+  "name":"Quoison The Tird"
+}
+
+HTTP 422
+
+
+DELETE {{host}}/api/profiles/890cae10-7bbd-4f0c-961a-df495ec7527b
+Cookie: auth_token={{ auth-token-cookie-var }}
+
+HTTP 403
