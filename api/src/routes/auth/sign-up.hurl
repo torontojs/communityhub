@@ -1,5 +1,4 @@
 # To run tests:
-# hurl --variable host=http://localhost:3000 sign-up.hurl --verbose --test
 
 # Sign-up success OKAY
 

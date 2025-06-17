@@ -1,7 +1,5 @@
-# hurl --variable host=http://localhost:3000 sign-up.hurl --verbose --test
 
-# FIX ME: Sign in intergration test wrong password UNAUTHORIZED
-# https://github.com/torontojs/communityhub/issues/96
+# Sign in intergration test wrong password UNAUTHORIZED
   POST {{host}}/api/auth/sign-in
 
   Content-Type: application/json
@@ -28,8 +26,8 @@
   HTTP 422
 
 
-# FIX ME: Sign in intergration test invalid email
-# https://github.com/torontojs/communityhub/issues/96
+# Sign in intergration test invalid email
+
   POST {{host}}/api/auth/sign-in
 
   Content-Type: application/json
@@ -73,20 +71,15 @@ Cookie: auth_token=00000000-0000-0000-0000-000000000000
 HTTP 401
 
 
-# TODO: Heartbeat session expired(needs seed data)
-# TODO: Heartbeat session not found
-
-
-# FIX ME: Sign in intergration test CREATED
-# https://github.com/torontojs/communityhub/issues/96
+# Sign in intergration test CREATED
 
 POST {{host}}/api/auth/sign-in
 
 Content-Type: application/json
 
 {
-  "email": "profile1@example.com",
-  "password": "abcd"
+  "email": "sir.robin@cowardly.co",
+  "password": "RunAway!1234"
 }
 
 HTTP 201
@@ -94,15 +87,14 @@ HTTP 201
 auth-token-cookie-var: cookie "auth_token"
 
 
-# FIX ME: Sign in intergration test already signed in BAD REQUEST
-# https://github.com/torontojs/communityhub/issues/96
+# Sign in intergration test already signed in BAD REQUEST
 POST {{host}}/api/auth/sign-in
 
 Content-Type: application/json
 
 {
-  "email": "profile1@example.com",
-  "password": "abcd"
+  "email": "sir.robin@cowardly.co",
+  "password": "RunAway!1234"
 }
 
 HTTP 400
