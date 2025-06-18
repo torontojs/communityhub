@@ -12,13 +12,13 @@ export async function addTeamMembers(database: D1Database, teamId: string, data:
 				database.prepare(`
 					INSERT INTO ${DBTables.ROLE} (
 						id, schemaVersion, happenedAt, insertedAt,
-						name, profileId, teamId,
-						descrition
+						teamId, name, description,
+						profileId
 					)
 					SELECT
 						?, ?, ?, ?,
-						?, id, ?,
-						?
+						?, ?, ?,
+						id
 					FROM ${DBTables.PROFILE}
 					WHERE
 						id = ?
@@ -30,8 +30,8 @@ export async function addTeamMembers(database: D1Database, teamId: string, data:
 					schemaVersion,
 					happenedAt,
 					insertedAt,
-					name,
 					teamId,
+					name,
 					description ?? '',
 					profileId
 				),
