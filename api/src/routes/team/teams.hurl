@@ -12,7 +12,7 @@ jsonpath "$.data[3].id" == "82df0f4a-2a32-4c14-86d9-4b17fc7566e4"
 # TODO: Get all teams and test pagination
 
 
-# Get team using incorect id
+# TODO(Should be 404) Get team using incorect id
 
 GET {{host}}/api/teams/82df0f4a-2a32-4c14-86d9-4b17fc7566e
 
@@ -27,7 +27,7 @@ HTTP 200
 jsonpath "$.data.id" == "82df0f4a-2a32-4c14-86d9-4b17fc7566e4"
 
 
-# Delete team with no session token
+# Delete team with no session token UNAUTHORIZED
 DELETE {{host}}/api/teams/82df0f4a-2a32-4c14-86d9-4b17fc7566e4
 
 HTTP 401
@@ -39,7 +39,7 @@ POST {{host}}/api/teams
 Content-Type: application/json
 
 {
-	"name":"Team Quoison"
+	"name":"Team Quoison TM Campos Corp"
 }
 
 HTTP 401
@@ -54,6 +54,7 @@ Content-Type: application/json
 }
 
 HTTP 401
+
 
 # Create, Delele / patch team with volunteer account FORBIDEN
 POST {{host}}/api/auth/sign-in
@@ -79,11 +80,14 @@ HTTP 403
 PATCH {{host}}/api/teams/82df0f4a-2a32-4c14-86d9-4b17fc7566e4
 Cookie: auth_token={{auth-token-cookie-var}}
 
+Content-type: application/json
+
 {
-	"name":"Quoison's revenge!"
+	"name":"Quoison's revenge! This time!"
 }
 
 HTTP 403
+
 
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token-cookie-var}}
@@ -116,20 +120,37 @@ HTTP 201
 auth-token-cookie-var: cookie "auth_token"
 
 
-DELETE {{host}}/api/teams/82df0f4a-2a32-4c14-86d9-4b17fc7566e4
+
+PATCH {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
 Cookie: auth_token={{auth-token-cookie-var}}
 
-HTTP 403
-
-
-PATCH {{host}}/api/teams/82df0f4a-2a32-4c14-86d9-4b17fc7566e4
-Cookie: auth_token={{auth-token-cookie-var}}
+Content-type: application/json
 
 {
 	"name":"Quoison's revenge!"
 }
 
-HTTP 500
+HTTP 200
+
+
+PATCH {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{
+	"name":"Quoison's revenge!",
+	"description":"A little bit of love for me"
+}
+
+HTTP 200
+
+
+DELETE {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613'
+Cookie: auth_token={{auth-token-cookie-var}}
+
+HTTP 403
+
 
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token-cookie-var}}
