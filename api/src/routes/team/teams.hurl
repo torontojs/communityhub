@@ -166,3 +166,108 @@ POST {{host}}/api/auth/sign-out
 Cookie: auth_token={{ auth-token-cookie-var }}
 
 HTTP 204
+
+
+# Create, patch and delete with admin/root account
+POST {{host}}/api/auth/sign-in
+
+Content-type: application/json
+
+{
+	"email":"root@torontojs.com",
+	"password":"correct horse battery staple"
+}
+
+HTTP 201
+[Captures]
+auth-token-cookie-var: cookie "auth_token"
+
+
+
+PATCH {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{
+	"name":"Hihi de huhu Zuzz"
+}
+
+HTTP 200
+
+
+GET {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+
+HTTP 200
+[Asserts]
+jsonpath "$.data.name" == "Hihi de huhu Zuzz"
+
+
+PATCH {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{
+	"name":"Quoison quoisson quoizon",
+	"description":"I sense a pattern"
+}
+
+HTTP 200
+
+
+GET {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+
+HTTP 200
+[Asserts]
+jsonpath "$.data.name" == "Quoison quoisson quoizon"
+jsonpath "$.data.description" == "I sense a pattern"
+
+
+DELETE {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc61
+Cookie: auth_token={{auth-token-cookie-var}}
+
+HTTP 422
+
+
+DELETE {{host}}/api/teams
+Cookie: auth_token={{auth-token-cookie-var}}
+
+HTTP 404
+
+
+DELETE {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+Cookie: auth_token={{auth-token-cookie-var}}
+
+HTTP 200
+
+
+POST {{host}}/api/teams
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{
+	"name":"This time Quoison will rise!"
+}
+
+HTTP 500
+
+
+POST {{host}}/api/teams
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{
+	"name":"This time Quoison will rise!. Pretty please",
+	"description":"Hihi"
+}
+
+HTTP 201
+
+
+POST {{host}}/api/auth/sign-out
+Cookie: auth_token={{ auth-token-cookie-var }}
+
+HTTP 204
