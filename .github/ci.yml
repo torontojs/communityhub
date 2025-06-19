@@ -48,11 +48,7 @@ jobs:
       - name: Run integration tests
         run: |
           set -e
-          find . -name "*.hurl" | while read file;
-          do
-            echo "Running: $file";
-            hurl "$file";
-          done
+          hurl --test --variable host=http://localhost:3000 '**/*.hurl'
 
       - name: Kill preview server
         if: always()
