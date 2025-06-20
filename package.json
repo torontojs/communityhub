@@ -35,7 +35,8 @@
 		"test:api:auth1": "hurl --variables-file .dev.vars api/src/routes/auth/sign-up.hurl --test --verbose",
 		"test:api:auth2": "hurl --variables-file .dev.vars api/src/routes/auth/signin-signout-heartbeat.hurl --test --verbose",
 		"test:api:profiles": "hurl --variables-file .dev.vars api/src/routes/profile/profile.hurl --test --verbose",
-		"test:api:teams": "hurl --variables-file .dev.vars api/src/routes/team/teams.hurl --test --verbose"
+		"test:api:teams": "hurl --variables-file .dev.vars api/src/routes/team/teams.hurl --test --verbose",
+		"test:api:team-members": "hurl --variables-file .dev.vars api/src/routes/team-members/team-members.hurl --test --verbose"
 	},
 	"dependencies": {
 		"@hono/swagger-ui": "0.5.1",
