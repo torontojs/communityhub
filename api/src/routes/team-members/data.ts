@@ -71,7 +71,7 @@ export async function getAllMembers(database: D1Database, teamId: string) {
 		INNER JOIN
 			${DBTables.PROFILE}
 			ON
-				${DBTables.PROFILE}.id = ${DBTables.ROLE}.id
+				${DBTables.PROFILE}.id = ${DBTables.ROLE}.profileId
 				AND ${DBTables.PROFILE}.activatedAt IS NOT NULL
 				AND ${DBTables.PROFILE}.deletedAt IS NULL
 		WHERE
