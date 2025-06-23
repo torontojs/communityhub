@@ -242,6 +242,7 @@ Cookie: auth_token={{auth-token-cookie-var}}
 HTTP 200
 
 
+# FIX ME
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token-cookie-var}}
 
@@ -249,6 +250,19 @@ Content-type: application/json
 
 {
 	"name":"This time Quoison will rise!"
+}
+
+HTTP 500
+
+
+# FIX ME
+POST {{host}}/api/teams
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{
+	"description":"hihi de huhu"
 }
 
 HTTP 500
