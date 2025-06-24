@@ -30,11 +30,21 @@ authRoutes.openapi(
 			[StatusCodes.OKAY]: {
 				description: 'Created a new profile and sent an email for confirmation',
 				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Weak Password found',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
 	}),
 	async (context) => {
 		const { email, password, name } = context.req.valid('json');
+
+		// Password Check Rules Here
+		if (passwordCheck(password).score === 0) {
+			return context.json({ message: 'Weak Password found' }, StatusCodes.UNPROCESSABLE_CONTENT);
+		}
+
 		const response = { message: 'Created a new profile and sent an email for confirmation' };
 
 		const emailExists = await checkExistingEmail(context.env.Database, email);
