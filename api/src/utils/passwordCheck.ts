@@ -7,14 +7,19 @@ export const passwordCheck = (password: string) => {
 	const passwordHasSymbol = /[!@#$%^&*/?~]/u.test(password);
 	const noAmbiguousChar = !/[^a-zA-Z0-9!@#$%^&*/?~]/u.test(password);
 	const result = zxcvbn(password);
+	let strengthScore = result.score as number;
 
 	const flags = [passwordHasUppercase, passwordHasLowercase, passwordHasNumber, passwordHasSymbol].filter((check) => check).length;
 	if (flags < 2) {
-		result.score = 0;
+		strengthScore = 0;
+	}
+
+	if (password.length < 4) {
+		strengthScore = 0;
 	}
 
 	return {
-		score: result.score,
+		score: strengthScore,
 		feedback: result.feedback.suggestions.join(', '),
 		length: password.length,
 		hasUppercase: passwordHasUppercase,
