@@ -245,7 +245,7 @@ jsonpath "$.data.name" == "Je veux un Quoison"
 
 
 # Delete succesfully
-DELETE {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
+DELETE {{host}}/api/profiles/777b0252-5d54-4fcf-92da-c94715edd5f3
 Cookie: auth_auth={{ auth-token-cookie-var }}
 
 HTTP 200

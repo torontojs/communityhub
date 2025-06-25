@@ -130,15 +130,14 @@ GET {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613/members
 HTTP 200
 
 
-
-#UNAUTHORIZED volunteer attempts to add new team members
+# UNAUTHORIZED volunteer attempts to add new team members
 POST {{host}}/api/auth/sign-in
 
 Content-Type: application/json
 
 {
-	"email":"sir.robin@cowardly.co",
-	"password":"RunAway!1234"
+	"email":"lancelot@heroics.inc",
+	"password":"LeapotFaith!"
 }
 
 HTTP 201
@@ -305,8 +304,8 @@ POST {{host}}/api/auth/sign-in
 Content-Type: application/json
 
 {
-	"email":"sir.robin@cowardly.co",
-	"password":"RunAway!1234"
+	"email":"lancelot@heroics.inc",
+	"password":"LeapotFaith!"
 }
 
 HTTP 201
@@ -542,8 +541,8 @@ POST {{host}}/api/auth/sign-in
 Content-Type: application/json
 
 {
-	"email":"sir.robin@cowardly.co",
-	"password":"RunAway!1234"
+	"email":"lancelot@heroics.inc",
+	"password":"LeapotFaith!"
 }
 
 HTTP 201
