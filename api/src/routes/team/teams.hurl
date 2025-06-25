@@ -13,10 +13,11 @@ jsonpath "$.data[3].id" == "82df0f4a-2a32-4c14-86d9-4b17fc7566e4"
 
 
 # TODO(Should be 404) Get team using incorect id
-
 GET {{host}}/api/teams/82df0f4a-2a32-4c14-86d9-4b17fc7566e
 
 HTTP 422
+
+# TODO Malformed uudi
 
 
 # Get specific team using id OKAY
@@ -139,11 +140,55 @@ Cookie: auth_token={{auth-token-cookie-var}}
 Content-type: application/json
 
 {
+	"name":""
+}
+
+HTTP 422
+
+
+PATCH {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{}
+
+HTTP 422
+
+
+PATCH {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{
 	"name":"Quoison's revenge!",
 	"description":"A little bit of love for me"
 }
 
 HTTP 200
+
+
+PATCH {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{
+	"name":""
+}
+
+HTTP 422
+
+
+PATCH {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{}
+
+HTTP 422
 
 
 DELETE {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613'
@@ -183,7 +228,6 @@ HTTP 201
 auth-token-cookie-var: cookie "auth_token"
 
 
-
 PATCH {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
 Cookie: auth_token={{auth-token-cookie-var}}
 
@@ -194,6 +238,18 @@ Content-type: application/json
 }
 
 HTTP 200
+
+
+PATCH {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
+Cookie: auth_token={{auth-token-cookie-var}}
+
+Content-type: application/json
+
+{
+	"name":""
+}
+
+HTTP 422
 
 
 GET {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613
@@ -242,7 +298,6 @@ Cookie: auth_token={{auth-token-cookie-var}}
 HTTP 200
 
 
-# FIX ME
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token-cookie-var}}
 
@@ -255,7 +310,6 @@ Content-type: application/json
 HTTP 500
 
 
-# FIX ME
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token-cookie-var}}
 
@@ -265,7 +319,7 @@ Content-type: application/json
 	"description":"hihi de huhu"
 }
 
-HTTP 500
+HTTP 422
 
 
 POST {{host}}/api/teams
