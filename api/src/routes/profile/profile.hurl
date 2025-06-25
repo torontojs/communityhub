@@ -61,6 +61,9 @@ GET {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42122
 HTTP 404
 
 
+# Get profile using malformed uuid
+GET {{host}}/api/profiles/00000000-0000-0000-0000-000000000000
+
 # Fix me(Should be 404): Patch profile by id not authorized UNAUTHORIZED
 PATCH {{host}}/api/profiles/3227114d-43c4-42ed-8aea-f3860fe42222
 
@@ -77,6 +80,45 @@ Content-Type: application/json
 }
 
 HTTP 401
+
+
+# patch porfile by id without body
+POST {{host}}/api/auth/sign-in
+
+Content-Type: application/json
+
+{
+  "email": "sir.robin@cowardly.co",
+  "password": "RunAway!1234"
+}
+
+HTTP 201
+[Captures]
+auth-token-cookie-var: cookie "auth_token"
+
+
+PATCH {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
+Cookie: auth_auth={{ auth-token-cookie-var }}
+
+Content-Type: application/json
+
+HTTP 500
+
+
+PATCH {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
+Cookie: auth_auth={{ auth-token-cookie-var }}
+
+Content-Type: application/json
+
+{}
+
+HTTP 422
+
+
+POST {{host}}/api/auth/sign-out
+Cookie: auth_auth={{ auth-token-cookie-var }}
+
+HTTP 204
 
 
 # Patch profile by id (volunteer patch self) OKEY
@@ -160,6 +202,7 @@ Cookie: auth_auth={{ auth-token-cookie-var }}
 HTTP 401
 
 
+# Delete incorect id
 POST {{host}}/api/auth/sign-in
 
 Content-Type: application/json
@@ -174,14 +217,13 @@ HTTP 201
 auth-token-cookie-var: cookie "auth_token"
 
 
-# Delete incorect id
 DELETE {{host}}/api/profiles/7a4882c-3b7d-46c0-b019-c37e2445dae
 Cookie: auth_auth={{ auth-token-cookie-var }}
 
 HTTP 422
 
-# Patch user using root account
 
+# Patch user using root account
 PATCH {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
 Cookie: auth_auth={{ auth-token-cookie-var }}
 
@@ -240,9 +282,3 @@ Content-Type: applicaion/json
 }
 
 HTTP 422
-
-
-DELETE {{host}}/api/profiles/890cae10-7bbd-4f0c-961a-df495ec7527b
-Cookie: auth_token={{ auth-token-cookie-var }}
-
-HTTP 403
