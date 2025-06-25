@@ -1,5 +1,3 @@
-# To run tests:
-
 # Sign-up success OKAY
 
 POST {{host}}/api/auth/sign-up
@@ -31,7 +29,8 @@ HTTP 200
 
 
 # Sign-up duplicate email with different casing OKAY
-
+# FIX ME:
+# https://github.com/torontojs/communityhub/issues/97
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -44,6 +43,42 @@ Content-Type: application/json
 
 HTTP 200
 
+
+# sign-up-subdomain-email
+POST http://localhost:3000/api/auth/sign-up
+Content-Type: application/json
+
+{
+  "name": "Mr Subdomain",
+  "email": "user@mail.example.com",
+  "password": "ValidSubdomain911!@#"
+}
+
+HTTP 200
+
+
+# Missing content-type
+POST http://localhost:3000/api/auth/sign-up
+
+{
+  "name": "No Header",
+  "email": "noheader@example.com",
+  "password": "NoHeader911!@#"
+}
+
+HTTP 200
+
+
+POST http://localhost:3000/api/auth/sign-up
+Content-Type: application/json
+
+{
+  "name": "Mr 😎🔥",
+  "email": "emoji@unicode.com",
+  "password": "Emoji911!@#"
+}
+
+HTTP 200
 
 # Sign-up weak password check
 
