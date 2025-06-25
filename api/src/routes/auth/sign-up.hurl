@@ -1,5 +1,4 @@
 # Sign-up success OKAY
-
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -14,7 +13,6 @@ HTTP 200
 
 
 # Sign-up duplicate email OKAY
-
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -96,7 +94,6 @@ HTTP 200
 
 
 # Sign-up missing name field
-
 POST {{host}}/api/auth/sign-up
 
 Content-Type: appplication/json
@@ -111,7 +108,6 @@ HTTP 422
 
 
 # Sign-up missing email field
-
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -126,7 +122,6 @@ HTTP 422
 
 
 # Sign-up missing password field
-
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -186,7 +181,6 @@ HTTP 200
 
 
 # Invalid email format
-
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -201,7 +195,6 @@ HTTP 422
 
 
 # Sign-up single digit name
-
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -216,14 +209,12 @@ HTTP 200
 
 
 # Sign-up empty body
-
 POST {{host}}/api/auth/sign-up
 
 HTTP 422
 
 
 # Sign-up missing content-Type
-
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/image
