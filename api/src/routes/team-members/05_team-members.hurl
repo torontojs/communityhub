@@ -385,11 +385,12 @@ HTTP 200
 
 
 POST {{host}}/api/auth/sign-out
+Cookie: auth_token={{ auth-token-cookie-var} }
 
 HTTP 204
 
 
-# patch team memeber with organizer account
+# patch team member with organizer account
 
 POST {{host}}/api/auth/sign-in
 
