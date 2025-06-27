@@ -72,7 +72,7 @@ Content-Type: application/json
 {
   "name": "Mr 😎🔥",
   "email": "emoji@unicode.com",
-  "password": "Emoji911!@#"
+  "password": "Emoji911🙃♻️!@#"
 }
 
 HTTP 200
