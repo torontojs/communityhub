@@ -59,7 +59,7 @@ export async function updateTeamById(database: D1Database, id: string, data: Upd
 		.prepare(`
 			UPDATE ${DBTables.TEAM}
 			SET
-				${keys}
+				${keys.join(', ')}
 			WHERE
 				id = ?
 				AND deletedAt IS NULL
