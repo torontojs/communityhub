@@ -19,7 +19,7 @@ const ProfileList = () => {
 	useEffect(() => {
 		// Fetch data from the JSON file in the public directory
 		fetch('/profiles.json')
-			.then(async (response) => response.json<VolunteerProfile[]>())
+			.then(async (response) => response.json())
 			.then((data) => setProfileData(data))
 			.catch((error) => console.error('Error fetching data:', error));
 	}, []);
