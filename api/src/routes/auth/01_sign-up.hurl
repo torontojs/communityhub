@@ -27,8 +27,7 @@ HTTP 200
 
 
 # Sign-up duplicate email with different casing OKAY
-# FIX ME:
-# https://github.com/torontojs/communityhub/issues/97
+# FIXME: https://github.com/torontojs/communityhub/issues/97
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
