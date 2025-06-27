@@ -42,16 +42,29 @@ export async function insertTeam(database: D1Database, profileId: string, { name
 }
 
 export async function updateTeamById(database: D1Database, id: string, data: UpdateTeamData) {
+	const keys: string[] = [];
+	const values: string[] = [];
+
+	if (data.name !== undefined) {
+		values.push(data.name);
+		keys.push('name = ?');
+	}
+
+	if (data.description !== undefined) {
+		values.push(data.description);
+		keys.push('description = ?');
+	}
+
 	const { success } = await database
 		.prepare(`
 			UPDATE ${DBTables.TEAM}
 			SET
-				${Object.keys(data).join(', ')}
+				${keys.join(', ')}
 			WHERE
 				id = ?
 				AND deletedAt IS NULL
 		`)
-		.bind(...Object.values(data), id)
+		.bind(...values, id)
 		.run();
 
 	return success;
