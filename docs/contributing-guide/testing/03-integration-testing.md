@@ -23,4 +23,4 @@ E.g.:
 
 For integration testing we use [`Playwright`](https://playwright.dev/).
 
-<!-- TODO -->
+<!-- TODO: expand docs when we have the integration testing infrastructure configured -->
