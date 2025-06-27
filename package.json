@@ -8,26 +8,21 @@
 		"prepare": "husky",
 		"start": "npm run dev",
 		"dev": "vite dev",
-
 		"generate:types": "wrangler types api/src/env.d.ts",
 		"db:setup": "wrangler d1 migrations apply vms-local --local",
 		"db:seed": "wrangler d1 execute vms-local --local --file=./db/seeds/seed-data.sql",
-
 		"build": "vite build",
 		"prepreview": "npm run build",
 		"preview": "vite preview",
-
 		"predeploy:dev": "npm run build",
 		"deploy:dev": "wrangler deploy --minify --env dev",
 		"predeploy:prod": "npm run build",
 		"deploy:prod": "wrangler deploy --minify --env production",
-
 		"format": "dprint fmt --staged",
 		"typecheck:api": "tsc -p ./api --noEmit",
 		"typecheck:client": "tsc -p ./src --noEmit",
 		"lint:js": "eslint",
 		"lint": "npm run typecheck:api && npm run typecheck:client && npm run lint:js",
-
 		"test": "vitest",
 		"coverage": "vitest run --coverage"
 	},
@@ -65,7 +60,7 @@
 		"zod": "^3.25.28"
 	},
 	"volta": {
-		"node": "22.15.0"
+		"node": "22.17.0"
 	},
 	"overrides": {
 		"array-includes": "npm:@nolyfill/array-includes@^1",
