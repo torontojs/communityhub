@@ -42,7 +42,7 @@ HTTP 200
 
 
 # sign-up-subdomain-email
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 Content-Type: application/json
 
 {
@@ -55,7 +55,7 @@ HTTP 200
 
 
 # Missing content-type
-POST http://localhost:3000/api/auth/sign-up
+POST {{host}}/api/auth/sign-up
 
 {
   "name": "No Header",
@@ -66,16 +66,18 @@ POST http://localhost:3000/api/auth/sign-up
 HTTP 200
 
 
-POST http://localhost:3000/api/auth/sign-up
+#Sign up name utilizing emoji characters
+POST {{host}}/api/auth/sign-up
 Content-Type: application/json
 
 {
   "name": "Mr 😎🔥",
-  "email": "emoji@unicode.com",
+  "email": "emoj@unicode.com",
   "password": "Emoji911🙃♻️!@#"
 }
 
 HTTP 200
+
 
 # Sign-up weak password check
 
@@ -179,7 +181,7 @@ Content-Type: application/json
 HTTP 200
 
 
-# Invalid email format
+# Sign-up Invalid email format
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
