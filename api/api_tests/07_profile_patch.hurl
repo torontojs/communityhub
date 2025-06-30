@@ -113,6 +113,20 @@ HTTP 204
 
 
 # Patch user using root account
+POST {{host}}/api/auth/sign-in
+
+Content-Type: application/json
+
+{
+  "email": "root@torontojs.com",
+  "password": "correct horse battery staple"
+}
+
+HTTP 201
+[Captures]
+auth-token-cookie-var: cookie "auth_token"
+
+
 PATCH {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
 Cookie: auth_auth={{ auth-token-cookie-var }}
 
