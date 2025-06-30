@@ -8,8 +8,12 @@ send_metrics = false
 workers_dev = true
 preview_urls = false
 
+[triggers]
+# Every day at 2:00 am
+crons = [ "0 2 * * *" ]
+
 [dev]
-ip = "localhost"
+host = "localhost"
 port = 4242
 local_protocol = "http"
 upstream_protocol = "https"
@@ -21,6 +25,7 @@ head_sampling_rate = 1
 [assets]
 directory = "./public"
 binding = "Assets"
+directory = "./public/"
 not_found_handling = "none"
 html_handling = "auto-trailing-slash"
 
@@ -47,6 +52,10 @@ binding = "ActivationTokens"
 id = "vms-local-activation-token"
 preview_id = "vms-local-activation-token"
 
+[[r2_buckets]]
+binding = "ExportedFiles"
+bucket_name = "vms-local-exported-files"
+
 # DEV env configurations
 [env.dev.vars]
 NODE_ENV = "development"
@@ -69,6 +78,10 @@ binding = "ActivationTokens"
 id = "4fc17eeab6964947ba5ee0d50aeec1de"
 preview_id = "vms-dev-activation-tokens"
 
+[[env.dev.r2_buckets]]
+binding = "ExportedFiles"
+bucket_name = "vms-exported-files"
+
 # PRODUCTION env configuration
 [env.production.vars]
 NODE_ENV = "production"
@@ -90,3 +103,7 @@ preview_id = "vms-production-session-tokens"
 binding = "ActivationTokens"
 id = "987a04058cc34aad84b9f54c658f6a01"
 preview_id = "vms-production-activation-tokens"
+
+[[env.production.r2_buckets]]
+binding = "ExportedFiles"
+bucket_name = "vms-exported-files"
