@@ -21,7 +21,7 @@ auth-token-cookie-var: cookie "auth_token"
 DELETE {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
 Cookie: auth_auth={{ auth-token-cookie-var }}
 
-HTTP 401
+HTTP 403
 
 
 POST {{host}}/api/auth/sign-out
@@ -45,7 +45,7 @@ auth-token-cookie-var: cookie "auth_token"
 DELETE {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
 Cookie: auth_auth={{ auth-token-cookie-var }}
 
-HTTP 401
+HTTP 403
 
 
 POST {{host}}/api/auth/sign-out
