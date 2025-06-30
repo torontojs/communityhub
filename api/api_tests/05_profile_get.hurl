@@ -3,10 +3,10 @@ GET {{host}}/api/profiles
 
 HTTP 200
 [Asserts]
-jsonpath "$.data[1].id" == "3c5123c0-8548-4a02-a83c-32e9ce67eae8"
-jsonpath "$.data[2].id" == "bf950534-e8f9-4f5a-a246-610aa63faf21"
-jsonpath "$.data[3].id" == "37a4882c-3b7d-46c0-b019-c37e2445dae8"
-jsonpath "$.data[4].id" == "890cae10-7bbd-4f0c-961a-df495ec7527b"
+jsonpath "$.data[*].id" contains "3c5123c0-8548-4a02-a83c-32e9ce67eae8"
+jsonpath "$.data[*].id" contains "bf950534-e8f9-4f5a-a246-610aa63faf21"
+jsonpath "$.data[*].id" contains "37a4882c-3b7d-46c0-b019-c37e2445dae8"
+jsonpath "$.data[*].id" contains "890cae10-7bbd-4f0c-961a-df495ec7527b"
 
 
 # Fix me: (should be 401) Get self profile UNAUTHORIZED

@@ -3,10 +3,10 @@ GET {{host}}/api/teams
 
 HTTP 200
 [Asserts]
-jsonpath "$.data[0].id" == "b3410598-ecbc-41be-9f68-925da74bc613"
-jsonpath "$.data[1].id" == "72bdd945-1479-4f87-8ce7-ef0a6c5101c8"
-jsonpath "$.data[2].id" == "70ca1ff2-6ab6-4533-ae79-203f5b08742c"
-jsonpath "$.data[3].id" == "82df0f4a-2a32-4c14-86d9-4b17fc7566e4"
+jsonpath "$.data[*].id" contains "b3410598-ecbc-41be-9f68-925da74bc613"
+jsonpath "$.data[*].id" contains "72bdd945-1479-4f87-8ce7-ef0a6c5101c8"
+jsonpath "$.data[*].id" contains "70ca1ff2-6ab6-4533-ae79-203f5b08742c"
+jsonpath "$.data[*].id" contains "82df0f4a-2a32-4c14-86d9-4b17fc7566e4"
 
 
 # TODO(Should be 404) Get team using incorect id

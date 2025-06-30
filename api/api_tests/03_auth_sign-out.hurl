@@ -1,4 +1,4 @@
-# Sign-in CREATEDS
+# Sign-in CREATED
 POST {{host}}/api/auth/sign-in
 
 Content-Type: application/json
