@@ -3,6 +3,7 @@ import { CheckEmailPage } from "../page_object_models/pom_check_email.ts";
 import { CheckStepsPage } from "../page_object_models/pom_check-steps.ts";
 import { CompleteProfilePage } from "../page_object_models/pom_complete_profile.ts";
 import { PrintConductPage } from "../page_object_models/pom_print_conduct.ts";
+import { PrintVolunteerPage } from "../page_object_models/pom_print_volunteer.ts";
 import { ProfilesPages } from "../page_object_models/pom_profiles.ts";
 import { ReviewConductPage } from "../page_object_models/pom_review_conduct.ts";
 import { SignInPage } from "../page_object_models/pom_sign-in";
@@ -15,6 +16,7 @@ export type TestOptions = {
     checkStepsPage: CheckStepsPage;
     completeProfilePage: CompleteProfilePage;
     printConductPage: PrintConductPage;
+    printVolunteerPage: PrintVolunteerPage;
     profilesPage: ProfilesPages;
     reviewConductPage: ReviewConductPage;
     signUpPage: SignUpPage;
@@ -40,6 +42,10 @@ export const test = base.extend<TestOptions>({
         const printConductPage = new PrintConductPage(page);
         await use(printConductPage);
     },
+    printVolunteerPage: async ({page}, use) => {
+        const printVolunteerPage = new PrintVolunteerPage(page);
+        await use(printVolunteerPage);
+    },
     profilesPage: async ({page}, use) => {
         const profilesPage = new ProfilesPages(page);
         await use(profilesPage);
@@ -62,5 +68,40 @@ export const test = base.extend<TestOptions>({
     }
     
 });
+
+export type Complete_Profile_Type = {
+    name: string,
+    email: string,
+    slack_handle: string,
+    pronouns: string,
+
+    birth_month: string,
+    birth_day: string,
+    toronto_based: boolean,
+    join_locally: boolean,
+
+    site_portfolio: string,
+    github: string,
+    linkedin_profile: string,
+    skills_field: string,
+    linkedin_other: string,
+  
+    facebook: string,
+    threads: string,
+    twitter_x: string,
+    bluesky: string,
+    instagram: string,
+    devto: string
+}
+
+export type Enable_Profile_Footer_Type = {
+    linkedin_other: boolean,
+    facebook: boolean,
+    threads: boolean,
+    twitter_x: boolean,
+    bluesky: boolean,
+    instagram: boolean,
+    devto: boolean
+}
 
 export { expect } from "@playwright/test";

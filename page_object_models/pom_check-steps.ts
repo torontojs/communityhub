@@ -3,8 +3,9 @@ import { assert } from 'console';
 
 export class CheckStepsPage {
     readonly page: Page;
-    readonly url: string = 'http://localhost:3000/pages/check-steps/'; 
-    // readonly url_2: string = 'http://localhost:3000/pages/review-conduct-code/';
+    readonly check_steps_url: string = 'http://localhost:3000/pages/check-steps/'; 
+    readonly review_conduct_url: string = 'http://localhost:3000/pages/review-conduct-code/';
+    readonly complete_profile_url: string = 'http://localhost:3000/pages/complete-profile/?';
     // 'https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/';
 
     readonly welcome_title: Locator;
@@ -60,10 +61,41 @@ export class CheckStepsPage {
         };
     }
 
-    async navigate() {
-        await this.page.goto(this.url); 
-        console.log(this.page.url())
-        expect(this.page.url()).toBe(this.url);
+    async navigate(step: number) {
+        let step_array = [this.check_steps_url, this.review_conduct_url, this.complete_profile_url];
+        if(step in [1,2,3]) {
+            await this.page.goto(step_array[step - 1]); 
+            expect(this.page.url()).toBe(step_array[step - 1]);
+        } else {
+            await this.page.goto(step_array[0]);
+            console.log("navigate() takes integer values of 1, 2, 3 to represent steps for check_steps pages");
+        }
+
+        // console.log(this.page.url())
+        
+    }
+
+    async check_navbar(page: Page) {
+
+        await expect(page).toHaveURL(this.check_steps_url);
+
+        for (const row2 of await page.locator('.step-text').all()) {
+            console.log("Current page is: " + page.url());
+            // console.log(await row2.textContent());
+            
+            if(await row2.textContent() == "Account confirmed") {
+
+                const color = await row2.evaluate((ele) => {
+                    return window.getComputedStyle(ele).getPropertyValue("color");
+                });
+        
+                await expect(row2).toHaveCSS('color', `rgb(153, 153, 153)`);
+            } else {
+                await expect(row2).toHaveCSS('color', `rgb(153, 153, 153)`);
+                console.log("Checking color of disabled navbar tabs");
+            }
+        
+        }
     }
 
 

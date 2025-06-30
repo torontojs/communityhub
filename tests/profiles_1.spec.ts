@@ -3,13 +3,6 @@ import { expect } from '@playwright/test';
 import { execPath } from 'process';
 import { test } from './base.ts';
 
-/*
-test.beforeEach(async ({page }) => {
-
-  
-   // await page.goto('http://localhost:3000/pages/profiles/'); 
-
-}) */
 
 test.beforeEach( async ({ profilesPage }) => {
   test.setTimeout(50000) // Sets a 40-second timeout for all tests
@@ -199,3 +192,8 @@ test('Check Links', async ({ profilesPage }) => {
   } */
 
 });
+
+test('PROFILES PAGE SCREENSHOT COMPARISON TEST', async({ profilesPage}) => {
+        await profilesPage.page.waitForURL(profilesPage.url);
+        await expect(profilesPage.page).toHaveScreenshot("profiles_page_screen.png");
+  });

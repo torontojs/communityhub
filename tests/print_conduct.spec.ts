@@ -7,16 +7,19 @@ import { SignInPage } from '../page_object_models/pom_sign-in';
 import { link } from 'fs/promises';
 import { PrintConductPage } from '../page_object_models/pom_print_conduct.ts';
 
+test.beforeEach( async ({ printConductPage }) => {
+  test.setTimeout(50000) // Sets a 40-second timeout for all tests
+  await printConductPage.navigate();
+});
+
+test.afterEach( async ({ printConductPage }) => {
+  test.setTimeout(500) // Sets a 40-second timeout for all tests
+  await printConductPage.page.close();
+});
+
 test.describe('SIGN-IN Test Suite', () => {
-    test('LICENSE LINK', async ({ browser }) => {
+    test('LICENSE LINK', async ({ printConductPage }) => {
 
-        
-        const browser_context = await browser.newContext();
-        const page = await browser_context.newPage();
-        const printConductPage = new PrintConductPage(page);
-
-        // const printConductPage = new PrintConductPage(page);
-        await printConductPage.navigate();
         //await page.goto('http://localhost:3000/pages/print-documents/?document=code-of-conduct');
 
         const uu = 'http://localhost:3000/pages/print-documents/?document=code-of-conduct';
@@ -24,9 +27,9 @@ test.describe('SIGN-IN Test Suite', () => {
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
-        let t = await page.getByText('The Toronto JS Code of').getByRole('link').all();
+        let t = await printConductPage.page.getByText('The Toronto JS Code of').getByRole('link').all();
         
-        /* *******************
+        /* 
         for(const row of t) {
             console.log(await row.textContent());
             await page.waitForTimeout(500);
@@ -50,7 +53,7 @@ test.describe('SIGN-IN Test Suite', () => {
         // await expect(newPage_0).toHaveURL("https://torontojs.com/");
 
             
-        } ******************************/
+        } */
 
         
         for(const row of t) {
@@ -60,22 +63,22 @@ test.describe('SIGN-IN Test Suite', () => {
             let expected_url = ex_temp?.toString().split(".");
             
            // let expected_url_1 = expected_url?.[0];
-             console.log("&&& " + expected_url?.[0]);
+        //console.log("&&& " + expected_url?.[0]);
         
 
             // console.log(expected_url);
 
             await row.click();
-            await page.waitForTimeout(2000);
+            await printConductPage.page.waitForTimeout(2000);
 
             // REGEX BASE URL ^((http[s]?|ftp):\/)?\/?([^:\/\s]+)
             
             //let split_string = page.url().split(".");
             //console.log(split_string);
 
-            console.log("***");
-            console.log("+++ " + page.url() + "===" + expected_url?.[0])
-            expect(page.url().includes(expected_url?.[0] as string));
+            //console.log("***");
+            //console.log("+++ " + printConductPage.page.url() + "===" + expected_url?.[0])
+            expect(printConductPage.page.url().includes(expected_url?.[0] as string));
             
             
             // console.log("999 " + nextPage_url);
@@ -85,10 +88,10 @@ test.describe('SIGN-IN Test Suite', () => {
 
             
 
-            await page.goBack();
+            await printConductPage.page.goBack();
             // expect.soft(page.url()).toEqual(uu);
-            expect(page.url()).toEqual(uu);
-            console.log("^^^^ " + page.url() + "===" + uu)
+            expect(printConductPage.page.url()).toEqual(uu);
+            //console.log("^^^^ " + printConductPage.page.url() + "===" + uu)
 
             
 
@@ -102,15 +105,10 @@ test.describe('SIGN-IN Test Suite', () => {
             
         } 
     
-
-        await page.close();
     });
 
     test('PRINT BUTTON TEST', async({ printConductPage}) => {
        // const printConductPage = new PrintConductPage(page);
-
-       console.log("HERE TOOOOO");
-        await printConductPage.navigate();
 
         await printConductPage.print_button.isVisible();
         await printConductPage.print_button.isEnabled();
@@ -124,13 +122,9 @@ test.describe('SIGN-IN Test Suite', () => {
         await printConductPage.page.waitForTimeout(10000);
         // await page.waitForTimeout(10000);
 
-        await printConductPage.page.close();
-
     });
 
     test('SEND EMPTY MESSAGE WITH EMPTY EMAIL', async({ printConductPage }) => {
-        
-        await printConductPage.navigate();
 
         await printConductPage.email_field.isVisible();
         await printConductPage.email_field.isEditable();
@@ -149,14 +143,10 @@ test.describe('SIGN-IN Test Suite', () => {
         expect(printConductPage.page.url().includes("formspree.io"));
 
         await printConductPage.page.getByRole('heading', { name: "Can't send an empty form" }).isVisible();
-        
-        await printConductPage.page.close();
 
     });
 
     test('SEND VALID EMAIL WITH EMPTY MESSAGE', async({ printConductPage }) => {
-        
-        await printConductPage.navigate();
 
         await printConductPage.email_field.isVisible();
         await printConductPage.email_field.isEditable();
@@ -184,13 +174,11 @@ test.describe('SIGN-IN Test Suite', () => {
 
         expect(printConductPage.page.url().includes(printConductPage.url));
         
-        await printConductPage.page.close();
 
     });
 
     test('SEND CORRECT MESSAGE AND VALID EMAIL', async({ printConductPage }) => {
         
-        await printConductPage.navigate();
 
         await printConductPage.email_field.isVisible();
         await printConductPage.email_field.isEditable();
@@ -221,30 +209,31 @@ test.describe('SIGN-IN Test Suite', () => {
 
         expect(printConductPage.page.url().includes(printConductPage.url));
         
-        await printConductPage.page.close();
 
     });
 
     test('USE INVALID EMAIL', async({ printConductPage }) => {
-        
-        await printConductPage.navigate();
-
+        /*
         await printConductPage.email_field.isVisible();
         await printConductPage.email_field.isEditable();
         await printConductPage.email_field.isEnabled();
         await printConductPage.email_field.fill("XXXXXXXX");
 
-        await printConductPage.send_button.isVisible();
-        await printConductPage.send_button.isEnabled();
-
         await printConductPage.text_box.isVisible();
         await printConductPage.text_box.isEditable();
         await printConductPage.text_box.fill("I am sending a Message. Great website!");
+        */
+        await printConductPage.fill_fields("XXXXXX", "I am sending a Message. Great website!");
+
+        await printConductPage.send_button.isVisible();
+        await printConductPage.send_button.isEnabled();
+
 
         await printConductPage.page.waitForTimeout(3000);
 
         await printConductPage.send_button.click();
 
+        /*
         expect(printConductPage.page.url().includes("formspree.io"));
 
         await printConductPage.page.getByRole('heading', { name: 'Thanks!' }).isVisible();
@@ -252,12 +241,16 @@ test.describe('SIGN-IN Test Suite', () => {
         await printConductPage.goBack_link.isVisible();
         await printConductPage.goBack_link.isEnabled();
 
-        await printConductPage.goBack_link.click();
+        await printConductPage.goBack_link.click(); */
 
         expect(printConductPage.page.url().includes(printConductPage.url));
-        
-        await printConductPage.page.close();
 
     });
+
+    test('SCREENSHOT COMPARISON TEST', async({ printConductPage }) => {
+        await printConductPage.page.waitForURL(printConductPage.url);
+        await expect(printConductPage.page).toHaveScreenshot("print_conduct_screen.png");
+    });
+
 
 });

@@ -8,8 +8,6 @@ test.beforeEach(async ({teamsPage}) => {
    await teamsPage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
-
-
    
 }); 
 
@@ -115,5 +113,11 @@ test.describe('TEAMS Test Suite', () => {
       await teamsPage.check_profile_links(teamsPage.organisers_link_base, teamsPage.page, "linkedin.com");
 
     });
+
+    test('SCREENSHOT COMPARISON TEST', async({teamsPage}) => {
+        await teamsPage.page.waitForURL(teamsPage.url);
+        await expect(teamsPage.page).toHaveScreenshot("teams_page_screen.png");
+  });
+
 
 });

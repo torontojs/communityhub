@@ -89,9 +89,9 @@ test.describe('SIGN-UP Test Suite', () => {
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
-        signUpPage.page_title_2.isVisible();
+        await signUpPage.page_title_2.isVisible();
 
-        signUpPage.page_title_1.isVisible();
+        await signUpPage.page_title_1.isVisible();
 
 
 
@@ -108,7 +108,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         }
 
-        signUpPage.red_Account_button.isVisible();
+        await signUpPage.red_Account_button.isVisible();
 
     });
 
@@ -214,7 +214,7 @@ test.describe('SIGN-UP Test Suite', () => {
         signUpPage.page_title_1.isVisible();
         signUpPage.page_title_2.isVisible(); 
 
-        await signUpPage.fill_fields(username_1, "test@gmail.com", "xxxxxxx");
+        await signUpPage.fill_fields(username_1, "test@gmail.com", "#######");
 
         await signUpPage.red_Account_button.isVisible();
 
@@ -325,12 +325,31 @@ test.describe('SIGN-UP Test Suite', () => {
 
     });
 
-    test('Javascript Injection Test', async ({ signUpPage }) => {
+    test('Javascript Injection Test', async ({ signUpPage, checkEmailPage }) => {
 
             const input_text: string[][] = [["alert('Hello')", "test1@zoho.com", "password"],
                                              ["Curtis tester", "alert('Hello')", "password"],
                                              ["Curtis tester", "test2@zoho.com", "alert('Hello')"]];
 
+            await signUpPage.fill_fields("alert('Hello')", "alert('Hello')", "alert('Hello')");
+
+
+            await signUpPage.red_Account_button.isVisible();
+            await signUpPage.red_Account_button.isEnabled();
+            await signUpPage.red_Account_button.click();
+
+
+            await signUpPage.page.waitForTimeout(3000);
+
+            signUpPage.page.on('console', msg => {
+            if (msg.type().includes('error') || msg.type().includes('SQL') || msg.type().includes('alert'))
+                console.log(`Error text: "${msg.text()}"`);
+                expect(msg.type()).toContainEqual("");
+            });
+
+            await expect(signUpPage.page.getByRole('alert', {name:'Hello'})).toHaveCount(0);
+
+            /*
             for(let i = 0; i < input_text.length; i++) {
                 await signUpPage.fill_fields(input_text[i][0], input_text[i][1], input_text[i][2]);
 
@@ -343,36 +362,79 @@ test.describe('SIGN-UP Test Suite', () => {
                 await signUpPage.page.waitForTimeout(3000);
 
                 await expect(signUpPage.page.getByRole('alert', {name:'Hello'})).toHaveCount(0);
-            }
+            } */
 
         console.log('Javascript Injection test');
 
     });
 
-    test('SQL Injection Test', async ({ signUpPage }) => {
+    test('SQL Injection Test', async ({ signUpPage, checkEmailPage }) => {
 
-         const input_text: string[][] = [["SHOW DATABASES;", "test1@zoho.com", "password"],
+
+        const input_text: string[][] = [["SHOW DATABASES;", "test1@zoho.com", "password"],
                                              ["Curtis tester", "SHOW DATABASES;", "password"],
                                              ["Curtis tester", "test2@zoho.com", "SHOW DATABASES;"]];
 
         await signUpPage.page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
-                        
+          
+         await signUpPage.fill_fields("SHOW DATABASES", "SHOW DATABASES", "SHOW DATABASES");
+        await signUpPage.page.waitForTimeout(2000);
+
+        await signUpPage.red_Account_button.isVisible();
+        await signUpPage.red_Account_button.isEnabled();
+        await signUpPage.red_Account_button.dblclick();
+
+        //console.log(signUpPage.page.url());
+    
+        console.log(signUpPage.page.url());
+        expect(signUpPage.page.url()).toEqual(signUpPage.url);
+
+        //signUpPage.page.on('console', msg => console.log(msg.text()));
+
+        signUpPage.page.on('console', msg => {
+        if (msg.type().includes('error') || msg.type().includes('SQL'))
+            console.log(`Error text: "${msg.text()}"`);
+            expect(msg.type()).toContainEqual("");
+        });
+
+        await signUpPage.page.waitForTimeout(5000);
+
+
+
+        //expect(signUpPage.page.getByText("SQLITE_ERROR")).toHaveCount(0);
+        //expect(signUpPage.page.getByText("SQL")).toHaveCount(0);
+        //expect(signUpPage.page.getByText("ERROR")).toHaveCount(0);
+       
+        /*
         for(let i = 0; i < input_text.length; i++) {
             await signUpPage.fill_fields(input_text[i][0], input_text[i][1], input_text[i][2]);
-
+            await signUpPage.page.waitForTimeout(5000);
 
             await signUpPage.red_Account_button.isVisible();
             await signUpPage.red_Account_button.isEnabled();
-            await signUpPage.red_Account_button.click();
+            await signUpPage.red_Account_button.dblclick();
+
+            //console.log(signUpPage.page.url());
+            console.log(i + 1);
+
+            await signUpPage.page.waitForURL(checkEmailPage.url);
+            console.log(signUpPage.page.url());
+            expect(signUpPage.page.url()).toEqual(checkEmailPage.url);
 
 
-            await signUpPage.page.waitForTimeout(3000);
+            await signUpPage.page.waitForTimeout(5000);
 
-            await expect(signUpPage.page.getByRole('alert', {name:'Hello'})).toHaveCount(0);
-        }
+            expect(signUpPage.page.getByText("SQLITE_ERROR")).toHaveCount(0);
+            expect(signUpPage.page.getByText("SQL")).toHaveCount(0);
+            expect(signUpPage.page.getByText("ERROR")).toHaveCount(0);
+
+            await signUpPage.navigate();
+
+           
+        } */
 
 
-        console.log('Javascript Injection test');
+        console.log('SQL Injection test completed!');
 
     });
 

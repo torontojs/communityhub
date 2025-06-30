@@ -1,8 +1,7 @@
-import { test, expect, type Page, type Locator, Browser } from '@playwright/test';
+import { expect, type Page, type Locator, Browser } from '@playwright/test';
 
 export class PrintConductPage {
 
-    readonly browser: Browser;
     readonly page: Page; 
     readonly url: string = 'http://localhost:3000/pages/print-documents/?document=code-of-conduct';
     readonly print_button: Locator;
@@ -17,7 +16,6 @@ export class PrintConductPage {
 
     
     public constructor(page: Page) { 
-        this.browser = this.browser;
         this.page = page;
         this.print_button = page.getByRole('button', { name: 'Print document' });
         this.email_field = page.getByRole('textbox', { name: 'Email' });
@@ -32,5 +30,16 @@ export class PrintConductPage {
         console.log(this.page.url())
         expect(this.page.url()).toBe(this.url);
     }
+
+    async fill_fields(email1: string, message1: string) {
+        this.email_field.isVisible();
+        this.email_field.isEditable();
+        this.email_field.fill(email1);
+
+        this.text_box.isVisible();
+        this.text_box.isEditable();
+        this.text_box.fill(message1);
+    }
+
 
 }

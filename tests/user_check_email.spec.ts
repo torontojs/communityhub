@@ -88,6 +88,14 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
     });
 
+    test('CHECK EMAIL HEADER and FOOTER COMPARISON TEST', async({ checkEmailPage }) => {
+        await checkEmailPage.page.waitForURL(checkEmailPage.url);
+        await expect(checkEmailPage.page.locator('#header-with-logo')).toHaveScreenshot("check_email_header.png");
+        await expect(checkEmailPage.page.getByText('We\'ve sent a message to your')).toHaveScreenshot("paragraph_1.png");
+        await expect(checkEmailPage.page.getByText('If you didn\'t get the link,')).toHaveScreenshot("paragraph_2.png");
+        await expect(checkEmailPage.page.locator('#footer-nav')).toHaveScreenshot("check_email_footer.png");
+    });
+
     
 
 });

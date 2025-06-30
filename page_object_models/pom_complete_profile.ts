@@ -1,8 +1,9 @@
-import { test, expect, type Page, type Locator } from '@playwright/test';
+import { expect, type Page, type Locator } from '@playwright/test';
+import { Complete_Profile_Type, Enable_Profile_Footer_Type} from '../tests/base';
 
 export class CompleteProfilePage {
     readonly page: Page;
-    readonly url: string = 'http://localhost:3000/pages/complete-profile/'; 
+    readonly url: string = 'http://localhost:3000/pages/complete-profile/?'; 
     // 'https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/';
 
     readonly page_title: Locator;
@@ -17,6 +18,7 @@ export class CompleteProfilePage {
     readonly based_GTA_switch: Locator;
     readonly can_join_Local_switch: Locator;
     readonly upload_Button: Locator;
+    readonly upload_New_Photo_Button: Locator;
     readonly file_picker: Locator;
     readonly remove_image_Button: Locator;
     readonly upload_success_Label: Locator;
@@ -28,6 +30,11 @@ export class CompleteProfilePage {
 
     readonly instagram_field: Locator;
     readonly linkedin_2nd_field: Locator;
+    readonly facebook_field: Locator;
+    readonly twitter_x_field: Locator;
+    readonly thread_field: Locator;
+    readonly bluesky_field: Locator;
+    readonly devto_field: Locator;
 
     readonly facebook_icon: Locator;
     readonly instagram_icon: Locator;
@@ -36,6 +43,14 @@ export class CompleteProfilePage {
     readonly twitter_x_icon: Locator;
     readonly linkedin_icon: Locator;
     readonly dev_icon: Locator;
+
+    readonly close_linkedin_field_button: Locator;
+    readonly close_instagram_field_button: Locator;
+    readonly close_facebook_field_button: Locator;
+    readonly close_twitter_x_field_button: Locator;
+    readonly close_threads_field_button: Locator;
+    readonly close_bluesky_field_button: Locator;
+    readonly close_devto_field_button: Locator;
 
     readonly complete_button: Locator;
     readonly nutshell_bar: Locator;
@@ -58,6 +73,7 @@ export class CompleteProfilePage {
         this.can_join_Local_switch = page.getByText('I can join TorontoJS\'s local');
 
         this.upload_Button = page.getByRole('button', { name: 'Upload Your Photo' });
+        this.upload_New_Photo_Button = page.getByRole('button', { name: 'Upload New Photo' });
         this.file_picker = page.locator("#image-upload");
         this.remove_image_Button = page.getByRole('button', {name: 'Remove Photo'});
         this.upload_success_Label = page.getByText('Avatar uploaded successfully');
@@ -72,7 +88,13 @@ export class CompleteProfilePage {
         this.more_info_bar = page.locator('summary').filter({ hasText: 'More Information:' });
 
         this.instagram_field = page.getByRole('textbox', {name: 'Instagram'});
+        this.facebook_field = page.getByRole('textbox', {name: 'Facebook'});
+        this.thread_field = page.getByRole('textbox', {name: 'Threads'});
+        this.bluesky_field = page.getByRole('textbox', {name: 'BlueSky'});
+        this.devto_field = page.getByRole('textbox', {name: 'Dev.to'});
+        this.twitter_x_field = page.getByRole('textbox', {name: 'X'}); 
         this.linkedin_2nd_field = page.getByRole('textbox', {name: 'LinkedIn'}).nth(1);
+        
         this.facebook_icon = page.getByRole('button', { name: 'Add Facebook account' });
         this.instagram_icon = page.getByRole('button', { name: 'Add Instagram account' });
         this.threads_icon = page.getByRole('button', { name: 'Add Threads account' });
@@ -81,30 +103,58 @@ export class CompleteProfilePage {
         this.linkedin_icon = page.getByRole('button', { name: 'Add LinkedIn account' });
         this.dev_icon = page.getByRole('button', { name: 'Add Dev.to account' });
 
+        this.close_linkedin_field_button = page.getByRole("button", { name: 'Close LinkedIn input'});
+        this.close_instagram_field_button = page.getByRole("button", { name: 'Close Instagram input'});
+        this.close_threads_field_button = page.getByRole("button", { name: 'Close Threads input'});
+        this.close_facebook_field_button = page.getByRole("button", { name: 'Close Facebook input'});
+        this.close_twitter_x_field_button = page.getByRole("button", { name: 'Close X input'});
+        this.close_bluesky_field_button = page.getByRole("button", { name: 'Close BlueSky input'});
+        this.close_devto_field_button = page.getByRole("button", { name: 'Close Dev.to input'});
+
         this.complete_button = page.getByRole('button', {name: 'Complete My Profile'});
 
     }
     
     async navigate() {
         await this.page.goto(this.url); 
-        console.log(this.page.url())
+        //console.log(this.page.url())
         expect(this.page.url()).toBe(this.url);
     }
 
-    async upload_avatar_image(image_path: string) {
+    async upload_avatar_image(image_path: string, valid_image_bool: boolean) {
         await this.upload_Button.isVisible();
-        await this.upload_Button.click();
+        await this.upload_New_Photo_Button.isVisible();
+        await this.remove_image_Button.isHidden();
+
+        if(await this.upload_New_Photo_Button.isHidden()) {
+            await this.upload_Button.click();
+        } else {
+            await this.upload_New_Photo_Button.click();
+        }
+
         //### FILE PICKER
         await this.file_picker.setInputFiles(image_path);
-        await this.page.waitForTimeout(1200);
+        await this.page.waitForTimeout(200);
         await this.upload_Button.isVisible();
         await this.remove_image_Button.isVisible();
         await this.upload_success_Label.isVisible();
-        expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('height', '128px');
-        expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
+        await this.upload_New_Photo_Button.isVisible();
+
+        if (valid_image_bool) {
+             expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
+        } else {
+             // SHOULD BE BROKEN IMAGE IF FILE UPLOAD IS NOT IMAGE FILE
+             expect(this.page.locator('.details-content-file-upload picture img')).toBeEmpty();
+        }
+
+
+        // expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('height', 'auto');
     }
 
     async remove_avatar_image() {
+        await this.upload_Button.isHidden();
+        await this.upload_New_Photo_Button.isVisible();
+        await this.remove_image_Button.isVisible();
         await this.remove_image_Button.click();
         expect(await this.remove_image_Button.count()).toEqual(0);
         expect(await this.upload_success_Label.count()).toEqual(0);
@@ -114,8 +164,163 @@ export class CompleteProfilePage {
         await this.page.waitForTimeout(2000);
     }
 
+    async check_navbar(page: Page) {
+
+        await expect(page).toHaveURL(this.url);
+
+        // ********************<<<<<<<<<<<<<<<<
+        console.log("Current page is: " + page.url());
+
+        for (const row2 of await page.locator('.step-text').all()) {
+            
+            
+            if(await row2.textContent() == "Complete your profile") {
+
+                const color = await row2.evaluate((ele) => {
+                    return window.getComputedStyle(ele).getPropertyValue("color");
+                });
+        
+                await expect(row2).toHaveCSS('color', `rgb(237, 55, 49)`);
+            } else {
+                await expect(row2).toHaveCSS('color', `rgb(153, 153, 153)`);
+                console.log("Checking color of disabled navbar tabs");
+            }
+        
+        }
+    }
+
+    
+    async fill_fields(form1 : Complete_Profile_Type, enable_footer: Enable_Profile_Footer_Type) {
+
+        await this.enable_disable_footer_social_fields(this.page, enable_footer);
+        await this.page.waitForTimeout(1000);
+        
+        await this.name_field.fill(form1.name);
+        await this.email_field.fill(form1.email);
+        await this.slack_field.fill(form1.slack_handle);
+        await this.pronouns.fill(form1.pronouns);
+        await this.dob_Month.selectOption(form1.birth_month);
+        await this.dob_Day.selectOption(form1.birth_day);
+
+        if(form1.toronto_based) {
+            await this.based_GTA_switch.click();
+        }
+
+        if(form1.join_locally) {
+            await this.can_join_Local_switch.click();
+        }
 
 
+        await this.site_field.fill(form1.site_portfolio);
+        await this.linkedin_profile_1.fill(form1.linkedin_profile);
+
+        await this.github_field.fill(form1.github);
+        await this.site_field.fill(form1.site_portfolio);
+        await this.skills_field.fill(form1.skills_field);
+
+        await this.linkedin_2nd_field.isVisible();
+
+        await this.linkedin_2nd_field.fill(form1.linkedin_other);
+        await this.instagram_field.fill(form1.instagram);
+        await this.thread_field.fill(form1.threads);
+        await this.bluesky_field.fill(form1.bluesky);
+        await this.facebook_field.fill(form1.facebook);
+        await this.twitter_x_field.fill(form1.twitter_x);
+
+        await this.devto_field.fill(form1.devto);
+
+    }
+
+    unique_username(username: string) {
+        let t = (Math.round(Date.now() / 100000000)).toString();
+
+        return username + t;
+    }
+
+    async enable_disable_footer_social_fields(page: Page, enable_switch: Enable_Profile_Footer_Type) {
+        
+        await page.waitForTimeout(3000);
+   
+        if(enable_switch.linkedin_other) {
+            if(await this.linkedin_icon.isVisible()) {
+                await this.linkedin_icon.click();
+                   
+                   
+            }      
+        } else {
+            if(await this.linkedin_2nd_field.isVisible()) {
+                await this.close_linkedin_field_button.click();
+            } 
+        }
+
+        if(enable_switch.instagram) {
+            if(await this.instagram_icon.isVisible()) {
+                await this.instagram_icon.click();
+            }      
+        } else {
+            if(await this.instagram_field.isVisible()) {
+                await this.close_instagram_field_button.click();
+            } 
+        }
+
+        if(enable_switch.facebook) {
+            if(await this.facebook_icon.isVisible()) {
+                await this.facebook_icon.click();
+            }      
+        } else {
+            if(await this.facebook_field.isVisible()) {
+                await this.close_facebook_field_button.click();
+            } 
+        }
+
+        if(enable_switch.threads) {
+            if(await this.threads_icon.isVisible()) {
+                await this.threads_icon.click();
+            }      
+        } else {
+            if(await this.thread_field.isVisible()) {
+                await this.close_threads_field_button.click();
+            } 
+        }
+
+        if(enable_switch.bluesky) {
+            if(await this.bluesky_icon.isVisible()) {
+                await this.bluesky_icon.click();
+            }      
+        } else {
+            if(await this.bluesky_field.isVisible()) {
+                await this.close_bluesky_field_button.click();
+            } 
+        }
+
+        if(enable_switch.twitter_x) {
+            if(await this.twitter_x_icon.isVisible()) {
+                await this.twitter_x_icon.click();
+            }      
+        } else {
+            if(await this.twitter_x_field.isVisible()) {
+                await this.close_twitter_x_field_button.click();
+            } 
+        }
+
+        if(enable_switch.devto) {
+            if(await this.dev_icon.isVisible()) {
+                await this.dev_icon.click();
+            }      
+        } else {
+            if(await this.devto_field.isVisible()) {
+                await this.close_devto_field_button.click();
+            } 
+        }
+
+        await page.waitForTimeout(1000);
+
+
+    }
+
+
+
+    
   
 
 
