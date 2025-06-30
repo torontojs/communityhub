@@ -31,6 +31,11 @@ jobs:
       # - name: Build project
       #   run: npm run build
 
+      - name: Setup Cloudflare D1 (reset, migrate, seed)
+        run: |
+          yes | npm run db:setup
+          npm run db:seed
+
       - name: Start preview server (background)
         run: |
           npm run build
