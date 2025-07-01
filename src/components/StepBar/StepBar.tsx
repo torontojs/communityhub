@@ -12,6 +12,7 @@ const StepBar = ({ currentStep, steps }: Props) => (
 		<ol className='step-list' style={{ '--js-grid-items': steps.length.toString() } as React.CSSProperties}>
 			{steps.map(({ label }, index) => (
 				<li
+					key={index}
 					className={`step-item ${index + 1 < currentStep ? 'done' : ''}`}
 					aria-disabled={index + 1 !== currentStep ? 'true' : 'false'}
 					aria-current={index + 1 === currentStep ? 'step' : 'false'}
