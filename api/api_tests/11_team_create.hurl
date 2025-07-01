@@ -93,7 +93,7 @@ Content-type: application/json
 	"name":"This time Quoison will rise!"
 }
 
-HTTP 500
+HTTP 201
 
 
 POST {{host}}/api/teams
