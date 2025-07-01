@@ -6,7 +6,6 @@ import zxcvbn from 'zxcvbn';
  */
 
 export function passwordStrengthCheck(password: string): boolean {
-	let passwordStrength = true;
 	const result = zxcvbn(password);
 	const guessable = result.score < 3;
 	const minLength = password.length < 20;
@@ -16,28 +15,28 @@ export function passwordStrengthCheck(password: string): boolean {
 	const hasSymbol = /[!@#$%^&*/?~]/u.test(password);
 
 	if (!hasUppercase) {
-		passwordStrength = false;
+		return false;
 	}
 
 	if (!hasLowercase) {
-		passwordStrength = false;
+		return false;
 	}
 
 	if (!hasNumber) {
-		passwordStrength = false;
+		return false;
 	}
 
 	if (!hasSymbol) {
-		passwordStrength = false;
+		return false;
 	}
 
 	if (guessable) {
-		passwordStrength = false;
+		return false;
 	}
 
 	if (minLength) {
-		passwordStrength = false;
+		return false;
 	}
 
-	return passwordStrength;
+	return true;
 }
