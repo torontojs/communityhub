@@ -29,7 +29,7 @@
 		"coverage": "vitest run --coverage",
 		"test:api": "hurl --variables-file .dev.vars api/api_tests/*.hurl --verbose --test",
 		"test:api:ci": "hurl --glob 'tests/**/*.hurl' --continue-on-error --test --jobs 4 --max-time 300 --no-color --output-tap results.tap --variable-file .env.vars",
-		"reset:db": "rm -rf .wrangler  &&  yes | npm run db:setup && npm run db:seed && npm run dev"
+		"reset:db": "rm -rf .wrangler  &&  yes | npm run db:setup && npm run db:seed"
 	},
 	"dependencies": {
 		"@hono/swagger-ui": "0.5.1",
