@@ -9,6 +9,7 @@ export function passwordStrengthCheck(password: string): boolean {
 	const result = zxcvbn(password);
 	const guessable = result.score < 3;
 	const minLength = password.length < 20;
+	const maxLength = password.length > 64;
 	const hasUppercase = /[A-Z]/u.test(password);
 	const hasLowercase = /[a-z]/u.test(password);
 	const hasNumber = /[0-9]/u.test(password);
@@ -34,7 +35,7 @@ export function passwordStrengthCheck(password: string): boolean {
 		return false;
 	}
 
-	if (minLength) {
+	if (minLength && maxLength) {
 		return false;
 	}
 
