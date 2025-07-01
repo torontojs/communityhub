@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { type ChangeEvent, type FormEventHandler, useEffect, useMemo, useRef, useState } from 'react';
+import { type ChangeEvent, type FormEventHandler, useEffect, useRef, useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { BlueSky } from '../Icons/Social/BlueSky.tsx';
 import { DevTo } from '../Icons/Social/DevTo.tsx';
@@ -12,12 +12,13 @@ import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
 
 interface SocialIcons {
+	id: string;
 	name: string;
 	element: JSX.Element;
-	visible: boolean;
+	inputVisible: boolean;
 }
 
-interface UpdateProfileParams {
+interface ProfileParams {
 	email: string;
 	isBasedOnGTA: boolean;
 	canJoinLocalEvents: boolean;
@@ -29,6 +30,10 @@ interface UpdateProfileParams {
 	avatar?: string;
 	skills: string[];
 }
+
+interface UpdateProfileParams extends Omit<ProfileParams, 'email'> {}
+
+const platformEnum = ['slack', 'linkedin', 'github', 'portfolio', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'xtwitter', 'dev'];
 
 // Validation helpers
 /**
@@ -107,23 +112,28 @@ const CompleteProfile = () => {
 	const avatarUploadStatusRef = useRef<HTMLSpanElement>(null);
 	const slackHandleInputRef = useRef<HTMLInputElement>(null);
 
+	// Social Input Refs
+	const linkedinInputRef = useRef<HTMLInputElement>(null);
+	const githubInputRef = useRef<HTMLInputElement>(null);
+	const sitePortfolioInputRef = useRef<HTMLInputElement>(null);
+
 	const [photoFile, setPhotoFile] = useState<string | null>(null);
 	const [socialIcons, setSocialIcons] = useState<SocialIcons[]>([
-		{ name: 'Instagram', element: <Instagram />, visible: true },
-		{ name: 'Facebook', element: <Facebook />, visible: true },
-		{ name: 'Threads', element: <Threads />, visible: true },
-		{ name: 'Mastodon', element: <Mastodon />, visible: true },
-		{ name: 'BlueSky', element: <BlueSky />, visible: true },
-		{ name: 'Twitter', element: <XTwitter />, visible: true },
-		{ name: 'Dev.to', element: <DevTo />, visible: true }
+		{ id: 'instagram', name: 'Instagram', element: <Instagram />, inputVisible: false },
+		{ id: 'facebook', name: 'Facebook', element: <Facebook />, inputVisible: false },
+		{ id: 'threads', name: 'Threads', element: <Threads />, inputVisible: false },
+		{ id: 'mastodon', name: 'Mastodon', element: <Mastodon />, inputVisible: false },
+		{ id: 'bluesky', name: 'BlueSky', element: <BlueSky />, inputVisible: false },
+		{ id: 'xtwitter', name: 'X/Twitter', element: <XTwitter />, inputVisible: false },
+		{ id: 'dev', name: 'Dev.to', element: <DevTo />, inputVisible: false }
 	]);
-	const [socialAccountInputs, setSocialAccountInputs] = useState<string[]>([]);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	// const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [profileId, setProfileId] = useState<string | null>(null);
 	const [birthdayValue, setBirthdayValue] = useState<string>('');
-	const [profileData, setProfileData] = useState<UpdateProfileParams>({
+	const [isSubmissionDisabled, setIsSumissionDisabled] = useState<boolean>(true);
+	const [profileData, setProfileData] = useState<ProfileParams>({
 		name: '',
 		email: '',
 		isBasedOnGTA: false,
@@ -133,6 +143,12 @@ const CompleteProfile = () => {
 		links: [],
 		skills: []
 	});
+
+	const validateSlackHandle = () => {
+		const slackUrl = slackHandleInputRef.current?.value || '';
+		const isValid = slackUrl.trim() !== '';
+		setIsSumissionDisabled(!isValid);
+	};
 
 	const handleUploadPhotoButtonClick = () => {
 		fileInputRef.current?.click();
@@ -181,69 +197,29 @@ const CompleteProfile = () => {
 		});
 	};
 
-	const toggleIconVisibility = (iconName: string) => {
-		setSocialIcons((prevIcons) => prevIcons.map((icon) => icon.name === iconName ? { ...icon, visible: !icon.visible } : icon));
+	const toggleSocialInputVisibility = (inputId: string) => {
+		setSocialIcons((prevIcons) => prevIcons.map((input) => input.id === inputId ? { ...input, inputVisible: !input.inputVisible } : input));
 	};
 
-	const handleAddSocialAccount = (socialAccountToAdd: string) => {
-		setSocialAccountInputs((previousAccounts) => {
-			if (!previousAccounts?.includes(socialAccountToAdd)) {
-				return [...previousAccounts, socialAccountToAdd];
+	const getProfileParams = (formData: FormData): UpdateProfileParams => {
+		// Create links array from social inputs
+		const linksFromForm: { platform: string, url: string }[] = [];
+		for (const [key, value] of formData.entries()) {
+			if (platformEnum.includes(key.toLowerCase()) && typeof value === 'string' && value.trim() !== '') {
+				linksFromForm.push({ platform: key.toLocaleLowerCase(), url: value.trim() });
 			}
-			return previousAccounts;
-		});
-		toggleIconVisibility(socialAccountToAdd);
-	};
+		}
 
-	const handleRemoveSocialAccount = (socialAccountToRemove: string) => {
-		setSocialAccountInputs((previousAccounts) => previousAccounts.filter((socialAccount: string) => socialAccount !== socialAccountToRemove));
-		setProfileData((prev) => {
-			const updatedLinks = prev.links.filter((link) => link.platform !== socialAccountToRemove);
+		const updateProfileParams: UpdateProfileParams = {
+			isBasedOnGTA: formData.get('isBasedOnGTA') === 'on',
+			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
+			pronouns: formData.get('pronouns') as string,
+			birthday: profileData.birthday,
+			links: linksFromForm,
+			skills: profileData.skills
+		};
 
-			return {
-				...prev,
-				links: updatedLinks
-			};
-		});
-		toggleIconVisibility(socialAccountToRemove);
-	};
-
-	const getUpdateProfileParams = (_formData: FormData): UpdateProfileParams => (
-		profileData as unknown as UpdateProfileParams
-	);
-
-	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		setProfileData((prev) => ({
-			...prev,
-			[name]: value
-		}));
-	};
-
-	const handleLinksInputChange = (platform: string, value: string) => {
-		const trimmedValue = value.trim();
-
-		setProfileData((prev) => {
-			const existingLink = prev.links.find((link) => link.platform === platform);
-
-			let updatedLinks;
-			if (existingLink) {
-				if (trimmedValue === '') {
-					updatedLinks = prev.links.filter((link) => link.platform !== platform);
-				} else {
-					updatedLinks = prev.links.map((link) => link.platform === platform ? { ...link, url: trimmedValue } : link);
-				}
-			} else if (trimmedValue !== '') {
-				updatedLinks = [...prev.links, { platform, url: trimmedValue }];
-			} else {
-				return prev;
-			}
-
-			return {
-				...prev,
-				links: updatedLinks
-			};
-		});
+		return updateProfileParams;
 	};
 
 	const handleBirthdayInputChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -277,11 +253,11 @@ const CompleteProfile = () => {
 		if (!profileId || !slackHandleIsValid) { return; }
 
 		const formData = new FormData(event.currentTarget);
-		const updateProfileParams = getUpdateProfileParams(formData);
+		const profileParams = getProfileParams(formData);
 
 		try {
 			setIsLoading(true);
-			await updateProfile(updateProfileParams, profileId);
+			await updateProfile(profileParams, profileId);
 		} catch (error) {
 			// SetErrorMessage(error.message);
 		} finally {
@@ -289,14 +265,12 @@ const CompleteProfile = () => {
 		}
 	};
 
-	const linksByPlatform = useMemo(() => {
-		const map: Record<string, string> = {};
-		profileData.links.forEach(({ platform, url }) => {
-			map[platform] = url;
-		});
-		return map;
-	}, [profileData.links]);
+	// Validate slack handle on page load, once
+	useEffect(() => {
+		validateSlackHandle();
+	}, []);
 
+	// Load user profile data from the backend
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
@@ -384,7 +358,7 @@ const CompleteProfile = () => {
 										name='name'
 										type='text'
 										value={profileData.name}
-										onChange={handleInputChange}
+										readOnly
 									/>
 								</div>
 								<div>
@@ -402,18 +376,17 @@ const CompleteProfile = () => {
 									/>
 								</div>
 								<div>
-									<label htmlFor='slack-handle' className='input-required'>
+									<label htmlFor='slack' className='input-required'>
 										Slack handle
 									</label>
 									<input
 										ref={slackHandleInputRef}
 										className='text-input'
-										id='slack-handle'
-										name='slack-handle'
+										id='slack'
+										name='slack'
 										type='text'
 										placeholder='Your slack handle to TorontoJS'
-										onChange={(e) => handleLinksInputChange('Slack', e.target.value)}
-										value={linksByPlatform['Slack'] ?? ''}
+										onBlur={validateSlackHandle}
 										required
 									/>
 								</div>
@@ -426,8 +399,6 @@ const CompleteProfile = () => {
 										type='text'
 										list='pronouns-options'
 										placeholder='Your pronouns (optional)'
-										value={profileData.pronouns}
-										onChange={handleInputChange}
 									/>
 									<datalist id='pronouns-options'>
 										<option>He/him</option>
@@ -590,36 +561,33 @@ const CompleteProfile = () => {
 						<div className='details-content-wrapper'>
 							<div id='details-information-grid'>
 								<div>
-									<label htmlFor='linkedin-profile'>LinkedIn profile</label>
+									<label htmlFor='linkedin'>LinkedIn profile</label>
 									<input
-										id='linkedin-profile'
-										name='linkedin-profile'
+										ref={linkedinInputRef}
+										id='linkedin'
+										name='linkedin'
 										type='url'
 										className='text-input'
-										value={linksByPlatform['LinkedIn'] ?? ''}
-										onChange={(e) => handleLinksInputChange('LinkedIn', e.target.value)}
 									/>
 								</div>
 								<div>
-									<label htmlFor='github-profile'>GitHub profile</label>
+									<label htmlFor='github'>GitHub profile</label>
 									<input
-										id='github-profile'
-										name='github-profile'
+										ref={githubInputRef}
+										id='github'
+										name='github'
 										type='url'
 										className='text-input'
-										value={linksByPlatform['GitHub'] ?? ''}
-										onChange={(e) => handleLinksInputChange('GitHub', e.target.value)}
 									/>
 								</div>
 								<div>
 									<label htmlFor='portfolio'>Site/portfolio</label>
 									<input
+										ref={sitePortfolioInputRef}
 										id='portfolio'
 										name='portfolio'
 										type='url'
 										className='text-input'
-										value={linksByPlatform['Portfolio'] ?? ''}
-										onChange={(e) => handleLinksInputChange('Portfolio', e.target.value)}
 									/>
 								</div>
 								<div id='details-information-skills'>
@@ -655,13 +623,12 @@ const CompleteProfile = () => {
 									<div>
 										{socialIcons.map(
 											(socialIcon) =>
-												socialIcon.visible && (
+												!socialIcon.inputVisible && (
 													<button
 														aria-label={`Add ${socialIcon.name} account`}
-														key={socialIcon.name}
+														key={socialIcon.id}
 														type='button'
-														onClick={() => handleAddSocialAccount(socialIcon.name)}
-														value={linksByPlatform[socialIcon.name] ?? ''}
+														onClick={() => toggleSocialInputVisibility(socialIcon.id)}
 													>
 														{socialIcon.element}
 													</button>
@@ -670,35 +637,35 @@ const CompleteProfile = () => {
 									</div>
 								</div>
 								<div id='details-social-inputs'>
-									{socialAccountInputs.map((socialInput) => (
-										<div key={socialInput}>
-											<span>
-												<label htmlFor={`${socialInput}-input`}>
-													{socialInput}
-												</label>
-												<button
-													type='button'
-													aria-label={`Close ${socialInput} input`}
-													onClick={() => handleRemoveSocialAccount(socialInput)}
+									{socialIcons.map((socialIcon) => (socialIcon.inputVisible &&
+										(
+											<div key={socialIcon.id}>
+												<span>
+													<label htmlFor={`${socialIcon}-input`}>
+														{socialIcon.name}
+													</label>
+													<button
+														type='button'
+														aria-label={`Close ${socialIcon} input`}
+														onClick={() => toggleSocialInputVisibility(socialIcon.id)}
+													/>
+												</span>
+												<input
+													id={`${socialIcon.id}-input`}
+													name={socialIcon.id}
+													type='url'
+													className='text-input'
 												/>
-											</span>
-											<input
-												id={`${socialInput}-input`}
-												name={socialInput}
-												type='url'
-												className='text-input'
-												onChange={(e) => handleLinksInputChange(socialInput, e.target.value)}
-												value={linksByPlatform[socialInput] ?? ''}
-											/>
-										</div>
-									))}
+											</div>
+										))
+									)}
 								</div>
 							</div>
 						</div>
 					</details>
 				</div>
 
-				<Button isPrimary isLarge id='submit-button' type='submit' disabled={!linksByPlatform['Slack']}>
+				<Button isPrimary isLarge id='submit-button' type='submit' disabled={isSubmissionDisabled}>
 					Complete My Profile
 				</Button>
 			</form>
