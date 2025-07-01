@@ -2,4 +2,5 @@
 
 npm run lint
 npm run reset:db
+npm run dev
 npm run test:api
