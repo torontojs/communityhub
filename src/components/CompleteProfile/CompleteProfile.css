@@ -258,7 +258,7 @@
 		grid-template-columns: repeat(3, 1fr);
 		justify-content: space-between;
 
-		label:is([for='linkedin-profile'], [for='github-profile'], [for='portfolio']) {
+		label:is([for='linkedin'], [for='github'], [for='portfolio']) {
 			display: inline-block;
 			margin-bottom: var(--spacing-xs);
 		}
