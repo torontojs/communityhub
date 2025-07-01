@@ -2,5 +2,10 @@
 
 npm run lint
 npm run reset:db
-npm run dev
+npm run dev &   # Starts dev server in background
+DEV_PID=$!
+
+sleep 5         # Give server time to boot
 npm run test:api
+
+kill $DEV_PID   # Stop dev server
