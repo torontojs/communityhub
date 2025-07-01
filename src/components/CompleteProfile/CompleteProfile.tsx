@@ -248,9 +248,10 @@ const CompleteProfile = () => {
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
-		const slackHandleIsValid = slackHandleInputRef.current?.checkValidity() ?? false;
 
-		if (!profileId || !slackHandleIsValid) { return; }
+		validateSlackHandle();
+
+		if (!profileId || isSubmissionDisabled) { return; }
 
 		const formData = new FormData(event.currentTarget);
 		const profileParams = getProfileParams(formData);
