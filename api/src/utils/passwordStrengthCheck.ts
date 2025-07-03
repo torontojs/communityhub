@@ -8,34 +8,10 @@ import zxcvbn from 'zxcvbn';
 export function passwordStrengthCheck(password: string): boolean {
 	const result = zxcvbn(password);
 	const guessable = result.score < 3;
-	const minLength = password.length < 20;
-	const maxLength = password.length > 64;
-	const hasUppercase = /[A-Z]/u.test(password);
-	const hasLowercase = /[a-z]/u.test(password);
-	const hasNumber = /[0-9]/u.test(password);
-	const hasSymbol = /[!@#$%^&*/?~]/u.test(password);
+	const minLength = password.length < 15;
+	const nonUnicodeCharFound = password.match(/\p{Cc}/iug);
 
-	if (!hasUppercase) {
-		return false;
-	}
-
-	if (!hasLowercase) {
-		return false;
-	}
-
-	if (!hasNumber) {
-		return false;
-	}
-
-	if (!hasSymbol) {
-		return false;
-	}
-
-	if (guessable) {
-		return false;
-	}
-
-	if (minLength && maxLength) {
+	if (guessable || minLength || nonUnicodeCharFound) {
 		return false;
 	}
 
