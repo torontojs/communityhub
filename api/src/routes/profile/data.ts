@@ -16,12 +16,13 @@ function transformProfile(profile: Profile) {
 
 export async function doesProfileExist(database: D1Database, id: string) {
 	const profile = await database.prepare(`
-		SELECT id
-		FROM ${DBTables.PROFILE}
+		SELECT profile.id
+		FROM ${DBTables.PROFILE} AS profile
+		JOIN ${DBTables.ACCESS} AS access ON access.id = profile.id
 		WHERE
-			id = ?
-			AND activatedAt IS NOT NULL
-			AND deletedAt IS NULL
+			profile.id = ?
+			AND access.activatedAt IS NOT NULL
+			AND access.deletedAt IS NULL
 		LIMIT 1
 	`).bind(id).first<{ id: string }>();
 
@@ -120,9 +121,7 @@ export async function updateProfileById(
 				${Object.keys(fieldsToUpdate).map((key) => `${key} = ?`).join(', ')}
 			WHERE
 				id = ?
-				AND activatedAt IS NOT NULL
-				AND deletedAt IS NULL
-
+				AND id IN (SELECT id FROM ${DBTables.ACCESS} WHERE activatedAt IS NOT NULL AND deletedAt IS NULL)
 		`).bind(...Object.values(fieldsToUpdate), id),
 		...filteredLinks.map(({ platform, url }) => {
 			const { id: linkId } = generateBaseDBfields();
@@ -167,12 +166,13 @@ export async function getProfileById(database: D1Database, id: string) {
 	// TODO: try to refactor to a single query (join)
 	const results = await database.batch([
 		database.prepare(`
-			SELECT *
-			FROM ${DBTables.PROFILE}
+			SELECT profile.*, access.activatedAt, access.deletedAt, access.deletedReason
+			FROM ${DBTables.PROFILE} AS profile
+			JOIN ${DBTables.ACCESS} AS access ON access.id = profile.id
 			WHERE
-				id = ?
-				AND activatedAt IS NOT NULL
-				AND deletedAt IS NULL
+				profile.id = ?
+				AND access.activatedAt IS NOT NULL
+				AND access.deletedAt IS NULL
 			LIMIT 1
 		`).bind(id),
 		database.prepare(`SELECT platform, url FROM ${DBTables.PROFILE_LINKS} WHERE profileId = ?`).bind(id),
@@ -194,11 +194,12 @@ export async function getProfileById(database: D1Database, id: string) {
 export async function getAllProfiles(database: D1Database) {
 	const results = await database.batch([
 		database.prepare(`
-			SELECT *
-			FROM ${DBTables.PROFILE}
+			SELECT profile.*, access.activatedAt, access.deletedAt, access.deletedReason
+			FROM ${DBTables.PROFILE} AS profile
+			JOIN ${DBTables.ACCESS} AS access ON access.id = profile.id
 			WHERE
-				activatedAt IS NOT NULL
-				AND deletedAt IS NULL
+				access.activatedAt IS NOT NULL
+				AND access.deletedAt IS NULL
 		`),
 		// TODO: narrow down queries to only active profiles
 		database.prepare(`SELECT profileId, platform, url FROM ${DBTables.PROFILE_LINKS}`),
@@ -238,7 +239,7 @@ export async function deleteProfileById(database: D1Database, id: string) {
 
 	const { success } = await database
 		.prepare(`
-			UPDATE ${DBTables.PROFILE}
+			UPDATE ${DBTables.ACCESS}
 			SET deletedAt = ?
 			WHERE id = ?
 			LIMIT 1
