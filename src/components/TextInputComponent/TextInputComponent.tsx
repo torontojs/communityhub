@@ -2,53 +2,56 @@ import { forwardRef, type InputHTMLAttributes } from 'react';
 import './TextInputComponent.css';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-	hasLabel?: boolean;
-	labelText?: string;
-	multiLine?: boolean;
+	id?: string;
+	name?: string;
+	label: string;
 	isDisabled?: boolean;
-	hasError?: boolean;
-	withValue?: boolean;
+	error?: string;
 	value?: string;
 	placeholder?: string;
-	hasHelper?: boolean;
-	helper?: string;
+	helper?: string | null;
 	isRequired?: boolean;
-	hasCloseButton?: boolean;
+	labelSlot?: React.JSX.Element;
 }
 
 const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
-	hasLabel = true,
-	labelText,
-	multiLine = false,
+	id,
+	name,
+	label,
 	isDisabled = false,
-	hasError = false,
-	withValue = false,
+	error,
 	placeholder,
-	hasHelper = false,
 	helper,
 	value,
 	isRequired = false,
-	hasCloseButton = false,
+	labelSlot,
 	...rest
 }, ref) => {
-	if (hasLabel && !labelText) {
-		console.warn('Custom Warning: In an input, labelText is required when hasLabel is true');
+	// Conditional flag checks
+	if (!label) {
+		console.warn('Custom Warning: input must always have a label. Otherwise it fails the WCAG SC 3.3.2 standard.');
 	}
-	if (withValue && !value) {
-		console.warn('Custom Warning: In an input, value is required when withValue is true');
+	if (isRequired && labelSlot) {
+		console.warn('Custom Warning: An input can not have a labelSlot if it is required');
 	}
-	if (hasHelper && !helper) {
-		console.warn('Custom Warning: In an input, helper is required when hasHelper is true');
-	}
+
 	return (
-		<div>
-			{hasLabel && <label>{labelText}</label>}
+		<div className='text-input-component-container'>
+			<span className='input-label-container'>
+				<label htmlFor={id}>{label}</label>
+				{labelSlot}
+			</span>
 			<input
 				ref={ref}
-				data-multiline={multiLine}
-				data-disabled={isDisabled}
-				data-required={isRequired}
-				className='input'
+				id={id}
+				name={name}
+				type='text'
+				required={isRequired}
+				defaultValue={value || ''}
+				disabled={isDisabled}
+				data-error={error ? true : false}
+				data-helper={helper ? true : false}
+				placeholder={placeholder || 'Placeholder'}
 				{...rest}
 			/>
 		</div>
