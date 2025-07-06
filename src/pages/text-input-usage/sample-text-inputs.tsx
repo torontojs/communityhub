@@ -20,6 +20,27 @@ const handleClose = () => {
 	alert('Close button clicked');
 };
 
+const handleKeyDownDisabled = (e: React.KeyboardEvent<HTMLInputElement>) => {
+	const allowedKeys = [
+		'Tab',
+		'Shift',
+		'ArrowLeft',
+		'ArrowRight',
+		'ArrowUp',
+		'ArrowDown',
+		'Home',
+		'End',
+		'Control',
+		'Alt',
+		'Meta'
+	];
+
+	// Block typing and other keys
+	if (!allowedKeys.includes(e.key)) {
+		e.preventDefault();
+	}
+};
+
 const CloseButton: React.FC<CloseButtonProps> = ({ onClick, ariaLabel = 'Close' }) => {
 	const buttonStyle = {
 		backgroundColor: 'var(--color-white)',
@@ -103,24 +124,25 @@ createRoot(root).render(
 					<TextInputComponent label='Label' labelSlot={<CloseButton onClick={handleClose} />} />
 
 					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
-						Disabled = Aria-Disabled - Must ideally provide handleKeyDown handler in code, manually disable interaction, add checks before submitting:
+						Disabled = Aria-Disabled - Must provide handleKeyDown handler in code, manually disable interaction, add checks before submitting:
 						<br />
 						<br />Disabled
 					</h5>
 					<TextInputComponent
 						isDisabled
 						label='Label'
+						onKeyDown={handleKeyDownDisabled}
 					/>
 
 					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Disabled Required:
 					</h5>
-					<TextInputComponent isDisabled isRequired label='Label' />
+					<TextInputComponent isDisabled isRequired label='Label' onKeyDown={handleKeyDownDisabled} />
 
 					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Disabled Required Error:
 					</h5>
-					<TextInputComponent isDisabled isRequired error={'error'} label='Label' />
+					<TextInputComponent isDisabled isRequired error={'error'} label='Label' onKeyDown={handleKeyDownDisabled} />
 				</div>
 			</div>
 		</StrictMode>

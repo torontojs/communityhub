@@ -13,7 +13,6 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	isReadOnly?: boolean;
 	labelSlot?: React.JSX.Element;
 	isDisabled?: boolean;
-	handleKeyDownDisabled?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
@@ -27,7 +26,6 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 	value,
 	isRequired = false,
 	isReadOnly,
-	handleKeyDownDisabled,
 	labelSlot,
 	...rest
 }, ref) => {
@@ -41,27 +39,6 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 	if (isReadOnly && !value) {
 		console.warn('Custom Warning: An input should have a value if it is readonly');
 	}
-
-	const handleKeyDownDisabledFallback = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		const allowedKeys = [
-			'Tab',
-			'Shift',
-			'ArrowLeft',
-			'ArrowRight',
-			'ArrowUp',
-			'ArrowDown',
-			'Home',
-			'End',
-			'Control',
-			'Alt',
-			'Meta'
-		];
-
-		// Block typing and other keys
-		if (!allowedKeys.includes(e.key)) {
-			e.preventDefault();
-		}
-	};
 
 	return (
 		<div className='text-input-component-container'>
@@ -77,7 +54,6 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 				required={isRequired}
 				aria-disabled={isDisabled}
 				defaultValue={value || ''}
-				onKeyDown={handleKeyDownDisabled ?? handleKeyDownDisabledFallback}
 				data-error={error ? true : false}
 				data-helper={helper ? true : false}
 				placeholder={placeholder}
