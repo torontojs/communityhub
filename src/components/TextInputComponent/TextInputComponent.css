@@ -1,0 +1,49 @@
+.text-input-component-container {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+
+	.input-label-container {
+		align-items: center;
+		display: flex;
+		justify-content: space-between;
+
+		& > label {
+			color: var(--color-foreground);
+			display: flex;
+			flex-grow: 1;
+			font-size: var(--text-sm);
+			font-weight: var(--weight-semibold);
+			justify-content: space-between;
+
+			&[aria-disabled='true'] { color: var(--color-helper); }
+		}
+	}
+
+	& > input {
+		background-color: var(--color-card);
+		border: var(--border);
+		border-radius: var(--rounded-xs);
+		gap: var(--spacing-xs);
+		height: auto;
+		padding: var(--spacing-xs);
+		width: 100%;
+
+		&[data-error='true'] { border-color: var(--color-error); }
+
+		&[aria-disabled='true'] {
+			background-color: var(--color-background);
+			cursor: not-allowed;
+			pointer-events: none;
+		}
+	}
+
+	&:has(input:required) > span.input-label-container > label::after {
+		color: var(--color-accent);
+		content: 'Required' / '';
+		font-size: 0.75rem;
+		font-weight: var(--weight-semibold);
+		letter-spacing: 0;
+		text-transform: uppercase;
+	}
+}
