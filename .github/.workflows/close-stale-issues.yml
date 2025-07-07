@@ -9,6 +9,7 @@ jobs:
     steps:
       - uses: actions/stale@v9
         with:
+          start-date: 2025-07-01T00:00:00Z
           # Issue
           stale-issue-message: "This issue is stale because it has been open 160 days with no activity."
           days-before-issue-stale: 160
@@ -16,6 +17,7 @@ jobs:
           stale-issue-label: "Stale 🪨"
           close-issue-label: "Stale Closed 🔒"
           close-issue-reason: stale
+          exempt-issue-labels: "Important ⚠️"
           # PR
           stale-pr-message: "This PR is stale because there was no activity in the last 20 days. Remove the stale label or this PR will be closed in 30 days"
           days-before-pr-stale: 20
