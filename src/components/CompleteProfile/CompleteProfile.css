@@ -240,7 +240,7 @@
 				text-align: center;
 			}
 
-			label.custom-file-upload { background-color: var(--color-card); }
+			label.custom-file-upload { background-color: var(--color-input); }
 
 			& > button {
 				font-size: var(--text-xs);
@@ -278,7 +278,7 @@
 
 			#skills {
 				align-items: baseline;
-				background-color: var(--color-card);
+				background-color: var(--color-input);
 				border: var(--border-base);
 				border-color: var(--color-border);
 				border-radius: var(--rounded-base);
@@ -411,7 +411,7 @@
 
 	/* TODO: move input styles to its own component */
 	.text-input {
-		background-color: var(--color-card);
+		background-color: var(--color-input);
 		border: var(--border);
 		border-radius: var(--rounded-xs);
 		box-sizing: border-box;
