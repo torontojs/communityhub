@@ -13,16 +13,30 @@ const SignUpForm = (): React.JSX.Element => {
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [invalidPasswordMessage, setInvalidPasswordMessage] = useState<string>('');
 
 	const handleOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
 		const result = zxcvbn(password);
-		setStrength(result.score);
-		setFeedback(result.feedback.suggestions.join(', '));
+		setStrength(result.score < 3 ? result.score : password.length < 15 ? 2 : result.score);
+		setFeedback([...result.feedback.suggestions, password.length < 15 ? 'Password is shorter than 15 characters' : ''].join(', '));
 	};
 
 	const signup = async (name: string, email: string, password: string) => {
+		setInvalidPasswordMessage('');
 		try {
+			const passwordErrorSuggestions: string[] = [];
+			if (zxcvbn(password).score < 3) {
+				passwordErrorSuggestions.push('Password is not strong');
+			}
+			if (password.length < 15) {
+				passwordErrorSuggestions.push('Password is shorter than 15 characters');
+			}
+			if (passwordErrorSuggestions.length > 0) {
+				setInvalidPasswordMessage(passwordErrorSuggestions.join(', '));
+				throw new Error(passwordErrorSuggestions.join(', '));
+			}
+
 			const response = await fetch('/api/auth/sign-up', {
 				method: 'POST',
 				headers: {
@@ -123,7 +137,7 @@ const SignUpForm = (): React.JSX.Element => {
 					onInput={handleOnInput}
 					placeholder='Your password'
 					required
-					aria-describedby='password-input-strength password-input-suggestion'
+					aria-describedby='password-input-strength password-input-suggestion password-input-helper-text'
 					ref={passwordInputRef}
 				/>
 				<div className='passwordError' hidden={strength === null}>
@@ -139,6 +153,10 @@ const SignUpForm = (): React.JSX.Element => {
 						<div id='password-input-suggestion' className='suggestion' data-password-strength={strengthLabels[strength || 0]}>
 							<span className='suggestion-icon' />
 							<p>Suggestions: {feedback}</p>
+						</div>
+						<div id='password-input-helper-text' className='suggestion password-fail' data-password-fail={invalidPasswordMessage}>
+							<span className='suggestion-icon error-icon' />
+							<p>Error: {invalidPasswordMessage}</p>
 						</div>
 					</div>
 				</div>
