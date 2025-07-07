@@ -2,17 +2,23 @@
 @layer design-system {
 	:root {
 		--font-primary: 'Uai', 'Source Sans Pro', 'Montserrat', 'Roboto', Helvetica, Arial, sans-serif; /* Default fonts */
+
 		/* Text settings */
 		--text-base: 18px; /* Base font size */
 		--text-scale-ratio: 1.067; /* Scaling ratio for text size */
+
 		/* Spacing settings */
 		--spacing-base: 8px; /* Base spacing unit */
+
 		/* Border radius settings */
 		--rounded-base: 2px; /* Default border radius */
+
 		/* Line height settings */
 		--leading-base: 1.6em; /* Base line height */
+
 		/* Shadow settings */
 		--shadow-base: 2px; /* Base shadow size */
+
 		/* Heading line-height adjustments */
 		--leading-h6: calc(var(--leading-base) - 0 * 0.08em); /* Adjusted line height for h6 */
 		--leading-h5: calc(var(--leading-base) - 1 * 0.08em); /* Adjusted line height for h5 */
@@ -20,6 +26,7 @@
 		--leading-h3: calc(var(--leading-base) - 3 * 0.08em); /* Adjusted line height for h3 */
 		--leading-h2: calc(var(--leading-base) - 4 * 0.08em); /* Adjusted line height for h2 */
 		--leading-h1: calc(var(--leading-base) - 5 * 0.08em); /* Adjusted line height for h1 */
+
 		/* Text size settings based on scale */
 		--text-xs: calc(1em * pow(var(--text-scale-ratio), -2)); /* Extra small text size */
 		--text-sm: calc(var(--text-base) * pow(var(--text-scale-ratio), -1)); /* Small text size */
@@ -29,6 +36,7 @@
 		--text-2xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 4)); /* 2x Extra large text size */
 		--text-3xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 5)); /* 3x Extra large text size */
 		--text-4xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 6)); /* 4x Extra large text size */
+
 		/* Font weight settings */
 		--weight-thin: 100;
 		--weight-extralight: 200;
@@ -39,28 +47,14 @@
 		--weight-bold: 700;
 		--weight-extrabold: 800;
 		--weight-black: 900;
-		/* Color settings */
-		--color-foreground: hsla(0, 0%, 20%, 1); /* Default text color */
-		--color-background: hsla(0, 0%, 100%, 1); /* Background color */
-		--color-border: hsla(0, 0%, 80%, 1); /* Border color */
-		--color-card: hsla(0, 0%, 90%, 1); /* Card background color */
-		--color-helper: hsla(0, 0%, 60%, 1); /* Helper text color */
-		--color-accent: hsla(2, 84%, 56%, 1); /* Accent color (used for links, highlights) */
-		--color-error: hsla(0, 100%, 50%, 1); /* Error color */
-		--color-warning: hsla(44, 98%, 44%, 1); /* Warning color */
-		--color-success: hsla(120, 100%, 30%, 1); /* Success color */
-		--color-info: hsla(224, 100%, 60%, 1); /* Info color */
-		--color-white: hsla(0, 0%, 100%, 1); /* White color */
-		--color-black: hsla(0, 0%, 20%, 1); /* Black color */
-		--color-button: hsla(0, 0%, 0%, 0.15); /* Button color */
-		--color-shadow-light: hsla(0, 0%, 0%, 0.1); /* Light shadow color */
-		--color-shadow-heavy: hsla(0, 0%, 0%, 0.125); /* Heavy shadow color */
+
 		/* Spacing utilities */
 		--spacing-xs: calc(1 * var(--spacing-base)); /* Extra small spacing */
 		--spacing-sm: calc(2 * var(--spacing-base)); /* Small spacing */
 		--spacing-md: calc(3 * var(--spacing-base)); /* Medium spacing */
 		--spacing-lg: calc(5 * var(--spacing-base)); /* Large spacing */
 		--spacing-xl: calc(10 * var(--spacing-base)); /* Extra large spacing */
+
 		/* Border radius utilities */
 		--rounded-xs: calc(1 * var(--rounded-base)); /* Extra small border radius */
 		--rounded-sm: calc(2 * var(--rounded-base)); /* Small border radius */
@@ -68,9 +62,250 @@
 		--rounded-lg: calc(8 * var(--rounded-base)); /* Large border radius */
 		--rounded-xl: calc(12 * var(--rounded-base)); /* Extra large border radius */
 		--rounded-full: 50%; /* Full circle border radius */
+
+		/* --- Gray Palette --- */
+		--color-gray-50: #F5F5F5;
+		--color-gray-50: hsla(0, 0%, 96%, 1);
+		--color-gray-100: #E5E5E5;
+		--color-gray-100: hsla(0, 0%, 90%, 1);
+		--color-gray-200: #D6D6D6;
+		--color-gray-200: hsla(0, 0%, 84%, 1);
+		--color-gray-300: #C2C2C2;
+		--color-gray-300: hsla(0, 0%, 76%, 1);
+		--color-gray-400: #ADADAD;
+		--color-gray-400: hsla(0, 0%, 68%, 1);
+		--color-gray-500: #999999;
+		--color-gray-500: hsla(0, 0%, 60%, 1);
+		--color-gray-600: #7D7D7D;
+		--color-gray-600: hsla(0, 0%, 49%, 1);
+		--color-gray-700: #616161;
+		--color-gray-700: hsla(0, 0%, 38%, 1);
+		--color-gray-800: #454545;
+		--color-gray-800: hsla(0, 0%, 27%, 1);
+		--color-gray-900: #333333;
+		--color-gray-900: hsla(0, 0%, 20%, 1);
+		--color-gray-950: #1B1B1B;
+		--color-gray-950: hsla(0, 0%, 11%, 1);
+
+		--color-gray: var(--color-gray-500);
+		--color-gray-card: var(--color-gray-50);
+		--color-gray-text: var(--color-gray-700);
+
+		/* --- Red Palette --- */
+		--color-red-50:  #FDECEE;
+		--color-red-50:  hsla(353, 72%, 96%, 1);
+		--color-red-100: #FCDDE0;
+		--color-red-100: hsla(352, 70%, 93%, 1);
+		--color-red-200: #F8AAB2;
+		--color-red-200: hsla(352, 80%, 82%, 1);
+		--color-red-300: #F37683;
+		--color-red-300: hsla(353, 83%, 71%, 1);
+		--color-red-400: #EF4354;
+		--color-red-400: hsla(355, 80%, 60%, 1);
+		--color-red-500: #E51429;
+		--color-red-500: hsla(355, 84%, 49%, 1);
+		--color-red-600: #BB1021;
+		--color-red-600: hsla(353, 85%, 40%, 1);
+		--color-red-700: #910D1A;
+		--color-red-700: hsla(353, 83%, 31%, 1);
+		--color-red-800: #660912;
+		--color-red-800: hsla(352, 83%, 22%, 1);
+		--color-red-900: #3C050B;
+		--color-red-900: hsla(352, 85%, 13%, 1);
+		--color-red-950: #270307;
+		--color-red-950: hsla(351, 86%, 8%, 1);
+
+		--color-red: var(--color-red-500);
+		--color-red-card: var(--color-red-50);
+		--color-red-text: var(--color-red-700);
+
+		/* --- Yellow Palette --- */
+		--color-yellow-50: #FFF4DE;
+		--color-yellow-50: hsla(38, 100%, 94%, 1);
+		--color-yellow-100: #FEEAC2;
+		--color-yellow-100: hsla(40, 97%, 88%, 1);
+		--color-yellow-200: #FED88A;
+		--color-yellow-200: hsla(41, 97%, 77%, 1);
+		--color-yellow-300: #FDC553;
+		--color-yellow-300: hsla(41, 97%, 66%, 1);
+		--color-yellow-400: #FDB21B;
+		--color-yellow-400: hsla(42, 98%, 55%, 1);
+		--color-yellow-500: #DE9502;
+		--color-yellow-500: hsla(41, 98%, 44%, 1);
+		--color-yellow-600: #B67A02;
+		--color-yellow-600: hsla(41, 97%, 36%, 1);
+		--color-yellow-700: #8D5F01;
+		--color-yellow-700: hsla(40, 98%, 28%, 1);
+		--color-yellow-800: #654401;
+		--color-yellow-800: hsla(39, 98%, 20%, 1);
+		--color-yellow-900: #3C2801;
+		--color-yellow-900: hsla(39, 97%, 12%, 1);
+		--color-yellow-950: #281B00;
+		--color-yellow-950: hsla(39, 100%, 8%, 1);
+
+		--color-yellow: var(--color-yellow-500);
+		--color-yellow-card: var(--color-yellow-50);
+		--color-yellow-text: var(--color-yellow-700);
+
+		/* --- Green Palette --- */
+		--color-green-50: #EBFEF6;
+		--color-green-50: hsla(150, 84%, 95%, 1);
+		--color-green-100: #CEFDE8;
+		--color-green-100: hsla(150, 92%, 90%, 1);
+		--color-green-200: #A2F8D6;
+		--color-green-200: hsla(156, 84%, 80%, 1);
+		--color-green-300: #66EFC3;
+		--color-green-300: hsla(163, 78%, 67%, 1);
+		--color-green-400: #2ADDA9;
+		--color-green-400: hsla(163, 69%, 52%, 1);
+		--color-green-500: #06D6A0;
+		--color-green-500: hsla(162, 94%, 43%, 1);
+		--color-green-600: #009F77;
+		--color-green-600: hsla(162, 100%, 31%, 1);
+		--color-green-700: #007F63;
+		--color-green-700: hsla(166, 100%, 25%, 1);
+		--color-green-800: #00654F;
+		--color-green-800: hsla(166, 100%, 20%, 1);
+		--color-green-900: #025243;
+		--color-green-900: hsla(167, 95%, 16%, 1);
+		--color-green-950: #002F26;
+		--color-green-950: hsla(167, 100%, 9%, 1);
+
+		--color-green: var(--color-green-500);
+		--color-green-card: var(--color-green-50);
+		--color-green-text: var(--color-green-700);
+
+		/* --- Blue Palette --- */
+		--color-blue-50:  #EEF7FF;
+		--color-blue-50:  hsla(210, 100%, 97%, 1);
+		--color-blue-100: #D9EBFF;
+		--color-blue-100: hsla(210, 100%, 92%, 1);
+		--color-blue-200: #BCDDFF;
+		--color-blue-200: hsla(210, 100%, 87%, 1);
+		--color-blue-300: #8EC9FF;
+		--color-blue-300: hsla(210, 100%, 78%, 1);
+		--color-blue-400: #59AAFF;
+		--color-blue-400: hsla(210, 100%, 67%, 1);
+		--color-blue-500: #3388FF;
+		--color-blue-500: hsla(210, 100%, 60%, 1);
+		--color-blue-600: #1B67F5;
+		--color-blue-600: hsla(215, 90%, 53%, 1);
+		--color-blue-700: #1452E1;
+		--color-blue-700: hsla(222, 84%, 48%, 1);
+		--color-blue-800: #1742B6;
+		--color-blue-800: hsla(225, 78%, 40%, 1);
+		--color-blue-900: #193B8F;
+		--color-blue-900: hsla(227, 71%, 33%, 1);
+		--color-blue-950: #142557;
+		--color-blue-950: hsla(226, 62%, 21%, 1);
+
+		--color-blue: var(--color-blue-500);
+		--color-blue-card: var(--color-blue-50);
+		--color-blue-text: var(--color-blue-700);
+
+		/* --- Purple Palette --- */
+		--color-purple-50:  #F5F2FF;
+		--color-purple-50:  hsla(253, 100%, 97%, 1);
+		--color-purple-100: #EDE8FF;
+		--color-purple-100: hsla(252, 100%, 95%, 1);
+		--color-purple-200: #DCD4FF;
+		--color-purple-200: hsla(255, 100%, 91%, 1);
+		--color-purple-300: #C4B1FF;
+		--color-purple-300: hsla(255, 100%, 85%, 1);
+		--color-purple-400: #A885FF;
+		--color-purple-400: hsla(256, 100%, 76%, 1);
+		--color-purple-500: #8547FF;
+		--color-purple-500: hsla(262, 100%, 64%, 1);
+		--color-purple-600: #7F30F7;
+		--color-purple-600: hsla(266, 91%, 58%, 1);
+		--color-purple-700: #711EE3;
+		--color-purple-700: hsla(267, 77%, 50%, 1);
+		--color-purple-800: #5E18BF;
+		--color-purple-800: hsla(268, 77%, 42%, 1);
+		--color-purple-900: #4E169C;
+		--color-purple-900: hsla(269, 75%, 35%, 1);
+		--color-purple-950: #300B6A;
+		--color-purple-950: hsla(266, 81%, 23%, 1);
+
+		--color-purple: var(--color-purple-500);
+		--color-purple-card: var(--color-purple-50);
+		--color-purple-text: var(--color-purple-700);
+
+		/* --- Orange Palette --- */
+		--color-orange-50:  #FFE5CF;
+		--color-orange-50:  hsla(25, 100%, 91%, 1);
+		--color-orange-100: #FFD9B8;
+		--color-orange-100: hsla(33, 100%, 86%, 1);
+		--color-orange-200: #FFC08A;
+		--color-orange-200: hsla(30, 100%, 77%, 1);
+		--color-orange-300: #FFA85C;
+		--color-orange-300: hsla(29, 100%, 68%, 1);
+		--color-orange-400: #FF8F2E;
+		--color-orange-400: hsla(28, 100%, 59%, 1);
+		--color-orange-500: #FF7700;
+		--color-orange-500: hsla(27, 100%, 50%, 1);
+		--color-orange-600: #CC5F00;
+		--color-orange-600: hsla(28, 100%, 40%, 1);
+		--color-orange-700: #994700;
+		--color-orange-700: hsla(28, 100%, 30%, 1);
+		--color-orange-800: #663000;
+		--color-orange-800: hsla(28, 100%, 20%, 1);
+		--color-orange-900: #331800;
+		--color-orange-900: hsla(28, 100%, 10%, 1);
+		--color-orange-950: #1A0C00;
+		--color-orange-950: hsla(28, 100%, 5%, 1);
+
+		--color-orange: var(--color-orange-500);
+		--color-orange-card: var(--color-orange-50);
+		--color-orange-text: var(--color-orange-700);
+
+		/* --- Color utilities -- */
+		--color-white: #FFFFFF; /* Default white tone for light mode */
+		--color-white: hsla(0, 0%, 100%, 1);
+
+		--color-black: #333333; /* Default black tone for light mode */
+		--color-black: hsla(0, 0%, 20%, 1);
+
+		--color-accent: #ED342F; /* Default brand tone, for links, buttons and highlights */
+		--color-accent: hsla(2, 84%, 56%, 1);
+
+		--color-button: #0000000E; /* Default tone for buttons in light mode */
+		--color-button: hsla(0, 0%, 0%, 0.15);
+
+		--color-shadow-light: hsla(0, 0%, 0%, 0.1); /* Light shadow color */
+		--color-shadow-heavy: hsla(0, 0%, 0%, 0.125); /* Heavy shadow color */
+
+		--color-background: var(--color-white); /* Recalls background color for user mode */
+		--color-foreground: var(--color-black); /* Recalls background color for user mode */
+		--color-brand: var(--color-accent); /* Recalls accent color */
+		--color-card: var(--color-gray-50); /* Card background color */
+		--color-input: var(--color-gray-100); /* Input background color */
+		--color-border: var(--color-gray-300); /* Border color */
+		--color-helper: var(--color-gray-500); /* Helper text color */
+
+		--color-error: var(--color-red-500); /* Error color */
+		--color-error-card: var(--color-red-50);  /* Error background card color */
+		--color-error-text: var(--color-red-700);  /* Error text color */
+
+		--color-warning: var(--color-yellow-500); /* Warning color */
+		--color-warning-card: var(--color-yellow-50); /* Warning background card color */
+		--color-warning-text: var(--color-yellow-700); /* Warning text color */
+
+		--color-success: var(--color-green-500); /* Success color */
+		--color-success-card: var(--color-green-50); /* Success background card color */
+		--color-success-text: var(--color-green-700); /* Success text color */
+
+		--color-info: var(--color-blue-500); /* Info color */
+		--color-info-card: var(--color-blue-50); /* Info background card color */
+		--color-info-text: var(--color-blue-700); /* Info text color */
+
+		/* Accent color */
+		accent-color: var(--color-accent); /* Accent color used throughout the site */
+
 		/* Border settings */
 		--border: var(--border-base) solid var(--color-border); /* Default border style */
 		--border-base: 1px; /* Base border width */
+
 		/* Shadow utilities */
 		--shadow-xs: 0 calc(0.5 * var(--shadow-base)) calc(0 * var(--shadow-base)) var(--color-shadow-light); /* Extra small shadow */
 		--shadow-sm: 0 calc(0.5 * var(--shadow-base)) calc(1 * var(--shadow-base)) var(--color-shadow-light); /* Small shadow */
@@ -78,7 +313,5 @@
 		--shadow-lg: 0 calc(2 * var(--shadow-base)) calc(4 * var(--shadow-base)) var(--color-shadow-heavy); /* Large shadow */
 		--shadow-xl: 0 calc(4 * var(--shadow-base)) calc(8 * var(--shadow-base)) var(--color-shadow-heavy); /* Extra large shadow */
 		--shadow-2xl: 0 calc(8 * var(--shadow-base)) calc(12 * var(--shadow-base)) var(--color-shadow-heavy); /* 2x extra large shadow */
-		/* Accent color */
-		accent-color: var(--color-accent); /* Accent color used throughout the site */
 	}
 }
