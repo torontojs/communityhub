@@ -79,69 +79,69 @@ createRoot(root).render(
 				</h2>
 
 				<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem', width: '400px', border: '2px dashed', borderRadius: '5px', margin: 'auto' }}>
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Default:
-					</h5>
+					</h3>
 					<TextInputComponent label='Label' />
 
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						With Placeholder:
-					</h5>
+					</h3>
 					<TextInputComponent label='Label' placeholder='Enter your name' />
 
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						With Value - Must pass onChange handler, otherwise it will be readonly:
-					</h5>
+					</h3>
 					<TextInputComponent
 						label='Label'
 						value='Value'
 						onChange={() => {}}
 					/>
 
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Required:
-					</h5>
+					</h3>
 					<TextInputComponent isRequired label='Label' />
 
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Error:
-					</h5>
+					</h3>
 					<TextInputComponent error={'An error occurred'} label='Label' />
 
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Required Error:
-					</h5>
+					</h3>
 					<TextInputComponent error={'An error occurred'} isRequired label='Label' />
 
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						ReadOnly:
-					</h5>
+					</h3>
 					<TextInputComponent isReadOnly label='Label' value='Value' />
 
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						With Close Button - Pass JSX Element in labelSlot:
-					</h5>
+					</h3>
 					<TextInputComponent label='Label' labelSlot={<CloseButton onClick={handleClose} />} />
 
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Disabled = Aria-Disabled - Must provide handleKeyDown handler in code, manually disable interaction, add checks before submitting:
 						<br />
 						<br />Disabled
-					</h5>
+					</h3>
 					<TextInputComponent
 						isDisabled
 						label='Label'
 						onKeyDown={handleKeyDownDisabled}
 					/>
 
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Disabled Required:
-					</h5>
+					</h3>
 					<TextInputComponent isDisabled isRequired label='Label' onKeyDown={handleKeyDownDisabled} />
 
-					<h5 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
+					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Disabled Required Error:
-					</h5>
+					</h3>
 					<TextInputComponent isDisabled isRequired error={'error'} label='Label' onKeyDown={handleKeyDownDisabled} />
 				</div>
 			</div>
