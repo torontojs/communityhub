@@ -30,8 +30,11 @@ describe('Weak password check', () => {
 		expect(passwordStrengthCheck('Tr0ub13M4k3R1ntH3h0u53')).toEqual(true);
 	});
 
-	test('"あڥA3+]?áàâãäçéèêëéèêëñóòôõöúùûüÁÀÂÃÄÇÉÈÊËÍÌÎÏÑÓÒÔÕÖÚÙÛÜßẞ" should not pass', () => {
+	test('"あڥA3+]?áàâãäçéèêëéèêëñóòôõöúùûüÁÀÂÃÄÇÉÈÊËÍÌÎÏÑÓÒÔÕÖÚÙÛÜßẞ" should pass', () => {
 		expect(passwordStrengthCheck('あڥA3+]?áàâãäçéèêëéèêëñóòôõöúùûüÁÀÂÃÄÇÉÈÊËÍÌÎÏÑÓÒÔÕÖÚÙÛÜßẞ')).toEqual(true);
-		// NOTE: Non UTF-8 Character Example Here, but since we are only checking for non-unicode characetr, this string passes the test
+		test('C0 control characters should not pass', () => {
+			 const controlCharacters = '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f\x7f';
+			expect(passwordStrengthCheck(controlCharacters)).toEqual(false);
+		}
 	});
 });
