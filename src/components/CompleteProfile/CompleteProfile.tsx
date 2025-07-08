@@ -31,7 +31,7 @@ interface ProfileParams {
 	skills: string[];
 }
 
-interface UpdateProfileParams extends Omit<ProfileParams, 'email'> {}
+type UpdateProfileParams = Omit<ProfileParams, 'email'>;
 
 const platformEnum = ['slack', 'linkedin', 'github', 'portfolio', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'xtwitter', 'dev'];
 
@@ -500,7 +500,7 @@ const CompleteProfile = () => {
 											onChange={handleSliderToggle}
 										/>
 										<label htmlFor='canJoinLocalEvents'>
-											<span>I can join TorontoJS&#8217; local events</span>
+											<span>I can join TorontoJS&apos; local events</span>
 										</label>
 									</div>
 								</div>
