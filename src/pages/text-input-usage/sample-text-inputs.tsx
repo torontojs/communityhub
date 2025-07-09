@@ -101,7 +101,7 @@ createRoot(root).render(
 					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Required:
 					</h3>
-					<TextInputComponent isRequired label='Label' />
+					<TextInputComponent required label='Label' />
 
 					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Error:
@@ -111,12 +111,12 @@ createRoot(root).render(
 					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Required Error:
 					</h3>
-					<TextInputComponent error={'An error occurred'} isRequired label='Label' />
+					<TextInputComponent error={'An error occurred'} required label='Label' />
 
 					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						ReadOnly:
 					</h3>
-					<TextInputComponent isReadOnly label='Label' value='Value' />
+					<TextInputComponent readOnly label='Label' value='Value' />
 
 					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						With Close Button - Pass JSX Element in labelSlot:
@@ -129,7 +129,7 @@ createRoot(root).render(
 						<br />Disabled
 					</h3>
 					<TextInputComponent
-						isDisabled
+						disabled
 						label='Label'
 						onKeyDown={handleKeyDownDisabled}
 					/>
@@ -137,12 +137,12 @@ createRoot(root).render(
 					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Disabled Required:
 					</h3>
-					<TextInputComponent isDisabled isRequired label='Label' onKeyDown={handleKeyDownDisabled} />
+					<TextInputComponent disabled required label='Label' onKeyDown={handleKeyDownDisabled} />
 
 					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Disabled Required Error:
 					</h3>
-					<TextInputComponent isDisabled isRequired error={'error'} label='Label' onKeyDown={handleKeyDownDisabled} />
+					<TextInputComponent disabled required error={'error'} label='Label' onKeyDown={handleKeyDownDisabled} />
 				</div>
 			</div>
 		</StrictMode>
