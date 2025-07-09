@@ -131,18 +131,17 @@ createRoot(root).render(
 					<TextInputComponent
 						disabled
 						label='Label'
-						onKeyDown={handleKeyDownDisabled}
 					/>
 
 					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Disabled Required:
 					</h3>
-					<TextInputComponent disabled required label='Label' onKeyDown={handleKeyDownDisabled} />
+					<TextInputComponent disabled required label='Label' />
 
 					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
 						Disabled Required Error:
 					</h3>
-					<TextInputComponent disabled required error={'error'} label='Label' onKeyDown={handleKeyDownDisabled} />
+					<TextInputComponent disabled required error={'error'} label='Label' />
 				</div>
 			</div>
 		</StrictMode>
