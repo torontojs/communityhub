@@ -15,8 +15,6 @@
 			font-size: var(--text-sm);
 			font-weight: var(--weight-semibold);
 			justify-content: space-between;
-
-			&[aria-disabled='true'] { color: var(--color-helper); }
 		}
 	}
 
@@ -47,3 +45,5 @@
 		text-transform: uppercase;
 	}
 }
+
+.text-input-component-container:has(input[aria-disabled]) label { color: var(--color-helper); }
