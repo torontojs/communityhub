@@ -20,27 +20,6 @@ const handleClose = () => {
 	alert('Close button clicked');
 };
 
-const handleKeyDownDisabled = (e: React.KeyboardEvent<HTMLInputElement>) => {
-	const allowedKeys = [
-		'Tab',
-		'Shift',
-		'ArrowLeft',
-		'ArrowRight',
-		'ArrowUp',
-		'ArrowDown',
-		'Home',
-		'End',
-		'Control',
-		'Alt',
-		'Meta'
-	];
-
-	// Block typing and other keys
-	if (!allowedKeys.includes(e.key)) {
-		e.preventDefault();
-	}
-};
-
 const CloseButton: React.FC<CloseButtonProps> = ({ onClick, ariaLabel = 'Close' }) => {
 	const buttonStyle = {
 		backgroundColor: 'var(--color-white)',
