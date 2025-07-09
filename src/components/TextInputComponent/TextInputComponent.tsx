@@ -2,62 +2,66 @@ import { forwardRef, type InputHTMLAttributes } from 'react';
 import './TextInputComponent.css';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-	id?: string;
-	name?: string;
 	label: string;
 	error?: string;
-	value?: string;
-	placeholder?: string;
 	helper?: string | null;
-	isRequired?: boolean;
-	isReadOnly?: boolean;
 	labelSlot?: React.JSX.Element;
-	isDisabled?: boolean;
 }
 
 const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 	id,
 	name,
 	label,
-	isDisabled = false,
+	disabled,
 	error,
-	placeholder,
 	helper,
 	value,
-	isRequired = false,
-	isReadOnly,
 	labelSlot,
+	onKeyDown,
 	...rest
 }, ref) => {
 	// Conditional flag checks
 	if (!label) {
 		console.warn('Custom Warning: input must always have a label. Otherwise it fails the WCAG SC 3.3.2 standard.');
 	}
-	if (isRequired && labelSlot) {
-		console.warn('Custom Warning: An input can not have a labelSlot if it is required');
-	}
-	if (isReadOnly && !value) {
-		console.warn('Custom Warning: An input should have a value if it is readonly');
-	}
+	
+	const elementId = useMemo(() => id ?? `input-${Math.trunc(Math.random() * 10000).toString(16)}`, [id]);
+
+	const keydownHandler: KeyboardEventHandler<HTMLInputElement> = (evt) => {
+		const allowedKeys = [
+			'Tab',
+			'Home',
+			'PageUp',
+			'PageDown',
+			'End',
+			'Enter',
+		];
+
+		// Disables most keypresses on disabled input.
+		if (disabled && !allowedKeys.includes(evt.key)) {
+			evt.preventDefault();
+			return;
+		}
+
+		// Execute the provided event handler, if it exists.
+		onKeyDown?.(evt);
+	};
 
 	return (
 		<div className='text-input-component-container'>
 			<span className='input-label-container'>
-				<label htmlFor={id} aria-disabled={isDisabled}>{label}</label>
+				<label htmlFor={elementId}>{label}</label>
 				{labelSlot}
 			</span>
 			<input
 				ref={ref}
-				id={id}
+				id={elementId}
 				name={name}
 				type='text'
-				required={isRequired}
-				aria-disabled={isDisabled}
+				aria-disabled={disabled}
 				defaultValue={value || ''}
 				data-error={error ? true : false}
 				data-helper={helper ? true : false}
-				placeholder={placeholder}
-				readOnly={isReadOnly}
 				{...rest}
 			/>
 		</div>
