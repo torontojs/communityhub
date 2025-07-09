@@ -1,4 +1,4 @@
-import { forwardRef, type InputHTMLAttributes } from 'react';
+import { forwardRef, type InputHTMLAttributes, type KeyboardEventHandler, useMemo } from 'react';
 import './TextInputComponent.css';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -24,7 +24,7 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 	if (!label) {
 		console.warn('Custom Warning: input must always have a label. Otherwise it fails the WCAG SC 3.3.2 standard.');
 	}
-	
+
 	const elementId = useMemo(() => id ?? `input-${Math.trunc(Math.random() * 10000).toString(16)}`, [id]);
 
 	const keydownHandler: KeyboardEventHandler<HTMLInputElement> = (evt) => {
@@ -34,7 +34,7 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 			'PageUp',
 			'PageDown',
 			'End',
-			'Enter',
+			'Enter'
 		];
 
 		// Disables most keypresses on disabled input.
@@ -62,6 +62,7 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 				defaultValue={value || ''}
 				data-error={error ? true : false}
 				data-helper={helper ? true : false}
+				onKeyDown={keydownHandler}
 				{...rest}
 			/>
 		</div>
