@@ -11,7 +11,7 @@ GET {{host}}/api/auth/heartbeat
 
 HTTP 401
 
-
+# Before heartbeat check
 POST {{host}}/api/auth/sign-in
 
 Content-Type: application/json
