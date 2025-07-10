@@ -26,9 +26,20 @@ export class PrintConductPage {
     }
 
     async navigate() {
+        /*
         await this.page.goto(this.url); 
-        console.log(this.page.url())
+        await this.page.waitForLoadState("networkidle");
+        console.log("NAVIGATING to: " + this.url);
         expect(this.page.url()).toBe(this.url);
+        await this.page.waitForURL(this.url); */
+
+      await expect(async() => {
+            await this.page.goto(this.url); 
+            expect(this.page.url()).toBe(this.url);
+      }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+      console.log("NAVIGATING to: " + this.url);
+    
     }
 
     async fill_fields(email1: string, message1: string) {

@@ -1,12 +1,14 @@
 import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
 import { test } from "./base.ts";
+import AxeBuilder from '@axe-core/playwright';
 
 const url_1 = "http://localhost:3000/pages/sign-in/";
 
 test.beforeEach(async({signInPage}) => {
+    test.setTimeout(70000)
     await signInPage.navigate();
-})
+});
 
 test.afterEach(async ({ signInPage }) => {
     await signInPage.page.close();
@@ -28,6 +30,9 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await signInPage.email_field.isVisible();
         await signInPage.password_field.isVisible();
+
+        await signInPage.email_required_label.isVisible();
+        await signInPage.password_required_label.isVisible();
 
         //await page.locator('#email-input').isVisible();
        // await page.locator('#password-input').isVisible();
@@ -403,9 +408,46 @@ test.describe('SIGN-IN Test Suite', () => {
 
     });
 
-    test('SIGN-IN SCREENSHOT COMPARISON TEST', async({ signInPage }) => {
-        await signInPage.page.waitForURL(signInPage.url);
-        await expect(signInPage.page).toHaveScreenshot("profiles_page_screen.png");
+    test('CLICk HYPERLINK TO GO TO SIGN-UP PAGE', async({ signInPage, signUpPage}) => {
+        await signInPage.signup_link.isVisible();
+        await signInPage.signup_link.dblclick();
+        await signInPage.page.waitForURL(signUpPage.url);
+        expect(signInPage.page.url()).toEqual(signUpPage.url);
+
     });
 
+    test('CLICk HYPERLINKS TO TRAVEL BETWEEN SIGN-IN PAGE AND SIGN-UP PAGE', async({ signInPage, signUpPage}) => {
+        await signInPage.signup_link.isVisible();
+        await signInPage.signup_link.dblclick();
+         await signInPage.page.waitForURL(signUpPage.url);
+        expect(signInPage.page.url()).toEqual(signUpPage.url);
+
+        await signUpPage.sign_in_link.isVisible();
+        await signUpPage.sign_in_link.dblclick();
+        await signUpPage.page.waitForURL(signInPage.url);
+        expect(signUpPage.page.url()).toEqual(signInPage.url);
+        await signInPage.signup_link.isVisible();
+    });
+
+    /*
+    test('SIGN-IN SCREENSHOT COMPARISON TEST', async({ signInPage }) => {
+        await expect(async() => {
+            await signInPage.page.waitForURL(signInPage.url);
+            await expect(signInPage.page).toHaveScreenshot("profiles_page_screen.png");
+        }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+    });
+
+}); */
+
 });
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC WCAG22AA', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
+});
+

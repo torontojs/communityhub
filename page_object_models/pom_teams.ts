@@ -55,9 +55,13 @@ export class TeamsPage {
     }
 
     async navigate() {
-        await this.page.goto(this.url); 
-        console.log(this.page.url())
-        expect(this.page.url()).toBe(this.url);
+
+      await expect(async() => {
+            await this.page.goto(this.url); 
+            expect(this.page.url()).toBe(this.url);
+      }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+      console.log("NAVIGATING to: " + this.url);
     }
 
     async check_profile_links(base_locator: Locator, page: Page, url_expected: string) {
@@ -77,7 +81,7 @@ export class TeamsPage {
 
             expect(pp.includes(url_expected));
 
-            await this.page.waitForTimeout(2000);
+            // await this.page.waitForTimeout(2000);
 
             await newPage_1.close();
 

@@ -1,16 +1,14 @@
 import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
 import { test } from "./base.ts";
-import { SignUpPage } from '../page_object_models/pom_sign-up'
 import { sign } from 'crypto';
-
+import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach(async ({signUpPage}) => {
-
+   test.setTimeout(70000);
    await signUpPage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
-
 
    
 }); 
@@ -43,6 +41,9 @@ test.describe('SIGN-UP Test Suite', () => {
         await signUpPage.email_field.isVisible();
         await signUpPage.name_field.isVisible();
         await signUpPage.password_field.isVisible();
+
+        await signUpPage.email_required_label.isVisible();
+        await signUpPage.password_required_label.isVisible();
 
         //await page.locator('#name-input').isVisible();
 
@@ -204,7 +205,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
     });
 
-    test('Enter Invalid Password Test', async ({ signUpPage }) => {
+    test('Enter Invalid Password Test', async ({ signUpPage, checkEmailPage }) => {
 
 
         await signUpPage.page.waitForTimeout(1800);
@@ -220,6 +221,8 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await signUpPage.red_Account_button.click();
 
+        expect(signUpPage.page.url()).toBe(checkEmailPage.url);
+
         
     });
 
@@ -232,7 +235,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         //let t = (Math.round(Date.now() / 100000000)).toString();
         //const username = "Curtis Tester" + t;
-        console.log(username);
+        //console.log(username);
 
         await signUpPage.fill_fields(username, "xxxxxxxxx", "password");
 
@@ -240,6 +243,8 @@ test.describe('SIGN-UP Test Suite', () => {
         await signUpPage.red_Account_button.isEnabled();
         expect(signUpPage.red_Account_button).toHaveCSS('background-color', `rgb(237, 52, 63)`);
         await signUpPage.red_Account_button.click();
+
+        expect(signUpPage.page.url()).toBe(signUpPage.url);
 
     });
 
@@ -278,7 +283,7 @@ test.describe('SIGN-UP Test Suite', () => {
         
         await expect(homePage).toHaveURL("https://torontojs.com/");
         let pp = await homePage.evaluate(() => window.location.href)
-        console.log(pp);
+        
         await homePage.close(); 
 
         const [newPage_1] = await Promise.all([
@@ -288,7 +293,7 @@ test.describe('SIGN-UP Test Suite', () => {
         
         await expect(newPage_1).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
         pp = await newPage_1.evaluate(() => window.location.href)
-        console.log(pp);
+        
         await newPage_1.close();
 
         const [newPage_2] = await Promise.all([
@@ -298,7 +303,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await expect(newPage_2).toHaveURL("https://www.instagram.com/toronto.js/");
         pp = await newPage_2.evaluate(() => window.location.href)
-        console.log(pp);
+        
         await newPage_2.close();
 
         const [newPage_3] = await Promise.all([
@@ -307,7 +312,7 @@ test.describe('SIGN-UP Test Suite', () => {
         ]);
 
         pp = await newPage_3.evaluate(() => window.location.href)
-        console.log(pp);
+        
         expect(pp.includes("x.com"));
 
         signUpPage.page.on('dialog', dialog => dialog.accept());
@@ -320,12 +325,14 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await expect(newPage_4).toHaveURL("https://www.linkedin.com/company/torontojs");
         pp = await newPage_4.evaluate(() => window.location.href)
-        console.log(pp);
+        
         await newPage_4.close();
 
     });
 
     test('Javascript Injection Test', async ({ signUpPage, checkEmailPage }) => {
+
+            console.log('SIGN-UP Javascript Injection test');
 
             const input_text: string[][] = [["alert('Hello')", "test1@zoho.com", "password"],
                                              ["Curtis tester", "alert('Hello')", "password"],
@@ -364,7 +371,7 @@ test.describe('SIGN-UP Test Suite', () => {
                 await expect(signUpPage.page.getByRole('alert', {name:'Hello'})).toHaveCount(0);
             } */
 
-        console.log('Javascript Injection test');
+       
 
     });
 
@@ -386,7 +393,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         //console.log(signUpPage.page.url());
     
-        console.log(signUpPage.page.url());
+        //console.log(signUpPage.page.url());
         expect(signUpPage.page.url()).toEqual(signUpPage.url);
 
         //signUpPage.page.on('console', msg => console.log(msg.text()));
@@ -438,4 +445,39 @@ test.describe('SIGN-UP Test Suite', () => {
 
     });
 
+    test('CLICk HYPERLINK TO GO TO SIGN-IN PAGE', async({ signInPage, signUpPage}) => {
+        await signUpPage.sign_in_link.isVisible();
+        await signUpPage.sign_in_link.dblclick();
+        expect(signUpPage.page.url()).toEqual(signInPage.url);
+
+    });
+
+    test('CLICk HYPERLINKS TO TRAVEL BETWEEN SIGN-IN PAGE AND SIGN-UP PAGE', async({ signInPage, signUpPage}) => {
+        await signUpPage.sign_in_link.isVisible();
+        await signUpPage.sign_in_link.dblclick();
+        expect(signUpPage.page.url()).toEqual(signInPage.url);
+        await signInPage.signup_link.isVisible();
+        await signInPage.signup_link.isVisible();
+        await signInPage.signup_link.dblclick();
+        expect(signInPage.page.url()).toEqual(signUpPage.url);
+        await signUpPage.sign_in_link.isVisible();
+    });
+
+    test('SIGN-UP PAGE SCREENSHOT COMPARISON TEST', async({ signUpPage}) => {
+         await expect(async() => {
+        await signUpPage.page.waitForURL(signUpPage.url);
+        await expect(signUpPage.page).toHaveScreenshot("signup_page_screen.png");
+         }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+    });
+
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC WCAG22AA', async({signUpPage, page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });

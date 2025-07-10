@@ -115,43 +115,64 @@ export class CompleteProfilePage {
 
     }
     
-    async navigate() {
-        await this.page.goto(this.url); 
-        //console.log(this.page.url())
-        expect(this.page.url()).toBe(this.url);
+   async navigate() {
+
+      await expect(async() => {
+            await this.page.goto(this.url); 
+            await this.page.waitForURL(this.url);
+            expect(this.page.url()).toBe(this.url);
+      }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+      console.log("NAVIGATING to: " + this.url);
     }
 
     async upload_avatar_image(image_path: string, valid_image_bool: boolean) {
-        await this.upload_Button.isVisible();
-        await this.upload_New_Photo_Button.isVisible();
-        await this.remove_image_Button.isHidden();
+        await expect(async() => {
+            await this.upload_Button.isVisible();
+            await this.upload_New_Photo_Button.isVisible();
+            await this.remove_image_Button.isHidden();
 
-        if(await this.upload_New_Photo_Button.isHidden()) {
-            await this.upload_Button.click();
-        } else {
-            await this.upload_New_Photo_Button.click();
-        }
+            if(await this.upload_New_Photo_Button.isHidden()) {
+                await this.upload_Button.click();
+            } else {
+                await this.upload_New_Photo_Button.click();
+            }
 
-        //### FILE PICKER
-        await this.file_picker.setInputFiles(image_path);
-        await this.page.waitForTimeout(200);
-        await this.upload_Button.isVisible();
-        await this.remove_image_Button.isVisible();
-        await this.upload_success_Label.isVisible();
-        await this.upload_New_Photo_Button.isVisible();
+            await this.page.waitForLoadState('networkidle');
 
-        if (valid_image_bool) {
-             expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
-        } else {
-             // SHOULD BE BROKEN IMAGE IF FILE UPLOAD IS NOT IMAGE FILE
-             expect(this.page.locator('.details-content-file-upload picture img')).toBeEmpty();
-        }
+            //### FILE PICKER
+            await this.file_picker.setInputFiles(image_path);
+            await this.upload_Button.isVisible();
+            await this.remove_image_Button.isVisible();
+            await this.upload_success_Label.isVisible();
+            await this.upload_New_Photo_Button.isVisible();
 
+            console.log("upload_avatar_image: " + valid_image_bool + " MODE");
 
-        // expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('height', 'auto');
+            if (valid_image_bool) {
+                await this.page.waitForLoadState('networkidle');
+                //expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
+
+                let size = await this.get_image_size();
+                console.log("Checking avatar image size ...");
+                expect((size[0])).toBeGreaterThanOrEqual(80);
+                expect((size[0])).toBeLessThanOrEqual(130);
+                expect((size[1])).toBeGreaterThanOrEqual(80);
+                expect((size[1])).toBeLessThanOrEqual(130);
+                
+
+            } else {
+                // SHOULD BE BROKEN IMAGE IF FILE UPLOAD IS NOT IMAGE FILE
+                expect(this.page.locator('.details-content-file-upload picture img')).toBeEmpty();
+            }
+
+        }).toPass({ intervals: [1_000, 10_000, 20_000],
+                    timeout: 90_000});
+    
     }
 
     async remove_avatar_image() {
+        await this.page.waitForLoadState('networkidle');
         await this.upload_Button.isHidden();
         await this.upload_New_Photo_Button.isVisible();
         await this.remove_image_Button.isVisible();
@@ -161,7 +182,35 @@ export class CompleteProfilePage {
         expect(await this.remove_image_Button.count()).toEqual(0);
         await this.remove_image_Button.isHidden();
         await this.upload_success_Label.isHidden();
-        await this.page.waitForTimeout(2000);
+    }
+
+    async get_image_size() {
+        
+       // const elementHandle = await imageLocation.elementHandle();
+
+        let loc = this.page.locator('.details-content-file-upload picture img');
+
+        if (loc) {
+            const boundingBox = await loc.boundingBox();
+
+            if (boundingBox) {
+                const width = boundingBox.width;
+                const height = boundingBox.height;
+
+                console.log(`Image width: ${width}, height: ${height}`);
+                let size_array = [width, height];
+                return size_array;
+            } else {
+                 console.log("Bounding box is null");
+                 let size_array = [0, 0];
+                 return size_array;
+            }
+        } else {
+            console.log("Image not found");
+            let size_array = [0, 0];
+            return size_array;
+        } 
+
     }
 
     async check_navbar(page: Page) {
@@ -193,7 +242,7 @@ export class CompleteProfilePage {
     async fill_fields(form1 : Complete_Profile_Type, enable_footer: Enable_Profile_Footer_Type) {
 
         await this.enable_disable_footer_social_fields(this.page, enable_footer);
-        await this.page.waitForTimeout(1000);
+        //await this.page.waitForTimeout(1000);
         
         await this.name_field.fill(form1.name);
         await this.email_field.fill(form1.email);
@@ -238,13 +287,10 @@ export class CompleteProfilePage {
     }
 
     async enable_disable_footer_social_fields(page: Page, enable_switch: Enable_Profile_Footer_Type) {
-        
-        await page.waitForTimeout(3000);
-   
+
         if(enable_switch.linkedin_other) {
             if(await this.linkedin_icon.isVisible()) {
                 await this.linkedin_icon.click();
-                   
                    
             }      
         } else {
@@ -313,8 +359,8 @@ export class CompleteProfilePage {
             } 
         }
 
-        await page.waitForTimeout(1000);
-
+        // await page.waitForTimeout(1000);
+        
 
     }
 

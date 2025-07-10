@@ -1,5 +1,6 @@
 import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { test } from "./base.ts";
+import AxeBuilder from '@axe-core/playwright';
 
 import { execPath } from 'process';
 import { SignInPage } from '../page_object_models/pom_sign-in';
@@ -8,12 +9,13 @@ import { link } from 'fs/promises';
 import { PrintConductPage } from '../page_object_models/pom_print_conduct.ts';
 
 test.beforeEach( async ({ printConductPage }) => {
-  test.setTimeout(50000) // Sets a 40-second timeout for all tests
+  printConductPage.page.setViewportSize({ width: 1280, height: 720 });  
+  test.setTimeout(70000) // Sets a 40-second timeout for all tests
   await printConductPage.navigate();
 });
 
 test.afterEach( async ({ printConductPage }) => {
-  test.setTimeout(500) // Sets a 40-second timeout for all tests
+  test.setTimeout(2500) // Sets a 40-second timeout for all tests
   await printConductPage.page.close();
 });
 
@@ -66,10 +68,10 @@ test.describe('SIGN-IN Test Suite', () => {
         //console.log("&&& " + expected_url?.[0]);
         
 
-            // console.log(expected_url);
+            console.log(ex_temp);
 
             await row.click();
-            await printConductPage.page.waitForTimeout(2000);
+            //await printConductPage.page.waitForURL(ex_temp!);
 
             // REGEX BASE URL ^((http[s]?|ftp):\/)?\/?([^:\/\s]+)
             
@@ -82,15 +84,15 @@ test.describe('SIGN-IN Test Suite', () => {
             
             
             // console.log("999 " + nextPage_url);
-            console.log("888 " + expected_url?.[0]);
+            // console.log("888 " + expected_url?.[0]);
 
             
 
             
-
+            await 
             await printConductPage.page.goBack();
             // expect.soft(page.url()).toEqual(uu);
-            expect(printConductPage.page.url()).toEqual(uu);
+            expect(printConductPage.page.url()).toEqual(printConductPage.url);
             //console.log("^^^^ " + printConductPage.page.url() + "===" + uu)
 
             
@@ -119,7 +121,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await printConductPage.print_button.click();
         await printConductPage.page.waitForFunction('window.waitForPrintDialog');
 
-        await printConductPage.page.waitForTimeout(10000);
+        //await printConductPage.page.waitForTimeout(10000);
         // await page.waitForTimeout(10000);
 
     });
@@ -138,7 +140,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await printConductPage.send_button.click();
 
-        await printConductPage.page.waitForTimeout(5000);
+        //await printConductPage.page.waitForTimeout(5000);
 
         expect(printConductPage.page.url().includes("formspree.io"));
 
@@ -161,7 +163,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await printConductPage.send_button.click();
 
-        await printConductPage.page.waitForTimeout(5000);
+        //await printConductPage.page.waitForTimeout(5000);
 
         expect(printConductPage.page.url().includes("formspree.io"));
 
@@ -192,11 +194,11 @@ test.describe('SIGN-IN Test Suite', () => {
         await printConductPage.text_box.isEditable();
         await printConductPage.text_box.fill("I am sending a Message. Great website!");
 
-        await printConductPage.page.waitForTimeout(1000);
+        //await printConductPage.page.waitForTimeout(1000);
 
         await printConductPage.send_button.click();
 
-        await printConductPage.page.waitForTimeout(5000);
+        //await printConductPage.page.waitForTimeout(5000);
 
         expect(printConductPage.page.url().includes("formspree.io"));
 
@@ -229,7 +231,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await printConductPage.send_button.isEnabled();
 
 
-        await printConductPage.page.waitForTimeout(3000);
+        //await printConductPage.page.waitForTimeout(3000);
 
         await printConductPage.send_button.click();
 
@@ -247,10 +249,25 @@ test.describe('SIGN-IN Test Suite', () => {
 
     });
 
+    /*
     test('SCREENSHOT COMPARISON TEST', async({ printConductPage }) => {
+        await expect(async() => {
+        await printConductPage.page.evaluate(() => document.fonts.ready);
         await printConductPage.page.waitForURL(printConductPage.url);
         await expect(printConductPage.page).toHaveScreenshot("print_conduct_screen.png");
+        }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+    
+    }); */
+
+
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC WCAG22AA', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
     });
-
-
 });

@@ -62,16 +62,22 @@ export class CheckStepsPage {
     }
 
     async navigate(step: number) {
-        let step_array = [this.check_steps_url, this.review_conduct_url, this.complete_profile_url];
-        if(step in [1,2,3]) {
-            await this.page.goto(step_array[step - 1]); 
-            expect(this.page.url()).toBe(step_array[step - 1]);
-        } else {
-            await this.page.goto(step_array[0]);
-            console.log("navigate() takes integer values of 1, 2, 3 to represent steps for check_steps pages");
-        }
+        await expect(async() => {
+            let step_array = [this.check_steps_url, this.review_conduct_url, this.complete_profile_url];
+            if(step >= 1 && step <= 3) {
+                await this.page.goto(step_array[step - 1]); 
+                await this.page.waitForURL(step_array[step - 1]);
+                expect(this.page.url()).toBe(step_array[step - 1]);
+                
+            } else {
+                await this.page.goto(step_array[0]);
+                await this.page.waitForURL(step_array[0]);
+                console.log("navigate() takes integer values of 1, 2, 3 to represent steps for check_steps pages");
+            }
+        }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 80_000});
 
-        // console.log(this.page.url())
+        console.log("NAVIGATING to: " + this.page.url());
         
     }
 

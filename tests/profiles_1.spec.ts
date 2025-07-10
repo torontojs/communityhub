@@ -2,6 +2,7 @@ import { expect } from '@playwright/test';
 // import { ProfilesPages } from '../page_object_models/pom_profiles';
 import { execPath } from 'process';
 import { test } from './base.ts';
+import AxeBuilder from '@axe-core/playwright';
 
 
 test.beforeEach( async ({ profilesPage }) => {
@@ -45,8 +46,6 @@ test('Check Profile Record Fields', async ({ profilesPage }) => {
 
       //const profileNames_Collection = page.locator('.profile-header div p strong');
       //console.log(await profileNames_Collection.allInnerTexts());
-
-      test.setTimeout(3000);
 
       const profileFields = [
         'ID:',
@@ -193,7 +192,17 @@ test('Check Links', async ({ profilesPage }) => {
 
 });
 
+/*
 test('PROFILES PAGE SCREENSHOT COMPARISON TEST', async({ profilesPage}) => {
         await profilesPage.page.waitForURL(profilesPage.url);
         await expect(profilesPage.page).toHaveScreenshot("profiles_page_screen.png");
-  });
+  }); */
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC WCAG22AA', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
+});

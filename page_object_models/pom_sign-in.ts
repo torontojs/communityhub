@@ -24,6 +24,9 @@ export class SignInPage {
     readonly signup_link: Locator;
     readonly forgot_link: Locator;
 
+    readonly email_required_label: Locator;
+    readonly password_required_label: Locator;
+
     public constructor(page: Page) { 
         this.page = page;
         // this.url = this.url;
@@ -45,12 +48,19 @@ export class SignInPage {
         this.signup_link = page.getByRole('link', { name: 'click here to sign-up' });
         this.forgot_link = page.getByRole('link', { name: 'I don\'t remember my password' });
 
+        this.email_required_label = page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span');
+        this.password_required_label = page.locator('label').filter({ hasText: 'Password:REQUIRED' }).locator('span');
+    
     }
 
     async navigate() {
-        await this.page.goto(this.url); 
-        console.log(this.page.url())
-        expect(this.page.url()).toBe(this.url);
+
+      await expect(async() => {
+            await this.page.goto(this.url); 
+            expect(this.page.url()).toBe(this.url);
+      }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+      console.log("NAVIGATING to: " + this.url);
     }
 
     async fill_fields(email: string, password: string) {

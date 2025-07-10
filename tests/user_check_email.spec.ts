@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from './base.ts';
 import { execPath } from 'process';
+import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach( async ({checkEmailPage }) => {
     test.setTimeout(50000) // Sets a 40-second timeout for all tests
@@ -98,4 +99,13 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
     
 
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC WCAG22AA', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });

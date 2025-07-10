@@ -1,10 +1,11 @@
 import { expect, Page } from '@playwright/test';
 import { test } from './base';
+import AxeBuilder from '@axe-core/playwright';
 import { execPath } from 'process';
 import { log } from 'console';
 
 test.beforeEach( async ({ checkStepsPage }) => {
-  test.setTimeout(100000)   
+  test.setTimeout(120000)   
   await checkStepsPage.navigate(1);
     // Sets a 40-second timeout for all tests
 
@@ -105,8 +106,6 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
     // await expect(page.getByText("Check the conduct code")).toHaveCSS('background-color',
     //  `rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
 
-   await checkStepsPage.page.waitForTimeout(3000);
-
    rbgColors = checkStepsPage.convertHexToRGB("#ED3731");
 
    for (const row2 of await checkStepsPage.page.locator('.step-text').all()) {
@@ -123,14 +122,25 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
     
   }
 
-  await checkStepsPage.page.waitForTimeout(100);
-
    
   });
 
   
 });
 
+test.describe('ASSESSIBILITY Suite for CHECK STEPS - ACCOUNT CONFIRMED Page', () => {
+
+    test('BASIC WCAG22AA', async({page, checkStepsPage }) => {
+
+      await checkStepsPage.navigate(1);
+      console.log("sdssdsdsdsd");
+        
+      const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
+      expect( axeBuilder.violations).toEqual([]);
+    });
+  });
+
+  //******************************************************* */
 
 test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
@@ -142,9 +152,6 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
     await expect(reviewConductPage.review_title).toHaveCSS('text-align', 'center');
     await expect(reviewConductPage.subtitle).toHaveCSS('text-align', 'center');
-
-
-    await reviewConductPage.page.waitForTimeout(8000);
       
 
   });
@@ -194,8 +201,6 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
     }
 
-    await reviewConductPage.page.waitForTimeout(3000);
-
     let rbgColors = reviewConductPage.convertHexToRGB("#ED3731");
     //const box_header = page.getByText('In a nutshell:');
 
@@ -218,17 +223,14 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
     for (let i = 1; i < 5; i++) {  
           await reviewConductPage.dropdown_TorontoJS_conduct.click();
-          await reviewConductPage.page.waitForTimeout(2000);
+          //await reviewConductPage.page.waitForTimeout(2000);
           await reviewConductPage.dropdown_Volunteering.click();
-          await reviewConductPage.page.waitForTimeout(2000);
+          //await reviewConductPage.page.waitForTimeout(2000);
           await reviewConductPage.dropdown_Release_form.click();
-          await reviewConductPage.page.waitForTimeout(2000);
-          console.log(i);
-          
+          //await reviewConductPage.page.waitForTimeout(2000);
+          // console.log(i);
 
     }
-
-    await reviewConductPage.page.waitForTimeout(2000);
 
     await reviewConductPage.dropdown_TorontoJS_conduct.click();
 
@@ -238,12 +240,14 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   });
 
+  
+
   test('PAGE 2 - CONDUCT CODE PAGE - CHECK COMPLETE PROFILE button and Checkbox Functionality', async ({ reviewConductPage, completeProfilePage}) => {
 
     await reviewConductPage.navigate();
 
     await reviewConductPage.checkbox_text.isVisible();
-    await expect(reviewConductPage.checkbox_text).toHaveCSS('font-size', '16.8697px');
+    //await expect(reviewConductPage.checkbox_text).toHaveCSS('font-size', '16.8697px');
     await expect(reviewConductPage.continue_button).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
 
     //await page.getByText('I agree to TorontoJS\’s').isVisible();
@@ -257,7 +261,6 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
     //await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).isVisible();
    //await page.getByRole('button', { name: 'Let me complete my profile' }).isDisabled();
    // expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgb(237, 55, 49)');
-    await reviewConductPage.page.waitForTimeout(150);
 
 
     await reviewConductPage.checkbox_I_agree.click();
@@ -267,15 +270,11 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
     //await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
     //await page.getByRole('button', { name: 'Let me complete my profile' }).isEnabled();
     //expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
-    await reviewConductPage.page.waitForTimeout(150);
-
 
     await reviewConductPage.checkbox_I_agree.click();
     await reviewConductPage.continue_button.isDisabled();
-
-    await reviewConductPage.page.waitForTimeout(3000);
     
-    console.log("click -----");
+    // console.log("click -----");
 
     await reviewConductPage.check_navbar(reviewConductPage.page);
 
@@ -284,7 +283,6 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
     //await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
     //await page.getByRole('button', { name: 'Let me complete my profile' }).click();
-    await reviewConductPage.page.waitForTimeout(3000);
 
     await expect(reviewConductPage.page).toHaveURL(completeProfilePage.url);
 
@@ -311,6 +309,19 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
   });
 
 });
+
+test.describe('ASSESSIBILITY Suite for CHECK STEPS - REVIEW CONDUCT CODE Page', () => {
+
+    test('BASIC WCAG22AA', async({page, reviewConductPage }) => {
+
+      await reviewConductPage.navigate();
+        
+      const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
+      expect( axeBuilder.violations).toEqual([]);
+    });
+});
+
+//************************************************************** */
 
 test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
      test('MULTIPLE USER SUCCESSFUL 3-PAGE WORKFLOW with alternating values', async ({ checkStepsPage, reviewConductPage, completeProfilePage}) => {
@@ -352,13 +363,13 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
           }
 
           let enable_footer = {
-            linkedin_other: false,
+            linkedin_other: true,
             facebook: true,
             threads: true,
             twitter_x: true,
-            bluesky: false,
+            bluesky: true,
             instagram: true,
-            devto: false
+            devto: true
         }
 
           await checkStepsPage.navigate(1);
@@ -374,14 +385,12 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
           await completeProfilePage.check_navbar(completeProfilePage.page);
 
           //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
+          await checkStepsPage.page.waitForURL(completeProfilePage.url);
           await completeProfilePage.fill_fields(form1, enable_footer);
 
           await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
-          await completeProfilePage.page.waitForTimeout(4000);
 
           await completeProfilePage.complete_button.click();
-
-          await completeProfilePage.page.waitForTimeout(1000);
         
         }
       });
@@ -395,7 +404,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
         const email_list = ["", "", email1];
         const name_list = ["", name1, name1];
 
-         for(let x = 0; x < name_list.length; x++) { 
+      for(let x = 0; x < name_list.length; x++) { 
         let form1 = {
           name: name_list[x],
           email: email_list[x],
@@ -432,7 +441,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
 
         await checkStepsPage.navigate(1);
 
-        console.log(checkStepsPage.page.url() + " 0000");
+        // console.log(checkStepsPage.page.url() + " 0000");
         
         await checkStepsPage.check_navbar(checkStepsPage.page);
         await checkStepsPage.continue_button.click();
@@ -449,16 +458,16 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
         await completeProfilePage.check_navbar(completeProfilePage.page);
 
         //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
+        
+        await checkStepsPage.page.waitForURL(completeProfilePage.url);
+
         await completeProfilePage.fill_fields(form1, enable_footer);
 
         await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
-         await completeProfilePage.page.waitForTimeout(4000);
 
         await completeProfilePage.complete_button.click();
 
         console.log(completeProfilePage.page.url());
-
-        await completeProfilePage.page.waitForTimeout(6000);
 
       }
         

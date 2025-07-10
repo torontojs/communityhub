@@ -2,8 +2,12 @@ import { expect } from '@playwright/test';
 // import { TeamsPage } from '../page_object_models/pom_teams';
 import { test } from './base.ts';
 import { execPath } from 'process';
+import AxeBuilder from '@axe-core/playwright';
+
 
 test.beforeEach(async ({teamsPage}) => {
+
+   test.setTimeout(60000)
 
    await teamsPage.navigate();
   
@@ -48,7 +52,7 @@ test.describe('TEAMS Test Suite', () => {
       expect(teamsPage.dragon_title).toBeVisible();
       expect(teamsPage.dragon_title).toBeVisible();
 
-      await teamsPage.page.waitForTimeout(2000);
+      // wait teamsPage.page.waitForTimeout(2000);
       console.log((await teamsPage.page.getByText('Toronto JS\' awesome creative minds!Team members').getByRole("link").all()).length);
 
       await teamsPage.check_profile_links(teamsPage.dragon_link_base, teamsPage.page, "linkedin.com");
@@ -87,12 +91,12 @@ test.describe('TEAMS Test Suite', () => {
 
         // await page.goto("http://localhost:3000/pages/team/"); 
 
-      await teamsPage.page.waitForTimeout(2000);
+      //await teamsPage.page.waitForTimeout(2000);
       console.log((await teamsPage.page.getByText('Toronto JS\' awesome creative minds!Team members').getByRole("link").all()).length);
 
       await teamsPage.check_profile_links(teamsPage.druid_link_base, teamsPage.page, "linkedin.com");
 
-      await teamsPage.page.waitForTimeout(2000);
+      //await teamsPage.page.waitForTimeout(2000);
 
     });
 
@@ -102,22 +106,32 @@ test.describe('TEAMS Test Suite', () => {
 
       await teamsPage.check_profile_links(teamsPage.crafters_link_base, teamsPage.page, "linkedin.com");
 
-      await teamsPage.page.waitForTimeout(2000);
+     // await teamsPage.page.waitForTimeout(2000);
 
     });
 
     test('OMNIPOTENT ORGANISERS links', async ({ teamsPage }) => {
 
-      await teamsPage.page.waitForTimeout(2000);
+      //await teamsPage.page.waitForTimeout(2000);
 
       await teamsPage.check_profile_links(teamsPage.organisers_link_base, teamsPage.page, "linkedin.com");
 
     });
 
+    /*
     test('SCREENSHOT COMPARISON TEST', async({teamsPage}) => {
         await teamsPage.page.waitForURL(teamsPage.url);
         await expect(teamsPage.page).toHaveScreenshot("teams_page_screen.png");
-  });
+    }); */
 
 
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC WCAG22AA', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });

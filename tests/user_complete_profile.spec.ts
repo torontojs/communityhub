@@ -1,9 +1,10 @@
 import { expect, Page } from '@playwright/test';
 import { test } from "./base.ts";
+import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach(async ({ completeProfilePage }) => {
     
-   test.setTimeout(50000) // Sets a 50-second timeout for all tests
+   test.setTimeout(90000) // Sets a 50-second timeout for all tests
    completeProfilePage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
@@ -18,6 +19,8 @@ test.afterEach(async ({ completeProfilePage }) => {
  
 test.describe('USER COMPLETE PROFILE Suite', () => {
     test('Social Media Footer OPENING CLOSING FIELDS', async ({ completeProfilePage }) => {
+
+        await completeProfilePage.page.waitForLoadState('networkidle');
 
         // const browser_context = await browser.newContext();
         // const page = await browser_context.newPage();
@@ -70,7 +73,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         }
 
         await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
-        await completeProfilePage.page.waitForTimeout(2000);
+        //await completeProfilePage.page.waitForTimeout(2000);
 
         enable_footer = {
             linkedin_other: true,
@@ -83,13 +86,15 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         }
 
         await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
-        await completeProfilePage.page.waitForTimeout(7000);
+        // await completeProfilePage.page.waitForTimeout(7000);
     
     });
 
     test('FIELD DATA PERSISTS after RED ACCORDIAN USE', async ({ completeProfilePage }) => {
         // await page.goto('http://localhost:3000/pages/check-steps/');
         // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
+
+        await completeProfilePage.page.waitForLoadState('networkidle');
 
         
         let enable_footer = {
@@ -127,7 +132,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
 
-        await completeProfilePage.page.waitForTimeout(5000);
+        // await completeProfilePage.page.waitForTimeout(5000);
 
         await completeProfilePage.instagram_field.fill("www.instagram.com");
         await completeProfilePage.linkedin_2nd_field.fill("www.linkedin.com");
@@ -139,13 +144,15 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         console.log(await completeProfilePage.page.locator('#Instagram-input').textContent());
 
+        await completeProfilePage.page.waitForLoadState('networkidle');
+
         // REPEATABLE SELECTS red ACCORDIAN CONTROLS
         for(let x = 1; x <= 2; x++) {
             await completeProfilePage.nutshell_bar.click();
             await completeProfilePage.avatar_bar.click();
             await completeProfilePage.more_info_bar.click();
 
-            await completeProfilePage.page.waitForTimeout(700);
+            // await completeProfilePage.page.waitForTimeout(700);
 
         }
 
@@ -158,11 +165,13 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
        
         await completeProfilePage.complete_button.click();
 
-        await completeProfilePage.page.waitForTimeout(1000);
+        // await completeProfilePage.page.waitForTimeout(1000);
        
   });
 
   test('PHOTO UPLOAD and REMOVING VALID IMAGE THEN UPLOAD AGAIN', async ({ completeProfilePage }) => {
+
+        await completeProfilePage.page.waitForLoadState('networkidle');
 
         await completeProfilePage.page_title.isVisible();
 
@@ -177,7 +186,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         await completeProfilePage.upload_New_Photo_Button.isHidden();
         await completeProfilePage.remove_image_Button.isHidden();
 
-        await completeProfilePage.page.waitForTimeout(1000);
+        // await completeProfilePage.page.waitForTimeout(1000);
 
         await completeProfilePage.avatar_bar.click();
         await completeProfilePage.remove_image_Button.isVisible();
@@ -188,6 +197,9 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         await completeProfilePage.remove_avatar_image();
 
         await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
+
+        await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg', true);
+
 
         await completeProfilePage.remove_avatar_image();
 
@@ -220,6 +232,8 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
     test('UPLOAD NON-IMAGE REMOVE THEN UPLOAD INVALID FILE AGAIN', async ({ completeProfilePage }) => {
 
+        await completeProfilePage.page.waitForLoadState('networkidle');
+
         await completeProfilePage.page_title.isVisible();
 
         await completeProfilePage.upload_avatar_image('tests/test.txt', false);
@@ -232,7 +246,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         await completeProfilePage.upload_New_Photo_Button.isHidden();
         await completeProfilePage.remove_image_Button.isHidden();
 
-        await completeProfilePage.page.waitForTimeout(1000);
+        // await completeProfilePage.page.waitForTimeout(1000);
 
         await completeProfilePage.avatar_bar.click();
         await completeProfilePage.remove_image_Button.isVisible();
@@ -256,6 +270,8 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         completeProfilePage.twitter_x_icon.isEnabled(); 
         completeProfilePage.dev_icon.isEnabled();
 
+        await completeProfilePage.page.waitForLoadState('networkidle');
+
         for(const b of button_list) {
             console.log(await b.all());
             await b.click();
@@ -276,15 +292,19 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
     
     test("PHOTO UPLOAD USING 'UPLOAD NEW IMAGE' BUTTON", async ({ completeProfilePage }) => {
 
+        await completeProfilePage.page.waitForLoadState('networkidle');
+
         await completeProfilePage.page_title.isVisible();
 
         for (let i = 1; i < 7; i++) {
             await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg', true);
-            await completeProfilePage.page.waitForTimeout(2000);
+            // await completeProfilePage.page.waitForTimeout(2000);
 
             await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
-            await completeProfilePage.page.waitForTimeout(2000);
+            // await completeProfilePage.page.waitForTimeout(2000);
         }
+
+        //await completeProfilePage.get_image_size(completeProfilePage.page, );
 
  
         /*
@@ -318,6 +338,8 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
     test("NON-IMAGE UPLOAD USING 'UPLOAD NEW IMAGE' BUTTON", async ({ completeProfilePage }) => {
 
+        await completeProfilePage.page.waitForLoadState('networkidle');
+
         await completeProfilePage.page_title.isVisible();
 
         for (let i = 1; i < 7; i++) {
@@ -334,6 +356,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
     test('FIELD SQL INJECTION INTO PRIMARY FIELDS', async ({ completeProfilePage }) => {
         // await page.goto('http://localhost:3000/pages/check-steps/');
         // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
+        await completeProfilePage.page.waitForLoadState('networkidle');
 
         
         let enable_footer = {
@@ -382,7 +405,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.fill_fields(form1, enable_footer);
 
-        await completeProfilePage.page.waitForTimeout(4000);
+        //await completeProfilePage.page.waitForTimeout(4000);
 
         // UPLOAD AVATAR
         await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg', true);
@@ -403,13 +426,14 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.complete_button.click();
 
-        await completeProfilePage.page.waitForTimeout(1000);
+        //await completeProfilePage.page.waitForTimeout(1000);
        
   });
 
   test('FIELD JAVASCRIPT INJECTION INTO PRIMARY FIELDS', async ({ completeProfilePage }) => {
         // await page.goto('http://localhost:3000/pages/check-steps/');
         // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
+        await completeProfilePage.page.waitForLoadState('networkidle');
 
         
         let enable_footer = {
@@ -458,7 +482,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.fill_fields(form1, enable_footer);
 
-        await completeProfilePage.page.waitForTimeout(4000);
+        // await completeProfilePage.page.waitForTimeout(4000);
 
         // UPLOAD AVATAR
         await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg', true);
@@ -468,13 +492,28 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.complete_button.click();
 
-        await completeProfilePage.page.waitForTimeout(1000);
+        // await completeProfilePage.page.waitForTimeout(1000);
        
   });
 
-  test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage}) => {
-        await completeProfilePage.page.waitForURL(completeProfilePage.url);
-        await expect(completeProfilePage.page).toHaveScreenshot("complete_profile_screen.png");
-  });
+  test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage }) => {
+    await expect(async() => { 
+        await completeProfilePage.page.waitForLoadState('domcontentloaded');
+            console.log(completeProfilePage.page.url());
+            // completeProfilePage.page.waitForTimeout(5000);
+            await completeProfilePage.page.waitForURL(completeProfilePage.url);
+            await expect(completeProfilePage.page).toHaveScreenshot("complete_profile_screen.png");
+     }).toPass({ intervals: [1_000, 6_000, 20_000],
+                    timeout: 40_000}); 
+    });
 
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC WCAG22AA', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22a", "wcag22aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });
