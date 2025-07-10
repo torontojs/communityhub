@@ -61,6 +61,8 @@ HTTP 404
 # Get profile using malformed uuid
 GET {{host}}/api/profiles/00000000-0000-0000-0000-000000000000
 
+HTTP 404
+
 
 POST {{host}}/api/auth/sign-out
 Cookie: auth_token={{ auth-token-cookie-var }}
