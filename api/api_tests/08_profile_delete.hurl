@@ -19,13 +19,13 @@ HTTP 201
 auth-token-cookie-var: cookie "auth_token"
 
 DELETE {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
-Cookie: auth_auth={{ auth-token-cookie-var }}
+Cookie: auth_token={{ auth-token-cookie-var }}
 
 HTTP 403
 
 
 POST {{host}}/api/auth/sign-out
-Cookie: auth_auth={{ auth-token-cookie-var }}
+Cookie: auth_token={{ auth-token-cookie-var }}
 
 
 # Delete profile with insuficient authorization(organizer)
@@ -43,13 +43,13 @@ HTTP 201
 auth-token-cookie-var: cookie "auth_token"
 
 DELETE {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
-Cookie: auth_auth={{ auth-token-cookie-var }}
+Cookie: auth_token={{ auth-token-cookie-var }}
 
 HTTP 403
 
 
 POST {{host}}/api/auth/sign-out
-Cookie: auth_auth={{ auth-token-cookie-var }}
+Cookie: auth_token={{ auth-token-cookie-var }}
 
 
 # Delete incorect id with root/admin account
@@ -68,7 +68,7 @@ auth-token-cookie-var: cookie "auth_token"
 
 
 DELETE {{host}}/api/profiles/7a4882c-3b7d-46c0-b019-c37e2445dae
-Cookie: auth_auth={{ auth-token-cookie-var }}
+Cookie: auth_token={{ auth-token-cookie-var }}
 
 HTTP 422
 
