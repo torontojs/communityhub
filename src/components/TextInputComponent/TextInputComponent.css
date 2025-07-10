@@ -44,6 +44,5 @@
 		letter-spacing: 0;
 		text-transform: uppercase;
 	}
+	&:has(input[aria-disabled]) label { color: var(--color-helper); }
 }
-
-.text-input-component-container:has(input[aria-disabled]) label { color: var(--color-helper); }
