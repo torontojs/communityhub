@@ -171,7 +171,7 @@ auth-token-cookie-var: cookie "auth_token"
 PATCH {{host}}/api/profiles/890cae10-7bbd-4f0c-961a-df495ec7527b
 Cookie: auth_token={{ auth-token-cookie-var }}
 
-Content-Type: applicaion/json
+Content-Type: application/json
 
 {
   "name":"Quoison The Tird"
