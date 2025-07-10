@@ -53,9 +53,9 @@ createRoot(root).render(
 				{/* NOTE: This is temp UI to test input component design */}
 
 				<h2 style={{ textAlign: 'center' }}>Render all the Design System's Text Input Component Cases</h2>
-				<h2 style={{ textAlign: 'center' }}>
-					<span style={{ color: 'hsla(2, 84%, 56%, 1)' }}>NOTE:</span> The input must always have a label to meet the WCAG SC 3.3.2 standard.
-				</h2>
+				<p>
+					<em>NOTE:</em> The input must always have a label to meet the WCAG SC 3.3.2 standard.
+				</p>
 
 				<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem', width: '400px', border: '2px dashed', borderRadius: '5px', margin: 'auto' }}>
 					<h3 style={{ padding: '0', margin: '20px 0 0 0', fontSize: '1.1rem', fontStyle: 'italic', fontWeight: '500', borderBottom: '1px grey dashed' }}>
