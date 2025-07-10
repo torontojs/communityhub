@@ -149,7 +149,7 @@ Content-Type: application/json
 	}
 ]
 
-HTTP 404
+HTTP 403
 
 
 POST {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613//members
