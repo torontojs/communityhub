@@ -55,6 +55,8 @@ HTTP 200
 
 
 # Missing content-type
+# TODO: Should return 4XX Error
+# https://github.com/torontojs/communityhub/issues/171
 POST {{host}}/api/auth/sign-up
 
 {
