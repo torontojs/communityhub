@@ -11,6 +11,7 @@ HTTP 401
 
 
 # patch porfile by id without body
+# Before / Setup
 POST {{host}}/api/auth/sign-in
 
 Content-Type: application/json
@@ -24,7 +25,7 @@ HTTP 201
 [Captures]
 auth-token-cookie-var: cookie "auth_token"
 
-
+# Tests
 PATCH {{host}}/api/profiles/37a4882c-3b7d-46c0-b019-c37e2445dae8
 Cookie: auth_token={{ auth-token-cookie-var }}
 
@@ -42,7 +43,7 @@ Content-Type: application/json
 
 HTTP 422
 
-
+# After / Teardown
 POST {{host}}/api/auth/sign-out
 Cookie: auth_token={{ auth-token-cookie-var }}
 
