@@ -178,7 +178,7 @@ Content-Type: application/json
   "name":"Quoison The Tird"
 }
 
-HTTP 422
+HTTP 403
 
 
 POST {{host}}/api/auth/sign-out
