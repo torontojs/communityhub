@@ -132,3 +132,13 @@ POST {{host}}/api/auth/sign-out
 Cookie: auth_token={{ auth-token-cookie-var} }
 
 HTTP 204
+
+# Unauthenticated (No token) deletion attempt
+DELETE {{host}}/api/teams/{teamId}/members
+
+Content-Type: application/json
+[
+    "6f73e09d-8481-4a05-b4a3-524cd86080cd"
+]
+
+HTTP 401
