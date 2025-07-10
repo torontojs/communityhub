@@ -137,7 +137,6 @@ HTTP 422
 
 
 # Sign-up name extra spaces
-# https://github.com/torontojs/communityhub/issues/118
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -152,7 +151,6 @@ HTTP 200
 
 
 # Sign-up email extra spaces
-# https://github.com/torontojs/communityhub/issues/118
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
