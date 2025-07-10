@@ -136,7 +136,7 @@ HTTP 201
 auth-token-cookie-var: cookie "auth_token"
 
 
-POST {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613//members
+POST {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613/members
 Cookie: auth_token={{ auth-token-cookie-var} }
 
 Content-Type: application/json
