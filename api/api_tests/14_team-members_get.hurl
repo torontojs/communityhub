@@ -1,10 +1,11 @@
 # Get all team members from a team id
 
+# Tests incorret id
 GET {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc61/members
 
 HTTP 422
 
-
+# Succesful tests
 GET {{host}}/api/teams/b3410598-ecbc-41be-9f68-925da74bc613/members
 
 HTTP 200
