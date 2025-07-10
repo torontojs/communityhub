@@ -166,8 +166,7 @@ Content-Type: application/json
 HTTP 422
 
 
-# Sign-up password extra spaces
-# https://github.com/torontojs/communityhub/issues/118
+# Sign-up password allows password utilizing space characters wihin allowed characters but not outside
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -175,7 +174,7 @@ Content-Type: application/json
 {
 	"name":"Mr Edgar Extra Spaces",
 	"email":"email@extra-spaces.com",
-	"password":" ExtraS paces911!@#$ "
+	"password":"ExtraS paces911!@#$ "
 }
 
 HTTP 200
