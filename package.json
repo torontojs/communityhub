@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"type": "module",
+	"license": "MIT",
 	"scripts": {
 		"prepare": "husky",
 		"start": "npm run dev",
@@ -62,7 +63,7 @@
 		"zod": "^3.25.76"
 	},
 	"volta": {
-		"node": "22.15.0"
+		"node": "22.17.0"
 	},
 	"overrides": {
 		"array-includes": "npm:@nolyfill/array-includes@^1",
