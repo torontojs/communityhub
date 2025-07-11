@@ -11,21 +11,21 @@ jobs:
     name: 🔎 Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/setup-node-deps
+      - uses: ./.github/actions/setup-node-deps.yml
       - run: npm run lint
 
   unit-tests:
     name: 🧪 Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/setup-node-deps
+      - uses: ./.github/actions/setup-node-deps.yml
       - run: npm test
 
   integration-tests:
     name: 🧪 Integration Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/setup-node-deps
+      - uses: ./.github/actions/setup-node-deps.yml
 
       # Optional: Only if needed for testing later
       # - name: Build project
