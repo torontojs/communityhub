@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
 
-export const PlatformEnum = z.enum(['Slack', 'LinkedIn', 'GitHub', 'Portfolio', 'Instagram', 'Threads', 'Facebook', 'BlueSky', 'Mastadon', 'Twitter', 'Dev']);
+export const PlatformEnum = z.enum(['slack', 'linkedin', 'github', 'portfolio', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'xtwitter', 'dev']);
 
 export const ProfileSchema = BaseDbEntitySchema.merge(z.object({
 	email: z
