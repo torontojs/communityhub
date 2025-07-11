@@ -1,4 +1,4 @@
-// FIXME: readd checks for existing ids, based on the doesTeamExist function
+// FIXME: re-add checks for existing ids, based on the doesTeamExist function
 
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
@@ -88,7 +88,6 @@ profileRoutes.openapi(
 	async (context) => {
 		const sessionData = getSession(context);
 		const profile = await getProfileById(context.env.Database, sessionData.id);
-
 		if (!profile || profile.id !== sessionData.id) {
 			return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}
