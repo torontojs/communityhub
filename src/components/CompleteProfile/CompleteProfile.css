@@ -240,7 +240,7 @@
 				text-align: center;
 			}
 
-			label.custom-file-upload { background-color: var(--color-card); }
+			label.custom-file-upload { background-color: var(--color-input); }
 
 			& > button {
 				font-size: var(--text-xs);
@@ -258,7 +258,7 @@
 		grid-template-columns: repeat(3, 1fr);
 		justify-content: space-between;
 
-		label:is([for='linkedInProfile'], [for='githubProfile'], [for='portfolio']) {
+		label:is([for='linkedin'], [for='github'], [for='portfolio']) {
 			display: inline-block;
 			margin-bottom: var(--spacing-xs);
 		}
@@ -278,7 +278,7 @@
 
 			#skills {
 				align-items: baseline;
-				background-color: var(--color-card);
+				background-color: var(--color-input);
 				border: var(--border-base);
 				border-color: var(--color-border);
 				border-radius: var(--rounded-base);
@@ -352,6 +352,7 @@
 					background-color: transparent;
 					border: none;
 					height: 1rem;
+					padding: 0;
 					width: 1rem;
 				}
 			}
@@ -411,7 +412,7 @@
 
 	/* TODO: move input styles to its own component */
 	.text-input {
-		background-color: var(--color-card);
+		background-color: var(--color-input);
 		border: var(--border);
 		border-radius: var(--rounded-xs);
 		box-sizing: border-box;

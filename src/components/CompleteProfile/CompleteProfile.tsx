@@ -1,44 +1,154 @@
-import { useRef, useState } from 'react';
+/* eslint-disable max-lines */
+import { type ChangeEvent, type FormEventHandler, useEffect, useRef, useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { BlueSky } from '../Icons/Social/BlueSky.tsx';
 import { DevTo } from '../Icons/Social/DevTo.tsx';
 import { Facebook } from '../Icons/Social/Facebook.tsx';
 import { Instagram } from '../Icons/Social/Instagram.tsx';
-import { LinkedIn } from '../Icons/Social/LinkedIn.tsx';
+import { Mastodon } from '../Icons/Social/Mastodon.tsx';
 import { Threads } from '../Icons/Social/Threads.tsx';
 import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
 
 interface SocialIcons {
-	name: string;
-	element: JSX.Element;
-	visible: boolean;
-}
-
-interface Skill {
 	id: string;
 	name: string;
+	element: JSX.Element;
+	inputVisible: boolean;
 }
+
+interface ProfileParams {
+	email: string;
+	isBasedOnGTA: boolean;
+	canJoinLocalEvents: boolean;
+	name?: string;
+	links: { platform: string, url: string }[] | [];
+	pronouns?: string;
+	socialAccounts?: string[];
+	birthday: string;
+	avatar?: string;
+	skills: string[];
+}
+
+type UpdateProfileParams = Omit<ProfileParams, 'email'>;
+
+const platformEnum = ['slack', 'linkedin', 'github', 'portfolio', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'xtwitter', 'dev'];
+
+// Validation helpers
+/**
+ * Checks whether a birthday string is in the valid MM-DD format.
+ *
+ * A valid format must follow the pattern: two-digit month (01–12)
+ * followed by a dash and a two-digit day (01–31).
+ * This function does not validate actual calendar dates (e.g., "02-30" would be considered valid).
+ *
+ * @param birthday - The birthday string to validate, expected in MM-DD format.
+ * @returns `true` if the format is valid, otherwise `false`.
+ */
+const isValidBirthdayFormat = (birthday: string): boolean => {
+	const regex = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+	return regex.test(birthday);
+};
+
+/**
+ * Determines whether a birthday string represents a real calendar date.
+ *
+ * The input must be in MM-DD format and represent a valid calendar day.
+ * This function uses a placeholder year (2000, a leap year) to account for month lengths,
+ * including February 29th. It assumes no year context is needed and is used primarily for validation.
+ *
+ * @deprecated We will remove update this when Temporal becomes stable
+ *
+ * @param birthday - The birthday string to validate, expected in MM-DD format.
+ * @returns `true` if the string is a valid date in the MM-DD format, otherwise `false`.
+ */
+const isRealDate = (birthday: string): boolean => {
+	if (!isValidBirthdayFormat(birthday)) { return false; }
+
+	const [monthStr, dayStr] = birthday.split('-');
+	const month = Number(monthStr);
+	const day = Number(dayStr);
+
+	const date = new Date(2000, month - 1, day);
+	return date.getMonth() + 1 === month && date.getDate() === day;
+};
+
+const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
+	try {
+		const response = await fetch(`/api/profiles/${profileId}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ ...data }),
+			credentials: 'include'
+		});
+		if (response.status === 200) {
+			window.location.href = '/pages/home/';
+		} else {
+			const errorData = await response.json();
+			// TODO: Replace console log with error message once the design becomes available
+			console.log('Response not ok: ', errorData ?? 'An Error Occurred!');
+		}
+	} catch (err) {
+		if (import.meta.env.MODE === 'development') {
+			if (err instanceof Error) {
+				console.error(err.name);
+				console.error(err.cause);
+				console.error(err.message);
+				console.error(err.stack);
+			} else {
+				throw new Error(err);
+			}
+		}
+	}
+};
 
 const CompleteProfile = () => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const uploadPhotoButtonRef = useRef<HTMLButtonElement>(null);
 	const skillInputRef = useRef<HTMLInputElement>(null);
 	const avatarUploadStatusRef = useRef<HTMLSpanElement>(null);
+	const slackHandleInputRef = useRef<HTMLInputElement>(null);
+
+	// Social Input Refs
+	const linkedinInputRef = useRef<HTMLInputElement>(null);
+	const githubInputRef = useRef<HTMLInputElement>(null);
+	const sitePortfolioInputRef = useRef<HTMLInputElement>(null);
 
 	const [photoFile, setPhotoFile] = useState<string | null>(null);
-	const [skills, setSkills] = useState<Skill[]>([]);
 	const [socialIcons, setSocialIcons] = useState<SocialIcons[]>([
-		{ name: 'Instagram', element: <Instagram />, visible: true },
-		{ name: 'Facebook', element: <Facebook />, visible: true },
-		{ name: 'Threads', element: <Threads />, visible: true },
-		{ name: 'LinkedIn', element: <LinkedIn />, visible: true },
-		{ name: 'BlueSky', element: <BlueSky />, visible: true },
-		{ name: 'X', element: <XTwitter />, visible: true },
-		{ name: 'Dev.to', element: <DevTo />, visible: true }
+		{ id: 'instagram', name: 'Instagram', element: <Instagram />, inputVisible: false },
+		{ id: 'facebook', name: 'Facebook', element: <Facebook />, inputVisible: false },
+		{ id: 'threads', name: 'Threads', element: <Threads />, inputVisible: false },
+		{ id: 'mastodon', name: 'Mastodon', element: <Mastodon />, inputVisible: false },
+		{ id: 'bluesky', name: 'BlueSky', element: <BlueSky />, inputVisible: false },
+		{ id: 'xtwitter', name: 'X/Twitter', element: <XTwitter />, inputVisible: false },
+		{ id: 'dev', name: 'Dev.to', element: <DevTo />, inputVisible: false }
 	]);
-	const [socialAccountInputs, setSocialAccountInputs] = useState<string[]>([]);
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	// const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [profileId, setProfileId] = useState<string | null>(null);
+	const [birthdayValue, setBirthdayValue] = useState<string>('');
+	const [isSubmissionDisabled, setIsSumissionDisabled] = useState<boolean>(true);
+	const [profileData, setProfileData] = useState<ProfileParams>({
+		name: '',
+		email: '',
+		isBasedOnGTA: false,
+		canJoinLocalEvents: false,
+		pronouns: '',
+		birthday: '',
+		links: [],
+		skills: []
+	});
+
+	const validateSlackHandle = () => {
+		const slackUrl = slackHandleInputRef.current?.value || '';
+		const isValid = slackUrl.trim() !== '';
+		setIsSumissionDisabled(!isValid);
+	};
 
 	const handleUploadPhotoButtonClick = () => {
 		fileInputRef.current?.click();
@@ -57,11 +167,13 @@ const CompleteProfile = () => {
 	};
 
 	const handleAddSkill = (skillName: string) => {
-		if (skillName.trim() !== '') {
-			const skillId = skillName + Date.now();
-			setSkills([...skills, { id: skillId, name: skillName }]);
-			if (skillInputRef.current) { skillInputRef.current.value = ''; }
-		}
+		setProfileData((prev) => {
+			return {
+				...prev,
+				skills: [...new Set([...prev.skills, skillName.toLowerCase()])]
+			};
+		});
+		if (skillInputRef.current) { skillInputRef.current.value = ''; }
 	};
 
 	const handleInputSkill = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -73,27 +185,149 @@ const CompleteProfile = () => {
 	};
 
 	const handleRemoveSkill = (targetSkill: string) => {
-		setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== targetSkill));
-	};
+		setProfileData((prev) => {
+			const updatedSkills = prev.skills.filter(
+				(skill) => skill.trim().toLowerCase() !== targetSkill.trim().toLowerCase()
+			);
 
-	const toggleIconVisibility = (iconName: string) => {
-		setSocialIcons((prevIcons) => prevIcons.map((icon) => icon.name === iconName ? { ...icon, visible: !icon.visible } : icon));
-	};
-
-	const handleAddSocialAccount = (socialAccountToAdd: string) => {
-		setSocialAccountInputs((previousAccounts) => {
-			if (!previousAccounts?.includes(socialAccountToAdd)) {
-				return [...previousAccounts, socialAccountToAdd];
-			}
-			return previousAccounts;
+			return {
+				...prev,
+				skills: updatedSkills
+			};
 		});
-		toggleIconVisibility(socialAccountToAdd);
 	};
 
-	const handleRemoveSocialAccount = (socialAccountToRemove: string) => {
-		setSocialAccountInputs((previousAccounts) => previousAccounts.filter((socialAccount: string) => socialAccount !== socialAccountToRemove));
-		toggleIconVisibility(socialAccountToRemove);
+	const toggleSocialInputVisibility = (inputId: string) => {
+		setSocialIcons((prevIcons) => prevIcons.map((input) => input.id === inputId ? { ...input, inputVisible: !input.inputVisible } : input));
 	};
+
+	const getProfileParams = (formData: FormData): UpdateProfileParams => {
+		// Create links array from social inputs
+		const linksFromForm: { platform: string, url: string }[] = [];
+		for (const [key, value] of formData.entries()) {
+			if (platformEnum.includes(key.toLowerCase()) && typeof value === 'string' && value.trim() !== '') {
+				linksFromForm.push({ platform: key.toLocaleLowerCase(), url: value.trim() });
+			}
+		}
+
+		const updateProfileParams: UpdateProfileParams = {
+			isBasedOnGTA: formData.get('isBasedOnGTA') === 'on',
+			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
+			pronouns: formData.get('pronouns') as string,
+			birthday: profileData.birthday,
+			links: linksFromForm,
+			skills: profileData.skills
+		};
+
+		return updateProfileParams;
+	};
+
+	const handleBirthdayInputChange = (e: ChangeEvent<HTMLSelectElement>) => {
+		const { name, value } = e.target;
+		setBirthdayValue((prev) => {
+			const [prevMonth = '', prevDay = ''] = prev.split('-');
+
+			let newBirthday;
+			if (name === 'month') {
+				newBirthday = `${value}-${prevDay}`;
+			} else if (name === 'day') {
+				newBirthday = `${prevMonth}-${value}`;
+			} else { newBirthday = `${prevMonth}-${prevDay}`; }
+
+			return newBirthday;
+		});
+	};
+
+	const handleSliderToggle = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, checked } = e.target;
+		setProfileData((prev) => ({
+			...prev,
+			[name]: checked
+		}));
+	};
+
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+		event.preventDefault();
+
+		validateSlackHandle();
+
+		if (!profileId || isSubmissionDisabled) { return; }
+
+		const formData = new FormData(event.currentTarget);
+		const profileParams = getProfileParams(formData);
+
+		try {
+			setIsLoading(true);
+			await updateProfile(profileParams, profileId);
+		} catch (error) {
+			// SetErrorMessage(error.message);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	// Validate slack handle on page load, once
+	useEffect(() => {
+		validateSlackHandle();
+	}, []);
+
+	// Load user profile data from the backend
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+
+			try {
+				const response = await fetch(`/api/profiles/self`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					credentials: 'include'
+				});
+
+				// If not authenticated, redirect to Sign In page
+				if (response.status === 401) {
+					window.location.href = `/pages/sign-in/`;
+				} else if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+
+				const data = await response.json();
+				const fetchedFields = {
+					id: data.data?.id,
+					name: data.data?.name,
+					email: data.data?.email,
+					isBasedOnGTA: data.data?.isBasedOnGTA,
+					canJoinLocalEvents: data.data?.canJoinLocalEvents
+				};
+
+				setProfileData((prev) => ({
+					...prev,
+					...fetchedFields
+				}));
+
+				setProfileId(data.data.id);
+			} catch (err) {
+				// setErrorMessage(error.message);
+			} finally {
+				setIsLoading(false);
+			}
+		})();
+	}, []);
+
+	useEffect(() => {
+		// Update profileData only if new date is valid
+		if (isRealDate(birthdayValue)) {
+			setProfileData((prev) => ({
+				...prev,
+				birthday: birthdayValue
+			}));
+		}
+	}, [birthdayValue]);
+
+	if (isLoading) {
+		return <p>Loading...</p>;
+	}
 
 	return (
 		<>
@@ -105,7 +339,7 @@ const CompleteProfile = () => {
 					{ label: 'Complete your profile' }
 				]}
 			/>
-			<form action='' encType='multipart/form-data' id='complete-profile-form'>
+			<form onSubmit={handleSubmit} encType='multipart/form-data' id='complete-profile-form'>
 				<h2>Complete your profile</h2>
 
 				<div id='fields-wrapper'>
@@ -124,6 +358,8 @@ const CompleteProfile = () => {
 										id='name'
 										name='name'
 										type='text'
+										value={profileData.name}
+										readOnly
 									/>
 								</div>
 								<div>
@@ -135,19 +371,23 @@ const CompleteProfile = () => {
 										id='email'
 										name='email'
 										type='email'
+										value={profileData.email}
+										readOnly={true}
 										required
 									/>
 								</div>
 								<div>
-									<label htmlFor='slack-handle' className='input-required'>
+									<label htmlFor='slack' className='input-required'>
 										Slack handle
 									</label>
 									<input
+										ref={slackHandleInputRef}
 										className='text-input'
-										id='slack-handle'
-										name='slack-handle'
+										id='slack'
+										name='slack'
 										type='text'
 										placeholder='Your slack handle to TorontoJS'
+										onBlur={validateSlackHandle}
 										required
 									/>
 								</div>
@@ -172,7 +412,12 @@ const CompleteProfile = () => {
 									<br />
 									<div className='dob-wrapper'>
 										<label htmlFor='month'>Month</label>
-										<select id='month' name='month'>
+										<select
+											id='month'
+											name='month'
+											value={birthdayValue?.split('-')[0]}
+											onChange={handleBirthdayInputChange}
+										>
 											<option selected disabled hidden value=''>
 												Select a month
 											</option>
@@ -190,7 +435,12 @@ const CompleteProfile = () => {
 											<option value='12'>December</option>
 										</select>
 										<label htmlFor='day'>Day</label>
-										<select id='day' name='day'>
+										<select
+											id='day'
+											name='day'
+											value={birthdayValue?.split('-')[1]}
+											onChange={handleBirthdayInputChange}
+										>
 											<option selected disabled hidden value=''>Select a day</option>
 											<option value='01'>1</option>
 											<option value='02'>2</option>
@@ -233,6 +483,8 @@ const CompleteProfile = () => {
 											name='isBasedOnGTA'
 											type='checkbox'
 											className='slider-checkbox'
+											checked={profileData.isBasedOnGTA}
+											onChange={handleSliderToggle}
 										/>
 										<label htmlFor='isBasedOnGTA'>
 											<span>I'm based in Toronto or Greater Toronto Area</span>
@@ -244,9 +496,11 @@ const CompleteProfile = () => {
 											name='canJoinLocalEvents'
 											type='checkbox'
 											className='slider-checkbox'
+											checked={profileData.canJoinLocalEvents}
+											onChange={handleSliderToggle}
 										/>
 										<label htmlFor='canJoinLocalEvents'>
-											<span>I can join TorontoJS's local events</span>
+											<span>I can join TorontoJS&apos; local events</span>
 										</label>
 									</div>
 								</div>
@@ -254,7 +508,6 @@ const CompleteProfile = () => {
 						</div>
 					</details>
 
-					{/* TODO: Need to confirm adding green check icon on successful section completion on mobile view */}
 					<details open>
 						<summary className='text-h6'>
 							<span>Avatar:</span>
@@ -309,19 +562,21 @@ const CompleteProfile = () => {
 						<div className='details-content-wrapper'>
 							<div id='details-information-grid'>
 								<div>
-									<label htmlFor='linkedInProfile'>LinkedIn profile</label>
+									<label htmlFor='linkedin'>LinkedIn profile</label>
 									<input
-										id='linkedInProfile'
-										name='linkedInProfile'
+										ref={linkedinInputRef}
+										id='linkedin'
+										name='linkedin'
 										type='url'
 										className='text-input'
 									/>
 								</div>
 								<div>
-									<label htmlFor='githubProfile'>GitHub profile</label>
+									<label htmlFor='github'>GitHub profile</label>
 									<input
-										id='githubProfile'
-										name='githubProfile'
+										ref={githubInputRef}
+										id='github'
+										name='github'
 										type='url'
 										className='text-input'
 									/>
@@ -329,6 +584,7 @@ const CompleteProfile = () => {
 								<div>
 									<label htmlFor='portfolio'>Site/portfolio</label>
 									<input
+										ref={sitePortfolioInputRef}
 										id='portfolio'
 										name='portfolio'
 										type='url'
@@ -339,13 +595,13 @@ const CompleteProfile = () => {
 									<label htmlFor='skill'>
 										<span>Your skills</span>
 										<div id='skills'>
-											{skills.map((skill) => (
-												<span key={skill.id}>
-													{skill.name}
+											{profileData?.skills?.map((skill) => (
+												<span key={skill}>
+													{skill}
 													<button
 														type='button'
 														aria-label='Remove Skill'
-														onClick={() => handleRemoveSkill(skill.id)}
+														onClick={() => handleRemoveSkill(skill)}
 													>
 														x
 													</button>
@@ -355,7 +611,7 @@ const CompleteProfile = () => {
 												id='skill'
 												ref={skillInputRef}
 												onKeyDown={handleInputSkill}
-												placeholder={skills.length === 0
+												placeholder={profileData.skills.length === 0
 													? 'Insert some of your skills and separate them with commas (e.g.: JavaScript, HTML, CSS)'
 													: 'type here ...'}
 											/>
@@ -368,12 +624,12 @@ const CompleteProfile = () => {
 									<div>
 										{socialIcons.map(
 											(socialIcon) =>
-												socialIcon.visible && (
+												!socialIcon.inputVisible && (
 													<button
 														aria-label={`Add ${socialIcon.name} account`}
-														key={socialIcon.name}
+														key={socialIcon.id}
 														type='button'
-														onClick={() => handleAddSocialAccount(socialIcon.name)}
+														onClick={() => toggleSocialInputVisibility(socialIcon.id)}
 													>
 														{socialIcon.element}
 													</button>
@@ -382,33 +638,35 @@ const CompleteProfile = () => {
 									</div>
 								</div>
 								<div id='details-social-inputs'>
-									{socialAccountInputs.map((socialInput) => (
-										<div>
-											<span>
-												<label htmlFor={`${socialInput}-input`}>
-													{socialInput}
-												</label>
-												<button
-													type='button'
-													aria-label={`Close ${socialInput} input`}
-													onClick={() => handleRemoveSocialAccount(socialInput)}
+									{socialIcons.map((socialIcon) => (socialIcon.inputVisible &&
+										(
+											<div key={socialIcon.id}>
+												<span>
+													<label htmlFor={`${socialIcon}-input`}>
+														{socialIcon.name}
+													</label>
+													<button
+														type='button'
+														aria-label={`Close ${socialIcon} input`}
+														onClick={() => toggleSocialInputVisibility(socialIcon.id)}
+													/>
+												</span>
+												<input
+													id={`${socialIcon.id}-input`}
+													name={socialIcon.id}
+													type='url'
+													className='text-input'
 												/>
-											</span>
-											<input
-												id={`${socialInput}-input`}
-												name={socialInput}
-												type='url'
-												className='text-input'
-											/>
-										</div>
-									))}
+											</div>
+										))
+									)}
 								</div>
 							</div>
 						</div>
 					</details>
 				</div>
 
-				<Button isPrimary isLarge id='submit-button' type='submit'>
+				<Button isPrimary isLarge id='submit-button' type='submit' disabled={isSubmissionDisabled}>
 					Complete My Profile
 				</Button>
 			</form>
