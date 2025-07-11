@@ -1,0 +1,63 @@
+name: CI (Continuous Integration)
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  lint:
+    name: 🔎 Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-node-deps
+      - run: npm run lint
+
+  unit-tests:
+    name: 🧪 Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-node-deps
+      - run: npm test
+
+  integration-tests:
+    name: 🧪 Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-node-deps
+
+      # Optional: Only if needed for testing later
+      # - name: Build project
+      #   run: npm run build
+
+      - name: Setup Cloudflare D1 (reset, migrate, seed)
+        run: |
+          yes | npm run db:setup
+          npm run db:seed
+
+      - name: Start preview server (background)
+        run: |
+          npm run build
+          npx vite preview --port 3000 &
+          echo $! > preview.pid
+          sleep 3
+
+      - name: Install Hurl CLI
+        run: |
+          VERSION=6.1.1
+          curl --location --remote-name https://github.com/Orange-OpenSource/hurl/releases/download/$VERSION/hurl_${VERSION}_amd64.deb
+          sudo apt update
+          sudo apt install -y ./hurl_${VERSION}_amd64.deb
+
+      - name: Run integration tests
+        run: |
+          set -e
+          hurl --test --variable host=http://localhost:3000 '**/*.hurl'
+
+      - name: Kill preview server
+        if: always()
+        run: |
+          if [ -f preview.pid ]; then
+            kill $(cat preview.pid)
+          fi

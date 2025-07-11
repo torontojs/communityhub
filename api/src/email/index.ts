@@ -42,7 +42,7 @@ export async function sendAccountConfirmationEmail(context: Context, {
 	apiKey,
 	senderEmail
 }: AccountConfirmationEmailParams) {
-	const activationUrl = new URL(`/pages/confirm-account?token=${token}`, context.req.url).toString();
+	const activationUrl = new URL(`/api/auth/activate?token=${token}`, context.req.url).toString();
 
 	return sendEmail(context, {
 		apiKey,
