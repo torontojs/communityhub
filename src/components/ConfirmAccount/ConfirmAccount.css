@@ -7,7 +7,7 @@
 	justify-content: center;
 	margin-inline: auto;
 	max-width: min(100%);
-	min-height: 100vh;
+	min-height: 100dvh;
 	padding: var(--spacing-lg) var(--spacing-md);
 
 	@media screen and (min-width: 640px) { padding: var(--spacing-lg) 0; }
