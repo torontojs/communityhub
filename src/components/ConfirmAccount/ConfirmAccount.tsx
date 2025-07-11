@@ -9,7 +9,6 @@ const ConfirmAccount = () => {
 		const params = new URLSearchParams(window.location.search);
 		const tokenFromUrl = params.get('token');
 		if (tokenFromUrl) {
-			console.log('Token from URL:', tokenFromUrl);
 			authenticateAccount(tokenFromUrl);
 		}
 	}, []);
@@ -20,13 +19,20 @@ const ConfirmAccount = () => {
 				method: 'GET'
 			});
 			if (!response.ok) {
-				const errorData = await response.json();
-				console.error('Response not ok:', errorData);
 				return;
 			}
 			window.location.href = '/pages/homepage';
 		} catch (error) {
-			console.error('Error during authentication:', error);
+			if (import.meta.env.MODE === 'development') {
+				if (error instanceof Error) {
+					console.error(error.name);
+					console.error(error.cause);
+					console.error(error.message);
+					console.error(error.stack);
+				} else {
+					throw new Error('Authenticate Account Error');
+				}
+			}
 		}
 	};
 
