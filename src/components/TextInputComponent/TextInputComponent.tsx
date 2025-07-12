@@ -6,6 +6,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	error?: string;
 	helper?: string | null;
 	labelSlot?: React.JSX.Element;
+	helperMessageSlot?: React.JSX.Element;
 }
 
 const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
@@ -17,6 +18,7 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 	helper,
 	value,
 	labelSlot,
+	helperMessageSlot,
 	onKeyDown,
 	...rest
 }, ref) => {
@@ -65,6 +67,7 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 				onKeyDown={keydownHandler}
 				{...rest}
 			/>
+			{helperMessageSlot}
 		</div>
 	);
 });
