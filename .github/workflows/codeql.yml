@@ -20,8 +20,17 @@ jobs:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
     steps:
-      - name: Setup Node
-        uses: ./.github/actions/setup-node
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm clean-install --save-dev
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3

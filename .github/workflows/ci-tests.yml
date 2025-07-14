@@ -9,13 +9,27 @@ jobs:
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     concurrency:
       group: ci-unit-tests-${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
 
     steps:
-      - name: Setup Node
-        uses: ./.github/actions/setup-node
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm clean-install --save-dev
+
+      - name: Generate types
+        run: npm run generate:types
 
       - name: Run unit tests
         run: npm test:unit
@@ -23,13 +37,27 @@ jobs:
   api-tests:
     name: API Tests
     runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     concurrency:
       group: ci-api-tests-${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
 
     steps:
-      - name: Setup Node
-        uses: ./.github/actions/setup-node
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm clean-install --save-dev
+
+      - name: Generate types
+        run: npm run generate:types
 
       - name: Setup database
         run: |
@@ -59,13 +87,27 @@ jobs:
   # integration-tests:
   #   name: Integration Tests
   #   runs-on: ubuntu-latest
+  #   env:
+  #     BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   #   concurrency:
   #     group: ci-integration-tests-${{ github.workflow }}-${{ github.ref }}
   #     cancel-in-progress: true
 
   #   steps:
-  #     - name: Setup Node
-  #       uses: ./.github/actions/setup-node
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+  #     - name: Setup node
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version-file: ".nvmrc"
+  #         cache: "npm"
+
+  #     - name: Install dependencies
+  #       run: npm clean-install --save-dev
+
+  #     - name: Generate types
+  #       run: npm run generate:types
 
   #     - name: Run integration tests
   #       run: npm test:integration
