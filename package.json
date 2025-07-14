@@ -9,7 +9,6 @@
 		"start": "npm run dev",
 		"dev": "vite dev",
 		"dev:cron": "wrangler dev --test-scheduled",
-
 		"generate:types": "wrangler types api/src/env.d.ts",
 		"db:setup": "wrangler d1 migrations apply vms-local --local",
 		"db:seed": "wrangler d1 execute vms-local --local --file=./db/seeds/seed-data.sql",
