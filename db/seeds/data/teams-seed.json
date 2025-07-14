@@ -1,0 +1,88 @@
+[
+	{
+		"name": "Ministry of Silly Walks",
+		"description": "Tasked with ensuring every corridor is traversed in the most inefficient and visually preposterous manner possible.",
+		"roles": [
+			{
+				"name": "Chief Silliness Officer",
+				"description": "Sets quarterly KPIs for knee-lift height and ankle-twist frequency."
+			},
+			{
+				"name": "Gait Auditor",
+				"description": "Surprises teams with clipboard-in-hand walk-tests and issues citations for excessive normality."
+			},
+			{
+				"name": "Stride Evangelist",
+				"description": "Runs noon-hour masterclasses on emerging absurd locomotion trends."
+			}
+		]
+	},
+	{
+		"name": "Department of Argumentation",
+		"description": "Provides on-demand, well-structured disagreements for anyone needing a vigorous contradiction.",
+		"roles": [
+			{
+				"name": "Head Contradictor",
+				"description": "Professionally refutes every statement, including their own, for maximum dialectical agility."
+			},
+			{
+				"name": "Professional Naysayer",
+				"description": "Offers premium ‘No it isn’t!’ packages with same-day delivery."
+			},
+			{
+				"name": "Devil’s Advocate",
+				"description": "Raises objections nobody asked for, purely out of principle (or lack thereof)."
+			}
+		]
+	},
+	{
+		"name": "Bureau of Completely Useless Products",
+		"description": "Designs, prototypes, and markets items guaranteed to solve absolutely zero real-world problems.",
+		"roles": [
+			{
+				"name": "Chief Uselessness Engineer",
+				"description": "Ensures all products exceed strict non-functionality standards before launch."
+			},
+			{
+				"name": "Director of Pointless Innovation",
+				"description": "Leads ideation sprints for concepts like inflatable dartboards and waterproof tea-bags."
+			}
+		]
+	},
+	{
+		"name": "Dead Parrot Complaint Office",
+		"description": "Handles customer grievances with unwavering insistence that every defective item is merely ‘resting.’",
+		"roles": [
+			{
+				"name": "Senior Parrot Reanimator",
+				"description": "Delivers theatrical denial demonstrations, occasionally involving puppetry and coconut shells."
+			},
+			{
+				"name": "Customer Inconvenience Coordinator",
+				"description": "Crafts labyrinthine phone trees to ensure complaints remain delightfully unresolved."
+			},
+			{
+				"name": "Denial Specialist",
+				"description": "Polishes the official ‘not dead yet’ narrative across all communication channels."
+			}
+		]
+	},
+	{
+		"name": "Department of Shrubbery Procurement",
+		"description": "Maintains strategic alliances with the Knights Who Say ‘Ni!’ to secure aesthetically pleasing shrubberies.",
+		"roles": [
+			{
+				"name": "Grand Shrubbery Overseer",
+				"description": "Defines corporate shrub-height regulations and negotiates bulk topiary deals."
+			},
+			{
+				"name": "Royal Bush Trimmer",
+				"description": "Keeps every hedge impeccably coiffed to medieval-court standards."
+			},
+			{
+				"name": "Knight Liaison",
+				"description": "Translates executive memos into acceptable offerings for shrub-obsessed knights."
+			}
+		]
+	}
+]
