@@ -263,7 +263,7 @@ authRoutes.openapi(
 		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 		const TEN_MINUTES_IN_SECONDS = 60 * 10;
 
-		await context.env.PasswordResetTokens.put(
+		await context.env.PasswordResetToken.put(
 			resetToken,
 			email,
 			{ expirationTtl: TEN_MINUTES_IN_SECONDS }

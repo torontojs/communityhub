@@ -51,6 +51,11 @@ binding = "ActivationTokens"
 id = "vms-local-activation-token"
 preview_id = "vms-local-activation-token"
 
+[[kv_namespaces]]
+binding = "PasswordResetToken"
+id = "vms-local-password-reset-token"
+preview_id = "vms-local-password-reset-token"
+
 [[r2_buckets]]
 binding = "ExportedFiles"
 bucket_name = "vms-local-exported-files"
