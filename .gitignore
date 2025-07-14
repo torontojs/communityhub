@@ -37,3 +37,6 @@ coverage
 
 # Generated env file
 env.d.ts
+
+# Hurl log file
+hurl_results.txt
