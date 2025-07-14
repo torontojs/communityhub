@@ -1,59 +1,52 @@
-name: CI (Continuous Integration)
+name: CI Tests
 
 on:
-  push:
-    branches: [main, dev]
   pull_request:
-    branches: [main, dev]
+    types:
+      - "ready_for_review"
 
 jobs:
-  lint:
-    name: 🔎 Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ./.github/actions/setup-node-deps.yml
-      - run: npm run lint
-
   unit-tests:
-    name: 🧪 Unit Tests
+    name: Unit Tests
     runs-on: ubuntu-latest
-    steps:
-      - uses: ./.github/actions/setup-node-deps.yml
-      - run: npm test
+    concurrency:
+      group: ci-unit-tests-${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
 
-  integration-tests:
-    name: 🧪 Integration Tests
+    steps:
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+
+      - name: Run unit tests
+        run: npm test:unit
+
+  api-tests:
+    name: API Tests
     runs-on: ubuntu-latest
+    concurrency:
+      group: ci-api-tests-${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
     steps:
-      - uses: ./.github/actions/setup-node-deps.yml
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
 
-      # Optional: Only if needed for testing later
-      # - name: Build project
-      #   run: npm run build
-
-      - name: Setup Cloudflare D1 (reset, migrate, seed)
+      - name: Setup database
         run: |
           yes | npm run db:setup
           npm run db:seed
 
+      - name: Build server
+        run: npm run build
+
       - name: Start preview server (background)
         run: |
-          npm run build
-          npx vite preview --port 3000 &
+          npx vite preview &
           echo $! > preview.pid
-          sleep 3
+          sleep 5
 
-      - name: Install Hurl CLI
-        run: |
-          VERSION=6.1.1
-          curl --location --remote-name https://github.com/Orange-OpenSource/hurl/releases/download/$VERSION/hurl_${VERSION}_amd64.deb
-          sudo apt update
-          sudo apt install -y ./hurl_${VERSION}_amd64.deb
-
-      - name: Run integration tests
-        run: |
-          set -e
-          hurl --test --variable host=http://localhost:3000 '**/*.hurl'
+      - name: Run API tests
+        run: npm run test:api
 
       - name: Kill preview server
         if: always()
@@ -61,3 +54,18 @@ jobs:
           if [ -f preview.pid ]; then
             kill $(cat preview.pid)
           fi
+
+  # TODO: setup playwright integration tests
+  # integration-tests:
+  #   name: Integration Tests
+  #   runs-on: ubuntu-latest
+  #   concurrency:
+  #     group: ci-integration-tests-${{ github.workflow }}-${{ github.ref }}
+  #     cancel-in-progress: true
+
+  #   steps:
+  #     - name: Setup Node
+  #       uses: ./.github/actions/setup-node
+
+  #     - name: Run integration tests
+  #       run: npm test:integration

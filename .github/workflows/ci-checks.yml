@@ -1,0 +1,35 @@
+name: CI Checks
+
+on:
+  pull_request:
+    types:
+      - "opened"
+      - "synchronize"
+      - "reopened"
+
+jobs:
+  lint:
+    name: Lint Project
+    runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+    steps:
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+
+      - name: Lint all files
+        run: npm run lint
+
+  format:
+    name: Check Formatting
+    runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+    steps:
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+
+      - name: Check files formatting
+        run: npm run format:check

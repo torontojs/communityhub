@@ -1,0 +1,36 @@
+name: CodeQL
+
+on:
+  pull_request:
+    types:
+      - "opened"
+      - "synchronize"
+      - "reopened"
+
+jobs:
+  codeql-analyze:
+    name: Analyze CodeQL
+    runs-on: "ubuntu-latest"
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+    steps:
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          build-mode: none
+          queries: security-and-quality
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"

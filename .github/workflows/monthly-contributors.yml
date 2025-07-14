@@ -1,17 +1,17 @@
-name: Monthly contributor report
+name: Monthly Contributors Report
+
 on:
   workflow_dispatch:
   schedule:
+    # At 7 AM UTC on the first day of every month
     - cron: "0 7 1 * *"
-
-permissions:
-  contents: read
 
 jobs:
   contributor_report:
-    name: contributor report
+    name: Contributor Report
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       issues: write
 
     steps:
