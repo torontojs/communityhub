@@ -6,28 +6,37 @@
 	"license": "MIT",
 	"scripts": {
 		"prepare": "husky",
+
 		"start": "npm run dev",
 		"dev": "vite dev",
 		"dev:cron": "wrangler dev --test-scheduled",
+
 		"generate:types": "wrangler types api/src/env.d.ts",
 		"db:setup": "wrangler d1 migrations apply vms-local --local",
 		"db:seed": "wrangler d1 execute vms-local --local --file=./db/seeds/seed-data.sql",
+
 		"build": "vite build",
 		"prepreview": "npm run build",
 		"preview": "vite preview",
+
 		"predeploy:dev": "npm run build",
 		"deploy:dev": "wrangler deploy --minify --env dev",
+
 		"predeploy:prod": "npm run build",
 		"deploy:prod": "wrangler deploy --minify --env production",
+
 		"format": "dprint fmt --staged",
+		"format:check": "dprint check",
+
 		"typecheck:api": "tsc -p ./api --noEmit",
 		"typecheck:client": "tsc -p ./src --noEmit",
+		"typecheck": "npm run typecheck:api && npm run typecheck:client",
 		"lint:js": "eslint",
-		"lint": "npm run typecheck:api && npm run typecheck:client && npm run lint:js",
+		"lint": "npm run typecheck && npm run lint:js",
+
+		"test:coverage": "vitest run --coverage",
 		"test:unit": "vitest",
-		"coverage": "vitest run --coverage",
-		"test:api": "hurl --variables-file .dev.vars api/api_tests/*.hurl --verbose --test > hurl_results.txt 2>&1",
-		"test:api:ci": "hurl --glob 'tests/**/*.hurl' --continue-on-error --test --jobs 4 --max-time 300 --no-color --output-tap results.tap --variable-file .env.vars"
+		"test:api": "hurl --glob '**/*.hurl' --continue-on-error --verbose --test --jobs 4 --max-time 300 --test --output-tap results.tap --variables-file .dev.vars"
 	},
 	"dependencies": {
 		"@hono/swagger-ui": "0.5.2",
