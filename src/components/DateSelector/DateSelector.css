@@ -1,0 +1,22 @@
+@layer components {
+	.dob-container {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-xs);
+		width: 100%;
+
+		label {
+			color: var(--color-foreground);
+			font-size: var(--text-xs);
+			font-weight: var(--weight-semibold);
+		}
+
+		& > div {
+			display: grid;
+			grid-template-columns: 2fr 3fr;
+			justify-items: start;
+		}
+
+		& select { width: 100%; }
+	}
+}
