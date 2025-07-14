@@ -49,19 +49,6 @@ const ConfirmAccount = () => {
 		}
 	};
 
-	/**
-	 * Take the UUID from the Url which will be my page.
-	 * The link in the email will be this page: /api/auth/activate
-	 *
-	 * Change the src > email > index.ts to add /api on the URL call
-	 *
-	 * Change the email to redirect to /page/ConfirmAccount
-	 *
-	 * Go read the auth routes on the backend read dev.vars inside backend UUID Will live inside the session (superfast cache for activation tokens).
-	 * Add heartbeat check, if they are alrady signed in then send them to the homepage - later
-	 * Fixing btn
-	 */
-
 	return (
 		<div className='confirm-account-page-container'>
 			<div className='confirm-account-page-card'>
