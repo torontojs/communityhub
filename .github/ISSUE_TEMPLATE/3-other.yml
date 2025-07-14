@@ -1,0 +1,11 @@
+name: Other Issue
+description: Other things that are neither bug reports nor feature requests
+projects:
+  # Community Hub Project
+  - "torontojs/6"
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: Please describe your issue below
+      required: true
