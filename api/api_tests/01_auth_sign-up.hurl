@@ -12,7 +12,7 @@ Content-Type: application/json
 HTTP 200
 
 
-# Sign-up duplicate email OKAY
+# Sign-up duplicate email UNPROCESSABLE CONTENT
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -23,10 +23,10 @@ Content-Type: application/json
 	"password":"FruityThisIs911!@#"
 }
 
-HTTP 200
+HTTP 422
 
 
-# Sign-up duplicate email with different casing OKAY
+# Sign-up duplicate email with different casing UNPROCESSABLE CONTENT
 # FIXME: https://github.com/torontojs/communityhub/issues/97
 POST {{host}}/api/auth/sign-up
 
@@ -38,7 +38,7 @@ Content-Type: application/json
 	"password":"FruityThisIs911!@#"
 }
 
-HTTP 200
+HTTP 422
 
 
 # sign-up-subdomain-email
@@ -55,7 +55,6 @@ HTTP 200
 
 
 # Missing content-type
-# TODO: Should return 4XX Error
 # https://github.com/torontojs/communityhub/issues/171
 POST {{host}}/api/auth/sign-up
 
@@ -65,7 +64,7 @@ POST {{host}}/api/auth/sign-up
   "password": "NoHeader911!@#"
 }
 
-HTTP 200
+HTTP 422
 
 
 #Sign up name utilizing emoji characters
@@ -93,7 +92,7 @@ HTTP 200
 #	"password":"quoison"
 #}
 
-#HTTP 400
+#HTTP 422
 
 
 # Sign-up missing name field
@@ -242,4 +241,4 @@ HTTP 422
 #	"password":"ShouldNotBeLongerThan100124!@#$"
 #}
 
-#HTTP 413
+#HTTP 422
