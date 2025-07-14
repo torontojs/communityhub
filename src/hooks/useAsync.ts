@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function useAsync<Data>(asyncFunction: Function) {
 	const [data, setData] = useState<Data | undefined>(undefined);
