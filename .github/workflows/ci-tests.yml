@@ -3,6 +3,7 @@ name: CI Tests
 on:
   pull_request:
     types:
+      - "opened"
       - "ready_for_review"
 
 jobs:
@@ -28,11 +29,15 @@ jobs:
       - name: Install dependencies
         run: npm clean-install --save-dev
 
+      - name: Create env file
+        run: |
+          cp ".dev.vars.example" ".dev.vars"
+
       - name: Generate types
         run: npm run generate:types
 
       - name: Run unit tests
-        run: npm test:unit
+        run: npm run test:unit
 
   api-tests:
     name: API Tests
@@ -55,6 +60,10 @@ jobs:
 
       - name: Install dependencies
         run: npm clean-install --save-dev
+
+      - name: Create env file
+        run: |
+          cp ".dev.vars.example" ".dev.vars"
 
       - name: Generate types
         run: npm run generate:types

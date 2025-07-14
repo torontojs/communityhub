@@ -35,8 +35,9 @@
 		"lint": "npm run typecheck && npm run lint:js",
 
 		"test:coverage": "vitest run --coverage",
-		"test:unit": "vitest",
-		"test:api": "hurl --glob '**/*.hurl' --continue-on-error --verbose --test --jobs 4 --max-time 300 --test --output-tap results.tap --variables-file .dev.vars"
+		"test:unit": "vitest run",
+		"test:api": "hurl --glob \"**/*.hurl\" --continue-on-error --jobs 4 --max-time 300 --test --variables-file .dev.vars --variable host=http://localhost:3000",
+		"test": "vitest"
 	},
 	"dependencies": {
 		"@hono/swagger-ui": "0.5.2",
@@ -69,6 +70,7 @@
 		"husky": "9.1.7",
 		"typescript": "5.8.3",
 		"vite": "^7.0.4",
+		"vitest": "3.2.4",
 		"wrangler": "^4.24.3",
 		"zod": "^3.25.76"
 	},

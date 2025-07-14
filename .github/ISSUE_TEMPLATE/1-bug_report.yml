@@ -11,20 +11,23 @@ body:
     attributes:
       label: Description
       description: A clear and concise description of what the bug is.
+    validations:
       required: true
   - type: textarea
     attributes:
       label: Steps to Reproduce
       description: Describe the steps to reproduce the error.
-      required: true
       value: |
         1.
         2.
         3.
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Expected Behavior
       description: A clear and concise description of what you expected to happen.
+    validations:
       required: true
   - type: textarea
     attributes:
@@ -34,11 +37,13 @@ body:
     attributes:
       label: Operating System
       description: "The operating system you are running, e.g.: iOS, Windows 11, Ubuntu, etc."
+    validations:
       required: true
   - type: input
     attributes:
-      label: Browsere.g. iOS, Windows 11, Ubuntu, etc.
+      label: Browser
       description: "The browser you are using, e.g.: Chrome, Safari, Firefox"
+    validations:
       required: true
   - type: input
     attributes:

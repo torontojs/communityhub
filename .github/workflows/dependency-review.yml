@@ -1,18 +1,14 @@
 name: Dependency Review
 
 on:
-  push:
-    branches:
-      - "main"
-      - "dev"
-    paths:
-      - "package.json"
-      - "package-lock.json"
   pull_request:
     types:
       - "opened"
       - "synchronize"
       - "reopened"
+    paths:
+      - "package.json"
+      - "package-lock.json"
 
 jobs:
   dependency-review:
