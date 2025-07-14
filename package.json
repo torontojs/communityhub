@@ -35,8 +35,9 @@
 		"lint": "npm run typecheck && npm run lint:js",
 
 		"test:coverage": "vitest run --coverage",
-		"test:unit": "vitest",
-		"test:api": "hurl --glob '**/*.hurl' --continue-on-error --verbose --jobs 4 --max-time 300 --test --output-tap results.tap --variables-file .dev.vars"
+		"test:unit": "vitest run",
+		"test:api": "hurl --glob '**/*.hurl' --continue-on-error --verbose --jobs 4 --max-time 300 --test --output-tap results.tap --variables-file .dev.vars",
+		"test": "vitest"
 	},
 	"dependencies": {
 		"@hono/swagger-ui": "0.5.2",
