@@ -116,12 +116,19 @@ export async function updateProfileById(
 
 	const results = await database.batch([
 		database.prepare(`
-			UPDATE ${DBTables.PROFILE}
+			UPDATE ${DBTables.PROFILE} AS profile
 			SET
 				${Object.keys(fieldsToUpdate).map((key) => `${key} = ?`).join(', ')}
+			FROM (
+				SELECT id, activatedAt, deletedAt
+				FROM ${DBTables.ACCESS}
+				WHERE
+					profile.id = access.id
+			) AS access
 			WHERE
-				id = ?
-				AND id IN (SELECT id FROM ${DBTables.ACCESS} WHERE activatedAt IS NOT NULL AND deletedAt IS NULL)
+				profile.id = ?
+				AND access.activatedAt IS NOT NULL
+				AND access.deletedAt IS NULL
 		`).bind(...Object.values(fieldsToUpdate), id),
 		...filteredLinks.map(({ platform, url }) => {
 			const { id: linkId } = generateBaseDBfields();
@@ -132,7 +139,7 @@ export async function updateProfileById(
 				)
 				SELECT
 					?, ?, ?, id
-				FROM ${DBTables.PROFILE}
+				FROM ${DBTables.ACCESS}
 				WHERE
 					id = ?
 					AND activatedAt IS NOT NULL
@@ -149,7 +156,7 @@ export async function updateProfileById(
 				)
 				SELECT
 					?, ?, id
-				FROM ${DBTables.PROFILE}
+				FROM ${DBTables.ACCESS}
 				WHERE
 					id = ?
 					AND activatedAt IS NOT NULL
@@ -166,7 +173,7 @@ export async function getProfileById(database: D1Database, id: string) {
 	// TODO: try to refactor to a single query (join)
 	const results = await database.batch([
 		database.prepare(`
-			SELECT profile.*, access.activatedAt, access.deletedAt, access.deletedReason
+			SELECT profile.*, access.activatedAt, access.deletedAt
 			FROM ${DBTables.PROFILE} AS profile
 			JOIN ${DBTables.ACCESS} AS access ON access.id = profile.id
 			WHERE
@@ -194,7 +201,7 @@ export async function getProfileById(database: D1Database, id: string) {
 export async function getAllProfiles(database: D1Database) {
 	const results = await database.batch([
 		database.prepare(`
-			SELECT profile.*, access.activatedAt, access.deletedAt, access.deletedReason
+			SELECT profile.*, access.activatedAt, access.deletedAt
 			FROM ${DBTables.PROFILE} AS profile
 			JOIN ${DBTables.ACCESS} AS access ON access.id = profile.id
 			WHERE

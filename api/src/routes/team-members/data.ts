@@ -19,7 +19,7 @@ export async function addTeamMembers(database: D1Database, teamId: string, data:
 						?, ?, ?, ?,
 						?, ?, ?,
 						id
-					FROM ${DBTables.PROFILE}
+					FROM ${DBTables.ACCESS}
 					WHERE
 						id = ?
 						AND activatedAt IS NOT NULL
@@ -54,6 +54,7 @@ export async function updateTeamMembers(database: D1Database, teamId: string, da
 				WHERE
 					id = ?
 					AND teamId = ?
+					AND deletedAt IS NULL
 			`).bind(name ?? '', description ?? '', roleId, teamId)
 		)
 	]);
@@ -64,18 +65,23 @@ export async function updateTeamMembers(database: D1Database, teamId: string, da
 export async function getAllMembers(database: D1Database, teamId: string) {
 	const { results } = await database.prepare(`
 		SELECT
-			${DBTables.PROFILE}.id AS id,
-			${DBTables.PROFILE}.name AS name,
-			${DBTables.PROFILE}.avatar AS avatar
-		FROM ${DBTables.ROLE}
+			profile.id AS id,
+			profile.name AS name,
+			profile.avatar AS avatar
+		FROM ${DBTables.ROLE} AS role
 		INNER JOIN
-			${DBTables.PROFILE}
+			${DBTables.ACCESS} AS access
 			ON
-				${DBTables.PROFILE}.id = ${DBTables.ROLE}.profileId
-				AND ${DBTables.PROFILE}.activatedAt IS NOT NULL
-				AND ${DBTables.PROFILE}.deletedAt IS NULL
+				access.id = role.profileId
+		INNER JOIN
+			${DBTables.PROFILE} AS profile
+			ON
+				profile.id = role.profileId
 		WHERE
-			${DBTables.ROLE}.teamId = ?
+			role.teamId = ?
+			AND role.deletedAt IS NULL
+			AND access.activatedAt IS NOT NULL
+			AND access.deletedAt IS NULL
 	`).bind(teamId).run<Pick<Profile, 'avatar' | 'id' | 'name'>>();
 
 	return results;

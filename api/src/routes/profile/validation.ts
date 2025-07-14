@@ -50,11 +50,7 @@ export const ProfileSchema = BaseDbEntitySchema.merge(z.object({
 		.describe('A list of objects containing platform names and respective links for social media and platforms the person want to make available on the Community Hub.'),
 	skills: z.array(z.string())
 		.optional()
-		.describe('A list of skills the person has provided.'),
-	deletedReason: z
-		.string()
-		.optional()
-		.describe('The reason this perofile was marked deleted.')
+		.describe('A list of skills the person has provided.')
 }));
 
 export type Profile = z.infer<typeof ProfileSchema>;
