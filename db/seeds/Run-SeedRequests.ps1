@@ -69,21 +69,19 @@ INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
 	"pronouns", "birthday", "description",
-	"activatedAt"
 )
 VALUES (
 	$UserId, 1, $Now, $Now,
 	'$($_.email)', '$($_.name)',
-	'$($_.pronouns)', '$($_.birthday)', '$($_.description)',
-	$ActivatedAt
+	'$($_.pronouns)', '$($_.birthday)', '$($_.description)'
 );
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt"
 )
 VALUES (
-	$UserId, 1, '$($_.role)', $PasswordHash, '$($_.email)'
+	$UserId, 1, '$($_.role)', $PasswordHash, '$($_.email)', $ActivatedAt
 );
 
 -- Add event log to Toronto JS
