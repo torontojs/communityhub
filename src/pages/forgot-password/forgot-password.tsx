@@ -13,7 +13,7 @@ createRoot(root).render(
 		<StrictMode>
 			<div className='app'>
 				<div className='page'>
-					<Header textProps={{ style: { textWrap: 'nowrap' } }}>Recover your password</Header>
+					<Header>Recover your password</Header>
 					<ForgotPasswordForm />
 					<FooterNav />
 				</div>
