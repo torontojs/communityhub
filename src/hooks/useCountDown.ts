@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const ONE_MINUTE_IN_MS = 60000;
+const ONE_MINUTE_IN_MS = 60 * 1000;
 
 export const useCountdown = (initialMinutes = 0) => {
 	const [minutes, setMinutes] = useState(initialMinutes);
