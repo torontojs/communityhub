@@ -80,7 +80,7 @@
 		"trailingComma": false,
 		"padComments": true,
 		"linebreakInPseudoParens": false,
-		"declarationOrder": "alphabetical",
+		"declarationOrder": null,
 		"singleLineBlockThreshold": 1,
 		"ignoreCommentDirective": "dprint-ignore"
 	},
