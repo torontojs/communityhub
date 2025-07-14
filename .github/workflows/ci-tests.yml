@@ -33,7 +33,7 @@ jobs:
         run: npm run generate:types
 
       - name: Run unit tests
-        run: npm test:unit
+        run: npm run test:unit
 
   api-tests:
     name: API Tests
