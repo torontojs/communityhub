@@ -19,7 +19,7 @@ const Button = forwardRef<HTMLButtonElement, Props>(({
 	<button
 		ref={ref}
 		className='button'
-		data-size={size || 'small'}
+		data-size={size || 'medium'}
 		data-outline={hasOutline}
 		data-primary={isPrimary}
 		{...rest}
