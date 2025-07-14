@@ -33,7 +33,6 @@ export type ActivateData = z.infer<typeof ActivateSchema>;
 
 export const ForgotPasswordSchema = z.object({
 	email: z.string({ required_error: 'Email is required' })
-		.min(1, 'Email must be at least one character long')
 		.email('This is not a valid e-mail address')
 });
 
