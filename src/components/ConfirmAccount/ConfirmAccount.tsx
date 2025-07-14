@@ -17,6 +17,7 @@ import '/index.css';
  * Fixing btn
  */
 
+// TODO: Heartbeat beat implementation redirects to home page
 const ConfirmAccount = () => {
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
@@ -28,9 +29,15 @@ const ConfirmAccount = () => {
 
 	const authenticateAccount = async (token: string) => {
 		try {
+			const isTokenValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(token);
+
+			if (!isTokenValidUuid) {
+				window.location.href = '/pages/sign-in';
+			}
 			const response = await fetch(`/api/auth/activate?token=${token}`, {
 				method: 'GET'
 			});
+
 			if (!response.ok) {
 				return;
 			}
