@@ -18,8 +18,18 @@ const SignUpForm = (): React.JSX.Element => {
 	const handleOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
 		const result = zxcvbn(password);
-		setStrength(result.score < 3 ? result.score : password.length < 15 ? 2 : result.score);
-		setFeedback([...result.feedback.suggestions, password.length < 15 ? 'Password is shorter than 15 characters' : ''].join(', '));
+		const feedback = result.feedback.suggestions;
+
+		if (result.score < 3) {
+			setStrength(result.score);
+		} else if (password.length < 15) {
+			setStrength(2);
+			feedback.push('Password is shorter than 15 characters');
+		} else {
+			setStrength(result.score);
+		}
+
+		setFeedback(feedback.join(', '));
 	};
 
 	const signup = async (name: string, email: string, password: string) => {
