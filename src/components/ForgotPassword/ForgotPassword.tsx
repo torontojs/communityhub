@@ -1,31 +1,33 @@
 import React, { useRef, useState } from 'react';
 
 import './ForgotPassword.css';
-// import { useCountdown } from '../../hooks/useCountDown.ts';
+import { useCountdown } from '../../hooks/useCountDown.ts';
 import Button from '../Button/Button.tsx';
 import ClockIcon from '../Icons/ClockIcon.tsx';
+
+// TODO: Investigate if we're able to use heartbeat to check if forgot password request already in progress and how the page react if there is one
 
 const ForgotPasswordForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const [isSubmitted, setIsSubmitted] = useState(false);
-	const [isDisabled, setIsDisabled] = useState(false);
-	const [seconds, setSeconds] = useState();
+	const [buttonDisabled, setButtonDisabled] = useState(true);
+	const [seconds, setSeconds] = useState(600);
 	const [validEmail, setIsValid] = useState(false);
+	const [emailDisabled, setEmailDisabled] = useState(false);
 
 	const handleValidEmail = () => {
 		setIsValid(!emailInputRef.current?.checkValidity());
 		if (validEmail) {
-			setIsDisabled(false);
-			console.log('hihi');
+			setButtonDisabled(true);
 		} else {
-			console.log('hoho');
-			setIsDisabled(true);
+			setButtonDisabled(false);
 		}
 	};
 
+	useCountdown(seconds, setSeconds);
+
 	const requestPasswordRecovery = async (email: string) => {
 		try {
-			emailInputRef.current?.checkValidity();
 			const response = await fetch('/api/auth/forgot-password', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -33,7 +35,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 			});
 			if (response.ok) {
 				setIsSubmitted(true);
-				2;
+				setSeconds(600);
 			}
 		} catch (error) {
 			if (import.meta.env.MODE === 'development') {
@@ -52,12 +54,11 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (!emailInputRef.current?.checkValidity()) {
-			return;
-		}
-
 		const formData = new FormData(event.currentTarget);
 		const emailValue = (formData.get('email') as string).trim().toLowerCase();
+
+		setButtonDisabled(true);
+		setEmailDisabled(true);
 
 		requestPasswordRecovery(emailValue);
 	};
@@ -80,12 +81,13 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 						required
 						ref={emailInputRef}
 						onChange={handleValidEmail}
+						disabled={emailDisabled}
 					/>
 				</div>
 
 				<div className='form-footer'>
 					<Button
-						disabled={!isDisabled}
+						disabled={buttonDisabled}
 						type='submit'
 						isLarge
 						isPrimary
@@ -100,7 +102,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 							<hr />
 							<div className='resend-timer' id='countdown-status' aria-live='polite'>
 								<ClockIcon aria-hidden='true' />
-								{/* <p>Wait {Math.floor(seconds / 60)} {minutes === 1 ? 'minute' : 'minutes'} for a new activation link</p> */}
+								<p>Wait {seconds} for a new activation link</p>
 							</div>
 						</>
 					)}
