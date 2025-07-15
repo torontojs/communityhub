@@ -60,13 +60,13 @@
 }
 
 .password-meter-level {
-	background-color: var(--color-card);
+	background-color: var(--color-input);
 	height: 0.5rem;
 	width: 100%;
 }
 
 .suggestion {
-	background-color: var(--color-card);
+	background-color: var(--color-input);
 	border-radius: var(--rounded-md);
 	display: none;
 	font-size: var(--text-sm);

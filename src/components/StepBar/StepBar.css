@@ -53,7 +53,7 @@
 		.step-text { display: inline; }
 
 		&:first-of-type {
-			background-color: var(--color-card);
+			background-color: var(--color-input);
 			border-bottom: 1px solid var(--color-border);
 
 			& * { color: var(--color-helper); }
@@ -71,7 +71,7 @@
 	}
 
 	&.done {
-		background-color: var(--color-card);
+		background-color: var(--color-input);
 
 		.step-number { display: none; }
 		.step-icon { display: flex; }

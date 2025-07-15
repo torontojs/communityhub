@@ -1,0 +1,122 @@
+name: CI Tests
+
+on:
+  pull_request:
+    types:
+      - "opened"
+      - "ready_for_review"
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+    concurrency:
+      group: ci-unit-tests-${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm clean-install --save-dev
+
+      - name: Create env file
+        run: |
+          cp ".dev.vars.example" ".dev.vars"
+
+      - name: Generate types
+        run: npm run generate:types
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+  api-tests:
+    name: API Tests
+    runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+    concurrency:
+      group: ci-api-tests-${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm clean-install --save-dev
+
+      - name: Create env file
+        run: |
+          cp ".dev.vars.example" ".dev.vars"
+
+      - name: Generate types
+        run: npm run generate:types
+
+      - name: Setup database
+        run: |
+          yes | npm run db:setup
+          npm run db:seed
+
+      - name: Build server
+        run: npm run build
+
+      - name: Start preview server (background)
+        run: |
+          npx vite preview &
+          echo $! > preview.pid
+          sleep 5
+
+      - name: Run API tests
+        run: npm run test:api
+
+      - name: Kill preview server
+        if: always()
+        run: |
+          if [ -f preview.pid ]; then
+            kill $(cat preview.pid)
+          fi
+
+  # TODO: setup playwright integration tests
+  # integration-tests:
+  #   name: Integration Tests
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  #   concurrency:
+  #     group: ci-integration-tests-${{ github.workflow }}-${{ github.ref }}
+  #     cancel-in-progress: true
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+  #     - name: Setup node
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version-file: ".nvmrc"
+  #         cache: "npm"
+
+  #     - name: Install dependencies
+  #       run: npm clean-install --save-dev
+
+  #     - name: Generate types
+  #       run: npm run generate:types
+
+  #     - name: Run integration tests
+  #       run: npm test:integration

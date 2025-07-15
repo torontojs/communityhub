@@ -11,20 +11,18 @@ export async function doesTeamExist(database: D1Database, id: string) {
 	return Boolean(existingTeam);
 }
 
-export async function insertTeam(database: D1Database, profileId: string, { name, description }: CreateTeamData) {
+export async function insertTeam(database: D1Database, profileId: string, { name, description = '' }: CreateTeamData) {
 	const { id, schemaVersion, happenedAt, insertedAt } = generateBaseDBfields();
 
 	const results = await database.batch([
 		database.prepare(`
 			INSERT INTO ${DBTables.TEAM} (
 				id, schemaVersion, happenedAt, insertedAt,
-				name
-				${description ? ', description' : ''}
+				name, description
 			)
 			VALUES (
 				?, ?, ?, ?,
-				?
-				${description ? ', ?' : ''}
+				?, ?
 			)
 		`)
 			.bind(
