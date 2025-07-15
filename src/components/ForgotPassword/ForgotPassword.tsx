@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 import './ForgotPassword.css';
-import { useCountdown } from '../../hooks/useCountDown.ts';
+// import { useCountdown } from '../../hooks/useCountDown.ts';
 import Button from '../Button/Button.tsx';
 import ClockIcon from '../Icons/ClockIcon.tsx';
 
@@ -9,12 +9,23 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [isDisabled, setIsDisabled] = useState(false);
-	const [seconds, setSeconds] = useState(0);
+	const [seconds, setSeconds] = useState();
+	const [validEmail, setIsValid] = useState(false);
 
-	useCountdown(seconds, setSeconds);
+	const handleValidEmail = () => {
+		setIsValid(!emailInputRef.current?.checkValidity());
+		if (validEmail) {
+			setIsDisabled(false);
+			console.log('hihi');
+		} else {
+			console.log('hoho');
+			setIsDisabled(true);
+		}
+	};
 
 	const requestPasswordRecovery = async (email: string) => {
 		try {
+			emailInputRef.current?.checkValidity();
 			const response = await fetch('/api/auth/forgot-password', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -22,7 +33,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 			});
 			if (response.ok) {
 				setIsSubmitted(true);
-				setIsDisabled(true);
+				2;
 			}
 		} catch (error) {
 			if (import.meta.env.MODE === 'development') {
@@ -68,16 +79,18 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 						placeholder='Your account e-mail'
 						required
 						ref={emailInputRef}
-						disabled={isDisabled}
+						onChange={handleValidEmail}
 					/>
 				</div>
 
 				<div className='form-footer'>
 					<Button
+						disabled={!isDisabled}
 						type='submit'
 						isLarge
 						isPrimary
 					>
+						Send recovery link
 					</Button>
 					{isSubmitted && (
 						<>
