@@ -22,7 +22,7 @@ export const IdAndSchemaVersionSchema = z.object({
 export type IdAndSchemaVersion = z.infer<typeof IdAndSchemaVersionSchema>;
 
 export const InsertionTimestampsSchema = z.object({
-	happenedAt: z.string().datetime({ offset: true }).describe('The date when the the event related to this entity happened.'),
+	happenedAt: z.string().datetime({ offset: true }).describe('The date when the event related to this entity happened.'),
 	insertedAt: z.string().datetime({ offset: true }).describe('The date when the entity was added to the database.')
 });
 
