@@ -16,6 +16,7 @@ import {
 	StatusResponseSchema
 } from '../../utils/responses.ts';
 import { IdParamSchema } from '../../utils/validation.ts';
+import { updateProfileStatus } from '../auth/data.ts';
 import { deleteProfileById, doesProfileExist, getAllProfiles, getProfileById, updateProfileById } from './data.ts';
 import { ProfileSchema, UpdateProfileSchema } from './validation.ts';
 
@@ -183,6 +184,8 @@ profileRoutes.openapi(
 		if (!isUpdated) {
 			return context.json({ message: 'Profile not updated' } satisfies StatusResponse, StatusCodes.INTERNAL_SERVER_ERROR);
 		}
+
+		await updateProfileStatus(context.env.Database, id);
 
 		return context.json({ message: 'Profile updated successfully' } satisfies StatusResponse, StatusCodes.OKAY);
 	}

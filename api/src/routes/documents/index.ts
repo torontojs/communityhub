@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { getSession } from '../../utils/auth.ts';
 import { type DataResponse, generateDataResponeSchema, StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
+import { updateProfileStatus } from '../auth/data.ts';
 import { getProfileById } from '../profile/data.ts';
 import { getSignedDocuments, signDocument } from './data.ts';
 import { ProfileDocumentTypeSchema, SignedProfileDocumentSchema } from './validation.ts';
@@ -58,6 +59,8 @@ documentRoutes.openapi(
 		if (!isSuccessful) {
 			return context.json({ message: 'Error signing the document' } satisfies StatusResponse, StatusCodes.INTERNAL_SERVER_ERROR);
 		}
+
+		await updateProfileStatus(context.env.Database, profile.id);
 
 		return context.json({ message: 'Document signed' } satisfies StatusResponse, StatusCodes.OKAY);
 	}

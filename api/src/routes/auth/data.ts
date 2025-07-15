@@ -1,6 +1,94 @@
 import type { AccessLevel } from '../../utils/auth.ts';
 import { DBTables } from '../../utils/db.ts';
+import { DOCUMENT_VERSIONS, type ProfileDocument } from '../documents/validation.ts';
+import type { ProfileStatus } from './validation.ts';
 
+export async function getProfileStatus(database: D1Database, profileId: string): Promise<ProfileStatus> {
+	const SOCIAL_MEDIA_PLATFORM = 'slack';
+
+	const [{ results: datesResults }, { results: socialMediaReuslts }, { results: documents }] = await database.batch([
+		database.prepare(`
+			SELECT
+				access.deletedAt AS deletedAt,
+				access.activatedAt AS activatedAt,
+				profile.insertedAt AS insertedAt
+			FROM ${DBTables.ACCESS} AS access
+			INNER JOIN
+				${DBTables.PROFILE} AS profile
+				ON profile.id = access.id
+			WHERE
+				profile.id = ?
+			LIMIT 1
+		`).bind(profileId),
+		database.prepare(`
+			SELECT url
+			FROM ${DBTables.PROFILE_LINKS}
+			WHERE
+				profileId = ?
+				AND platform = '${SOCIAL_MEDIA_PLATFORM}'
+			LIMIT 1
+		`).bind(profileId),
+		database.prepare(`
+			SELECT type, documentVersion
+			FROM ${DBTables.DOCUMENTS}
+			WHERE
+				profileId = ?
+		`).bind(profileId)
+	]) as [
+		D1Result<{ deletedAt: string, activatedAt: string, insertedAt: string }>,
+		D1Result<{ url: string }>,
+		D1Result<ProfileDocument>
+	];
+
+	const { deletedAt, activatedAt, insertedAt } = datesResults[0] ?? {};
+	const { url: socialMediaUrl } = socialMediaReuslts[0] ?? {};
+
+	if (deletedAt) {
+		return 'deleted';
+	}
+
+	const hasSignedAllDocuments = new Set(...documents.map(({ type }) => type)).difference(new Set(...Object.keys(DOCUMENT_VERSIONS))).size === 0;
+	const hasSignedAllDocumentVersions = new Set(...documents.map(({ documentVersion }) => documentVersion)).difference(new Set(...Object.values(DOCUMENT_VERSIONS))).size === 0;
+
+	const isCreated = Boolean(insertedAt);
+	const isActivated = Boolean(activatedAt);
+	const isTosAccepted = hasSignedAllDocuments && hasSignedAllDocumentVersions;
+	const hasSocialMediaHandle = Boolean(socialMediaUrl);
+
+	if (isCreated && isActivated && isTosAccepted && hasSocialMediaHandle) {
+		return 'profile-completed';
+	}
+
+	if (hasSocialMediaHandle) {
+		return 'social-handle-provided';
+	}
+
+	if (isTosAccepted) {
+		return 'tos-accepted';
+	}
+
+	if (isActivated) {
+		return 'activated';
+	}
+
+	if (isCreated) {
+		return 'created';
+	}
+
+	return 'error';
+}
+
+export async function updateProfileStatus(database: D1Database, profileId: string) {
+	const currentStatus = await getProfileStatus(database, profileId);
+
+	const { success } = await database.prepare(`
+		UPDATE ${DBTables.ACCESS} SET profileStatus = ? WHERE id = ?
+	`)
+		.bind(currentStatus, profileId)
+		.run();
+
+	return success;
+}
 export async function getLoginInfo(database: D1Database, email: string) {
 	const loginInfo = await database
 		.prepare(`
