@@ -61,8 +61,11 @@ export function generateBaseDBfields() {
 	} satisfies BaseDBEntity;
 }
 
-export interface AccessSchema extends IdAndSchemaVersion {
+export interface Access extends IdAndSchemaVersion {
 	accessLevel: AccessLevel;
 	password: string;
 	email: string;
+	activatedAt?: ISODate;
+	deletedAt?: ISODate;
+	deletedReason?: string;
 }
