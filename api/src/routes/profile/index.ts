@@ -4,7 +4,7 @@ import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
 import { authorizeAdmin, authorizeVolunteer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
-import { Access, getSession } from '../../utils/auth.ts';
+import { ACCESS_LEVEL, getSession } from '../../utils/auth.ts';
 import {
 	type DataResponse,
 	generateDataResponeSchema,
@@ -168,7 +168,7 @@ profileRoutes.openapi(
 		const session = getSession(context);
 
 		// For volunteers, only allow if it's their own profile
-		if (session.id !== id && session.access !== Access.ADMIN) {
+		if (session.id !== id && session.access !== ACCESS_LEVEL.ADMIN) {
 			return context.json({ message: 'Can only modify own profile' }, StatusCodes.FORBIDDEN);
 		}
 

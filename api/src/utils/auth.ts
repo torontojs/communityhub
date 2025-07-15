@@ -16,7 +16,7 @@ const DEFAULT_COOKIE_OPTIONS = {
 	sameSite: 'Strict'
 } satisfies CookieOptions;
 
-export const Access = {
+export const ACCESS_LEVEL = {
 	ADMIN: 'admin',
 	ORGANIZER: 'organizer',
 	VOLUNTEER: 'volunteer'
@@ -24,7 +24,7 @@ export const Access = {
 
 type ContextWithBindings = Context<EnvironmentBindings>;
 
-export type AccessLevel = typeof Access[keyof typeof Access];
+export type AccessLevel = typeof ACCESS_LEVEL[keyof typeof ACCESS_LEVEL];
 
 export interface SessionData {
 	id: string;

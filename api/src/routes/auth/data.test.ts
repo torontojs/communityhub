@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { beforeEach, describe, expect, test } from 'vitest';
-import { Access, type AccessLevel } from '../../utils/auth.ts';
+import { ACCESS_LEVEL, type AccessLevel } from '../../utils/auth.ts';
 import { MockEnvBindings } from '../../utils/testing.ts';
 import {
 	checkActiveEmail,
@@ -22,7 +22,7 @@ const sampleUser: User = {
 	id: '3227114d-43c4-42ed-8aea-f3860fe42222',
 	email: 'profile1@example.com',
 	password: 'hashed-password',
-	access: Access.ORGANIZER,
+	access: ACCESS_LEVEL.ORGANIZER,
 	name: 'John Doe',
 	avatar: 'avatar-url'
 };
