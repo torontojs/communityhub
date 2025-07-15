@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+const MS = 1000;
+
 export function useCountdown(
 	seconds: number,
 	setSeconds: (s: number) => void
@@ -8,7 +10,7 @@ export function useCountdown(
 		if (seconds <= 0) { return; }
 		const timer = setTimeout(() => {
 			setSeconds(seconds - 1);
-		}, 1000);
+		}, MS);
 		return () => clearTimeout(timer);
 	}, [seconds, setSeconds]);
 

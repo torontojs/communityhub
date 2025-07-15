@@ -4,7 +4,6 @@
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	height: inherit;
 	justify-items: center;
 }
 
@@ -12,7 +11,5 @@
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	height: inherit;
 	justify-content: center;
-	width: clamp(20rem, 90vw, 25rem);
 }
