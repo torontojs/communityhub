@@ -6,28 +6,38 @@
 	"license": "MIT",
 	"scripts": {
 		"prepare": "husky",
+
 		"start": "npm run dev",
 		"dev": "vite dev",
 		"dev:cron": "wrangler dev --test-scheduled",
+
 		"generate:types": "wrangler types api/src/env.d.ts",
 		"db:setup": "wrangler d1 migrations apply vms-local --local",
 		"db:seed": "wrangler d1 execute vms-local --local --file=./db/seeds/seed-data.sql",
+
 		"build": "vite build",
 		"prepreview": "npm run build",
 		"preview": "vite preview",
+
 		"predeploy:dev": "npm run build",
 		"deploy:dev": "wrangler deploy --minify --env dev",
+
 		"predeploy:prod": "npm run build",
 		"deploy:prod": "wrangler deploy --minify --env production",
+
 		"format": "dprint fmt --staged",
+		"format:check": "dprint check",
+
 		"typecheck:api": "tsc -p ./api --noEmit",
 		"typecheck:client": "tsc -p ./src --noEmit",
+		"typecheck": "npm run typecheck:api && npm run typecheck:client",
 		"lint:js": "eslint",
-		"lint": "npm run typecheck:api && npm run typecheck:client && npm run lint:js",
-		"test:unit": "vitest",
-		"coverage": "vitest run --coverage",
-		"test:api": "hurl --variables-file .dev.vars api/api_tests/*.hurl --verbose --test > hurl_results.txt 2>&1",
-		"test:api:ci": "hurl --glob 'tests/**/*.hurl' --continue-on-error --test --jobs 4 --max-time 300 --no-color --output-tap results.tap --variable-file .env.vars"
+		"lint": "npm run typecheck && npm run lint:js",
+
+		"test:coverage": "vitest run --coverage",
+		"test:unit": "vitest run",
+		"test:api": "hurl --glob \"**/*.hurl\" --continue-on-error --jobs 4 --max-time 300 --test --variables-file .dev.vars --variable host=http://localhost:3000",
+		"test": "vitest"
 	},
 	"dependencies": {
 		"@hono/swagger-ui": "0.5.2",
@@ -42,6 +52,7 @@
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "1.9.4",
 		"@cloudflare/vitest-pool-workers": "0.8.53",
+		"@orangeopensource/hurl": "6.1.1",
 		"@types/node": "^22.16.3",
 		"@types/react": "18.3.23",
 		"@types/react-dom": "18.3.7",
@@ -59,6 +70,7 @@
 		"husky": "9.1.7",
 		"typescript": "5.8.3",
 		"vite": "^7.0.4",
+		"vitest": "3.2.4",
 		"wrangler": "^4.24.3",
 		"zod": "^3.25.76"
 	},

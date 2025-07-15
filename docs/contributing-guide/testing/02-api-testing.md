@@ -22,7 +22,7 @@ E.g.:
 
 ## Tools
 
-For API testing we use [`hurl`](https://hurl.dev/). Running the tests requires a server running, so this process is done on 3 steps:
+For API testing we use [`hurl`](https://hurl.dev/) (it is installed through npm as a dependency). Running the tests requires a server running, so this process is done on 3 steps:
 
 1. Reset and seed the database:
    ```shell
