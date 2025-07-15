@@ -31,7 +31,7 @@ FROM (
 	SELECT id, activatedAt, deletedAt, deletedReason
 	FROM profile
 	WHERE
-		profile.id = access.id
+		profile.id = id
 ) AS profile
 WHERE access.id = profile.id;
 
