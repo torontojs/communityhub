@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS profile_links (
 	-- The UUID of the profile this link belongs to
 	profileId TEXT NOT NULL,
 	-- The platform name for the link
-	platform TEXT NOT NULL,
+	platform TEXT NOT NULL CHECK (platform IN ('site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto')),
 	-- The URL of the link
 	url TEXT NOT NULL,
 

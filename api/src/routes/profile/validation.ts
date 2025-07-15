@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
 
-export const PlatformEnum = z.enum(['slack', 'linkedin', 'github', 'portfolio', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'xtwitter', 'dev']).describe(
-	'The name of the platform for the URL.'
-);
+export const PlatformEnum = z.enum(['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'])
+	.describe(
+		'The name of the platform for the URL.'
+	);
 
 export type SocialMediaPlatforms = z.infer<typeof PlatformEnum>;
 
