@@ -11,7 +11,8 @@ export const DBTables = {
 	ACCESS: 'access',
 	PROFILE_SKILLS: 'profile_skills',
 	PROFILE_LINKS: 'profile_links',
-	EVENT_LOG: 'event_log'
+	EVENT_LOG: 'event_log',
+	DOCUMENTS: 'documents'
 } as const;
 
 export const IdAndSchemaVersionSchema = z.object({
