@@ -53,12 +53,12 @@ export async function insertProfile(database: D1Database, { email, name, passwor
 		),
 		database.prepare(`
 			INSERT INTO ${DBTables.ACCESS} (
-				id, schemaVersion, accessLevel, password, email
+				accessLevel, profileStatus, id, schemaVersion, password, email
 			)
 			VALUES (
-				?, ?, ?, ?, ?
+				'volunteer', 'created', ?, ?, ?, ?
 			)
-		`).bind(profileId, schemaVersion, 'volunteer', password, email),
+		`).bind(profileId, schemaVersion, password, email),
 		EventLog.joinTorontoJS(database, profileId),
 		database.prepare(`
 			INSERT INTO ${DBTables.ROLE} (
@@ -123,7 +123,7 @@ export async function updateProfileById(
 				SELECT id, activatedAt, deletedAt
 				FROM ${DBTables.ACCESS}
 				WHERE
-					profile.id = access.id
+					access.id = id
 			) AS access
 			WHERE
 				profile.id = ?

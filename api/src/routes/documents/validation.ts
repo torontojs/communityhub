@@ -14,9 +14,9 @@ export const ProfileDocumentVersionSchema = z.string().datetime({ offset: true }
 export type ProfileDocumentVersion = z.infer<typeof ProfileDocumentVersionSchema>;
 
 export const DOCUMENT_VERSIONS: Record<ProfileDocumentType, ProfileDocumentVersion> = {
-	'code-of-conduct': '',
-	'image-release-form': '',
-	'volunteer-agreement': ''
+	'code-of-conduct': '2025-07-15T04:36:15Z',
+	'image-release-form': '2025-07-15T04:36:15Z',
+	'volunteer-agreement': '2025-07-15T04:36:15Z'
 } as const;
 
 export const ProfileDocumentSchema = IdAndSchemaVersionSchema.merge(z.object({

@@ -47,8 +47,12 @@ export async function getProfileStatus(database: D1Database, profileId: string):
 		return 'deleted';
 	}
 
-	const hasSignedAllDocuments = new Set(...documents.map(({ type }) => type)).difference(new Set(...Object.keys(DOCUMENT_VERSIONS))).size === 0;
-	const hasSignedAllDocumentVersions = new Set(...documents.map(({ documentVersion }) => documentVersion)).difference(new Set(...Object.values(DOCUMENT_VERSIONS))).size === 0;
+	const documentTypes = new Set(...Object.keys(DOCUMENT_VERSIONS));
+	const documentVersions = new Set(Object.values(DOCUMENT_VERSIONS));
+	const signedDocumentTypes = new Set(documents.map(({ type }) => type));
+	const signedDocumentVersions = new Set(documents.map(({ documentVersion }) => documentVersion));
+	const hasSignedAllDocuments = documentTypes.intersection(signedDocumentTypes).size === documentTypes.size;
+	const hasSignedAllDocumentVersions = documentVersions.intersection(signedDocumentVersions).size === documentVersions.size;
 
 	const isCreated = Boolean(insertedAt);
 	const isActivated = Boolean(activatedAt);
