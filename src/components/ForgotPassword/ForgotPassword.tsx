@@ -64,8 +64,8 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 	};
 
 	return (
-		<div className='password-recovery-form'>
-			<form onSubmit={handleSubmit} className='recovery-content' noValidate>
+		<div id='password-recovery-form'>
+			<form onSubmit={handleSubmit} id='recovery-content' noValidate>
 				<p>Enter your e-mail to recover your password.</p>
 
 				<div className='input-block'>
@@ -96,11 +96,11 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 					</Button>
 					{isSubmitted && (
 						<>
-							<div className='success-message' role='status' aria-live='polite'>
+							<div className='success-message'>
 								<p>Check your e-mail. We've sent you a recovery link. If you didn't get the link, check your spam folder or try again in 10 minutes.</p>
 							</div>
 							<hr />
-							<div className='resend-timer' id='countdown-status' aria-live='polite'>
+							<div className='resend-timer' id='countdown-status'>
 								<ClockIcon aria-hidden='true' />
 								<p>Wait {Math.ceil(seconds / 60)} minutes for a new activation link</p>
 							</div>
