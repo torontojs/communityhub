@@ -1,7 +1,11 @@
 import { z } from 'zod';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
 
-export const PlatformEnum = z.enum(['slack', 'linkedin', 'github', 'portfolio', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'xtwitter', 'dev']);
+export const PlatformEnum = z.enum(['slack', 'linkedin', 'github', 'portfolio', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'xtwitter', 'dev']).describe(
+	'The name of the platform for the URL.'
+);
+
+export type SocialMediaPlatforms = z.infer<typeof PlatformEnum>;
 
 export const ProfileSchema = BaseDbEntitySchema.merge(z.object({
 	email: z
@@ -78,8 +82,7 @@ export const ProfileLinkSchema = z.object({
 		.string()
 		.uuid()
 		.describe('The profile id.'),
-	platform: PlatformEnum
-		.describe('The name of the platform for the URL.'),
+	platform: PlatformEnum,
 	url: z
 		.string()
 		.url()
