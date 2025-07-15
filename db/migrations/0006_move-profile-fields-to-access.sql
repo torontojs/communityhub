@@ -20,6 +20,9 @@ ALTER TABLE access ADD COLUMN activatedAt DATETIME DEFAULT NULL;
 ALTER TABLE access ADD COLUMN deletedAt DATETIME DEFAULT NULL;
 -- When a profile is deactivated, this fields enables us to keep notes for other organizers in a future moment.
 ALTER TABLE access ADD COLUMN deletedReason TEXT DEFAULT NULL;
+-- The profile status. It is updated based on where in the sign-up process the user is.
+-- It will be updated as the user moves forward with the sign-up process.
+ALTER TABLE access ADD COLUMN profileStatus TEXT DEFAULT 'error' CHECK(profileStatus IN ('activated', 'created', 'deleted', 'error', 'profile-completed', 'social-handle-provided', 'tos-accepted'));
 
 -- 2. Copy data from profile to access for these fields
 UPDATE access AS access

@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import type { AccessLevel } from './auth.ts';
 
 export const SCHEMA_VERSION = 1;
 export const DEFAULT_TEAM_ID = 'b3410598-ecbc-41be-9f68-925da74bc613';
@@ -60,13 +59,4 @@ export function generateBaseDBfields() {
 		insertedAt: newTimestamp.toISOString(),
 		happenedAt: newTimestamp.toISOString()
 	} satisfies BaseDBEntity;
-}
-
-export interface Access extends IdAndSchemaVersion {
-	accessLevel: AccessLevel;
-	password: string;
-	email: string;
-	activatedAt?: ISODate;
-	deletedAt?: ISODate;
-	deletedReason?: string;
 }
