@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
 		publicDir: '../public',
 		clearScreen: false,
 		server: {
-			host: 'localhost',
+			host: '0.0.0.0',
 			open: false,
 			cors: true,
 			port: 3000
@@ -54,7 +54,9 @@ export default defineConfig(({ mode }) => {
 		},
 		optimizeDeps: { esbuildOptions: { target: 'esnext' } },
 		preview: {
-			open: true,
+			host: '0.0.0.0',
+			open: false,
+			port: 3000,
 			cors: true
 		}
 	};

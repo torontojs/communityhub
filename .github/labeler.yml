@@ -1,0 +1,14 @@
+# Docs files
+"Docs 📚":
+  - changed-files:
+      - any-glob-to-any-file: docs/**/*
+
+# Backend files
+"Backend/API 🍑":
+  - changed-files:
+      - any-glob-to-any-file: api/**/*
+
+# Frontend files
+"Frontend 💅":
+  - changed-files:
+      - any-glob-to-any-file: src/**/*

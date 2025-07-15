@@ -246,8 +246,10 @@
 		--color-white: hsla(0, 0%, 100%, 1);
 		--color-black: #333333; /* Default black tone for light mode */
 		--color-black: hsla(0, 0%, 20%, 1);
+
 		--color-accent: #ed342f; /* Default brand tone, for links, buttons and highlights */
 		--color-accent: hsla(2, 84%, 56%, 1);
+
 		--color-button: #0000000e; /* Default tone for buttons in light mode */
 		--color-button: hsla(0, 0%, 0%, 0.15);
 		--color-shadow-light: hsla(0, 0%, 0%, 0.1); /* Light shadow color */
