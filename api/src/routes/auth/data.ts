@@ -23,6 +23,7 @@ export async function getHeartbeatInfo(database: D1Database, id: string) {
 		.prepare(`
 			SELECT
 				access.accessLevel AS access,
+				access.profileStatus AS status,
 				profile.id AS id,
 				profile.avatar AS avatar,
 				profile.name AS name
@@ -37,7 +38,7 @@ export async function getHeartbeatInfo(database: D1Database, id: string) {
 			LIMIT 1
 		`)
 		.bind(id)
-		.first<{ access: AccessLevel, id: string, avatar?: string, name?: string }>();
+		.first<{ access: AccessLevel, status: ProfileStatus, id: string, avatar?: string, name?: string }>();
 
 	return userInfo;
 }
