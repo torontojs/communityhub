@@ -1,35 +1,59 @@
-#!/usr/bin/env pwsh
+#! /usr/bin/env pwsh
 
-$Now = "'$(Get-Date -AsUTC -Format 'yyyy-MM-ddTHH:mm:ssZ')'"
+$Now = "'2025-06-14T22:04:47Z'"
 
 $SeedString = ''
-
-$Organizers = @()
-$Volunteers = @()
-
-$PasswordHashes = Get-Content (Join-Path -Path $PSScriptRoot -ChildPath './data/hashed-passwords.json') |
-ConvertFrom-Json
 
 # Add users seed
 Get-Content (Join-Path -Path $PSScriptRoot -ChildPath './data/users-seed.json') |
 ConvertFrom-Json |
 ForEach-Object {
-	$UserId = "'$((New-Guid).Guid)'"
-	$UserEmail = $_.email
-	$ActivatedAt = 'NULL'
-	$PasswordHash = "'$(($PasswordHashes | Where-Object { $_.email -eq $UserEmail } | Select-Object -First 1).password)'"
+	$UserId = "'$($_.id)'"
+	$ActivatedAt = $Now
+	$DocumentsString = ''
 
-	if ($_.isActivated) {
-		$ActivatedAt = $Now
+	if ($_.profileStatus -eq 'created') {
+		$ActivatedAt = 'NULL'
+	}
 
-		switch ($_.role) {
-			'volunteer' {
-				$Volunteers = $Volunteers + @($UserId)
-			}
-			'organizer' {
-				$Organizers = $Organizers + @($UserId)
-			}
-		}
+	if ($_.profileStatus -in @('profile-completed', 'social-handle-provided', 'tos-accepted')) {
+		$DocumentsString = @"
+-- Code of conduct
+INSERT INTO "documents" (
+	"id", "schemaVersion",
+	"profileId", "signedAt",
+	"type", "documentVersion"
+)
+VALUES (
+	'$((New-Guid).Guid)', 1,
+	$UserId, $Now,
+	'code-of-conduct', '2025-07-15T04:36:15Z'
+);
+
+-- Image release form
+INSERT INTO "documents" (
+	"id", "schemaVersion",
+	"profileId", "signedAt",
+	"type", "documentVersion"
+)
+VALUES (
+	'$((New-Guid).Guid)', 1,
+	$UserId, $Now,
+	'image-release-form', '2025-07-15T04:36:15Z'
+);
+
+-- Volunteer agreement
+INSERT INTO "documents" (
+	"id", "schemaVersion",
+	"profileId", "signedAt",
+	"type", "documentVersion"
+)
+VALUES (
+	'$((New-Guid).Guid)', 1,
+	$UserId, $Now,
+	'volunteer-agreement', '2025-07-15T04:36:15Z'
+);
+"@
 	}
 
 	$SkillsString = ($_.skills |
@@ -39,7 +63,7 @@ INSERT INTO "profile_skills" (
 	"id", "skill", "profileId"
 )
 VALUES (
-	'$((New-Guid).Guid)', '$_', $UserId
+	'$($_.id)', '$($_.skill)', $UserId
 );
 
 "@
@@ -52,7 +76,7 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'$((New-Guid).Guid)', '$($_.platform)', '$($_.handle)', $UserId
+	'$($_.id)', '$($_.platform)', '$($_.handle)', $UserId
 );
 
 "@
@@ -68,7 +92,7 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description",
+	"pronouns", "birthday", "description"
 )
 VALUES (
 	$UserId, 1, $Now, $Now,
@@ -78,10 +102,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
 )
 VALUES (
-	$UserId, 1, '$($_.role)', $PasswordHash, '$($_.email)', $ActivatedAt
+	$UserId, 1, '$($_.role)', '$($_.passwordHash)', '$($_.email)', $ActivatedAt, '$($_.profileStatus)'
 );
 
 -- Add event log to Toronto JS
@@ -92,7 +116,7 @@ INSERT INTO "event_log" (
 	"object", "objectSource"
 )
 VALUES (
-	'$((New-Guid).Guid)', 1, $Now, $Now,
+	'$($_.eventLog.joined)', 1, $Now, $Now,
 	$UserId, 'profile',
 	'joined',
 	'b3410598-ecbc-41be-9f68-925da74bc613', 'special'
@@ -104,7 +128,7 @@ INSERT INTO "role" (
 	"name", "description", "teamId", "profileId"
 )
 VALUES (
-	'$((New-Guid).Guid)', 1, $Now, $Now,
+	'$($_.eventLog.volunteered)', 1, $Now, $Now,
 	'volunteer', 'Volunteer at Toronto JS', 'b3410598-ecbc-41be-9f68-925da74bc613', $UserId
 );
 
@@ -113,6 +137,9 @@ $SkillsString
 
 -- Links
 $LinksString
+
+-- Documents
+$DocumentsString
 
 -- #endregion
 
@@ -124,12 +151,11 @@ $LinksString
 Get-Content (Join-Path -Path $PSScriptRoot -ChildPath './data/teams-seed.json') |
 ConvertFrom-Json |
 ForEach-Object {
-	$TeamId = "'$((New-Guid).Guid)'"
-	$OrganizerId = Get-Random -InputObject $Organizers
+	$TeamId = "'$($_.id)'"
+	$OrganizerId = "'$($_.organizerId)'"
 
 	$TeamMembersString = ($_.roles |
 		ForEach-Object {
-			$VolunteerId = Get-Random -InputObject $Volunteers
 			@"
 -- Team member: $($_.name)
 INSERT INTO "role" (
@@ -138,9 +164,9 @@ INSERT INTO "role" (
 	"profileId"
 )
 VALUES (
-	'$((New-Guid).Guid)', 1, $Now, $Now,
+	'$($_.id)', 1, $Now, $Now,
 	$TeamId, '$($_.name)', '$($_.description)',
-	$VolunteerId
+	'$($_.memberId)'
 );
 
 -- Add team member to event log
@@ -151,8 +177,8 @@ INSERT INTO "event_log" (
 	"object", "objectSource"
 )
 VALUES (
-	'$((New-Guid).Guid)', 1, $Now, $Now,
-	$VolunteerId, 'profile',
+	'$($_.eventLog.joined)', 1, $Now, $Now,
+	'$($_.memberId)', 'profile',
 	'joined',
 	$TeamId, 'team'
 );
@@ -169,7 +195,7 @@ INSERT INTO "team" (
 	"description"
 )
 VALUES (
-	$TeamId, 1, $Now, $Now,
+	'$($_.id)', 1, $Now, $Now,
 	'$($_.name)',
 	'$($_.description)'
 );
@@ -182,10 +208,10 @@ INSERT INTO "event_log" (
 	"object", "objectSource"
 )
 VALUES (
-	'$((New-Guid).Guid)', 1, $Now, $Now,
+	'$($_.eventLog.created)', 1, $Now, $Now,
 	$OrganizerId, 'profile',
 	'created',
-	$TeamId, 'team'
+	'$($_.id)', 'team'
 );
 
 -- Team members
