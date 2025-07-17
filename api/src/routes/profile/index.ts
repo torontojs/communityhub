@@ -4,10 +4,10 @@ import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
 import { authorizeAdmin, authorizeVolunteer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
-import { Access, getSession } from '../../utils/auth.ts';
+import { ACCESS_LEVEL, getSession } from '../../utils/auth.ts';
 import {
 	type DataResponse,
-	generateDataResponeSchema,
+	generateDataResponseSchema,
 	generatePaginatedResponseSchema,
 	type PaginatedResponse,
 	StatusCodes,
@@ -16,6 +16,7 @@ import {
 	StatusResponseSchema
 } from '../../utils/responses.ts';
 import { IdParamSchema } from '../../utils/validation.ts';
+import { updateProfileStatus } from '../auth/data.ts';
 import { deleteProfileById, doesProfileExist, getAllProfiles, getProfileById, updateProfileById } from './data.ts';
 import { ProfileSchema, UpdateProfileSchema } from './validation.ts';
 
@@ -80,7 +81,7 @@ profileRoutes.openapi(
 			},
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generateDataResponeSchema(ProfileSchema) } }
+				content: { 'application/json': { schema: generateDataResponseSchema(ProfileSchema) } }
 			}
 		},
 		middleware: [authMiddleware] as const
@@ -110,7 +111,7 @@ profileRoutes.openapi(
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generateDataResponeSchema(ProfileSchema) } }
+				content: { 'application/json': { schema: generateDataResponseSchema(ProfileSchema) } }
 			},
 			[StatusCodes.NOT_FOUND]: {
 				description: 'Error response',
@@ -168,7 +169,7 @@ profileRoutes.openapi(
 		const session = getSession(context);
 
 		// For volunteers, only allow if it's their own profile
-		if (session.id !== id && session.access !== Access.ADMIN) {
+		if (session.id !== id && session.access !== ACCESS_LEVEL.ADMIN) {
 			return context.json({ message: 'Can only modify own profile' }, StatusCodes.FORBIDDEN);
 		}
 
@@ -183,6 +184,8 @@ profileRoutes.openapi(
 		if (!isUpdated) {
 			return context.json({ message: 'Profile not updated' } satisfies StatusResponse, StatusCodes.INTERNAL_SERVER_ERROR);
 		}
+
+		await updateProfileStatus(context.env.Database, id);
 
 		return context.json({ message: 'Profile updated successfully' } satisfies StatusResponse, StatusCodes.OKAY);
 	}

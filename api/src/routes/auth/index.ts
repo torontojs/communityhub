@@ -6,7 +6,7 @@ import { createSession, deleteSession, getSession, revalidateSession } from '../
 import { hashPassword, validatePassword } from '../../utils/password-hashing.ts';
 import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { insertProfile } from '../profile/data.ts';
-import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo } from './data.ts';
+import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo, updateProfileStatus } from './data.ts';
 import { type HeartbeatResponse, HeartbeatResponseSchema } from './responses.ts';
 import { ActivateSchema, ForgotPasswordSchema, SignInSchema, SignUpSchema } from './validation.ts';
 
@@ -44,14 +44,15 @@ authRoutes.openapi(
 		}
 
 		const hashedPasswordWithSalt = await hashPassword(password);
-		await insertProfile(context.env.Database, { email, password: hashedPasswordWithSalt, name });
+		const { id } = await insertProfile(context.env.Database, { email, password: hashedPasswordWithSalt, name });
+		await updateProfileStatus(context.env.Database, id);
 
 		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 		const TEN_MINUTES_IN_SECONDS = 60 * 10;
 		const token = crypto.randomUUID();
 		await context.env.ActivationTokens.put(
 			token,
-			email,
+			JSON.stringify({ email, id }),
 			{ expirationTtl: TEN_MINUTES_IN_SECONDS }
 		);
 
@@ -102,7 +103,7 @@ authRoutes.openapi(
 			return context.json({ message: 'Invalid or missing token' }, StatusCodes.BAD_REQUEST);
 		}
 
-		const email = await context.env.ActivationTokens.get(token);
+		const { email, id } = JSON.parse((await context.env.ActivationTokens.get(token)) ?? '{}') as { email?: string, id: string };
 		if (!email) {
 			return context.json({ message: 'Invalid or expired token' }, StatusCodes.UNAUTHORIZED);
 		}
@@ -117,6 +118,8 @@ authRoutes.openapi(
 		if (!activated) {
 			return context.json({ message: 'Failed to activate account' }, StatusCodes.INTERNAL_SERVER_ERROR);
 		}
+
+		await updateProfileStatus(context.env.Database, id);
 
 		// Remove token after successful activation
 		await context.env.ActivationTokens.delete(token);

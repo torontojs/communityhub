@@ -1,88 +1,145 @@
 [
 	{
+		"id": "72bdd945-1479-4f87-8ce7-ef0a6c5101c8",
 		"name": "Ministry of Silly Walks",
 		"description": "Tasked with ensuring every corridor is traversed in the most inefficient and visually preposterous manner possible.",
+		"organizerId": "3c5123c0-8548-4a02-a83c-32e9ce67eae8",
 		"roles": [
 			{
+				"id": "f7068575-7836-45da-af7a-0cf32928c1c5",
+				"memberId": "bfc463bf-a066-4896-8bda-1af982893a49",
 				"name": "Chief Silliness Officer",
-				"description": "Sets quarterly KPIs for knee-lift height and ankle-twist frequency."
+				"description": "Sets quarterly KPIs for knee-lift height and ankle-twist frequency.",
+				"eventLog": { "joined": "cc6bff33-66af-43d7-96ef-339c2bd6e8b0" }
 			},
 			{
+				"id": "376d3bf1-2f82-41b5-ab8c-f8476c722b56",
+				"memberId": "777b0252-5d54-4fcf-92da-c94715edd5f3",
 				"name": "Gait Auditor",
-				"description": "Surprises teams with clipboard-in-hand walk-tests and issues citations for excessive normality."
+				"description": "Surprises teams with clipboard-in-hand walk-tests and issues citations for excessive normality.",
+				"eventLog": { "joined": "99e78a65-66a6-4f30-a45e-ad0a2b9fc094" }
 			},
 			{
+				"id": "f1192512-6fb7-41b2-861e-49a38e3f7a09",
+				"memberId": "012c9ecf-4897-4879-bd7c-9c877d409626",
 				"name": "Stride Evangelist",
-				"description": "Runs noon-hour masterclasses on emerging absurd locomotion trends."
+				"description": "Runs noon-hour masterclasses on emerging absurd locomotion trends.",
+				"eventLog": { "joined": "ac21767b-2157-4175-b87e-b8dd11ae8405" }
 			}
-		]
+		],
+		"eventLog": { "created": "2d8e0f33-97b7-4d1f-a37b-c8977401a63f" }
 	},
 	{
+		"id": "70ca1ff2-6ab6-4533-ae79-203f5b08742c",
 		"name": "Department of Argumentation",
 		"description": "Provides on-demand, well-structured disagreements for anyone needing a vigorous contradiction.",
+		"organizerId": "bf950534-e8f9-4f5a-a246-610aa63faf21",
 		"roles": [
 			{
+				"id": "ed2a893e-54ee-43af-b03d-eed39374fc9c",
+				"memberId": "2f512451-861c-4d69-aa25-b27ee54d16cb",
 				"name": "Head Contradictor",
-				"description": "Professionally refutes every statement, including their own, for maximum dialectical agility."
+				"description": "Professionally refutes every statement, including their own, for maximum dialectical agility.",
+				"eventLog": { "joined": "270f86f2-f234-4f05-8482-2dc8569f56c9" }
 			},
 			{
+				"id": "6f73e09d-8481-4a05-b4a3-524cd86080cd",
+				"memberId": "5a401f5d-e129-40f8-9190-b3615d3cd8d6",
 				"name": "Professional Naysayer",
-				"description": "Offers premium ‘No it isn’t!’ packages with same-day delivery."
+				"description": "Offers premium ‘No it isn’t!’ packages with same-day delivery.",
+				"eventLog": { "joined": "abbab4d5-2b11-4656-a1cf-d989893ab36f" }
 			},
 			{
+				"id": "841f251a-6197-4282-a527-6db44c6d2215",
+				"memberId": "3caf90c5-7c7e-4931-82b4-888666cd8bac",
 				"name": "Devil’s Advocate",
-				"description": "Raises objections nobody asked for, purely out of principle (or lack thereof)."
+				"description": "Raises objections nobody asked for, purely out of principle (or lack thereof).",
+				"eventLog": { "joined": "eba732db-a47f-48c4-906a-a63f497f66ed" }
 			}
-		]
+		],
+		"eventLog": { "created": "03f68f52-bc0e-4c6c-8d24-51c5f3183e81" }
 	},
 	{
+		"id": "82df0f4a-2a32-4c14-86d9-4b17fc7566e4",
 		"name": "Bureau of Completely Useless Products",
 		"description": "Designs, prototypes, and markets items guaranteed to solve absolutely zero real-world problems.",
+		"organizerId": "bf950534-e8f9-4f5a-a246-610aa63faf21",
 		"roles": [
 			{
+				"id": "accc8a42-9e7b-40f2-ad0a-889fdf5fe4c8",
+				"memberId": "012c9ecf-4897-4879-bd7c-9c877d409626",
 				"name": "Chief Uselessness Engineer",
-				"description": "Ensures all products exceed strict non-functionality standards before launch."
+				"description": "Ensures all products exceed strict non-functionality standards before launch.",
+				"eventLog": { "joined": "661c67a0-11b0-4aef-bc1d-a4cb04c53bce" }
 			},
 			{
+				"id": "4130d9ce-5b63-43c1-a700-c456b1a20453",
+				"memberId": "89bb6497-0e60-4fc4-b6e3-419c34ce49b1",
 				"name": "Director of Pointless Innovation",
-				"description": "Leads ideation sprints for concepts like inflatable dartboards and waterproof tea-bags."
+				"description": "Leads ideation sprints for concepts like inflatable dartboards and waterproof tea-bags.",
+				"eventLog": { "joined": "76677441-efa6-48f4-97cb-6a1a36e563d7" }
 			}
-		]
+		],
+		"eventLog": { "created": "4d6f0766-8687-4295-ad80-8ada442bdda8" }
 	},
 	{
+		"id": "d602086f-35f5-4013-85e2-e7a268e4644e",
 		"name": "Dead Parrot Complaint Office",
 		"description": "Handles customer grievances with unwavering insistence that every defective item is merely ‘resting.’",
+		"organizerId": "3c5123c0-8548-4a02-a83c-32e9ce67eae8",
 		"roles": [
 			{
+				"id": "aad0dd7a-6cfc-4378-882f-8930d26a4180",
+				"memberId": "22fa5d4f-1e53-42f3-a00d-7010e7973b12",
 				"name": "Senior Parrot Reanimator",
-				"description": "Delivers theatrical denial demonstrations, occasionally involving puppetry and coconut shells."
+				"description": "Delivers theatrical denial demonstrations, occasionally involving puppetry and coconut shells.",
+				"eventLog": { "joined": "c35c90b7-64a8-40e8-93c3-88f3a49f5508" }
 			},
 			{
+				"id": "3fcaaffe-27ad-4ed3-b37b-489715d666a3",
+				"memberId": "777b0252-5d54-4fcf-92da-c94715edd5f3",
 				"name": "Customer Inconvenience Coordinator",
-				"description": "Crafts labyrinthine phone trees to ensure complaints remain delightfully unresolved."
+				"description": "Crafts labyrinthine phone trees to ensure complaints remain delightfully unresolved.",
+				"eventLog": { "joined": "fc6c5c57-9b10-4944-9978-76bb9d4fbedd" }
 			},
 			{
+				"id": "bbc12465-fafc-42da-a750-6e201ac01ae4",
+				"memberId": "76fded46-124d-4b2b-abcc-f1db71bbf622",
 				"name": "Denial Specialist",
-				"description": "Polishes the official ‘not dead yet’ narrative across all communication channels."
+				"description": "Polishes the official ‘not dead yet’ narrative across all communication channels.",
+				"eventLog": { "joined": "678e04fe-168c-47ff-95c0-45fa1bb3390e" }
 			}
-		]
+		],
+		"eventLog": { "created": "f1c61067-0874-4635-b81f-8508d32f7452" }
 	},
 	{
+		"id": "00a34ce0-c620-4954-9bcc-ac839e718bad",
 		"name": "Department of Shrubbery Procurement",
 		"description": "Maintains strategic alliances with the Knights Who Say ‘Ni!’ to secure aesthetically pleasing shrubberies.",
+		"organizerId": "3c5123c0-8548-4a02-a83c-32e9ce67eae8",
 		"roles": [
 			{
+				"id": "4b4e569a-b065-4608-a9f8-6251eb74e1af",
+				"memberId": "bfc463bf-a066-4896-8bda-1af982893a49",
 				"name": "Grand Shrubbery Overseer",
-				"description": "Defines corporate shrub-height regulations and negotiates bulk topiary deals."
+				"description": "Defines corporate shrub-height regulations and negotiates bulk topiary deals.",
+				"eventLog": { "joined": "78ba327e-44bc-4bf7-8a5c-243ed43af12d" }
 			},
 			{
+				"id": "f6c4b5e1-955f-4c30-a649-2056dd20faab",
+				"memberId": "3caf90c5-7c7e-4931-82b4-888666cd8bac",
 				"name": "Royal Bush Trimmer",
-				"description": "Keeps every hedge impeccably coiffed to medieval-court standards."
+				"description": "Keeps every hedge impeccably coiffed to medieval-court standards.",
+				"eventLog": { "joined": "0cfa0d4c-32fc-45a1-8151-d909b4d99652" }
 			},
 			{
+				"id": "adcd2094-e9e7-4312-a1ba-814bb697fcf0",
+				"memberId": "2217e267-144e-4651-bfce-87ce653f9f03",
 				"name": "Knight Liaison",
-				"description": "Translates executive memos into acceptable offerings for shrub-obsessed knights."
+				"description": "Translates executive memos into acceptable offerings for shrub-obsessed knights.",
+				"eventLog": { "joined": "c83d8ce7-308b-4e16-ad1e-271e6112c417" }
 			}
-		]
+		],
+		"eventLog": { "created": "214342a4-5565-446b-a2ca-97d372dd5f7c" }
 	}
 ]

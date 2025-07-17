@@ -1,327 +1,512 @@
 [
 	{
+		"id": "65c09d85-eda1-470e-9a2e-9ce7a1994613",
+		"profileStatus": "profile-completed",
 		"email": "root@torontojs.com",
-		"isActivated": true,
 		"name": "root",
 		"password": "correct horse battery staple",
+		"passwordHash": "0az0isH9H1/NnD4TsbRlOQ==:fCgNPS12kUKtM6xtAmsaT4TXydTxDPXz5/GQY16FdQXgl3bhGUZjMYTbFJMOJlbQe4bmQ0z9wEYbjDApTnd7iA==",
 		"skills": [],
 		"pronouns": "they/them",
 		"description": "root",
 		"birthday": "01-01",
 		"role": "admin",
 		"links": [
-			{ "platform": "site", "handle": "torontojs.com" }
-		]
+			{ "id": "bb07af9c-3a1c-4d0b-a51b-3b99e7220351", "platform": "site", "handle": "torontojs.com" }
+		],
+		"eventLog": { "joined": "82814359-97c4-4c76-86dc-c08293a283e3", "volunteered": "12dc94e2-7507-4faa-95e1-5faaffa9d638" },
+		"documents": {
+			"codeOfConduct": "e72fc09b-74c3-4efe-94d4-df315c8c796f",
+			"volunteerAgreement": "6c3439ee-7835-42c5-93e0-fc5a14eb97bb",
+			"imageReleaseForm": "65bad04f-825f-403a-88cc-222f0bbf0a43"
+		}
 	},
 	{
+		"id": "3c5123c0-8548-4a02-a83c-32e9ce67eae8",
+		"profileStatus": "profile-completed",
 		"email": "king.arthur@camelot.uk",
-		"isActivated": true,
 		"name": "King Arthur",
 		"password": "H0lyGr@il42!",
-		"skills": ["Leadership", "Questing", "Table Management"],
+		"passwordHash": "saMwRm9Sfm0QSkmxgAIadA==:1pkHxwpYK2HCWlItbMNfJ0XmvTmnTXD2l70s5GMLtMUC85fhbMU9B0VKSFzWALQXtc945LB5zsKNg0w1cybCKA==",
+		"skills": [
+			{ "id": "0fd6ac1e-c464-475d-b3ef-6f4dc3658bc2", "skill": "Leadership" },
+			{ "id": "eee2e36c-2bf3-4aa8-93ee-41d405da0919", "skill": "Questing" },
+			{ "id": "a78fc687-4903-418c-920a-6f3785b9250a", "skill": "Table Management" }
+		],
 		"pronouns": "he/him",
 		"description": "Gallant monarch forever seeking sacred drinkware.",
 		"birthday": "03-14",
 		"role": "organizer",
 		"links": [
-			{ "platform": "twitter", "handle": "arthur_king" },
-			{ "platform": "github", "handle": "arthur-king" },
-			{ "platform": "linkedin", "handle": "arthur.king" },
-			{ "platform": "mastodon", "handle": "arthur_king@mastodon.social" },
-			{ "platform": "instagram", "handle": "arthur_king" }
-		]
+			{ "id": "4d6edf63-0592-4430-9773-98a85d39dd50", "platform": "twitter", "handle": "arthur_king" },
+			{ "id": "03f5b336-4b5a-4af7-9c6e-106d6ddd6ebd", "platform": "github", "handle": "arthur-king" },
+			{ "id": "bb774f31-83ad-4531-885b-45551217a59c", "platform": "linkedin", "handle": "arthur.king" },
+			{ "id": "db7df7ea-7a63-4d7c-b8fa-0e8afac910be", "platform": "mastodon", "handle": "arthur_king@mastodon.social" },
+			{ "id": "4f4286de-6b54-4df0-acea-d33b3230e0bd", "platform": "instagram", "handle": "arthur_king" },
+			{ "id": "d0bce4f7-0081-4271-aece-124b0449b197", "platform": "slack", "handle": "arthur_king" }
+		],
+		"eventLog": { "joined": "e170816b-9033-4446-b87a-6da342dc4562", "volunteered": "85f89cfc-6201-4109-ae73-926720d03940" },
+		"documents": {
+			"codeOfConduct": "d848b373-d0eb-400b-97f9-11fcd2d3f235",
+			"volunteerAgreement": "83ad83c6-6d33-4708-bc7d-3978483da13d",
+			"imageReleaseForm": "08ca581d-11ef-45a5-aab4-26d43ccd38ef"
+		}
 	},
 	{
+		"id": "bf950534-e8f9-4f5a-a246-610aa63faf21",
+		"profileStatus": "profile-completed",
 		"email": "black.knight@bridgeguard.io",
-		"isActivated": true,
 		"name": "Black Knight",
 		"password": "ItzJustaFsh!",
-		"skills": ["Swordplay", "Tenacity", "Trash-talking"],
+		"passwordHash": "RF7QfD2By+hvuHJAYnhgQQ==:UkSTkyjigT206gSFG34zf5LJtSRs5Ps7p1bmBCP2VI44TvmHwTFuN/ec52wt/iqjb2pyvw12bwh/+bRbIPywkw==",
+		"skills": [
+			{ "id": "da49ec28-0247-4c4a-86be-c7adf62d5bc8", "skill": "Swordplay" },
+			{ "id": "ee630252-a4fd-4984-8afe-06f0ffa3be16", "skill": "Tenacity" },
+			{ "id": "a2437738-1eb1-4c0f-acb5-09502c87c884", "skill": "Trash-talking" }
+		],
 		"pronouns": "he/him",
 		"description": "Won’t let minor flesh wounds hinder workplace performance.",
 		"birthday": "10-31",
 		"role": "organizer",
 		"links": [
-			{ "platform": "twitter", "handle": "black_knight" }
-		]
+			{ "id": "32d80497-320a-4bad-9ef7-9c295c76a8fa", "platform": "twitter", "handle": "black_knight" },
+			{ "id": "cf2423da-15c4-435b-b9f4-cfb7f2be7a38", "platform": "slack", "handle": "black_knight" }
+		],
+		"eventLog": { "joined": "afa2ea59-186b-4f2e-a233-1686cbbae142", "volunteered": "7efbabdd-658a-4953-971d-52fdc04813e2" },
+		"documents": {
+			"codeOfConduct": "314ad408-ae22-44f5-af59-5d39e3fa26fc",
+			"volunteerAgreement": "b3abcd52-85c6-4f42-b202-2648dcedd891",
+			"imageReleaseForm": "e3bd200a-58d4-46f0-b840-0d35f9018d48"
+		}
 	},
 	{
+		"id": "37a4882c-3b7d-46c0-b019-c37e2445dae8",
+		"profileStatus": "tos-accepted",
 		"email": "sir.robin@cowardly.co",
-		"isActivated": true,
 		"name": "Sir Robin",
 		"password": "RunAway!1234",
-		"skills": ["Strategic Retreat", "Lute Playing", "Brand Representation"],
+		"passwordHash": "T9BIjZ5/dWpsZQUR+bsOPw==:Rh4lV5+K0hkSmoTgaFtKXswXmLiug1VrhwLyrmnWhUCLzJ+BEde5jtEqVYYHg5NRvXimpq/YPXSUlx17YHsELQ==",
+		"skills": [
+			{ "id": "abdacc60-c202-484c-99c0-e9fe98c672a2", "skill": "Strategic Retreat" },
+			{ "id": "71819e7d-e55d-4edb-b9bd-25112e187250", "skill": "Lute Playing" },
+			{ "id": "b7816ea8-a7f7-4db5-bac4-8314348b09c5", "skill": "Brand Representation" }
+		],
 		"pronouns": "he/him",
 		"description": "Bravely runs from every KPI imaginable.",
 		"birthday": "07-07",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "twitter", "handle": "robin_brave" },
-			{ "platform": "instagram", "handle": "robin_brave" },
-			{ "platform": "bluesky", "handle": "robin.brave" }
-		]
+			{ "id": "654e4cc0-4213-4081-b6ea-a0861f0e0f7c", "platform": "twitter", "handle": "robin_brave" },
+			{ "id": "6cd29831-2f1f-40f9-b1fe-e3e2f7188d4c", "platform": "instagram", "handle": "robin_brave" },
+			{ "id": "fd7831a1-4884-4155-8179-c13ed7e7393a", "platform": "bluesky", "handle": "robin.brave" }
+		],
+		"eventLog": { "joined": "b1cb1429-4c9f-4a57-9992-916abb2b4b92", "volunteered": "a34f7262-d4f1-410a-ab61-0cc69b20a92f" },
+		"documents": {
+			"codeOfConduct": "839d3f52-4f05-47d9-aafe-7d68f7434994",
+			"volunteerAgreement": "4dcb50dd-6152-4429-8559-828451267cd6",
+			"imageReleaseForm": "b7ce6bc4-5a59-4c3b-92ea-873a647fdd2a"
+		}
 	},
 	{
+		"id": "890cae10-7bbd-4f0c-961a-df495ec7527b",
+		"profileStatus": "tos-accepted",
 		"email": "lancelot@heroics.inc",
-		"isActivated": true,
 		"name": "Sir Lancelot",
 		"password": "LeapotFaith!",
-		"skills": ["Rescue Missions", "Dance Fighting", "Door-kicking"],
+		"passwordHash": "OAEJZMe2bPEhrfEL6yy8+A==:A9AbiYj4H3Cuq1gbQSF7xJUBP60nLu7S0RhdPk1P47HRTiljxzXdYWRIT4HESOXRiiUdMOtpUB7yFxLVbGud1g==",
+		"skills": [
+			{ "id": "4fe21fbc-9a43-4a7c-9a90-51fde4936d63", "skill": "Rescue Missions" },
+			{ "id": "d129f90b-3bdf-41fe-a46e-5df271c36eab", "skill": "Dance Fighting" },
+			{ "id": "90b94773-0189-479c-a161-091434825548", "skill": "Door-kicking" }
+		],
 		"pronouns": "he/him",
 		"description": "Over-zealous champion who solves problems with a flying tackle.",
 		"birthday": "01-26",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "twitter", "handle": "lancelot_daring" },
-			{ "platform": "instagram", "handle": "lancelot_daring" },
-			{ "platform": "linkedin", "handle": "lancelot.daring" },
-			{ "platform": "github", "handle": "lancelot-daring" },
-			{ "platform": "threads", "handle": "lancelot_daring" }
-		]
+			{ "id": "f95c3854-baeb-48e2-8641-deb4000557f1", "platform": "twitter", "handle": "lancelot_daring" },
+			{ "id": "a81a7194-431c-4205-8862-f4007ac88b57", "platform": "instagram", "handle": "lancelot_daring" },
+			{ "id": "df54288e-80d1-4f79-b78b-355e968c17e2", "platform": "linkedin", "handle": "lancelot.daring" },
+			{ "id": "2e3a2150-2333-4b51-a2e3-1c91b43dd3b1", "platform": "github", "handle": "lancelot-daring" },
+			{ "id": "cf84a4e0-270e-4640-9be5-4dcedf79873d", "platform": "threads", "handle": "lancelot_daring" }
+		],
+		"eventLog": { "joined": "dd472b06-e7ed-4368-9665-95fdb3e5281e", "volunteered": "d5685fd1-044c-4f24-b115-84a99bfd0084" },
+		"documents": {
+			"codeOfConduct": "85125bfb-33cc-46c1-a87c-9cba9f0fa5ca",
+			"volunteerAgreement": "d7babc34-8f5c-4e8a-a888-5e67e2ad6226",
+			"imageReleaseForm": "0903ab14-8f20-46c8-8cf1-05c2a3faff88"
+		}
 	},
 	{
+		"id": "bfc463bf-a066-4896-8bda-1af982893a49",
+		"profileStatus": "tos-accepted",
 		"email": "galahad@verypure.org",
-		"isActivated": true,
 		"name": "Sir Galahad",
 		"password": "ChasteKnght1",
-		"skills": ["Chivalry", "Data Purity", "Monastery Negotiation"],
+		"passwordHash": "WWhernvmj1GsKxb6IpBFZA==:aQs5O7VcM6lRbjyoc4fHdgJ7z3KyTcep8OF746Ad61jmKeVeUYiD12a7n0/V5qNEZZcpBB6jkJR3dAsr63ISPQ==",
+		"skills": [
+			{ "id": "d2e94054-d613-4bed-ad96-1ecece3f7197", "skill": "Chivalry" },
+			{ "id": "4ebaff3c-51c1-4679-895a-db2995617d53", "skill": "Data Purity" },
+			{ "id": "ecb3b31e-9497-46b4-a82d-4f4aa4d9e67e", "skill": "Monastery Negotiation" }
+		],
 		"pronouns": "he/him",
 		"description": "Keeps projects—and himself—untouched by corruption.",
 		"birthday": "04-02",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "instagram", "handle": "galahad_pure" },
-			{ "platform": "mastodon", "handle": "galahad_pure@mastodon.social" }
-		]
+			{ "id": "e60cb3e8-41b0-43bd-b6de-d227d4502b4d", "platform": "instagram", "handle": "galahad_pure" },
+			{ "id": "eb8af95c-1947-46d7-a0fc-d94438933a83", "platform": "mastodon", "handle": "galahad_pure@mastodon.social" }
+		],
+		"eventLog": { "joined": "b250c32d-5720-405a-987e-ca80725e86ab", "volunteered": "3314c9e2-ab76-4d18-9018-2ec1694729f3" },
+		"documents": {
+			"codeOfConduct": "15ca55be-f98d-4a15-8caf-76dfdab9ee37",
+			"volunteerAgreement": "e0848334-98a7-4e6a-af44-41e77a24c601",
+			"imageReleaseForm": "ff8a08a6-abb6-4355-af64-145d1ae79eef"
+		}
 	},
 	{
+		"id": "3caf90c5-7c7e-4931-82b4-888666cd8bac",
+		"profileStatus": "social-handle-provided",
 		"email": "patsy@coconutlogistics.com",
-		"isActivated": true,
 		"name": "Patsy Steward",
 		"password": "ClopClopClop",
-		"skills": ["Pack-muling", "Sound Effects", "Project Support"],
+		"passwordHash": "gz4s4SWC1LaNuI7kPZam7A==:PyJWRghOLb3aiTyeKAEGAdbeRpbKpVksqgagvXNhM0stXa2W30eql88hN/HGf5bEPNPACRHC5IiamIL146jbPw==",
+		"skills": [
+			{ "id": "67c5b9d1-5847-461e-b77d-5b9789066f82", "skill": "Pack-muling" },
+			{ "id": "a227ebb9-9f6b-4489-b3a4-02b8851ea1f2", "skill": "Sound Effects" },
+			{ "id": "ce3a537c-60fd-4d26-96ab-a5a2ceef4c83", "skill": "Project Support" }
+		],
 		"pronouns": "they/them",
 		"description": "Carries everyone else’s baggage, literally and figuratively.",
 		"birthday": "05-19",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "slack", "handle": "patsy_loyal" },
-			{ "platform": "twitter", "handle": "patsy_loyal" },
-			{ "platform": "github", "handle": "patsy-loyal" }
-		]
+			{ "id": "f9e311d9-f4d3-46d9-adb0-695460677f5f", "platform": "slack", "handle": "patsy_loyal" },
+			{ "id": "74741efb-c435-4768-b0ff-104dc643da96", "platform": "twitter", "handle": "patsy_loyal" },
+			{ "id": "460fb469-2765-40b8-84a8-189761e38670", "platform": "github", "handle": "patsy-loyal" }
+		],
+		"eventLog": { "joined": "5b3e1f5a-e6eb-4dfb-a13b-ee2e0647bec2", "volunteered": "b8470d70-d08b-48ff-a585-2193c5770817" },
+		"documents": {
+			"codeOfConduct": "7da115f6-fee5-49bd-b3a8-01e10df1bff8",
+			"volunteerAgreement": "c3f05cec-bf12-45a3-8e7d-ad44079594af",
+			"imageReleaseForm": "600271bf-b8fb-43ad-a100-d390851d291f"
+		}
 	},
 	{
+		"id": "2f512451-861c-4d69-aa25-b27ee54d16cb",
+		"profileStatus": "activated",
 		"email": "tim@enkanta.io",
-		"isActivated": true,
 		"name": "Tim Enchanter",
 		"password": "BOOM!!Fire12",
-		"skills": ["Pyrotechnics", "Risk Assessment", "Goat-wrangling"],
+		"passwordHash": "UH22zeePAZIeUSCK+f6G0g==:3IOE9mo3WkX9yXYkibkExTsSC3y9E5pJsm11bQrWsDSnLAosmSkAjImDMlG9NT1ln757vKjGbUP1PLnjSo/JQg==",
+		"skills": [
+			{ "id": "2cb95a88-ef66-406b-bc91-b034c50c4599", "skill": "Pyrotechnics" },
+			{ "id": "d7923c1b-7aa1-49ed-9aee-c95bb93067d2", "skill": "Risk Assessment" },
+			{ "id": "98d8b426-a84e-462c-8852-64173164de72", "skill": "Goat-wrangling" }
+		],
 		"pronouns": "he/him",
 		"description": "Prefers explosive stand-ups—sometimes literally.",
 		"birthday": "09-09",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "twitter", "handle": "tim_enchanter" },
-			{ "platform": "github", "handle": "tim-enchanter" },
-			{ "platform": "mastodon", "handle": "tim_enchanter@mastodon.social" },
-			{ "platform": "instagram", "handle": "tim_enchanter" }
-		]
+			{ "id": "6928a770-9921-4f50-ba51-0ae03e49ed43", "platform": "twitter", "handle": "tim_enchanter" },
+			{ "id": "7e08bf96-9d8b-4a71-adf7-0adf8b0faf96", "platform": "github", "handle": "tim-enchanter" },
+			{ "id": "04cd9c2d-91a7-4307-85a5-5fc5fdbc114d", "platform": "mastodon", "handle": "tim_enchanter@mastodon.social" },
+			{ "id": "ade75613-bc36-4b8c-86d8-1dc9f32fb9b7", "platform": "instagram", "handle": "tim_enchanter" }
+		],
+		"eventLog": { "joined": "28e051c4-85a6-4ee6-b7da-19ffe12d47ab", "volunteered": "77a4da9d-c119-4745-ba58-603bde5614cc" }
 	},
 	{
+		"id": "012c9ecf-4897-4879-bd7c-9c877d409626",
+		"profileStatus": "activated",
 		"email": "dennis@anarcho-peasants.org",
-		"isActivated": true,
 		"name": "Dennis Peasant",
 		"password": "HelpHelpImBN",
-		"skills": ["Collective Bargaining", "Ditch-digging", "Political Theory"],
+		"passwordHash": "tEHIZPeIirV+OX+BB5S7CQ==:BFpS7JggR37u6Sbrb2blebtNE4Ef/kKjpAayRn5lSQ98d2p8QuftUK/fP+Ye+jKv4AJZAHMKbLPwerGphUC4Ug==",
+		"skills": [
+			{ "id": "5fc9afd0-8a5e-4f0f-bdf7-ff136b49404b", "skill": "Collective Bargaining" },
+			{ "id": "7645193d-cf1c-4481-8c4a-6c739606db3d", "skill": "Ditch-digging" },
+			{ "id": "343fada3-26f0-4a6d-ab74-2e52ae646e01", "skill": "Political Theory" }
+		],
 		"pronouns": "they/them",
 		"description": "Self-appointed voice of the oppressed cubicle worker.",
 		"birthday": "11-05",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "instagram", "handle": "dennis_peasant" },
-			{ "platform": "twitter", "handle": "dennis_peasant" },
-			{ "platform": "linkedin", "handle": "dennis.peasant" },
-			{ "platform": "github", "handle": "dennis-peasant" },
-			{ "platform": "devto", "handle": "dennispeasant" }
-		]
+			{ "id": "865aa096-3330-40fa-8b9c-feed64938ec0", "platform": "instagram", "handle": "dennis_peasant" },
+			{ "id": "7457c9a6-16ed-4618-ab62-a1af0a200921", "platform": "twitter", "handle": "dennis_peasant" },
+			{ "id": "9021f7b6-5dca-4923-997e-8bd1670184d2", "platform": "linkedin", "handle": "dennis.peasant" },
+			{ "id": "ace08ad3-e235-4b8c-8a50-c59ca470a845", "platform": "github", "handle": "dennis-peasant" },
+			{ "id": "33cd809f-917e-4c02-aee3-6d668a99cb7e", "platform": "devto", "handle": "dennispeasant" }
+		],
+		"eventLog": { "joined": "20b01c4c-8490-4501-8e15-7472929dec2d", "volunteered": "964a03c1-3089-496b-a126-a9e677f29690" }
 	},
 	{
+		"id": "76fded46-124d-4b2b-abcc-f1db71bbf622",
+		"profileStatus": "activated",
 		"email": "roger@shrubbery.ltd",
-		"isActivated": true,
 		"name": "Roger Shrubber",
 		"password": "Shrubbery4Ni",
-		"skills": ["Landscape Design", "Supply Chain", "Negotiation"],
+		"passwordHash": "+AuNT6CJWpxV8EGXK7M2ZQ==:UjcsAsxrgt7GGzhrdhToRY5nMt74DVmI69pZuTqhdzpdpiHDVqSS82+fKv9/OJNtCcqSvzKzjJFkKhoziiul4w==",
+		"skills": [
+			{ "id": "ff79a062-0d30-4215-9487-af5c07f06204", "skill": "Landscape Design" },
+			{ "id": "e61b055c-c130-4470-a8ab-184f952eff83", "skill": "Supply Chain" },
+			{ "id": "3e19f145-de70-4dd5-934e-5dc3e79ca149", "skill": "Negotiation" }
+		],
 		"pronouns": "he/him",
 		"description": "Can acquire, shape, and deliver any shrub at scale.",
 		"birthday": "06-22",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "twitter", "handle": "shrubber" }
-		]
+			{ "id": "e82ce081-f1af-4250-ae87-fb2ddc7ba5f8", "platform": "twitter", "handle": "shrubber" }
+		],
+		"eventLog": { "joined": "ef3bd33c-2822-4844-9387-6eff6341ad49", "volunteered": "5ba53bc0-e11b-4f05-b205-3d660612e60c" }
 	},
 	{
+		"id": "89bb6497-0e60-4fc4-b6e3-419c34ce49b1",
+		"profileStatus": "activated",
 		"email": "brother.maynard@holyhand.biz",
-		"isActivated": true,
 		"name": "Brother Maynard",
 		"password": "HolyHand993!",
-		"skills": ["Documentation", "Explosive Ordinance", "Counting to Three"],
+		"passwordHash": "55+O9iEsAmGRwh6wLibvSw==:hedC5wmrsulJnnzCHoK0ljGmRY4sHOOUeYJTJ54ht+qq8EjmpdxvlUuhwKtxVPE4TbXcn3owcdpm5NySJN1bfA==",
+		"skills": [
+			{ "id": "aa7795e9-e970-4707-bbc4-29c401e98fab", "skill": "Documentation" },
+			{ "id": "075be77d-9b97-4cb1-9259-577fc356852a", "skill": "Explosive Ordinance" },
+			{ "id": "6e4fc28f-8a50-48f6-bc62-621fa8fefb13", "skill": "Counting to Three" }
+		],
 		"pronouns": "he/him",
 		"description": "Keeps sacred texts and grenades perfectly catalogued.",
 		"birthday": "12-03",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "twitter", "handle": "maynard_the_holy" },
-			{ "platform": "instagram", "handle": "maynard_the_holy" }
-		]
+			{ "id": "363535af-3f68-40ad-8072-2cb97d3cbd69", "platform": "twitter", "handle": "maynard_the_holy" },
+			{ "id": "cd85e9e2-3153-441c-8065-af740eedfd80", "platform": "instagram", "handle": "maynard_the_holy" }
+		],
+		"eventLog": { "joined": "d33aa251-0ef6-4730-a391-cd67e0b66d08", "volunteered": "bbba389b-f0ab-4500-a932-c94c23e62d6c" }
 	},
 	{
+		"id": "5a401f5d-e129-40f8-9190-b3615d3cd8d6",
+		"profileStatus": "activated",
 		"email": "prince.herbert@castleanthrax.uk",
-		"isActivated": true,
 		"name": "Prince Herbert",
 		"password": "SongLuvLark!",
-		"skills": ["Falsetto Singing", "Window Escape", "Event Planning"],
+		"passwordHash": "3TlbsGFyTQoPDlWru4BTQQ==:Ec+dZ1LBwrdR5vX4x2ajwsZRMq5o9kbf1KLUy1nnPqAJ9QFVVm6SBwUcO62TFj4C4YEOvOT+S7pQO+DYFwQJXw==",
+		"skills": [
+			{ "id": "7fbf74db-60e8-4949-a3cc-bd02239dc29b", "skill": "Falsetto Singing" },
+			{ "id": "fc258c8a-684c-4c76-8ebf-767d80092c2f", "skill": "Window Escape" },
+			{ "id": "a13df11e-b6c5-49cf-b151-337bf86a1786", "skill": "Event Planning" }
+		],
 		"pronouns": "he/him",
 		"description": "Longs to turn every memo into a power ballad.",
 		"birthday": "08-12",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "linkedin", "handle": "p.herbert" },
-			{ "platform": "twitter", "handle": "p_herbert" },
-			{ "platform": "mastodon", "handle": "p_herbert@mastodon.social" },
-			{ "platform": "github", "handle": "p-herbert" }
-		]
+			{ "id": "8943b94d-7343-476f-94f5-507b1b180539", "platform": "linkedin", "handle": "p.herbert" },
+			{ "id": "17404f29-858c-4a00-9687-1af101b79794", "platform": "twitter", "handle": "p_herbert" },
+			{ "id": "fe245bfe-f6c7-4336-8ec7-8f6fad1b7bf1", "platform": "mastodon", "handle": "p_herbert@mastodon.social" },
+			{ "id": "273dd34d-bbc9-401e-9e4a-e9b756cc04c2", "platform": "github", "handle": "p-herbert" }
+		],
+		"eventLog": { "joined": "bff837ea-5f45-404c-b1e9-0e80fb5700cc", "volunteered": "c4b92328-40d6-4d74-9647-c5ff63255283" }
 	},
 	{
+		"id": "e2d65023-1c52-4fa6-ab0a-7277a6707fb7",
+		"profileStatus": "social-handle-provided",
 		"email": "concorde@swiftcourier.io",
-		"isActivated": true,
 		"name": "Concorde Squire",
 		"password": "SwiftSwallow",
-		"skills": ["Message Delivery", "Glide Path Analysis", "Faux-French"],
+		"passwordHash": "TQ9q6Q/iSsVtswLaFqF+Lg==:HLAhA8fcQdu2Rosw656fuHyAHT2HvOkOUwAc7AvhwFmOO+WkvhN9svwy6uoJA+MbKztyrrngCE0J4gpl4RvUcw==",
+		"skills": [
+			{ "id": "2d64a1aa-0b9b-417b-a34b-283193fcb1fb", "skill": "Message Delivery" },
+			{ "id": "efe54bc8-b515-467a-b2c7-34afd4e0b1ef", "skill": "Glide Path Analysis" },
+			{ "id": "923bdf73-9575-4029-b7fa-b5342b35a0f9", "skill": "Faux-French" }
+		],
 		"pronouns": "he/him",
 		"description": "Gets messages across enemy lines faster than an unladen swallow.",
 		"birthday": "02-24",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "slack", "handle": "concorde_squire" },
-			{ "platform": "twitter", "handle": "concorde_the_squire" },
-			{ "platform": "github", "handle": "concorde-the-squire" }
-		]
+			{ "id": "7aa731c4-dcbe-49fa-970b-a813e1e36da6", "platform": "slack", "handle": "concorde_squire" },
+			{ "id": "452b1bae-e4f8-4fac-8bbc-9e686993b62e", "platform": "twitter", "handle": "concorde_the_squire" },
+			{ "id": "d8c8ff6c-4e5e-4a98-84e1-7e167a568469", "platform": "github", "handle": "concorde-the-squire" }
+		],
+		"eventLog": { "joined": "5875b7be-33cf-49c9-941c-8642bf4a975c", "volunteered": "fca53493-6643-4883-b781-4b80dfc91079" },
+		"documents": {
+			"codeOfConduct": "6b678a5e-f7aa-4c15-9b71-b4b56f8fcf48",
+			"volunteerAgreement": "2bdf7064-c145-460d-a815-f5ed2b5fa40c",
+			"imageReleaseForm": "64d36a45-51e3-434d-b23e-de1ddd933739"
+		}
 	},
 	{
+		"id": "22fa5d4f-1e53-42f3-a00d-7010e7973b12",
+		"profileStatus": "activated",
 		"email": "lady.zoot@castleanthrax.uk",
-		"isActivated": true,
 		"name": "Lady Zoot",
 		"password": "ZootZing2024",
-		"skills": ["Hospitality", "Torch Bearing", "Mischief"],
+		"passwordHash": "rxi8VXC0Ges9vF2FdUwbKw==:zGIMG1G60tl19sJdx+m9jwx/BVnkuBo1Ij237Ke3kRsNXSg5wqGyp9QbSjvdBCVkCuX2KxUaFP4Pq+VdO/qG4A==",
+		"skills": [
+			{ "id": "1a1bbf57-5beb-46b5-8c16-4bbc318fa2a7", "skill": "Hospitality" },
+			{ "id": "892f21f9-6d2b-429d-8453-e7d3f3717cd2", "skill": "Torch Bearing" },
+			{ "id": "70d711d2-2e21-416f-93db-dd3465ca4048", "skill": "Mischief" }
+		],
 		"pronouns": "she/her",
 		"description": "Caters corporate retreats with perilous peril.",
 		"birthday": "04-28",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "twitter", "handle": "lady_zoot" },
-			{ "platform": "instagram", "handle": "lady_zoot" },
-			{ "platform": "bluesky", "handle": "lady.zoot" }
-		]
+			{ "id": "75510145-96e3-4603-903b-9b82e17857e5", "platform": "twitter", "handle": "lady_zoot" },
+			{ "id": "0f97c5af-bf26-4a8f-b5a0-fcb90d151fdc", "platform": "instagram", "handle": "lady_zoot" },
+			{ "id": "de21efbb-e670-48d6-8c87-932ae2111ec5", "platform": "bluesky", "handle": "lady.zoot" }
+		],
+		"eventLog": { "joined": "677cb623-3dde-48d5-bec1-d2a990d08e5f", "volunteered": "3981a6b8-913a-4414-b5b0-fb846a6bfab1" }
 	},
 	{
+		"id": "6eb87900-a6d3-4fa3-82e8-70aaa8754053",
+		"profileStatus": "deleted",
 		"email": "knight.ni@forestsayni.com",
-		"isActivated": true,
 		"name": "Knight Ni",
 		"password": "NiNiNiNi42?!",
-		"skills": ["Intimidation", "Shrubbery Procurement", "Word-based Blackmail"],
+		"passwordHash": "rdPgtBEQMJtw6WJ7FrD8xw==:TnE0yHLiPy06aRQJRIjCoGI04sBVvx43V6MOGi5RbhcE7KA8kEFN9Me/S2Pc+wmi0+JOFCGzczEZICFZCWoOPA==",
+		"skills": [
+			{ "id": "1c3f2dfb-5b4e-439a-b1b0-88733e1cf585", "skill": "Intimidation" },
+			{ "id": "cf7e34f8-55dc-439c-a3b2-d308f1c01a6e", "skill": "Shrubbery Procurement" },
+			{ "id": "e0ae85e2-9600-4f64-bff5-99100840566a", "skill": "Word-based Blackmail" }
+		],
 		"pronouns": "they/them",
 		"description": "Negotiation style: say ‘Ni’ until opponents cave.",
 		"birthday": "09-17",
 		"role": "volunteer",
-		"links": []
+		"links": [],
+		"eventLog": { "joined": "ef07e9e4-4aab-483e-a43d-1e884617fd3d", "volunteered": "603d84a4-9d72-4a9f-a1b3-67cdd379f63e" }
 	},
 	{
+		"id": "777b0252-5d54-4fcf-92da-c94715edd5f3",
+		"profileStatus": "deleted",
 		"email": "historian@grail-docu.net",
-		"isActivated": true,
 		"name": "Grail Historian",
 		"password": "GrailQuiz1!X",
-		"skills": ["Narration", "Archival Footage", "Dramatic Pointing"],
+		"passwordHash": "x9DlAnE9mPHD5cIvYbMS3A==:/ZQNwiWizlwj+EaIFKvUvFfVB2Mo+ANhIR9Aev8fIA+VJIDHLAIlR2vyerJOXMk7z+035t+qQK0Nk5l3VjRpKw==",
+		"skills": [
+			{ "id": "3c4f9865-401b-450f-ae94-4255dc81bbf4", "skill": "Narration" },
+			{ "id": "8d730f82-5092-402a-a337-533aa8626be4", "skill": "Archival Footage" },
+			{ "id": "a9e4147d-f256-425e-9b93-a906bfa3e2e9", "skill": "Dramatic Pointing" }
+		],
 		"pronouns": "they/them",
 		"description": "Keeps getting cut off by sudden cavalry charges.",
 		"birthday": "01-11",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "twitter", "handle": "grail_hist" },
-			{ "platform": "instagram", "handle": "grail_hist" },
-			{ "platform": "linkedin", "handle": "grail.hist" },
-			{ "platform": "github", "handle": "grail-hist" },
-			{ "platform": "mastodon", "handle": "grail_hist@mastodon.social" }
-		]
+			{ "id": "c4861359-9f8d-403f-8d7b-917d6659bd8f", "platform": "twitter", "handle": "grail_hist" },
+			{ "id": "947cc73f-745f-4bed-bee6-ef1a2dd78727", "platform": "instagram", "handle": "grail_hist" },
+			{ "id": "1fb33b9e-353f-4f05-9a0e-9d243ae74343", "platform": "linkedin", "handle": "grail.hist" },
+			{ "id": "ba0db504-ba08-435d-b7bd-2c6898b1b79d", "platform": "github", "handle": "grail-hist" },
+			{ "id": "4670af8f-4094-4f4a-9601-7434c0029429", "platform": "mastodon", "handle": "grail_hist@mastodon.social" }
+		],
+		"eventLog": { "joined": "778c9887-3668-4ba2-8d3b-6c84d55913c9", "volunteered": "f3490921-9311-4764-b14c-158b8ede70e1" }
 	},
 	{
+		"id": "8340b8c6-5a96-4072-8af0-87c4fde2fea0",
+		"profileStatus": "created",
 		"email": "bridge.keeper@threequestions.org",
-		"isActivated": false,
 		"name": "Bridge Keeper",
 		"password": "BridgeAns33?",
-		"skills": ["Gatekeeping", "Trivia", "Aerial Dynamics"],
+		"passwordHash": "gKdbE/8xsaET19vf8d8Y3g==:qa1BYWGVJivd3dpZrbNR8Rv5SRNgtsiuCi5zJ1ioHOw4bY93c0yp897L4GNlcvTLT5qJlfYiMKTUcqhv1HWEBw==",
+		"skills": [
+			{ "id": "ddf66918-dbae-4090-bb50-01f57756dc64", "skill": "Gatekeeping" },
+			{ "id": "471fc08e-8e78-45d6-8a9b-ce9970cc2b0c", "skill": "Trivia" },
+			{ "id": "dd2e5e2a-7269-492e-8943-d4fc86f23b9a", "skill": "Aerial Dynamics" }
+		],
 		"pronouns": "he/him",
 		"description": "You must answer him these questions three—before entering any meeting.",
 		"birthday": "03-30",
 		"role": "volunteer",
-		"links": []
+		"links": [],
+		"eventLog": { "joined": "2a90eed6-775f-4cda-b371-ebfb67552778", "volunteered": "c8edd096-0ffd-46c2-9154-ccb1c19eae68" }
 	},
 	{
+		"id": "56da65b8-1b11-4af8-8b88-912df3a0d4bd",
+		"profileStatus": "created",
 		"email": "mrs.bun@whizzo.choc",
-		"isActivated": false,
 		"name": "Mrs Bun",
 		"password": "DeadParrot!!",
-		"skills": ["Confectionery", "Complaint Handling", "Alibi Crafting"],
+		"passwordHash": "GA1EjdK0RJ306qzdPRYQxw==:XRorwr/p0EGWhfbtRvalgpUcTFB/HIv+yLcJFMNUlpNn068vqkB4IOh569wbb+ZlvrI0p0G7Hk6OtaBCYvZDSQ==",
+		"skills": [
+			{ "id": "c12ace0d-e5da-4947-8e8e-5bcbc8190942", "skill": "Confectionery" },
+			{ "id": "cac2b6c2-6d41-4d74-90a5-3f712c0b0225", "skill": "Complaint Handling" },
+			{ "id": "992ec3d2-3f68-438f-86e0-47be51a81009", "skill": "Alibi Crafting" }
+		],
 		"pronouns": "she/her",
 		"description": "Only sells chocolates with at least one outrageous surprise inside.",
 		"birthday": "12-20",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "twitter", "handle": "mrs_bun" },
-			{ "platform": "instagram", "handle": "mrs_bun" },
-			{ "platform": "github", "handle": "mrs-bun" },
-			{ "platform": "devto", "handle": "mrs.bun" }
-		]
+			{ "id": "4281485f-0299-46dc-8ecb-5a40f7367360", "platform": "twitter", "handle": "mrs_bun" },
+			{ "id": "60072994-052b-4fcf-a384-2d71650f8d0b", "platform": "instagram", "handle": "mrs_bun" },
+			{ "id": "e789f19e-37f7-45ca-99e1-071bac81948e", "platform": "github", "handle": "mrs-bun" },
+			{ "id": "033403f8-9367-4d33-b165-19baada61308", "platform": "devto", "handle": "mrs.bun" }
+		],
+		"eventLog": { "joined": "e9da3c86-c97c-4545-abb0-9d6e42b134ec", "volunteered": "afa49bd7-d2e1-4a9a-977e-b0c26c052130" }
 	},
 	{
+		"id": "fac6e738-ab0a-4a66-ab92-a0e76f2c4ba5",
+		"profileStatus": "created",
 		"email": "camel.spotter@zoology.co",
-		"isActivated": false,
 		"name": "Camel Spotter",
 		"password": "CamelSpotr9!",
-		"skills": ["Pattern Recognition", "Sanitation", "Denial"],
+		"passwordHash": "RYngyQsVASpQna+n5I4x4w==:ByVfpjw3V9deHBg2OVn0mtgpymwATkkySz7j7Npynh0OlfFQR26vXbkJcqOvNTMJIgH4l7ouaTRGNJAJLGsDQg==",
+		"skills": [
+			{ "id": "db52c15e-2f3a-4186-b6a0-f4919c9791b3", "skill": "Pattern Recognition" },
+			{ "id": "64389340-c773-4fc9-bbd1-7720620ff5d1", "skill": "Sanitation" },
+			{ "id": "c5fa3970-02da-4dc8-a894-052f860f1fc9", "skill": "Denial" }
+		],
 		"pronouns": "they/them",
 		"description": "Hasn’t actually seen a camel—claims they all flew away.",
 		"birthday": "07-29",
 		"role": "volunteer",
-		"links": []
+		"links": [],
+		"eventLog": { "joined": "5bc746c9-9322-492b-9a7b-2a578c2e1303", "volunteered": "1d81cf8f-4485-4e7f-93bd-0c890532ec3f" }
 	},
 	{
+		"id": "2217e267-144e-4651-bfce-87ce653f9f03",
+		"profileStatus": "created",
 		"email": "knight.truth@roundtable.ai",
-		"isActivated": true,
 		"name": "Knight OTruth",
 		"password": "KnightOTruth",
-		"skills": ["Fact Checking", "Sword Logic", "HR Investigations"],
+		"passwordHash": "WNxTWmcM6N3O5bDskzAi+g==:L1KzEPXkXIz/ezWBC/oBbBv93YuKpAIqXvEb6FXsb5zbzN9Yt1QOXQb+IatlOzqzHcVa8DdgWgDyuB9iGH+LJg==",
+		"skills": [
+			{ "id": "39e5ac75-4e18-4edf-9086-72a9210714d1", "skill": "Fact Checking" },
+			{ "id": "3543458d-c4fa-4545-a4e2-1204a4c6d66f", "skill": "Sword Logic" },
+			{ "id": "ce504532-51bf-40b4-93de-91f6d63fa3c7", "skill": "HR Investigations" }
+		],
 		"pronouns": "he/him",
 		"description": "Slices through red tape—and sometimes interns—seeking honesty.",
 		"birthday": "05-15",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "twitter", "handle": "knight_otruth" },
-			{ "platform": "mastodon", "handle": "knight_otruth@mastodon.social" }
-		]
+			{ "id": "e110bd62-5b4d-4b61-8e68-854cf63af032", "platform": "twitter", "handle": "knight_otruth" },
+			{ "id": "3e0a791f-915a-4bab-9404-d220d91bd1e7", "platform": "mastodon", "handle": "knight_otruth@mastodon.social" }
+		],
+		"eventLog": { "joined": "2213ab26-e693-4548-bdc1-1984cc454970", "volunteered": "35e73204-8fee-485a-9f31-35895afeb5af" }
 	},
 	{
+		"id": "307a325e-1513-4718-a9b7-106d16c347d2",
+		"profileStatus": "created",
 		"email": "fish.slapper@dance-troupe.com",
-		"isActivated": true,
 		"name": "Fsh Slapper",
 		"password": "FshSlapper22",
-		"skills": ["Choreography", "Piscine Weaponry", "Comedic Timing"],
+		"passwordHash": "xuVDrUwzM10jkPg2qERnJQ==:5epH3EvAhnpz2ZC1e+4G56n+7XGlJZ+pUuRU1fvOnoxlpx9QIejZmSZXeb2xKaHEnnlCfOyj8uijpDbSx4dabA==",
+		"skills": [
+			{ "id": "1d2adfe1-6c25-4e27-bca2-dea328d1faff", "skill": "Choreography" },
+			{ "id": "eab23b13-162d-4fb5-ac61-e29cae70db98", "skill": "Piscine Weaponry" },
+			{ "id": "7c6afe1c-6845-4fc9-961f-eb5f7917288d", "skill": "Comedic Timing" }
+		],
 		"pronouns": "they/them",
 		"description": "Delivers constructive feedback via lightly-smoked haddock.",
 		"birthday": "11-27",
 		"role": "volunteer",
 		"links": [
-			{ "platform": "twitter", "handle": "fsh" },
-			{ "platform": "instagram", "handle": "fsh" }
-		]
+			{ "id": "1b78f46e-eeb5-46e9-8b12-b885e4c00834", "platform": "twitter", "handle": "fsh" },
+			{ "id": "87f57c6e-f92e-4f71-97c8-64e1cdba09d3", "platform": "instagram", "handle": "fsh" }
+		],
+		"eventLog": { "joined": "fdd8a523-cb14-4f75-b930-cabdfd149557", "volunteered": "f2765ee3-a817-45fa-8cd9-80a37b5784de" }
 	}
 ]
