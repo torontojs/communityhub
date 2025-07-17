@@ -6,7 +6,7 @@ import type { ProfileStatus } from './validation.ts';
 export async function getProfileStatus(database: D1Database, profileId: string): Promise<ProfileStatus> {
 	const SOCIAL_MEDIA_PLATFORM = 'slack';
 
-	const [{ results: datesResults }, { results: socialMediaReuslts }, { results: documents }] = await database.batch([
+	const [{ results: datesResults }, { results: socialMediaResults }, { results: documents }] = await database.batch([
 		database.prepare(`
 			SELECT
 				access.deletedAt AS deletedAt,
@@ -47,7 +47,7 @@ export async function getProfileStatus(database: D1Database, profileId: string):
 		return 'deleted';
 	}
 
-	const documentTypes = new Set(...Object.keys(DOCUMENT_VERSIONS));
+	const documentTypes = new Set(Object.keys(DOCUMENT_VERSIONS));
 	const documentVersions = new Set(Object.values(DOCUMENT_VERSIONS));
 	const signedDocumentTypes = new Set(documents.map(({ type }) => type));
 	const signedDocumentVersions = new Set(documents.map(({ documentVersion }) => documentVersion));

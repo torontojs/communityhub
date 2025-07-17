@@ -245,13 +245,13 @@ export type HALResponse = z.infer<typeof HALResponseSchema>;
 /**
  * Generate a schema for responses containing data for a single resource.
  */
-export function generateDataResponeSchema<T>(data: ZodType<T>) {
+export function generateDataResponseSchema<T>(data: ZodType<T>) {
 	return z.object({
 		data
 	}).merge(HALResponseSchema);
 }
 
-export type DataResponse<T> = z.infer<ReturnType<typeof generateDataResponeSchema<T>>>;
+export type DataResponse<T> = z.infer<ReturnType<typeof generateDataResponseSchema<T>>>;
 
 export const HALPaginatedResponseSchema = z.object({
 	_links: z.object({

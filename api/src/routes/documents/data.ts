@@ -7,7 +7,7 @@ export async function signDocument(database: D1Database, profileId: string, docu
 			FROM ${DBTables.DOCUMENTS}
 			WHERE
 				profileId = ?
-				AND documentType = ?
+				AND type = ?
 			LIMIT 1
 		`)
 		.bind(profileId, documentType)

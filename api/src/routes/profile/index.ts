@@ -7,7 +7,7 @@ import { authMiddleware } from '../../middleware/auth.ts';
 import { ACCESS_LEVEL, getSession } from '../../utils/auth.ts';
 import {
 	type DataResponse,
-	generateDataResponeSchema,
+	generateDataResponseSchema,
 	generatePaginatedResponseSchema,
 	type PaginatedResponse,
 	StatusCodes,
@@ -81,7 +81,7 @@ profileRoutes.openapi(
 			},
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generateDataResponeSchema(ProfileSchema) } }
+				content: { 'application/json': { schema: generateDataResponseSchema(ProfileSchema) } }
 			}
 		},
 		middleware: [authMiddleware] as const
@@ -111,7 +111,7 @@ profileRoutes.openapi(
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generateDataResponeSchema(ProfileSchema) } }
+				content: { 'application/json': { schema: generateDataResponseSchema(ProfileSchema) } }
 			},
 			[StatusCodes.NOT_FOUND]: {
 				description: 'Error response',

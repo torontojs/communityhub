@@ -2,7 +2,7 @@ import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { getSession } from '../../utils/auth.ts';
-import { type DataResponse, generateDataResponeSchema, StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
+import { type DataResponse, generateDataResponseSchema, StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { updateProfileStatus } from '../auth/data.ts';
 import { getProfileById } from '../profile/data.ts';
 import { getSignedDocuments, signDocument } from './data.ts';
@@ -85,7 +85,7 @@ documentRoutes.openapi(
 			},
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generateDataResponeSchema(z.array(SignedProfileDocumentSchema)) } }
+				content: { 'application/json': { schema: generateDataResponseSchema(z.array(SignedProfileDocumentSchema)) } }
 			}
 		},
 		middleware: [authMiddleware] as const
