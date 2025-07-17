@@ -6,7 +6,7 @@ import { getSession } from '../../utils/auth.ts';
 import { DBTables } from '../../utils/db.ts';
 import {
 	type DataResponse,
-	generateDataResponeSchema,
+	generateDataResponseSchema,
 	generatePaginatedResponseSchema,
 	type PaginatedResponse,
 	StatusCodes,
@@ -36,7 +36,7 @@ teamRoutes.openapi(
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generateDataResponeSchema(TeamSchema) } }
+				content: { 'application/json': { schema: generateDataResponseSchema(TeamSchema) } }
 			},
 			[StatusCodes.NOT_FOUND]: {
 				description: 'Error response',

@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS profile (
 	-- A profile with this flag set will not be able to login to the vms.
 	--
 	-- In case a user returns to the community and wants to reactivate their account,
-	-- that must be done manually by one of the organizers by removing this information.
+	-- that must be done manually by one of the organizers by removing the `deletedAt` flag.
 	--
 	-- In case a user is removed from the community, this flag is to be set, so their profile is deactivated.
 	--
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS profile_links (
 	-- The UUID of the profile this link belongs to
 	profileId TEXT NOT NULL,
 	-- The platform name for the link
-	platform TEXT NOT NULL,
+	platform TEXT NOT NULL CHECK (platform IN ('site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto')),
 	-- The URL of the link
 	url TEXT NOT NULL,
 
