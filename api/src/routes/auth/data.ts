@@ -146,7 +146,7 @@ export async function checkExistingEmail(database: D1Database, email: string) {
 
 export async function checkActiveEmail(database: D1Database, email: string) {
 	const existingEmail = await database
-		.prepare(`SELECT email FROM ${DBTables.ACCESS} WHERE email = ? AND activatedAt NOT NULL LIMIT 1`)
+		.prepare(`SELECT email FROM ${DBTables.ACCESS} WHERE email = ? AND activatedAt IS NOT NULL LIMIT 1`)
 		.bind(email)
 		.first<{ email: string }>();
 
