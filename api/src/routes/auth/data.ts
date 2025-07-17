@@ -41,7 +41,7 @@ export async function getProfileStatus(database: D1Database, profileId: string):
 	];
 
 	const { deletedAt, activatedAt, insertedAt } = datesResults[0] ?? {};
-	const { url: socialMediaUrl } = socialMediaReuslts[0] ?? {};
+	const { url: socialMediaUrl } = socialMediaResults[0] ?? {};
 
 	if (deletedAt) {
 		return 'deleted';
