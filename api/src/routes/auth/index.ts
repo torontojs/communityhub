@@ -245,10 +245,6 @@ authRoutes.openapi(
 			[StatusCodes.BAD_REQUEST]: {
 				description: 'Invalid request data. The email format is invalid or required fields are missing.',
 				content: { 'application/json': { schema: StatusResponseSchema } }
-			},
-			[StatusCodes.INTERNAL_SERVER_ERROR]: {
-				description: 'Internal server error occurred while processing the password recovery request.',
-				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
 	}),
