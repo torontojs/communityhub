@@ -254,8 +254,20 @@ authRoutes.openapi(
 		const response = { message: 'If an account with that e-mail exists, a password reset link has been sent.' };
 
 		const emailExists = await checkExistingEmail(context.env.Database, email);
+
+		// We are deliberately sending OK statuscodes to disable an attackers ability to fish for information on exisiting emails
 		if (!emailExists) {
 			return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
+		}
+
+		// TODO: Discussion around wether we should create a access entry to deal with this state
+		const ForgotPasswordList = await context.env.PasswordResetToken.list();
+
+		for (const key of ForgotPasswordList.keys) {
+			const keyName = await context.env.PasswordResetToken.get(key.name);
+			if (keyName === email) {
+				return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
+			}
 		}
 
 		const resetToken = crypto.randomUUID();
