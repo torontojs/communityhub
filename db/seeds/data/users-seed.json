@@ -14,7 +14,12 @@
 		"links": [
 			{ "id": "bb07af9c-3a1c-4d0b-a51b-3b99e7220351", "platform": "site", "handle": "torontojs.com" }
 		],
-		"eventLog": { "joined": "82814359-97c4-4c76-86dc-c08293a283e3", "volunteered": "12dc94e2-7507-4faa-95e1-5faaffa9d638" }
+		"eventLog": { "joined": "82814359-97c4-4c76-86dc-c08293a283e3", "volunteered": "12dc94e2-7507-4faa-95e1-5faaffa9d638" },
+		"documents": {
+			"codeOfConduct": "e72fc09b-74c3-4efe-94d4-df315c8c796f",
+			"volunteerAgreement": "6c3439ee-7835-42c5-93e0-fc5a14eb97bb",
+			"imageReleaseForm": "65bad04f-825f-403a-88cc-222f0bbf0a43"
+		}
 	},
 	{
 		"id": "3c5123c0-8548-4a02-a83c-32e9ce67eae8",
@@ -40,7 +45,12 @@
 			{ "id": "4f4286de-6b54-4df0-acea-d33b3230e0bd", "platform": "instagram", "handle": "arthur_king" },
 			{ "id": "d0bce4f7-0081-4271-aece-124b0449b197", "platform": "slack", "handle": "arthur_king" }
 		],
-		"eventLog": { "joined": "e170816b-9033-4446-b87a-6da342dc4562", "volunteered": "85f89cfc-6201-4109-ae73-926720d03940" }
+		"eventLog": { "joined": "e170816b-9033-4446-b87a-6da342dc4562", "volunteered": "85f89cfc-6201-4109-ae73-926720d03940" },
+		"documents": {
+			"codeOfConduct": "d848b373-d0eb-400b-97f9-11fcd2d3f235",
+			"volunteerAgreement": "83ad83c6-6d33-4708-bc7d-3978483da13d",
+			"imageReleaseForm": "08ca581d-11ef-45a5-aab4-26d43ccd38ef"
+		}
 	},
 	{
 		"id": "bf950534-e8f9-4f5a-a246-610aa63faf21",
@@ -62,7 +72,12 @@
 			{ "id": "32d80497-320a-4bad-9ef7-9c295c76a8fa", "platform": "twitter", "handle": "black_knight" },
 			{ "id": "cf2423da-15c4-435b-b9f4-cfb7f2be7a38", "platform": "slack", "handle": "black_knight" }
 		],
-		"eventLog": { "joined": "afa2ea59-186b-4f2e-a233-1686cbbae142", "volunteered": "7efbabdd-658a-4953-971d-52fdc04813e2" }
+		"eventLog": { "joined": "afa2ea59-186b-4f2e-a233-1686cbbae142", "volunteered": "7efbabdd-658a-4953-971d-52fdc04813e2" },
+		"documents": {
+			"codeOfConduct": "314ad408-ae22-44f5-af59-5d39e3fa26fc",
+			"volunteerAgreement": "b3abcd52-85c6-4f42-b202-2648dcedd891",
+			"imageReleaseForm": "e3bd200a-58d4-46f0-b840-0d35f9018d48"
+		}
 	},
 	{
 		"id": "37a4882c-3b7d-46c0-b019-c37e2445dae8",
@@ -85,7 +100,12 @@
 			{ "id": "6cd29831-2f1f-40f9-b1fe-e3e2f7188d4c", "platform": "instagram", "handle": "robin_brave" },
 			{ "id": "fd7831a1-4884-4155-8179-c13ed7e7393a", "platform": "bluesky", "handle": "robin.brave" }
 		],
-		"eventLog": { "joined": "b1cb1429-4c9f-4a57-9992-916abb2b4b92", "volunteered": "a34f7262-d4f1-410a-ab61-0cc69b20a92f" }
+		"eventLog": { "joined": "b1cb1429-4c9f-4a57-9992-916abb2b4b92", "volunteered": "a34f7262-d4f1-410a-ab61-0cc69b20a92f" },
+		"documents": {
+			"codeOfConduct": "839d3f52-4f05-47d9-aafe-7d68f7434994",
+			"volunteerAgreement": "4dcb50dd-6152-4429-8559-828451267cd6",
+			"imageReleaseForm": "b7ce6bc4-5a59-4c3b-92ea-873a647fdd2a"
+		}
 	},
 	{
 		"id": "890cae10-7bbd-4f0c-961a-df495ec7527b",
@@ -110,7 +130,12 @@
 			{ "id": "2e3a2150-2333-4b51-a2e3-1c91b43dd3b1", "platform": "github", "handle": "lancelot-daring" },
 			{ "id": "cf84a4e0-270e-4640-9be5-4dcedf79873d", "platform": "threads", "handle": "lancelot_daring" }
 		],
-		"eventLog": { "joined": "dd472b06-e7ed-4368-9665-95fdb3e5281e", "volunteered": "d5685fd1-044c-4f24-b115-84a99bfd0084" }
+		"eventLog": { "joined": "dd472b06-e7ed-4368-9665-95fdb3e5281e", "volunteered": "d5685fd1-044c-4f24-b115-84a99bfd0084" },
+		"documents": {
+			"codeOfConduct": "85125bfb-33cc-46c1-a87c-9cba9f0fa5ca",
+			"volunteerAgreement": "d7babc34-8f5c-4e8a-a888-5e67e2ad6226",
+			"imageReleaseForm": "0903ab14-8f20-46c8-8cf1-05c2a3faff88"
+		}
 	},
 	{
 		"id": "bfc463bf-a066-4896-8bda-1af982893a49",
@@ -132,7 +157,12 @@
 			{ "id": "e60cb3e8-41b0-43bd-b6de-d227d4502b4d", "platform": "instagram", "handle": "galahad_pure" },
 			{ "id": "eb8af95c-1947-46d7-a0fc-d94438933a83", "platform": "mastodon", "handle": "galahad_pure@mastodon.social" }
 		],
-		"eventLog": { "joined": "b250c32d-5720-405a-987e-ca80725e86ab", "volunteered": "3314c9e2-ab76-4d18-9018-2ec1694729f3" }
+		"eventLog": { "joined": "b250c32d-5720-405a-987e-ca80725e86ab", "volunteered": "3314c9e2-ab76-4d18-9018-2ec1694729f3" },
+		"documents": {
+			"codeOfConduct": "15ca55be-f98d-4a15-8caf-76dfdab9ee37",
+			"volunteerAgreement": "e0848334-98a7-4e6a-af44-41e77a24c601",
+			"imageReleaseForm": "ff8a08a6-abb6-4355-af64-145d1ae79eef"
+		}
 	},
 	{
 		"id": "3caf90c5-7c7e-4931-82b4-888666cd8bac",
@@ -155,7 +185,12 @@
 			{ "id": "74741efb-c435-4768-b0ff-104dc643da96", "platform": "twitter", "handle": "patsy_loyal" },
 			{ "id": "460fb469-2765-40b8-84a8-189761e38670", "platform": "github", "handle": "patsy-loyal" }
 		],
-		"eventLog": { "joined": "5b3e1f5a-e6eb-4dfb-a13b-ee2e0647bec2", "volunteered": "b8470d70-d08b-48ff-a585-2193c5770817" }
+		"eventLog": { "joined": "5b3e1f5a-e6eb-4dfb-a13b-ee2e0647bec2", "volunteered": "b8470d70-d08b-48ff-a585-2193c5770817" },
+		"documents": {
+			"codeOfConduct": "7da115f6-fee5-49bd-b3a8-01e10df1bff8",
+			"volunteerAgreement": "c3f05cec-bf12-45a3-8e7d-ad44079594af",
+			"imageReleaseForm": "600271bf-b8fb-43ad-a100-d390851d291f"
+		}
 	},
 	{
 		"id": "2f512451-861c-4d69-aa25-b27ee54d16cb",
@@ -294,7 +329,12 @@
 			{ "id": "452b1bae-e4f8-4fac-8bbc-9e686993b62e", "platform": "twitter", "handle": "concorde_the_squire" },
 			{ "id": "d8c8ff6c-4e5e-4a98-84e1-7e167a568469", "platform": "github", "handle": "concorde-the-squire" }
 		],
-		"eventLog": { "joined": "5875b7be-33cf-49c9-941c-8642bf4a975c", "volunteered": "fca53493-6643-4883-b781-4b80dfc91079" }
+		"eventLog": { "joined": "5875b7be-33cf-49c9-941c-8642bf4a975c", "volunteered": "fca53493-6643-4883-b781-4b80dfc91079" },
+		"documents": {
+			"codeOfConduct": "6b678a5e-f7aa-4c15-9b71-b4b56f8fcf48",
+			"volunteerAgreement": "2bdf7064-c145-460d-a815-f5ed2b5fa40c",
+			"imageReleaseForm": "64d36a45-51e3-434d-b23e-de1ddd933739"
+		}
 	},
 	{
 		"id": "22fa5d4f-1e53-42f3-a00d-7010e7973b12",

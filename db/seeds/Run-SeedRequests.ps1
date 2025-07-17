@@ -16,7 +16,7 @@ ForEach-Object {
 		$ActivatedAt = 'NULL'
 	}
 
-	if ($_.profileStatus -in @('profile-completed', 'social-handle-provided', 'tos-accepted')) {
+	if ($_.documents) {
 		$DocumentsString = @"
 -- Code of conduct
 INSERT INTO "documents" (
@@ -25,7 +25,7 @@ INSERT INTO "documents" (
 	"type", "documentVersion"
 )
 VALUES (
-	'$((New-Guid).Guid)', 1,
+	'$($_.documents.codeOfConduct)', 1,
 	$UserId, $Now,
 	'code-of-conduct', '2025-07-15T04:36:15Z'
 );
@@ -37,7 +37,7 @@ INSERT INTO "documents" (
 	"type", "documentVersion"
 )
 VALUES (
-	'$((New-Guid).Guid)', 1,
+	'$($_.documents.imageReleaseForm)', 1,
 	$UserId, $Now,
 	'image-release-form', '2025-07-15T04:36:15Z'
 );
@@ -49,7 +49,7 @@ INSERT INTO "documents" (
 	"type", "documentVersion"
 )
 VALUES (
-	'$((New-Guid).Guid)', 1,
+	'$($_.documents.volunteerAgreement)', 1,
 	$UserId, $Now,
 	'volunteer-agreement', '2025-07-15T04:36:15Z'
 );
