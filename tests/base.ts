@@ -2,6 +2,7 @@ import { test as base } from "@playwright/test";
 import { CheckEmailPage } from "../page_object_models/pom_check_email.ts";
 import { CheckStepsPage } from "../page_object_models/pom_check-steps.ts";
 import { CompleteProfilePage } from "../page_object_models/pom_complete_profile.ts";
+import { JohnDoePage } from "../page_object_models/pom_john_doe.ts";
 import { PrintConductPage } from "../page_object_models/pom_print_conduct.ts";
 import { PrintImageReleasePage } from "../page_object_models/pom_print_image_release.ts";
 import { PrintVolunteerPage } from "../page_object_models/pom_print_volunteer.ts";
@@ -16,6 +17,7 @@ export type TestOptions = {
     checkEmailPage: CheckEmailPage;
     checkStepsPage: CheckStepsPage;
     completeProfilePage: CompleteProfilePage;
+    johnDoePage: JohnDoePage;
     printConductPage: PrintConductPage;
     printImageReleasePage: PrintImageReleasePage;
     printVolunteerPage: PrintVolunteerPage;
@@ -39,6 +41,10 @@ export const test = base.extend<TestOptions>({
     completeProfilePage: async ({page}, use) => {
         const completeProfilePage = new CompleteProfilePage(page);
         await use(completeProfilePage);
+    },
+    johnDoePage: async ({page}, use) => {
+        const johnDoePage = new JohnDoePage(page);
+        await use(johnDoePage);
     },
     printConductPage: async ({page}, use) => {
         const printConductPage = new PrintConductPage(page);
@@ -110,4 +116,4 @@ export type Enable_Profile_Footer_Type = {
     devto: boolean
 }
 
-// export { expect } from "@playwright/test";
+export { expect } from "@playwright/test";

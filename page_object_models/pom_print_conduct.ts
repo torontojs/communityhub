@@ -52,5 +52,43 @@ export class PrintConductPage {
         this.text_box.fill(message1);
     }
 
+    async tab_navigation() {
+
+        let currentElement = this.page.locator(':focus').first();
+        let tabCount = 0;
+        const maxTabs = 10; // Prevent infinite loop
+    
+        //let href_temp = await row.getAttribute('href');
+        //let expected_url = href_temp?.toString().split(".");
+
+        while(tabCount < maxTabs) {
+
+            await this.page.keyboard.press('Tab');
+            currentElement = this.page.locator(':focus').first();
+
+            let ariatext = await currentElement.ariaSnapshot();
+            console.log(ariatext.toString());
+
+            console.log(typeof(ariatext));
+
+            /*
+            if(await currentElement.getAttribute('id') == "email") {
+                 await this.email_field.isVisible();
+                 await this.email_field.fill("vvvvvvvvv");
+                console.log(tabCount);
+                console.log('AAAAA' + ariatext);
+            } else if (ariatext.toString() == "- button Upload Your Photo") {
+                console.log('AAAAA');
+            } */
+
+            tabCount++;
+            console.log(tabCount);
+            
+        }
+
+        
+
+    }
+
 
 }

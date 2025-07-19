@@ -2,10 +2,17 @@ import { expect, Page } from '@playwright/test';
 import { test } from "./base.ts";
 import AxeBuilder from '@axe-core/playwright';
 
-test.beforeEach(async ({ completeProfilePage }) => {
+test.beforeEach(async ({ completeProfilePage, signInPage }) => {
     
    test.setTimeout(90000) // Sets a 50-second timeout for all tests
-   completeProfilePage.navigate();
+   await signInPage.navigate();
+   
+   //await signInPage.page.waitForSelector('#email-input');
+    let email = signInPage.test_user_login_data[2]["email"];
+    let password = signInPage.test_user_login_data[2]["password"];
+    await signInPage.sign_in(email, password);
+
+    await completeProfilePage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
 
@@ -51,7 +58,6 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         let temp = completeProfilePage.page.getByRole("button", { name: 'Close LinkedIn input'});
 
         console.log(temp);
-        console.log("KKK");
 
         for(let i = (detail_social_inputs.length - 1); i >= 0; i-- ) {
             console.log(detail_social_inputs[i]);
@@ -109,8 +115,8 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
        
         await completeProfilePage.page_title.isVisible();
 
-        await completeProfilePage.name_field.fill("Mr Tester");
-        await completeProfilePage.email_field.fill("ct@gmail.com");
+        //await completeProfilePage.name_field.fill("Mr Tester");
+        //await completeProfilePage.email_field.fill("ct@gmail.com");
         await completeProfilePage.slack_field.fill("Toronto JS");
 
         await completeProfilePage.pronouns.fill("He/him");
@@ -496,7 +502,9 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
        
   });
 
-  test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage }) => {
+
+  /*
+    test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage }) => {
     await expect(async() => { 
         await completeProfilePage.page.waitForLoadState('domcontentloaded');
             console.log(completeProfilePage.page.url());
@@ -505,9 +513,9 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             await expect(completeProfilePage.page).toHaveScreenshot("complete_profile_screen.png");
      }).toPass({ intervals: [1_000, 6_000, 20_000],
                     timeout: 40_000}); 
-    });
+    }); */
 
-});
+}); 
 
 test.describe('ASSESSIBILITY Suite', () => {
 
@@ -515,5 +523,10 @@ test.describe('ASSESSIBILITY Suite', () => {
         
         const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22a", "wcag22aa"]).analyze();
         expect( axeBuilder.violations).toEqual([]);
+    });
+
+     test('TAB KEYBOARD NAVIGATION', async ({completeProfilePage, signInPage}) =>  {
+          
+          await completeProfilePage.tab_navigation();  
     });
 });

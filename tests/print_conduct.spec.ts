@@ -8,9 +8,16 @@ import { SignInPage } from '../page_object_models/pom_sign-in';
 import { link } from 'fs/promises';
 import { PrintConductPage } from '../page_object_models/pom_print_conduct.ts';
 
-test.beforeEach( async ({ printConductPage }) => {
+test.beforeEach( async ({ printConductPage, signInPage }) => {
   printConductPage.page.setViewportSize({ width: 1280, height: 720 });  
   test.setTimeout(70000) // Sets a 40-second timeout for all tests
+  await signInPage.navigate();
+   
+    //await signInPage.page.waitForSelector('#email-input');
+    let email = signInPage.test_user_login_data[2]["email"];
+    let password = signInPage.test_user_login_data[2]["password"];
+    await signInPage.sign_in(email, password);
+  
   await printConductPage.navigate();
 });
 
@@ -65,7 +72,7 @@ test.describe('SIGN-IN Test Suite', () => {
             let expected_url = ex_temp?.toString().split(".");
             
            // let expected_url_1 = expected_url?.[0];
-        //console.log("&&& " + expected_url?.[0]);
+           //console.log("&&& " + expected_url?.[0]);
         
 
             console.log(ex_temp);
@@ -88,8 +95,6 @@ test.describe('SIGN-IN Test Suite', () => {
 
             
 
-            
-            await 
             await printConductPage.page.goBack();
             // expect.soft(page.url()).toEqual(uu);
             expect(printConductPage.page.url()).toEqual(printConductPage.url);
@@ -269,5 +274,10 @@ test.describe('ASSESSIBILITY Suite', () => {
         
         const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
         expect( axeBuilder.violations).toEqual([]);
+    });
+
+    test('TAB KEYBOARD NAVIGATION', async ({completeProfilePage, signInPage}) =>  {
+          
+          await completeProfilePage.tab_navigation();  
     });
 });

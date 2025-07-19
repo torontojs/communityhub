@@ -5,9 +5,16 @@ import { execPath } from 'process';
 import AxeBuilder from '@axe-core/playwright';
 
 
-test.beforeEach(async ({teamsPage}) => {
+test.beforeEach(async ({teamsPage, signInPage}) => {
 
-   test.setTimeout(60000)
+   test.setTimeout(60000);
+
+   await signInPage.navigate();
+   
+    //await signInPage.page.waitForSelector('#email-input');
+    let email = signInPage.test_user_login_data[2]["email"];
+    let password = signInPage.test_user_login_data[2]["password"];
+    await signInPage.sign_in(email, password);
 
    await teamsPage.navigate();
   
@@ -134,4 +141,11 @@ test.describe('ASSESSIBILITY Suite', () => {
         const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
         expect( axeBuilder.violations).toEqual([]);
     });
+
+    test('TAB KEYBOARD NAVIGATION', async ({completeProfilePage, signInPage}) =>  {
+          
+          await completeProfilePage.tab_navigation();  
+    });
+
+
 });

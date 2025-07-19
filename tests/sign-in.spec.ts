@@ -51,8 +51,8 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await signInPage.page_title_1.isVisible()
 
-        await signInPage.email_field.isVisible();
-        await signInPage.password_field.isVisible();
+        //await signInPage.email_field.isVisible();
+        //await signInPage.password_field.isVisible();
 
         await signInPage.fill_fields('test@gmail.com', 'xxxxxxxxx');
 
@@ -60,6 +60,9 @@ test.describe('SIGN-IN Test Suite', () => {
         await signInPage.login_button.isVisible();
 
         await signInPage.login_button.click();
+        await signInPage.page.waitForLoadState('networkidle');
+        expect(signInPage.page.url()).toEqual(signInPage.url);
+
 
     });
 
@@ -71,8 +74,8 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await signInPage.page_title_1.isVisible()
 
-        await signInPage.email_field.isVisible();
-        await signInPage.password_field.isVisible();
+        //await signInPage.email_field.isVisible();
+        //await signInPage.password_field.isVisible();
 
 
         // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
@@ -94,9 +97,131 @@ test.describe('SIGN-IN Test Suite', () => {
         await expect(signInPage.login_button).toHaveCSS('color', `rgb(255, 255, 255)`);
 
         await signInPage.login_button.click();
+        await signInPage.page.waitForLoadState('networkidle');
+        expect(signInPage.page.url()).toEqual(signInPage.url);
 
 
     });
+
+     test('VOLUNTEER USER SIGN-IN SUCCESSFULLY', async ({ signInPage }) => {
+        await signInPage.page_title_1.isVisible()
+
+        await signInPage.email_field.isVisible();
+        await signInPage.password_field.isVisible();
+
+        let email = signInPage.test_user_login_data[2]["email"];
+        let password = signInPage.test_user_login_data[2]["password"];
+
+        await signInPage.fill_fields(email, password);
+        await signInPage.login_button.click();
+
+        await signInPage.page.waitForURL(signInPage.homepage_url);
+        await signInPage.page.waitForSelector('#footer-nav', { state: 'visible' });
+        expect(signInPage.page.url()).toEqual(signInPage.homepage_url);
+
+
+        expect(signInPage.logout_button).toBeVisible();
+        expect(signInPage.homepage_title).toBeVisible();
+
+        expect(signInPage.home_icon).toBeVisible();
+        expect(signInPage.youtube_icon).toBeVisible();
+        expect(signInPage.instagram_icon).toBeVisible();
+        expect(signInPage.linkedin_icon).toBeVisible();
+        expect(signInPage.twitter_x_icon).toBeVisible();
+
+        await signInPage.logout_button.click();
+        await signInPage.page.waitForURL(signInPage.url);
+        await signInPage.page.waitForSelector('#footer-nav', { state: 'visible' });
+        expect(signInPage.page.url()).toEqual(signInPage.url);
+
+        await signInPage.page_title_1.isVisible()
+
+        await signInPage.email_field.isVisible();
+        await signInPage.password_field.isVisible();
+
+     });
+
+     test('ORGANIZER USER SIGN-IN SUCCESSFULLY', async ({ signInPage }) => {
+        await signInPage.page_title_1.isVisible()
+
+        await signInPage.email_field.isVisible();
+        await signInPage.password_field.isVisible();
+
+        let email = signInPage.test_user_login_data[0]["email"];
+        let password = signInPage.test_user_login_data[0]["password"];
+
+        await signInPage.fill_fields(email, password);
+        await signInPage.login_button.dblclick();
+
+        await signInPage.page.waitForURL(signInPage.homepage_url);
+        await signInPage.page.waitForSelector('#footer-nav', { state: 'visible' });
+        expect(signInPage.page.url()).toEqual(signInPage.homepage_url);
+
+
+        expect(signInPage.logout_button).toBeVisible();
+        expect(signInPage.homepage_title).toBeVisible();
+
+        expect(signInPage.home_icon).toBeVisible();
+        expect(signInPage.youtube_icon).toBeVisible();
+        expect(signInPage.instagram_icon).toBeVisible();
+        expect(signInPage.linkedin_icon).toBeVisible();
+        expect(signInPage.twitter_x_icon).toBeVisible();
+
+        await signInPage.logout_button.dblclick();
+        await signInPage.page.waitForURL(signInPage.url);
+        await signInPage.page.waitForSelector('#footer-nav', { state: 'visible' });
+        expect(signInPage.page.url()).toEqual(signInPage.url);
+
+        await signInPage.page_title_1.isVisible()
+
+        await signInPage.email_field.isVisible();
+        await signInPage.password_field.isVisible();
+
+     });
+
+     test('TAB KEY NAVIGATION - ORGANIZER USER SIGN-IN SUCCESSFULLY', async ({ signInPage }) => {
+        await signInPage.page_title_1.isVisible()
+
+        await signInPage.email_field.isVisible();
+        await signInPage.password_field.isVisible();
+
+        let email = signInPage.test_user_login_data[0]["email"];
+        let password = signInPage.test_user_login_data[0]["password"];
+
+        await signInPage.keyboard_fill_fields(email, password);
+
+       // await signInPage.fill_fields(email, password);
+        await signInPage.login_button.click();
+
+        await signInPage.page.waitForURL(signInPage.homepage_url);
+        await signInPage.page.waitForSelector('#footer-nav', { state: 'visible' });
+        expect(signInPage.page.url()).toEqual(signInPage.homepage_url);
+
+
+        expect(signInPage.logout_button).toBeVisible();
+        expect(signInPage.homepage_title).toBeVisible();
+
+        
+        expect(signInPage.home_icon).toBeVisible();
+        expect(signInPage.youtube_icon).toBeVisible();
+        expect(signInPage.instagram_icon).toBeVisible();
+        expect(signInPage.linkedin_icon).toBeVisible();
+        expect(signInPage.twitter_x_icon).toBeVisible(); 
+
+        await signInPage.logout_button.dblclick();
+        await signInPage.page.waitForURL(signInPage.url);
+        await signInPage.page.waitForSelector('#footer-nav', { state: 'visible' });
+        expect(signInPage.page.url()).toEqual(signInPage.url);
+
+        await signInPage.page_title_1.isVisible()
+
+        await signInPage.email_field.isVisible();
+        await signInPage.password_field.isVisible();
+
+     });
+
+
+     
 
     /* 
     test('Social Media Footer Check', async ({ browser }) => {
@@ -341,6 +466,12 @@ test.describe('SIGN-IN Test Suite', () => {
         // await signInPage.navigate();
 
         await signInPage.page_title_1.isVisible();
+
+        expect(signInPage.home_icon).toBeVisible();
+        expect(signInPage.youtube_icon).toBeVisible();
+        expect(signInPage.instagram_icon).toBeVisible();
+        expect(signInPage.linkedin_icon).toBeVisible();
+        expect(signInPage.twitter_x_icon).toBeVisible();
 
 
         await signInPage.fill_fields('test@gmail.com', 'xxx');

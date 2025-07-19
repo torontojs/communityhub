@@ -385,7 +385,7 @@ test.describe('SIGN-UP Test Suite', () => {
         await signUpPage.page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
           
          await signUpPage.fill_fields("SHOW DATABASES", "SHOW DATABASES", "SHOW DATABASES");
-        await signUpPage.page.waitForTimeout(2000);
+        //await signUpPage.page.waitForTimeout(2000);
 
         await signUpPage.red_Account_button.isVisible();
         await signUpPage.red_Account_button.isEnabled();
@@ -404,7 +404,7 @@ test.describe('SIGN-UP Test Suite', () => {
             expect(msg.type()).toContainEqual("");
         });
 
-        await signUpPage.page.waitForTimeout(5000);
+        //await signUpPage.page.waitForTimeout(5000);
 
 
 

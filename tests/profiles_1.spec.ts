@@ -5,8 +5,16 @@ import { test } from './base.ts';
 import AxeBuilder from '@axe-core/playwright';
 
 
-test.beforeEach( async ({ profilesPage }) => {
+test.beforeEach( async ({ profilesPage, signInPage }) => {
   test.setTimeout(50000) // Sets a 40-second timeout for all tests
+
+  await signInPage.navigate();
+   
+    //await signInPage.page.waitForSelector('#email-input');
+    let email = signInPage.test_user_login_data[2]["email"];
+    let password = signInPage.test_user_login_data[2]["password"];
+    await signInPage.sign_in(email, password);
+
   await profilesPage.navigate();
 });
 

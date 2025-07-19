@@ -116,13 +116,19 @@ export class CompleteProfilePage {
     }
     
    async navigate() {
-
+      
       await expect(async() => {
             await this.page.goto(this.url); 
             await this.page.waitForURL(this.url);
             expect(this.page.url()).toBe(this.url);
       }).toPass({ intervals: [1_000, 2_000, 10_000],
-                    timeout: 60_000});
+                    timeout: 60_000}); 
+
+        /*
+        await this.page.goto(this.url); 
+        await this.page.waitForURL(this.url);
+        expect(this.page.url()).toBe(this.url); */
+      
       console.log("NAVIGATING to: " + this.url);
     }
 
@@ -241,11 +247,12 @@ export class CompleteProfilePage {
     
     async fill_fields(form1 : Complete_Profile_Type, enable_footer: Enable_Profile_Footer_Type) {
 
+
         await this.enable_disable_footer_social_fields(this.page, enable_footer);
         //await this.page.waitForTimeout(1000);
         
-        await this.name_field.fill(form1.name);
-        await this.email_field.fill(form1.email);
+       // await this.name_field.fill(form1.name);
+       // await this.email_field.fill(form1.email);
         await this.slack_field.fill(form1.slack_handle);
         await this.pronouns.fill(form1.pronouns);
         await this.dob_Month.selectOption(form1.birth_month);
@@ -287,6 +294,8 @@ export class CompleteProfilePage {
     }
 
     async enable_disable_footer_social_fields(page: Page, enable_switch: Enable_Profile_Footer_Type) {
+
+        await page.waitForLoadState('load');
 
         if(enable_switch.linkedin_other) {
             if(await this.linkedin_icon.isVisible()) {
@@ -364,11 +373,87 @@ export class CompleteProfilePage {
 
     }
 
+    async tab_navigation() {
 
-
+        let currentElement = this.page.locator(':focus').first();
+        let tabCount = 0;
+        const maxTabs = 20; // Prevent infinite loop
     
-  
+        //let href_temp = await row.getAttribute('href');
+        //let expected_url = href_temp?.toString().split(".");
 
+        while(tabCount < maxTabs) {
+
+            await this.page.keyboard.press('Tab');
+            currentElement = this.page.locator(':focus').first();
+
+            let ariatext = await currentElement.ariaSnapshot();
+            console.log(ariatext.toString());
+
+            console.log(typeof(ariatext));
+
+
+            /*
+            //await expect(async() => {
+
+                if(ariatext == '- text: "In a nutshell:"' && tabCount > 40 ) {
+                   // await expect(async() => {
+                        await currentElement.press('Enter');
+                        await currentElement.press('Enter');
+                        await this.nutshell_bar.focus();
+                    //}).toPass({ intervals: [1_000, 2_000, 7_000], timeout: 10_000}); 
+                }  else if (ariatext == '- button "Upload Your Photo"' && tabCount > 25) {
+                    console.log('AAAAA'); 
+                    await currentElement.press('Enter');
+                   // await expect(async() => {
+                    this.upload_avatar_image('tests/IH4png - asia.jpg', true);
+                    //}).toPass({ intervals: [1_000, 2_000, 11_000], timeout: 20_000}); 
+                
+                }  else if(ariatext == '- checkbox "I\'m based in Toronto or Greater Toronto Area"') {
+                    //await expect(async() => {
+                        await currentElement.press('Enter');
+                        await currentElement.press('Enter');
+                    //}).toPass({ intervals: [1_000, 2_000, 7_000], timeout: 10_000}); 
+                } 
+                else if(ariatext == '- checkbox "I can join TorontoJS\'s local events"') {
+                   // await expect(async() => {
+                        await currentElement.press('Enter');
+                        await currentElement.press('Enter');
+                        await currentElement.press('Enter');
+                   // }).toPass({ intervals: [1_000, 2_000, 7_000], timeout: 60_000}); 
+                }
+           // }).toPass({ intervals: [1_000, 2_000, 25_000], timeout: 40_000}); 
+            */
+           
+            tabCount++;
+            console.log(tabCount);
+
+
+            
+        }
+
+        
+
+    }
+
+    async get_element_attributes(loc : Locator, element_type : string) {
+
+        const attributes = await loc.evaluate(element => {
+        const attrs = {};
+        if(element) { 
+        for (let i = 0; i < element.attributes.length; i++) {
+            const attr = element.attributes[i];
+            attrs[attr.name] = attr.value;
+        } }
+        return attrs;
+        }, await this.page.$(element_type));
+
+        return attributes;
+
+
+    }
+  
+    
 
 
 
