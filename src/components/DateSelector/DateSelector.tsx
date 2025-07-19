@@ -3,7 +3,7 @@ import './DateSelector.css';
 
 interface Props {
 	labelContent?: string;
-	setDateValue: React.Dispatch<React.SetStateAction<string>>;
+	handleSetDateValue: (date: string) => void;
 }
 
 // Validation helpers
@@ -59,7 +59,7 @@ const getDaysInMonth = (month: string) => {
 	}
 };
 
-const DateSelector = ({ setDateValue, labelContent = 'Select Date' }: Props) => {
+const DateSelector = ({ handleSetDateValue, labelContent = 'Select Date' }: Props) => {
 	const [tempDateValue, setTempDateValue] = useState<string>('');
 	const [month, day] = tempDateValue ? tempDateValue.split('-') : ['', ''];
 
@@ -105,7 +105,7 @@ const DateSelector = ({ setDateValue, labelContent = 'Select Date' }: Props) => 
 				const newDay = Number(prevDay) > newDaysInMonth ? '' : prevDay;
 
 				if (Number(prevDay) > newDaysInMonth) {
-					setDateValue(''); // Reset parent when day becomes invalid
+					handleSetDateValue(''); // Reset parent when day becomes invalid
 				}
 
 				return `${value}-${newDay}`;
@@ -121,11 +121,11 @@ const DateSelector = ({ setDateValue, labelContent = 'Select Date' }: Props) => 
 
 	useEffect(() => {
 		if (!isRealDate(tempDateValue)) {
-			setDateValue('');
+			handleSetDateValue('');
 			return;
 		}
 		if (isRealDate(tempDateValue)) {
-			setDateValue(tempDateValue);
+			handleSetDateValue(tempDateValue);
 		}
 	}, [tempDateValue]);
 

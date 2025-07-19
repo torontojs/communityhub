@@ -10,6 +10,10 @@ const root = document.getElementById('root') as HTMLDivElement;
 const DateParent = () => {
 	const [birthdayValue, setBirthdayValue] = useState<string>('');
 
+	const handleSetBirthdayValue = (date: string): void => {
+		setBirthdayValue(date);
+	};
+
 	return (
 		<div className='date-parent-container'>
 			<label>
@@ -17,7 +21,7 @@ const DateParent = () => {
 				{birthdayValue}
 			</label>
 			<p>Date Component Starts Below This Text!</p>
-			<DateSelector setDateValue={setBirthdayValue} labelContent='Date Of Birth (mm-dd)' />
+			<DateSelector handleSetDateValue={handleSetBirthdayValue} labelContent='Date Of Birth (mm-dd)' />
 		</div>
 	);
 };
