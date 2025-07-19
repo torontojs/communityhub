@@ -130,7 +130,7 @@ const DateSelector = ({ setDateValue, labelContent = 'Select Date' }: Props) => 
 	}, [tempDateValue]);
 
 	return (
-		<div className='dob-container'>
+		<div className='date-container'>
 			<label>{labelContent}</label>
 			<div>
 				<label htmlFor='month'>Month</label>
