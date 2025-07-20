@@ -12,6 +12,8 @@ export const ProfileSchema = BaseDbEntitySchema.merge(z.object({
 	email: z
 		.string()
 		.email('Invalid Email.')
+		.trim()
+		.toLowerCase()
 		.describe('The email used for this profile, it must be unique on the database.'),
 	name: z
 		.string()
@@ -20,6 +22,7 @@ export const ProfileSchema = BaseDbEntitySchema.merge(z.object({
 		.describe('The name this person would like to be refered to.'),
 	description: z
 		.string()
+		.trim()
 		.optional()
 		.describe('A description for this person, may be written in markdown.'),
 	isBasedOnGTA: z
@@ -30,10 +33,12 @@ export const ProfileSchema = BaseDbEntitySchema.merge(z.object({
 		.describe('A flag indicating if the user is available to join local/in-person events.'),
 	pronouns: z
 		.string()
+		.trim()
 		.optional()
 		.describe('The pronouns the person identifies with.'),
 	birthday: z
 		.string()
+		.trim()
 		.optional()
 		.refine(
 			(data) => data ? /^\d{2}-\d{2}$/iu.test(data) : true,
@@ -103,6 +108,7 @@ export const ProfileSkillSchema = z.object({
 		.describe('The profile id.'),
 	skill: z
 		.string()
+		.trim()
 		.describe('The link name.')
 });
 

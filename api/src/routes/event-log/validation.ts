@@ -22,6 +22,7 @@ export const EventLogSchema = IdAndSchemaVersionSchema
 		subjectSource: LogItemSourceSchema,
 		verb: z
 			.string()
+			.trim()
 			.describe(''),
 		object: z
 			.string()
