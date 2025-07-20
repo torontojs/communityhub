@@ -25,7 +25,7 @@
 		"predeploy:prod": "npm run build",
 		"deploy:prod": "wrangler deploy --minify --env production",
 
-		"format": "dprint fmt --staged",
+		"format": "dprint fmt",
 		"format:check": "dprint check",
 
 		"typecheck:api": "tsc -p ./api --noEmit",
