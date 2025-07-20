@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import type { AccessLevel } from './auth.ts';
 
 export const SCHEMA_VERSION = 1;
 export const DEFAULT_TEAM_ID = 'b3410598-ecbc-41be-9f68-925da74bc613';
@@ -11,7 +10,8 @@ export const DBTables = {
 	ACCESS: 'access',
 	PROFILE_SKILLS: 'profile_skills',
 	PROFILE_LINKS: 'profile_links',
-	EVENT_LOG: 'event_log'
+	EVENT_LOG: 'event_log',
+	DOCUMENTS: 'documents'
 } as const;
 
 export const IdAndSchemaVersionSchema = z.object({
@@ -22,7 +22,7 @@ export const IdAndSchemaVersionSchema = z.object({
 export type IdAndSchemaVersion = z.infer<typeof IdAndSchemaVersionSchema>;
 
 export const InsertionTimestampsSchema = z.object({
-	happenedAt: z.string().datetime({ offset: true }).describe('The date when the the event related to this entity happened.'),
+	happenedAt: z.string().datetime({ offset: true }).describe('The date when the event related to this entity happened.'),
 	insertedAt: z.string().datetime({ offset: true }).describe('The date when the entity was added to the database.')
 });
 
@@ -59,10 +59,4 @@ export function generateBaseDBfields() {
 		insertedAt: newTimestamp.toISOString(),
 		happenedAt: newTimestamp.toISOString()
 	} satisfies BaseDBEntity;
-}
-
-export interface AccessSchema extends IdAndSchemaVersion {
-	accessLevel: AccessLevel;
-	password: string;
-	email: string;
 }

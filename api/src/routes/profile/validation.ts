@@ -1,7 +1,12 @@
 import { z } from 'zod';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
 
-export const PlatformEnum = z.enum(['slack', 'linkedin', 'github', 'portfolio', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'xtwitter', 'dev']);
+export const PlatformEnum = z.enum(['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'])
+	.describe(
+		'The name of the platform for the URL.'
+	);
+
+export type SocialMediaPlatforms = z.infer<typeof PlatformEnum>;
 
 export const ProfileSchema = BaseDbEntitySchema.merge(z.object({
 	email: z
@@ -50,11 +55,7 @@ export const ProfileSchema = BaseDbEntitySchema.merge(z.object({
 		.describe('A list of objects containing platform names and respective links for social media and platforms the person want to make available on the Community Hub.'),
 	skills: z.array(z.string())
 		.optional()
-		.describe('A list of skills the person has provided.'),
-	deletedReason: z
-		.string()
-		.optional()
-		.describe('The reason this perofile was marked deleted.')
+		.describe('A list of skills the person has provided.')
 }));
 
 export type Profile = z.infer<typeof ProfileSchema>;
@@ -82,8 +83,7 @@ export const ProfileLinkSchema = z.object({
 		.string()
 		.uuid()
 		.describe('The profile id.'),
-	platform: PlatformEnum
-		.describe('The name of the platform for the URL.'),
+	platform: PlatformEnum,
 	url: z
 		.string()
 		.url()
