@@ -162,7 +162,7 @@ Content-Type: application/json
 	"password":"ExtraSpaces911!@#$"
 }
 
-HTTP 422
+HTTP 200
 
 
 # Sign-up password allows password utilizing space characters within allowed characters but not outside
