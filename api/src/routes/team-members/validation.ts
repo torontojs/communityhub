@@ -9,6 +9,7 @@ export const TeamMembershipSchema = BaseDbEntitySchema.merge(z.object({
 		.describe("The role's name."),
 	description: z
 		.string()
+		.trim()
 		.optional()
 		.describe('A description for the role. It may include markdown content.'),
 	teamId: z
