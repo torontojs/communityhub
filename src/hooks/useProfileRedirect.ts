@@ -23,21 +23,17 @@ const REDIRECT_PATHS = {
 
 const getRedirectPathForStatus = (status: ProfileStatus): string => {
 	switch (status) {
-		case 'created':
-			return REDIRECT_PATHS.activate;
-
 		case 'activated':
 			return REDIRECT_PATHS.checkSteps;
 
-		case 'social-handle-provided':
-			return REDIRECT_PATHS.leadsToNowhere;
-
 		case 'tos-accepted':
+		case 'social-handle-provided':
 			return REDIRECT_PATHS.completeProfile;
 
 		case 'profile-completed':
 			return REDIRECT_PATHS.home;
 
+		case 'created':
 		case 'deleted':
 		case 'error':
 		default:
