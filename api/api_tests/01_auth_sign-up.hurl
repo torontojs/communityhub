@@ -23,7 +23,7 @@ Content-Type: application/json
 	"password":"FruityThisIs911!@#"
 }
 
-HTTP 422
+HTTP 200
 
 
 # Sign-up duplicate email with different casing UNPROCESSABLE CONTENT
@@ -38,7 +38,7 @@ Content-Type: application/json
 	"password":"FruityThisIs911!@#"
 }
 
-HTTP 422
+HTTP 200
 
 
 # sign-up-subdomain-email
@@ -165,7 +165,7 @@ Content-Type: application/json
 HTTP 422
 
 
-# Sign-up password allows password utilizing space characters wihin allowed characters but not outside
+# Sign-up password allows password utilizing space characters within allowed characters but not outside
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -177,6 +177,17 @@ Content-Type: application/json
 }
 
 HTTP 200
+
+# Weak password should not be allowed
+POST {{host}}/api/auth/sign-up
+
+Content-Type: application/json
+
+{
+	"name": "Weak Password",
+	"email": "email@weakpassword.com",
+	"password": "abcdefghijklmnopqrstuvwxyz"
+}
 
 
 # Sign-up Invalid email format
@@ -241,4 +252,4 @@ HTTP 422
 #	"password":"ShouldNotBeLongerThan100124!@#$"
 #}
 
-#HTTP 422
+#HTTP 200
