@@ -2827,6 +2827,32 @@ VALUES (
 	'00a34ce0-c620-4954-9bcc-ac839e718bad', 'team'
 );
 
+-- Team member: Ni Sayer
+INSERT INTO "role" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"teamId", "name", "description",
+	"profileId"
+)
+VALUES (
+	'ed4723b9-7aa2-4146-bd70-77db729d9e86', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'00a34ce0-c620-4954-9bcc-ac839e718bad', 'Ni Sayer', 'Responsible for repeatedly saying "Ni!"',
+	'2f512451-861c-4d69-aa25-b27ee54d16cb'
+);
+
+-- Add team member to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'2a6411a2-773a-4733-847a-e107f30783eb', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'2f512451-861c-4d69-aa25-b27ee54d16cb', 'profile',
+	'joined',
+	'00a34ce0-c620-4954-9bcc-ac839e718bad', 'team'
+);
+
 
 -- #endregion
 
