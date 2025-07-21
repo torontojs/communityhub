@@ -12,7 +12,7 @@ Content-Type: application/json
 HTTP 200
 
 
-# Sign-up duplicate email UNPROCESSABLE CONTENT
+# Sign-up duplicate email OKAY
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -26,7 +26,7 @@ Content-Type: application/json
 HTTP 200
 
 
-# Sign-up duplicate email with different casing UNPROCESSABLE CONTENT
+# Sign-up duplicate email with different casing OKAY
 # FIXME: https://github.com/torontojs/communityhub/issues/97
 POST {{host}}/api/auth/sign-up
 
