@@ -102,7 +102,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 							<hr />
 							<div className='resend-timer' id='countdown-status'>
 								<ClockIcon aria-hidden='true' />
-								<p>Wait {Math.ceil(seconds / 60)} minutes for a new activation link</p>
+								<p>Wait {Math.ceil(seconds / 60)} minutes to send a new activation link</p>
 							</div>
 						</>
 					)}
