@@ -1,0 +1,3 @@
+# Unauthorid users can't delete profiles
+DELETE {{host}}/api/profiles/{{try_delete_profile_id}}
+HTTP 401
