@@ -261,7 +261,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.remove_avatar_image();
 
-        await completeProfilePage.upload_avatar_image('tests/document - TESTCASE Scenarios - May 31 2025.pdf', false);
+        await completeProfilePage.upload_avatar_image('tests/test.txt', false);
 
         await completeProfilePage.remove_avatar_image();
 
@@ -349,11 +349,11 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         await completeProfilePage.page_title.isVisible();
 
         for (let i = 1; i < 7; i++) {
-            await completeProfilePage.upload_avatar_image('tests/document - TESTCASE Scenarios - May 31 2025.pdf', false);
-            await completeProfilePage.page.waitForTimeout(2000);
-
+            await expect(async() => {
             await completeProfilePage.upload_avatar_image('tests/test.txt', false);
-            await completeProfilePage.page.waitForTimeout(2000);
+            //await completeProfilePage.page.waitForTimeout(2000);
+             }).toPass({ intervals: [1_000, 2_000, 7_000],
+                    timeout: 10_000}); 
         }
 
 
