@@ -4,7 +4,7 @@
 POST {{host}}/api/auth/sign-up
 {
 	"name": "Missing Passowrd",
-	"email": "missing-password@example.com",
+	"email": "missing-password@example.com"
 }
 
 HTTP 422

@@ -24,4 +24,4 @@ POST {{host}}/api/auth/sign-in
 	"password": "{{organizer_password}}"
 }
 
-HTTP 422
+HTTP 401

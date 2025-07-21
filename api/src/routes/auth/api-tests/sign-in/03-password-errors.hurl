@@ -12,7 +12,7 @@ HTTP 422
 POST {{host}}/api/auth/sign-in
 {
 	"email": "{{organizer_email}}",
-	"password": "{{organizer_password}}"
+	"password": ""
 }
 
 HTTP 422
@@ -24,4 +24,4 @@ POST {{host}}/api/auth/sign-in
 	"password": "x-{{organizer_password}}"
 }
 
-HTTP 422
+HTTP 401
