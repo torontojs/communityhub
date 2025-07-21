@@ -3,13 +3,13 @@ import { sendAccountConfirmationEmail, sendPasswordResetEmail } from '../../emai
 import { authorizeVolunteer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { createSession, deleteSession, getSession, revalidateSession } from '../../utils/auth.ts';
+import { createPasswordReset } from '../../utils/auth.ts';
 import { hashPassword, validatePassword } from '../../utils/password-hashing.ts';
 import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { insertProfile } from '../profile/data.ts';
 import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo, updateProfileStatus } from './data.ts';
 import { type HeartbeatResponse, HeartbeatResponseSchema } from './responses.ts';
 import { ActivateSchema, ForgotPasswordSchema, SignInSchema, SignUpSchema } from './validation.ts';
-
 export const authRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
@@ -271,14 +271,8 @@ authRoutes.openapi(
 		}
 
 		const resetToken = crypto.randomUUID();
-		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
-		const TEN_MINUTES_IN_SECONDS = 60 * 10;
-
-		await context.env.PasswordResetToken.put(
-			resetToken,
-			email,
-			{ expirationTtl: TEN_MINUTES_IN_SECONDS }
-		);
+		// // eslint-disable-next-line @typescript-eslint/no-magic-numb
+		await createPasswordReset(context, email, resetToken);
 
 		await sendPasswordResetEmail(context, {
 			apiKey: context.env.RESEND_API_KEY,
