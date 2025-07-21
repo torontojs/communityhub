@@ -1,18 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const MS = 1000;
+const ONE_SECOND_IN_MS = 1000;
 
-export function useCountdown(
-	seconds: number,
-	setSeconds: (s: number) => void
-) {
+export function useCountdown(seconds: number) {
+	const [remaningTime, setRemainingTime] = useState(seconds);
+
 	useEffect(() => {
-		if (seconds <= 0) { return; }
-		const timer = setTimeout(() => {
-			setSeconds(seconds - 1);
-		}, MS);
-		return () => clearTimeout(timer);
-	}, [seconds, setSeconds]);
+		const interval = setInterval(() => {
+			setRemainingTime(remainingTime - 1);
 
-	return { isFinished: seconds <= 0 };
+			if (remainingTime <= 0) {
+				clearInterval(interval);
+			}
+		}, seconds * ONE_SECOND_IN_MS);
+	}, [seconds]);
+
+	return { isFinished: remainingTime <= 0, remainingTime };
 }
