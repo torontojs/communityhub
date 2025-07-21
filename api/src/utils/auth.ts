@@ -1,6 +1,7 @@
 import type { Context } from 'hono';
 import { getCookie, setCookie } from 'hono/cookie';
 import type { CookieOptions } from 'hono/utils/cookie';
+import z from 'zod';
 
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
 const SESSION_LIFESPAN_IN_SECONDS = 60 * 60 * 24; // INFO: One day
@@ -16,15 +17,17 @@ const DEFAULT_COOKIE_OPTIONS = {
 	sameSite: 'Strict'
 } satisfies CookieOptions;
 
-export const Access = {
+export const ACCESS_LEVEL = {
 	ADMIN: 'admin',
 	ORGANIZER: 'organizer',
 	VOLUNTEER: 'volunteer'
 } as const;
 
-type ContextWithBindings = Context<EnvironmentBindings>;
+export const AccessLevelSchema = z.enum(['admin', 'organizer', 'volunteer']).describe('The access level for a profile');
 
-export type AccessLevel = typeof Access[keyof typeof Access];
+export type AccessLevel = z.infer<typeof AccessLevelSchema>;
+
+type ContextWithBindings = Context<EnvironmentBindings>;
 
 export interface SessionData {
 	id: string;

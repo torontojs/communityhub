@@ -477,7 +477,7 @@ const languageOptions = {
 	}
 };
 
-const ignores = ['node_modules/**/*', 'dist/**/*', 'public/**/*', 'dev-dist/**/*', 'src/content/**/*', 'src/env.d.ts'];
+const ignores = ['node_modules/**/*', 'dist/**/*', 'public/**/*', 'dev-dist/**/*', 'src/content/**/*', 'api/src/env.d.ts'];
 
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.Plugins} */
 const plugins = {
@@ -490,12 +490,14 @@ const plugins = {
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} */
 export default [
 	{
+		ignores
+	},
+	{
 		name: 'Default TS config',
 		files: [
 			'api/**/*.{js,mjs,cjs,ts,cts,mts}',
 			'src/**/*.{js,mjs,cjs,ts,cts,mts}'
 		],
-		ignores,
 		languageOptions,
 		plugins,
 		rules
