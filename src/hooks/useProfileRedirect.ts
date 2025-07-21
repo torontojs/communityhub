@@ -12,11 +12,7 @@ interface ProfileStatusResponse {
 
 const REDIRECT_PATHS = {
 	signIn: '/pages/sign-in/',
-	// TODO: Determine how to redirect uses who created account but failed to activate immediately
-	activate: '/pages/activate/',
 	checkSteps: '/pages/check-steps/',
-	// TODO: Determine how to redirect uses who with following profile status
-	leadsToNowhere: '/pages/leads-to-nowhere',
 	completeProfile: '/pages/complete-profile/',
 	home: '/pages/home/'
 };
