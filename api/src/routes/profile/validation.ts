@@ -11,9 +11,9 @@ export type SocialMediaPlatforms = z.infer<typeof PlatformEnum>;
 export const ProfileSchema = BaseDbEntitySchema.merge(z.object({
 	email: z
 		.string()
-		.email('Invalid Email.')
 		.trim()
 		.toLowerCase()
+		.email('Invalid Email.')
 		.describe('The email used for this profile, it must be unique on the database.'),
 	name: z
 		.string()

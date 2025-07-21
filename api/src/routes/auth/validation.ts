@@ -21,9 +21,9 @@ export const AccessSchema = IdAndSchemaVersionSchema.merge(z.object({
 		.describe("The user's password, hashed and salted."),
 	email: z
 		.string()
-		.email()
 		.trim()
 		.toLowerCase()
+		.email()
 		.describe("The user's email. It is the same as the email in the profile table."),
 	insertedAt: z
 		.string()
