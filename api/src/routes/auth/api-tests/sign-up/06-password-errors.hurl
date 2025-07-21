@@ -6,7 +6,6 @@ POST {{host}}/api/auth/sign-up
 	"name": "Missing Passowrd",
 	"email": "missing-password@example.com"
 }
-
 HTTP 422
 
 # Empty password field
@@ -16,7 +15,6 @@ POST {{host}}/api/auth/sign-up
 	"email": "empty-password@example.com",
 	"password": ""
 }
-
 HTTP 422
 
 # Allow passwords with extra spaces on the sides
@@ -27,5 +25,4 @@ POST {{host}}/api/auth/sign-up
 	"email": "password-extra-spaces@email.com",
 	"password": "       Extra  Spaces911!@#$       "
 }
-
 HTTP 200

@@ -5,11 +5,9 @@
 POST {{host}}/api/auth/sign-up
 [Options]
 skip: true
-
 {
 	"name": "Weak Password",
 	"email": "weak-password@example.com",
 	"password": "password"
 }
-
 HTTP 400

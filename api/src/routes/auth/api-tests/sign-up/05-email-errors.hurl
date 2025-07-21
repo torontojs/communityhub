@@ -6,7 +6,6 @@ POST {{host}}/api/auth/sign-up
 	"name": "Missing Email",
 	"password": "{{default_password}}"
 }
-
 HTTP 422
 
 # Empty email field
@@ -16,7 +15,6 @@ POST {{host}}/api/auth/sign-up
 	"email": "",
 	"password": "{{default_password}}"
 }
-
 HTTP 422
 
 # Email with extra spaces
@@ -26,7 +24,6 @@ POST {{host}}/api/auth/sign-up
 	"email": "       extra-spaces@example.com      ",
 	"password": "{{default_password}}"
 }
-
 HTTP 422
 
 # Invalid email
@@ -36,7 +33,6 @@ POST {{host}}/api/auth/sign-up
 	"email": "invalid email",
 	"password": "{{default_password}}"
 }
-
 HTTP 422
 
 # Email with emojis - user part
@@ -46,7 +42,6 @@ POST {{host}}/api/auth/sign-up
 	"email": "💩@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 422
 
 # Email with emojis - domain part
@@ -56,5 +51,4 @@ POST {{host}}/api/auth/sign-up
 	"email": "user@💩.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 422

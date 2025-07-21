@@ -6,7 +6,6 @@ POST {{host}}/api/auth/sign-up
 	"email": "missing-name@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 422
 
 # Empty name field
@@ -16,7 +15,6 @@ POST {{host}}/api/auth/sign-up
 	"email": "exmpty-name@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 422
 
 # Name has single digit character
@@ -26,10 +24,7 @@ POST {{host}}/api/auth/sign-up
 	"email": "single-digit-name@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 200
-
-
 
 # Name contains emoji characters
 POST {{host}}/api/auth/sign-up
@@ -38,7 +33,6 @@ POST {{host}}/api/auth/sign-up
 	"email": "emoj-name@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 200
 
 # Name contains extra spaces
@@ -48,7 +42,6 @@ POST {{host}}/api/auth/sign-up
 	"email": "extra-spaces-name@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 200
 
 # Names should not be longer than 1024 bytes
@@ -61,5 +54,4 @@ skip: true
 	"email": "long-name@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 413

@@ -8,7 +8,6 @@ POST {{host}}/api/auth/sign-up
 	"email":"new@example.com",
 	"password":"{{default_password}}"
 }
-
 HTTP 200
 
 # Creating an account with a subdomain should work
@@ -18,5 +17,4 @@ POST {{host}}/api/auth/sign-up
 	"email": "new@subdomain.example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 200

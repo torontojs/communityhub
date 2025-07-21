@@ -8,7 +8,6 @@ Content-Type: application/octet-stream
 	"email": "test-type@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 422
 
 # Wrong content type - plain text
@@ -19,7 +18,6 @@ Content-Type: text/plain
 	"email": "test-type@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 422
 
 # Wrong content type - Basic form
@@ -28,7 +26,6 @@ POST {{host}}/api/auth/sign-up
 name: Test
 email: test-type@example.com
 password: {{default_password}}
-
 HTTP 422
 
 # Wrong content type - Multipart form
@@ -37,11 +34,9 @@ POST {{host}}/api/auth/sign-up
 name: Test
 email: test-type@example.com
 password: {{default_password}}
-
 HTTP 422
 
 
 # Empty body
 POST {{host}}/api/auth/sign-up
-
 HTTP 422

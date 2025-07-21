@@ -8,7 +8,6 @@ POST {{host}}/api/auth/sign-up
 	"email": "dupe-email@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 200
 
 # Try to sign up for a second time
@@ -18,5 +17,4 @@ POST {{host}}/api/auth/sign-up
 	"email": "dupe-email@example.com",
 	"password": "{{default_password}}"
 }
-
 HTTP 200
