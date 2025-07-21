@@ -47,10 +47,10 @@ export type Access = z.infer<typeof AccessSchema>;
 export const SignInSchema = z.object({
 	email: z
 		.string({ required_error: 'Email is required' })
-		.email('Invalid Email')
 		.trim()
 		.toLowerCase()
-		.min(1, 'Email must be at least one character long'),
+		.min(1, 'Email must be at least one character long')
+		.email('Invalid Email'),
 	password: z
 		.string()
 		.trim()
