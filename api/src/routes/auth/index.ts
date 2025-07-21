@@ -35,6 +35,8 @@ authRoutes.openapi(
 	async (context) => {
 		const { email, password, name } = context.req.valid('json');
 
+		email.toLocaleLowerCase();
+
 		const response = { message: 'Created a new profile and sent an email for confirmation' };
 
 		const emailExists = await checkExistingEmail(context.env.Database, email);
@@ -107,6 +109,7 @@ authRoutes.openapi(
 		if (!email) {
 			return context.json({ message: 'Invalid or expired token' }, StatusCodes.UNAUTHORIZED);
 		}
+		email.toLocaleLowerCase();
 
 		const userAlreadyActivated = await checkActiveEmail(context.env.Database, email);
 		if (userAlreadyActivated) {
@@ -161,6 +164,7 @@ authRoutes.openapi(
 		}
 
 		const { email, password } = context.req.valid('json');
+		email.toLowerCase();
 
 		const genericSignInResponse = { message: 'Either your email/password combination is invalid, or your account is not active' };
 
