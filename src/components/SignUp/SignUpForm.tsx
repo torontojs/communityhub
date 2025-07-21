@@ -172,7 +172,7 @@ const SignUpForm = (): React.JSX.Element => {
 				</div>
 			</div>
 
-			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} disabled={isLoading}>
+			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} disabled={isLoading || !strength || strength < 3}>
 				{isLoading ? 'Creating Account' : 'Create Account'}
 			</Button>
 
