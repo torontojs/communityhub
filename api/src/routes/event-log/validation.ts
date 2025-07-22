@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { SHORT_TEXT_SIZE_IN_CHAR } from '../../middleware/body-size.ts';
 import { IdAndSchemaVersionSchema, InsertionTimestampsSchema } from '../../utils/db.ts';
 
 export const LogItemSource = {
@@ -22,6 +23,7 @@ export const EventLogSchema = IdAndSchemaVersionSchema
 			subjectSource: LogItemSourceSchema,
 			verb: z
 				.string()
+				.max(SHORT_TEXT_SIZE_IN_CHAR)
 				.trim()
 				.describe(''),
 			object: z

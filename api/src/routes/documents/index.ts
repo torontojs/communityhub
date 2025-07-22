@@ -1,6 +1,7 @@
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
 import { authMiddleware } from '../../middleware/auth.ts';
+import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { getSession } from '../../utils/auth.ts';
 import { type DataResponse, generateDataResponseSchema, StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { updateProfileStatus } from '../auth/data.ts';
@@ -43,7 +44,7 @@ documentRoutes.openapi(
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware] as const
+		middleware: [bodySizeCheck, authMiddleware] as const
 	}),
 	async (context) => {
 		const sessionData = getSession(context);

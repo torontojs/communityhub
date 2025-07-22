@@ -2,6 +2,7 @@ import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
 import { authorizeOrganizer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
+import { bodySizeCheck } from '../../middleware/body-size.ts';
 import {
 	generatePaginatedResponseSchema,
 	type PaginatedResponse,
@@ -103,7 +104,7 @@ teamMemberRoutes.openapi(
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware, authorizeOrganizer] as const
+		middleware: [bodySizeCheck, authMiddleware, authorizeOrganizer] as const
 	}),
 	async (context) => {
 		const { id } = context.req.valid('param');
@@ -170,7 +171,7 @@ teamMemberRoutes.openapi(
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware, authorizeOrganizer] as const
+		middleware: [bodySizeCheck, authMiddleware, authorizeOrganizer] as const
 	}),
 	async (context) => {
 		const { id } = context.req.valid('param');
@@ -252,7 +253,7 @@ teamMemberRoutes.openapi(
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware, authorizeOrganizer] as const
+		middleware: [bodySizeCheck, authMiddleware, authorizeOrganizer] as const
 	}),
 	async (context) => {
 		const { id } = context.req.valid('param');

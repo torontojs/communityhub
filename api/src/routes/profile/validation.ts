@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { LONG_TEXT_SIZE_IN_CHAR, SHORT_TEXT_SIZE_IN_CHAR } from '../../middleware/body-size.ts';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
 
 export const PlatformEnum = z.enum(['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'])
@@ -12,16 +13,19 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 	z.object({
 		email: z
 			.email('Invalid Email.')
+			.max(SHORT_TEXT_SIZE_IN_CHAR)
 			.trim()
 			.toLowerCase()
 			.describe('The email used for this profile, it must be unique on the database.'),
 		name: z
 			.string()
+			.max(SHORT_TEXT_SIZE_IN_CHAR)
 			.trim()
 			.min(1, 'Name should be 1 or more characters long.')
 			.describe('The name this person would like to be refered to.'),
 		description: z
 			.string()
+			.max(LONG_TEXT_SIZE_IN_CHAR)
 			.trim()
 			.optional()
 			.describe('A description for this person, may be written in markdown.'),
@@ -33,6 +37,7 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 			.describe('A flag indicating if the user is available to join local/in-person events.'),
 		pronouns: z
 			.string()
+			.max(SHORT_TEXT_SIZE_IN_CHAR)
 			.trim()
 			.optional()
 			.describe('The pronouns the person identifies with.'),
@@ -47,17 +52,20 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 			.describe('Birthday of user.'),
 		avatar: z
 			.url('Must be a valid URL.')
+			.max(SHORT_TEXT_SIZE_IN_CHAR)
 			.optional()
 			.describe("The user's avatar URL."),
 		links: z.array(
 			z.object({
 				platform: PlatformEnum,
-				url: z.url('Invalid url.')
+				url: z
+					.string('Invalid social media link.')
+					.max(SHORT_TEXT_SIZE_IN_CHAR)
 			})
 		)
 			.optional()
 			.describe('A list of objects containing platform names and respective links for social media and platforms the person want to make available on the Community Hub.'),
-		skills: z.array(z.string())
+		skills: z.array(z.string().max(SHORT_TEXT_SIZE_IN_CHAR))
 			.optional()
 			.describe('A list of skills the person has provided.')
 	}).shape
@@ -89,6 +97,7 @@ export const ProfileLinkSchema = z.object({
 	platform: PlatformEnum,
 	url: z
 		.url()
+		.max(SHORT_TEXT_SIZE_IN_CHAR)
 		.describe('The link URL.')
 });
 
@@ -103,6 +112,7 @@ export const ProfileSkillSchema = z.object({
 		.describe('The profile id.'),
 	skill: z
 		.string()
+		.max(SHORT_TEXT_SIZE_IN_CHAR)
 		.trim()
 		.describe('The link name.')
 });

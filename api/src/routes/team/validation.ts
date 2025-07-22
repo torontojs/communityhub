@@ -1,15 +1,18 @@
 import { z } from 'zod';
+import { LONG_TEXT_SIZE_IN_CHAR, SHORT_TEXT_SIZE_IN_CHAR } from '../../middleware/body-size.ts';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
 
 export const TeamSchema = BaseDbEntitySchema.extend(
 	z.object({
 		name: z
 			.string()
+			.max(SHORT_TEXT_SIZE_IN_CHAR)
 			.trim()
 			.min(1, 'Name is required')
 			.describe("The team's name."),
 		description: z
 			.string()
+			.max(LONG_TEXT_SIZE_IN_CHAR)
 			.trim()
 			.optional()
 			.describe('A description for the team. It may include markdown content.')
