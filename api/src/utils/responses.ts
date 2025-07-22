@@ -225,7 +225,7 @@ export function statusResponseFormatter<T, C extends Context>(result: T, context
 }
 
 export const HALLinkSchema = z.object({
-	href: z.string().url()
+	href: z.url()
 		.describe('The link URL.'),
 	deprecation: z.boolean().optional()
 		.describe('A flag specifying if the URL is deprecated.')
@@ -248,7 +248,7 @@ export type HALResponse = z.infer<typeof HALResponseSchema>;
 export function generateDataResponseSchema<T>(data: ZodType<T>) {
 	return z.object({
 		data
-	}).merge(HALResponseSchema);
+	}).extend(HALResponseSchema.shape);
 }
 
 export type DataResponse<T> = z.infer<ReturnType<typeof generateDataResponseSchema<T>>>;
@@ -296,7 +296,7 @@ export function generatePaginatedResponseSchema<T extends unknown[]>(data: ZodTy
 			.describe('The number for the current page, starting from 1.'),
 		lastPage: z.number().int().positive()
 			.describe('The number of last page.')
-	}).merge(HALPaginatedResponseSchema);
+	}).extend(HALPaginatedResponseSchema.shape);
 }
 
 export type PaginatedResponse<T extends unknown[]> = z.infer<ReturnType<typeof generatePaginatedResponseSchema<T>>>;
