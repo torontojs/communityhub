@@ -15,7 +15,7 @@ import { nonExistingProfileIds } from '../profile/data.ts';
 import { ProfileSchema } from '../profile/validation.ts';
 import { doesTeamExist } from '../team/data.ts';
 import { addTeamMembers, deleteTeamMembers, getAllMembers, nonMemberProfileIds, updateTeamMembers } from './data.ts';
-import { AddTeamMembersSchema, UpdateTeamMembersSchema } from './validation.ts';
+import { AddTeamMembersSchema, TeamMemberInfoSchema, UpdateTeamMembersSchema } from './validation.ts';
 
 export const teamMemberRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
@@ -35,7 +35,7 @@ teamMemberRoutes.openapi(
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(ProfileSchema.pick({ id: true, name: true, avatar: true }))) } }
+				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(TeamMemberInfoSchema)) } }
 			},
 			[StatusCodes.NOT_FOUND]: {
 				description: 'Error response',

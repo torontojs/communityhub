@@ -1,5 +1,7 @@
 import { z } from 'zod';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
+import { ProfileSchema } from '../profile/validation.ts';
+import { TeamSchema } from '../team/validation.ts';
 
 export const TeamMembershipSchema = BaseDbEntitySchema.extend(
 	z.object({
@@ -13,12 +15,8 @@ export const TeamMembershipSchema = BaseDbEntitySchema.extend(
 			.trim()
 			.optional()
 			.describe('A description for the role. It may include markdown content.'),
-		teamId: z
-			.uuid()
-			.describe(''),
-		profileId: z
-			.uuid()
-			.describe('')
+		teamId: TeamSchema.shape.id,
+		profileId: ProfileSchema.shape.id
 	}).shape
 );
 
@@ -40,3 +38,13 @@ export const UpdateTeamMembersSchema = z.array(
 );
 
 export type UpdateTeamMembers = z.infer<typeof UpdateTeamMembersSchema>;
+
+export const TeamMemberInfoSchema = z.object({
+	id: TeamMembershipSchema.shape.id,
+	name: TeamMembershipSchema.shape.name,
+	profileId: ProfileSchema.shape.id,
+	profileName: ProfileSchema.shape.name,
+	avatar: ProfileSchema.shape.avatar
+});
+
+export type TeamMemberInfo = z.infer<typeof TeamMemberInfoSchema>;
