@@ -1,7 +1,5 @@
-import React, { useRef, useState } from 'react';
-
+import React, { useEffect, useRef, useState } from 'react';
 import './ForgotPassword.css';
-import { useCountdown } from '../../hooks/useCountDown.ts';
 import Button from '../Button/Button.tsx';
 import ClockIcon from '../Icons/ClockIcon.tsx';
 
@@ -11,9 +9,21 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [buttonDisabled, setButtonDisabled] = useState(true);
-	const [seconds, setSeconds] = useState(600);
 	const [validEmail, setIsValid] = useState(false);
 	const [emailDisabled, setEmailDisabled] = useState(false);
+	const [remainingTime, setRemainingTime] = useState(0);
+
+	useEffect(() => {
+		if (!isSubmitted) { return; }
+
+		if (remainingTime === 0) { return; }
+
+		const timer = setTimeout(() => {
+			setRemainingTime((prev) => prev - 1);
+		}, 1000);
+
+		return () => clearTimeout(timer);
+	}, [remainingTime, isSubmitted]);
 
 	const handleValidEmail = () => {
 		setIsValid(!emailInputRef.current?.checkValidity());
@@ -24,8 +34,6 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 		}
 	};
 
-	useCountdown(seconds, setSeconds);
-
 	const requestPasswordRecovery = async (email: string) => {
 		try {
 			const response = await fetch('/api/auth/forgot-password', {
@@ -35,7 +43,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 			});
 			if (response.ok) {
 				setIsSubmitted(true);
-				setSeconds(600);
+				setRemainingTime(600);
 			}
 		} catch (error) {
 			if (import.meta.env.MODE === 'development') {
@@ -54,7 +62,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		const formData = new FormData(event.target);
+		const formData = new FormData(event.currentTarget);
 		const emailValue = (formData.get('email') as string).trim().toLowerCase();
 
 		setButtonDisabled(true);
@@ -102,7 +110,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 							<hr />
 							<div className='resend-timer' id='countdown-status'>
 								<ClockIcon aria-hidden='true' />
-								<p>Wait {Math.ceil(seconds / 60)} minutes to send a new activation link</p>
+								<p>Wait {Math.ceil(remainingTime / 60)} minutes for a new activation link</p>
 							</div>
 						</>
 					)}

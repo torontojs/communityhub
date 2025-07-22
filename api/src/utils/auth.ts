@@ -1,4 +1,3 @@
-import type { UUID } from 'crypto';
 import type { Context } from 'hono';
 import { getCookie, setCookie } from 'hono/cookie';
 import type { CookieOptions } from 'hono/utils/cookie';
