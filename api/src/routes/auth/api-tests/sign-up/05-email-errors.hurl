@@ -52,3 +52,21 @@ POST {{host}}/api/auth/sign-up
 	"password": "{{default_password}}"
 }
 HTTP 422
+
+# Case insensitive email - user part
+POST {{host}}/api/auth/sign-up
+{
+	"name": "CaSe InSeNsItIvE",
+	"email": "CaSe-InSeNsItIvE-uSeR@example.com",
+	"password": "{{default_password}}"
+}
+HTTP 201
+
+# Case insensitive email - domain part
+POST {{host}}/api/auth/sign-up
+{
+	"name": "CaSe InSeNsItIvE",
+	"email": "case-insensitive-domain@eXeMpLe.CoM",
+	"password": "{{default_password}}"
+}
+HTTP 201
