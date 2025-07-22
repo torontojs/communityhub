@@ -6,40 +6,15 @@
 		height: auto;
 		width: 100%;
 
-		&[data-variant='success'] {
-			span { color: var(--color-success); }
-			.helper-icon {
-				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M13.3334 4L6.00002 11.3333L2.66669 8' stroke='%2306D6A0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-			}
-		}
+		&[data-variant='success'] { span { color: var(--color-success); } }
 
-		&[data-variant='error'] {
-			span { color: var(--color-error); }
-			.helper-icon {
-				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M12 4L4 12' stroke='%23E51429' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4 4L12 12' stroke='%23E51429' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-			}
-		}
+		&[data-variant='error'] { span { color: var(--color-error); } }
 
-		&[data-variant='info'] {
-			span { color: var(--color-info); }
-			.helper-icon {
-				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cg clip-path='url(%23clip0_1892_3819)'%3E%3Cpath d='M7.99998 14.6668C11.6819 14.6668 14.6666 11.6821 14.6666 8.00016C14.6666 4.31826 11.6819 1.3335 7.99998 1.3335C4.31808 1.3335 1.33331 4.31826 1.33331 8.00016C1.33331 11.6821 4.31808 14.6668 7.99998 14.6668Z' stroke='%233388FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8 10.6667V8' stroke='%233388FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8 5.3335H8.00667' stroke='%233388FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_1892_3819'%3E%3Crect width='16' height='16' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
-			}
-		}
+		&[data-variant='info'] { span { color: var(--color-info); } }
 
-		&[data-variant='warning'] {
-			span { color: var(--color-warning); }
-			.helper-icon {
-				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M14.4867 12L9.15335 2.66665C9.03706 2.46146 8.86842 2.29078 8.66463 2.17203C8.46084 2.05329 8.22921 1.99072 7.99335 1.99072C7.75749 1.99072 7.52585 2.05329 7.32206 2.17203C7.11828 2.29078 6.94964 2.46146 6.83335 2.66665L1.50001 12C1.38247 12.2036 1.32083 12.4346 1.32135 12.6697C1.32187 12.9047 1.38453 13.1355 1.50298 13.3385C1.62142 13.5416 1.79145 13.7097 1.99581 13.8259C2.20018 13.942 2.43162 14.0021 2.66668 14H13.3333C13.5673 13.9997 13.797 13.938 13.9995 13.8208C14.202 13.7037 14.3702 13.5354 14.487 13.3327C14.6039 13.1301 14.6654 12.9002 14.6653 12.6663C14.6653 12.4324 14.6036 12.2026 14.4867 12Z' stroke='%23DE9502' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8 6V8.66667' stroke='%23DE9502' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8 11.3335H8.00667' stroke='%23DE9502' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-			}
-		}
+		&[data-variant='warning'] { span { color: var(--color-warning); } }
 
-		&[data-variant='default'] {
-			span { color: var(--color-helper); }
-			.helper-icon {
-				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cg clip-path='url(%23clip0_146_939)'%3E%3Cpath d='M7.99998 14.6666C11.6819 14.6666 14.6666 11.6818 14.6666 7.99992C14.6666 4.31802 11.6819 1.33325 7.99998 1.33325C4.31808 1.33325 1.33331 4.31802 1.33331 7.99992C1.33331 11.6818 4.31808 14.6666 7.99998 14.6666Z' stroke='%23999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8 10.6667V8' stroke='%23999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8 5.33325H8.00667' stroke='%23999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_146_939'%3E%3Crect width='16' height='16' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
-			}
-		}
+		&[data-variant='default'] { span { color: var(--color-helper); } }
 
 		.helper-icon {
 			background-position: center;
