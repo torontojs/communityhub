@@ -18,7 +18,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 
 		if (remainingTime === 0) { return; }
 
-		const timer = setTimeout(() => {
+		const timer = setInterval(() => {
 			setRemainingTime((prev) => prev - 1);
 		}, 1000);
 
