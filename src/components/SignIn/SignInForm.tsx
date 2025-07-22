@@ -24,16 +24,9 @@ const SignInForm = (): React.JSX.Element => {
 			} else {
 				window.location.href = '/pages/home/';
 			}
-		} catch (event) {
+		} catch (error) {
 			if (import.meta.env.MODE === 'development') {
-				if (event instanceof Error) {
-					console.error(event.name);
-					console.error(event.cause);
-					console.error(event.message);
-					console.error(event.stack);
-				} else {
-					throw new Error('Error sign-up');
-				}
+				console.log(error);
 			}
 			setIsLoading(false);
 		}

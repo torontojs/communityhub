@@ -37,16 +37,9 @@ const SignUpForm = (): React.JSX.Element => {
 			} else {
 				window.location.href = '/pages/check-your-email/';
 			}
-		} catch (e) {
+		} catch (error) {
 			if (import.meta.env.MODE === 'development') {
-				if (e instanceof Error) {
-					console.error(e.name);
-					console.error(e.cause);
-					console.error(e.message);
-					console.error(e.stack);
-				} else {
-					throw new Error('Error sign-up');
-				}
+				console.log(error);
 			}
 			setIsLoading(false);
 		}

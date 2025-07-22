@@ -93,16 +93,9 @@ const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 			// TODO: Replace console log with error message once the design becomes available
 			console.log('Response not ok: ', errorData ?? 'An Error Occurred!');
 		}
-	} catch (err) {
+	} catch (error) {
 		if (import.meta.env.MODE === 'development') {
-			if (err instanceof Error) {
-				console.error(err.name);
-				console.error(err.cause);
-				console.error(err.message);
-				console.error(err.stack);
-			} else {
-				throw new Error(err);
-			}
+			console.log(error);
 		}
 	}
 };
