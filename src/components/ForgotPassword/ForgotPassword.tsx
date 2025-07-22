@@ -47,14 +47,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 			}
 		} catch (error) {
 			if (import.meta.env.MODE === 'development') {
-				if (error instanceof Error) {
-					console.error(error.name);
-					console.error(error.cause);
-					console.error(error.message);
-					console.error(error.stack);
-				} else {
-					throw new Error('Invalid email error');
-				}
+				console.log(error);
 			}
 		}
 	};
