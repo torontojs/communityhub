@@ -1,5 +1,5 @@
 import type { Context, Next } from 'hono';
-import { Access, type AccessLevel, getSession } from '../utils/auth.ts';
+import { ACCESS_LEVEL, type AccessLevel, getSession } from '../utils/auth.ts';
 import { StatusCodes } from '../utils/responses.ts';
 
 const accessHierachy = {
@@ -23,6 +23,6 @@ function createAccessMiddleware(minimumAcess: AccessLevel) {
 	};
 }
 
-export const authorizeAdmin = createAccessMiddleware(Access.ADMIN);
-export const authorizeOrganizer = createAccessMiddleware(Access.ORGANIZER);
-export const authorizeVolunteer = createAccessMiddleware(Access.VOLUNTEER);
+export const authorizeAdmin = createAccessMiddleware(ACCESS_LEVEL.ADMIN);
+export const authorizeOrganizer = createAccessMiddleware(ACCESS_LEVEL.ORGANIZER);
+export const authorizeVolunteer = createAccessMiddleware(ACCESS_LEVEL.VOLUNTEER);

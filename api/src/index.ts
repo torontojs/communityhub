@@ -6,6 +6,7 @@ import { cors } from 'hono/cors';
 import { ZodError } from 'zod';
 import packageJson from '../../package.json' with { type: 'json' };
 import { authRoutes } from './routes/auth/index.ts';
+import { documentRoutes } from './routes/documents/index.ts';
 import { healthCheckRoutes } from './routes/health-check/index.ts';
 import { profileRoutes } from './routes/profile/index.ts';
 import { teamMemberRoutes } from './routes/team-members/index.ts';
@@ -76,6 +77,7 @@ apiRoutes.get('/assets/*', async (context) => context.env.Assets.fetch(context.r
 apiRoutes.route('/', healthCheckRoutes);
 apiRoutes.route('/auth', authRoutes);
 apiRoutes.route('/profiles', profileRoutes);
+apiRoutes.route('/documents', documentRoutes);
 apiRoutes.route('/teams', teamRoutes);
 // All routes follow the format /teams/{id}/members
 apiRoutes.route('/teams', teamMemberRoutes);

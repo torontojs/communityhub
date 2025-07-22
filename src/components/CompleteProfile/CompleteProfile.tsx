@@ -11,6 +11,8 @@ import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
 
+import { useProfileRedirect } from '../../hooks/useProfileRedirect.ts';
+
 interface SocialIcons {
 	id: string;
 	name: string;
@@ -33,7 +35,7 @@ interface ProfileParams {
 
 type UpdateProfileParams = Omit<ProfileParams, 'email'>;
 
-const platformEnum = ['slack', 'linkedin', 'github', 'portfolio', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'xtwitter', 'dev'];
+const platformEnum = ['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'];
 
 // Validation helpers
 /**
@@ -124,8 +126,8 @@ const CompleteProfile = () => {
 		{ id: 'threads', name: 'Threads', element: <Threads />, inputVisible: false },
 		{ id: 'mastodon', name: 'Mastodon', element: <Mastodon />, inputVisible: false },
 		{ id: 'bluesky', name: 'BlueSky', element: <BlueSky />, inputVisible: false },
-		{ id: 'xtwitter', name: 'X/Twitter', element: <XTwitter />, inputVisible: false },
-		{ id: 'dev', name: 'Dev.to', element: <DevTo />, inputVisible: false }
+		{ id: 'twitter', name: 'X/Twitter', element: <XTwitter />, inputVisible: false },
+		{ id: 'devto', name: 'Dev.to', element: <DevTo />, inputVisible: false }
 	]);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -143,6 +145,8 @@ const CompleteProfile = () => {
 		links: [],
 		skills: []
 	});
+
+	useProfileRedirect();
 
 	const validateSlackHandle = () => {
 		const slackUrl = slackHandleInputRef.current?.value || '';

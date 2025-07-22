@@ -37,7 +37,8 @@
 
 		"test:coverage": "vitest run --coverage",
 		"test:unit": "vitest run",
-		"test:api": "hurl --glob \"**/*.hurl\" --continue-on-error --jobs 4 --max-time 300 --test --variables-file .dev.vars --variable host=http://localhost:3000",
+		"test:api-single": "hurl --continue-on-error --jobs 4 --max-time 300 --test --variables-file .dev.vars --variable host=http://localhost:3000",
+		"test:api": "npm run test:api-single -- --glob \"**/*.hurl\"",
 		"test": "vitest"
 	},
 	"dependencies": {
