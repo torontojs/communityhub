@@ -55,7 +55,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		const formData = new FormData(event.currentTarget);
+		const formData = new FormData(event.target as HTMLFormElement);
 		const emailValue = (formData.get('email') as string).trim().toLowerCase();
 
 		setButtonDisabled(true);
