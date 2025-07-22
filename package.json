@@ -5,10 +5,11 @@
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
+		"dev": "vite dev",
 		"prepare": "husky",
 
 		"start": "npm run dev",
-		"dev": "vite dev",
+
 		"dev:cron": "wrangler dev --test-scheduled",
 
 		"generate:types": "wrangler types api/src/env.d.ts",
