@@ -15,7 +15,7 @@ import {
 	StatusResponseSchema
 } from '../../utils/responses.ts';
 import { IdParamSchema, validateExistingId } from '../../utils/validation.ts';
-import { deleteTeamById, doesTeamExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
+import { deleteTeamById, doesTeamExist, doestSameTeamNameExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
 import { CreateTeamSchema, TeamSchema, UpdateTeamSchema } from './validation.ts';
 
 export const teamRoutes = new OpenAPIHono<EnvironmentBindings>({
@@ -165,6 +165,10 @@ teamRoutes.openapi(
 				description: 'Successful response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			},
+			[StatusCodes.CONFLICT]: {
+				description: 'Team with same name response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
 			[StatusCodes.INTERNAL_SERVER_ERROR]: {
 				description: 'Server Error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
@@ -175,6 +179,13 @@ teamRoutes.openapi(
 	async (context) => {
 		const { id: profileId } = getSession(context);
 		const body = context.req.valid('json');
+
+		const hasExistingTeamName = await doestSameTeamNameExist(context.env.Database, body.name);
+
+		if (hasExistingTeamName) {
+			return context.json({ message: 'Team already exists' } satisfies StatusResponse, StatusCodes.CONFLICT);
+		}
+
 		const { success } = await insertTeam(context.env.Database, profileId, body);
 
 		if (!success) {

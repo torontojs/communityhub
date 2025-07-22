@@ -11,6 +11,15 @@ export async function doesTeamExist(database: D1Database, id: string) {
 	return Boolean(existingTeam);
 }
 
+export async function doestSameTeamNameExist(database: D1Database, name: string) {
+	const existingTeam = await database
+		.prepare(`SELECT id FROM ${DBTables.TEAM} WHERE name = ? AND deletedAt IS NULL LIMIT 1`)
+		.bind(name)
+		.first<{ id: string }>();
+
+	return Boolean(existingTeam);
+}
+
 export async function insertTeam(database: D1Database, profileId: string, { name, description = '' }: CreateTeamData) {
 	const { id, schemaVersion, happenedAt, insertedAt } = generateBaseDBfields();
 
