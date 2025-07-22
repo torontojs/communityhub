@@ -55,7 +55,6 @@ HTTP 200
 
 
 # Missing content-type
-# TODO: Should return 4XX Error
 # https://github.com/torontojs/communityhub/issues/171
 POST {{host}}/api/auth/sign-up
 
@@ -65,7 +64,7 @@ POST {{host}}/api/auth/sign-up
   "password": "NoHeader911!@#"
 }
 
-HTTP 200
+HTTP 422
 
 
 #Sign up name utilizing emoji characters
@@ -93,7 +92,7 @@ HTTP 200
 #	"password":"quoison"
 #}
 
-#HTTP 400
+#HTTP 422
 
 
 # Sign-up missing name field
@@ -166,7 +165,7 @@ Content-Type: application/json
 HTTP 200
 
 
-# Sign-up password allows password utilizing space characters wihin allowed characters but not outside
+# Sign-up password allows password utilizing space characters within allowed characters but not outside
 POST {{host}}/api/auth/sign-up
 
 Content-Type: application/json
@@ -178,6 +177,17 @@ Content-Type: application/json
 }
 
 HTTP 200
+
+# Weak password should not be allowed
+POST {{host}}/api/auth/sign-up
+
+Content-Type: application/json
+
+{
+	"name": "Weak Password",
+	"email": "email@weakpassword.com",
+	"password": "abcdefghijklmnopqrstuvwxyz"
+}
 
 
 # Sign-up Invalid email format
@@ -242,4 +252,4 @@ HTTP 422
 #	"password":"ShouldNotBeLongerThan100124!@#$"
 #}
 
-#HTTP 413
+#HTTP 200
