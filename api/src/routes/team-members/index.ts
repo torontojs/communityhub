@@ -14,7 +14,7 @@ import { IdParamSchema } from '../../utils/validation.ts';
 import { nonExistingProfileIds } from '../profile/data.ts';
 import { ProfileSchema } from '../profile/validation.ts';
 import { doesTeamExist } from '../team/data.ts';
-import { addTeamMembers, deleteTeamMembers, getAllMembers, updateTeamMembers } from './data.ts';
+import { addTeamMembers, deleteTeamMembers, getAllMembers, nonMemberProfileIds, updateTeamMembers } from './data.ts';
 import { AddTeamMembersSchema, UpdateTeamMembersSchema } from './validation.ts';
 
 export const teamMemberRoutes = new OpenAPIHono<EnvironmentBindings>({
@@ -236,10 +236,25 @@ teamMemberRoutes.openapi(
 		if (nonExistingIds.length !== 0) {
 			return context.json(
 				{
-					message: 'Not all team members exist',
+					message: 'Not all profile ids exist',
 					errors: nonExistingIds.map((profileId) => ({
 						profileId,
 						message: 'Profile ID does not exist'
+					}))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
+		const nonMemberIds = await nonMemberProfileIds(context.env.Database, id, body);
+
+		if (nonMemberIds.length !== 0) {
+			return context.json(
+				{
+					message: 'Not all profile ids are members of the team',
+					errors: nonMemberIds.map((profileId) => ({
+						profileId,
+						message: 'Profile ID is not member of the team'
 					}))
 				} satisfies StatusResponse,
 				StatusCodes.UNPROCESSABLE_CONTENT

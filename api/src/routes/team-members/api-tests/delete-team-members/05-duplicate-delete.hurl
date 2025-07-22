@@ -19,11 +19,8 @@ Cookie: auth_token={{auth-token}}
 HTTP 200
 
 # Delete the team member a second time
-# TODO: https://github.com/torontojs/communityhub/issues/201
 DELETE {{host}}/api/teams/{{delete_member_team_id}}/members
 Cookie: auth_token={{auth-token}}
-[Options]
-skip: true
 [
 	"{{dupe_delete_member_id}}"
 ]

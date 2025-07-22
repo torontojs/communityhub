@@ -3,6 +3,24 @@ import { EventLog } from '../event-log/data.ts';
 import type { Profile } from '../profile/validation.ts';
 import type { AddTeamMembers, UpdateTeamMembers } from './validation.ts';
 
+export async function nonMemberProfileIds(database: D1Database, teamId: string, profileIds: string[]) {
+	const { results } = await database.prepare(`
+		SELECT role.profileId AS id
+		FROM ${DBTables.ROLE} AS role
+		JOIN ${DBTables.ACCESS} AS access ON access.id = role.profileId
+		WHERE
+			role.teamId = ?
+			AND role.profileId IN (${new Array(profileIds.length).fill('?').join(',')})
+			AND access.activatedAt IS NOT NULL
+			AND access.deletedAt IS NULL
+		LIMIT 1
+	`).bind(teamId, ...profileIds).run<{ id: string }>();
+
+	const existingIds = new Set(...results.map(({ id }) => id));
+
+	return [...new Set(...profileIds).difference(existingIds)];
+}
+
 export async function addTeamMembers(database: D1Database, teamId: string, data: AddTeamMembers) {
 	const results = await database.batch([
 		...data.flatMap(({ name, profileId, description }) => {
