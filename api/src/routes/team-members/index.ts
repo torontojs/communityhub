@@ -13,7 +13,7 @@ import {
 import { IdParamSchema } from '../../utils/validation.ts';
 import { nonExistingProfileIds } from '../profile/data.ts';
 import { doesTeamExist } from '../team/data.ts';
-import { addTeamMembers, deleteTeamMembers, getAllMembers, nonMemberProfileIds, updateTeamMembers } from './data.ts';
+import { addTeamMembers, deleteTeamMembers, getAllMembers, nonExistingTeamMemberIds, updateTeamMembers } from './data.ts';
 import { AddTeamMembersSchema, TeamMemberInfoSchema, UpdateTeamMembersSchema } from './validation.ts';
 
 export const teamMemberRoutes = new OpenAPIHono<EnvironmentBindings>({
@@ -161,6 +161,10 @@ teamMemberRoutes.openapi(
 				description: 'Error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid Team IDs response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
 			[StatusCodes.INTERNAL_SERVER_ERROR]: {
 				description: 'Server error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
@@ -177,6 +181,36 @@ teamMemberRoutes.openapi(
 		}
 
 		const body = context.req.valid('json');
+
+		const { error: errors } = z.array(z.uuid()).safeParse(body.map(({ id: teamMemberId }) => teamMemberId));
+
+		if (errors) {
+			return context.json(
+				{
+					message: 'Not all team member ids are valid',
+					errors: errors.issues.map(({ path, message }) => ({
+						path: path.join('.'),
+						message
+					}))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
+		const nonExistingIds = await nonExistingTeamMemberIds(context.env.Database, id, body.map(({ id: teamMemberId }) => teamMemberId));
+
+		if (nonExistingIds.length !== 0) {
+			return context.json(
+				{
+					message: 'Not all team member ids exist',
+					errors: nonExistingIds.map((memberId) => ({
+						id: memberId,
+						message: 'Team member does not exist'
+					}))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
 
 		const isUpdated = await updateTeamMembers(context.env.Database, id, body);
 
@@ -230,30 +264,30 @@ teamMemberRoutes.openapi(
 
 		const body = context.req.valid('json');
 
-		const nonExistingIds = await nonExistingProfileIds(context.env.Database, body);
+		const { error: errors } = z.array(z.uuid()).safeParse(body);
 
-		if (nonExistingIds.length !== 0) {
+		if (errors) {
 			return context.json(
 				{
-					message: 'Not all profile ids exist',
-					errors: nonExistingIds.map((profileId) => ({
-						profileId,
-						message: 'Profile ID does not exist'
+					message: 'Not all team member ids are valid',
+					errors: errors.issues.map(({ path, message }) => ({
+						path: path.join('.'),
+						message
 					}))
 				} satisfies StatusResponse,
 				StatusCodes.UNPROCESSABLE_CONTENT
 			);
 		}
 
-		const nonMemberIds = await nonMemberProfileIds(context.env.Database, id, body);
+		const nonExistingIds = await nonExistingTeamMemberIds(context.env.Database, id, body);
 
-		if (nonMemberIds.length !== 0) {
+		if (nonExistingIds.length !== 0) {
 			return context.json(
 				{
-					message: 'Not all profile ids are members of the team',
-					errors: nonMemberIds.map((profileId) => ({
-						profileId,
-						message: 'Profile ID is not member of the team'
+					message: 'Not all team member ids exist',
+					errors: nonExistingIds.map((memberId) => ({
+						id: memberId,
+						message: 'Team member does not exist'
 					}))
 				} satisfies StatusResponse,
 				StatusCodes.UNPROCESSABLE_CONTENT

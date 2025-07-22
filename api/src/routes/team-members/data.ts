@@ -2,22 +2,22 @@ import { DBTables, generateBaseDBfields } from '../../utils/db.ts';
 import { EventLog } from '../event-log/data.ts';
 import type { AddTeamMembers, TeamMemberInfo, UpdateTeamMembers } from './validation.ts';
 
-export async function nonMemberProfileIds(database: D1Database, teamId: string, profileIds: string[]) {
+export async function nonExistingTeamMemberIds(database: D1Database, teamId: string, ids: string[]) {
 	const { results } = await database.prepare(`
-		SELECT role.profileId AS id
+		SELECT role.id AS id
 		FROM ${DBTables.ROLE} AS role
 		JOIN ${DBTables.ACCESS} AS access ON access.id = role.profileId
 		WHERE
 			role.teamId = ?
-			AND role.profileId IN (${new Array(profileIds.length).fill('?').join(',')})
+			AND role.id IN (${new Array(ids.length).fill('?').join(',')})
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
 		LIMIT 1
-	`).bind(teamId, ...profileIds).run<{ id: string }>();
+	`).bind(teamId, ...ids).run<{ id: string }>();
 
 	const existingIds = new Set(...results.map(({ id }) => id));
 
-	return [...new Set(...profileIds).difference(existingIds)];
+	return [...new Set(...ids).difference(existingIds)];
 }
 
 export async function addTeamMembers(database: D1Database, teamId: string, data: AddTeamMembers) {
