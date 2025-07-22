@@ -12,7 +12,6 @@ import {
 } from '../../utils/responses.ts';
 import { IdParamSchema } from '../../utils/validation.ts';
 import { nonExistingProfileIds } from '../profile/data.ts';
-import { ProfileSchema } from '../profile/validation.ts';
 import { doesTeamExist } from '../team/data.ts';
 import { addTeamMembers, deleteTeamMembers, getAllMembers, nonMemberProfileIds, updateTeamMembers } from './data.ts';
 import { AddTeamMembersSchema, TeamMemberInfoSchema, UpdateTeamMembersSchema } from './validation.ts';
