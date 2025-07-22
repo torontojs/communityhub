@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { DBTables } from './db.ts';
 
 export const IdParamSchema = z.object({
-	id: z.string().uuid('Invalid ID format')
+	id: z.uuid('Invalid ID format')
 });
 
 export type IdParam = z.infer<typeof IdParamSchema>;

@@ -9,7 +9,7 @@ export const ProfileDocumentTypeSchema = z.enum([
 
 export type ProfileDocumentType = z.infer<typeof ProfileDocumentTypeSchema>;
 
-export const ProfileDocumentVersionSchema = z.string().datetime({ offset: true }).describe('The document version. It is a timestamp representing when the document was published.');
+export const ProfileDocumentVersionSchema = z.iso.datetime({ offset: true }).describe('The document version. It is a timestamp representing when the document was published.');
 
 export type ProfileDocumentVersion = z.infer<typeof ProfileDocumentVersionSchema>;
 
@@ -19,15 +19,18 @@ export const DOCUMENT_VERSIONS: Record<ProfileDocumentType, ProfileDocumentVersi
 	'volunteer-agreement': '2025-07-15T04:36:15Z'
 } as const;
 
-export const ProfileDocumentSchema = IdAndSchemaVersionSchema.merge(z.object({
-	profileId: z
-		.string()
-		.uuid()
-		.describe('The profile id for that document'),
-	type: ProfileDocumentTypeSchema,
-	signedAt: z.string().datetime({ offset: true }).describe('The date when the document was signed.'),
-	documentVersion: ProfileDocumentVersionSchema
-}));
+export const ProfileDocumentSchema = IdAndSchemaVersionSchema.extend(
+	z.object({
+		profileId: z
+			.uuid()
+			.describe('The profile id for that document'),
+		type: ProfileDocumentTypeSchema,
+		signedAt: z
+			.iso.datetime({ offset: true })
+			.describe('The date when the document was signed.'),
+		documentVersion: ProfileDocumentVersionSchema
+	}).shape
+);
 
 export type ProfileDocument = z.infer<typeof ProfileDocumentSchema>;
 

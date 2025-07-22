@@ -3,7 +3,6 @@ import { env } from 'cloudflare:workers';
 import { swaggerUI } from '@hono/swagger-ui';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { cors } from 'hono/cors';
-import { ZodError } from 'zod';
 import packageJson from '../../package.json' with { type: 'json' };
 import { authRoutes } from './routes/auth/index.ts';
 import { documentRoutes } from './routes/documents/index.ts';
@@ -24,13 +23,7 @@ const apiRoutes = new OpenAPIHono<EnvironmentBindings>({
 
 // Catch all error handler.
 apiRoutes.onError((err, context) => {
-	// TODO: add better error logging?
-
-	if (err instanceof ZodError) {
-		console.error(err.toString());
-	} else {
-		console.error(err);
-	}
+	console.error(err);
 
 	return context.json({ message: 'An error has occured' }, StatusCodes.INTERNAL_SERVER_ERROR);
 });

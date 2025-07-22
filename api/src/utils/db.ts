@@ -15,30 +15,30 @@ export const DBTables = {
 } as const;
 
 export const IdAndSchemaVersionSchema = z.object({
-	id: z.string().uuid().describe('The entity UUID.'),
+	id: z.uuid().describe('The entity UUID.'),
 	schemaVersion: z.number().describe('The schema version that this entity is using.')
 });
 
 export type IdAndSchemaVersion = z.infer<typeof IdAndSchemaVersionSchema>;
 
 export const InsertionTimestampsSchema = z.object({
-	happenedAt: z.string().datetime({ offset: true }).describe('The date when the event related to this entity happened.'),
-	insertedAt: z.string().datetime({ offset: true }).describe('The date when the entity was added to the database.')
+	happenedAt: z.iso.datetime({ offset: true }).describe('The date when the event related to this entity happened.'),
+	insertedAt: z.iso.datetime({ offset: true }).describe('The date when the entity was added to the database.')
 });
 
 export type InsertionTimestamps = z.infer<typeof InsertionTimestampsSchema>;
 
 export const DeletionTimestampsSchema = z.object({
-	deletedAt: z.string().datetime({ offset: true }).describe('The date when the entity was deleted from the database.').optional()
+	deletedAt: z.iso.datetime({ offset: true }).describe('The date when the entity was deleted from the database.').optional()
 });
 
 export type DeletionTimestamps = z.infer<typeof DeletionTimestampsSchema>;
 
-export const TimestampsSchema = InsertionTimestampsSchema.merge(DeletionTimestampsSchema);
+export const TimestampsSchema = InsertionTimestampsSchema.extend(DeletionTimestampsSchema.shape);
 
 export type Timestamps = z.infer<typeof TimestampsSchema>;
 
-export const BaseDbEntitySchema = IdAndSchemaVersionSchema.merge(TimestampsSchema);
+export const BaseDbEntitySchema = IdAndSchemaVersionSchema.extend(TimestampsSchema.shape);
 
 export type BaseDBEntity = z.infer<typeof BaseDbEntitySchema>;
 
