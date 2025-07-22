@@ -15,6 +15,12 @@
 		padding: var(--spacing-xs) var(--spacing-sm);
 	}
 
+	&[data-size='medium'] {
+		font-size: var(--text-sm);
+		height: 3.6875rem;
+		padding: 0.75rem 1rem;
+	}
+
 	&[data-size='large'] {
 		font-size: var(--text-lg);
 		height: 3.6875rem;
