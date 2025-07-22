@@ -174,7 +174,7 @@ teamRoutes.openapi(
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware, authorizeAdmin] as const
+		middleware: [authMiddleware, authorizeOrganizer] as const
 	}),
 	async (context) => {
 		const { id: profileId } = getSession(context);
