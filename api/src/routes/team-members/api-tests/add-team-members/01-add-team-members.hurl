@@ -13,8 +13,8 @@ auth-token: cookie "auth_token"
 # Add a team member
 POST {{host}}/api/teams/{{add_member_team_id}}/members
 Cookie: auth_token={{auth-token}}
-{
+[{
 	"name": "New role",
 	"profileId": "{{add_member_profile_id}}"
-}
+}]
 HTTP 201

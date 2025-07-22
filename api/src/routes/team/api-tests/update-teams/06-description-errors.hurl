@@ -16,7 +16,7 @@ Cookie: auth_token={{auth-token}}
 {
 	"name": "Missing Description"
 }
-HTTP 201
+HTTP 200
 
 # Empty description
 PATCH {{host}}/api/teams/{{update_team_id}}
@@ -25,7 +25,7 @@ Cookie: auth_token={{auth-token}}
 	"name": "Empty Description",
 	"description": ""
 }
-HTTP 201
+HTTP 200
 
 # Description with emojis
 PATCH {{host}}/api/teams/{{update_team_id}}
@@ -34,7 +34,7 @@ Cookie: auth_token={{auth-token}}
 	"name": "Emoji Description",
 	"description": "💩"
 }
-HTTP 201
+HTTP 200
 
 # Description with extra spaces
 PATCH {{host}}/api/teams/{{update_team_id}}
@@ -43,4 +43,4 @@ Cookie: auth_token={{auth-token}}
 	"name": "Description with Extra Spaces",
 	"description": "      Description      "
 }
-HTTP 201
+HTTP 200

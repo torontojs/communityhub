@@ -17,7 +17,7 @@ Cookie: auth_token={{auth-token}}
 	"id": "{{update_member_id}}",
 	"name": "Invalid Team ID"
 }]
-HTTP 201
+HTTP 404
 
 # Malformed UUID
 PATCH {{host}}/api/teams/malformed-id/members
@@ -26,4 +26,4 @@ Cookie: auth_token={{auth-token}}
 	"id": "{{update_member_id}}",
 	"name": "Malformed Team ID"
 }]
-HTTP 201
+HTTP 422

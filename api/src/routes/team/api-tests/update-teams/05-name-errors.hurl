@@ -30,7 +30,7 @@ Cookie: auth_token={{auth-token}}
 {
 	"name": "💩"
 }
-HTTP 201
+HTTP 200
 
 # Name with extra spaces
 PATCH {{host}}/api/teams/{{update_team_id}}
@@ -38,4 +38,4 @@ Cookie: auth_token={{auth-token}}
 {
 	"name": "     Name with Extra Spaces     "
 }
-HTTP 201
+HTTP 200

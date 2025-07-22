@@ -13,11 +13,11 @@ auth-token: cookie "auth_token"
 # Try to add team member
 POST {{host}}/api/teams/{{add_member_team_id}}/members
 Cookie: auth_token={{auth-token}}
-{
+[{
 	"name": "New member - Organizer",
 	"profileId": "{{add_member_profile_id}}"
-}
-HTTP 403
+}]
+HTTP 201
 
 # Check the profile was not added
 GET {{host}}/api/teams/{{add_member_team_id}}/members

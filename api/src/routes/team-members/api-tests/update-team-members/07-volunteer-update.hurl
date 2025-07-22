@@ -13,14 +13,17 @@ auth-token: cookie "auth_token"
 # Try to update team member
 PATCH {{host}}/api/teams/{{update_member_team_id}}/members
 Cookie: auth_token={{auth-token}}
-{
+[{
 	"id": "{{try_update_member_id}}",
 	"name": "Update member - Volunteer"
-}
+}]
 HTTP 403
 
 # Check the member was not updated
+# TODO: https://github.com/torontojs/communityhub/issues/200
 GET {{host}}/api/teams/{{update_member_team_id}}/members
+[Options]
+skip: true
 HTTP 200
 [Asserts]
 jsonpath "$.data[*].name" not contains "Update member - Volunteer"

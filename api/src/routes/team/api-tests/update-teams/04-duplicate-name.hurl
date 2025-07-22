@@ -11,15 +11,15 @@ HTTP 201
 auth-token: cookie "auth_token"
 
 # Update the team name first
-PATCH {{host}}/api/teams/{{update_team_id}}
+PATCH {{host}}/api/teams/{{dupe_update_team_id}}
 Cookie: auth_token={{auth-token}}
 {
 	"name": "Dupe Team Name - Update"
 }
-HTTP 201
+HTTP 200
 
 # Try to update another team to have the same name
-# TODO:
+# TODO: https://github.com/torontojs/communityhub/issues/204
 PATCH {{host}}/api/teams/{{try_update_team_id}}
 Cookie: auth_token={{auth-token}}
 [Options]
@@ -27,4 +27,4 @@ skip: true
 {
 	"name": "Dupe Team Name - Update"
 }
-HTTP 300
+HTTP 400

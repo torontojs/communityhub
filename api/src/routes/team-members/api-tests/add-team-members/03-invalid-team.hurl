@@ -13,17 +13,17 @@ auth-token: cookie "auth_token"
 # Invalid team id
 POST {{host}}/api/teams/00000000-0000-0000-0000-000000000000/members
 Cookie: auth_token={{auth-token}}
-{
+[{
 	"name": "Invalid Team ID",
 	"profileId": "{{add_member_profile_id}}"
-}
-HTTP 201
+}]
+HTTP 404
 
 # Malformed UUID
 POST {{host}}/api/teams/malformed-id/members
 Cookie: auth_token={{auth-token}}
-{
+[{
 	"name": "Malformed Team ID",
 	"profileId": "{{add_member_profile_id}}"
-}
-HTTP 201
+}]
+HTTP 422

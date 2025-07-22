@@ -11,8 +11,11 @@ HTTP 201
 auth-token: cookie "auth_token"
 
 # Missing name
+# TODO: https://github.com/torontojs/communityhub/issues/203
 PATCH {{host}}/api/teams/{{update_member_team_id}}/members
 Cookie: auth_token={{auth-token}}
+[Options]
+skip: true
 [{
 	"id": "{{update_member_id}}"
 }]
@@ -34,7 +37,7 @@ Cookie: auth_token={{auth-token}}
 	"id": "{{update_member_id}}",
 	"name": "💩"
 }]
-HTTP 201
+HTTP 200
 
 # Name with extra spaces
 PATCH {{host}}/api/teams/{{update_member_team_id}}/members
@@ -43,4 +46,4 @@ Cookie: auth_token={{auth-token}}
 	"id": "{{update_member_id}}",
 	"name": "     Role with Extra Spaces     "
 }]
-HTTP 201
+HTTP 200

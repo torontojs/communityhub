@@ -11,7 +11,7 @@ HTTP 201
 auth-token: cookie "auth_token"
 
 # Update a team
-PATCH {{host}}/api/teams/{{update_team_id}}
+PATCH {{host}}/api/teams/{{organizer_update_team_id}}
 Cookie: auth_token={{auth-token}}
 {
 	"name": "Updated Team - Organizer"
@@ -19,7 +19,7 @@ Cookie: auth_token={{auth-token}}
 HTTP 200
 
 # Verify if the team was updated
-GET {{host}}/api/teams/{{update_team_id}}
+GET {{host}}/api/teams/{{organizer_update_team_id}}
 HTTP 200
 [Asserts]
 jsonpath "$.data.name" == "Updated Team - Organizer"

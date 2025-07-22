@@ -13,7 +13,7 @@ auth-token: cookie "auth_token"
 # Delete an existing team
 DELETE {{host}}/api/teams/{{delete_team_id}}
 Cookie: auth_token={{auth-token}}
-HTTP 201
+HTTP 200
 
 # Verify if the team was deleted
 GET {{host}}/api/teams/{{delete_team_id}}

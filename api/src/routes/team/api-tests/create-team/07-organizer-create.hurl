@@ -11,7 +11,7 @@ HTTP 201
 auth-token: cookie "auth_token"
 
 # Create a new team
-# TODO: Organizers should be able to create teams
+# TODO: https://github.com/torontojs/communityhub/issues/206
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token}}
 [Options]

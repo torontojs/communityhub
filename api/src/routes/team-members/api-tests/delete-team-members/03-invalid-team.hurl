@@ -16,7 +16,7 @@ Cookie: auth_token={{auth-token}}
 [
 	"{{delete_member_id}}"
 ]
-HTTP 201
+HTTP 404
 
 # Malformed UUID
 DELETE {{host}}/api/teams/malformed-id/members
@@ -24,4 +24,4 @@ Cookie: auth_token={{auth-token}}
 [
 	"{{delete_member_id}}"
 ]
-HTTP 201
+HTTP 422

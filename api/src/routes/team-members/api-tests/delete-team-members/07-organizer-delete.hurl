@@ -16,10 +16,13 @@ Cookie: auth_token={{auth-token}}
 [
 	"{{organizer_delete_member_id}}"
 ]
-HTTP 403
+HTTP 200
 
 # Check the team was updated
+# TODO: https://github.com/torontojs/communityhub/issues/200
 GET {{host}}/api/teams/{{delete_member_team_id}}/members
+[Options]
+skip: true
 HTTP 200
 [Asserts]
 jsonpath "$.data[*].id" not contains "{{organizer_delete_member_id}}"

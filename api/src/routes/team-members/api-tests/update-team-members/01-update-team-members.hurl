@@ -17,4 +17,4 @@ Cookie: auth_token={{auth-token}}
 	"id": "{{update_member_id}}",
 	"name": "Updated role"
 }]
-HTTP 201
+HTTP 200
