@@ -199,7 +199,7 @@ teamMemberRoutes.openapi(
 		tags: ['Team Members'],
 		request: {
 			params: IdParamSchema,
-			body: { content: { 'application/json': { schema: z.array(z.string()) } }, required: true }
+			body: { content: { 'application/json': { schema: z.array(z.string().uuid()) } }, required: true }
 		},
 		responses: {
 			[StatusCodes.OKAY]: {
@@ -208,6 +208,10 @@ teamMemberRoutes.openapi(
 			},
 			[StatusCodes.NOT_FOUND]: {
 				description: 'Error response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid Team IDs response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			},
 			[StatusCodes.INTERNAL_SERVER_ERROR]: {
@@ -226,6 +230,22 @@ teamMemberRoutes.openapi(
 		}
 
 		const body = context.req.valid('json');
+
+		const nonExistingIds = await nonExistingProfileIds(context.env.Database, body);
+
+		if (nonExistingIds.length !== 0) {
+			return context.json(
+				{
+					message: 'Not all team members exist',
+					errors: nonExistingIds.map((profileId) => ({
+						profileId,
+						message: 'Profile ID does not exist'
+					}))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
 		const isDeleted = await deleteTeamMembers(context.env.Database, id, body);
 
 		if (!isDeleted) {
