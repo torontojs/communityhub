@@ -27,13 +27,15 @@ export const AddTeamMembersSchema = z.array(TeamMembershipSchema.omit({ ...BaseD
 export type AddTeamMembers = z.infer<typeof AddTeamMembersSchema>;
 
 export const UpdateTeamMembersSchema = z.array(
-	TeamMembershipSchema
-		.pick({ id: true })
-		.extend(
-			TeamMembershipSchema
-				.pick({ name: true, description: true })
-				.partial()
-				.shape
+	z.object({
+		id: TeamMembershipSchema.shape.id,
+		name: TeamMembershipSchema.shape.name.optional(),
+		description: TeamMembershipSchema.shape.description
+	})
+		.refine(
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			(data) => Boolean(data.name || data.description),
+			{ message: 'Either name or description must be provided' }
 		)
 );
 
