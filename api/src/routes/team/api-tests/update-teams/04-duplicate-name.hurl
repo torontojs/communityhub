@@ -19,11 +19,8 @@ Cookie: auth_token={{auth-token}}
 HTTP 200
 
 # Try to update another team to have the same name
-# TODO: https://github.com/torontojs/communityhub/issues/204
 PATCH {{host}}/api/teams/{{try_update_team_id}}
 Cookie: auth_token={{auth-token}}
-[Options]
-skip: true
 {
 	"name": "Dupe Team Name - Update"
 }

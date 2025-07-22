@@ -217,6 +217,10 @@ teamRoutes.openapi(
 				description: 'Error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			},
+			[StatusCodes.CONFLICT]: {
+				description: 'Team with same name response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
 			[StatusCodes.INTERNAL_SERVER_ERROR]: {
 				description: 'Server error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
@@ -232,6 +236,14 @@ teamRoutes.openapi(
 
 		if (!isTeamIdValid) {
 			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
+		}
+
+		if (body.name) {
+			const hasExistingTeamName = await doestSameTeamNameExist(context.env.Database, body.name);
+
+			if (hasExistingTeamName) {
+				return context.json({ message: 'Team already exists' } satisfies StatusResponse, StatusCodes.CONFLICT);
+			}
 		}
 
 		const isUpdated = await updateTeamById(context.env.Database, id, body);
