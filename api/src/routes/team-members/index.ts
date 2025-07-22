@@ -11,6 +11,7 @@ import {
 	StatusResponseSchema
 } from '../../utils/responses.ts';
 import { IdParamSchema } from '../../utils/validation.ts';
+import { nonExistingProfileIds } from '../profile/data.ts';
 import { ProfileSchema } from '../profile/validation.ts';
 import { doesTeamExist } from '../team/data.ts';
 import { addTeamMembers, deleteTeamMembers, getAllMembers, updateTeamMembers } from './data.ts';
@@ -35,11 +36,21 @@ teamMemberRoutes.openapi(
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
 				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(ProfileSchema.pick({ id: true, name: true, avatar: true }))) } }
+			},
+			[StatusCodes.NOT_FOUND]: {
+				description: 'Error response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
 	}),
 	async (context) => {
 		const { id } = context.req.valid('param');
+
+		const isTeamIdValid = await doesTeamExist(context.env.Database, id);
+		if (!isTeamIdValid) {
+			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
+		}
+
 		const members = await getAllMembers(context.env.Database, id);
 
 		return context.json(
@@ -84,6 +95,10 @@ teamMemberRoutes.openapi(
 				description: 'Error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid Team IDs response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
 			[StatusCodes.INTERNAL_SERVER_ERROR]: {
 				description: 'Server Error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
@@ -100,6 +115,22 @@ teamMemberRoutes.openapi(
 		}
 
 		const body = context.req.valid('json');
+
+		const nonExistingIds = await nonExistingProfileIds(context.env.Database, body.map(({ profileId }) => profileId));
+
+		if (nonExistingIds.length !== 0) {
+			return context.json(
+				{
+					message: 'Not all team members exist',
+					errors: nonExistingIds.map((profileId) => ({
+						profileId,
+						message: 'Profile ID does not exist'
+					}))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
 		const success = await addTeamMembers(context.env.Database, id, body);
 
 		if (!success) {

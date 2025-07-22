@@ -11,11 +11,8 @@ HTTP 201
 auth-token: cookie "auth_token"
 
 # Invalid profile id
-# TODO: https://github.com/torontojs/communityhub/issues/202
 POST {{host}}/api/teams/{{add_member_team_id}}/members
 Cookie: auth_token={{auth-token}}
-[Options]
-skip: true
 [{
 	"name": "Invalid Profile ID",
 	"profileId": "00000000-0000-0000-0000-000000000000"
