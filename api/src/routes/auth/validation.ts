@@ -84,7 +84,10 @@ export type ActivateData = z.infer<typeof ActivateSchema>;
 
 export const ForgotPasswordSchema = z.object({
 	email: z.string({ required_error: 'Email is required' })
-		.email('This is not a valid e-mail address')
+		.trim()
+		.toLowerCase()
+		.min(1)
+		.email('Invalid Email')
 });
 
 export type ForgotPasswordData = z.infer<typeof ForgotPasswordSchema>;
