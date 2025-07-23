@@ -84,7 +84,6 @@ export const ForgotPasswordSchema = z.object({
 		.trim()
 		.toLowerCase()
 		.min(1)
-		.email('Invalid Email')
 });
 
 export type ForgotPasswordData = z.infer<typeof ForgotPasswordSchema>;
