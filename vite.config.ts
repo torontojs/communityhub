@@ -48,7 +48,8 @@ export default defineConfig(({ mode }) => {
 					'home': fileURLToPath(new URL('./src/pages/home/index.html', import.meta.url)),
 					'button-usage': fileURLToPath(new URL('./src/pages/button-usage/index.html', import.meta.url)),
 					'print-documents': fileURLToPath(new URL('./src/pages/print-documents/index.html', import.meta.url)),
-					'input-usage': fileURLToPath(new URL('./src/pages/text-input-usage/index.html', import.meta.url))
+					'input-usage': fileURLToPath(new URL('./src/pages/text-input-usage/index.html', import.meta.url)),
+					'reset-password': fileURLToPath(new URL('./src/pages/reset-password', import.meta.url))
 				}
 			}
 		},
