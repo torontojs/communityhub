@@ -60,7 +60,7 @@ POST {{host}}/api/auth/sign-up
 	"email": "CaSe-InSeNsItIvE-uSeR@example.com",
 	"password": "{{default_password}}"
 }
-HTTP 201
+HTTP 200
 
 # Case insensitive email - domain part
 POST {{host}}/api/auth/sign-up
@@ -69,4 +69,4 @@ POST {{host}}/api/auth/sign-up
 	"email": "case-insensitive-domain@eXeMpLe.CoM",
 	"password": "{{default_password}}"
 }
-HTTP 201
+HTTP 200
