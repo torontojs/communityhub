@@ -6,22 +6,16 @@ import TextInputComponent from '../../components/TextInputComponent/TextInputCom
 import './style.css';
 import '../../index.css';
 import HelperMessageComponent from '../../components/HelperMessageComponent/HelperMessageComponent.tsx';
-import { HelperMessageSvgDefinitions } from '../../components/HelperMessageComponent/HelperMessageSvgDefinitions.tsx';
 
 const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
 		<StrictMode>
-			{/* IMPORTANT: Must import the SVG Definitions Component - HelperMessageSvgDefinitions, to use the helper message */}
-			<HelperMessageSvgDefinitions />
 			<div className='App'>
 				{/* NOTE: This is temp UI to test the helper message usage with text input or other components */}
 
 				<h1>Render the Design System's Helper Message Input Component Cases</h1>
-				<p>
-					<em>IMPORTANT:</em> Must import the SVG Definitions Component - HelperMessageSvgDefinitions, to use the helper message
-				</p>
 
 				<section className='helper-message-showcase-container'>
 					<fieldset>

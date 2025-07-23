@@ -1,4 +1,5 @@
 import './HelperMessageComponent.css';
+import './initialize-icon-definitions-helper-msg.ts';
 
 type HelperMessageComponentVariants = 'default' | 'info' | 'success' | 'warning' | 'error';
 
