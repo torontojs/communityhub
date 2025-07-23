@@ -1,24 +1,25 @@
 /* Design system */
+@font-face {
+	font-display: swap;
+	font-family: Uai;
+	font-style: normal;
+	font-weight: 100 900;
+	src: url('../../public/assets/Uai-Variable.woff2') format('woff2');
+}
 @layer design-system {
 	:root {
 		--font-primary: 'Uai', 'Source Sans Pro', 'Montserrat', 'Roboto', Helvetica, Arial, sans-serif; /* Default fonts */
-
 		/* Text settings */
 		--text-base: 18px; /* Base font size */
 		--text-scale-ratio: 1.067; /* Scaling ratio for text size */
-
 		/* Spacing settings */
 		--spacing-base: 8px; /* Base spacing unit */
-
 		/* Border radius settings */
 		--rounded-base: 2px; /* Default border radius */
-
 		/* Line height settings */
 		--leading-base: 1.6em; /* Base line height */
-
 		/* Shadow settings */
 		--shadow-base: 2px; /* Base shadow size */
-
 		/* Heading line-height adjustments */
 		--leading-h6: calc(var(--leading-base) - 0 * 0.08em); /* Adjusted line height for h6 */
 		--leading-h5: calc(var(--leading-base) - 1 * 0.08em); /* Adjusted line height for h5 */
@@ -26,7 +27,6 @@
 		--leading-h3: calc(var(--leading-base) - 3 * 0.08em); /* Adjusted line height for h3 */
 		--leading-h2: calc(var(--leading-base) - 4 * 0.08em); /* Adjusted line height for h2 */
 		--leading-h1: calc(var(--leading-base) - 5 * 0.08em); /* Adjusted line height for h1 */
-
 		/* Text size settings based on scale */
 		--text-xs: calc(1em * pow(var(--text-scale-ratio), -2)); /* Extra small text size */
 		--text-sm: calc(var(--text-base) * pow(var(--text-scale-ratio), -1)); /* Small text size */
@@ -36,7 +36,6 @@
 		--text-2xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 4)); /* 2x Extra large text size */
 		--text-3xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 5)); /* 3x Extra large text size */
 		--text-4xl: calc(var(--text-base) * pow(var(--text-scale-ratio), 6)); /* 4x Extra large text size */
-
 		/* Font weight settings */
 		--weight-thin: 100;
 		--weight-extralight: 200;
@@ -47,14 +46,12 @@
 		--weight-bold: 700;
 		--weight-extrabold: 800;
 		--weight-black: 900;
-
 		/* Spacing utilities */
 		--spacing-xs: calc(1 * var(--spacing-base)); /* Extra small spacing */
 		--spacing-sm: calc(2 * var(--spacing-base)); /* Small spacing */
 		--spacing-md: calc(3 * var(--spacing-base)); /* Medium spacing */
 		--spacing-lg: calc(5 * var(--spacing-base)); /* Large spacing */
 		--spacing-xl: calc(10 * var(--spacing-base)); /* Extra large spacing */
-
 		/* Border radius utilities */
 		--rounded-xs: calc(1 * var(--rounded-base)); /* Extra small border radius */
 		--rounded-sm: calc(2 * var(--rounded-base)); /* Small border radius */
@@ -62,7 +59,6 @@
 		--rounded-lg: calc(8 * var(--rounded-base)); /* Large border radius */
 		--rounded-xl: calc(12 * var(--rounded-base)); /* Extra large border radius */
 		--rounded-full: 50%; /* Full circle border radius */
-
 		/* --- Gray Palette --- */
 		--color-gray-50: #f5f5f5;
 		--color-gray-50: hsla(0, 0%, 96%, 1);
@@ -86,11 +82,9 @@
 		--color-gray-900: hsla(0, 0%, 20%, 1);
 		--color-gray-950: #1b1b1b;
 		--color-gray-950: hsla(0, 0%, 11%, 1);
-
 		--color-gray: var(--color-gray-500);
 		--color-gray-card: var(--color-gray-50);
 		--color-gray-text: var(--color-gray-700);
-
 		/* --- Red Palette --- */
 		--color-red-50: #fdecee;
 		--color-red-50: hsla(353, 72%, 96%, 1);
@@ -114,11 +108,9 @@
 		--color-red-900: hsla(352, 85%, 13%, 1);
 		--color-red-950: #270307;
 		--color-red-950: hsla(351, 86%, 8%, 1);
-
 		--color-red: var(--color-red-500);
 		--color-red-card: var(--color-red-50);
 		--color-red-text: var(--color-red-700);
-
 		/* --- Yellow Palette --- */
 		--color-yellow-50: #fff4de;
 		--color-yellow-50: hsla(38, 100%, 94%, 1);
@@ -142,11 +134,9 @@
 		--color-yellow-900: hsla(39, 97%, 12%, 1);
 		--color-yellow-950: #281b00;
 		--color-yellow-950: hsla(39, 100%, 8%, 1);
-
 		--color-yellow: var(--color-yellow-500);
 		--color-yellow-card: var(--color-yellow-50);
 		--color-yellow-text: var(--color-yellow-700);
-
 		/* --- Green Palette --- */
 		--color-green-50: #ebfef6;
 		--color-green-50: hsla(150, 84%, 95%, 1);
@@ -170,11 +160,9 @@
 		--color-green-900: hsla(167, 95%, 16%, 1);
 		--color-green-950: #002f26;
 		--color-green-950: hsla(167, 100%, 9%, 1);
-
 		--color-green: var(--color-green-500);
 		--color-green-card: var(--color-green-50);
 		--color-green-text: var(--color-green-700);
-
 		/* --- Blue Palette --- */
 		--color-blue-50: #eef7ff;
 		--color-blue-50: hsla(210, 100%, 97%, 1);
@@ -198,11 +186,9 @@
 		--color-blue-900: hsla(227, 71%, 33%, 1);
 		--color-blue-950: #142557;
 		--color-blue-950: hsla(226, 62%, 21%, 1);
-
 		--color-blue: var(--color-blue-500);
 		--color-blue-card: var(--color-blue-50);
 		--color-blue-text: var(--color-blue-700);
-
 		/* --- Purple Palette --- */
 		--color-purple-50: #f5f2ff;
 		--color-purple-50: hsla(253, 100%, 97%, 1);
@@ -226,11 +212,9 @@
 		--color-purple-900: hsla(269, 75%, 35%, 1);
 		--color-purple-950: #300b6a;
 		--color-purple-950: hsla(266, 81%, 23%, 1);
-
 		--color-purple: var(--color-purple-500);
 		--color-purple-card: var(--color-purple-50);
 		--color-purple-text: var(--color-purple-700);
-
 		/* --- Orange Palette --- */
 		--color-orange-50: #ffe5cf;
 		--color-orange-50: hsla(25, 100%, 91%, 1);
@@ -254,15 +238,12 @@
 		--color-orange-900: hsla(28, 100%, 10%, 1);
 		--color-orange-950: #1a0c00;
 		--color-orange-950: hsla(28, 100%, 5%, 1);
-
 		--color-orange: var(--color-orange-500);
 		--color-orange-card: var(--color-orange-50);
 		--color-orange-text: var(--color-orange-700);
-
 		/* --- Color utilities -- */
 		--color-white: #ffffff; /* Default white tone for light mode */
 		--color-white: hsla(0, 0%, 100%, 1);
-
 		--color-black: #333333; /* Default black tone for light mode */
 		--color-black: hsla(0, 0%, 20%, 1);
 
@@ -271,10 +252,8 @@
 
 		--color-button: #0000000e; /* Default tone for buttons in light mode */
 		--color-button: hsla(0, 0%, 0%, 0.15);
-
 		--color-shadow-light: hsla(0, 0%, 0%, 0.1); /* Light shadow color */
 		--color-shadow-heavy: hsla(0, 0%, 0%, 0.125); /* Heavy shadow color */
-
 		--color-background: var(--color-white); /* Recalls background color for user mode */
 		--color-foreground: var(--color-black); /* Recalls background color for user mode */
 		--color-brand: var(--color-accent); /* Recalls accent color */
@@ -282,7 +261,6 @@
 		--color-input: var(--color-gray-100); /* Input background color */
 		--color-border: var(--color-gray-300); /* Border color */
 		--color-helper: var(--color-gray-500); /* Helper text color */
-
 		--color-error: var(--color-red-500); /* Error color */
 		--color-error-card: var(--color-red-50); /* Error background card color */
 		--color-error-text: var(--color-red-700); /* Error text color */
@@ -297,7 +275,6 @@
 		--color-error-800: var(--color-red-800);
 		--color-error-900: var(--color-red-900);
 		--color-error-950: var(--color-red-950);
-
 		--color-warning: var(--color-yellow-500); /* Warning color */
 		--color-warning-card: var(--color-yellow-50); /* Warning background card color */
 		--color-warning-text: var(--color-yellow-700); /* Warning text color */
@@ -312,7 +289,6 @@
 		--color-warning-800: var(--color-yellow-800);
 		--color-warning-900: var(--color-yellow-900);
 		--color-warning-950: var(--color-yellow-950);
-
 		--color-success: var(--color-green-500); /* Success color */
 		--color-success-card: var(--color-green-50); /* Success background card color */
 		--color-success-text: var(--color-green-700); /* Success text color */
@@ -327,7 +303,6 @@
 		--color-success-800: var(--color-success-800);
 		--color-success-900: var(--color-success-900);
 		--color-success-950: var(--color-success-950);
-
 		--color-info: var(--color-blue-500); /* Info color */
 		--color-info-card: var(--color-blue-50); /* Info background card color */
 		--color-info-text: var(--color-blue-700); /* Info text color */
@@ -342,14 +317,11 @@
 		--color-info-800: var(--color-blue-800);
 		--color-info-900: var(--color-blue-900);
 		--color-info-950: var(--color-blue-950);
-
 		/* Accent color */
 		accent-color: var(--color-accent); /* Accent color used throughout the site */
-
 		/* Border settings */
 		--border: var(--border-base) solid var(--color-border); /* Default border style */
 		--border-base: 1px; /* Base border width */
-
 		/* Shadow utilities */
 		--shadow-xs: 0 calc(0.5 * var(--shadow-base)) calc(0 * var(--shadow-base)) var(--color-shadow-light); /* Extra small shadow */
 		--shadow-sm: 0 calc(0.5 * var(--shadow-base)) calc(1 * var(--shadow-base)) var(--color-shadow-light); /* Small shadow */

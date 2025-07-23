@@ -5,6 +5,7 @@ import { authMiddleware } from '../../middleware/auth.ts';
 import { createSession, deleteSession, getSession, revalidateSession } from '../../utils/auth.ts';
 import { createPasswordReset } from '../../utils/auth.ts';
 import { hashPassword, validatePassword } from '../../utils/password-hashing.ts';
+import { passwordStrengthCheck } from '../../utils/passwordStrengthCheck.ts';
 import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { insertProfile } from '../profile/data.ts';
 import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo, updateProfileStatus } from './data.ts';
@@ -29,11 +30,19 @@ authRoutes.openapi(
 			[StatusCodes.OKAY]: {
 				description: 'Created a new profile and sent an email for confirmation',
 				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Weak Password found',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
 	}),
 	async (context) => {
 		const { email, password, name } = context.req.valid('json');
+
+		if (!passwordStrengthCheck(password)) {
+			return context.json({ message: 'Weak Password found' }, StatusCodes.UNPROCESSABLE_CONTENT);
+		}
 
 		const response = { message: 'Created a new profile and sent an email for confirmation' };
 

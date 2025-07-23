@@ -13,16 +13,40 @@ const SignUpForm = (): React.JSX.Element => {
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [invalidPasswordMessage, setInvalidPasswordMessage] = useState<string>('');
 
 	const handleOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
 		const result = zxcvbn(password);
-		setStrength(result.score);
-		setFeedback(result.feedback.suggestions.join(', '));
+		const feedback = result.feedback.suggestions;
+
+		if (result.score < 3) {
+			setStrength(result.score);
+		} else if (password.length < 15) {
+			setStrength(2);
+			feedback.push('Password is shorter than 15 characters');
+		} else {
+			setStrength(result.score);
+		}
+
+		setFeedback(feedback.join(', '));
 	};
 
 	const signup = async (name: string, email: string, password: string) => {
+		setInvalidPasswordMessage('');
 		try {
+			const passwordErrorSuggestions: string[] = [];
+			if (zxcvbn(password).score < 3) {
+				passwordErrorSuggestions.push('Password is not strong');
+			}
+			if (password.length < 15) {
+				passwordErrorSuggestions.push('Password is shorter than 15 characters');
+			}
+			if (passwordErrorSuggestions.length > 0) {
+				setInvalidPasswordMessage(passwordErrorSuggestions.join(', '));
+				throw new Error(passwordErrorSuggestions.join(', '));
+			}
+
 			const response = await fetch('/api/auth/sign-up', {
 				method: 'POST',
 				headers: {
@@ -116,7 +140,7 @@ const SignUpForm = (): React.JSX.Element => {
 					onInput={handleOnInput}
 					placeholder='Your password'
 					required
-					aria-describedby='password-input-strength password-input-suggestion'
+					aria-describedby='password-input-strength password-input-suggestion password-input-helper-text'
 					ref={passwordInputRef}
 				/>
 				<div className='passwordError' hidden={strength === null}>
@@ -133,11 +157,15 @@ const SignUpForm = (): React.JSX.Element => {
 							<span className='suggestion-icon' />
 							<p>Suggestions: {feedback}</p>
 						</div>
+						<div id='password-input-helper-text' className='suggestion password-fail' data-password-fail={invalidPasswordMessage}>
+							<span className='suggestion-icon error-icon' />
+							<p>Error: {invalidPasswordMessage}</p>
+						</div>
 					</div>
 				</div>
 			</div>
 
-			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} disabled={isLoading}>
+			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} disabled={isLoading || !strength || strength < 3}>
 				{isLoading ? 'Creating Account' : 'Create Account'}
 			</Button>
 
