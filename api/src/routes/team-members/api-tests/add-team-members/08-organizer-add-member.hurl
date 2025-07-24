@@ -23,4 +23,4 @@ HTTP 201
 GET {{host}}/api/teams/{{add_member_team_id}}/members
 HTTP 200
 [Asserts]
-jsonpath "$.data[*].id" contains "{{add_member_profile_id}}"
+jsonpath "$.data[*].profileId" contains "{{add_member_profile_id}}"
