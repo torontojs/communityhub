@@ -45,10 +45,9 @@ export const ResetPassword = (): React.JSX.Element => {
 				body: JSON.stringify({ token, password })
 			});
 			if (!response.ok) {
-				const errorData = await response.json();
-				console.log('Response not ok: ', errorData);
+				window.location.href = '/pages/sign-in';
 			} else {
-				window.location.href = '/pages/login';
+				window.location.href = '/pages/sign-in';
 			}
 		} catch (error) {
 			if (import.meta.env.MODE === 'development') {
