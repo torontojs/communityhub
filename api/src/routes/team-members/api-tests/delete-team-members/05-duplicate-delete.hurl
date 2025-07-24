@@ -24,4 +24,4 @@ Cookie: auth_token={{auth-token}}
 [
 	"{{dupe_delete_member_id}}"
 ]
-HTTP 404
+HTTP 422
