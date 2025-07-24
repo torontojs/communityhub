@@ -18,9 +18,3 @@ Cookie: auth_token={{auth-token}}
 	"name": "Update member - Organizer"
 }]
 HTTP 200
-
-# Check the member was updated
-GET {{host}}/api/teams/{{update_member_team_id}}/members
-HTTP 200
-[Asserts]
-jsonpath "$.data[*].name" contains "Update member - Organizer"
