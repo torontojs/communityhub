@@ -12,12 +12,12 @@ export async function nonExistingTeamMemberIds(database: D1Database, teamId: str
 			AND role.id IN (${new Array(ids.length).fill('?').join(',')})
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
-		LIMIT 1
+			AND role.deletedAt IS NULL
 	`).bind(teamId, ...ids).run<{ id: string }>();
 
-	const existingIds = new Set(...results.map(({ id }) => id));
+	const existingIds = new Set(results.map(({ id }) => id));
 
-	return [...new Set(...ids).difference(existingIds)];
+	return [...new Set(ids).difference(existingIds)];
 }
 
 export async function addTeamMembers(database: D1Database, teamId: string, data: AddTeamMembers) {

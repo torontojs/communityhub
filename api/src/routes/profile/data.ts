@@ -38,12 +38,11 @@ export async function nonExistingProfileIds(database: D1Database, ids: string[])
 			profile.id IN (${new Array(ids.length).fill('?').join(',')})
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
-		LIMIT 1
 	`).bind(...ids).run<{ id: string }>();
 
-	const existingIds = new Set(...results.map(({ id }) => id));
+	const existingIds = new Set(results.map(({ id }) => id));
 
-	return [...new Set(...ids).difference(existingIds)];
+	return [...new Set(ids).difference(existingIds)];
 }
 
 export async function insertProfile(database: D1Database, { email, name, password }: CreateProfileData) {
