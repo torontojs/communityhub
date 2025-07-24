@@ -24,4 +24,4 @@ Cookie: auth_token={{auth-token}}
 {
 	"name": "Dupe Team Name - Update"
 }
-HTTP 400
+HTTP 409
