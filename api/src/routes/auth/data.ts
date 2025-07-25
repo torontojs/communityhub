@@ -162,3 +162,11 @@ export async function activateProfile(database: D1Database, email: string) {
 
 	return success;
 }
+
+export async function resetPassword(database: D1Database, password: string, email: string) {
+	const { success } = await database
+		.prepare(`UPDATE ${DBTables.PROFILE} SET password = ? WHERE email ?`)
+		.bind(password, email)
+		.run();
+	return success;
+}

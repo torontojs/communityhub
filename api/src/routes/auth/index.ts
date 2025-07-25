@@ -8,7 +8,7 @@ import { hashPassword, validatePassword } from '../../utils/password-hashing.ts'
 import { passwordStrengthCheck } from '../../utils/passwordStrengthCheck.ts';
 import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { insertProfile } from '../profile/data.ts';
-import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo, updateProfileStatus } from './data.ts';
+import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo, resetPassword, updateProfileStatus } from './data.ts';
 import { type HeartbeatResponse, HeartbeatResponseSchema } from './responses.ts';
 import { ActivateSchema, ForgotPasswordSchema, ResetPasswordSchema, SignInSchema, SignUpSchema } from './validation.ts';
 export const authRoutes = new OpenAPIHono<EnvironmentBindings>({
@@ -317,6 +317,10 @@ authRoutes.openapi(
 			[StatusCodes.UNPROCESSABLE_CONTENT]: {
 				description: 'Invalid or missing token',
 				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.INTERNAL_SERVER_ERROR]: {
+				description: 'Internal server error during user change password',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
 	}),
@@ -342,10 +346,13 @@ authRoutes.openapi(
 
 		const hashedPasswordWithSalt = await hashPassword(password);
 
-		// update profile / update password
+		const success = await resetPassword(context.env.Database, email, hashedPasswordWithSalt);
 
 		// TODO: Send email to user stating their password has been succesfully changed(Bonus: remedy if they didn't make the change)
 
+		if (!success) {
+			return context.json({ message: 'Failed user password change ' } satisfies StatusResponse, StatusCodes.INTERNAL_SERVER_ERROR);
+		}
 		return context.json({ message: 'Succesfully changed password' } satisfies StatusResponse, StatusCodes.OKAY);
 	}
 );
