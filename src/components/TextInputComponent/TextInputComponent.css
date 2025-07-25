@@ -25,7 +25,6 @@
 			border: var(--border);
 			border-radius: var(--rounded-xs);
 			gap: var(--spacing-xs);
-			height: 42px;
 			padding: var(--spacing-xs);
 			width: 100%;
 
