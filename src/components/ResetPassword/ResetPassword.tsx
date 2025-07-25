@@ -12,7 +12,6 @@ export const ResetPassword = (): React.JSX.Element => {
 
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
-	// const [invalidPasswordMessage, setInvalidPasswordMessage] = useState<string>('');
 
 	const token = new URLSearchParams(window.location.search).get('token');
 
@@ -33,7 +32,6 @@ export const ResetPassword = (): React.JSX.Element => {
 	};
 
 	const resetPassword = async (token: string | null, password: string) => {
-		// setInvalidPasswordMessage('');
 		try {
 			const response = await fetch('/api/auth/reset-password', {
 				method: 'POST',
@@ -102,6 +100,7 @@ export const ResetPassword = (): React.JSX.Element => {
 							<div id='password-input-strength' aria-live='polite'>
 								<span>Password strength: {strengthLabels[strength || 0]}</span>
 							</div>
+
 							<div className='password-meter' data-password-strength={strengthLabels[strength || 0]} aria-hidden='true'>
 								<span className='password-meter-level'></span>
 								<span className='password-meter-level'></span>
@@ -111,12 +110,6 @@ export const ResetPassword = (): React.JSX.Element => {
 								<span className='suggestion-icon' />
 								<p>Suggestions: {feedback}</p>
 							</div>
-							{
-								/* <div id='password-input-helper-text' className='suggestion password-fail' data-password-fail={invalidPasswordMessage}>
-								<span className='suggestion-icon error-icon' />
-								<p>Error: {invalidPasswordMessage}</p>
-							</div> */
-							}
 						</div>
 					</div>
 				</div>
