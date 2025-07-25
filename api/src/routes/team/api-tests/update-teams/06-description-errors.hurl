@@ -25,7 +25,7 @@ Cookie: auth_token={{auth-token}}
 	"name": "Empty Description - Update",
 	"description": ""
 }
-HTTP 200
+HTTP 422
 
 # Description with emojis
 PATCH {{host}}/api/teams/{{update_team_id}}
