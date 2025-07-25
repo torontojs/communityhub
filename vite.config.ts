@@ -44,13 +44,14 @@ export default defineConfig(({ mode }) => {
 					'review-conduct-code': fileURLToPath(new URL('./src/pages/review-conduct-code/index.html', import.meta.url)),
 					'sign-up': fileURLToPath(new URL('./src/pages/sign-up/index.html', import.meta.url)),
 					'sign-in': fileURLToPath(new URL('./src/pages/sign-in/index.html', import.meta.url)),
-					'confirm-account': fileURLToPath(new URL('./src/pages/confirm-account.html', import.meta.url)),
+					'confirm-account': fileURLToPath(new URL('./src/pages/confirm-account/index.html', import.meta.url)),
 					'check-your-email': fileURLToPath(new URL('./src/pages/check-your-email/index.html', import.meta.url)),
 					'home': fileURLToPath(new URL('./src/pages/home/index.html', import.meta.url)),
 					'button-usage': fileURLToPath(new URL('./src/pages/button-usage/index.html', import.meta.url)),
 					'print-documents': fileURLToPath(new URL('./src/pages/print-documents/index.html', import.meta.url)),
 					'input-usage': fileURLToPath(new URL('./src/pages/text-input-usage/index.html', import.meta.url)),
-					'reset-password': fileURLToPath(new URL('./src/pages/reset-password', import.meta.url))
+					'reset-password': fileURLToPath(new URL('./src/pages/reset-password', import.meta.url)),
+					'helper-message': fileURLToPath(new URL('./src/pages/usage-helper-message/index.html', import.meta.url))
 				}
 			}
 		},
