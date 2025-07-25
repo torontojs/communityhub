@@ -4,7 +4,6 @@ import { authorizeAdmin, authorizeOrganizer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { getSession } from '../../utils/auth.ts';
-import { DBTables } from '../../utils/db.ts';
 import {
 	type DataResponse,
 	generateDataResponseSchema,
@@ -15,7 +14,7 @@ import {
 	statusResponseFormatter,
 	StatusResponseSchema
 } from '../../utils/responses.ts';
-import { IdParamSchema, validateExistingId } from '../../utils/validation.ts';
+import { IdParamSchema } from '../../utils/validation.ts';
 import { deleteTeamById, doesSameTeamNameExist, doesTeamExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
 import { CreateTeamSchema, TeamSchema, UpdateTeamSchema } from './validation.ts';
 
@@ -48,7 +47,7 @@ teamRoutes.openapi(
 	async (context) => {
 		const { id } = context.req.valid('param');
 
-		const isTeamIdValid = await validateExistingId(context.env.Database, DBTables.TEAM, id);
+		const isTeamIdValid = await doesTeamExist(context.env.Database, id);
 
 		if (!isTeamIdValid) {
 			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
@@ -233,7 +232,7 @@ teamRoutes.openapi(
 		const { id } = context.req.valid('param');
 		const body = context.req.valid('json');
 
-		const isTeamIdValid = await validateExistingId(context.env.Database, DBTables.TEAM, id);
+		const isTeamIdValid = await doesTeamExist(context.env.Database, id);
 
 		if (!isTeamIdValid) {
 			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);

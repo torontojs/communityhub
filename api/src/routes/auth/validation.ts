@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { LONG_TEXT_SIZE_IN_CHAR, SHORT_TEXT_SIZE_IN_CHAR } from '../../middleware/body-size.ts';
 import { AccessLevelSchema } from '../../utils/auth.ts';
 import { IdAndSchemaVersionSchema } from '../../utils/db.ts';
+import { ProfileSchema } from '../profile/validation.ts';
 
 export const ProfileStatusSchema = z.enum([
 	'activated',
@@ -14,20 +15,29 @@ export const ProfileStatusSchema = z.enum([
 ]).describe('The status a profile may be in. It is useful for the sign-up process.');
 export type ProfileStatus = z.infer<typeof ProfileStatusSchema>;
 
+export const PlainTextPasswordSchema = z
+	.string()
+	.trim()
+	.min(1, 'Password must be at least one character long.')
+	.max(SHORT_TEXT_SIZE_IN_CHAR, `Password must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
+	.describe("The user's password in plain text. This is used as input coming from the browser.");
+
+export type PlainTextPassword = z.infer<typeof PlainTextPasswordSchema>;
+
+export const HashedPasswordSchema = z
+	.string()
+	.trim()
+	.min(1, 'Password must be at least one character long.')
+	.max(SHORT_TEXT_SIZE_IN_CHAR, `Password must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
+	.describe("The user's password, hashed and salted.");
+
+export type HashedPassword = z.infer<typeof HashedPasswordSchema>;
+
 export const AccessSchema = IdAndSchemaVersionSchema.extend(
 	z.object({
 		accessLevel: AccessLevelSchema,
-		password: z
-			.string()
-			.max(SHORT_TEXT_SIZE_IN_CHAR)
-			.trim()
-			.describe("The user's password, hashed and salted."),
-		email: z
-			.email()
-			.max(SHORT_TEXT_SIZE_IN_CHAR)
-			.trim()
-			.toLowerCase()
-			.describe("The user's email. It is the same as the email in the profile table."),
+		password: HashedPasswordSchema,
+		email: ProfileSchema.shape.email,
 		insertedAt: z
 			.iso.datetime({ offset: true })
 			.optional()
@@ -38,8 +48,8 @@ export const AccessSchema = IdAndSchemaVersionSchema.extend(
 			.describe('The date when the entity was added to the database.'),
 		deletedreason: z
 			.string()
-			.max(LONG_TEXT_SIZE_IN_CHAR)
 			.trim()
+			.max(LONG_TEXT_SIZE_IN_CHAR)
 			.optional()
 			.describe('The reason why a profile is deleted. It is kept as extra information for admins.')
 	}).shape
@@ -48,38 +58,16 @@ export const AccessSchema = IdAndSchemaVersionSchema.extend(
 export type Access = z.infer<typeof AccessSchema>;
 
 export const SignInSchema = z.object({
-	email: z
-		.email('Invalid Email')
-		.max(SHORT_TEXT_SIZE_IN_CHAR)
-		.trim()
-		.toLowerCase()
-		.min(1, 'Email must be at least one character long'),
-	password: z
-		.string()
-		.max(SHORT_TEXT_SIZE_IN_CHAR)
-		.trim()
-		.min(1, 'Password must be at least one character long')
+	email: ProfileSchema.shape.email,
+	password: PlainTextPasswordSchema
 });
 
 export type SignInData = z.infer<typeof SignInSchema>;
 
 export const SignUpSchema = z.object({
-	name: z
-		.string({ error: 'Name is required' })
-		.max(SHORT_TEXT_SIZE_IN_CHAR)
-		.trim()
-		.min(1, 'Name must be at least one character long'),
-	email: z
-		.email({ error: 'Email is required' })
-		.max(SHORT_TEXT_SIZE_IN_CHAR)
-		.trim()
-		.toLowerCase()
-		.min(1, 'Email must be at least one character long'),
-	password: z
-		.string()
-		.max(SHORT_TEXT_SIZE_IN_CHAR)
-		.trim()
-		.min(1, 'Password must be at least one character long')
+	name: ProfileSchema.shape.name,
+	email: ProfileSchema.shape.email,
+	password: PlainTextPasswordSchema
 });
 
 export type SignUpData = z.infer<typeof SignUpSchema>;

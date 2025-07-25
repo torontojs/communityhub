@@ -6,14 +6,15 @@ export const TeamSchema = BaseDbEntitySchema.extend(
 	z.object({
 		name: z
 			.string()
-			.max(SHORT_TEXT_SIZE_IN_CHAR)
 			.trim()
-			.min(1, 'Name is required')
+			.min(1, 'Name must be at least one character long.')
+			.max(SHORT_TEXT_SIZE_IN_CHAR, `Name must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
 			.describe("The team's name."),
 		description: z
 			.string()
-			.max(LONG_TEXT_SIZE_IN_CHAR)
 			.trim()
+			.min(1, 'Description must be at least one character long.')
+			.max(LONG_TEXT_SIZE_IN_CHAR, `Description must be at most ${LONG_TEXT_SIZE_IN_CHAR} characters long.`)
 			.optional()
 			.describe('A description for the team. It may include markdown content.')
 	}).shape
@@ -29,7 +30,7 @@ export const UpdateTeamSchema = CreateTeamSchema
 	.partial()
 	.refine(
 		(data) => Object.keys(data).length > 0,
-		{ message: 'At least one property is required' }
+		{ message: 'At least one property is required.' }
 	);
 
 export type UpdateTeamData = z.infer<typeof UpdateTeamSchema>;

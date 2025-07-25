@@ -8,14 +8,15 @@ export const TeamMembershipSchema = BaseDbEntitySchema.extend(
 	z.object({
 		name: z
 			.string()
-			.max(SHORT_TEXT_SIZE_IN_CHAR)
 			.trim()
-			.min(1, 'Name is required')
+			.min(1, 'Name must be at least one character long.')
+			.max(SHORT_TEXT_SIZE_IN_CHAR, `Name must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
 			.describe("The role's name."),
 		description: z
 			.string()
-			.max(LONG_TEXT_SIZE_IN_CHAR)
 			.trim()
+			.min(1, 'Description must be at least one character long.')
+			.max(LONG_TEXT_SIZE_IN_CHAR, `Description must be at most ${LONG_TEXT_SIZE_IN_CHAR} characters long.`)
 			.optional()
 			.describe('A description for the role. It may include markdown content.'),
 		teamId: TeamSchema.shape.id,
@@ -38,7 +39,7 @@ export const UpdateTeamMembersSchema = z.array(
 		.refine(
 			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 			(data) => Boolean(data.name || data.description),
-			{ message: 'Either name or description must be provided' }
+			{ message: 'Either name or description must be provided.' }
 		)
 );
 
