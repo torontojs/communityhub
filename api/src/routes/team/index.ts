@@ -16,7 +16,7 @@ import {
 	StatusResponseSchema
 } from '../../utils/responses.ts';
 import { IdParamSchema, validateExistingId } from '../../utils/validation.ts';
-import { deleteTeamById, doesTeamExist, doestSameTeamNameExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
+import { deleteTeamById, doesSameTeamNameExist, doesTeamExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
 import { CreateTeamSchema, TeamSchema, UpdateTeamSchema } from './validation.ts';
 
 export const teamRoutes = new OpenAPIHono<EnvironmentBindings>({
@@ -181,7 +181,7 @@ teamRoutes.openapi(
 		const { id: profileId } = getSession(context);
 		const body = context.req.valid('json');
 
-		const hasExistingTeamName = await doestSameTeamNameExist(context.env.Database, body.name);
+		const hasExistingTeamName = await doesSameTeamNameExist(context.env.Database, body.name);
 
 		if (hasExistingTeamName) {
 			return context.json({ message: 'Team already exists' } satisfies StatusResponse, StatusCodes.CONFLICT);
@@ -240,7 +240,7 @@ teamRoutes.openapi(
 		}
 
 		if (body.name) {
-			const hasExistingTeamName = await doestSameTeamNameExist(context.env.Database, body.name);
+			const hasExistingTeamName = await doesSameTeamNameExist(context.env.Database, body.name);
 
 			if (hasExistingTeamName) {
 				return context.json({ message: 'Team already exists' } satisfies StatusResponse, StatusCodes.CONFLICT);

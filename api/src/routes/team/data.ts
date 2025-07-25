@@ -11,7 +11,7 @@ export async function doesTeamExist(database: D1Database, id: string) {
 	return Boolean(existingTeam);
 }
 
-export async function doestSameTeamNameExist(database: D1Database, name: string) {
+export async function doesSameTeamNameExist(database: D1Database, name: string) {
 	const existingTeam = await database
 		.prepare(`SELECT id FROM ${DBTables.TEAM} WHERE name = ? AND deletedAt IS NULL LIMIT 1`)
 		.bind(name)
