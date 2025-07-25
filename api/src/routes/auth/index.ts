@@ -269,7 +269,6 @@ authRoutes.openapi(
 			return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
 		}
 
-		// TODO: Discussion around wether we should create a access entry to deal with this state
 		const ForgotPasswordList = await context.env.PasswordResetToken.list();
 
 		for (const key of ForgotPasswordList.keys) {
