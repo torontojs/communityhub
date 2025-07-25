@@ -1,25 +1,26 @@
 import { z } from 'zod';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
 
-export const TeamMembershipSchema = BaseDbEntitySchema.merge(z.object({
-	name: z
-		.string()
-		.trim()
-		.min(1, 'Name is required')
-		.describe("The role's name."),
-	description: z
-		.string()
-		.optional()
-		.describe('A description for the role. It may include markdown content.'),
-	teamId: z
-		.string()
-		.uuid()
-		.describe(''),
-	profileId: z
-		.string()
-		.uuid()
-		.describe('')
-}));
+export const TeamMembershipSchema = BaseDbEntitySchema.extend(
+	z.object({
+		name: z
+			.string()
+			.trim()
+			.min(1, 'Name is required')
+			.describe("The role's name."),
+		description: z
+			.string()
+			.trim()
+			.optional()
+			.describe('A description for the role. It may include markdown content.'),
+		teamId: z
+			.uuid()
+			.describe(''),
+		profileId: z
+			.uuid()
+			.describe('')
+	}).shape
+);
 
 export type TeamMembership = z.infer<typeof TeamMembershipSchema>;
 
@@ -30,10 +31,11 @@ export type AddTeamMembers = z.infer<typeof AddTeamMembersSchema>;
 export const UpdateTeamMembersSchema = z.array(
 	TeamMembershipSchema
 		.pick({ id: true })
-		.merge(
+		.extend(
 			TeamMembershipSchema
 				.pick({ name: true, description: true })
 				.partial()
+				.shape
 		)
 );
 

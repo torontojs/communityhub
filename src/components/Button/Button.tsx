@@ -5,6 +5,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 	hasOutline?: boolean;
 	isPrimary?: boolean;
 	isLarge?: boolean;
+	size?: 'small' | 'medium' | 'large';
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>(({
@@ -12,12 +13,13 @@ const Button = forwardRef<HTMLButtonElement, Props>(({
 	isPrimary = false,
 	isLarge = false,
 	children,
+	size,
 	...rest
 }, ref) => (
 	<button
 		ref={ref}
 		className='button'
-		data-size={isLarge ? 'large' : 'small'}
+		data-size={size || 'medium'}
 		data-outline={hasOutline}
 		data-primary={isPrimary}
 		{...rest}

@@ -1,17 +1,20 @@
 import { z } from 'zod';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
 
-export const TeamSchema = BaseDbEntitySchema.merge(z.object({
-	name: z
-		.string()
-		.trim()
-		.min(1, 'Name is required')
-		.describe("The team's name."),
-	description: z
-		.string()
-		.optional()
-		.describe('A description for the team. It may include markdown content.')
-}));
+export const TeamSchema = BaseDbEntitySchema.extend(
+	z.object({
+		name: z
+			.string()
+			.trim()
+			.min(1, 'Name is required')
+			.describe("The team's name."),
+		description: z
+			.string()
+			.trim()
+			.optional()
+			.describe('A description for the team. It may include markdown content.')
+	}).shape
+);
 
 export type Team = z.infer<typeof TeamSchema>;
 

@@ -13,21 +13,22 @@ export const LogItemSourceSchema = z
 	.describe('');
 
 export const EventLogSchema = IdAndSchemaVersionSchema
-	.merge(InsertionTimestampsSchema)
-	.merge(z.object({
-		subject: z
-			.string()
-			.uuid()
-			.describe(''),
-		subjectSource: LogItemSourceSchema,
-		verb: z
-			.string()
-			.describe(''),
-		object: z
-			.string()
-			.uuid()
-			.describe(''),
-		objectSource: LogItemSourceSchema
-	}));
+	.extend(InsertionTimestampsSchema.shape)
+	.extend(
+		z.object({
+			subject: z
+				.uuid()
+				.describe(''),
+			subjectSource: LogItemSourceSchema,
+			verb: z
+				.string()
+				.trim()
+				.describe(''),
+			object: z
+				.uuid()
+				.describe(''),
+			objectSource: LogItemSourceSchema
+		}).shape
+	);
 
 export type EventLog = z.infer<typeof EventLogSchema>;
