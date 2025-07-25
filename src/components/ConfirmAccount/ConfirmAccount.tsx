@@ -44,14 +44,7 @@ const ConfirmAccount = () => {
 			window.location.href = '/pages/homepage';
 		} catch (error) {
 			if (import.meta.env.MODE === 'development') {
-				if (error instanceof Error) {
-					console.error(error.name);
-					console.error(error.cause);
-					console.error(error.message);
-					console.error(error.stack);
-				} else {
-					throw new Error('Authenticate Account Error');
-				}
+				console.error(error);
 			}
 		}
 	};

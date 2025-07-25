@@ -26,7 +26,7 @@ const SignInForm = (): React.JSX.Element => {
 			}
 		} catch (error) {
 			if (import.meta.env.MODE === 'development') {
-				console.log(error);
+				console.error(error);
 			}
 			setIsLoading(false);
 		}
