@@ -17,10 +17,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'65c09d85-eda1-470e-9a2e-9ce7a1994613', 1, 'admin', '0az0isH9H1/NnD4TsbRlOQ==:fCgNPS12kUKtM6xtAmsaT4TXydTxDPXz5/GQY16FdQXgl3bhGUZjMYTbFJMOJlbQe4bmQ0z9wEYbjDApTnd7iA==', 'root@torontojs.com', '2025-06-14T22:04:47Z', 'profile-completed'
+	'65c09d85-eda1-470e-9a2e-9ce7a1994613', 1, 'admin', '0az0isH9H1/NnD4TsbRlOQ==:fCgNPS12kUKtM6xtAmsaT4TXydTxDPXz5/GQY16FdQXgl3bhGUZjMYTbFJMOJlbQe4bmQ0z9wEYbjDApTnd7iA==', 'root@torontojs.com', '2025-06-14T22:04:47Z', 'profile-completed', NULL
 );
 
 -- Add event log to Toronto JS
@@ -117,10 +117,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 1, 'organizer', 'saMwRm9Sfm0QSkmxgAIadA==:1pkHxwpYK2HCWlItbMNfJ0XmvTmnTXD2l70s5GMLtMUC85fhbMU9B0VKSFzWALQXtc945LB5zsKNg0w1cybCKA==', 'king.arthur@camelot.uk', '2025-06-14T22:04:47Z', 'profile-completed'
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 1, 'organizer', 'saMwRm9Sfm0QSkmxgAIadA==:1pkHxwpYK2HCWlItbMNfJ0XmvTmnTXD2l70s5GMLtMUC85fhbMU9B0VKSFzWALQXtc945LB5zsKNg0w1cybCKA==', 'king.arthur@camelot.uk', '2025-06-14T22:04:47Z', 'profile-completed', NULL
 );
 
 -- Add event log to Toronto JS
@@ -272,10 +272,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'bf950534-e8f9-4f5a-a246-610aa63faf21', 1, 'organizer', 'RF7QfD2By+hvuHJAYnhgQQ==:UkSTkyjigT206gSFG34zf5LJtSRs5Ps7p1bmBCP2VI44TvmHwTFuN/ec52wt/iqjb2pyvw12bwh/+bRbIPywkw==', 'black.knight@bridgeguard.io', '2025-06-14T22:04:47Z', 'profile-completed'
+	'bf950534-e8f9-4f5a-a246-610aa63faf21', 1, 'organizer', 'RF7QfD2By+hvuHJAYnhgQQ==:UkSTkyjigT206gSFG34zf5LJtSRs5Ps7p1bmBCP2VI44TvmHwTFuN/ec52wt/iqjb2pyvw12bwh/+bRbIPywkw==', 'black.knight@bridgeguard.io', '2025-06-14T22:04:47Z', 'profile-completed', NULL
 );
 
 -- Add event log to Toronto JS
@@ -399,10 +399,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'37a4882c-3b7d-46c0-b019-c37e2445dae8', 1, 'volunteer', 'T9BIjZ5/dWpsZQUR+bsOPw==:Rh4lV5+K0hkSmoTgaFtKXswXmLiug1VrhwLyrmnWhUCLzJ+BEde5jtEqVYYHg5NRvXimpq/YPXSUlx17YHsELQ==', 'sir.robin@cowardly.co', '2025-06-14T22:04:47Z', 'tos-accepted'
+	'37a4882c-3b7d-46c0-b019-c37e2445dae8', 1, 'volunteer', 'T9BIjZ5/dWpsZQUR+bsOPw==:Rh4lV5+K0hkSmoTgaFtKXswXmLiug1VrhwLyrmnWhUCLzJ+BEde5jtEqVYYHg5NRvXimpq/YPXSUlx17YHsELQ==', 'sir.robin@cowardly.co', '2025-06-14T22:04:47Z', 'tos-accepted', NULL
 );
 
 -- Add event log to Toronto JS
@@ -533,10 +533,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'890cae10-7bbd-4f0c-961a-df495ec7527b', 1, 'volunteer', 'OAEJZMe2bPEhrfEL6yy8+A==:A9AbiYj4H3Cuq1gbQSF7xJUBP60nLu7S0RhdPk1P47HRTiljxzXdYWRIT4HESOXRiiUdMOtpUB7yFxLVbGud1g==', 'lancelot@heroics.inc', '2025-06-14T22:04:47Z', 'tos-accepted'
+	'890cae10-7bbd-4f0c-961a-df495ec7527b', 1, 'volunteer', 'OAEJZMe2bPEhrfEL6yy8+A==:A9AbiYj4H3Cuq1gbQSF7xJUBP60nLu7S0RhdPk1P47HRTiljxzXdYWRIT4HESOXRiiUdMOtpUB7yFxLVbGud1g==', 'lancelot@heroics.inc', '2025-06-14T22:04:47Z', 'tos-accepted', NULL
 );
 
 -- Add event log to Toronto JS
@@ -681,10 +681,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'bfc463bf-a066-4896-8bda-1af982893a49', 1, 'volunteer', 'WWhernvmj1GsKxb6IpBFZA==:aQs5O7VcM6lRbjyoc4fHdgJ7z3KyTcep8OF746Ad61jmKeVeUYiD12a7n0/V5qNEZZcpBB6jkJR3dAsr63ISPQ==', 'galahad@verypure.org', '2025-06-14T22:04:47Z', 'tos-accepted'
+	'bfc463bf-a066-4896-8bda-1af982893a49', 1, 'volunteer', 'WWhernvmj1GsKxb6IpBFZA==:aQs5O7VcM6lRbjyoc4fHdgJ7z3KyTcep8OF746Ad61jmKeVeUYiD12a7n0/V5qNEZZcpBB6jkJR3dAsr63ISPQ==', 'galahad@verypure.org', '2025-06-14T22:04:47Z', 'tos-accepted', NULL
 );
 
 -- Add event log to Toronto JS
@@ -808,10 +808,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'3caf90c5-7c7e-4931-82b4-888666cd8bac', 1, 'volunteer', 'gz4s4SWC1LaNuI7kPZam7A==:PyJWRghOLb3aiTyeKAEGAdbeRpbKpVksqgagvXNhM0stXa2W30eql88hN/HGf5bEPNPACRHC5IiamIL146jbPw==', 'patsy@coconutlogistics.com', '2025-06-14T22:04:47Z', 'social-handle-provided'
+	'3caf90c5-7c7e-4931-82b4-888666cd8bac', 1, 'volunteer', 'gz4s4SWC1LaNuI7kPZam7A==:PyJWRghOLb3aiTyeKAEGAdbeRpbKpVksqgagvXNhM0stXa2W30eql88hN/HGf5bEPNPACRHC5IiamIL146jbPw==', 'patsy@coconutlogistics.com', '2025-06-14T22:04:47Z', 'social-handle-provided', NULL
 );
 
 -- Add event log to Toronto JS
@@ -942,10 +942,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'2f512451-861c-4d69-aa25-b27ee54d16cb', 1, 'volunteer', 'UH22zeePAZIeUSCK+f6G0g==:3IOE9mo3WkX9yXYkibkExTsSC3y9E5pJsm11bQrWsDSnLAosmSkAjImDMlG9NT1ln757vKjGbUP1PLnjSo/JQg==', 'tim@enkanta.io', '2025-06-14T22:04:47Z', 'activated'
+	'2f512451-861c-4d69-aa25-b27ee54d16cb', 1, 'volunteer', 'UH22zeePAZIeUSCK+f6G0g==:3IOE9mo3WkX9yXYkibkExTsSC3y9E5pJsm11bQrWsDSnLAosmSkAjImDMlG9NT1ln757vKjGbUP1PLnjSo/JQg==', 'tim@enkanta.io', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1049,10 +1049,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'012c9ecf-4897-4879-bd7c-9c877d409626', 1, 'volunteer', 'tEHIZPeIirV+OX+BB5S7CQ==:BFpS7JggR37u6Sbrb2blebtNE4Ef/kKjpAayRn5lSQ98d2p8QuftUK/fP+Ye+jKv4AJZAHMKbLPwerGphUC4Ug==', 'dennis@anarcho-peasants.org', '2025-06-14T22:04:47Z', 'activated'
+	'012c9ecf-4897-4879-bd7c-9c877d409626', 1, 'volunteer', 'tEHIZPeIirV+OX+BB5S7CQ==:BFpS7JggR37u6Sbrb2blebtNE4Ef/kKjpAayRn5lSQ98d2p8QuftUK/fP+Ye+jKv4AJZAHMKbLPwerGphUC4Ug==', 'dennis@anarcho-peasants.org', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1163,10 +1163,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'76fded46-124d-4b2b-abcc-f1db71bbf622', 1, 'volunteer', '+AuNT6CJWpxV8EGXK7M2ZQ==:UjcsAsxrgt7GGzhrdhToRY5nMt74DVmI69pZuTqhdzpdpiHDVqSS82+fKv9/OJNtCcqSvzKzjJFkKhoziiul4w==', 'roger@shrubbery.ltd', '2025-06-14T22:04:47Z', 'activated'
+	'76fded46-124d-4b2b-abcc-f1db71bbf622', 1, 'volunteer', '+AuNT6CJWpxV8EGXK7M2ZQ==:UjcsAsxrgt7GGzhrdhToRY5nMt74DVmI69pZuTqhdzpdpiHDVqSS82+fKv9/OJNtCcqSvzKzjJFkKhoziiul4w==', 'roger@shrubbery.ltd', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1249,10 +1249,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'89bb6497-0e60-4fc4-b6e3-419c34ce49b1', 1, 'volunteer', '55+O9iEsAmGRwh6wLibvSw==:hedC5wmrsulJnnzCHoK0ljGmRY4sHOOUeYJTJ54ht+qq8EjmpdxvlUuhwKtxVPE4TbXcn3owcdpm5NySJN1bfA==', 'brother.maynard@holyhand.biz', '2025-06-14T22:04:47Z', 'activated'
+	'89bb6497-0e60-4fc4-b6e3-419c34ce49b1', 1, 'volunteer', '55+O9iEsAmGRwh6wLibvSw==:hedC5wmrsulJnnzCHoK0ljGmRY4sHOOUeYJTJ54ht+qq8EjmpdxvlUuhwKtxVPE4TbXcn3owcdpm5NySJN1bfA==', 'brother.maynard@holyhand.biz', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1342,10 +1342,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'5a401f5d-e129-40f8-9190-b3615d3cd8d6', 1, 'volunteer', '3TlbsGFyTQoPDlWru4BTQQ==:Ec+dZ1LBwrdR5vX4x2ajwsZRMq5o9kbf1KLUy1nnPqAJ9QFVVm6SBwUcO62TFj4C4YEOvOT+S7pQO+DYFwQJXw==', 'prince.herbert@castleanthrax.uk', '2025-06-14T22:04:47Z', 'activated'
+	'5a401f5d-e129-40f8-9190-b3615d3cd8d6', 1, 'volunteer', '3TlbsGFyTQoPDlWru4BTQQ==:Ec+dZ1LBwrdR5vX4x2ajwsZRMq5o9kbf1KLUy1nnPqAJ9QFVVm6SBwUcO62TFj4C4YEOvOT+S7pQO+DYFwQJXw==', 'prince.herbert@castleanthrax.uk', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1449,10 +1449,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'e2d65023-1c52-4fa6-ab0a-7277a6707fb7', 1, 'volunteer', 'TQ9q6Q/iSsVtswLaFqF+Lg==:HLAhA8fcQdu2Rosw656fuHyAHT2HvOkOUwAc7AvhwFmOO+WkvhN9svwy6uoJA+MbKztyrrngCE0J4gpl4RvUcw==', 'concorde@swiftcourier.io', '2025-06-14T22:04:47Z', 'social-handle-provided'
+	'e2d65023-1c52-4fa6-ab0a-7277a6707fb7', 1, 'volunteer', 'TQ9q6Q/iSsVtswLaFqF+Lg==:HLAhA8fcQdu2Rosw656fuHyAHT2HvOkOUwAc7AvhwFmOO+WkvhN9svwy6uoJA+MbKztyrrngCE0J4gpl4RvUcw==', 'concorde@swiftcourier.io', '2025-06-14T22:04:47Z', 'social-handle-provided', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1583,10 +1583,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'22fa5d4f-1e53-42f3-a00d-7010e7973b12', 1, 'volunteer', 'rxi8VXC0Ges9vF2FdUwbKw==:zGIMG1G60tl19sJdx+m9jwx/BVnkuBo1Ij237Ke3kRsNXSg5wqGyp9QbSjvdBCVkCuX2KxUaFP4Pq+VdO/qG4A==', 'lady.zoot@castleanthrax.uk', '2025-06-14T22:04:47Z', 'activated'
+	'22fa5d4f-1e53-42f3-a00d-7010e7973b12', 1, 'volunteer', 'rxi8VXC0Ges9vF2FdUwbKw==:zGIMG1G60tl19sJdx+m9jwx/BVnkuBo1Ij237Ke3kRsNXSg5wqGyp9QbSjvdBCVkCuX2KxUaFP4Pq+VdO/qG4A==', 'lady.zoot@castleanthrax.uk', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1683,10 +1683,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'6eb87900-a6d3-4fa3-82e8-70aaa8754053', 1, 'volunteer', 'rdPgtBEQMJtw6WJ7FrD8xw==:TnE0yHLiPy06aRQJRIjCoGI04sBVvx43V6MOGi5RbhcE7KA8kEFN9Me/S2Pc+wmi0+JOFCGzczEZICFZCWoOPA==', 'knight.ni@forestsayni.com', '2025-06-14T22:04:47Z', 'deleted'
+	'6eb87900-a6d3-4fa3-82e8-70aaa8754053', 1, 'volunteer', 'rdPgtBEQMJtw6WJ7FrD8xw==:TnE0yHLiPy06aRQJRIjCoGI04sBVvx43V6MOGi5RbhcE7KA8kEFN9Me/S2Pc+wmi0+JOFCGzczEZICFZCWoOPA==', 'knight.ni@forestsayni.com', '2025-06-14T22:04:47Z', 'deleted', '2025-06-14T22:04:47Z'
 );
 
 -- Add event log to Toronto JS
@@ -1763,10 +1763,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'777b0252-5d54-4fcf-92da-c94715edd5f3', 1, 'volunteer', 'x9DlAnE9mPHD5cIvYbMS3A==:/ZQNwiWizlwj+EaIFKvUvFfVB2Mo+ANhIR9Aev8fIA+VJIDHLAIlR2vyerJOXMk7z+035t+qQK0Nk5l3VjRpKw==', 'historian@grail-docu.net', '2025-06-14T22:04:47Z', 'deleted'
+	'777b0252-5d54-4fcf-92da-c94715edd5f3', 1, 'volunteer', 'x9DlAnE9mPHD5cIvYbMS3A==:/ZQNwiWizlwj+EaIFKvUvFfVB2Mo+ANhIR9Aev8fIA+VJIDHLAIlR2vyerJOXMk7z+035t+qQK0Nk5l3VjRpKw==', 'historian@grail-docu.net', '2025-06-14T22:04:47Z', 'deleted', '2025-06-14T22:04:47Z'
 );
 
 -- Add event log to Toronto JS
@@ -1877,10 +1877,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'8340b8c6-5a96-4072-8af0-87c4fde2fea0', 1, 'volunteer', 'gKdbE/8xsaET19vf8d8Y3g==:qa1BYWGVJivd3dpZrbNR8Rv5SRNgtsiuCi5zJ1ioHOw4bY93c0yp897L4GNlcvTLT5qJlfYiMKTUcqhv1HWEBw==', 'bridge.keeper@threequestions.org', NULL, 'created'
+	'8340b8c6-5a96-4072-8af0-87c4fde2fea0', 1, 'volunteer', 'gKdbE/8xsaET19vf8d8Y3g==:qa1BYWGVJivd3dpZrbNR8Rv5SRNgtsiuCi5zJ1ioHOw4bY93c0yp897L4GNlcvTLT5qJlfYiMKTUcqhv1HWEBw==', 'bridge.keeper@threequestions.org', NULL, 'created', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1957,10 +1957,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'56da65b8-1b11-4af8-8b88-912df3a0d4bd', 1, 'volunteer', 'GA1EjdK0RJ306qzdPRYQxw==:XRorwr/p0EGWhfbtRvalgpUcTFB/HIv+yLcJFMNUlpNn068vqkB4IOh569wbb+ZlvrI0p0G7Hk6OtaBCYvZDSQ==', 'mrs.bun@whizzo.choc', NULL, 'created'
+	'56da65b8-1b11-4af8-8b88-912df3a0d4bd', 1, 'volunteer', 'GA1EjdK0RJ306qzdPRYQxw==:XRorwr/p0EGWhfbtRvalgpUcTFB/HIv+yLcJFMNUlpNn068vqkB4IOh569wbb+ZlvrI0p0G7Hk6OtaBCYvZDSQ==', 'mrs.bun@whizzo.choc', NULL, 'created', NULL
 );
 
 -- Add event log to Toronto JS
@@ -2064,10 +2064,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'fac6e738-ab0a-4a66-ab92-a0e76f2c4ba5', 1, 'volunteer', 'RYngyQsVASpQna+n5I4x4w==:ByVfpjw3V9deHBg2OVn0mtgpymwATkkySz7j7Npynh0OlfFQR26vXbkJcqOvNTMJIgH4l7ouaTRGNJAJLGsDQg==', 'camel.spotter@zoology.co', NULL, 'created'
+	'fac6e738-ab0a-4a66-ab92-a0e76f2c4ba5', 1, 'volunteer', 'RYngyQsVASpQna+n5I4x4w==:ByVfpjw3V9deHBg2OVn0mtgpymwATkkySz7j7Npynh0OlfFQR26vXbkJcqOvNTMJIgH4l7ouaTRGNJAJLGsDQg==', 'camel.spotter@zoology.co', NULL, 'created', NULL
 );
 
 -- Add event log to Toronto JS
@@ -2144,10 +2144,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'2217e267-144e-4651-bfce-87ce653f9f03', 1, 'volunteer', 'WNxTWmcM6N3O5bDskzAi+g==:L1KzEPXkXIz/ezWBC/oBbBv93YuKpAIqXvEb6FXsb5zbzN9Yt1QOXQb+IatlOzqzHcVa8DdgWgDyuB9iGH+LJg==', 'knight.truth@roundtable.ai', NULL, 'created'
+	'2217e267-144e-4651-bfce-87ce653f9f03', 1, 'volunteer', 'WNxTWmcM6N3O5bDskzAi+g==:L1KzEPXkXIz/ezWBC/oBbBv93YuKpAIqXvEb6FXsb5zbzN9Yt1QOXQb+IatlOzqzHcVa8DdgWgDyuB9iGH+LJg==', 'knight.truth@roundtable.ai', NULL, 'created', NULL
 );
 
 -- Add event log to Toronto JS
@@ -2237,10 +2237,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'307a325e-1513-4718-a9b7-106d16c347d2', 1, 'volunteer', 'xuVDrUwzM10jkPg2qERnJQ==:5epH3EvAhnpz2ZC1e+4G56n+7XGlJZ+pUuRU1fvOnoxlpx9QIejZmSZXeb2xKaHEnnlCfOyj8uijpDbSx4dabA==', 'fish.slapper@dance-troupe.com', NULL, 'created'
+	'307a325e-1513-4718-a9b7-106d16c347d2', 1, 'volunteer', 'xuVDrUwzM10jkPg2qERnJQ==:5epH3EvAhnpz2ZC1e+4G56n+7XGlJZ+pUuRU1fvOnoxlpx9QIejZmSZXeb2xKaHEnnlCfOyj8uijpDbSx4dabA==', 'fish.slapper@dance-troupe.com', NULL, 'created', NULL
 );
 
 -- Add event log to Toronto JS
@@ -2823,6 +2823,32 @@ INSERT INTO "event_log" (
 VALUES (
 	'c83d8ce7-308b-4e16-ad1e-271e6112c417', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'2217e267-144e-4651-bfce-87ce653f9f03', 'profile',
+	'joined',
+	'00a34ce0-c620-4954-9bcc-ac839e718bad', 'team'
+);
+
+-- Team member: Ni Sayer
+INSERT INTO "role" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"teamId", "name", "description",
+	"profileId"
+)
+VALUES (
+	'ed4723b9-7aa2-4146-bd70-77db729d9e86', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'00a34ce0-c620-4954-9bcc-ac839e718bad', 'Ni Sayer', 'Responsible for repeatedly saying "Ni!"',
+	'2f512451-861c-4d69-aa25-b27ee54d16cb'
+);
+
+-- Add team member to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'2a6411a2-773a-4733-847a-e107f30783eb', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'2f512451-861c-4d69-aa25-b27ee54d16cb', 'profile',
 	'joined',
 	'00a34ce0-c620-4954-9bcc-ac839e718bad', 'team'
 );

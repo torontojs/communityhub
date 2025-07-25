@@ -10,10 +10,15 @@ ConvertFrom-Json |
 ForEach-Object {
 	$UserId = "'$($_.id)'"
 	$ActivatedAt = $Now
+	$DeletedAt = 'NULL'
 	$DocumentsString = ''
 
 	if ($_.profileStatus -eq 'created') {
 		$ActivatedAt = 'NULL'
+	}
+
+	if ($_.profileStatus -eq 'deleted') {
+		$DeletedAt = $Now
 	}
 
 	if ($_.documents) {
@@ -102,10 +107,10 @@ VALUES (
 
 -- Add to access table
 INSERT INTO "access" (
-	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus"
+	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	$UserId, 1, '$($_.role)', '$($_.passwordHash)', '$($_.email)', $ActivatedAt, '$($_.profileStatus)'
+	$UserId, 1, '$($_.role)', '$($_.passwordHash)', '$($_.email)', $ActivatedAt, '$($_.profileStatus)', $DeletedAt
 );
 
 -- Add event log to Toronto JS
