@@ -20,8 +20,6 @@ export const ResetPassword = (): React.JSX.Element => {
 		window.location.href = '/pages/sign-in';
 	}
 
-	// TODO how to handle errors from server
-
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
