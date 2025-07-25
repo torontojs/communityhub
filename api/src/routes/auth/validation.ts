@@ -87,3 +87,11 @@ export const ForgotPasswordSchema = z.object({
 });
 
 export type ForgotPasswordData = z.infer<typeof ForgotPasswordSchema>;
+
+export const ResetPasswordSchema = z.object({
+	password: z.string({ error: 'Password is required' })
+		.min(15),
+	token: z.uuid()
+});
+
+export type ResetPasswordData = z.infer<typeof ResetPasswordSchema>;

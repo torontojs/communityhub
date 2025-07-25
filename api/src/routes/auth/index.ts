@@ -10,7 +10,7 @@ import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusRespon
 import { insertProfile } from '../profile/data.ts';
 import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo, updateProfileStatus } from './data.ts';
 import { type HeartbeatResponse, HeartbeatResponseSchema } from './responses.ts';
-import { ActivateSchema, ForgotPasswordSchema, SignInSchema, SignUpSchema } from './validation.ts';
+import { ActivateSchema, ForgotPasswordSchema, ResetPasswordSchema, SignInSchema, SignUpSchema } from './validation.ts';
 export const authRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
@@ -280,6 +280,8 @@ authRoutes.openapi(
 		}
 
 		const resetToken = crypto.randomUUID();
+
+		await context.env.PasswordResetToken.put(resetToken, email);
 		// // eslint-disable-next-line @typescript-eslint/no-magic-numb
 		await createPasswordReset(context, email, resetToken);
 
@@ -290,7 +292,61 @@ authRoutes.openapi(
 			email
 		});
 
+		await context.env.PasswordResetToken.put(resetToken, email);
+
 		return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
+	}
+);
+
+authRoutes.openapi(
+	createRoute({
+		method: 'post',
+		path: '/reset-password',
+		operationId: 'Reset Password',
+		summary: 'Reset Password',
+		description: 'This is the entry point for the Community Hub utilized for reseting passwords with valid reset token.',
+		tags: ['Authentication'],
+		request: {
+			body: { content: { 'application/json': { schema: ResetPasswordSchema } }, required: true }
+		},
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Successfully reset password',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid or missing token',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		}
+	}),
+	async (context) => {
+		const { token, password } = context.req.valid('json');
+
+		const email = await context.env.PasswordResetToken.get(token);
+
+		if (!email) {
+			return context.json({ message: 'Invalid token' }, StatusCodes.UNPROCESSABLE_CONTENT);
+		}
+
+		if (!passwordStrengthCheck(password)) {
+			return context.json({ message: 'Weak Password found' }, StatusCodes.UNPROCESSABLE_CONTENT);
+		}
+
+		const emailExists = await checkExistingEmail(context.env.Database, email);
+
+		if (!emailExists) {
+			// INFO: Hide non existing emails to reduce attack surface from guessing registered emails.
+			return context.json({ message: 'Internal error reseting password' } satisfies StatusResponse, StatusCodes.OKAY);
+		}
+
+		const hashedPasswordWithSalt = await hashPassword(password);
+
+		// update profile / update password
+
+		// TODO: Send email to user stating their password has been succesfully changed(Bonus: remedy if they didn't make the change)
+
+		return context.json({ message: 'Succesfully changed password' } satisfies StatusResponse, StatusCodes.OKAY);
 	}
 );
 
