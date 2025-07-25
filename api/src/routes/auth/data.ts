@@ -1,6 +1,7 @@
 import type { AccessLevel } from '../../utils/auth.ts';
 import { DBTables } from '../../utils/db.ts';
 import { DOCUMENT_VERSIONS, type ProfileDocument } from '../documents/validation.ts';
+import type { HeartbeatResponse } from './responses.ts';
 import type { ProfileStatus } from './validation.ts';
 
 export async function getProfileStatus(database: D1Database, profileId: string): Promise<ProfileStatus> {
@@ -130,7 +131,7 @@ export async function getHeartbeatInfo(database: D1Database, id: string) {
 			LIMIT 1
 		`)
 		.bind(id)
-		.first<{ access: AccessLevel, status: ProfileStatus, id: string, avatar?: string, name?: string }>();
+		.first<HeartbeatResponse>();
 
 	return userInfo;
 }
