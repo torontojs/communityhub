@@ -50,30 +50,3 @@
 
 	.text-input-component-container:has(input[aria-disabled]) label { color: var(--color-helper); }
 }
-
-/* .input-block input {
-d
-d
-	color: var(--color-gray-900);
-
-	font-weight: var(--weight-regular);
-	height: 42px;
-	padding: var(--spacing-xs);
-	width: 100%;
-}
-
-.input-block input:focus {
-	border-color: var(--color-error);
-	outline: none;
-}
-
-.input-block input.error {
-	background-color: var(--color-gray-50);
-	border-color: var(--color-error);
-}
-
-.input-block input:disabled {
-	background-color: #e5e5e5;
-	color: var(--color-gray-500);
-	cursor: not-allowed;
-} */
