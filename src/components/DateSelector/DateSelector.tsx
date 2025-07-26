@@ -1,9 +1,13 @@
-import { type ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, useEffect } from 'react';
 import './DateSelector.css';
+import HelperMessageComponent from '../HelperMessageComponent/HelperMessageComponent.tsx';
 
 interface Props {
+	dateValue: string;
+	isDateValid: boolean | null;
 	labelContent?: string;
 	handleSetDateValue: (date: string) => void;
+	handleSetDateValidity: (validityStatus: boolean) => void;
 }
 
 // Validation helpers
@@ -59,9 +63,8 @@ const getDaysInMonth = (month: string) => {
 	}
 };
 
-const DateSelector = ({ handleSetDateValue, labelContent = 'Select Date' }: Props) => {
-	const [tempDateValue, setTempDateValue] = useState<string>('');
-	const [month, day] = tempDateValue ? tempDateValue.split('-') : ['', ''];
+const DateSelector = ({ dateValue, isDateValid, handleSetDateValue, handleSetDateValidity, labelContent = 'Select Date' }: Props) => {
+	const [month, day] = dateValue ? dateValue.split('-') : ['', ''];
 
 	const daysInMonth = month ? getDaysInMonth(month) : 31;
 
@@ -96,42 +99,36 @@ const DateSelector = ({ handleSetDateValue, labelContent = 'Select Date' }: Prop
 	 */
 	const handleDateInputChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = e.target;
+		let [prevMonth = '', prevDay = ''] = dateValue.split('-');
 
-		setTempDateValue((prev) => {
-			let [prevMonth = '', prevDay = ''] = prev.split('-');
+		if (name === 'month') {
+			const newDaysInMonth = getDaysInMonth(value);
+			const newDay = Number(prevDay) > newDaysInMonth ? '' : prevDay;
 
-			if (name === 'month') {
-				const newDaysInMonth = getDaysInMonth(value);
-				const newDay = Number(prevDay) > newDaysInMonth ? '' : prevDay;
-
-				if (Number(prevDay) > newDaysInMonth) {
-					handleSetDateValue(''); // Reset parent when day becomes invalid
-				}
-
-				return `${value}-${newDay}`;
+			if (Number(prevDay) > newDaysInMonth) {
+				handleSetDateValue(''); // Reset parent when day becomes invalid
 			}
+			handleSetDateValue(`${value}-${newDay}`);
+		}
 
-			if (name === 'day') {
-				return `${prevMonth}-${value}`;
-			}
-
-			return prev;
-		});
+		if (name === 'day') {
+			handleSetDateValue(`${prevMonth}-${value}`);
+		}
 	};
 
 	useEffect(() => {
-		if (!isRealDate(tempDateValue)) {
-			handleSetDateValue('');
-			return;
-		}
-		if (isRealDate(tempDateValue)) {
-			handleSetDateValue(tempDateValue);
-		}
-	}, [tempDateValue]);
+		if (dateValue.trim() === '') { return; }
+		handleSetDateValidity(isRealDate(dateValue));
+	}, [dateValue]);
 
 	return (
 		<div className='date-container'>
-			<label>{labelContent}</label>
+			<div>
+				<label>
+					{labelContent}
+				</label>
+				{isDateValid === false && <HelperMessageComponent variant='error' labelText={`Invalid ${labelContent}!`} />}
+			</div>
 			<div>
 				<label htmlFor='month'>Month</label>
 				<select
