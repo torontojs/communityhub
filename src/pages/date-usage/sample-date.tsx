@@ -9,9 +9,14 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 const DateParent = () => {
 	const [birthdayValue, setBirthdayValue] = useState<string>('');
+	const [isBirthdayValid, setIsBirthdayValid] = useState<boolean | null>(null);
 
 	const handleSetBirthdayValue = (date: string): void => {
 		setBirthdayValue(date);
+	};
+
+	const handleSetDateValidity = (validityStatus: boolean): void => {
+		setIsBirthdayValid(validityStatus);
 	};
 
 	return (
@@ -21,7 +26,13 @@ const DateParent = () => {
 				{birthdayValue}
 			</label>
 			<p>Date Component Starts Below This Text!</p>
-			<DateSelector handleSetDateValue={handleSetBirthdayValue} labelContent='Date Of Birth (mm-dd)' />
+			<DateSelector
+				dateValue={birthdayValue}
+				isDateValid={isBirthdayValid}
+				handleSetDateValue={handleSetBirthdayValue}
+				handleSetDateValidity={handleSetDateValidity}
+				labelContent='Date Of Birth (mm-dd)'
+			/>
 		</div>
 	);
 };
