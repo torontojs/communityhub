@@ -9,12 +9,15 @@
 			color: var(--color-foreground);
 			font-size: var(--text-xs);
 			font-weight: var(--weight-semibold);
+			display: flex;
+			align-items: center;
 		}
 
 		& > div {
 			display: grid;
 			grid-template-columns: 2fr 3fr;
 			justify-items: start;
+			height: 2.625rem;
 		}
 
 		& select { width: 100%; }
