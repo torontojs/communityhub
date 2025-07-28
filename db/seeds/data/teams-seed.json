@@ -138,6 +138,13 @@
 				"name": "Knight Liaison",
 				"description": "Translates executive memos into acceptable offerings for shrub-obsessed knights.",
 				"eventLog": { "joined": "c83d8ce7-308b-4e16-ad1e-271e6112c417" }
+			},
+			{
+				"id": "ed4723b9-7aa2-4146-bd70-77db729d9e86",
+				"memberId": "2f512451-861c-4d69-aa25-b27ee54d16cb",
+				"name": "Ni Sayer",
+				"description": "Responsible for repeatedly saying \"Ni!\"",
+				"eventLog": { "joined": "2a6411a2-773a-4733-847a-e107f30783eb" }
 			}
 		],
 		"eventLog": { "created": "214342a4-5565-446b-a2ca-97d372dd5f7c" }
