@@ -1,5 +1,5 @@
 import './ResetPassword.css';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button.tsx';
 
@@ -12,8 +12,28 @@ export const ResetPassword = (): React.JSX.Element => {
 
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
+	const [isTokenValid, setIsValidToken] = useState<boolean | null>(null);
 
 	const token = new URLSearchParams(window.location.search).get('token');
+
+	useEffect(() => {
+		try {
+			const result = fetch('/api/auth/valid-reset-pw-token', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(token)
+			});
+			if (!result) {
+				setIsValidToken(false);
+			}
+
+			setIsValidToken(true);
+		} catch (error) {
+			console.error(error);
+		}
+	}, []);
 
 	if (token == null) {
 		window.location.href = '/pages/sign-in';
@@ -72,6 +92,16 @@ export const ResetPassword = (): React.JSX.Element => {
 		setFeedback(feedback.join(', '));
 	};
 
+	if (isTokenValid == null) {
+		return <h1>Loading</h1>;
+	}
+	if (!isTokenValid) {
+		return (
+			<div>
+				Invalid token! <a href='/forgot-password'>Get a new one</a>
+			</div>
+		);
+	}
 	return (
 		<div id='password-reset-form'>
 			<form onSubmit={handleSubmit} id='reset-content' noValidate>
