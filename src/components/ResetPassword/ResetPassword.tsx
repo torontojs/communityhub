@@ -52,7 +52,6 @@ export const ResetPassword = (): React.JSX.Element => {
 		}
 	};
 
-	// Review this
 	const handleOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
 		const result = zxcvbn(password);
