@@ -37,7 +37,7 @@ const CheckYourEmail = () => {
 			<main className='check-email-main'>
 				<p>
 					We've sent a message to your e-mail <b>{email}</b> (Is it wrong?{' '}
-					<a href='#'>
+					<a href='/pages/sign-up'>
 						Change it
 					</a>
 					) with a link to activate your account.
