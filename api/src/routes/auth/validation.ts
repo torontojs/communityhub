@@ -96,3 +96,9 @@ export const ResetPasswordSchema = z.object({
 });
 
 export type ResetPasswordData = z.infer<typeof ResetPasswordSchema>;
+
+export const ResetPasswordValidTokenSchema = z.object({
+	token: z.uuid()
+});
+
+export type ResetPasswordValidTokenData = z.infer<typeof ResetPasswordValidTokenSchema>;

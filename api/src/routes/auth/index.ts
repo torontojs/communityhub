@@ -10,7 +10,7 @@ import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusRespon
 import { insertProfile } from '../profile/data.ts';
 import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo, resetPassword, updateProfileStatus } from './data.ts';
 import { type HeartbeatResponse, HeartbeatResponseSchema } from './responses.ts';
-import { ActivateSchema, ForgotPasswordSchema, ResetPasswordSchema, SignInSchema, SignUpSchema } from './validation.ts';
+import { ActivateSchema, ForgotPasswordSchema, ResetPasswordSchema, ResetPasswordValidTokenSchema, SignInSchema, SignUpSchema } from './validation.ts';
 export const authRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
@@ -349,6 +349,47 @@ authRoutes.openapi(
 			return context.json({ message: 'Failed user password change ' } satisfies StatusResponse, StatusCodes.INTERNAL_SERVER_ERROR);
 		}
 		return context.json({ message: 'Succesfully changed password' } satisfies StatusResponse, StatusCodes.OKAY);
+	}
+);
+
+authRoutes.openapi(
+	createRoute({
+		method: 'post',
+		path: '/valid-reset-pw-token',
+		operetionId: 'Valid-reset-pw-token',
+		summary: 'Checks if password reset token is still valid',
+		description: 'Checks if password reset token is still valid',
+		tags: ['Token'],
+		request: {
+			body: { content: { 'application/json': { schema: ResetPasswordValidTokenSchema } }, required: true }
+		},
+		responses: {
+			[StatusCodes.BAD_REQUEST]: {
+				description: 'Invalid or notoken is provided.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNAUTHORIZED]: {
+				description: 'Token not found.'
+			},
+			[StatusCodes.OKAY]: {
+				description: 'Valid password reset token.'
+			}
+		}
+	}),
+	async (context) => {
+		const { token } = context.req.valid('json');
+
+		if (!token) {
+			return context.json({ message: 'Invalid or missing token' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
+		}
+
+		const success = await context.env.PasswordResetToken.get(token);
+
+		if (!success) {
+			return context.json({ message: 'Invalid or missing token' } satisfies StatusResponse, StatusCodes.UNAUTHORIZED);
+		}
+
+		return context.json({ message: 'Invalid or missing token' } satisfies StatusResponse, StatusCodes.OKAY);
 	}
 );
 
