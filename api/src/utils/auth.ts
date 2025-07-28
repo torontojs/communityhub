@@ -183,7 +183,12 @@ export async function createSession({
 	return sessionToken;
 }
 
-export async function createPasswordReset(context: Context, email: string, resetToken: string) {
+interface CreatePasswordResetParam {
+	context: Context;
+	email: string;
+	resetToken: string;
+}
+export async function createPasswordReset({ context, email, resetToken }: CreatePasswordResetParam) {
 	await context.env.PasswordResetToken.put(
 		resetToken,
 		email,

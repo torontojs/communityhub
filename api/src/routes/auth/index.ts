@@ -264,7 +264,7 @@ authRoutes.openapi(
 
 		const emailExists = await checkExistingEmail(context.env.Database, email);
 
-		// We are deliberately sending OK statuscodes to disable an attackers ability to fish for information on exisiting emails
+		// INFO: Hide specific errors to reduce attack surface and avoid guessing.
 		if (!emailExists) {
 			return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
 		}
@@ -273,16 +273,14 @@ authRoutes.openapi(
 
 		for (const key of ForgotPasswordList.keys) {
 			const keyName = await context.env.PasswordResetToken.get(key.name);
-			if (keyName === email) {
+			if (keyName) {
 				return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
 			}
 		}
 
 		const resetToken = crypto.randomUUID();
-
-		await context.env.PasswordResetToken.put(resetToken, email);
 		// // eslint-disable-next-line @typescript-eslint/no-magic-numb
-		await createPasswordReset(context, email, resetToken);
+		await createPasswordReset({ context, email, resetToken });
 
 		await sendPasswordResetEmail(context, {
 			apiKey: context.env.RESEND_API_KEY,
@@ -346,8 +344,6 @@ authRoutes.openapi(
 		const hashedPasswordWithSalt = await hashPassword(password);
 
 		const success = await resetPassword(context.env.Database, email, hashedPasswordWithSalt);
-
-		// TODO: Send email to user stating their password has been succesfully changed(Bonus: remedy if they didn't make the change)
 
 		if (!success) {
 			return context.json({ message: 'Failed user password change ' } satisfies StatusResponse, StatusCodes.INTERNAL_SERVER_ERROR);

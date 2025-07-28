@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { AccessLevelSchema } from '../../utils/auth.ts';
 import { IdAndSchemaVersionSchema } from '../../utils/db.ts';
+const MIN_PASSWORD_LENGTH = 15;
 
 export const ProfileStatusSchema = z.enum([
 	'activated',
@@ -90,7 +91,7 @@ export type ForgotPasswordData = z.infer<typeof ForgotPasswordSchema>;
 
 export const ResetPasswordSchema = z.object({
 	password: z.string({ error: 'Password is required' })
-		.min(15),
+		.min(MIN_PASSWORD_LENGTH),
 	token: z.uuid()
 });
 
