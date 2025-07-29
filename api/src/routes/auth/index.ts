@@ -289,7 +289,9 @@ authRoutes.openapi(
 			email
 		});
 
-		await context.env.PasswordResetToken.put(resetToken, email);
+		const TEN_MINUTES_IN_SECONDS = 60 * 10;
+
+		await context.env.PasswordResetToken.put(resetToken, email, { expirationTtl: TEN_MINUTES_IN_SECONDS });
 
 		return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
 	}
