@@ -495,8 +495,8 @@ export default [
 	{
 		name: 'Default TS config',
 		files: [
-			'api/**/*.{js,mjs,cjs,ts,cts,mts}',
-			'src/**/*.{js,mjs,cjs,ts,cts,mts}'
+			'api/**/*.{js,mjs,cjs,ts,cts,mts,jsx,tsx}',
+			'src/**/*.{js,mjs,cjs,ts,cts,mts,jsx,tsx}'
 		],
 		languageOptions,
 		plugins,
