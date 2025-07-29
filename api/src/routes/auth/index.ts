@@ -343,7 +343,7 @@ authRoutes.openapi(
 
 		const hashedPasswordWithSalt = await hashPassword(password);
 
-		const success = await resetPassword(context.env.Database, email, hashedPasswordWithSalt);
+		const success = await resetPassword(context.env.Database, hashedPasswordWithSalt, email);
 
 		if (!success) {
 			return context.json({ message: 'Failed user password change ' } satisfies StatusResponse, StatusCodes.INTERNAL_SERVER_ERROR);
