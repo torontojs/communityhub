@@ -21,7 +21,7 @@
 
 		& > input {
 			font-size: var(--text-xs);
-			background-color: var(--color-button);
+			background-color: var(--color-input);
 			border: var(--border);
 			border-radius: var(--rounded-xs);
 			gap: var(--spacing-xs);
