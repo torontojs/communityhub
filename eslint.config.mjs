@@ -453,10 +453,7 @@ const rules = {
 	// ...reactPlugin.configs['jsx-runtime'].rules,
 	// ...reactHooksPlugin.configs.recommended.rules,
 	'react/jsx-no-target-blank': 'off',
-	'react-refresh/only-export-components': [
-		'warn',
-		{ allowConstantExport: true }
-	]
+	'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
 };
 
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.LanguageOptions} */

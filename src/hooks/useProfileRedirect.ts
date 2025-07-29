@@ -52,16 +52,7 @@ export const getProfileStatus = async (): Promise<ProfileStatus | null> => {
 
 		return data.status ?? null;
 	} catch (err) {
-		if (import.meta.env.MODE === 'development') {
-			if (err instanceof Error) {
-				console.error(err.name);
-				console.error(err.cause);
-				console.error(err.message);
-				console.error(err.stack);
-			} else {
-				throw new Error('Error Fetching Profile Status', err);
-			}
-		}
+		console.error(err);
 
 		// fallback in case of failure
 		return null;

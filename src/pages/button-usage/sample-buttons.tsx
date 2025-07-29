@@ -24,6 +24,7 @@ createRoot(root).render(
 					<Button
 						aria-disabled
 						onClick={() => {
+							// eslint-disable-next-line no-console
 							console.log('aria-disabled button clicked');
 						}}
 					>
