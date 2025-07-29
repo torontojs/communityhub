@@ -357,7 +357,7 @@ authRoutes.openapi(
 authRoutes.openapi(
 	createRoute({
 		method: 'post',
-		path: '/valid-reset-pw-token',
+		path: '/check-password-reset-token',
 		operetionId: 'Valid-reset-pw-token',
 		summary: 'Checks if password reset token is still valid',
 		description: 'Checks if password reset token is still valid',
