@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { AccessLevelSchema } from '../../utils/auth.ts';
 import { IdAndSchemaVersionSchema } from '../../utils/db.ts';
+import { ProfileSchema } from '../profile/validation.ts';
 const MIN_PASSWORD_LENGTH = 15;
 
 export const ProfileStatusSchema = z.enum([
@@ -81,10 +82,7 @@ export const ActivateSchema = z.object({ token: z.uuid('Invalid ID format') });
 export type ActivateData = z.infer<typeof ActivateSchema>;
 
 export const ForgotPasswordSchema = z.object({
-	email: z.string({ error: 'Email is required' })
-		.trim()
-		.toLowerCase()
-		.min(1)
+	email: ProfileSchema.shape.email
 });
 
 export type ForgotPasswordData = z.infer<typeof ForgotPasswordSchema>;
