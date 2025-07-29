@@ -17,22 +17,25 @@ export const ResetPassword = (): React.JSX.Element => {
 	const token = new URLSearchParams(window.location.search).get('token');
 
 	useEffect(() => {
-		try {
-			const result = fetch('/api/auth/valid-reset-pw-token', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(token)
-			});
-			if (!result) {
-				setIsValidToken(false);
-			}
+		const validateToken = async () => {
+			try {
+				const result = await fetch('/api/auth/valid-reset-pw-token', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(token)
+				});
+				if (!result) {
+					setIsValidToken(false);
+				}
 
-			setIsValidToken(true);
-		} catch (error) {
-			console.error(error);
-		}
+				setIsValidToken(true);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		validateToken();
 	}, []);
 
 	if (token == null) {
