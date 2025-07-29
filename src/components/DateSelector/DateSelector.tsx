@@ -64,7 +64,7 @@ const getDaysInMonth = (month: string) => {
 };
 
 const DateSelector = ({ dateValue, isDateValid, handleSetDateValue, handleSetDateValidity, labelContent = 'Select Date' }: Props) => {
-	const [month, day] = dateValue ? dateValue.split('-') : ['', ''];
+	const [month = '', day = ''] = dateValue?.split('-') ?? [];
 
 	const daysInMonth = month ? getDaysInMonth(month) : 31;
 
