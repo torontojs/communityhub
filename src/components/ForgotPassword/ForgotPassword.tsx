@@ -22,7 +22,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 			setRemainingTime((prev) => prev - 1);
 		}, 1000);
 
-		return () => clearTimeout(timer);
+		return () => clearInterval(timer);
 	}, [remainingTime, isSubmitted]);
 
 	const handleValidEmail = () => {
