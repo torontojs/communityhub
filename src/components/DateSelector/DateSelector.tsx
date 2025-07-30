@@ -4,7 +4,6 @@ import HelperMessageComponent from '../HelperMessageComponent/HelperMessageCompo
 
 interface Props {
 	dateValue: string;
-	isDateValid: boolean | null;
 	labelContent?: string;
 	handleSetDateValue: (date: string) => void;
 	handleSetDateValidity: (validityStatus: boolean) => void;
@@ -63,7 +62,7 @@ const getDaysInMonth = (month: string) => {
 	}
 };
 
-const DateSelector = ({ dateValue, isDateValid, handleSetDateValue, handleSetDateValidity, labelContent = 'Select Date' }: Props) => {
+const DateSelector = ({ dateValue, handleSetDateValue, handleSetDateValidity, labelContent = 'Select Date' }: Props) => {
 	const [month = '', day = ''] = dateValue?.split('-') ?? [];
 
 	const daysInMonth = month ? getDaysInMonth(month) : 31;
@@ -116,6 +115,11 @@ const DateSelector = ({ dateValue, isDateValid, handleSetDateValue, handleSetDat
 		}
 	};
 
+	const checkDateValidity = (date: string) => {
+		if (date.trim() === '') { return; }
+		return isRealDate(date);
+	};
+
 	useEffect(() => {
 		if (dateValue.trim() === '') { return; }
 		handleSetDateValidity(isRealDate(dateValue));
@@ -127,7 +131,7 @@ const DateSelector = ({ dateValue, isDateValid, handleSetDateValue, handleSetDat
 				<label>
 					{labelContent}
 				</label>
-				{isDateValid === false && <HelperMessageComponent variant='error' labelText={`Invalid ${labelContent}!`} />}
+				{checkDateValidity(dateValue) === false && <HelperMessageComponent variant='error' labelText={`Invalid ${labelContent}!`} />}
 			</div>
 			<div>
 				<label htmlFor='month'>Month</label>

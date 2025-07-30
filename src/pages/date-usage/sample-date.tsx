@@ -28,7 +28,6 @@ const DateParent = () => {
 			<p>Date Component Starts Below This Text!</p>
 			<DateSelector
 				dateValue={birthdayValue}
-				isDateValid={isBirthdayValid}
 				handleSetDateValue={handleSetBirthdayValue}
 				handleSetDateValidity={handleSetDateValidity}
 				labelContent='Date Of Birth (mm-dd)'
