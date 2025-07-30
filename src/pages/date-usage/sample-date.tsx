@@ -9,7 +9,8 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 const DateParent = () => {
 	const [birthdayValue, setBirthdayValue] = useState<string>('');
-	const [isBirthdayValid, setIsBirthdayValid] = useState<boolean | null>(null);
+	// NOTE: state value is removed to prevent eslint error, must add the state value when using in production
+	const [_, setIsBirthdayValid] = useState<boolean | null>(null);
 
 	const handleSetBirthdayValue = (date: string): void => {
 		setBirthdayValue(date);
