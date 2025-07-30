@@ -38,11 +38,11 @@ POST {{host}}/api/auth/reset_password
   "password":""
 }
 
-HTTP 422
+HTTP 404
 
 # Reset password empty object
 POST {{host}}/api/auth/reset-password
 
 {}
 
-HTTP 404
+HTTP 422
