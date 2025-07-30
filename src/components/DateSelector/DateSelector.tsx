@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect } from 'react';
+import { type ChangeEvent } from 'react';
 import './DateSelector.css';
 import HelperMessageComponent from '../HelperMessageComponent/HelperMessageComponent.tsx';
 
@@ -100,30 +100,34 @@ const DateSelector = ({ dateValue, handleSetDateValue, handleSetDateValidity, la
 		const { name, value } = e.target;
 		let [prevMonth = '', prevDay = ''] = dateValue.split('-');
 
+		let newMonth = prevMonth;
+		let newDay = prevDay;
+
 		if (name === 'month') {
 			const newDaysInMonth = getDaysInMonth(value);
-			const newDay = Number(prevDay) > newDaysInMonth ? '' : prevDay;
+			newMonth = value;
 
+			// Reset days if month has fewer days than the current date selection
 			if (Number(prevDay) > newDaysInMonth) {
-				handleSetDateValue(''); // Reset parent when day becomes invalid
+				newDay = '';
 			}
-			handleSetDateValue(`${value}-${newDay}`);
 		}
 
 		if (name === 'day') {
-			handleSetDateValue(`${prevMonth}-${value}`);
+			newDay = value;
 		}
+
+		const newDate = `${newMonth}-${newDay}`;
+		handleSetDateValue(newDate);
+
+		if (dateValue.trim() === '') { return; }
+		handleSetDateValidity(isRealDate(newDate));
 	};
 
 	const checkDateValidity = (date: string) => {
 		if (date.trim() === '') { return; }
 		return isRealDate(date);
 	};
-
-	useEffect(() => {
-		if (dateValue.trim() === '') { return; }
-		handleSetDateValidity(isRealDate(dateValue));
-	}, [dateValue]);
 
 	return (
 		<div className='date-container'>
