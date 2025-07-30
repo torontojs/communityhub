@@ -14,8 +14,12 @@ export const DBTables = {
 	DOCUMENTS: 'documents'
 } as const;
 
+export const IdSchema = z.uuid().describe('the entity UUID.');
+
+export type Id = z.infer<typeof IdSchema>;
+
 export const IdAndSchemaVersionSchema = z.object({
-	id: z.uuid().describe('The entity UUID.'),
+	id: IdSchema,
 	schemaVersion: z.number().describe('The schema version that this entity is using.')
 });
 

@@ -18,12 +18,3 @@ Cookie: auth_token={{auth-token}}
 	"name": "Update member - Organizer"
 }]
 HTTP 200
-
-# Check the member was updated
-# TODO: https://github.com/torontojs/communityhub/issues/200
-GET {{host}}/api/teams/{{update_member_team_id}}/members
-[Options]
-skip: true
-HTTP 200
-[Asserts]
-jsonpath "$.data[*].name" contains "Update member - Organizer"

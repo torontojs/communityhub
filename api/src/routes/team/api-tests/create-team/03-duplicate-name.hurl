@@ -19,12 +19,9 @@ Cookie: auth_token={{auth-token}}
 HTTP 201
 
 # Try to create the team again
-# TODO: https://github.com/torontojs/communityhub/issues/204
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token}}
-[Options]
-skip: true
 {
 	"name": "Dupe Team Name"
 }
-HTTP 300
+HTTP 409

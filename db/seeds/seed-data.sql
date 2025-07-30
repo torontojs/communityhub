@@ -1766,7 +1766,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'777b0252-5d54-4fcf-92da-c94715edd5f3', 1, 'volunteer', 'x9DlAnE9mPHD5cIvYbMS3A==:/ZQNwiWizlwj+EaIFKvUvFfVB2Mo+ANhIR9Aev8fIA+VJIDHLAIlR2vyerJOXMk7z+035t+qQK0Nk5l3VjRpKw==', 'historian@grail-docu.net', '2025-06-14T22:04:47Z', 'deleted', '2025-06-14T22:04:47Z'
+	'777b0252-5d54-4fcf-92da-c94715edd5f3', 1, 'volunteer', 'x9DlAnE9mPHD5cIvYbMS3A==:/ZQNwiWizlwj+EaIFKvUvFfVB2Mo+ANhIR9Aev8fIA+VJIDHLAIlR2vyerJOXMk7z+035t+qQK0Nk5l3VjRpKw==', 'historian@grail-docu.net', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -2147,7 +2147,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'2217e267-144e-4651-bfce-87ce653f9f03', 1, 'volunteer', 'WNxTWmcM6N3O5bDskzAi+g==:L1KzEPXkXIz/ezWBC/oBbBv93YuKpAIqXvEb6FXsb5zbzN9Yt1QOXQb+IatlOzqzHcVa8DdgWgDyuB9iGH+LJg==', 'knight.truth@roundtable.ai', NULL, 'created', NULL
+	'2217e267-144e-4651-bfce-87ce653f9f03', 1, 'volunteer', 'WNxTWmcM6N3O5bDskzAi+g==:L1KzEPXkXIz/ezWBC/oBbBv93YuKpAIqXvEb6FXsb5zbzN9Yt1QOXQb+IatlOzqzHcVa8DdgWgDyuB9iGH+LJg==', 'knight.truth@roundtable.ai', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -2855,3 +2855,5 @@ VALUES (
 
 
 -- #endregion
+
+

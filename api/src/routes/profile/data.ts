@@ -29,6 +29,22 @@ export async function doesProfileExist(database: D1Database, id: string) {
 	return Boolean(profile);
 }
 
+export async function nonExistingProfileIds(database: D1Database, ids: string[]) {
+	const { results } = await database.prepare(`
+		SELECT profile.id
+		FROM ${DBTables.PROFILE} AS profile
+		JOIN ${DBTables.ACCESS} AS access ON access.id = profile.id
+		WHERE
+			profile.id IN (${new Array(ids.length).fill('?').join(',')})
+			AND access.activatedAt IS NOT NULL
+			AND access.deletedAt IS NULL
+	`).bind(...ids).run<{ id: string }>();
+
+	const existingIds = new Set(results.map(({ id }) => id));
+
+	return [...new Set(ids).difference(existingIds)];
+}
+
 export async function insertProfile(database: D1Database, { email, name, password }: CreateProfileData) {
 	const { id: profileId, schemaVersion, happenedAt, insertedAt } = generateBaseDBfields();
 	const { id: roleId } = generateBaseDBfields();

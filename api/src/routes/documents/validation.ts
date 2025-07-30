@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { IdAndSchemaVersionSchema } from '../../utils/db.ts';
+import { ProfileSchema } from '../profile/validation.ts';
 
 export const ProfileDocumentTypeSchema = z.enum([
 	'code-of-conduct',
@@ -21,9 +22,7 @@ export const DOCUMENT_VERSIONS: Record<ProfileDocumentType, ProfileDocumentVersi
 
 export const ProfileDocumentSchema = IdAndSchemaVersionSchema.extend(
 	z.object({
-		profileId: z
-			.uuid()
-			.describe('The profile id for that document'),
+		profileId: ProfileSchema.shape.id,
 		type: ProfileDocumentTypeSchema,
 		signedAt: z
 			.iso.datetime({ offset: true })
@@ -34,10 +33,17 @@ export const ProfileDocumentSchema = IdAndSchemaVersionSchema.extend(
 
 export type ProfileDocument = z.infer<typeof ProfileDocumentSchema>;
 
-export const SignDocumentSchema = ProfileDocumentSchema.omit({ id: true, schemaVersion: true });
+export const SignDocumentSchema = ProfileDocumentSchema.omit({
+	id: true,
+	schemaVersion: true
+});
 
 export type SignDocumentData = z.infer<typeof SignDocumentSchema>;
 
-export const SignedProfileDocumentSchema = ProfileDocumentSchema.pick({ type: true, signedAt: true, documentVersion: true });
+export const SignedProfileDocumentSchema = ProfileDocumentSchema.pick({
+	type: true,
+	signedAt: true,
+	documentVersion: true
+});
 
 export type SignedProfileDocument = z.infer<typeof SignedProfileDocumentSchema>;

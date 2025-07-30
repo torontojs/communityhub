@@ -1,17 +1,13 @@
 import { z } from 'zod';
+import { AccessLevelSchema } from '../../utils/auth.ts';
+import { ProfileSchema } from '../profile/validation.ts';
 import { ProfileStatusSchema } from './validation.ts';
 
 export const HeartbeatResponseSchema = z.object({
-	id: z.string()
-		.describe('The user id.'),
-	access: z.string()
-		.describe('Acces level.'),
-	name: z.string()
-		.optional()
-		.describe('Name of the user.'),
-	avatar: z.string()
-		.optional()
-		.describe('URL where avatar located.'),
+	id: ProfileSchema.shape.id,
+	access: AccessLevelSchema,
+	name: ProfileSchema.shape.name,
+	avatar: ProfileSchema.shape.avatar,
 	status: ProfileStatusSchema
 }).describe('Response for an operation status, it does not include data, only a message and potential validation errors.');
 
