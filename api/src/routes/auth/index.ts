@@ -329,7 +329,7 @@ authRoutes.openapi(
 		const email = await context.env.PasswordResetToken.get(token);
 
 		if (!email) {
-			return context.json({ message: 'Invalid token' }, StatusCodes.UNPROCESSABLE_CONTENT);
+			return context.json({ message: 'Invalid token or not found' }, StatusCodes.UNPROCESSABLE_CONTENT);
 		}
 
 		if (!passwordStrengthCheck(password)) {
