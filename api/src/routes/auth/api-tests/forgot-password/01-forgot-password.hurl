@@ -4,7 +4,7 @@
 POST {{host}}/auth/forgot-password
 
 {
-  "email": "king.arthur@camelot.uk",
+  "email": {{forgot-password-email}},
 }
 
 HTTP 200
