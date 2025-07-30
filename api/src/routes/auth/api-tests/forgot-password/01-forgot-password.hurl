@@ -1,7 +1,7 @@
 # Forgot password auth route
 
 # Forgot password with valid email
-POST {{host}}/auth/forgot-password
+POST {{host}}/api/auth/forgot-password
 
 {
   "email": "{{forgot_password_email}}"

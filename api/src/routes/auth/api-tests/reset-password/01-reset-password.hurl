@@ -1,17 +1,17 @@
 # Reset password auth route
 
 # Reset password with valid token(not found in kv) and password
-POST {{host}}/auth/reset-password
+POST {{host}}/api/auth/reset-password
 
 {
-  "token":{{reset_password_valid_uuid}},
+  "token":"{{reset_password_valid_uuid}}",
   "password": "{{reset_password_valid_password}}"
 }
 
 HTTP 422
 
 # Reset password with invalid uuid
-POST {{host}}/auth/reset-password
+POST {{host}}/api/auth/reset-password
 
 {
   "token":"00000000-00000000-00000000-00000000",
@@ -45,4 +45,4 @@ POST {{host}}/api/auth/reset-password
 
 {}
 
-HTTP 422
+HTTP 404
