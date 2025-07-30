@@ -4,7 +4,7 @@
 POST {{host}}/auth/forgot-password
 
 {
-  "email": {{forgot-password-email}},
+  "email": "{{forgot_password_email}}"
 }
 
 HTTP 200

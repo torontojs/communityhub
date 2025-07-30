@@ -4,18 +4,18 @@
 POST {{host}}/auth/reset-password
 
 {
-  "token":{{reset-password-valid-uuid}}
-  "password": {{reset-valid-password}}
+  "token":{{reset_password_valid_uuid}},
+  "password": "{{reset_password_valid_password}}"
 }
 
 HTTP 422
 
 # Reset password with invalid uuid
-POST {{host}}/auth/forgot-password
+POST {{host}}/auth/reset-password
 
 {
   "token":"00000000-00000000-00000000-00000000",
-  "password": {{reset-valid-password}}
+  "password": "{{reset_password_valid_password}}"
 }
 
 HTTP 422
@@ -25,16 +25,16 @@ POST {{host}}/api/auth/reset-password
 
 {
   "token": "",
-  "password":{{reset-valid-password}}
+  "password":"{{reset_password_valid_password}}"
 }
 
 HTTP 422
 
 # Reset password with empty password
-POST {{host}}/api/auth/reset-password
+POST {{host}}/api/auth/reset_password
 
 {
-  "token": {{reset-password-valid-uuid}},
+  "token": "{{reset_password_valid_uuid}}",
   "password":""
 }
 
