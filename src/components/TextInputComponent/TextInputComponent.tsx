@@ -27,6 +27,7 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 		console.warn('Custom Warning: input must always have a label. Otherwise it fails the WCAG SC 3.3.2 standard.');
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 	const elementId = useMemo(() => id ?? `input-${Math.trunc(Math.random() * 10000).toString(16)}`, [id]);
 
 	const keydownHandler: KeyboardEventHandler<HTMLInputElement> = (evt) => {
@@ -61,9 +62,9 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 				name={name}
 				type='text'
 				aria-disabled={disabled}
-				defaultValue={value || ''}
-				data-error={error ? true : false}
-				data-helper={helper ? true : false}
+				defaultValue={value ?? ''}
+				data-error={Boolean(error)}
+				data-helper={Boolean(helper)}
 				onKeyDown={keydownHandler}
 				{...rest}
 			/>

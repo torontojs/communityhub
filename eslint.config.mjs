@@ -453,10 +453,7 @@ const rules = {
 	// ...reactPlugin.configs['jsx-runtime'].rules,
 	// ...reactHooksPlugin.configs.recommended.rules,
 	'react/jsx-no-target-blank': 'off',
-	'react-refresh/only-export-components': [
-		'warn',
-		{ allowConstantExport: true }
-	]
+	'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
 };
 
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.LanguageOptions} */
@@ -495,8 +492,8 @@ export default [
 	{
 		name: 'Default TS config',
 		files: [
-			'api/**/*.{js,mjs,cjs,ts,cts,mts}',
-			'src/**/*.{js,mjs,cjs,ts,cts,mts}'
+			'api/**/*.{js,mjs,cjs,ts,cts,mts,jsx,tsx}',
+			'src/**/*.{js,mjs,cjs,ts,cts,mts,jsx,tsx}'
 		],
 		languageOptions,
 		plugins,

@@ -1,7 +1,24 @@
 import { DBTables, generateBaseDBfields } from '../../utils/db.ts';
 import { EventLog } from '../event-log/data.ts';
-import type { Profile } from '../profile/validation.ts';
-import type { AddTeamMembers, UpdateTeamMembers } from './validation.ts';
+import type { AddTeamMembers, TeamMemberInfo, UpdateTeamMembers } from './validation.ts';
+
+export async function nonExistingTeamMemberIds(database: D1Database, teamId: string, ids: string[]) {
+	const { results } = await database.prepare(`
+		SELECT role.id AS id
+		FROM ${DBTables.ROLE} AS role
+		JOIN ${DBTables.ACCESS} AS access ON access.id = role.profileId
+		WHERE
+			role.teamId = ?
+			AND role.id IN (${new Array(ids.length).fill('?').join(',')})
+			AND access.activatedAt IS NOT NULL
+			AND access.deletedAt IS NULL
+			AND role.deletedAt IS NULL
+	`).bind(teamId, ...ids).run<{ id: string }>();
+
+	const existingIds = new Set(results.map(({ id }) => id));
+
+	return [...new Set(ids).difference(existingIds)];
+}
 
 export async function addTeamMembers(database: D1Database, teamId: string, data: AddTeamMembers) {
 	const results = await database.batch([
@@ -65,8 +82,10 @@ export async function updateTeamMembers(database: D1Database, teamId: string, da
 export async function getAllMembers(database: D1Database, teamId: string) {
 	const { results } = await database.prepare(`
 		SELECT
-			profile.id AS id,
-			profile.name AS name,
+			role.id AS id,
+			role.name AS name,
+			profile.id AS profileId,
+			profile.name AS profileName,
 			profile.avatar AS avatar
 		FROM ${DBTables.ROLE} AS role
 		INNER JOIN
@@ -82,7 +101,7 @@ export async function getAllMembers(database: D1Database, teamId: string) {
 			AND role.deletedAt IS NULL
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
-	`).bind(teamId).run<Pick<Profile, 'avatar' | 'id' | 'name'>>();
+	`).bind(teamId).run<TeamMemberInfo>();
 
 	return results;
 }

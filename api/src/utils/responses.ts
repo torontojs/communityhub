@@ -199,16 +199,21 @@ export const StatusCodes = {
  *
  * It may contain an `errors` object specifying validation errors with the data passed.
  */
-export const StatusResponseSchema = z.object({
-	message: z.string()
-		.describe('A message reporting the status of the operation.'),
-	warnings: z.array(z.record(z.string(), z.string()))
-		.optional()
-		.describe('A warning message regarding the status of the operation.'),
-	errors: z.array(z.record(z.string(), z.string()))
-		.optional()
-		.describe('An object where the keys are the fields and the values are a list of errors for each field')
-}).describe('Response for an operation status, it does not include data, only a message and potential validation errors.');
+export const StatusResponseSchema = z
+	.object({
+		message: z
+			.string()
+			.describe('A message reporting the status of the operation.'),
+		warnings: z
+			.array(z.record(z.string(), z.string()))
+			.optional()
+			.describe('A warning message regarding the status of the operation.'),
+		errors: z
+			.array(z.record(z.string(), z.string()))
+			.optional()
+			.describe('An object where the keys are the fields and the values are a list of errors for each field')
+	})
+	.describe('Response for an operation status, it does not include data, only a message and potential validation errors.');
 
 export type StatusResponse = z.infer<typeof StatusResponseSchema>;
 
@@ -224,21 +229,25 @@ export function statusResponseFormatter<T, C extends Context>(result: T, context
 	return context.req;
 }
 
-export const HALLinkSchema = z.object({
-	href: z.url()
-		.describe('The link URL.'),
-	deprecation: z.boolean().optional()
-		.describe('A flag specifying if the URL is deprecated.')
-});
+export const HALLinkSchema = z
+	.object({
+		href: z
+			.url()
+			.describe('The link URL.'),
+		deprecation: z
+			.boolean()
+			.optional()
+			.describe('A flag specifying if the URL is deprecated.')
+	});
 
 export type HALLink = z.infer<typeof HALLinkSchema>;
 
-export const HALResponseSchema = z.object({
-	_links: z.object({
-		self: HALLinkSchema
-			.describe('A URL representing the resource itself.')
-	}).describe('A list of links providing information about related data for this resource.')
-});
+export const HALResponseSchema = z
+	.object({
+		_links: z
+			.object({ self: HALLinkSchema.describe('A URL representing the resource itself.') })
+			.describe('A list of links providing information about related data for this resource.')
+	});
 
 export type HALResponse = z.infer<typeof HALResponseSchema>;
 
@@ -246,26 +255,28 @@ export type HALResponse = z.infer<typeof HALResponseSchema>;
  * Generate a schema for responses containing data for a single resource.
  */
 export function generateDataResponseSchema<T>(data: ZodType<T>) {
-	return z.object({
-		data
-	}).extend(HALResponseSchema.shape);
+	return z.object({ data }).extend(HALResponseSchema.shape);
 }
 
 export type DataResponse<T> = z.infer<ReturnType<typeof generateDataResponseSchema<T>>>;
 
 export const HALPaginatedResponseSchema = z.object({
-	_links: z.object({
-		self: HALLinkSchema
-			.describe('A URL representing the resource itself.'),
-		first: HALLinkSchema
-			.describe('The URL for the first resource. Note that this could be the same as the URL for the current resource.'),
-		last: HALLinkSchema
-			.describe('The URL for the last resource. Note that this could be the same as the URL for the current resource.'),
-		next: HALLinkSchema.optional()
-			.describe('The URL for the previous resource, if there is any.'),
-		prev: HALLinkSchema.optional()
-			.describe('The URL for the next resource, if there is any.')
-	}).describe('A list of links providing information about related data for this resource.')
+	_links: z
+		.object({
+			self: HALLinkSchema
+				.describe('A URL representing the resource itself.'),
+			first: HALLinkSchema
+				.describe('The URL for the first resource. Note that this could be the same as the URL for the current resource.'),
+			last: HALLinkSchema
+				.describe('The URL for the last resource. Note that this could be the same as the URL for the current resource.'),
+			next: HALLinkSchema
+				.optional()
+				.describe('The URL for the previous resource, if there is any.'),
+			prev: HALLinkSchema
+				.optional()
+				.describe('The URL for the next resource, if there is any.')
+		})
+		.describe('A list of links providing information about related data for this resource.')
 });
 
 export type HALPaginatedResponse = z.infer<typeof HALPaginatedResponseSchema>;
@@ -276,27 +287,45 @@ export type HALPaginatedResponse = z.infer<typeof HALPaginatedResponseSchema>;
  * The data should be an array of resources. Information about the page should be included with the response.
  */
 export function generatePaginatedResponseSchema<T extends unknown[]>(data: ZodType<T>) {
-	return z.object({
-		data,
-		start: z.number().int()
-			.describe(
-				'The index for the first result on this page, starting from 0 and taking into account the offset from previous pages. For example, if `currentPage` is 4, and `total` is also 10, this means `start` would be 4 * 10 = 40.'
-			),
-		end: z.number().int()
-			.describe('The index for the last result on this page, it is `start` + `total`. For example, if `start` is 40 and `total` is 10, then `end` would be 40 + 10 = 50.'),
-		total: z.number().int()
-			.describe(
-				'The total number of items **_on the current page_**. Not to be confused with `size`, which is the total numbers _per page_. For example, if `size` is 10, but the last page only have 6 results left, then `total` would be 6.'
-			),
-		size: z.number().int()
-			.describe(
-				'The total number of items **_per page_**. Not to be confused with `total`, which is the total number of items _on the current page_. For exampe, if we have 12 results, and want to split them into pages with 10 results each, then `size` would be 10, regardless of how many items the actual page has.'
-			),
-		currentPage: z.number().int().positive()
-			.describe('The number for the current page, starting from 1.'),
-		lastPage: z.number().int().positive()
-			.describe('The number of last page.')
-	}).extend(HALPaginatedResponseSchema.shape);
+	return z
+		.object({
+			data,
+			start: z
+				.number()
+				.int()
+				.describe(
+					'The index for the first result on this page, starting from 0 and taking into account the offset from previous pages. For example, if `currentPage` is 4, and `total` is also 10, this means `start` would be 4 * 10 = 40.'
+				),
+			end: z
+				.number()
+				.int()
+				.describe(
+					'The index for the last result on this page, it is `start` + `total`. For example, if `start` is 40 and `total` is 10, then `end` would be 40 + 10 = 50.'
+				),
+			total: z
+				.number()
+				.int()
+				.describe(
+					'The total number of items **_on the current page_**. Not to be confused with `size`, which is the total numbers _per page_. For example, if `size` is 10, but the last page only have 6 results left, then `total` would be 6.'
+				),
+			size: z
+				.number()
+				.int()
+				.describe(
+					'The total number of items **_per page_**. Not to be confused with `total`, which is the total number of items _on the current page_. For exampe, if we have 12 results, and want to split them into pages with 10 results each, then `size` would be 10, regardless of how many items the actual page has.'
+				),
+			currentPage: z
+				.number()
+				.int()
+				.positive()
+				.describe('The number for the current page, starting from 1.'),
+			lastPage: z
+				.number()
+				.int()
+				.positive()
+				.describe('The number of last page.')
+		})
+		.extend(HALPaginatedResponseSchema.shape);
 }
 
 export type PaginatedResponse<T extends unknown[]> = z.infer<ReturnType<typeof generatePaginatedResponseSchema<T>>>;

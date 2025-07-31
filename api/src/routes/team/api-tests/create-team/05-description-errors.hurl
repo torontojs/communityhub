@@ -14,7 +14,7 @@ auth-token: cookie "auth_token"
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token}}
 {
-	"name": "Missing Description"
+	"name": "Missing Description - Create"
 }
 HTTP 201
 
@@ -22,16 +22,16 @@ HTTP 201
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token}}
 {
-	"name": "Empty Description",
+	"name": "Empty Description - Create",
 	"description": ""
 }
-HTTP 201
+HTTP 422
 
 # Description with emojis
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token}}
 {
-	"name": "Emoji Description",
+	"name": "Emoji Description - Create",
 	"description": "💩"
 }
 HTTP 201
@@ -40,7 +40,7 @@ HTTP 201
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token}}
 {
-	"name": "Description with Extra Spaces",
+	"name": "Description with Extra Spaces - Create",
 	"description": "      Description      "
 }
 HTTP 201
