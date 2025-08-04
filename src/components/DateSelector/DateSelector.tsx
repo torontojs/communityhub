@@ -1,12 +1,11 @@
-import { type ChangeEvent } from 'react';
 import './DateSelector.css';
 import HelperMessageComponent from '../HelperMessageComponent/HelperMessageComponent.tsx';
 
 interface Props {
 	dateValue: string;
 	labelContent?: string;
-	handleSetDateValue: (date: string) => void;
-	handleSetDateValidity: (validityStatus: boolean) => void;
+	handleSetDateValue(date: string): void;
+	handleSetDateValidity(validityStatus: boolean): void;
 }
 
 // Validation helpers
@@ -21,7 +20,7 @@ interface Props {
  * @returns `true` if the format is valid, otherwise `false`.
  */
 const isValidDateFormat = (date: string): boolean => {
-	const regex = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+	const regex = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/u;
 	return regex.test(date);
 };
 
@@ -44,14 +43,17 @@ const isRealDate = (dateString: string): boolean => {
 	const month = Number(monthStr);
 	const day = Number(dayStr);
 
+	// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 	const convertedToDate = new Date(2000, month - 1, day);
 	return convertedToDate.getMonth() + 1 === month && convertedToDate.getDate() === day;
 };
 
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 const getDaysInMonth = (month: string) => {
 	switch (month) {
 		case '02':
-			return 29; // Always 29 for February
+			// Always 29 for February
+			return 29;
 		case '04':
 		case '06':
 		case '09':
@@ -61,10 +63,12 @@ const getDaysInMonth = (month: string) => {
 			return 31;
 	}
 };
+/* eslint-enable @typescript-eslint/no-magic-numbers */
 
 const DateSelector = ({ dateValue, handleSetDateValue, handleSetDateValidity, labelContent = 'Select Date' }: Props) => {
 	const [month = '', day = ''] = dateValue?.split('-') ?? [];
 
+	// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 	const daysInMonth = month ? getDaysInMonth(month) : 31;
 
 	/**
@@ -94,11 +98,11 @@ const DateSelector = ({ dateValue, handleSetDateValue, handleSetDateValidity, la
 	 *
 	 * When the day is changed, it simply updates the temporary date state accordingly.
 	 *
-	 * @param {ChangeEvent<HTMLSelectElement>} e - The change event from a `<select>` input (month or day).
+	 * @param {ChangeEvent<HTMLSelectElement>} event - The change event from a `<select>` input (month or day).
 	 */
-	const handleDateInputChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		const { name, value } = e.target;
-		let [prevMonth = '', prevDay = ''] = dateValue.split('-');
+	const handleDateInputChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		const { name, value } = event.target;
+		const [prevMonth = '', prevDay = ''] = dateValue.split('-');
 
 		let newMonth = prevMonth;
 		let newDay = prevDay;
