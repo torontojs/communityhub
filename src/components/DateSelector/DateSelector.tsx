@@ -81,6 +81,7 @@ const DateSelector = ({ dateValue, handleSetDateValue, handleSetDateValidity, la
 	 * while the visible text shows the numeric day (e.g., 1, 2, ...).
 	 */
 	const dayOptions = Array.from({ length: daysInMonth }, (_, i) => {
+		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 		const dayVal = String(i + 1).padStart(2, '0');
 		return (
 			<option key={dayVal} value={dayVal}>
