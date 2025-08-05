@@ -50,6 +50,7 @@ export default defineConfig(({ mode }) => {
 					'button-usage': fileURLToPath(new URL('./src/pages/button-usage/index.html', import.meta.url)),
 					'print-documents': fileURLToPath(new URL('./src/pages/print-documents/index.html', import.meta.url)),
 					'input-usage': fileURLToPath(new URL('./src/pages/text-input-usage/index.html', import.meta.url)),
+					'date-usage': fileURLToPath(new URL('./src/pages/date-usage/index.html', import.meta.url)),
 					'helper-message': fileURLToPath(new URL('./src/pages/usage-helper-message/index.html', import.meta.url))
 				}
 			}
