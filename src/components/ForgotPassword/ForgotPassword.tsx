@@ -7,6 +7,7 @@ import ClockIcon from '../Icons/ClockIcon.tsx';
 
 const ForgotPasswordForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
+
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [validEmail, setIsValid] = useState(false);
 	const [remainingTime, setRemainingTime] = useState(0);
