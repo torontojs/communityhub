@@ -5,7 +5,7 @@ import Button from '../Button/Button.tsx';
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 
-const resetPassword = async (token: string | null, password: string) => {
+async function resetPassword(token: string | null, password: string) {
 	try {
 		const response = await fetch('/api/auth/reset-password', {
 			method: 'POST',
@@ -24,7 +24,7 @@ const resetPassword = async (token: string | null, password: string) => {
 			console.error(error);
 		}
 	}
-};
+}
 
 export const ResetPassword = (): React.JSX.Element => {
 	const passwordInputRef = useRef<HTMLInputElement>(null);

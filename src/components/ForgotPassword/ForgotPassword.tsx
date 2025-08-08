@@ -5,7 +5,7 @@ import ClockIcon from '../Icons/ClockIcon.tsx';
 
 // TODO: Investigate if we're able to use heartbeat to check if forgot password request already in progress and how the page react if there is one
 
-const requestPasswordRecovery = async (email: string) => {
+async function requestPasswordRecovery(email: string) {
 	try {
 		const response = await fetch('/api/auth/forgot-password', {
 			method: 'POST',
@@ -19,7 +19,7 @@ const requestPasswordRecovery = async (email: string) => {
 		}
 	}
 	return false;
-};
+}
 
 const ForgotPasswordForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
