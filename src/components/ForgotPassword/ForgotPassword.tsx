@@ -8,10 +8,14 @@ import ClockIcon from '../Icons/ClockIcon.tsx';
 const ForgotPasswordForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const [isSubmitted, setIsSubmitted] = useState(false);
-	const [buttonDisabled, setButtonDisabled] = useState(true);
 	const [validEmail, setIsValid] = useState(false);
-	const [emailDisabled, setEmailDisabled] = useState(false);
 	const [remainingTime, setRemainingTime] = useState(0);
+
+	// Email input disabled after submit
+	const emailDisabled = isSubmitted;
+
+	// Button disabled if email invalid OR after submit
+	const buttonDisabled = !validEmail || emailDisabled;
 
 	useEffect(() => {
 		if (!isSubmitted) { return; }
@@ -26,12 +30,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 	}, [remainingTime, isSubmitted]);
 
 	const handleValidEmail = () => {
-		setIsValid(!emailInputRef.current?.checkValidity());
-		if (validEmail) {
-			setButtonDisabled(true);
-		} else {
-			setButtonDisabled(false);
-		}
+		setIsValid(emailInputRef.current?.checkValidity() ?? false);
 	};
 
 	const requestPasswordRecovery = async (email: string) => {
@@ -58,8 +57,7 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 		const formData = new FormData(event.target as HTMLFormElement);
 		const emailValue = (formData.get('email') as string).trim().toLowerCase();
 
-		setButtonDisabled(true);
-		setEmailDisabled(true);
+		setIsSubmitted(true);
 
 		requestPasswordRecovery(emailValue);
 	};
