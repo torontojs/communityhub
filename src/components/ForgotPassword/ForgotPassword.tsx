@@ -5,6 +5,22 @@ import ClockIcon from '../Icons/ClockIcon.tsx';
 
 // TODO: Investigate if we're able to use heartbeat to check if forgot password request already in progress and how the page react if there is one
 
+const requestPasswordRecovery = async (email: string) => {
+	try {
+		const response = await fetch('/api/auth/forgot-password', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ email })
+		});
+		return response.ok;
+	} catch (error) {
+		if (import.meta.env.MODE === 'development') {
+			console.error(error);
+		}
+	}
+	return false;
+};
+
 const ForgotPasswordForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 
@@ -34,24 +50,6 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 		setIsValid(emailInputRef.current?.checkValidity() ?? false);
 	};
 
-	const requestPasswordRecovery = async (email: string) => {
-		try {
-			const response = await fetch('/api/auth/forgot-password', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email })
-			});
-			if (response.ok) {
-				setIsSubmitted(true);
-				setRemainingTime(600);
-			}
-		} catch (error) {
-			if (import.meta.env.MODE === 'development') {
-				console.error(error);
-			}
-		}
-	};
-
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
@@ -60,7 +58,12 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 
 		setIsSubmitted(true);
 
-		requestPasswordRecovery(emailValue);
+		const success = await requestPasswordRecovery(emailValue);
+
+		if (success) {
+			setIsSubmitted(true);
+			setRemainingTime(600);
+		}
 	};
 
 	return (
