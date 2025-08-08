@@ -16,6 +16,9 @@ interface ProfileStatusResult {
 	profileStatus: ProfileStatus | null;
 }
 
+const isValidStatus = (status: string): status is ProfileStatus =>
+	['activated', 'created', 'deleted', 'error', 'profile-completed', 'social-handle-provided', 'tos-accepted'].includes(status);
+
 const REDIRECT_PATHS = {
 	signIn: '/pages/sign-in/',
 	checkSteps: '/pages/check-steps/',
@@ -64,7 +67,7 @@ export const getProfileStatus = async (signal?: AbortSignal): Promise<ProfileSta
 			const data: ProfileStatusResponse = await response.json();
 			statusOkay = true;
 			shouldRedirect = true;
-			profileStatus = data.status ?? null;
+			profileStatus = isValidStatus(data.status) ? data.status : null;
 		}
 
 		return { statusOkay, shouldRedirect, profileStatus };
