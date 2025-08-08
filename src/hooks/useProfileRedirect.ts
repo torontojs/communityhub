@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 type ProfileStatus = 'activated' | 'created' | 'deleted' | 'error' | 'profile-completed' | 'social-handle-provided' | 'tos-accepted';
 
@@ -8,6 +8,12 @@ interface ProfileStatusResponse {
 	access: string;
 	avatar: string | null;
 	status: ProfileStatus;
+}
+
+interface ProfileStatusResult {
+	statusOkay: boolean;
+	shouldRedirect: boolean;
+	profileStatus: ProfileStatus | null;
 }
 
 const REDIRECT_PATHS = {
@@ -37,43 +43,80 @@ const getRedirectPathForStatus = (status: ProfileStatus): string => {
 	}
 };
 
-export const getProfileStatus = async (): Promise<ProfileStatus | null> => {
+export const getProfileStatus = async (signal?: AbortSignal): Promise<ProfileStatusResult> => {
+	let statusOkay;
+	let shouldRedirect;
+	let profileStatus;
+
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
-			credentials: 'include'
+			credentials: 'include',
+			signal
 		});
 
+		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 		if (response.status !== 200) {
-			return null;
+			statusOkay = false;
+			shouldRedirect = true;
+			profileStatus = null;
+		} else {
+			const data: ProfileStatusResponse = await response.json();
+			statusOkay = true;
+			shouldRedirect = true;
+			profileStatus = data.status ?? null;
 		}
 
-		const data: ProfileStatusResponse = await response.json();
-
-		return data.status ?? null;
+		return { statusOkay, shouldRedirect, profileStatus };
 	} catch (err) {
-		console.error(err);
+		if (err.name === 'AbortError') {
+			statusOkay = false;
+			shouldRedirect = false;
+			profileStatus = null;
+		} else {
+			console.error('err', err);
+			statusOkay = false;
+			shouldRedirect = false;
+			profileStatus = null;
+		}
 
 		// fallback in case of failure
-		return null;
+		return { statusOkay, shouldRedirect, profileStatus };
 	}
 };
 
 export const useProfileRedirect = () => {
-	useEffect(() => {
-		const redirect = async () => {
-			const status = await getProfileStatus();
+	const hasRedirected = useRef(false);
 
-			if (!status) {
+	useEffect(() => {
+		// Create abort controller to fetch abort
+		const controller = new AbortController();
+		const { signal } = controller;
+
+		const redirect = async () => {
+			if (hasRedirected.current) { return; }
+
+			const { statusOkay, shouldRedirect, profileStatus } = await getProfileStatus(signal);
+
+			if ((!statusOkay && shouldRedirect) || (statusOkay && shouldRedirect && !profileStatus)) {
+				hasRedirected.current = true;
 				window.location.href = '/pages/sign-in';
 				return;
 			}
 
-			const redirectPath = getRedirectPathForStatus(status);
-			if (window.location.pathname !== redirectPath) {
-				window.location.href = redirectPath;
+			if (statusOkay && shouldRedirect && profileStatus) {
+				const redirectPath = getRedirectPathForStatus(profileStatus);
+				if (window.location.pathname !== redirectPath) {
+					hasRedirected.current = true;
+					window.location.href = redirectPath;
+				}
 			}
 		};
 		void redirect();
+
+		// Cleanup function to abort fetch
+		return () => {
+			controller.abort();
+		};
 	}, []);
 };
