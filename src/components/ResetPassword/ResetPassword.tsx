@@ -5,8 +5,30 @@ import Button from '../Button/Button.tsx';
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 
+const resetPassword = async (token: string | null, password: string) => {
+	try {
+		const response = await fetch('/api/auth/reset-password', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ token, password })
+		});
+		if (!response.ok) {
+			window.location.href = '/pages/sign-in';
+		} else {
+			window.location.href = '/pages/sign-in';
+		}
+	} catch (error) {
+		if (import.meta.env.MODE === 'development') {
+			console.error(error);
+		}
+	}
+};
+
 export const ResetPassword = (): React.JSX.Element => {
 	const passwordInputRef = useRef<HTMLInputElement>(null);
+
 	const [buttonDisabled, setButtonDisabled] = useState(true);
 	const [passwordDisabled, setPasswordDisabled] = useState(false);
 
@@ -52,27 +74,6 @@ export const ResetPassword = (): React.JSX.Element => {
 		setPasswordDisabled(true);
 
 		await resetPassword(token, passwordValue);
-	};
-
-	const resetPassword = async (token: string | null, password: string) => {
-		try {
-			const response = await fetch('/api/auth/reset-password', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ token, password })
-			});
-			if (!response.ok) {
-				window.location.href = '/pages/sign-in';
-			} else {
-				window.location.href = '/pages/sign-in';
-			}
-		} catch (error) {
-			if (import.meta.env.MODE === 'development') {
-				console.error(error);
-			}
-		}
 	};
 
 	const handleOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
