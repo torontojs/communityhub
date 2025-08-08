@@ -44,8 +44,8 @@ const getRedirectPathForStatus = (status: ProfileStatus): string => {
 };
 
 export const getProfileStatus = async (signal?: AbortSignal): Promise<ProfileStatusResult> => {
-	let statusOkay;
-	let shouldRedirect;
+	let statusOkay = false;
+	let shouldRedirect = true;
 	let profileStatus;
 
 	try {
@@ -80,7 +80,6 @@ export const getProfileStatus = async (signal?: AbortSignal): Promise<ProfileSta
 			profileStatus = null;
 		}
 
-		// fallback in case of failure
 		return { statusOkay, shouldRedirect, profileStatus };
 	}
 };
@@ -100,7 +99,7 @@ export const useProfileRedirect = () => {
 
 			if ((!statusOkay && shouldRedirect) || (statusOkay && shouldRedirect && !profileStatus)) {
 				hasRedirected.current = true;
-				window.location.href = '/pages/sign-in';
+				window.location.href = '/pages/sign-in/';
 				return;
 			}
 
