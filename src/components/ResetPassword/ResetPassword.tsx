@@ -30,13 +30,14 @@ export const ResetPassword = (): React.JSX.Element => {
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
 	const [buttonDisabled, setButtonDisabled] = useState(true);
-	const [passwordDisabled, setPasswordDisabled] = useState(false);
 
 	const [strength, setStrength] = useState<number | null>(null);
 	const [feedback, setFeedback] = useState<string>('');
 	const [isTokenValid, setIsValidToken] = useState<boolean | null>(null);
 
 	const token = new URLSearchParams(window.location.search).get('token');
+
+	let passwordDisabled = false;
 
 	useEffect(() => {
 		const validateToken = async () => {
@@ -71,7 +72,7 @@ export const ResetPassword = (): React.JSX.Element => {
 		const passwordValue = formData.get('password') as string;
 
 		setButtonDisabled(true);
-		setPasswordDisabled(true);
+		passwordDisabled = buttonDisabled;
 
 		await resetPassword(token, passwordValue);
 	};
