@@ -1,6 +1,30 @@
 import { DBTables, SCHEMA_VERSION } from '../../utils/db.ts';
 import type { AllowedFileMimeType, FileAccessLevelType, UploadedFileType } from './validation.ts';
 
+export const fetchFileInfo = async (database: D1Database, fileNameAsId: string, fileAccessLevel: FileAccessLevelType = 'public', isAuthenticated = false) => {
+	// Search all files if requesting protected file and authenticated, otherwise only search public files
+	const dbQuery = fileAccessLevel === 'protected' && isAuthenticated ?
+		`SELECT id AS fileName, mimeType, accessLevel
+			FROM ${DBTables.UPLOADS}
+			WHERE
+				id = ?
+			LIMIT 1
+			` :
+		`SELECT id AS fileName, mimeType, accessLevel
+			FROM ${DBTables.UPLOADS}
+			WHERE
+				id = ?
+				AND accessLevel = 'public'
+			LIMIT 1`;
+
+	const fileInfo = await database
+		.prepare(dbQuery)
+		.bind(fileNameAsId)
+		.first<{ fileName: string, mimeType: AllowedFileMimeType, accessLevel: FileAccessLevelType }>();
+
+	return fileInfo;
+};
+
 export const uploadFile = async (
 	database: D1Database,
 	profileId: string,

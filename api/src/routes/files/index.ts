@@ -4,8 +4,15 @@ import { fileUploadSizeCheck } from '../../middleware/body-size.ts';
 import { getSession } from '../../utils/auth.ts';
 import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { getProfileById } from '../profile/data.ts';
-import { uploadFile } from './data.ts';
-import { type AllowedFileMimeType, FileNameParamSchema, FileUploadSchema, isPublicFileType, type UploadedFileType, validateFileExtension } from './validation.ts';
+import { fetchFileInfo, uploadFile } from './data.ts';
+import {
+	type AllowedFileMimeType,
+	FileNameParamSchema,
+	FileUploadSchema,
+	isPublicFileType,
+	type UploadedFileType,
+	validateFileExtension
+} from './validation.ts';
 
 export const fileRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
@@ -15,9 +22,9 @@ fileRoutes.openapi(
 	createRoute({
 		method: 'get',
 		path: '/{filename}',
-		operationId: 'Get File',
-		summary: 'Get a file from Cloudflare R2',
-		description: 'Get a file from Cloudflare R2 using the filename.',
+		operationId: 'Get Public File',
+		summary: 'Get a publicly accessible file from Cloudflare R2',
+		description: "Get a file with 'public' access level from Cloudflare R2 using the filename.",
 		tags: ['File'],
 		request: {
 			params: FileNameParamSchema
@@ -44,39 +51,124 @@ fileRoutes.openapi(
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
-		// TODO: Add separate routes for public and private files
-		// middleware: [authMiddleware, fileUploadSizeCheck] as const
 	}),
 	async (context) => {
-		// Fetch the file from the R2 bucket
 		try {
 			const { filename } = context.req.valid('param');
 
 			if (!filename) {
 				return context.json({ message: 'Invalid or no filename provided!' }, StatusCodes.BAD_REQUEST);
 			}
+			// Fetch file data to determine if it is public
+			const fileInfo = await fetchFileInfo(context.env.Database, filename);
 
-			// TODO: Add a check to verify if the user is allowed to access the file.
+			if (fileInfo && fileInfo.accessLevel === 'public') {
+				const r2Bucket = context.env.ExportedFiles;
+				const file = await r2Bucket.get(filename);
 
-			const r2Bucket = context.env.ExportedFiles;
-			const file = await r2Bucket.get(filename);
+				// If file is found, return it
+				if (file) {
+					const contentType = file.httpMetadata?.contentType ?? fileInfo.mimeType;
 
-			// If file is found, return it
-			if (file) {
-				// TODO: Get MimeType from the database table if it doesn't exists
-				const contentType = file.httpMetadata?.contentType ?? 'image/png';
-
-				return context.body(file.body, {
-					headers: {
-						'Content-Type': contentType,
-						'Content-Disposition': `inline; filename="${filename}"`
-					}
-				});
+					return context.body(file.body, {
+						headers: {
+							'Content-Type': contentType,
+							'Content-Disposition': `inline; filename="${filename}"`
+						}
+					});
+				}
 			}
 
 			// If the file is not found
 			return context.json(
-				{ message: `File ${filename} was not found.` },
+				{ message: `File was not found.` },
+				StatusCodes.NOT_FOUND
+			);
+		} catch (err) {
+			console.error('File retrieval failed:', err);
+			return context.json(
+				{ message: 'Error fetching the file' },
+				StatusCodes.INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+);
+
+fileRoutes.openapi(
+	createRoute({
+		method: 'get',
+		path: '/protected/{filename}',
+		operationId: 'Get Protected File',
+		summary: 'Get a Protected file from Cloudflare R2',
+		description: "Get a file with access level 'protected' from Cloudflare R2 using the filename.",
+		tags: ['File'],
+		request: {
+			params: FileNameParamSchema
+		},
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Successful response',
+				content: {
+					'image/*': {
+						schema: { type: 'string', format: 'binary' }
+					}
+				}
+			},
+			[StatusCodes.BAD_REQUEST]: {
+				description: 'Invalid or missing data',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.NOT_FOUND]: {
+				description: 'Invalid file name or missing file',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.INTERNAL_SERVER_ERROR]: {
+				description: 'Server Error response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		},
+		middleware: [authMiddleware, fileUploadSizeCheck] as const
+	}),
+	async (context) => {
+		try {
+			const sessionData = getSession(context);
+			const profile = await getProfileById(context.env.Database, sessionData.id);
+
+			if (!profile || profile.id !== sessionData.id) {
+				return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
+			}
+
+			const { filename } = context.req.valid('param');
+
+			if (!filename) {
+				return context.json({ message: 'Invalid or no filename provided!' }, StatusCodes.BAD_REQUEST);
+			}
+
+			// Fetch file data to determine if it exists
+			const fileInfo = await fetchFileInfo(context.env.Database, filename, 'protected', true);
+
+			if (fileInfo) {
+				// TODO: Add a check to verify if the user is allowed to access the file.
+
+				const r2Bucket = context.env.ExportedFiles;
+				const file = await r2Bucket.get(filename);
+
+				// If file is found, return it
+				if (file) {
+					const contentType = file.httpMetadata?.contentType ?? fileInfo.mimeType;
+
+					return context.body(file.body, {
+						headers: {
+							'Content-Type': contentType,
+							'Content-Disposition': `inline; filename="${filename}"`
+						}
+					});
+				}
+			}
+
+			// If the file is not found
+			return context.json(
+				{ message: `File was not found.` },
 				StatusCodes.NOT_FOUND
 			);
 		} catch (err) {
@@ -154,12 +246,16 @@ fileRoutes.openapi(
 			const r2Bucket = context.env.ExportedFiles;
 			const r2UploadResult = await r2Bucket.put(fileName, stream);
 
+			// TODO: Determine if we need to create thumbnails
+
 			if (r2UploadResult?.key === fileName) {
 				const isSuccessful = await uploadFile(context.env.Database, profile.id, fileName, fileType, fileMimeType, fileAccessLevel);
 
 				if (isSuccessful) {
 					return context.json({ message: 'File uploaded successfully' } satisfies StatusResponse, StatusCodes.OKAY);
 				}
+
+				// TODO: Delete file from R2 if data saving fails
 			}
 
 			return context.json({ message: 'Upload failed' }, StatusCodes.INTERNAL_SERVER_ERROR);
