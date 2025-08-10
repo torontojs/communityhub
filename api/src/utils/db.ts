@@ -11,7 +11,8 @@ export const DBTables = {
 	PROFILE_SKILLS: 'profile_skills',
 	PROFILE_LINKS: 'profile_links',
 	EVENT_LOG: 'event_log',
-	DOCUMENTS: 'documents'
+	DOCUMENTS: 'documents',
+	UPLOADS: 'uploads'
 } as const;
 
 export const IdSchema = z.uuid().describe('the entity UUID.');
