@@ -1,8 +1,11 @@
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { fileUploadSizeCheck } from '../../middleware/body-size.ts';
+import { getSession } from '../../utils/auth.ts';
 import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
-import { FileNameParamSchema, FileUploadSchema } from './validation.ts';
+import { getProfileById } from '../profile/data.ts';
+import { uploadFile } from './data.ts';
+import { type AllowedFileMimeType, FileNameParamSchema, FileUploadSchema, isPublicFileType, type UploadedFileType, validateFileExtension } from './validation.ts';
 
 export const fileRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
@@ -60,6 +63,7 @@ fileRoutes.openapi(
 
 			// If file is found, return it
 			if (file) {
+				// TODO: Get MimeType from the database table if it doesn't exists
 				const contentType = file.httpMetadata?.contentType ?? 'image/png';
 
 				return context.body(file.body, {
@@ -108,31 +112,57 @@ fileRoutes.openapi(
 			[StatusCodes.INTERNAL_SERVER_ERROR]: {
 				description: 'Server Error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.NOT_FOUND]: {
+				description: 'Internal error getting profile that should exist',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
 		middleware: [authMiddleware, fileUploadSizeCheck] as const
 	}),
 	async (context) => {
-		const formData = await context.req.formData();
-		const file = formData.get('file') as File;
+		const sessionData = getSession(context);
+		const profile = await getProfileById(context.env.Database, sessionData.id);
 
-		// Check if file was uploaded
-		if (!file || !(file instanceof File)) {
-			return context.json({ message: 'No or invalid file uploaded. Please provide a file!' }, StatusCodes.BAD_REQUEST);
+		if (!profile || profile.id !== sessionData.id) {
+			return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}
 
-		// TODO: Add events to event log
+		const formData = await context.req.formData();
+		const file = formData.get('file') as File;
+		const fileType = formData.get('type') as UploadedFileType;
 
-		const fileName = crypto.randomUUID();
+		const fileAccessLevel = isPublicFileType(fileType) ? 'public' : 'protected';
+
+		// Check if file was uploaded by the user
+		if (!file || !(file instanceof File)) {
+			return context.json({ message: 'No or invalid file uploaded. Please provide a file!' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
+		}
+
+		const fileMimeType = file.type as AllowedFileMimeType;
+
+		// Validate file extension
+		if (!validateFileExtension(file.name, fileMimeType)) {
+			return context.json({ message: 'Invalid image file extension. Only JPEG and PNG are allowed!' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
+		}
+
+		const extension = file.name?.split('.').pop() ?? 'bin';
+		const fileName = `${crypto.randomUUID()}.${extension}`;
 		const stream = file.stream();
 
 		try {
 			const r2Bucket = context.env.ExportedFiles;
-			await r2Bucket.put(fileName, stream);
+			const r2UploadResult = await r2Bucket.put(fileName, stream);
 
-			// TODO: Add the file details to an uploads table
+			if (r2UploadResult?.key === fileName) {
+				const isSuccessful = await uploadFile(context.env.Database, profile.id, fileName, fileType, fileMimeType, fileAccessLevel);
 
-			return context.json({ message: 'File uploaded successfully' } satisfies StatusResponse, StatusCodes.OKAY);
+				if (isSuccessful) {
+					return context.json({ message: 'File uploaded successfully' } satisfies StatusResponse, StatusCodes.OKAY);
+				}
+			}
+
+			return context.json({ message: 'Upload failed' }, StatusCodes.INTERNAL_SERVER_ERROR);
 		} catch (err) {
 			console.error('Upload failed:', err);
 			return context.json(
