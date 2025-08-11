@@ -254,11 +254,11 @@ fileRoutes.openapi(
 				if (isSuccessful) {
 					return context.json({ message: 'File uploaded successfully' } satisfies StatusResponse, StatusCodes.OKAY);
 				}
-
-				// TODO: Delete file from R2 if data saving fails
+				// Clean up orphaned file
+				await r2Bucket.delete(fileName);
 			}
 
-			return context.json({ message: 'Upload failed' }, StatusCodes.INTERNAL_SERVER_ERROR);
+			return context.json({ message: 'Upload failed.' }, StatusCodes.INTERNAL_SERVER_ERROR);
 		} catch (err) {
 			console.error('Upload failed:', err);
 			return context.json(
