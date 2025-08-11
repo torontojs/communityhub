@@ -14,7 +14,6 @@ export type AllowedFileMimeType = z.infer<typeof AllowedFileMimeTypeSchema>;
 
 export const mimeToExtensionsMap: Record<AllowedFileMimeType, string[]> = {
 	'image/jpeg': ['jpg', 'jpeg'],
-	'image/jpg': ['jpg', 'jpeg'],
 	'image/png': ['png']
 };
 
