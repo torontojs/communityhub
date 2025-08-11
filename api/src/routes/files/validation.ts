@@ -6,7 +6,7 @@ export const FileNameParamSchema = z.object({
 
 export type FileNameParam = z.infer<typeof FileNameParamSchema>;
 
-export const AllowedFileMimeTypesOptions = ['image/png', 'image/jpeg', 'image/jpg'] as const;
+export const AllowedFileMimeTypesOptions = ['image/png', 'image/jpeg'] as const;
 
 export const AllowedFileMimeTypeSchema = z.enum(AllowedFileMimeTypesOptions).describe('The allowed MIME types for the uploaded documents.');
 
