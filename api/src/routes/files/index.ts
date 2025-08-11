@@ -224,8 +224,6 @@ fileRoutes.openapi(
 		const file = formData.get('file') as File;
 		const fileType = formData.get('type') as UploadedFileType;
 
-		const fileAccessLevel = isPublicFileType(fileType) ? 'public' : 'protected';
-
 		// Check if file was uploaded by the user
 		if (!file || !(file instanceof File)) {
 			return context.json({ message: 'No or invalid file uploaded. Please provide a file!' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
@@ -241,6 +239,8 @@ fileRoutes.openapi(
 		const extension = file.name?.split('.').pop() ?? 'bin';
 		const fileName = `${crypto.randomUUID()}.${extension}`;
 		const stream = file.stream();
+
+		const fileAccessLevel = isPublicFileType(fileType) ? 'public' : 'protected';
 
 		try {
 			const r2Bucket = context.env.ExportedFiles;
