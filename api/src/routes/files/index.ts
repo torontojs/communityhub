@@ -54,7 +54,7 @@ fileRoutes.openapi(
 	}),
 	async (context) => {
 		try {
-			const { filename } = context.req.valid('param');
+			const filename = context.req.valid('param').filename?.trim();
 
 			if (!filename) {
 				return context.json({ message: 'Invalid or no filename provided!' }, StatusCodes.BAD_REQUEST);
@@ -138,7 +138,7 @@ fileRoutes.openapi(
 				return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 			}
 
-			const { filename } = context.req.valid('param');
+			const filename = context.req.valid('param').filename?.trim();
 
 			if (!filename) {
 				return context.json({ message: 'Invalid or no filename provided!' }, StatusCodes.BAD_REQUEST);
