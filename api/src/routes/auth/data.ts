@@ -163,3 +163,11 @@ export async function activateProfile(database: D1Database, email: string) {
 
 	return success;
 }
+
+export async function resetPassword(database: D1Database, password: string, email: string) {
+	const { success } = await database
+		.prepare(`UPDATE ${DBTables.ACCESS} SET password = ? WHERE email = ? AND activatedAt IS NOT NULL AND deletedAt IS NULL LIMIT 1`)
+		.bind(password, email)
+		.run();
+	return success;
+}

@@ -37,8 +37,8 @@
 
 		"test:coverage": "vitest run --coverage",
 		"test:unit": "vitest run",
-		"test:api-single": "hurl --continue-on-error --jobs 4 --max-time 300 --test --variables-file .dev.vars --variables-file .api-test.vars",
-		"test:api": "npm run test:api-single -- --glob \"**/*.hurl\"",
+		"test:api-file": "hurl --continue-on-error --jobs 4 --max-time 300 --test --variables-file .dev.vars --variables-file .api-test.vars",
+		"test:api": "npm run test:api-file -- --glob \"**/*.hurl\"",
 		"test": "vitest"
 	},
 	"dependencies": {

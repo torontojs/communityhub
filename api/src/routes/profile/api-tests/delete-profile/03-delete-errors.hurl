@@ -19,5 +19,5 @@ DELETE {{host}}/api/profiles/malformed-id
 HTTP 422
 
 # Profile already deleted
-DELETE {{host}}/api/profiles/{{delete_profile_id}}
+DELETE {{host}}/api/profiles/{{deleted_id}}
 HTTP 404

@@ -1,17 +1,17 @@
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
-import { sendAccountConfirmationEmail } from '../../email/index.ts';
+import { sendAccountConfirmationEmail, sendPasswordResetEmail } from '../../email/index.ts';
 import { authorizeVolunteer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { createSession, deleteSession, getSession, revalidateSession } from '../../utils/auth.ts';
+import { createPasswordReset } from '../../utils/auth.ts';
 import { hashPassword, validatePassword } from '../../utils/password-hashing.ts';
 import { passwordStrengthCheck } from '../../utils/passwordStrengthCheck.ts';
 import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { insertProfile } from '../profile/data.ts';
-import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo, updateProfileStatus } from './data.ts';
+import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo, resetPassword, updateProfileStatus } from './data.ts';
 import { type HeartbeatResponse, HeartbeatResponseSchema } from './responses.ts';
-import { ActivateSchema, SignInSchema, SignUpSchema } from './validation.ts';
-
+import { ActivateSchema, ForgotPasswordSchema, ResetPasswordSchema, ResetPasswordValidTokenSchema, SignInSchema, SignUpSchema } from './validation.ts';
 export const authRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
@@ -234,6 +234,167 @@ authRoutes.openapi(
 		}
 
 		return context.json(heartbeatInfo satisfies HeartbeatResponse, StatusCodes.OKAY);
+	}
+);
+
+authRoutes.openapi(
+	createRoute({
+		method: 'post',
+		path: '/forgot-password',
+		operationId: 'requestPasswordRecovery',
+		summary: 'Request password recovery link',
+		description:
+			"Initiates the password recovery process by sending a reset link to the user's registered email address. This endpoint does not reveal whether the email exists in the system for security purposes.",
+		tags: ['Authentication'],
+		request: {
+			body: { content: { 'application/json': { schema: ForgotPasswordSchema } }, required: true }
+		},
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Password recovery request processed successfully. If the email exists in our system, a recovery link has been sent to the provided email address.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.BAD_REQUEST]: {
+				description: 'Invalid request data. The email format is invalid or required fields are missing.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		}
+	}),
+	async (context) => {
+		const { email } = context.req.valid('json');
+
+		const response = { message: 'If an account with that e-mail exists, a password reset link has been sent.' };
+
+		const emailExists = await checkExistingEmail(context.env.Database, email);
+
+		// INFO: Hide specific errors to reduce attack surface and avoid guessing.
+		if (!emailExists) {
+			return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
+		}
+
+		const ForgotPasswordList = await context.env.PasswordResetToken.list();
+
+		for (const key of ForgotPasswordList.keys) {
+			const keyName = await context.env.PasswordResetToken.get(key.name);
+			if (keyName) {
+				return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
+			}
+		}
+
+		const resetToken = crypto.randomUUID();
+		// // eslint-disable-next-line @typescript-eslint/no-magic-numb
+		await createPasswordReset({ context, email, resetToken });
+
+		await sendPasswordResetEmail(context, {
+			apiKey: context.env.RESEND_API_KEY,
+			senderEmail: context.env.SENDER_EMAIL,
+			token: resetToken,
+			email
+		});
+
+		const TEN_MINUTES_IN_SECONDS = 60 * 10;
+
+		await context.env.PasswordResetToken.put(resetToken, email, { expirationTtl: TEN_MINUTES_IN_SECONDS });
+
+		return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
+	}
+);
+
+authRoutes.openapi(
+	createRoute({
+		method: 'post',
+		path: '/reset-password',
+		operationId: 'Reset Password',
+		summary: 'Reset Password',
+		description: 'This is the entry point for the Community Hub utilized for reseting passwords with valid reset token.',
+		tags: ['Authentication'],
+		request: {
+			body: { content: { 'application/json': { schema: ResetPasswordSchema } }, required: true }
+		},
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Successfully reset password',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid or missing token',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.INTERNAL_SERVER_ERROR]: {
+				description: 'Internal server error during user change password',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		}
+	}),
+	async (context) => {
+		const { token, password } = context.req.valid('json');
+
+		const email = await context.env.PasswordResetToken.get(token);
+
+		if (!email) {
+			return context.json({ message: 'Invalid token or not found' }, StatusCodes.UNPROCESSABLE_CONTENT);
+		}
+
+		if (!passwordStrengthCheck(password)) {
+			return context.json({ message: 'Weak Password found' }, StatusCodes.UNPROCESSABLE_CONTENT);
+		}
+
+		const emailExists = await checkExistingEmail(context.env.Database, email);
+
+		if (!emailExists) {
+			// INFO: Hide non existing emails to reduce attack surface from guessing registered emails.
+			return context.json({ message: 'Internal error reseting password' } satisfies StatusResponse, StatusCodes.OKAY);
+		}
+
+		const hashedPasswordWithSalt = await hashPassword(password);
+
+		const success = await resetPassword(context.env.Database, hashedPasswordWithSalt, email);
+
+		if (!success) {
+			return context.json({ message: 'Failed user password change ' } satisfies StatusResponse, StatusCodes.INTERNAL_SERVER_ERROR);
+		}
+		return context.json({ message: 'Succesfully changed password' } satisfies StatusResponse, StatusCodes.OKAY);
+	}
+);
+
+authRoutes.openapi(
+	createRoute({
+		method: 'post',
+		path: '/check-password-reset-token',
+		operetionId: 'Valid-reset-pw-token',
+		summary: 'Checks if password reset token is still valid',
+		description: 'Checks if password reset token is still valid',
+		tags: ['Token'],
+		request: {
+			body: { content: { 'application/json': { schema: ResetPasswordValidTokenSchema } }, required: true }
+		},
+		responses: {
+			[StatusCodes.BAD_REQUEST]: {
+				description: 'Invalid or notoken is provided.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNAUTHORIZED]: {
+				description: 'Token not found.'
+			},
+			[StatusCodes.OKAY]: {
+				description: 'Valid password reset token.'
+			}
+		}
+	}),
+	async (context) => {
+		const { token } = context.req.valid('json');
+
+		if (!token) {
+			return context.json({ message: 'Invalid or missing token' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
+		}
+
+		const success = await context.env.PasswordResetToken.get(token);
+
+		if (!success) {
+			return context.json({ message: 'Invalid or missing token' } satisfies StatusResponse, StatusCodes.UNAUTHORIZED);
+		}
+
+		return context.json({ message: 'Invalid or missing token' } satisfies StatusResponse, StatusCodes.OKAY);
 	}
 );
 

@@ -18,7 +18,7 @@ Cookie: auth_token={{auth-token}}
 HTTP 200
 [Asserts]
 jsonpath "$.id" == "{{profile_status_id}}"
-jsonpath "$.status" == "activated"
+jsonpath "$.status" == "tos-accepted"
 
 # 02 - tos-accepted
 
