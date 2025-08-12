@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type ProfileStatus = 'activated' | 'created' | 'deleted' | 'error' | 'profile-completed' | 'social-handle-provided' | 'tos-accepted';
+
+type RedirectPathResult = string | null;
 
 interface ProfileStatusResponse {
 	id: string;
@@ -9,6 +11,18 @@ interface ProfileStatusResponse {
 	avatar: string | null;
 	status: ProfileStatus;
 }
+
+const VALID_STATUSES = new Set<ProfileStatus>([
+	'activated',
+	'created',
+	'deleted',
+	'error',
+	'profile-completed',
+	'social-handle-provided',
+	'tos-accepted'
+]);
+
+const isValidStatus = (status: string): status is ProfileStatus => VALID_STATUSES.has(status as ProfileStatus);
 
 const REDIRECT_PATHS = {
 	signIn: '/pages/sign-in/',
@@ -37,43 +51,90 @@ const getRedirectPathForStatus = (status: ProfileStatus): string => {
 	}
 };
 
-export const getProfileStatus = async (): Promise<ProfileStatus | null> => {
+export const getRedirectPath = async (signal?: AbortSignal): Promise<RedirectPathResult> => {
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
-			credentials: 'include'
+			credentials: 'include',
+			signal
 		});
 
+		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 		if (response.status !== 200) {
-			return null;
+			// If not authenticated, redirect to sign-in
+			return REDIRECT_PATHS.signIn;
 		}
 
 		const data: ProfileStatusResponse = await response.json();
 
-		return data.status ?? null;
+		// Redirects based on profile status or to sign-in if not profile status is returned
+		return (data?.status && isValidStatus(data.status)) ? getRedirectPathForStatus(data.status) : REDIRECT_PATHS.signIn;
 	} catch (err) {
-		console.error(err);
-
-		// fallback in case of failure
+		if (err.name !== 'AbortError') {
+			console.error('Failed to fetch profile status:', err);
+			return REDIRECT_PATHS.signIn;
+		}
 		return null;
 	}
 };
 
 export const useProfileRedirect = () => {
+	const hasRedirected = useRef(false);
+
+	// Use in components to prevent flashing if redirection is required.
+	// NOTE: In development, React Strict Mode may still cause a brief flash
+	// due to double-invoked useEffect and initial component mount.
+	const [redirectionComplete, setRedirectionComplete] = useState(false);
+
 	useEffect(() => {
+		if (hasRedirected.current) {
+			return;
+		}
+
+		// Create abort controller to fetch abort
+		const controller = new AbortController();
+		const { signal } = controller;
+
 		const redirect = async () => {
-			const status = await getProfileStatus();
+			try {
+				const redirectPath = await getRedirectPath(signal);
 
-			if (!status) {
-				window.location.href = '/pages/sign-in';
-				return;
-			}
+				// If redirectPath is null (aborted), skip redirection
+				if (!redirectPath) {
+					setRedirectionComplete(true);
+					return;
+				}
 
-			const redirectPath = getRedirectPathForStatus(status);
-			if (window.location.pathname !== redirectPath) {
-				window.location.href = redirectPath;
+				// Normalize URL path
+				const currentPath = new URL(window.location.href).pathname;
+
+				// Avoid redirect if already on the correct path
+				if (currentPath !== redirectPath) {
+					hasRedirected.current = true;
+					window.location.href = redirectPath;
+				} else {
+					// Mark redirection complete if already on the correct path
+					setRedirectionComplete(true);
+				}
+			} catch (error) {
+				console.error('Redirect Error!', error);
+				if (!hasRedirected.current) {
+					window.location.href = REDIRECT_PATHS.signIn;
+				}
+			} finally {
+				if (!hasRedirected.current) {
+					setRedirectionComplete(true);
+				}
 			}
 		};
+
 		void redirect();
+
+		// Cleanup function to abort fetch
+		return () => {
+			controller.abort();
+		};
 	}, []);
+
+	return { redirectionComplete };
 };
