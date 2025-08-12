@@ -5,7 +5,7 @@ export const handleLogOut = async () => {
 			credentials: 'include'
 		});
 
-		if (response.status === 200) {
+		if (response.status === 204) {
 			window.location.href = '/pages/sign-in';
 		}
 	} catch (err) {
