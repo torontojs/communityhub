@@ -380,7 +380,7 @@
 	},
 	{
 		"id": "777b0252-5d54-4fcf-92da-c94715edd5f3",
-		"profileStatus": "deleted",
+		"profileStatus": "activated",
 		"email": "historian@grail-docu.net",
 		"name": "Grail Historian",
 		"password": "GrailQuiz1!X",
@@ -467,7 +467,7 @@
 	},
 	{
 		"id": "2217e267-144e-4651-bfce-87ce653f9f03",
-		"profileStatus": "created",
+		"profileStatus": "activated",
 		"email": "knight.truth@roundtable.ai",
 		"name": "Knight OTruth",
 		"password": "KnightOTruth",

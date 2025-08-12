@@ -2,8 +2,8 @@ import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
 import { authorizeAdmin, authorizeOrganizer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
+import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { getSession } from '../../utils/auth.ts';
-import { DBTables } from '../../utils/db.ts';
 import {
 	type DataResponse,
 	generateDataResponseSchema,
@@ -14,8 +14,8 @@ import {
 	statusResponseFormatter,
 	StatusResponseSchema
 } from '../../utils/responses.ts';
-import { IdParamSchema, validateExistingId } from '../../utils/validation.ts';
-import { deleteTeamById, doesTeamExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
+import { IdParamSchema } from '../../utils/validation.ts';
+import { deleteTeamById, doesSameTeamNameExist, doesTeamExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
 import { CreateTeamSchema, TeamSchema, UpdateTeamSchema } from './validation.ts';
 
 export const teamRoutes = new OpenAPIHono<EnvironmentBindings>({
@@ -47,7 +47,7 @@ teamRoutes.openapi(
 	async (context) => {
 		const { id } = context.req.valid('param');
 
-		const isTeamIdValid = await validateExistingId(context.env.Database, DBTables.TEAM, id);
+		const isTeamIdValid = await doesTeamExist(context.env.Database, id);
 
 		if (!isTeamIdValid) {
 			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
@@ -127,7 +127,7 @@ teamRoutes.openapi(
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware, authorizeAdmin] as const
+		middleware: [bodySizeCheck, authMiddleware, authorizeAdmin] as const
 	}),
 	async (context) => {
 		const { id } = context.req.valid('param');
@@ -165,16 +165,27 @@ teamRoutes.openapi(
 				description: 'Successful response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			},
+			[StatusCodes.CONFLICT]: {
+				description: 'Team with same name response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
 			[StatusCodes.INTERNAL_SERVER_ERROR]: {
 				description: 'Server Error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware, authorizeAdmin] as const
+		middleware: [bodySizeCheck, authMiddleware, authorizeOrganizer] as const
 	}),
 	async (context) => {
 		const { id: profileId } = getSession(context);
 		const body = context.req.valid('json');
+
+		const hasExistingTeamName = await doesSameTeamNameExist(context.env.Database, body.name);
+
+		if (hasExistingTeamName) {
+			return context.json({ message: 'Team already exists' } satisfies StatusResponse, StatusCodes.CONFLICT);
+		}
+
 		const { success } = await insertTeam(context.env.Database, profileId, body);
 
 		if (!success) {
@@ -206,21 +217,33 @@ teamRoutes.openapi(
 				description: 'Error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			},
+			[StatusCodes.CONFLICT]: {
+				description: 'Team with same name response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
 			[StatusCodes.INTERNAL_SERVER_ERROR]: {
 				description: 'Server error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware, authorizeOrganizer] as const
+		middleware: [bodySizeCheck, authMiddleware, authorizeOrganizer] as const
 	}),
 	async (context) => {
 		const { id } = context.req.valid('param');
 		const body = context.req.valid('json');
 
-		const isTeamIdValid = await validateExistingId(context.env.Database, DBTables.TEAM, id);
+		const isTeamIdValid = await doesTeamExist(context.env.Database, id);
 
 		if (!isTeamIdValid) {
 			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
+		}
+
+		if (body.name) {
+			const hasExistingTeamName = await doesSameTeamNameExist(context.env.Database, body.name);
+
+			if (hasExistingTeamName) {
+				return context.json({ message: 'Team already exists' } satisfies StatusResponse, StatusCodes.CONFLICT);
+			}
 		}
 
 		const isUpdated = await updateTeamById(context.env.Database, id, body);

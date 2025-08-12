@@ -4,6 +4,8 @@ import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button.tsx';
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+const MIN_PASSWORD_SCORE = 3;
+const MIN_PASSWORD_LENGTH = 15;
 
 const SignUpForm = (): React.JSX.Element => {
 	const nameInputRef = useRef<HTMLInputElement>(null);
@@ -18,28 +20,28 @@ const SignUpForm = (): React.JSX.Element => {
 	const handleOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
 		const result = zxcvbn(password);
-		const feedback = result.feedback.suggestions;
+		const feedbackMessages = result.feedback.suggestions;
 
-		if (result.score < 3) {
+		if (result.score < MIN_PASSWORD_SCORE) {
 			setStrength(result.score);
-		} else if (password.length < 15) {
-			setStrength(2);
-			feedback.push('Password is shorter than 15 characters');
+		} else if (password.length < MIN_PASSWORD_LENGTH) {
+			setStrength(1);
+			feedbackMessages.push('Password is shorter than 15 characters');
 		} else {
 			setStrength(result.score);
 		}
 
-		setFeedback(feedback.join(', '));
+		setFeedback(feedbackMessages.join(', '));
 	};
 
 	const signup = async (name: string, email: string, password: string) => {
 		setInvalidPasswordMessage('');
 		try {
 			const passwordErrorSuggestions: string[] = [];
-			if (zxcvbn(password).score < 3) {
+			if (zxcvbn(password).score < MIN_PASSWORD_SCORE) {
 				passwordErrorSuggestions.push('Password is not strong');
 			}
-			if (password.length < 15) {
+			if (password.length < MIN_PASSWORD_LENGTH) {
 				passwordErrorSuggestions.push('Password is shorter than 15 characters');
 			}
 			if (passwordErrorSuggestions.length > 0) {
@@ -57,14 +59,12 @@ const SignUpForm = (): React.JSX.Element => {
 			if (!response.ok) {
 				setIsLoading(false);
 				const errorData = await response.json();
-				console.log('Response not ok: ', errorData);
+				console.error('Response not ok: ', errorData);
 			} else {
 				window.location.href = `/pages/check-your-email?email=${email}`;
 			}
-		} catch (error) {
-			if (import.meta.env.MODE === 'development') {
-				console.error(error);
-			}
+		} catch (err) {
+			console.error(err);
 			setIsLoading(false);
 		}
 	};
@@ -146,14 +146,14 @@ const SignUpForm = (): React.JSX.Element => {
 				<div className='passwordError' hidden={strength === null}>
 					<div className='text-size'>
 						<div id='password-input-strength' aria-live='polite'>
-							<span>Password strength: {strengthLabels[strength || 0]}</span>
+							<span>Password strength: {strengthLabels[strength ?? 0]}</span>
 						</div>
-						<div className='password-meter' data-password-strength={strengthLabels[strength || 0]} aria-hidden='true'>
+						<div className='password-meter' data-password-strength={strengthLabels[strength ?? 0]} aria-hidden='true'>
 							<span className='password-meter-level'></span>
 							<span className='password-meter-level'></span>
 							<span className='password-meter-level'></span>
 						</div>
-						<div id='password-input-suggestion' className='suggestion' data-password-strength={strengthLabels[strength || 0]}>
+						<div id='password-input-suggestion' className='suggestion' data-password-strength={strengthLabels[strength ?? 0]}>
 							<span className='suggestion-icon' />
 							<p>Suggestions: {feedback}</p>
 						</div>
@@ -165,7 +165,7 @@ const SignUpForm = (): React.JSX.Element => {
 				</div>
 			</div>
 
-			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} disabled={isLoading || !strength || strength < 3}>
+			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} disabled={isLoading || !strength || strength < MIN_PASSWORD_SCORE}>
 				{isLoading ? 'Creating Account' : 'Create Account'}
 			</Button>
 

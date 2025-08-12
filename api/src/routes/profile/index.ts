@@ -4,6 +4,7 @@ import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
 import { authorizeAdmin, authorizeVolunteer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
+import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { ACCESS_LEVEL, getSession } from '../../utils/auth.ts';
 import {
 	type DataResponse,
@@ -162,7 +163,7 @@ profileRoutes.openapi(
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware, authorizeVolunteer] as const
+		middleware: [bodySizeCheck, authMiddleware, authorizeVolunteer] as const
 	}),
 	async (context) => {
 		const { id } = context.req.valid('param');
@@ -216,7 +217,7 @@ profileRoutes.openapi(
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware, authorizeAdmin] as const
+		middleware: [bodySizeCheck, authMiddleware, authorizeAdmin] as const
 	}),
 	async (context) => {
 		const { id } = context.req.valid('param');

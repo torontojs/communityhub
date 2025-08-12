@@ -9,25 +9,25 @@ import React from 'react';
 
 const root = document.getElementById('root') as HTMLDivElement;
 
-type CloseButtonProps = {
-	onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
-	ariaLabel?: string
-};
+interface CloseButtonProps {
+	onClick(event: React.MouseEvent<HTMLButtonElement>): void;
+	ariaLabel?: string;
+}
 
 // Following method and component are created to provide example of passing a Close Button to a text input element
 const handleClose = () => {
+	// eslint-disable-next-line no-alert
 	alert('Close button clicked');
 };
 
-const CloseButton: React.FC<CloseButtonProps> = ({ onClick, ariaLabel = 'Close' }) => {
-	return (
-		<button
-			onClick={onClick}
-			aria-label={ariaLabel}
-			className='example-close-button'
-		/>
-	);
-};
+// eslint-disable-next-line react-refresh/only-export-components
+const CloseButton: React.FC<CloseButtonProps> = ({ onClick, ariaLabel = 'Close' }) => (
+	<button
+		onClick={onClick}
+		aria-label={ariaLabel}
+		className='example-close-button'
+	/>
+);
 
 createRoot(root).render(
 	(
@@ -57,7 +57,9 @@ createRoot(root).render(
 					<TextInputComponent
 						label='Label'
 						value='Value'
-						onChange={() => {}}
+						onChange={() => {
+							// NOOP
+						}}
 					/>
 
 					<h3>

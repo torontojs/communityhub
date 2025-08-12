@@ -27,7 +27,7 @@ Cookie: auth_token={{auth-token}}
 	"description": "",
 	"profileId": "{{add_member_profile_id}}"
 }]
-HTTP 201
+HTTP 422
 
 # Description with emojis
 POST {{host}}/api/teams/{{add_member_team_id}}/members

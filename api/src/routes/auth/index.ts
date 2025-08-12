@@ -2,6 +2,7 @@ import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { sendAccountConfirmationEmail, sendPasswordResetEmail } from '../../email/index.ts';
 import { authorizeVolunteer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
+import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { createSession, deleteSession, getSession, revalidateSession } from '../../utils/auth.ts';
 import { createPasswordReset } from '../../utils/auth.ts';
 import { hashPassword, validatePassword } from '../../utils/password-hashing.ts';
@@ -35,7 +36,8 @@ authRoutes.openapi(
 				description: 'Weak Password found',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
-		}
+		},
+		middleware: [bodySizeCheck] as const
 	}),
 	async (context) => {
 		const { email, password, name } = context.req.valid('json');
@@ -161,7 +163,8 @@ authRoutes.openapi(
 				description: 'Already signed in',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
-		}
+		},
+		middleware: [bodySizeCheck] as const
 	}),
 	async (context) => {
 		const session = await revalidateSession(context);
@@ -412,7 +415,7 @@ authRoutes.openapi(
 				description: 'The user is successfully logged out.'
 			}
 		},
-		middleware: [authMiddleware] as const
+		middleware: [bodySizeCheck, authMiddleware] as const
 	}),
 	async (context) => {
 		const session = getSession(context);

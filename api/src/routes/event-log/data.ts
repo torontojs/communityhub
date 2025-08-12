@@ -1,5 +1,5 @@
 import { DBTables, DEFAULT_TEAM_ID, generateBaseDBfields } from '../../utils/db.ts';
-import { type EventLog as EventLogType, LogItemSource } from './validation.ts';
+import { type EventLog as EventLogType, LogItemSourceEnum } from './validation.ts';
 
 export class EventLog {
 	static createLogEntry(
@@ -39,40 +39,40 @@ export class EventLog {
 	static joinTorontoJS(database: D1Database, profileId: string) {
 		return EventLog.createLogEntry(database, {
 			subject: profileId,
-			subjectSource: LogItemSource.PROFILE,
+			subjectSource: LogItemSourceEnum.PROFILE,
 			verb: 'joined',
 			object: DEFAULT_TEAM_ID,
-			objectSource: LogItemSource.SPECIAL
+			objectSource: LogItemSourceEnum.SPECIAL
 		});
 	}
 
 	static createTeam(database: D1Database, profileId: string, teamId: string) {
 		return EventLog.createLogEntry(database, {
 			subject: profileId,
-			subjectSource: LogItemSource.PROFILE,
+			subjectSource: LogItemSourceEnum.PROFILE,
 			verb: 'created',
 			object: teamId,
-			objectSource: LogItemSource.TEAM
+			objectSource: LogItemSourceEnum.TEAM
 		});
 	}
 
 	static closeTeam(database: D1Database, profileId: string, teamId: string) {
 		return EventLog.createLogEntry(database, {
 			subject: profileId,
-			subjectSource: LogItemSource.PROFILE,
+			subjectSource: LogItemSourceEnum.PROFILE,
 			verb: 'closed',
 			object: teamId,
-			objectSource: LogItemSource.TEAM
+			objectSource: LogItemSourceEnum.TEAM
 		});
 	}
 
 	static joinTeam(database: D1Database, profileId: string, teamId: string) {
 		return EventLog.createLogEntry(database, {
 			subject: profileId,
-			subjectSource: LogItemSource.PROFILE,
+			subjectSource: LogItemSourceEnum.PROFILE,
 			verb: 'joined',
 			object: teamId,
-			objectSource: LogItemSource.TEAM
+			objectSource: LogItemSourceEnum.TEAM
 		});
 	}
 
@@ -101,10 +101,10 @@ export class EventLog {
 				schemaVersion,
 				happenedAt,
 				insertedAt,
-				LogItemSource.PROFILE,
+				LogItemSourceEnum.PROFILE,
 				'leave',
 				teamId,
-				LogItemSource.TEAM,
+				LogItemSourceEnum.TEAM,
 				roleId
 			);
 	}

@@ -3,10 +3,12 @@ import { getCookie, setCookie } from 'hono/cookie';
 import type { CookieOptions } from 'hono/utils/cookie';
 import z from 'zod';
 
+/** One Day */
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-const SESSION_LIFESPAN_IN_SECONDS = 60 * 60 * 24; // INFO: One day
-// eslint-disable-next-line @typescript-eslint/no-magic-numbers
-const SESSION_MAXIMUM_LIFETIME_IN_MILLISECONDS = 1000 * 60 * 60 * 24 * 7 * 2; // INFO: Two weeks
+const SESSION_LIFESPAN_IN_SECONDS = 60 * 60 * 24;
+
+// TWO WEEKS:
+const SESSION_MAXIMUM_LIFETIME_IN_MILLISECONDS = 1000 * 60 * 60 * 24 * 7 * 2;
 const TEN_MINUTES_IN_SECONDS = 60 * 10;
 const MILLISECONDS_IN_SECOND = 1000;
 const SESSION_COOKIE_NAME = 'auth_token';

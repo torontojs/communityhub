@@ -28,7 +28,7 @@ HTTP 422
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token}}
 {
-	"name": "💩"
+	"name": "Name with emojis - Create 💩"
 }
 HTTP 201
 
@@ -36,6 +36,6 @@ HTTP 201
 POST {{host}}/api/teams
 Cookie: auth_token={{auth-token}}
 {
-	"name": "     Name with Extra Spaces     "
+	"name": "     Team Name with Extra Spaces - Create     "
 }
 HTTP 201

@@ -11,11 +11,8 @@ HTTP 201
 auth-token: cookie "auth_token"
 
 # Missing name
-# TODO: https://github.com/torontojs/communityhub/issues/203
 PATCH {{host}}/api/teams/{{update_member_team_id}}/members
 Cookie: auth_token={{auth-token}}
-[Options]
-skip: true
 [{
 	"id": "{{update_member_id}}"
 }]

@@ -28,7 +28,7 @@ HTTP 422
 PATCH {{host}}/api/teams/{{update_team_id}}
 Cookie: auth_token={{auth-token}}
 {
-	"name": "💩"
+	"name": "Name with emojis - Update 💩"
 }
 HTTP 200
 
@@ -36,6 +36,6 @@ HTTP 200
 PATCH {{host}}/api/teams/{{update_team_id}}
 Cookie: auth_token={{auth-token}}
 {
-	"name": "     Name with Extra Spaces     "
+	"name": "     Team Name with Extra Spaces - Update     "
 }
 HTTP 200

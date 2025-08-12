@@ -9,10 +9,8 @@ export const getHeartBeat = async () => {
 		if (response.status !== 200) {
 			window.location.href = '/pages/sign-in';
 		}
-	} catch (error) {
-		if (import.meta.env.MODE === 'development') {
-			console.log(error);
-		}
+	} catch (err) {
+		console.error(err);
 	}
 };
 

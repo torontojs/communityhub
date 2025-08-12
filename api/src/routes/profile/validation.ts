@@ -1,28 +1,63 @@
 import { z } from 'zod';
-import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
+import { LONG_TEXT_SIZE_IN_CHAR, SHORT_TEXT_SIZE_IN_CHAR } from '../../middleware/body-size.ts';
+import { BaseDbEntitySchema, BaseDBFieldsToOmit, IdSchema } from '../../utils/db.ts';
 
-export const PlatformEnum = z.enum(['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'])
-	.describe(
-		'The name of the platform for the URL.'
-	);
+export const PlatformEnumSchema = z.enum([
+	'site',
+	'slack',
+	'linkedin',
+	'github',
+	'portfolio',
+	'codepen',
+	'instagram',
+	'threads',
+	'facebook',
+	'bluesky',
+	'mastodon',
+	'twitter',
+	'devto'
+])
+	.describe('The identifier of the social media platform. It should be used as an id and may not match exactly the display name of the platform.');
 
-export type SocialMediaPlatforms = z.infer<typeof PlatformEnum>;
+export type SocialMediaPlatforms = z.infer<typeof PlatformEnumSchema>;
+
+export const PlatformLinkOrUserSchema = z
+	.string()
+	.trim()
+	.min(1, 'Social media url/user must be at least one character long.')
+	.max(SHORT_TEXT_SIZE_IN_CHAR, `Social media url/user must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
+	.describe('The social media url or username for a platform.');
+
+export type PlatformLink = z.infer<typeof PlatformLinkOrUserSchema>;
+
+export const ProfileSkillNameSchema = z
+	.string()
+	.trim()
+	.min(1, 'Skill must be at least one character long.')
+	.max(SHORT_TEXT_SIZE_IN_CHAR, `Skill must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`);
+
+export type ProfileSkillName = z.infer<typeof ProfileSkillNameSchema>;
 
 export const ProfileSchema = BaseDbEntitySchema.extend(
 	z.object({
 		email: z
-			.email('Invalid Email.')
+			.email()
 			.trim()
+			.min(1, 'Email must be at least one character long.')
+			.max(SHORT_TEXT_SIZE_IN_CHAR, `Email must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
 			.toLowerCase()
 			.describe('The email used for this profile, it must be unique on the database.'),
 		name: z
 			.string()
 			.trim()
-			.min(1, 'Name should be 1 or more characters long.')
+			.min(1, 'Name must be at least one character long.')
+			.max(SHORT_TEXT_SIZE_IN_CHAR, `Name must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
 			.describe('The name this person would like to be refered to.'),
 		description: z
 			.string()
 			.trim()
+			.min(1, 'Description must be at least one character long.')
+			.max(LONG_TEXT_SIZE_IN_CHAR, `Description must be at most ${LONG_TEXT_SIZE_IN_CHAR} characters long.`)
 			.optional()
 			.describe('A description for this person, may be written in markdown.'),
 		isBasedOnGTA: z
@@ -34,30 +69,36 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 		pronouns: z
 			.string()
 			.trim()
+			.min(1, 'Pronouns must be at least one character long.')
+			.max(SHORT_TEXT_SIZE_IN_CHAR, `Pronouns must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
 			.optional()
 			.describe('The pronouns the person identifies with.'),
 		birthday: z
 			.string()
 			.trim()
-			.optional()
 			.refine(
 				(data) => data ? /^\d{2}-\d{2}$/iu.test(data) : true,
 				{ message: 'Birthday must be in the format "MM-DD".' }
 			)
-			.describe('Birthday of user.'),
+			.optional()
+			.describe("User's birthday, month and day only. Year is not included."),
 		avatar: z
-			.url('Must be a valid URL.')
+			.url()
+			.trim()
+			.min(1, 'Avatar must be at least one character long.')
+			.max(SHORT_TEXT_SIZE_IN_CHAR, `Avatar must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
 			.optional()
 			.describe("The user's avatar URL."),
 		links: z.array(
 			z.object({
-				platform: PlatformEnum,
-				url: z.url('Invalid url.')
+				platform: PlatformEnumSchema,
+				url: PlatformLinkOrUserSchema
 			})
 		)
 			.optional()
 			.describe('A list of objects containing platform names and respective links for social media and platforms the person want to make available on the Community Hub.'),
-		skills: z.array(z.string())
+		skills: z
+			.array(ProfileSkillNameSchema)
 			.optional()
 			.describe('A list of skills the person has provided.')
 	}).shape
@@ -74,37 +115,24 @@ export const UpdateProfileSchema = ProfileSchema
 	.partial()
 	.refine(
 		(data) => Object.keys(data).length > 0,
-		{ message: 'At least one property is required' }
+		{ message: 'At least one property is required.' }
 	);
 
 export type UpdateProfileData = z.infer<typeof UpdateProfileSchema>;
 
 export const ProfileLinkSchema = z.object({
-	id: z
-		.uuid()
-		.describe('The Link id.'),
-	profileId: z
-		.uuid()
-		.describe('The profile id.'),
-	platform: PlatformEnum,
-	url: z
-		.url()
-		.describe('The link URL.')
+	id: IdSchema,
+	profileId: ProfileSchema.shape.id,
+	platform: PlatformEnumSchema,
+	url: PlatformLinkOrUserSchema
 });
 
 export type ProfileLink = z.infer<typeof ProfileLinkSchema>;
 
 export const ProfileSkillSchema = z.object({
-	id: z
-		.uuid()
-		.describe('The Link id.'),
-	profileId: z
-		.uuid()
-		.describe('The profile id.'),
-	skill: z
-		.string()
-		.trim()
-		.describe('The link name.')
+	id: IdSchema,
+	profileId: ProfileSchema.shape.id,
+	skill: ProfileSkillNameSchema
 });
 
 export type ProfileSkill = z.infer<typeof ProfileSkillSchema>;

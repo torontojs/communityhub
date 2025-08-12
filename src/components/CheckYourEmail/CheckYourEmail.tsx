@@ -7,13 +7,14 @@ import './CheckYourEmail.css';
 const CheckYourEmail = () => {
 	const [email, setEmail] = useState('');
 	const RESEND_MINUTES = 10;
+	// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 	const MILLISECONDS_PER_MINUTE = 60 * 1000;
 	const [minutes, setMinutes] = useState(RESEND_MINUTES);
 	const [hasResent, setHasResent] = useState(false);
 
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
-		setEmail(params.get('email') || '');
+		setEmail(params.get('email') ?? '');
 	}, []);
 
 	useEffect(() => {

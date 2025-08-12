@@ -4,6 +4,24 @@ import Header from '../Header/Header.tsx';
 import './ConfirmAccount.css';
 import '/index.css';
 
+const authenticateAccount = async (token: string) => {
+	try {
+		const isTokenValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu.test(token);
+
+		if (!isTokenValidUuid) {
+			window.location.href = '/pages/sign-in';
+		}
+		const response = await fetch(`/api/auth/activate?token=${token}`, { method: 'GET' });
+
+		if (!response.ok) {
+			return;
+		}
+		window.location.href = '/pages/homepage';
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 /**
  * Take the UUID from the Url which will be my page.
  * The link in the email will be this page: /api/auth/activate
@@ -20,34 +38,14 @@ import '/index.css';
 // TODO: Heartbeat beat implementation redirects to home page
 const ConfirmAccount = () => {
 	useEffect(() => {
-		const params = new URLSearchParams(window.location.search);
-		const tokenFromUrl = params.get('token');
-		if (tokenFromUrl) {
-			authenticateAccount(tokenFromUrl);
-		}
+		(async () => {
+			const params = new URLSearchParams(window.location.search);
+			const tokenFromUrl = params.get('token');
+			if (tokenFromUrl) {
+				await authenticateAccount(tokenFromUrl);
+			}
+		})();
 	}, []);
-
-	const authenticateAccount = async (token: string) => {
-		try {
-			const isTokenValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(token);
-
-			if (!isTokenValidUuid) {
-				window.location.href = '/pages/sign-in';
-			}
-			const response = await fetch(`/api/auth/activate?token=${token}`, {
-				method: 'GET'
-			});
-
-			if (!response.ok) {
-				return;
-			}
-			window.location.href = '/pages/homepage';
-		} catch (error) {
-			if (import.meta.env.MODE === 'development') {
-				console.error(error);
-			}
-		}
-	};
 
 	return (
 		<div className='confirm-account-page-container'>

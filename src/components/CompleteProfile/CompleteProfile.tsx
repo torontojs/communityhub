@@ -49,7 +49,7 @@ const platformEnum = ['site', 'slack', 'linkedin', 'github', 'portfolio', 'codep
  * @returns `true` if the format is valid, otherwise `false`.
  */
 const isValidBirthdayFormat = (birthday: string): boolean => {
-	const regex = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+	const regex = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/iu;
 	return regex.test(birthday);
 };
 
@@ -72,7 +72,8 @@ const isRealDate = (birthday: string): boolean => {
 	const month = Number(monthStr);
 	const day = Number(dayStr);
 
-	const date = new Date(2000, month - 1, day);
+	const REFERENCE_YEAR = 2000;
+	const date = new Date(REFERENCE_YEAR, month - 1, day);
 	return date.getMonth() + 1 === month && date.getDate() === day;
 };
 
@@ -91,15 +92,14 @@ const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 		} else {
 			const errorData = await response.json();
 			// TODO: Replace console log with error message once the design becomes available
-			console.log('Response not ok: ', errorData ?? 'An Error Occurred!');
+			console.error('Response not ok: ', errorData ?? 'An Error Occurred!');
 		}
-	} catch (error) {
-		if (import.meta.env.MODE === 'development') {
-			console.log(error);
-		}
+	} catch (err) {
+		console.error(err);
 	}
 };
 
+// eslint-disable-next-line max-lines-per-function
 const CompleteProfile = () => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const uploadPhotoButtonRef = useRef<HTMLButtonElement>(null);
@@ -142,7 +142,7 @@ const CompleteProfile = () => {
 	useProfileRedirect();
 
 	const validateSlackHandle = () => {
-		const slackUrl = slackHandleInputRef.current?.value || '';
+		const slackUrl = slackHandleInputRef.current?.value ?? '';
 		const isValid = slackUrl.trim() !== '';
 		setIsSumissionDisabled(!isValid);
 	};
@@ -164,12 +164,10 @@ const CompleteProfile = () => {
 	};
 
 	const handleAddSkill = (skillName: string) => {
-		setProfileData((prev) => {
-			return {
-				...prev,
-				skills: [...new Set([...prev.skills, skillName.toLowerCase()])]
-			};
-		});
+		setProfileData((prev) => ({
+			...prev,
+			skills: [...new Set([...prev.skills, skillName.toLowerCase()])]
+		}));
 		if (skillInputRef.current) { skillInputRef.current.value = ''; }
 	};
 
@@ -219,8 +217,8 @@ const CompleteProfile = () => {
 		return updateProfileParams;
 	};
 
-	const handleBirthdayInputChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		const { name, value } = e.target;
+	const handleBirthdayInputChange = (evt: ChangeEvent<HTMLSelectElement>) => {
+		const { name, value } = evt.target;
 		setBirthdayValue((prev) => {
 			const [prevMonth = '', prevDay = ''] = prev.split('-');
 
@@ -235,8 +233,8 @@ const CompleteProfile = () => {
 		});
 	};
 
-	const handleSliderToggle = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, checked } = e.target;
+	const handleSliderToggle = (evt: ChangeEvent<HTMLInputElement>) => {
+		const { name, checked } = evt.target;
 		setProfileData((prev) => ({
 			...prev,
 			[name]: checked
@@ -256,8 +254,6 @@ const CompleteProfile = () => {
 		try {
 			setIsLoading(true);
 			await updateProfile(profileParams, profileId);
-		} catch (error) {
-			// SetErrorMessage(error.message);
 		} finally {
 			setIsLoading(false);
 		}
@@ -304,8 +300,6 @@ const CompleteProfile = () => {
 				}));
 
 				setProfileId(data.data.id);
-			} catch (err) {
-				// setErrorMessage(error.message);
 			} finally {
 				setIsLoading(false);
 			}
@@ -639,12 +633,12 @@ const CompleteProfile = () => {
 										(
 											<div key={socialIcon.id}>
 												<span>
-													<label htmlFor={`${socialIcon}-input`}>
+													<label htmlFor={`${socialIcon.id}-input`}>
 														{socialIcon.name}
 													</label>
 													<button
 														type='button'
-														aria-label={`Close ${socialIcon} input`}
+														aria-label={`Close ${socialIcon.name} input`}
 														onClick={() => toggleSocialInputVisibility(socialIcon.id)}
 													/>
 												</span>

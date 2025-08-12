@@ -20,14 +20,12 @@ const SignInForm = (): React.JSX.Element => {
 			if (response.status !== 201) {
 				setIsLoading(false);
 				const errorData = await response.json();
-				console.log('Response not ok: ', errorData);
+				console.error('Response not ok: ', errorData);
 			} else {
 				window.location.href = '/pages/home/';
 			}
-		} catch (error) {
-			if (import.meta.env.MODE === 'development') {
-				console.error(error);
-			}
+		} catch (err) {
+			console.error(err);
 			setIsLoading(false);
 		}
 	};

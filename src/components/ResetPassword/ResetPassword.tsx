@@ -49,19 +49,19 @@ export const ResetPassword = (): React.JSX.Element => {
 					},
 					body: JSON.stringify(token)
 				});
-				if (!result) {
+				if (!result.ok) {
 					setIsValidToken(false);
+					return;
 				}
-
 				setIsValidToken(true);
 			} catch (error) {
 				console.error(error);
 			}
 		};
-		validateToken();
+		void validateToken();
 	}, []);
 
-	if (token == null) {
+	if (token === null) {
 		window.location.href = '/pages/sign-in';
 	}
 
@@ -97,7 +97,7 @@ export const ResetPassword = (): React.JSX.Element => {
 		setFeedback(feedback.join(', '));
 	};
 
-	if (isTokenValid == null) {
+	if (isTokenValid === null) {
 		return <h1>Loading</h1>;
 	}
 	if (!isTokenValid) {

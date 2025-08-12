@@ -1,0 +1,14 @@
+@layer component {
+	h1 { text-align: center; }
+
+	.date-parent-container {
+		align-items: center;
+		border: 0.125rem dashed;
+		border-radius: 0.25rem;
+		display: flex;
+		flex-direction: column;
+		margin: auto;
+		max-width: 30rem;
+		padding: 0.5rem;
+	}
+}
