@@ -23,9 +23,7 @@ async function resetPassword(token: string | null, password: string) {
 			window.location.href = '/pages/sign-in';
 		}
 	} catch (error) {
-		if (import.meta.env.MODE === 'development') {
-			console.error(error);
-		}
+		console.error(error);
 	}
 }
 
