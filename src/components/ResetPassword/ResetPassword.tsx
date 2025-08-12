@@ -14,6 +14,9 @@ async function resetPassword(token: string | null, password: string) {
 			},
 			body: JSON.stringify({ token, password })
 		});
+		// TODO: Create password reset confirmation page
+		// https://github.com/torontojs/communityhub/issues/234
+		//
 		if (!response.ok) {
 			window.location.href = '/pages/sign-in';
 		} else {
