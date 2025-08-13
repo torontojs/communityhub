@@ -1,21 +1,31 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export const getHeartBeat = async () => {
+const getHeartBeat = async (): Promise<boolean> => {
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
 			credentials: 'include'
 		});
-		if (response.status !== 200 && !window.location.pathname.includes('/pages/sign-in')) {
-			window.location.href = '/pages/sign-in';
+		if (response.status === 200) {
+			return true;
 		}
-	} catch (err) {
-		console.error(err);
+		return false;
+	} catch (error) {
+		console.error(error);
+		return false;
 	}
 };
 
-export const useHeartBeat = () => {
+export const useAuthCheck = () => {
+	const [isAuth, setIsAuth] = useState<boolean>(false);
+
 	useEffect(() => {
-		void getHeartBeat();
+		const check = async () => {
+			const auth = await getHeartBeat();
+			if (auth) { window.location.href = '/pages/home'; }
+			setIsAuth(auth);
+		};
+		void check();
 	}, []);
+	return isAuth;
 };

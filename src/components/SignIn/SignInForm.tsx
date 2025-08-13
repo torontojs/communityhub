@@ -1,15 +1,40 @@
 import './SignInForm.css';
-import { useRef, useState } from 'react';
-import { useHeartBeat } from '../../hooks/useHeartBeat.ts';
+import { useEffect, useRef, useState } from 'react';
 import Button from '../Button/Button.tsx';
+
+async function getHeartBeat(): Promise<boolean> {
+	try {
+		const response = await fetch('/api/auth/heartbeat', {
+			method: 'GET',
+			credentials: 'include'
+		});
+		if (response.status === 200) {
+			return true;
+		}
+		return false;
+	} catch (error) {
+		console.error(error);
+		return false;
+	}
+}
 
 const SignInForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
+	const [isAuth, setIsAuth] = useState<boolean>(true);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	useHeartBeat();
+	useEffect(() => {
+		const check = async () => {
+			const auth = await getHeartBeat();
+			if (auth) {
+				window.location.href = '/pages/home';
+			}
+		};
+		setIsAuth(false);
+		void check();
+	}, []);
 
 	const signin = async (email: string, password: string) => {
 		try {
@@ -26,7 +51,7 @@ const SignInForm = (): React.JSX.Element => {
 				const errorData = await response.json();
 				console.error('Response not ok: ', errorData);
 			} else {
-				window.location.href = '/pages/home/';
+				window.location.href = '/pages/home';
 			}
 		} catch (err) {
 			console.error(err);
@@ -34,12 +59,14 @@ const SignInForm = (): React.JSX.Element => {
 		}
 	};
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		setIsLoading(true);
 		event.preventDefault();
 
 		const emailIsValid = emailInputRef.current?.checkValidity() ?? false;
 		const passwordIsValid = passwordInputRef.current?.checkValidity() ?? false;
 
 		if (!emailIsValid || !passwordIsValid) {
+			setIsLoading(false);
 			return;
 		}
 		const form = event.currentTarget;
@@ -48,9 +75,10 @@ const SignInForm = (): React.JSX.Element => {
 		const emailValue = (formData.get('email') as string ?? '').trim();
 		const passwordValue = (formData.get('password') as string ?? '').trim();
 
-		setIsLoading(true);
 		await signin(emailValue, passwordValue);
 	};
+
+	if (isAuth) { return <h1>Loading...</h1>; }
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
