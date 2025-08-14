@@ -113,7 +113,7 @@ binding = "ActivationTokens"
 id = "987a04058cc34aad84b9f54c658f6a01"
 preview_id = "vms-production-activation-tokens"
 
-[[env.dev.kv_namespaces]]
+[[env.production.kv_namespaces]]
 binding = "PasswordResetToken"
 id = "08ad1ddf3a134007bbed3b9266cd6d1f"
 preview_id = "vms-production-password-reset-token"
