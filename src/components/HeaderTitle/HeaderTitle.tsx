@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import './HeaderTitle.css';
 
-interface Props {
+interface Props extends ComponentProps<'h1'> {
 	children: ReactNode;
 }
 
-const HeaderTitle = ({ children }: Props) => <h1>{children}</h1>;
+const HeaderTitle = ({ children, ...props }: Props) => <h1 {...props}>{children}</h1>;
 
 export default HeaderTitle;

@@ -4,6 +4,8 @@ import { AccessLevelSchema } from '../../utils/auth.ts';
 import { IdAndSchemaVersionSchema } from '../../utils/db.ts';
 import { ProfileSchema } from '../profile/validation.ts';
 
+const MIN_PASSWORD_LENGTH = 15;
+
 export const ProfileStatusSchema = z.enum([
 	'activated',
 	'created',
@@ -75,3 +77,23 @@ export type SignUpData = z.infer<typeof SignUpSchema>;
 export const ActivateSchema = z.object({ token: z.uuid('Invalid ID format') });
 
 export type ActivateData = z.infer<typeof ActivateSchema>;
+
+export const ForgotPasswordSchema = z.object({
+	email: ProfileSchema.shape.email
+});
+
+export type ForgotPasswordData = z.infer<typeof ForgotPasswordSchema>;
+
+export const ResetPasswordSchema = z.object({
+	password: z.string({ error: 'Password is required' })
+		.min(MIN_PASSWORD_LENGTH),
+	token: z.uuid()
+});
+
+export type ResetPasswordData = z.infer<typeof ResetPasswordSchema>;
+
+export const ResetPasswordValidTokenSchema = z.object({
+	token: ResetPasswordSchema.shape.token
+});
+
+export type ResetPasswordValidTokenData = z.infer<typeof ResetPasswordValidTokenSchema>;

@@ -7,9 +7,9 @@ import z from 'zod';
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
 const SESSION_LIFESPAN_IN_SECONDS = 60 * 60 * 24;
 
-/** Two weeks */
-// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+// TWO WEEKS:
 const SESSION_MAXIMUM_LIFETIME_IN_MILLISECONDS = 1000 * 60 * 60 * 24 * 7 * 2;
+const TEN_MINUTES_IN_SECONDS = 60 * 10;
 const MILLISECONDS_IN_SECOND = 1000;
 const SESSION_COOKIE_NAME = 'auth_token';
 const DELETED_COOKIE_VALUE = 'DELETED';
@@ -183,4 +183,17 @@ export async function createSession({
 	);
 
 	return sessionToken;
+}
+
+interface CreatePasswordResetParam {
+	context: Context;
+	email: string;
+	resetToken: string;
+}
+export async function createPasswordReset({ context, email, resetToken }: CreatePasswordResetParam) {
+	await context.env.PasswordResetToken.put(
+		resetToken,
+		email,
+		{ expirationTtl: TEN_MINUTES_IN_SECONDS }
+	);
 }
