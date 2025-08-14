@@ -5,7 +5,7 @@ import Header from '../../components/Header/Header.tsx';
 import { ResetPassword } from '../../components/ResetPassword/ResetPassword.tsx';
 import '../../index.css';
 
-const root = document.getElementById('root') as HTMLAnchorElement;
+const root = document.getElementById('root') as HTMLElement;
 
 createRoot(root).render(
 	(
