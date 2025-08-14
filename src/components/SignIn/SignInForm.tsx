@@ -1,40 +1,14 @@
 import './SignInForm.css';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useHeartbeat } from '../../hooks/useHeartBeat.ts';
 import Button from '../Button/Button.tsx';
-
-async function getHeartBeat(): Promise<boolean> {
-	try {
-		const response = await fetch('/api/auth/heartbeat', {
-			method: 'GET',
-			credentials: 'include'
-		});
-		if (response.status === 200) {
-			return true;
-		}
-		return false;
-	} catch (error) {
-		console.error(error);
-		return false;
-	}
-}
 
 const SignInForm = (): React.JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
-	const [isAuth, setIsAuth] = useState<boolean>(true);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-
-	useEffect(() => {
-		const check = async () => {
-			const auth = await getHeartBeat();
-			if (auth) {
-				window.location.href = '/pages/home';
-			}
-		};
-		setIsAuth(false);
-		void check();
-	}, []);
+	const isAuth = useHeartbeat();
 
 	const signin = async (email: string, password: string) => {
 		try {
@@ -78,7 +52,7 @@ const SignInForm = (): React.JSX.Element => {
 		await signin(emailValue, passwordValue);
 	};
 
-	if (isAuth) { return <h1>Loading...</h1>; }
+	if (!isAuth) { return <h1>Loading...</h1>; }
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>

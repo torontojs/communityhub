@@ -16,14 +16,14 @@ const getHeartBeat = async (): Promise<boolean> => {
 	}
 };
 
-export const useAuthCheck = () => {
+export const useHeartbeat = () => {
 	const [isAuth, setIsAuth] = useState<boolean>(false);
 
 	useEffect(() => {
 		const check = async () => {
 			const auth = await getHeartBeat();
 			if (auth) { window.location.href = '/pages/home'; }
-			setIsAuth(auth);
+			setIsAuth(true);
 		};
 		void check();
 	}, []);
