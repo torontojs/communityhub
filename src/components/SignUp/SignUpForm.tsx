@@ -1,6 +1,7 @@
 import './SignUpForm.css';
 import { useRef, useState } from 'react';
 import zxcvbn from 'zxcvbn';
+import { useHeartbeat } from '../../hooks/useHeartBeat.ts';
 import Button from '../Button/Button.tsx';
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
@@ -16,6 +17,8 @@ const SignUpForm = (): React.JSX.Element => {
 	const [feedback, setFeedback] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [invalidPasswordMessage, setInvalidPasswordMessage] = useState<string>('');
+
+	const isAuth = useHeartbeat();
 
 	const handleOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.target.value;
@@ -88,6 +91,8 @@ const SignUpForm = (): React.JSX.Element => {
 		setIsLoading(true);
 		await signup(nameValue, emailValue, passwordValue);
 	};
+
+	if (!isAuth) { return <h1>Loading</h1>; }
 
 	return (
 		<form className='login-form' onSubmit={handleSubmit}>
