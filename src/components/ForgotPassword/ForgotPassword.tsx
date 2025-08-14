@@ -14,9 +14,7 @@ async function requestPasswordRecovery(email: string) {
 		});
 		return response.ok;
 	} catch (error) {
-		if (import.meta.env.MODE === 'development') {
-			console.error(error);
-		}
+		console.error(error);
 	}
 	return false;
 }
@@ -61,8 +59,9 @@ const ForgotPasswordForm = (): React.JSX.Element => {
 		const success = await requestPasswordRecovery(emailValue);
 
 		if (success) {
-			setIsSubmitted(true);
 			setRemainingTime(600);
+		} else {
+			setIsSubmitted(false);
 		}
 	};
 
