@@ -126,6 +126,7 @@ const CompleteProfile = () => {
 	]);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 	// const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [profileId, setProfileId] = useState<string | null>(null);
 	const [birthdayValue, setBirthdayValue] = useState<string>('');
@@ -252,10 +253,10 @@ const CompleteProfile = () => {
 		const profileParams = getProfileParams(formData);
 
 		try {
-			setIsLoading(true);
+			setIsSubmitting(true);
 			await updateProfile(profileParams, profileId);
 		} finally {
-			setIsLoading(false);
+			setIsSubmitting(false);
 		}
 	};
 
@@ -654,8 +655,8 @@ const CompleteProfile = () => {
 						</details>
 					</div>
 
-					<Button isPrimary isLarge id='submit-button' type='submit' disabled={isSubmissionDisabled || isLoading}>
-						{isLoading ? 'Loading...' : 'Complete My Profile'}
+					<Button isPrimary isLarge id='submit-button' type='submit' disabled={isSubmissionDisabled || isSubmitting} aria-busy={isSubmitting}>
+						{isSubmitting ? 'Loading...' : 'Complete My Profile'}
 					</Button>
 				</form>
 			</>
