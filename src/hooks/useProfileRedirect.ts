@@ -27,14 +27,20 @@ const isValidStatus = (status: string): status is ProfileStatus => VALID_STATUSE
 const REDIRECT_PATHS = {
 	signIn: '/pages/sign-in/',
 	checkSteps: '/pages/check-steps/',
+	reviewConductCode: '/pages/review-conduct-code/',
 	completeProfile: '/pages/complete-profile/',
 	home: '/pages/home/'
 };
 
-const getRedirectPathForStatus = (status: ProfileStatus): string => {
+const normalizePath = (path: string) => path.replace(/\/+$/u, '');
+
+const getRedirectPathForStatus = (status: ProfileStatus, currentPath?: string): string => {
+	const normalized = normalizePath(currentPath ?? '');
 	switch (status) {
 		case 'activated':
-			return REDIRECT_PATHS.checkSteps;
+			return normalized === normalizePath(REDIRECT_PATHS.reviewConductCode)
+				? REDIRECT_PATHS.reviewConductCode
+				: REDIRECT_PATHS.checkSteps;
 
 		case 'tos-accepted':
 		case 'social-handle-provided':
@@ -51,7 +57,7 @@ const getRedirectPathForStatus = (status: ProfileStatus): string => {
 	}
 };
 
-export const getRedirectPath = async (signal?: AbortSignal): Promise<RedirectPathResult> => {
+export const getRedirectPath = async (signal?: AbortSignal, currentPath?: string): Promise<RedirectPathResult> => {
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
@@ -68,7 +74,7 @@ export const getRedirectPath = async (signal?: AbortSignal): Promise<RedirectPat
 		const data: ProfileStatusResponse = await response.json();
 
 		// Redirects based on profile status or to sign-in if not profile status is returned
-		return (data?.status && isValidStatus(data.status)) ? getRedirectPathForStatus(data.status) : REDIRECT_PATHS.signIn;
+		return (data?.status && isValidStatus(data.status)) ? getRedirectPathForStatus(data.status, currentPath) : REDIRECT_PATHS.signIn;
 	} catch (err) {
 		if (err.name !== 'AbortError') {
 			console.error('Failed to fetch profile status:', err);
@@ -93,7 +99,10 @@ export const useProfileRedirect = () => {
 
 		const redirect = async () => {
 			try {
-				const redirectPath = await getRedirectPath(signal);
+				// Normalize URL path
+				const currentPath = new URL(window.location.href).pathname;
+
+				const redirectPath = await getRedirectPath(signal, currentPath);
 
 				if (signal.aborted || hasRedirected.current) {
 					return;
@@ -104,9 +113,6 @@ export const useProfileRedirect = () => {
 					setRedirectionComplete(true);
 					return;
 				}
-
-				// Normalize URL path
-				const currentPath = new URL(window.location.href).pathname;
 
 				// Redirect only if current url path is different from the redirectpath
 				if (currentPath && currentPath !== redirectPath) {
