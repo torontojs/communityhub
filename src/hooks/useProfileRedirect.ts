@@ -87,10 +87,6 @@ export const useProfileRedirect = () => {
 	const [redirectionComplete, setRedirectionComplete] = useState(false);
 
 	useEffect(() => {
-		if (hasRedirected.current) {
-			return;
-		}
-
 		// Create abort controller to fetch abort
 		const controller = new AbortController();
 		const { signal } = controller;
@@ -98,6 +94,10 @@ export const useProfileRedirect = () => {
 		const redirect = async () => {
 			try {
 				const redirectPath = await getRedirectPath(signal);
+
+				if (signal.aborted || hasRedirected.current) {
+					return;
+				}
 
 				// If redirectPath is null (aborted), skip redirection
 				if (!redirectPath) {
@@ -108,8 +108,8 @@ export const useProfileRedirect = () => {
 				// Normalize URL path
 				const currentPath = new URL(window.location.href).pathname;
 
-				// Avoid redirect if already on the correct path
-				if (currentPath !== redirectPath) {
+				// Redirect only if current url path is different from the redirectpath
+				if (currentPath && currentPath !== redirectPath) {
 					hasRedirected.current = true;
 					window.location.href = redirectPath;
 				} else {
@@ -118,11 +118,11 @@ export const useProfileRedirect = () => {
 				}
 			} catch (error) {
 				console.error('Redirect Error!', error);
-				if (!hasRedirected.current) {
+				if (!signal.aborted && !hasRedirected.current) {
 					window.location.href = REDIRECT_PATHS.signIn;
 				}
 			} finally {
-				if (!hasRedirected.current) {
+				if (!signal.aborted && !hasRedirected.current) {
 					setRedirectionComplete(true);
 				}
 			}
