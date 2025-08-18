@@ -32,6 +32,15 @@ const REDIRECT_PATHS = {
 	home: '/pages/home/'
 };
 
+/**
+ * Normalizes a path by removing any trailing slashes (/).
+ *
+ * This is useful for ensuring consistent path formatting, especially
+ * when comparing or joining paths.
+ *
+ * @param {string} path - The input path string to normalize.
+ * @returns {string} The normalized path without trailing slashes.
+ */
 const normalizePath = (path: string) => path.replace(/\/+$/u, '');
 
 const getRedirectPathForStatus = (status: ProfileStatus, currentPath?: string): string => {
