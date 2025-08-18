@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const getHeartBeat = async (): Promise<boolean> => {
+export const getHeartBeat = async (): Promise<boolean> => {
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
