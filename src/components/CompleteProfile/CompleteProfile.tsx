@@ -127,7 +127,8 @@ const CompleteProfile = () => {
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-	// const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	// TODO: Show error messages once the design system component is available
+	const [, setErrorMessage] = useState<string | null>(null);
 	const [profileId, setProfileId] = useState<string | null>(null);
 	const [birthdayValue, setBirthdayValue] = useState<string>('');
 	const [isSubmissionDisabled, setIsSubmissionDisabled] = useState<boolean>(true);
@@ -244,7 +245,7 @@ const CompleteProfile = () => {
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
-
+		setErrorMessage(null);
 		validateSlackHandle();
 
 		if (!profileId || isSubmissionDisabled) { return; }
@@ -255,6 +256,12 @@ const CompleteProfile = () => {
 		try {
 			setIsSubmitting(true);
 			await updateProfile(profileParams, profileId);
+		} catch (error) {
+			if (error instanceof Error) {
+				setErrorMessage(error.message);
+			} else {
+				setErrorMessage('An unknown error occurred while updating your profile.');
+			}
 		} finally {
 			setIsSubmitting(false);
 		}
