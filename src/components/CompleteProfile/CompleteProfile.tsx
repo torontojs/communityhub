@@ -147,6 +147,7 @@ const CompleteProfile = () => {
 		const slackUrl = slackHandleInputRef.current?.value ?? '';
 		const isValid = slackUrl.trim() !== '';
 		setIsSubmissionDisabled(!isValid);
+		return isValid;
 	};
 
 	const handleUploadPhotoButtonClick = () => {
@@ -248,7 +249,7 @@ const CompleteProfile = () => {
 		setErrorMessage(null);
 		validateSlackHandle();
 
-		if (!profileId || isSubmissionDisabled) { return; }
+		if (!profileId || !validateSlackHandle() || isSubmissionDisabled) { return; }
 
 		const formData = new FormData(event.currentTarget);
 		const profileParams = getProfileParams(formData);
