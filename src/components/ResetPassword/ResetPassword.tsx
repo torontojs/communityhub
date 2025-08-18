@@ -112,7 +112,7 @@ export const ResetPassword = (): React.JSX.Element => {
 		<div id='password-reset-form'>
 			<form onSubmit={handleSubmit} id='reset-content' noValidate>
 				<div>
-					<p className='center'>Enter you new password for your account.</p>
+					<p className='center'>Enter your new password for your account.</p>
 				</div>
 
 				<div className='input-block'>
