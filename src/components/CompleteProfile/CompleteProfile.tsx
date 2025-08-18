@@ -415,10 +415,10 @@ const CompleteProfile = () => {
 										<select
 											id='month'
 											name='month'
-											value={birthdayValue?.split('-')[0]}
+											value={birthdayValue?.split('-')[0] ?? ''}
 											onChange={handleBirthdayInputChange}
 										>
-											<option selected disabled hidden value=''>
+											<option disabled hidden value=''>
 												Select a month
 											</option>
 											<option value='01'>January</option>
@@ -438,10 +438,10 @@ const CompleteProfile = () => {
 										<select
 											id='day'
 											name='day'
-											value={birthdayValue?.split('-')[1]}
+											value={birthdayValue?.split('-')[1] ?? ''}
 											onChange={handleBirthdayInputChange}
 										>
-											<option selected disabled hidden value=''>Select a day</option>
+											<option disabled hidden value=''>Select a day</option>
 											<option value='01'>1</option>
 											<option value='02'>2</option>
 											<option value='03'>3</option>
