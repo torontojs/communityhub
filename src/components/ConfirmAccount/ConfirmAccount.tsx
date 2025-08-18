@@ -4,49 +4,46 @@ import Header from '../Header/Header.tsx';
 import './ConfirmAccount.css';
 import '/index.css';
 
-const authenticateAccount = async (token: string) => {
+async function authenticateAccount(token: string) {
 	try {
-		const isTokenValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu.test(token);
-
-		if (!isTokenValidUuid) {
-			window.location.href = '/pages/sign-in';
-		}
 		const response = await fetch(`/api/auth/activate?token=${token}`, { method: 'GET' });
 
 		if (!response.ok) {
-			return;
+			window.location.href = '/pages/sign-in';
 		}
-		window.location.href = '/pages/homepage';
+		window.location.href = '/pages/sign-in';
+		// TODO: Create succesful page: https://github.com/torontojs/communityhub/issues/245
 	} catch (error) {
 		console.error(error);
 	}
-};
+}
 
-/**
- * Take the UUID from the Url which will be my page.
- * The link in the email will be this page: /api/auth/activate
- *
- * Change the src > email > index.ts to add /api on the URL call
- *
- * Change the email to redirect to /page/ConfirmAccount
- *
- * Go read the auth routes on the backend read dev.vars inside backend UUID Will live inside the session (superfast cache for activation tokens).
- * Add heartbeat check, if they are alrady signed in then send them to the homepage - later
- * Fixing btn
- */
-
-// TODO: Heartbeat beat implementation redirects to home page
 const ConfirmAccount = () => {
+	let token: string;
+
 	useEffect(() => {
-		(async () => {
-			const params = new URLSearchParams(window.location.search);
-			const tokenFromUrl = params.get('token');
-			if (tokenFromUrl) {
-				await authenticateAccount(tokenFromUrl);
-			}
-		})();
+		const params = new URLSearchParams(window.location.search);
+		const tokenFromUrl = params.get('token');
+
+		if (!tokenFromUrl) {
+			window.location.href = '/pages/sign-in';
+			return;
+		}
+
+		const isTokenValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu.test(tokenFromUrl);
+
+		if (!isTokenValidUuid) {
+			window.location.href = '/pages/sign-in';
+			return;
+		}
+
+		token = tokenFromUrl;
 	}, []);
 
+	const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		void authenticateAccount(token);
+	};
 	return (
 		<div className='confirm-account-page-container'>
 			<div className='confirm-account-page-card'>
@@ -56,7 +53,7 @@ const ConfirmAccount = () => {
 						Hello! Click the button below to confirm your TorontoJS Community Hub account.
 					</p>
 					<div className='confirm-account-page-btn'>
-						<Button isPrimary size='medium'>
+						<Button onClick={handleOnClick} isPrimary size='medium'>
 							Confirm my e-mail
 						</Button>
 					</div>

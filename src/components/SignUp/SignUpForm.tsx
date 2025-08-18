@@ -92,99 +92,101 @@ const SignUpForm = (): React.JSX.Element => {
 		await signup(nameValue, emailValue, passwordValue);
 	};
 
-	if (!isAuth) { return <h1>Loading</h1>; }
-
-	return (
-		<form className='login-form' onSubmit={handleSubmit}>
-			<div>
-				<h2 className='center'>Welcome! Let's set up your account.</h2>
-			</div>
-			<div className='input-block'>
-				<label className='block' htmlFor='name-input'>Name</label>
-				<input
-					id='name-input'
-					type='text'
-					name='name'
-					placeholder='Your name'
-					minLength={1}
-					required
-					aria-describedby='name-input-helper-text'
-					ref={nameInputRef}
-				/>
-				<div id='name-input-helper-text'>
-					<span>Please enter a valid name that is at least 1 character long.</span>
+	if (isAuth) {
+		return (
+			<form className='login-form' onSubmit={handleSubmit}>
+				<div>
+					<h2 className='center'>Welcome! Let's set up your account.</h2>
 				</div>
-			</div>
-
-			<div className='input-block'>
-				<label className='block' htmlFor='email-input'>
-					E-mail<span>REQUIRED</span>
-				</label>
-				<input
-					id='email-input'
-					type='email'
-					name='email'
-					placeholder='Your account e-mail'
-					required
-					aria-describedby='email-input-helper-text'
-					ref={emailInputRef}
-				/>
-				<div id='email-input-helper-text'>
-					<span>Insert the email you'll use for this account</span>
+				<div className='input-block'>
+					<label className='block' htmlFor='name-input'>Name</label>
+					<input
+						id='name-input'
+						type='text'
+						name='name'
+						placeholder='Your name'
+						minLength={1}
+						required
+						aria-describedby='name-input-helper-text'
+						ref={nameInputRef}
+					/>
+					<div id='name-input-helper-text'>
+						<span>Please enter a valid name that is at least 1 character long.</span>
+					</div>
 				</div>
-			</div>
 
-			<div className='input-block'>
-				<label className='block' htmlFor='password-input'>
-					Password:<span>REQUIRED</span>
-				</label>
-				<input
-					id='password-input'
-					type='password'
-					name='password'
-					onInput={handleOnInput}
-					placeholder='Your password'
-					required
-					aria-describedby='password-input-strength password-input-suggestion password-input-helper-text'
-					ref={passwordInputRef}
-				/>
-				<div className='passwordError' hidden={strength === null}>
-					<div className='text-size'>
-						<div id='password-input-strength' aria-live='polite'>
-							<span>Password strength: {strengthLabels[strength ?? 0]}</span>
-						</div>
-						<div className='password-meter' data-password-strength={strengthLabels[strength ?? 0]} aria-hidden='true'>
-							<span className='password-meter-level'></span>
-							<span className='password-meter-level'></span>
-							<span className='password-meter-level'></span>
-						</div>
-						<div id='password-input-suggestion' className='suggestion' data-password-strength={strengthLabels[strength ?? 0]}>
-							<span className='suggestion-icon' />
-							<p>Suggestions: {feedback}</p>
-						</div>
-						<div id='password-input-helper-text' className='suggestion password-fail' data-password-fail={invalidPasswordMessage}>
-							<span className='suggestion-icon error-icon' />
-							<p>Error: {invalidPasswordMessage}</p>
+				<div className='input-block'>
+					<label className='block' htmlFor='email-input'>
+						E-mail<span>REQUIRED</span>
+					</label>
+					<input
+						id='email-input'
+						type='email'
+						name='email'
+						placeholder='Your account e-mail'
+						required
+						aria-describedby='email-input-helper-text'
+						ref={emailInputRef}
+					/>
+					<div id='email-input-helper-text'>
+						<span>Insert the email you'll use for this account</span>
+					</div>
+				</div>
+
+				<div className='input-block'>
+					<label className='block' htmlFor='password-input'>
+						Password:<span>REQUIRED</span>
+					</label>
+					<input
+						id='password-input'
+						type='password'
+						name='password'
+						onInput={handleOnInput}
+						placeholder='Your password'
+						required
+						aria-describedby='password-input-strength password-input-suggestion password-input-helper-text'
+						ref={passwordInputRef}
+					/>
+					<div className='passwordError' hidden={strength === null}>
+						<div className='text-size'>
+							<div id='password-input-strength' aria-live='polite'>
+								<span>Password strength: {strengthLabels[strength ?? 0]}</span>
+							</div>
+							<div className='password-meter' data-password-strength={strengthLabels[strength ?? 0]} aria-hidden='true'>
+								<span className='password-meter-level'></span>
+								<span className='password-meter-level'></span>
+								<span className='password-meter-level'></span>
+							</div>
+							<div id='password-input-suggestion' className='suggestion' data-password-strength={strengthLabels[strength ?? 0]}>
+								<span className='suggestion-icon' />
+								<p>Suggestions: {feedback}</p>
+							</div>
+							<div id='password-input-helper-text' className='suggestion password-fail' data-password-fail={invalidPasswordMessage}>
+								<span className='suggestion-icon error-icon' />
+								<p>Error: {invalidPasswordMessage}</p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} disabled={isLoading || !strength || strength < MIN_PASSWORD_SCORE}>
-				{isLoading ? 'Creating Account' : 'Create Account'}
-			</Button>
+				<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} disabled={isLoading || !strength || strength < MIN_PASSWORD_SCORE}>
+					{isLoading ? 'Creating Account' : 'Create Account'}
+				</Button>
 
-			<div>
-				<span className='line'></span>
-			</div>
+				<div>
+					<span className='line'></span>
+				</div>
 
-			<div className='have-account'>
-				<p className='not-member'>
-					If you already have an account, <a href='/pages/sign-in' className='underline'>Click here to log-in</a>
-				</p>
-			</div>
-		</form>
-	);
+				<div className='have-account'>
+					<p className='not-member'>
+						If you already have an account, <a href='/pages/sign-in' className='underline'>Click here to log-in</a>
+					</p>
+				</div>
+			</form>
+		);
+	}
+
+	return <h1>Is Loading...</h1>;
 };
 
 export default SignUpForm;

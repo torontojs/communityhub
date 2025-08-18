@@ -23,7 +23,9 @@ export const useHeartbeat = () => {
 		const check = async () => {
 			const auth = await getHeartBeat();
 			if (auth) { window.location.href = '/pages/home'; }
-			setIsAuth(true);
+			else {
+				setIsAuth(true);
+			}
 		};
 		void check();
 	}, []);
