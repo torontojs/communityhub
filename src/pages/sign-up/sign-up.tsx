@@ -1,6 +1,7 @@
 import 'open-props';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import AuthGate from '../../components/AuthGate/AuthGate.tsx';
 import FooterNav from '../../components/Footer/Footer.tsx';
 import Header from '../../components/Header/Header.tsx';
 import SignUpForm from '../../components/SignUp/SignUpForm.tsx';
@@ -13,9 +14,11 @@ createRoot(root).render(
 		<StrictMode>
 			<div className='app'>
 				<div className='page'>
-					<Header>Sign Up to TorontoJS Community Hub</Header>
-					<SignUpForm />
-					<FooterNav />
+					<AuthGate>
+						<Header>Sign Up to TorontoJS Community Hub</Header>
+						<SignUpForm />
+						<FooterNav />
+					</AuthGate>
 				</div>
 			</div>
 		</StrictMode>

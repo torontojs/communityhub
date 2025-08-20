@@ -1,6 +1,5 @@
 import './SignInForm.css';
 import { useRef, useState } from 'react';
-import { useHeartbeat } from '../../hooks/useHeartBeat.ts';
 import Button from '../Button/Button.tsx';
 
 const SignInForm = (): React.JSX.Element => {
@@ -8,7 +7,6 @@ const SignInForm = (): React.JSX.Element => {
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const isAuth = useHeartbeat();
 
 	const signin = async (email: string, password: string) => {
 		try {
@@ -52,73 +50,69 @@ const SignInForm = (): React.JSX.Element => {
 		await signin(emailValue, passwordValue);
 	};
 
-	if (isAuth) {
-		return (
-			<form className='login-form' onSubmit={handleSubmit}>
-				<div>
-					<p className='center'>Please enter your email and password to log-in.</p>
+	return (
+		<form className='login-form' onSubmit={handleSubmit}>
+			<div>
+				<p className='center'>Please enter your email and password to log-in.</p>
+			</div>
+
+			<div className='input-block'>
+				<label className='block' htmlFor='email-input'>
+					E-mail<span>REQUIRED</span>
+				</label>
+				<input
+					id='email-input'
+					type='email'
+					name='email'
+					autoComplete='email'
+					placeholder='Your account e-mail'
+					required
+					aria-describedby='email-input-helper-text'
+					ref={emailInputRef}
+				/>
+				<div id='email-input-helper-text'>
+					<span>Insert your email</span>
 				</div>
+			</div>
 
-				<div className='input-block'>
-					<label className='block' htmlFor='email-input'>
-						E-mail<span>REQUIRED</span>
-					</label>
-					<input
-						id='email-input'
-						type='email'
-						name='email'
-						autoComplete='email'
-						placeholder='Your account e-mail'
-						required
-						aria-describedby='email-input-helper-text'
-						ref={emailInputRef}
-					/>
-					<div id='email-input-helper-text'>
-						<span>Insert your email</span>
-					</div>
+			<div className='input-block'>
+				<label className='block' htmlFor='password-input'>
+					Password:<span>REQUIRED</span>
+				</label>
+				<input
+					id='password-input'
+					type='password'
+					name='password'
+					autoComplete='password'
+					placeholder='Your password'
+					required
+					aria-describedby='password-input-helper-text'
+					ref={passwordInputRef}
+				/>
+				<div id='password-input-helper-text'>
+					<span>Insert your password</span>
 				</div>
+			</div>
 
-				<div className='input-block'>
-					<label className='block' htmlFor='password-input'>
-						Password:<span>REQUIRED</span>
-					</label>
-					<input
-						id='password-input'
-						type='password'
-						name='password'
-						autoComplete='password'
-						placeholder='Your password'
-						required
-						aria-describedby='password-input-helper-text'
-						ref={passwordInputRef}
-					/>
-					<div id='password-input-helper-text'>
-						<span>Insert your password</span>
-					</div>
-				</div>
+			<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} aria-label='Complete sign-up form button' disabled={isLoading}>
+				{isLoading ? 'Logging In' : 'Log In'}
+			</Button>
 
-				<Button type='submit' isLarge={true} style={{ color: 'white', background: '#ED343F' }} aria-label='Complete sign-up form button' disabled={isLoading}>
-					{isLoading ? 'Logging In' : 'Log In'}
-				</Button>
+			<div>
+				<a href='/pages/forgot-password' className='do-not-remember-password'>I don't remember my password</a>
+			</div>
 
-				<div>
-					<a href='/pages/forgot-password' className='do-not-remember-password'>I don't remember my password</a>
-				</div>
+			<div>
+				<span className='line'></span>
+			</div>
 
-				<div>
-					<span className='line'></span>
-				</div>
-
-				<div className='have-account'>
-					<p className='not-member'>
-						If you are a member of ToronoJS and don't have your account, <a href='/pages/sign-up' className='underline'>click here to sign-up</a>
-					</p>
-				</div>
-			</form>
-		);
-	}
-
-	return <h1>Is loading...</h1>;
+			<div className='have-account'>
+				<p className='not-member'>
+					If you are a member of ToronoJS and don't have your account, <a href='/pages/sign-up' className='underline'>click here to sign-up</a>
+				</p>
+			</div>
+		</form>
+	);
 };
 
 export default SignInForm;
