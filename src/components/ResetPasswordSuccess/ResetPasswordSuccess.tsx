@@ -3,7 +3,7 @@ const ResetPasswordSuccess = () => {
 	return (
 		<div className='reset-password-success'>
 			<p>
-				Your new password was set successfully. <br /> Click below to sign in.
+				Your account was confirmed successfully. <br /> Click below to sign in.
 			</p>
 			<span className='line'></span>
 			<div>
