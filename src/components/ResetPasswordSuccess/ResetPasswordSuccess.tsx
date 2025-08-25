@@ -7,7 +7,7 @@ const ResetPasswordSuccess = () => {
 			</p>
 			<span className='line'></span>
 			<div>
-				<a href='/pages/sign-in' className='Log-in-account-link'>Log in you account</a>
+				<a href='/pages/sign-in' className='log-in-account-link'>Log in you account</a>
 			</div>
 		</div>
 	);
