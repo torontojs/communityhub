@@ -5,12 +5,11 @@
 	flex-direction: column;
 	max-width: 390px;
 	width: 100%;
+	gap: var(--spacing-sm) 0;
 	padding: var(--spacing-sm);
 
 	p {
 		font-size: var(--text-sm);
-		margin: 0 var(--spacing-sm);
-		padding-bottom: var(--spacing-sm);
 		text-align: center;
 	}
 
