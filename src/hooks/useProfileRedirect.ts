@@ -108,7 +108,7 @@ export const useProfileRedirect = () => {
 
 		const redirect = async () => {
 			try {
-				// Normalize URL path
+				// Extract URL pathname
 				const currentPath = new URL(window.location.href).pathname;
 
 				const redirectPath = await getRedirectPath(signal, currentPath);
