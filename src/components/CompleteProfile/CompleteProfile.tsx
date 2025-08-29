@@ -326,7 +326,7 @@ const CompleteProfile = () => {
 	}, [birthdayValue]);
 
 	if (!redirectionComplete || isLoading) {
-		return <div>loading...</div>;
+		return <p>Loading...</p>;
 	}
 
 	return (
