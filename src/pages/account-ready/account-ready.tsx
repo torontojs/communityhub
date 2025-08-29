@@ -14,7 +14,9 @@ createRoot(root).render(
 			<div className='app'>
 				<div className='page'>
 					<Header>Your account is ready</Header>
-					<AccountReadyForm />
+					<main>
+						<AccountReadyForm />
+					</main>
 					<Footer />
 				</div>
 			</div>
