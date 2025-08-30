@@ -12,7 +12,7 @@ import { useProfileRedirect } from '../../hooks/useProfileRedirect.ts';
 const docTypes = ['code-of-conduct', 'image-release-form', 'volunteer-agreement'];
 
 const ReviewConductCode = () => {
-	const { redirectionComplete } = useProfileRedirect();
+	const { isRedirecting } = useProfileRedirect();
 
 	const [agreementChecked, setAgreementChecked] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,7 +58,7 @@ const ReviewConductCode = () => {
 		}
 	};
 
-	if (!redirectionComplete) {
+	if (isRedirecting) {
 		return <div>loading...</div>;
 	}
 
