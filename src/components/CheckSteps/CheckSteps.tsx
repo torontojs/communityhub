@@ -7,9 +7,9 @@ import StepBar from '../StepBar/StepBar.tsx';
 import './CheckSteps.css';
 
 const CheckSteps = () => {
-	const { redirectionComplete } = useProfileRedirect();
+	const { isRedirecting } = useProfileRedirect();
 
-	if (!redirectionComplete) {
+	if (isRedirecting) {
 		return <div>loading...</div>;
 	}
 
