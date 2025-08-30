@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type ProfileStatus = 'activated' | 'created' | 'deleted' | 'error' | 'profile-completed' | 'social-handle-provided' | 'tos-accepted';
 
@@ -89,17 +89,13 @@ export const getRedirectPath = async (signal?: AbortSignal, currentPath?: string
 			console.error('Failed to fetch profile status:', err);
 			return REDIRECT_PATHS.signIn;
 		}
-		return null;
+		// Re-throw the abort
+		throw err;
 	}
 };
 
 export const useProfileRedirect = () => {
-	const hasRedirected = useRef(false);
-
-	// Use in components to prevent flashing if redirection is required.
-	// NOTE: In development, React Strict Mode may still cause a brief flash
-	// due to double-invoked useEffect and initial component mount.
-	const [redirectionComplete, setRedirectionComplete] = useState(false);
+	const [isRedirecting, setIsRedirecting] = useState(true);
 
 	useEffect(() => {
 		// Create abort controller to fetch abort
@@ -113,33 +109,24 @@ export const useProfileRedirect = () => {
 
 				const redirectPath = await getRedirectPath(signal, currentPath);
 
-				if (signal.aborted || hasRedirected.current) {
-					return;
-				}
-
-				// If redirectPath is null (aborted), skip redirection
+				// If invalid redirectPath, throw error
 				if (!redirectPath) {
-					setRedirectionComplete(true);
-					return;
+					throw new Error('Invalid Redirect Path!');
 				}
 
 				// Redirect only if current url path is different from the redirectpath
-				if (currentPath && currentPath !== redirectPath) {
-					hasRedirected.current = true;
+				if (currentPath !== redirectPath) {
 					window.location.href = redirectPath;
 				} else {
-					// Mark redirection complete if already on the correct path
-					setRedirectionComplete(true);
+					setIsRedirecting(false);
 				}
 			} catch (error) {
+				if (error.name === 'AbortError') {
+					// Do nothing for Abort Error
+					return;
+				}
 				console.error('Redirect Error!', error);
-				if (!signal.aborted && !hasRedirected.current) {
-					window.location.href = REDIRECT_PATHS.signIn;
-				}
-			} finally {
-				if (!signal.aborted && !hasRedirected.current) {
-					setRedirectionComplete(true);
-				}
+				window.location.href = REDIRECT_PATHS.signIn;
 			}
 		};
 
@@ -151,5 +138,5 @@ export const useProfileRedirect = () => {
 		};
 	}, []);
 
-	return { redirectionComplete };
+	return { isRedirecting };
 };
