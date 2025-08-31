@@ -33,6 +33,19 @@ const REDIRECT_PATHS = {
 };
 
 /**
+ * The regex engine looks for one or more forward slashes (/+) that are located at the very end of the string ($).
+ * If it finds them, the replace method replaces them with an empty string (''), effectively deleting them.
+ *
+ * - `\/+`  : Matches one or more slashes. The backslash '\' escapes the forward slash '/'. '+' is a quantifier for one or more matches.
+ * - `$`    : Anchors that matches the end of the string.
+ * - `u`    : Enables full Unicode support (safe for Unicode characters).
+ *
+ * E.g.		: 'https://www.example.com/path/'  becomes 'https://www.example.com/path'.
+ * 			: 'https://www.example.com/path//' becomes 'https://www.example.com/path'.
+ */
+export const REGEX_REMOVE_TRAILING_SLASHES = /\/+$/u;
+
+/**
  * Normalizes a path by removing any trailing slashes (/).
  *
  * This is useful for ensuring consistent path formatting, especially
@@ -41,7 +54,7 @@ const REDIRECT_PATHS = {
  * @param {string} path - The input path string to normalize.
  * @returns {string} The normalized path without trailing slashes.
  */
-const normalizePath = (path: string) => path.replace(/\/+$/u, '');
+const normalizePath = (path: string) => path.replace(new RegExp(REGEX_REMOVE_TRAILING_SLASHES.source, REGEX_REMOVE_TRAILING_SLASHES.flags), '');
 
 const getRedirectPathForStatus = (status: ProfileStatus, currentPath?: string): string => {
 	const normalized = normalizePath(currentPath ?? '');
