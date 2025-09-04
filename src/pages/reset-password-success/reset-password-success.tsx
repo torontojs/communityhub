@@ -14,7 +14,9 @@ createRoot(root).render(
 			<div className='app'>
 				<div className='page'>
 					<Header>Account confirmation success</Header>
-					<ResetPasswordSuccess />
+					<main>
+						<ResetPasswordSuccess />
+					</main>
 					<FooterNav />
 				</div>
 			</div>
