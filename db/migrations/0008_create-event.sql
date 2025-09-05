@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS event (
 	-- The UUID of the profile this event is assigned to
 	profileId TEXT NOT NULL COLLATE BINARY,
 	-- The UUID of the team this event belongs to
-	teamId TEXT COLLATE BINARY,
+	teamId TEXT NOT NULL COLLATE BINARY,
 	-- The UUID of the projet this event belongs to
 	projectId TEXT COLLATE BINARY,
 	-- The date when this event was created, saved as an ISO timestamp

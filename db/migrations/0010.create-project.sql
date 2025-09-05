@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS project (
 	name TEXT NOT NULL,
 	-- Description of the project
 	description TEXT,
+	-- The UUID of the profile this event is assigned to
+	profileId TEXT NOT NULL COLLATE BINARY,
 	-- The UUID of the team this project is assigned to
 	teamId TEXT NOT NULL COLLATE BINARY,
 	-- The UUID of the event this project belongs to
