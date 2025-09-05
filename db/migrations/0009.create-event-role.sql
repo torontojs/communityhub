@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS role (
 	-- The event role description
 	description TEXT,
 	-- The UUID of the team this event role belongs to
-	teamId TEXT NOT NULL COLLATE BINARY,
+	teamId TEXT COLLATE BINARY,
 	-- The UUID of the profile this event role is assigned to
 	profileId TEXT COLLATE BINARY,
 	-- The maximum number of people allowed in this event role
