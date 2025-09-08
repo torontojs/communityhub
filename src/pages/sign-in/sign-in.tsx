@@ -1,7 +1,7 @@
 import 'open-props';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import AuthGate from '../../components/AuthGate/AuthGate.tsx';
+import { AuthGatePublic } from '../../components/AuthGate/AuthGate.tsx';
 import FooterNav from '../../components/Footer/Footer.tsx';
 import Header from '../../components/Header/Header.tsx';
 import SignInForm from '../../components/SignIn/SignInForm.tsx';
@@ -14,11 +14,11 @@ createRoot(root).render(
 		<StrictMode>
 			<div className='app'>
 				<div className='page'>
-					<AuthGate>
+					<AuthGatePublic>
 						<Header>Welcome to TorontoJS Community Hub</Header>
 						<SignInForm />
 						<FooterNav />
-					</AuthGate>
+					</AuthGatePublic>
 				</div>
 			</div>
 			d

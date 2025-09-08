@@ -16,7 +16,7 @@ export const getHeartBeat = async (): Promise<boolean> => {
 	}
 };
 
-export const useHeartbeat = () => {
+export const useHeartBeat = () => {
 	const [isAuth, setIsAuth] = useState<boolean>(false);
 
 	useEffect(() => {

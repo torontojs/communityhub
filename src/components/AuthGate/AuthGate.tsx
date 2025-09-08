@@ -1,7 +1,9 @@
-import { useHeartbeat } from '../../hooks/useHeartBeat.ts';
+import { useHeartBeat } from '../../hooks/useHeartBeat.ts';
+import { useProfileRedirect } from '../../hooks/useProfileRedirect.ts';
 
-const AuthGate = ({ children }: { children: React.ReactNode }) => {
-	const isAuth = useHeartbeat();
+// Utilize on application pages which are public
+export const AuthGatePublic = ({ children }: { children: React.ReactNode }) => {
+	const isAuth = useHeartBeat();
 
 	if (!isAuth) {
 		return <h1>Is Loading...</h1>;
@@ -9,4 +11,12 @@ const AuthGate = ({ children }: { children: React.ReactNode }) => {
 	return children;
 };
 
-export default AuthGate;
+// To be utilized only on home page and profile completion onboarding steps
+export const AuthGatePrivate = ({ children }: { children: React.ReactNode }) => {
+	const isAuth = useProfileRedirect();
+
+	if (!isAuth) {
+		return <h1>Is Loading...</h1>;
+	}
+	return children;
+};
