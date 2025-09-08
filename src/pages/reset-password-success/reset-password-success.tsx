@@ -13,7 +13,7 @@ createRoot(root).render(
 		<StrictMode>
 			<div className='app'>
 				<div className='page'>
-					<Header>Account confirmation success</Header>
+					<Header>Password reset successful</Header>
 					<main>
 						<ResetPasswordSuccess />
 					</main>

@@ -1,7 +1,7 @@
 import 'open-props';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { AuthGate } from '../../components/AuthGate/AuthGate.tsx';
+import AuthGate from '../../components/AuthGate/AuthGate.tsx';
 import FooterNav from '../../components/Footer/Footer.tsx';
 import ForgotPasswordForm from '../../components/ForgotPassword/ForgotPassword.tsx';
 import Header from '../../components/Header/Header.tsx';

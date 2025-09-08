@@ -17,7 +17,7 @@ async function resetPassword(token: string | null, password: string) {
 		if (!response.ok) {
 			window.location.href = '/pages/sign-in';
 		} else {
-			window.location.href = '/pages/account-ready';
+			window.location.href = '/pages/reset-password-sucess';
 		}
 	} catch (error) {
 		console.error(error);
