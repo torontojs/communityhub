@@ -13,13 +13,13 @@ interface ProfileStatusResponse {
 }
 
 const VALID_STATUSES = new Set<ProfileStatus>([
-	'activated',
 	'created',
-	'deleted',
-	'error',
-	'profile-completed',
+	'activated',
+	'tos-accepted',
 	'social-handle-provided',
-	'tos-accepted'
+	'profile-completed',
+	'deleted',
+	'error'
 ]);
 
 const isValidStatus = (status: string): status is ProfileStatus => VALID_STATUSES.has(status as ProfileStatus);
