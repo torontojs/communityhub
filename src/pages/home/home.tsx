@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { AuthGatePrivateRedirect } from '../../components/AuthGate/AuthGate.tsx';
+import { AuthGateHomePageProtected } from '../../components/AuthGate/AuthGate.tsx';
 import Footer from '../../components/Footer/Footer.tsx';
 import Header from '../../components/Header/Header.tsx';
 import { Home } from '../../components/Home/Home.tsx';
@@ -11,11 +11,11 @@ const root = document.getElementById('root') as HTMLDivElement;
 createRoot(root).render(
 	(
 		<StrictMode>
-			<AuthGatePrivateRedirect>
+			<AuthGateHomePageProtected>
 				<Header>VMS Home Page</Header>
 				<Home />
 				<Footer />
-			</AuthGatePrivateRedirect>
+			</AuthGateHomePageProtected>
 		</StrictMode>
 	)
 );
