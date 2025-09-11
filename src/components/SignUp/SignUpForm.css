@@ -112,8 +112,3 @@
 
 #email-input-helper-text { display: none; }
 #email-input:not(:focus):user-invalid ~ #email-input-helper-text { display: block; }
-
-.button-styling {
-	background: #ef343f;
-	color: white;
-}

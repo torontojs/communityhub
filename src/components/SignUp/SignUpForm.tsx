@@ -2,6 +2,7 @@ import './SignUpForm.css';
 import { useRef, useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button.tsx';
+import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 const MIN_PASSWORD_SCORE = 3;
@@ -95,20 +96,20 @@ const SignUpForm = (): React.JSX.Element => {
 				<h2 className='center'>Welcome! Let's set up your account.</h2>
 			</div>
 			<div className='input-block'>
-				<label className='block' htmlFor='name-input'>Name</label>
-				<input
-					id='name-input'
-					type='text'
+				<TextInputComponent
+					label='Name'
 					name='name'
+					id='name-input'
 					placeholder='Your name'
-					minLength={1}
 					required
-					aria-describedby='name-input-helper-text'
+					helperMessageSlot={
+						<div id='name-input-helper-text'>
+							<span>Please enter a valid name that is at least 1 character long.</span>
+						</div>
+					}
 					ref={nameInputRef}
+					minLength={1}
 				/>
-				<div id='name-input-helper-text'>
-					<span>Please enter a valid name that is at least 1 character long.</span>
-				</div>
 			</div>
 
 			<div className='input-block'>
