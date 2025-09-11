@@ -102,11 +102,11 @@ const SignUpForm = (): React.JSX.Element => {
 					id='name-input'
 					placeholder='Your name'
 					required
-					helperMessageSlot={
+					helperMessageSlot={(
 						<div id='name-input-helper-text'>
 							<span>Please enter a valid name that is at least 1 character long.</span>
 						</div>
-					}
+					)}
 					ref={nameInputRef}
 					minLength={1}
 				/>
