@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type ProfileStatus = 'activated' | 'created' | 'deleted' | 'error' | 'profile-completed' | 'social-handle-provided' | 'tos-accepted';
 
@@ -79,62 +79,34 @@ export const getRedirectPath = async (signal?: AbortSignal): Promise<RedirectPat
 };
 
 export const useProfileRedirect = () => {
-	const hasRedirected = useRef(false);
-
-	// Use in components to prevent flashing if redirection is required.
-	// NOTE: In development, React Strict Mode may still cause a brief flash
-	// due to double-invoked useEffect and initial component mount.
-	const [redirectionComplete, setRedirectionComplete] = useState(false);
+	// Start as null so we can render a loading state
+	const [redirectionComplete, setRedirectionComplete] = useState<boolean | null>(null);
 
 	useEffect(() => {
-		if (hasRedirected.current) {
-			return;
-		}
-
-		// Create abort controller to fetch abort
 		const controller = new AbortController();
 		const { signal } = controller;
 
 		const redirect = async () => {
-			try {
-				const redirectPath = await getRedirectPath(signal);
+			const redirectPath = await getRedirectPath(signal);
 
-				// If redirectPath is null (aborted), skip redirection
-				if (!redirectPath) {
-					setRedirectionComplete(true);
-					return;
-				}
+			if (!redirectPath) {
+				setRedirectionComplete(true);
+				return;
+			}
 
-				// Normalize URL path
-				const currentPath = new URL(window.location.href).pathname;
+			const currentPath = new URL(window.location.href).pathname;
 
-				// Avoid redirect if already on the correct path
-				if (currentPath !== redirectPath) {
-					hasRedirected.current = true;
-					window.location.href = redirectPath;
-				} else {
-					// Mark redirection complete if already on the correct path
-					setRedirectionComplete(true);
-				}
-			} catch (error) {
-				console.error('Redirect Error!', error);
-				if (!hasRedirected.current) {
-					window.location.href = REDIRECT_PATHS.signIn;
-				}
-			} finally {
-				if (!hasRedirected.current) {
-					setRedirectionComplete(true);
-				}
+			if (currentPath !== redirectPath) {
+				window.location.href = redirectPath;
+			} else {
+				setRedirectionComplete(true);
 			}
 		};
 
 		void redirect();
 
-		// Cleanup function to abort fetch
-		return () => {
-			controller.abort();
-		};
+		return () => controller.abort();
 	}, []);
 
-	return { redirectionComplete };
+	return redirectionComplete;
 };

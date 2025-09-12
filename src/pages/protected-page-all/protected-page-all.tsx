@@ -8,10 +8,8 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
-		<StrictMode>
-			<AuthGateProtected>
-				<Header>Page that requires you to be authenticated and with completed profile</Header>
-			</AuthGateProtected>
-		</StrictMode>
+		<AuthGateProtected>
+			<Header>Page that requires you to be authenticated and with completed profile</Header>
+		</AuthGateProtected>
 	)
 );

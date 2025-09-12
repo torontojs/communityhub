@@ -11,22 +11,10 @@ export const AuthGateCheck = ({ children }: { children: React.ReactNode }) => {
 	return children;
 };
 
-// THIS VERSION WORKS WITHOUT FLICKERING
-// To be utilized only on home page and profile completion steps handles authenticated non completed profile status
-// export const AuthGateHomePageProtected = ({ children }: { children: React.ReactNode }) => {
-// 	const isAuth = useHeartBeatProtectedHomePage();
-
-// 	if (isAuth === null) {
-// 		return <h1>Is Loading...</h1>;
-// 	}
-// 	return children;
-// };
-
-// THIS VERSOIN WORKS BUT FLICKERS
 export const AuthGateHomePageProtected = ({ children }: { children: React.ReactNode }) => {
-	const isAuth = useProfileRedirect();
+	const redirectionComplete = useProfileRedirect();
 
-	if (isAuth === null) {
+	if (redirectionComplete === null) {
 		return <h1>Is Loading...</h1>;
 	}
 	return children;

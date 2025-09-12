@@ -10,12 +10,10 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
-		<StrictMode>
-			<AuthGateHomePageProtected>
-				<Header>VMS Home Page</Header>
-				<Home />
-				<Footer />
-			</AuthGateHomePageProtected>
-		</StrictMode>
+		<AuthGateHomePageProtected>
+			<Header>VMS Home Page</Header>
+			<Home />
+			<Footer />
+		</AuthGateHomePageProtected>
 	)
 );

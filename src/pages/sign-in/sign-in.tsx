@@ -11,17 +11,14 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
-		<StrictMode>
-			<div className='app'>
-				<div className='page'>
-					<AuthGateCheck>
-						<Header>Welcome to TorontoJS Community Hub</Header>
-						<SignInForm />
-						<FooterNav />
-					</AuthGateCheck>
-				</div>
+		<div className='app'>
+			<div className='page'>
+				<AuthGateCheck>
+					<Header>Welcome to TorontoJS Community Hub</Header>
+					<SignInForm />
+					<FooterNav />
+				</AuthGateCheck>
 			</div>
-			d
-		</StrictMode>
+		</div>
 	)
 );
