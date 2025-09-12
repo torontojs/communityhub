@@ -19,7 +19,7 @@ export const getHeartBeat = async (): Promise<boolean> => {
 
 // Public Page useHeartBeat
 export const useHeartBeat = () => {
-	const [isAuth, setIsAuth] = useState<boolean>(false);
+	const [isAuth, setIsAuth] = useState<boolean | null>(null);
 
 	useEffect(() => {
 		const check = async () => {
@@ -126,7 +126,7 @@ export const getHeartBeatProtectedOrganizer = async (): Promise<boolean> => {
 
 // Protected organizers and admins page hook
 export const useHeartBeatProtectedOrganizer = () => {
-	const [isAuth, setIsAuth] = useState<boolean>(false);
+	const [isAuth, setIsAuth] = useState<boolean | null>(null);
 
 	useEffect(() => {
 		const check = async () => {
@@ -162,7 +162,7 @@ export const getHeartBeatProtectedAdmin = async (): Promise<boolean> => {
 
 // Protected admin page hook
 export const useHeartBeatProtectedAdmin = () => {
-	const [isAuth, setIsAuth] = useState<boolean>(false);
+	const [isAuth, setIsAuth] = useState<boolean | null>(null);
 
 	useEffect(() => {
 		const check = async () => {
