@@ -43,7 +43,7 @@ export const AuthGateProtectedOrganizer = ({ children }: { children: React.React
 export const AuthGateProtectedAdmin = ({ children }: { children: React.ReactNode }) => {
 	const isAuth = useHeartBeatProtectedAdmin();
 
-	if (!isAuth) {
+	if (isAuth === null) {
 		return <h1>Is Loading...</h1>;
 	}
 	return children;

@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+// import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AuthGateHomePageProtected } from '../../components/AuthGate/AuthGate.tsx';
 import Footer from '../../components/Footer/Footer.tsx';

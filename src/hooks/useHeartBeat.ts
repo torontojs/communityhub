@@ -150,7 +150,7 @@ export const getHeartBeatProtectedAdmin = async (): Promise<boolean> => {
 		});
 
 		const data = await response.json();
-		if (response.status === 200 && data.acess === 'admin') {
+		if (response.status === 200 && data.access === 'admin') {
 			return true;
 		}
 		return false;
