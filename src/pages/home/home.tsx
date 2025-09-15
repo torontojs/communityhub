@@ -1,4 +1,4 @@
-// import { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AuthGateHomePageProtected } from '../../components/AuthGate/AuthGate.tsx';
 import Footer from '../../components/Footer/Footer.tsx';
@@ -10,10 +10,12 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
-		<AuthGateHomePageProtected>
-			<Header>VMS Home Page</Header>
-			<Home />
-			<Footer />
-		</AuthGateHomePageProtected>
+		<StrictMode>
+			<AuthGateHomePageProtected>
+				<Header>VMS Home Page</Header>
+				<Home />
+				<Footer />
+			</AuthGateHomePageProtected>
+		</StrictMode>
 	)
 );

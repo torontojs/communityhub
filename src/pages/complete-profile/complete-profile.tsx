@@ -1,4 +1,4 @@
-// import { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import 'open-props';
@@ -11,8 +11,10 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
-		<AuthGateHomePageProtected>
-			<CompleteProfile />
-		</AuthGateHomePageProtected>
+		<StrictMode>
+			<AuthGateHomePageProtected>
+				<CompleteProfile />
+			</AuthGateHomePageProtected>
+		</StrictMode>
 	)
 );

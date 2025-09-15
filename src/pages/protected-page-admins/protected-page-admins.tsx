@@ -1,4 +1,4 @@
-// import { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AuthGateProtectedAdmin } from '../../components/AuthGate/AuthGate.tsx';
 import Header from '../../components/Header/Header.tsx';
@@ -8,8 +8,10 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
-		<AuthGateProtectedAdmin>
-			<Header>Protected admin page</Header>
-		</AuthGateProtectedAdmin>
+		<StrictMode>
+			<AuthGateProtectedAdmin>
+				<Header>Protected admin page</Header>
+			</AuthGateProtectedAdmin>
+		</StrictMode>
 	)
 );

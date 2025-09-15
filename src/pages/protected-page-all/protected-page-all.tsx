@@ -1,4 +1,4 @@
-// import { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AuthGateProtected } from '../../components/AuthGate/AuthGate.tsx';
 import Header from '../../components/Header/Header.tsx';
@@ -8,8 +8,10 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
-		<AuthGateProtected>
-			<Header>Page that requires you to be authenticated and with completed profile</Header>
-		</AuthGateProtected>
+		<StrictMode>
+			<AuthGateProtected>
+				<Header>Page that requires you to be authenticated and with completed profile</Header>
+			</AuthGateProtected>
+		</StrictMode>
 	)
 );

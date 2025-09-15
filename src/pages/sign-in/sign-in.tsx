@@ -1,5 +1,5 @@
 import 'open-props';
-// import { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AuthGateCheck } from '../../components/AuthGate/AuthGate.tsx';
 import FooterNav from '../../components/Footer/Footer.tsx';
@@ -11,14 +11,16 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
-		<div className='app'>
-			<div className='page'>
-				<AuthGateCheck>
-					<Header>Welcome to TorontoJS Community Hub</Header>
-					<SignInForm />
-					<FooterNav />
-				</AuthGateCheck>
+		<StrictMode>
+			<div className='app'>
+				<div className='page'>
+					<AuthGateCheck>
+						<Header>Welcome to TorontoJS Community Hub</Header>
+						<SignInForm />
+						<FooterNav />
+					</AuthGateCheck>
+				</div>
 			</div>
-		</div>
+		</StrictMode>
 	)
 );
