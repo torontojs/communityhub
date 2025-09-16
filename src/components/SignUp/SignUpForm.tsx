@@ -2,8 +2,8 @@ import './SignUpForm.css';
 import { useRef, useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import Button from '../Button/Button.tsx';
-import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
 import HelperMessageComponent from '../HelperMessageComponent/HelperMessageComponent.tsx';
+import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
 
 const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
 const MIN_PASSWORD_SCORE = 3;
@@ -105,7 +105,8 @@ const SignUpForm = (): React.JSX.Element => {
 					required
 					helperMessageSlot={(
 						<HelperMessageComponent
-							variant='error' labelText='Please enter a valid name that is at least 1 character long.'
+							variant='error'
+							labelText='Please enter a valid name that is at least 1 character long.'
 						/>
 					)}
 					ref={nameInputRef}
