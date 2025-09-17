@@ -1,6 +1,5 @@
 import './SignInForm.css';
 import { useRef, useState } from 'react';
-import { useHeartBeat } from '../../hooks/useHeartBeat.ts';
 import Button from '../Button/Button.tsx';
 
 const SignInForm = (): React.JSX.Element => {
@@ -8,8 +7,6 @@ const SignInForm = (): React.JSX.Element => {
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-
-	useHeartBeat();
 
 	const signin = async (email: string, password: string) => {
 		try {
@@ -26,7 +23,7 @@ const SignInForm = (): React.JSX.Element => {
 				const errorData = await response.json();
 				console.error('Response not ok: ', errorData);
 			} else {
-				window.location.href = '/pages/home/';
+				window.location.href = '/pages/home';
 			}
 		} catch (err) {
 			console.error(err);
@@ -34,12 +31,14 @@ const SignInForm = (): React.JSX.Element => {
 		}
 	};
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		setIsLoading(true);
 		event.preventDefault();
 
 		const emailIsValid = emailInputRef.current?.checkValidity() ?? false;
 		const passwordIsValid = passwordInputRef.current?.checkValidity() ?? false;
 
 		if (!emailIsValid || !passwordIsValid) {
+			setIsLoading(false);
 			return;
 		}
 		const form = event.currentTarget;
@@ -48,7 +47,6 @@ const SignInForm = (): React.JSX.Element => {
 		const emailValue = (formData.get('email') as string ?? '').trim();
 		const passwordValue = (formData.get('password') as string ?? '').trim();
 
-		setIsLoading(true);
 		await signin(emailValue, passwordValue);
 	};
 

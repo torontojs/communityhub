@@ -11,8 +11,6 @@ import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
 
-import { useProfileRedirect } from '../../hooks/useProfileRedirect.ts';
-
 interface SocialIcons {
 	id: string;
 	name: string;
@@ -138,8 +136,6 @@ const CompleteProfile = () => {
 		links: [],
 		skills: []
 	});
-
-	useProfileRedirect();
 
 	const validateSlackHandle = () => {
 		const slackUrl = slackHandleInputRef.current?.value ?? '';
