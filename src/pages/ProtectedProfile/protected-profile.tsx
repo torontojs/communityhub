@@ -1,0 +1,17 @@
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+import 'open-props';
+import '../../index.css';
+import './style.css';
+import ProtectedProfile from '../../components/ProtectedProfile/ProtectedProfile.tsx';
+
+const root = document.getElementById('root') as HTMLDivElement;
+
+createRoot(root).render(
+	(
+		<StrictMode>
+			<ProtectedProfile />
+		</StrictMode>
+	)
+);
