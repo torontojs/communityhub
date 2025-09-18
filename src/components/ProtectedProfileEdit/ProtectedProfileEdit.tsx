@@ -32,6 +32,8 @@ export const ProtectedProfileEdit = (): React.JSX.Element => {
 
 				const data = await response.json();
 
+				console.log(data);
+
 				if (!data) {
 					throw new Error('Error parsing protected profile response data');
 				}
