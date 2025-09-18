@@ -8,7 +8,7 @@ interface Links {
 type LinksArray = Links[];
 
 export const ProtectedProfile = (): React.JSX.Element => {
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [email, setEmail] = useState<string>('');
 	const [name, setName] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
@@ -32,56 +32,50 @@ export const ProtectedProfile = (): React.JSX.Element => {
 
 				const data = await response.json();
 
-				console.log(data);
+				if (!data) {
+					throw new Error('Error parsing protected profile response data');
+				}
+
+				const { data: { name, email, description, isBasedOnGTA, canJoinLocalEvents, pronouns, birthday, links, skills } } = data;
+
+				setName(name);
+				setEmail(email);
+				setDescription(description);
+				setIsBasedOnGTA(isBasedOnGTA);
+				setCanJoinLocalEvents(canJoinLocalEvents);
+				setPronoun(pronouns);
+				setBirthday(birthday);
+				setSkills(skills);
+				setLinks(links);
+				setIsLoading(false);
 			} catch (err) {
 				console.error(err);
 			}
 		}
-
-		const data = fetchProtectedProfile();
-	});
+		void fetchProtectedProfile();
+	}, []);
 
 	if (isLoading) { return <h1>Is Loading...</h1>; }
-
-	return <h1>Protected Profile</h1>;
+	return (
+		<>
+			<h1>Protected Profile</h1>
+			<ul>
+				<li>Name: {name}</li>
+				<li>Email:{email}</li>
+				<li>Description:{description}</li>
+				<li>Based in GTA:{isBasedOnGTA}</li>
+				<li>Able to join local events:{canJoinLocalEvents}</li>
+				<li>Pronouns:{pronouns}</li>
+				<li>Birthday:{birthday}</li>
+				<p>Links</p>
+				<ul>
+					{links.map((entry: Links): React.JSX.Element => <li>{entry.platform}:{entry.url}</li>)}
+				</ul>
+				<p>Skills:</p>
+				<ul>
+					{skills.map((entry: string): React.JSX.Element => <li>{entry}</li>)}
+				</ul>
+			</ul>
+		</>
+	);
 };
-
-//     "email": "king.arthur@camelot.uk",
-//     "name": "King Arthur",
-//     "description": "Gallant monarch forever seeking sacred drinkware.",
-//     "isBasedOnGTA": true,
-//     "canJoinLocalEvents": true,
-//     "pronouns": "he/him",
-//     "birthday": "03-14",
-//     "links": [
-//         {
-//             "platform": "twitter",
-//             "url": "arthur_king"
-//         },
-//         {
-//             "platform": "github",
-//             "url": "arthur-king"
-//         },
-//         {
-//             "platform": "linkedin",
-//             "url": "arthur.king"
-//         },
-//         {
-//             "platform": "mastodon",
-//             "url": "arthur_king@mastodon.social"
-//         },
-//         {
-//             "platform": "instagram",
-//             "url": "arthur_king"
-//         },
-//         {
-//             "platform": "slack",
-//             "url": "arthur_king"
-//         }
-//     ],
-//     "skills": [
-//         "Leadership",
-//         "Questing",
-//         "Table Management"
-//     ]
-// }
