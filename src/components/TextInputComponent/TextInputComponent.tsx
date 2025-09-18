@@ -1,18 +1,21 @@
 import { forwardRef, type InputHTMLAttributes, type KeyboardEventHandler, useMemo } from 'react';
 import './TextInputComponent.css';
-
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-	label: string;
+	label?: string;
+	type?: string;
 	error?: string;
 	helper?: string | null;
 	labelSlot?: React.JSX.Element;
 	helperMessageSlot?: React.JSX.Element;
+	datalistOptions?: string[];
+	listId?: string;
 }
 
 const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 	id,
 	name,
 	label,
+	type = 'text',
 	disabled,
 	error,
 	helper,
@@ -20,6 +23,9 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 	labelSlot,
 	helperMessageSlot,
 	onKeyDown,
+	datalistOptions,
+	listId,
+	className,
 	...rest
 }, ref) => {
 	// Conditional flag checks
@@ -60,15 +66,22 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 				ref={ref}
 				id={elementId}
 				name={name}
-				type='text'
+				type={type}
 				aria-disabled={disabled}
 				defaultValue={value ?? ''}
 				data-error={Boolean(error)}
 				data-helper={Boolean(helper)}
 				onKeyDown={keydownHandler}
+				list={listId}
+				className={className}
 				{...rest}
 			/>
 			{helperMessageSlot}
+			{datalistOptions && listId && (
+				<datalist id={listId}>
+					{datalistOptions.map((option) => <option key={option}>{option}</option>)}
+				</datalist>
+			)}
 		</div>
 	);
 });

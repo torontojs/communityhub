@@ -1,0 +1,27 @@
+#account-ready-form {
+	border: var(--border);
+	border-radius: var(--rounded-md);
+	display: flex;
+	flex-direction: column;
+	max-width: 24rem;
+	width: 100%;
+	gap: var(--spacing-sm) 0;
+	padding: var(--spacing-sm);
+
+	p {
+		font-size: var(--text-sm);
+		text-align: center;
+	}
+
+	hr {
+		border: none;
+		border-top: var(--border);
+		margin: 0.063rem 0;
+	}
+
+	a {
+		text-decoration: underline;
+		margin: var(--spacing-md) 0;
+		text-align: center;
+	}
+}
