@@ -54,6 +54,7 @@ export default defineConfig(({ mode }) => {
 					'date-usage': fileURLToPath(new URL('./src/pages/date-usage/index.html', import.meta.url)),
 					'helper-message': fileURLToPath(new URL('./src/pages/usage-helper-message/index.html', import.meta.url)),
 					'protected-profile': fileURLToPath(new URL('./src/pages/protected-profile/index.html', import.meta.url)),
+					'protected-profile-edit': fileURLToPath(new URL('./src/pages/protected-profile-edit/index.html', import.meta.url)),
 					'protected-page-all': fileURLToPath(new URL('./src/pages/protected-page-all/index.html', import.meta.url)),
 					'protected-page-organizers': fileURLToPath(new URL('./src/pages/protected-page-organizers/index.html', import.meta.url)),
 					'protected-page-admins': fileURLToPath(new URL('./src/pages/protected-page-admins/index.html', import.meta.url))
