@@ -18,6 +18,8 @@
 4. Set up Resend secrets (optional)
    - Copy the API Key and paste it in the `.dev.vars` file under the `RESEND_API_KEY` variable.
    - Update the `SENDER_EMAIL` variable to `onboarding@resend.dev` for testing, or use an email from your verified domain.
+   - For more details about how Resend works in development, see [Resend Email Guide](./resend.md).
+
 5. Run migrations to create your tables.
    ```shell
    npm run db:setup
