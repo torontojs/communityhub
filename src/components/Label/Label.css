@@ -1,0 +1,12 @@
+.label {
+	border-radius: var(--rounded-xl);
+	box-sizing: border-box;
+	text-align: center;
+	padding: var(--spacing-xs);
+	background-color: var(--color-gray-200);
+
+	&[data-primary='true'] {
+		background-color: var(--color-red);
+		color: var(--color-background);
+	}
+}
