@@ -66,7 +66,6 @@ fileRoutes.openapi(
 				const r2Bucket = context.env.ExportedFiles;
 				const file = await r2Bucket.get(filename);
 
-				// If file is found, return it
 				if (file) {
 					const contentType = file.httpMetadata?.contentType ?? fileInfo.mimeType;
 
@@ -79,7 +78,6 @@ fileRoutes.openapi(
 				}
 			}
 
-			// If the file is not found
 			return context.json(
 				{ message: `File was not found.` },
 				StatusCodes.NOT_FOUND
@@ -144,7 +142,6 @@ fileRoutes.openapi(
 				return context.json({ message: 'Invalid or no filename provided!' }, StatusCodes.BAD_REQUEST);
 			}
 
-			// Fetch file data to determine if it exists
 			const fileInfo = await fetchFileInfo(context.env.Database, filename, 'protected', true);
 
 			if (fileInfo) {
@@ -153,7 +150,6 @@ fileRoutes.openapi(
 				const r2Bucket = context.env.ExportedFiles;
 				const file = await r2Bucket.get(filename);
 
-				// If file is found, return it
 				if (file) {
 					const contentType = file.httpMetadata?.contentType ?? fileInfo.mimeType;
 
@@ -166,7 +162,6 @@ fileRoutes.openapi(
 				}
 			}
 
-			// If the file is not found
 			return context.json(
 				{ message: `File was not found.` },
 				StatusCodes.NOT_FOUND
@@ -224,14 +219,12 @@ fileRoutes.openapi(
 		const file = formData.get('file') as File;
 		const fileType = formData.get('type') as UploadedFileType;
 
-		// Check if file was uploaded by the user
 		if (!file || !(file instanceof File)) {
 			return context.json({ message: 'No or invalid file uploaded. Please provide a file!' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
 		}
 
 		const fileMimeType = file.type as AllowedFileMimeType;
 
-		// Validate file extension
 		if (!validateFileExtension(file.name, fileMimeType)) {
 			return context.json({ message: 'Invalid image file extension. Only JPEG and PNG are allowed!' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
 		}
