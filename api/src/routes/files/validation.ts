@@ -61,7 +61,6 @@ export const validateFileExtension = (fileName: string, mimeType: string): boole
 
 	const extension = fileName.slice(lastDotIndex + 1).toLowerCase();
 
-	// Return false if MIME type isn't allowed
 	if (!AllowedFileMimeTypesOptions.includes(mimeType as AllowedFileMimeType)) {
 		return false;
 	}
