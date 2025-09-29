@@ -59,13 +59,7 @@
 				& > span { flex-grow: 1; }
 			}
 
-			.details-content-wrapper {
-				padding: var(--spacing-sm);
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-			}
+			.details-content-wrapper { padding: var(--spacing-sm); }
 
 			.details-nutshell-grid {
 				display: grid;
@@ -94,7 +88,7 @@
 			/* Media query for smaller screens */
 			@media (max-width: 48rem) { .details-nutshell-grid { grid-template-columns: 1fr; } }
 
-			/* .input-required {
+			.input-required {
 				align-items: center;
 				display: flex;
 				justify-content: space-between;
@@ -114,15 +108,15 @@
 				flex-direction: column;
 				gap: var(--spacing-xs);
 				width: 100%;
-			} */
+			}
 
-			/* .slider-checkbox-row {
+			.slider-checkbox-row {
 				position: relative;
 				& label {
 					font-size: var(--text-xs);
 					letter-spacing: 0;
 				}
-			} */
+			}
 
 			.slider-checkbox {
 				height: 0;
@@ -138,15 +132,14 @@
 				border: none;
 			}
 
-			.slider-checkbox-row .input-label-container label {
+			.slider-checkbox + label {
 				align-items: center;
 				cursor: pointer;
 				display: flex;
 				position: relative;
-				flex-grow: 0;
 			}
 
-			.slider-checkbox-row .input-label-container label::before {
+			.slider-checkbox + label::before {
 				background-color: white;
 				border: var(--border);
 				border-color: var(--color-accent);
@@ -159,9 +152,9 @@
 				width: 2.25rem;
 			}
 
-			.text-input-component-container:has(.slider-checkbox:checked) .input-label-container label::before { background-color: var(--color-accent); }
+			.slider-checkbox:checked + label::before { background-color: var(--color-accent); }
 
-			.slider-checkbox-row .input-label-container label::after {
+			.slider-checkbox + label::after {
 				background-color: var(--color-accent);
 				border-radius: 0.625rem;
 				content: '';
@@ -172,13 +165,12 @@
 				width: 0.75rem;
 			}
 
-			.text-input-component-container:has(.slider-checkbox:checked) .input-label-container label::after {
+			.slider-checkbox:checked + label::after {
 				background-color: white;
 				left: 1.312rem;
 			}
 
-			.text-input-component-container:has(.slider-checkbox:focus) .input-label-container label::before,
-			.text-input-component-container:has(.slider-checkbox:checked:focus) .input-label-container label::before {
+			.slider-checkbox:focus + label::before, .slider-checkbox:checked:focus + label::before {
 				outline: 0.125rem solid var(--color-foreground);
 				outline-offset: var(--border-base);
 				transition: none;

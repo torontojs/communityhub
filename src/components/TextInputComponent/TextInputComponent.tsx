@@ -15,7 +15,6 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 	id,
 	name,
 	label,
-	type = 'text',
 	disabled,
 	error,
 	helper,
@@ -24,8 +23,6 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 	helperMessageSlot,
 	onKeyDown,
 	datalistOptions,
-	listId,
-	className,
 	...rest
 }, ref) => {
 	// Conditional flag checks
@@ -66,22 +63,15 @@ const TextInputComponent = forwardRef<HTMLInputElement, Props>(({
 				ref={ref}
 				id={elementId}
 				name={name}
-				type={type}
+				type={'text'}
 				aria-disabled={disabled}
 				defaultValue={value ?? ''}
 				data-error={Boolean(error)}
 				data-helper={Boolean(helper)}
 				onKeyDown={keydownHandler}
-				list={listId}
-				className={className}
 				{...rest}
 			/>
 			{helperMessageSlot}
-			{datalistOptions && listId && (
-				<datalist id={listId}>
-					{datalistOptions.map((option) => <option key={option}>{option}</option>)}
-				</datalist>
-			)}
 		</div>
 	);
 });

@@ -360,15 +360,20 @@ const CompleteProfile = () => {
 									value={profileData.name}
 									disabled={true}
 								/>
-								<TextInputComponent
-									id='email'
-									name='email'
-									label='E-mail'
-									type='email'
-									value={profileData.email}
-									disabled={true}
-									required
-								/>
+								<div>
+									<label htmlFor='email' className='input-required'>
+										E-mail
+									</label>
+									<input
+										className='text-input'
+										id='email'
+										name='email'
+										type='email'
+										value={profileData.email}
+										readOnly={true}
+										required
+									/>
+								</div>
 								<TextInputComponent
 									id='slack'
 									ref={slackHandleInputRef}
@@ -385,9 +390,13 @@ const CompleteProfile = () => {
 									name='pronouns'
 									label='Pronouns'
 									placeholder='Your pronouns (optional)'
-									listId='pronouns-options'
-									datalistOptions={['He/him', 'She/her', 'They/them']}
+									list='pronouns-options'
 								/>
+								<datalist id='pronouns-options'>
+									<option>He/him</option>
+									<option>She/her</option>
+									<option>They/them</option>
+								</datalist>
 								<div>
 									<label>Date of birth</label>
 									<div className='dob-wrapper'>
@@ -458,24 +467,30 @@ const CompleteProfile = () => {
 								</div>
 								<div className='slider-wrapper'>
 									<div className='slider-checkbox-row'>
-										<TextInputComponent
+										<input
 											id='isBasedOnGTA'
 											name='isBasedOnGTA'
-											label="I'm based in Toronto or Greater Toronto Area"
 											type='checkbox'
-											className={`slider-checkbox`}
+											className='slider-checkbox'
+											checked={profileData.isBasedOnGTA}
 											onChange={handleSliderToggle}
 										/>
+										<label htmlFor='isBasedOnGTA'>
+											<span>I'm based in Toronto or Greater Toronto Area</span>
+										</label>
 									</div>
 									<div className='slider-checkbox-row'>
-										<TextInputComponent
+										<input
 											id='canJoinLocalEvents'
 											name='canJoinLocalEvents'
-											label='I can join TorontoJS&apos; local events'
 											type='checkbox'
-											className={`slider-checkbox`}
+											className='slider-checkbox'
+											checked={profileData.canJoinLocalEvents}
 											onChange={handleSliderToggle}
 										/>
+										<label htmlFor='canJoinLocalEvents'>
+											<span>I can join TorontoJS&apos; local events</span>
+										</label>
 									</div>
 								</div>
 							</div>
@@ -507,9 +522,9 @@ const CompleteProfile = () => {
 									>
 										Upload {photoFile ? 'New' : 'Your'} Photo{' '}
 									</Button>
-									<TextInputComponent
-										id='image-upload'
+									<input
 										ref={fileInputRef}
+										id='image-upload'
 										type='file'
 										accept='image/png, image/jpeg'
 										onChange={handlePhotoUpload}
@@ -547,7 +562,6 @@ const CompleteProfile = () => {
 										ref={linkedinInputRef}
 										name='linkedin'
 										label='LinkedIn profile'
-										type='url'
 									/>
 								</div>
 								<div>
@@ -556,16 +570,16 @@ const CompleteProfile = () => {
 										ref={githubInputRef}
 										name='github'
 										label='GitHub profile'
-										type='url'
 									/>
 								</div>
 								<div>
-									<TextInputComponent
-										id='portfolio'
+									<label htmlFor='portfolio'>Site/portfolio</label>
+									<input
 										ref={sitePortfolioInputRef}
+										id='portfolio'
 										name='portfolio'
-										label='Site/portfolio'
 										type='url'
+										className='text-input'
 									/>
 								</div>
 								<div id='details-information-skills'>
@@ -584,13 +598,13 @@ const CompleteProfile = () => {
 													</button>
 												</span>
 											))}
-											<TextInputComponent
+											<input
 												id='skill'
 												ref={skillInputRef}
-												placeholder={profileData.skills.length === 0
-													? 'Insert some of your  and separate them with commas (e.g.: JavaScript, HTML, CSS)'
-													: 'type here ...'}
 												onKeyDown={handleInputSkill}
+												placeholder={profileData.skills.length === 0
+													? 'Insert some of your skills and separate them with commas (e.g.: JavaScript, HTML, CSS)'
+													: 'type here ...'}
 											/>
 										</div>
 									</label>
@@ -628,10 +642,11 @@ const CompleteProfile = () => {
 														onClick={() => toggleSocialInputVisibility(socialIcon.id)}
 													/>
 												</span>
-												<TextInputComponent
+												<input
 													id={`${socialIcon.id}-input`}
 													name={socialIcon.id}
 													type='url'
+													className='text-input'
 												/>
 											</div>
 										))
