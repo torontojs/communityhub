@@ -103,6 +103,8 @@ const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 
 // eslint-disable-next-line max-lines-per-function
 const CompleteProfile = () => {
+	const { isRedirecting } = useProfileRedirect();
+
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const uploadPhotoButtonRef = useRef<HTMLButtonElement>(null);
 	const skillInputRef = useRef<HTMLInputElement>(null);
@@ -126,10 +128,12 @@ const CompleteProfile = () => {
 	]);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	// const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+	// TODO: Show error messages once the design system component is available
+	const [, setErrorMessage] = useState<string | null>(null);
 	const [profileId, setProfileId] = useState<string | null>(null);
 	const [birthdayValue, setBirthdayValue] = useState<string>('');
-	const [isSubmissionDisabled, setIsSumissionDisabled] = useState<boolean>(true);
+	const [isSubmissionDisabled, setIsSubmissionDisabled] = useState<boolean>(true);
 	const [profileData, setProfileData] = useState<ProfileParams>({
 		name: '',
 		email: '',
@@ -141,12 +145,11 @@ const CompleteProfile = () => {
 		skills: []
 	});
 
-	useProfileRedirect();
-
 	const validateSlackHandle = () => {
 		const slackUrl = slackHandleInputRef.current?.value ?? '';
 		const isValid = slackUrl.trim() !== '';
-		setIsSumissionDisabled(!isValid);
+		setIsSubmissionDisabled(!isValid);
+		return isValid;
 	};
 
 	const handleUploadPhotoButtonClick = () => {
@@ -245,19 +248,25 @@ const CompleteProfile = () => {
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
-
+		setErrorMessage(null);
 		validateSlackHandle();
 
-		if (!profileId || isSubmissionDisabled) { return; }
+		if (!profileId || !validateSlackHandle() || isSubmissionDisabled) { return; }
 
 		const formData = new FormData(event.currentTarget);
 		const profileParams = getProfileParams(formData);
 
 		try {
-			setIsLoading(true);
+			setIsSubmitting(true);
 			await updateProfile(profileParams, profileId);
+		} catch (error) {
+			if (error instanceof Error) {
+				setErrorMessage(error.message);
+			} else {
+				setErrorMessage('An unknown error occurred while updating your profile.');
+			}
 		} finally {
-			setIsLoading(false);
+			setIsSubmitting(false);
 		}
 	};
 
@@ -318,7 +327,7 @@ const CompleteProfile = () => {
 		}
 	}, [birthdayValue]);
 
-	if (isLoading) {
+	if (isRedirecting || isLoading) {
 		return <p>Loading...</p>;
 	}
 
@@ -386,10 +395,10 @@ const CompleteProfile = () => {
 										<select
 											id='month'
 											name='month'
-											value={birthdayValue?.split('-')[0]}
+											value={birthdayValue?.split('-')[0] ?? ''}
 											onChange={handleBirthdayInputChange}
 										>
-											<option selected disabled hidden value=''>
+											<option disabled hidden value=''>
 												Select a month
 											</option>
 											<option value='01'>January</option>
@@ -409,10 +418,10 @@ const CompleteProfile = () => {
 										<select
 											id='day'
 											name='day'
-											value={birthdayValue?.split('-')[1]}
+											value={birthdayValue?.split('-')[1] ?? ''}
 											onChange={handleBirthdayInputChange}
 										>
-											<option selected disabled hidden value=''>Select a day</option>
+											<option disabled hidden value=''>Select a day</option>
 											<option value='01'>1</option>
 											<option value='02'>2</option>
 											<option value='03'>3</option>
@@ -633,8 +642,8 @@ const CompleteProfile = () => {
 					</details>
 				</div>
 
-				<Button isPrimary isLarge id='submit-button' type='submit' disabled={isSubmissionDisabled}>
-					Complete My Profile
+				<Button isPrimary isLarge id='submit-button' type='submit' disabled={isSubmissionDisabled || isSubmitting} aria-busy={isSubmitting}>
+					{isSubmitting ? 'Loading...' : 'Complete My Profile'}
 				</Button>
 			</form>
 		</>
