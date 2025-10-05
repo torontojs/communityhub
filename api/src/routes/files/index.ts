@@ -4,12 +4,10 @@ import { fileUploadSizeCheck } from '../../middleware/body-size.ts';
 import { getSession } from '../../utils/auth.ts';
 import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { getProfileById } from '../profile/data.ts';
-import { fetchFileInfo, uploadFile } from './data.ts';
+import { updateAvatar } from './data.ts';
 import {
 	type AllowedFileMimeType,
-	FileNameParamSchema,
 	FileUploadSchema,
-	isPublicFileType,
 	type UploadedFileType,
 	validateFileExtension
 } from './validation.ts';
@@ -18,17 +16,15 @@ export const fileRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
 
+// NOTE: Add more specific GET routes before the following route only
 fileRoutes.openapi(
 	createRoute({
 		method: 'get',
-		path: '/{filename}',
-		operationId: 'Get Public File',
-		summary: 'Get a publicly accessible file from Cloudflare R2',
-		description: "Get a file with 'public' access level from Cloudflare R2 using the filename.",
+		path: '/*',
+		operationId: 'Get File',
+		summary: 'Get a file from Cloudflare R2',
+		description: 'Get a file from Cloudflare R2 using the filename.',
 		tags: ['File'],
-		request: {
-			params: FileNameParamSchema
-		},
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
@@ -54,112 +50,19 @@ fileRoutes.openapi(
 	}),
 	async (context) => {
 		try {
-			const filename = context.req.valid('param').filename?.trim();
+			const filePrefix = context.req.path.replace('/api/files/', '');
+			const r2Bucket = context.env.ExportedFiles;
+			const file = await r2Bucket.get(filePrefix);
 
-			if (!filename) {
-				return context.json({ message: 'Invalid or no filename provided!' }, StatusCodes.BAD_REQUEST);
-			}
-			// Fetch file data to determine if it is public
-			const fileInfo = await fetchFileInfo(context.env.Database, filename);
+			if (file) {
+				const contentType = file.httpMetadata?.contentType ?? 'bin';
 
-			if (fileInfo && fileInfo.accessLevel === 'public') {
-				const r2Bucket = context.env.ExportedFiles;
-				const file = await r2Bucket.get(filename);
-
-				if (file) {
-					const contentType = file.httpMetadata?.contentType ?? fileInfo.mimeType;
-
-					return context.body(file.body, {
-						headers: {
-							'Content-Type': contentType,
-							'Content-Disposition': `inline; filename="${filename}"`
-						}
-					});
-				}
-			}
-
-			return context.json(
-				{ message: `File was not found.` },
-				StatusCodes.NOT_FOUND
-			);
-		} catch (err) {
-			console.error('File retrieval failed:', err);
-			return context.json(
-				{ message: 'Error fetching the file' },
-				StatusCodes.INTERNAL_SERVER_ERROR
-			);
-		}
-	}
-);
-
-fileRoutes.openapi(
-	createRoute({
-		method: 'get',
-		path: '/protected/{filename}',
-		operationId: 'Get Protected File',
-		summary: 'Get a Protected file from Cloudflare R2',
-		description: "Get a file with access level 'protected' from Cloudflare R2 using the filename.",
-		tags: ['File'],
-		request: {
-			params: FileNameParamSchema
-		},
-		responses: {
-			[StatusCodes.OKAY]: {
-				description: 'Successful response',
-				content: {
-					'image/*': {
-						schema: { type: 'string', format: 'binary' }
+				return context.body(file.body, {
+					headers: {
+						'Content-Type': contentType,
+						'Content-Disposition': `inline; filename="${filePrefix.split('/').pop()}"`
 					}
-				}
-			},
-			[StatusCodes.BAD_REQUEST]: {
-				description: 'Invalid or missing data',
-				content: { 'application/json': { schema: StatusResponseSchema } }
-			},
-			[StatusCodes.NOT_FOUND]: {
-				description: 'Invalid file name or missing file',
-				content: { 'application/json': { schema: StatusResponseSchema } }
-			},
-			[StatusCodes.INTERNAL_SERVER_ERROR]: {
-				description: 'Server Error response',
-				content: { 'application/json': { schema: StatusResponseSchema } }
-			}
-		},
-		middleware: [authMiddleware, fileUploadSizeCheck] as const
-	}),
-	async (context) => {
-		try {
-			const sessionData = getSession(context);
-			const profile = await getProfileById(context.env.Database, sessionData.id);
-
-			if (!profile || profile.id !== sessionData.id) {
-				return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
-			}
-
-			const filename = context.req.valid('param').filename?.trim();
-
-			if (!filename) {
-				return context.json({ message: 'Invalid or no filename provided!' }, StatusCodes.BAD_REQUEST);
-			}
-
-			const fileInfo = await fetchFileInfo(context.env.Database, filename, 'protected', true);
-
-			if (fileInfo) {
-				// TODO: Add a check to verify if the user is allowed to access the file.
-
-				const r2Bucket = context.env.ExportedFiles;
-				const file = await r2Bucket.get(filename);
-
-				if (file) {
-					const contentType = file.httpMetadata?.contentType ?? fileInfo.mimeType;
-
-					return context.body(file.body, {
-						headers: {
-							'Content-Type': contentType,
-							'Content-Disposition': `inline; filename="${filename}"`
-						}
-					});
-				}
+				});
 			}
 
 			return context.json(
@@ -212,7 +115,7 @@ fileRoutes.openapi(
 		const profile = await getProfileById(context.env.Database, sessionData.id);
 
 		if (!profile || profile.id !== sessionData.id) {
-			return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
+			return context.json({ message: 'Upload failed!' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}
 
 		const formData = await context.req.formData();
@@ -229,33 +132,41 @@ fileRoutes.openapi(
 			return context.json({ message: 'Invalid image file extension. Only JPEG and PNG are allowed!' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
 		}
 
-		const extension = file.name?.split('.').pop() ?? 'bin';
-		const fileName = `${crypto.randomUUID()}.${extension}`;
+		const fileExtension = file.name?.split('.').pop() ?? 'bin';
+		const fileId = crypto.randomUUID();
+		// fileNameWithPrefix: The filename with prefix to be uploaded to R2 storage
+		// Example: "avatars/5eda5bee-3f48-4ad8-8ccc-e06b5e134da4.jpg"
+		const fileNameWithPrefix = `${fileType}/${fileId}.${fileExtension}`;
+		// fileUrl: Full URL stored in database to access the file
+		// Example: "/api/files/avatars/5eda5bee-3f48-4ad8-8ccc-e06b5e134da4.jpg"
+		const fileUrl = `/api/files/${fileNameWithPrefix}`;
 		const stream = file.stream();
 
-		const fileAccessLevel = isPublicFileType(fileType) ? 'public' : 'protected';
-
 		try {
-			const r2Bucket = context.env.ExportedFiles;
-			const r2UploadResult = await r2Bucket.put(fileName, stream);
-
 			// TODO: Determine if we need to create thumbnails
+			const r2Bucket = context.env.ExportedFiles;
+			const r2UploadResult = await r2Bucket.put(fileNameWithPrefix, stream);
 
-			if (r2UploadResult?.key === fileName) {
-				const isSuccessful = await uploadFile(context.env.Database, profile.id, fileName, fileType, fileMimeType, fileAccessLevel);
+			if (r2UploadResult?.key === fileNameWithPrefix && fileType === 'avatars') {
+				const isSuccessful = await updateAvatar(context.env.Database, profile.id, fileUrl);
 
+				const previousFileNameInR2 = profile.avatar?.replace('/api/files/', '');
 				if (isSuccessful) {
-					return context.json({ message: 'File uploaded successfully' } satisfies StatusResponse, StatusCodes.OKAY);
+					// Delete previous avatar file from r2 if it exists
+					if (previousFileNameInR2) {
+						await r2Bucket.delete(previousFileNameInR2);
+					}
+					return context.json({ message: 'File uploaded successfully!' } satisfies StatusResponse, StatusCodes.OKAY);
 				}
-				// Clean up orphaned file
-				await r2Bucket.delete(fileName);
+				// Clean up orphaned file if upload fails
+				await r2Bucket.delete(fileNameWithPrefix);
 			}
 
-			return context.json({ message: 'Upload failed.' }, StatusCodes.INTERNAL_SERVER_ERROR);
+			return context.json({ message: 'Upload failed!' }, StatusCodes.INTERNAL_SERVER_ERROR);
 		} catch (err) {
 			console.error('Upload failed:', err);
 			return context.json(
-				{ message: 'Upload failed' },
+				{ message: 'Upload failed!' },
 				StatusCodes.INTERNAL_SERVER_ERROR
 			);
 		}
