@@ -1,5 +1,6 @@
 import './SignInForm.css';
 import { useRef, useState } from 'react';
+import { useHeartBeat } from '../../hooks/useHeartBeat.ts';
 import Button from '../Button/Button.tsx';
 
 const SignInForm = (): React.JSX.Element => {
@@ -7,6 +8,9 @@ const SignInForm = (): React.JSX.Element => {
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+
+	useHeartBeat();
+
 	const signin = async (email: string, password: string) => {
 		try {
 			const response = await fetch('/api/auth/sign-in', {
@@ -97,7 +101,7 @@ const SignInForm = (): React.JSX.Element => {
 			</Button>
 
 			<div>
-				<a href='/pages/forgot-passsword' className='do-not-remember-password'>I don't remember my password</a>
+				<a href='/pages/forgot-password' className='do-not-remember-password'>I don't remember my password</a>
 			</div>
 
 			<div>

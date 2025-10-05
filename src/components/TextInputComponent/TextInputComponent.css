@@ -13,18 +13,18 @@
 				color: var(--color-foreground);
 				display: flex;
 				flex-grow: 1;
-				font-size: var(--text-sm);
+				font-size: var(--text-md);
 				font-weight: var(--weight-semibold);
 				justify-content: space-between;
 			}
 		}
 
 		& > input {
-			background-color: var(--color-card);
+			font-size: var(--text-xs);
+			background-color: var(--color-input);
 			border: var(--border);
 			border-radius: var(--rounded-xs);
 			gap: var(--spacing-xs);
-			height: auto;
 			padding: var(--spacing-xs);
 			width: 100%;
 

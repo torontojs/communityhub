@@ -3,6 +3,7 @@ import type { Context } from 'hono';
 // NOTE: please update the schema of new environment variables here
 const ignoredVariables = [
 	'ActivationTokens',
+	'PasswordResetToken',
 	'Assets',
 	'Database',
 	'SessionTokens'

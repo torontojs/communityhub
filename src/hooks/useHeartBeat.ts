@@ -6,7 +6,7 @@ export const getHeartBeat = async () => {
 			method: 'GET',
 			credentials: 'include'
 		});
-		if (response.status !== 200) {
+		if (response.status !== 200 && !window.location.pathname.includes('/pages/sign-in')) {
 			window.location.href = '/pages/sign-in';
 		}
 	} catch (err) {

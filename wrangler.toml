@@ -51,6 +51,11 @@ binding = "ActivationTokens"
 id = "vms-local-activation-token"
 preview_id = "vms-local-activation-token"
 
+[[kv_namespaces]]
+binding = "PasswordResetToken"
+id = "vms-local-password-reset-token"
+preview_id = "vms-local-password-reset-token"
+
 [[r2_buckets]]
 binding = "ExportedFiles"
 bucket_name = "vms-local-exported-files"
@@ -77,6 +82,11 @@ binding = "ActivationTokens"
 id = "4fc17eeab6964947ba5ee0d50aeec1de"
 preview_id = "vms-dev-activation-tokens"
 
+[[env.dev.kv_namespaces]]
+binding = "PasswordResetToken"
+id = "5392322d41c44203bce89425fcc12f12"
+preview_id = "vms-dev-password-reset-token"
+
 [[env.dev.r2_buckets]]
 binding = "ExportedFiles"
 bucket_name = "vms-exported-files"
@@ -102,6 +112,11 @@ preview_id = "vms-production-session-tokens"
 binding = "ActivationTokens"
 id = "987a04058cc34aad84b9f54c658f6a01"
 preview_id = "vms-production-activation-tokens"
+
+[[env.production.kv_namespaces]]
+binding = "PasswordResetToken"
+id = "08ad1ddf3a134007bbed3b9266cd6d1f"
+preview_id = "vms-production-password-reset-token"
 
 [[env.production.r2_buckets]]
 binding = "ExportedFiles"

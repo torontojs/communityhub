@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type ProfileStatus = 'activated' | 'created' | 'deleted' | 'error' | 'profile-completed' | 'social-handle-provided' | 'tos-accepted';
+
+type RedirectPathResult = string | null;
 
 interface ProfileStatusResponse {
 	id: string;
@@ -10,17 +12,57 @@ interface ProfileStatusResponse {
 	status: ProfileStatus;
 }
 
+const VALID_STATUSES = new Set<ProfileStatus>([
+	'activated',
+	'created',
+	'deleted',
+	'error',
+	'profile-completed',
+	'social-handle-provided',
+	'tos-accepted'
+]);
+
+const isValidStatus = (status: string): status is ProfileStatus => VALID_STATUSES.has(status as ProfileStatus);
+
 const REDIRECT_PATHS = {
 	signIn: '/pages/sign-in/',
 	checkSteps: '/pages/check-steps/',
+	reviewConductCode: '/pages/review-conduct-code/',
 	completeProfile: '/pages/complete-profile/',
 	home: '/pages/home/'
 };
 
-const getRedirectPathForStatus = (status: ProfileStatus): string => {
+/**
+ * The regex engine looks for one or more forward slashes (/+) that are located at the very end of the string ($).
+ * If it finds them, the replace method replaces them with an empty string (''), effectively deleting them.
+ *
+ * - `\/+`  : Matches one or more slashes. The backslash '\' escapes the forward slash '/'. '+' is a quantifier for one or more matches.
+ * - `$`    : Anchors that matches the end of the string.
+ * - `u`    : Enables full Unicode support (safe for Unicode characters).
+ *
+ * E.g.		: 'https://www.example.com/path/'  becomes 'https://www.example.com/path'.
+ * 			: 'https://www.example.com/path//' becomes 'https://www.example.com/path'.
+ */
+export const REGEX_REMOVE_TRAILING_SLASHES = /\/+$/u;
+
+/**
+ * Normalizes a path by removing any trailing slashes (/).
+ *
+ * This is useful for ensuring consistent path formatting, especially
+ * when comparing or joining paths.
+ *
+ * @param {string} path - The input path string to normalize.
+ * @returns {string} The normalized path without trailing slashes.
+ */
+const normalizePath = (path: string) => path.replace(new RegExp(REGEX_REMOVE_TRAILING_SLASHES.source, REGEX_REMOVE_TRAILING_SLASHES.flags), '');
+
+const getRedirectPathForStatus = (status: ProfileStatus, currentPath?: string): string => {
+	const normalized = normalizePath(currentPath ?? '');
 	switch (status) {
 		case 'activated':
-			return REDIRECT_PATHS.checkSteps;
+			return normalized === normalizePath(REDIRECT_PATHS.reviewConductCode)
+				? REDIRECT_PATHS.reviewConductCode
+				: REDIRECT_PATHS.checkSteps;
 
 		case 'tos-accepted':
 		case 'social-handle-provided':
@@ -37,43 +79,77 @@ const getRedirectPathForStatus = (status: ProfileStatus): string => {
 	}
 };
 
-export const getProfileStatus = async (): Promise<ProfileStatus | null> => {
+export const getRedirectPath = async (signal?: AbortSignal, currentPath?: string): Promise<RedirectPathResult> => {
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
-			credentials: 'include'
+			credentials: 'include',
+			signal
 		});
 
+		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 		if (response.status !== 200) {
-			return null;
+			// If not authenticated, redirect to sign-in
+			return REDIRECT_PATHS.signIn;
 		}
 
 		const data: ProfileStatusResponse = await response.json();
 
-		return data.status ?? null;
+		// Redirects based on profile status or to sign-in if not profile status is returned
+		return (data?.status && isValidStatus(data.status)) ? getRedirectPathForStatus(data.status, currentPath) : REDIRECT_PATHS.signIn;
 	} catch (err) {
-		console.error(err);
-
-		// fallback in case of failure
-		return null;
+		if (err.name !== 'AbortError') {
+			console.error('Failed to fetch profile status:', err);
+			return REDIRECT_PATHS.signIn;
+		}
+		// Re-throw the abort
+		throw err;
 	}
 };
 
 export const useProfileRedirect = () => {
+	const [isRedirecting, setIsRedirecting] = useState(true);
+
 	useEffect(() => {
+		// Create abort controller to fetch abort
+		const controller = new AbortController();
+		const { signal } = controller;
+
 		const redirect = async () => {
-			const status = await getProfileStatus();
+			try {
+				// Extract URL pathname
+				const currentPath = new URL(window.location.href).pathname;
 
-			if (!status) {
-				window.location.href = '/pages/sign-in';
-				return;
-			}
+				const redirectPath = await getRedirectPath(signal, currentPath);
 
-			const redirectPath = getRedirectPathForStatus(status);
-			if (window.location.pathname !== redirectPath) {
-				window.location.href = redirectPath;
+				// If invalid redirectPath, throw error
+				if (!redirectPath) {
+					throw new Error('Invalid Redirect Path!');
+				}
+
+				// Redirect only if current url path is different from the redirectpath
+				if (currentPath !== redirectPath) {
+					window.location.href = redirectPath;
+				} else {
+					setIsRedirecting(false);
+				}
+			} catch (error) {
+				if (error.name === 'AbortError') {
+					// Do nothing for Abort Error
+					return;
+				}
+				console.error('Redirect Error!', error);
+				window.location.href = REDIRECT_PATHS.signIn;
 			}
 		};
+
 		void redirect();
+
+		// Cleanup function to abort fetch
+		return () => {
+			controller.abort();
+		};
 	}, []);
+
+	return { isRedirecting };
 };

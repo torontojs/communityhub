@@ -63,7 +63,7 @@ apiRoutes.doc('/open-api.json', {
 	}
 });
 
-apiRoutes.get('/docs', swaggerUI({ url: '/open-api.json' }));
+apiRoutes.get('/docs', swaggerUI({ url: '/api/open-api.json' }));
 
 // Handle static assets using Cloudflare Workers
 apiRoutes.get('/assets/*', async (context) => context.env.Assets.fetch(context.req.raw));
