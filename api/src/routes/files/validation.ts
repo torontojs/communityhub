@@ -1,11 +1,5 @@
 import { z } from 'zod';
 
-export const FileNameParamSchema = z.object({
-	filename: z.string('Invalid file name!')
-});
-
-export type FileNameParam = z.infer<typeof FileNameParamSchema>;
-
 export const AllowedFileMimeTypesOptions = ['image/png', 'image/jpeg'] as const;
 
 export const AllowedFileMimeTypeSchema = z.enum(AllowedFileMimeTypesOptions).describe('The allowed MIME types for the uploaded documents.');
@@ -17,19 +11,11 @@ export const mimeToExtensionsMap: Record<AllowedFileMimeType, string[]> = {
 	'image/png': ['png']
 };
 
-export const FileAccessLevelOptions = ['public', 'protected'] as const;
+export const PublicFileTypes = ['avatars'] as const;
 
-export const FileAccessLevelSchema = z.enum(FileAccessLevelOptions).describe('The allowed access levels for the uploaded documents.');
+export const AllFileTypes = [...PublicFileTypes] as const;
 
-export type FileAccessLevelType = z.infer<typeof FileAccessLevelSchema>;
-
-export const PublicFileTypes = ['avatar'] as const;
-
-export const PrivateFileTypes = ['other'] as const;
-
-export const AllFileTypes = [...PublicFileTypes, ...PrivateFileTypes] as const;
-
-export const FileTypeSchema = z.enum(AllFileTypes).describe('The purpose of the uploaded image. E.g., user avatar or other document.');
+export const FileTypeSchema = z.enum(AllFileTypes).describe('The purpose of the uploaded image. E.g., user avatars or other document.');
 
 export type UploadedFileType = z.infer<typeof FileTypeSchema>;
 
@@ -45,10 +31,6 @@ export const FileUploadSchema = z.object({
 		.describe('The allowed MIME types for file uploads to the platform for storage in R2 bucket.'),
 	type: FileTypeSchema
 });
-
-export function isPublicFileType(type: UploadedFileType): boolean {
-	return (PublicFileTypes as readonly string[]).includes(type);
-}
 
 export const validateFileExtension = (fileName: string, mimeType: string): boolean => {
 	const lastDotIndex = fileName.lastIndexOf('.');
