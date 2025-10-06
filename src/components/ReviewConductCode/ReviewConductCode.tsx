@@ -7,10 +7,15 @@ import HeaderTitle from '../HeaderTitle/HeaderTitle.tsx';
 import { ArrowDownIcon } from '../Icons/ArrowDownIcon.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './ReviewConductCode.css';
+import { useProfileRedirect } from '../../hooks/useProfileRedirect.ts';
+
+const docTypes = ['code-of-conduct', 'image-release-form', 'volunteer-agreement'];
 
 const docTypes = ['code-of-conduct', 'image-release-form', 'volunteer-agreement'];
 
 const ReviewConductCode = () => {
+	const { isRedirecting } = useProfileRedirect();
+
 	const [agreementChecked, setAgreementChecked] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	// TODO: Display success and error messages

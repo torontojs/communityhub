@@ -99,6 +99,8 @@ const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 
 // eslint-disable-next-line max-lines-per-function
 const CompleteProfile = () => {
+	const { isRedirecting } = useProfileRedirect();
+
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const uploadPhotoButtonRef = useRef<HTMLButtonElement>(null);
 	const skillInputRef = useRef<HTMLInputElement>(null);
@@ -321,7 +323,7 @@ const CompleteProfile = () => {
 		}
 	}, [birthdayValue]);
 
-	if (isLoading) {
+	if (isRedirecting || isLoading) {
 		return <p>Loading...</p>;
 	}
 
