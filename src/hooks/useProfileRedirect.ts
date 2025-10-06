@@ -27,14 +27,42 @@ const isValidStatus = (status: string): status is ProfileStatus => VALID_STATUSE
 const REDIRECT_PATHS = {
 	signIn: '/pages/sign-in/',
 	checkSteps: '/pages/check-steps/',
+	reviewConductCode: '/pages/review-conduct-code/',
 	completeProfile: '/pages/complete-profile/',
 	home: '/pages/home/'
 };
 
-const getRedirectPathForStatus = (status: ProfileStatus): string => {
+/**
+ * The regex engine looks for one or more forward slashes (/+) that are located at the very end of the string ($).
+ * If it finds them, the replace method replaces them with an empty string (''), effectively deleting them.
+ *
+ * - `\/+`  : Matches one or more slashes. The backslash '\' escapes the forward slash '/'. '+' is a quantifier for one or more matches.
+ * - `$`    : Anchors that matches the end of the string.
+ * - `u`    : Enables full Unicode support (safe for Unicode characters).
+ *
+ * E.g.		: 'https://www.example.com/path/'  becomes 'https://www.example.com/path'.
+ * 			: 'https://www.example.com/path//' becomes 'https://www.example.com/path'.
+ */
+export const REGEX_REMOVE_TRAILING_SLASHES = /\/+$/u;
+
+/**
+ * Normalizes a path by removing any trailing slashes (/).
+ *
+ * This is useful for ensuring consistent path formatting, especially
+ * when comparing or joining paths.
+ *
+ * @param {string} path - The input path string to normalize.
+ * @returns {string} The normalized path without trailing slashes.
+ */
+const normalizePath = (path: string) => path.replace(new RegExp(REGEX_REMOVE_TRAILING_SLASHES.source, REGEX_REMOVE_TRAILING_SLASHES.flags), '');
+
+const getRedirectPathForStatus = (status: ProfileStatus, currentPath?: string): string => {
+	const normalized = normalizePath(currentPath ?? '');
 	switch (status) {
 		case 'activated':
-			return REDIRECT_PATHS.checkSteps;
+			return normalized === normalizePath(REDIRECT_PATHS.reviewConductCode)
+				? REDIRECT_PATHS.reviewConductCode
+				: REDIRECT_PATHS.checkSteps;
 
 		case 'tos-accepted':
 		case 'social-handle-provided':
@@ -51,7 +79,7 @@ const getRedirectPathForStatus = (status: ProfileStatus): string => {
 	}
 };
 
-export const getRedirectPath = async (signal?: AbortSignal): Promise<RedirectPathResult> => {
+export const getRedirectPath = async (signal?: AbortSignal, currentPath?: string): Promise<RedirectPathResult> => {
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
@@ -68,13 +96,14 @@ export const getRedirectPath = async (signal?: AbortSignal): Promise<RedirectPat
 		const data: ProfileStatusResponse = await response.json();
 
 		// Redirects based on profile status or to sign-in if not profile status is returned
-		return (data?.status && isValidStatus(data.status)) ? getRedirectPathForStatus(data.status) : REDIRECT_PATHS.signIn;
+		return (data?.status && isValidStatus(data.status)) ? getRedirectPathForStatus(data.status, currentPath) : REDIRECT_PATHS.signIn;
 	} catch (err) {
 		if (err.name !== 'AbortError') {
 			console.error('Failed to fetch profile status:', err);
 			return REDIRECT_PATHS.signIn;
 		}
-		return null;
+		// Re-throw the abort
+		throw err;
 	}
 };
 
