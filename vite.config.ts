@@ -1,6 +1,8 @@
 /* eslint-env node */
 /* eslint-disable camelcase */
 
+import fs from 'node:fs';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { cloudflare } from '@cloudflare/vite-plugin';
@@ -35,28 +37,25 @@ export default defineConfig(({ mode }) => {
 			emptyOutDir: true,
 			outDir: '../dist',
 			rollupOptions: {
-				input: {
-					'index': fileURLToPath(new URL('./src/index.html', import.meta.url)),
-					'profile': fileURLToPath(new URL('./src/pages/profile/index.html', import.meta.url)),
-					'team': fileURLToPath(new URL('./src/pages/team/index.html', import.meta.url)),
-					'complete-profile': fileURLToPath(new URL('./src/pages/complete-profile/index.html', import.meta.url)),
-					'check-steps': fileURLToPath(new URL('./src/pages/check-steps/index.html', import.meta.url)),
-					'review-conduct-code': fileURLToPath(new URL('./src/pages/review-conduct-code/index.html', import.meta.url)),
-					'sign-up': fileURLToPath(new URL('./src/pages/sign-up/index.html', import.meta.url)),
-					'sign-in': fileURLToPath(new URL('./src/pages/sign-in/index.html', import.meta.url)),
-					'confirm-account': fileURLToPath(new URL('./src/pages/confirm-account/index.html', import.meta.url)),
-					'check-your-email': fileURLToPath(new URL('./src/pages/check-your-email/index.html', import.meta.url)),
-					'home': fileURLToPath(new URL('./src/pages/home/index.html', import.meta.url)),
-					'button-usage': fileURLToPath(new URL('./src/pages/button-usage/index.html', import.meta.url)),
-					'print-documents': fileURLToPath(new URL('./src/pages/print-documents/index.html', import.meta.url)),
-					'input-usage': fileURLToPath(new URL('./src/pages/text-input-usage/index.html', import.meta.url)),
-					'reset-password': fileURLToPath(new URL('./src/pages/reset-password/index.html', import.meta.url)),
-					'date-usage': fileURLToPath(new URL('./src/pages/date-usage/index.html', import.meta.url)),
-					'helper-message': fileURLToPath(new URL('./src/pages/usage-helper-message/index.html', import.meta.url)),
-					'protected-page-all': fileURLToPath(new URL('./src/pages/protected-page-all/index.html', import.meta.url)),
-					'protected-page-organizers': fileURLToPath(new URL('./src/pages/protected-page-organizers/index.html', import.meta.url)),
-					'protected-page-admins': fileURLToPath(new URL('./src/pages/protected-page-admins/index.html', import.meta.url))
-				}
+				input: (() => {
+					const inputs: Record<string, string> = {
+						index: path.resolve('src', 'index.html')
+					};
+
+					const pagesDir = path.resolve('src', 'pages');
+					if (!fs.existsSync(pagesDir)) { return inputs; }
+
+					for (const folder of fs.readdirSync(pagesDir)) {
+						const folderPath = path.join(pagesDir, folder);
+						const htmlEntry = path.join(folderPath, 'index.html');
+
+						if (fs.statSync(folderPath).isDirectory() && fs.existsSync(htmlEntry)) {
+							inputs[folder] = htmlEntry;
+						}
+					}
+
+					return inputs;
+				})()
 			}
 		},
 		optimizeDeps: { esbuildOptions: { target: 'esnext' } },
