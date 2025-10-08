@@ -108,38 +108,27 @@ export const getRedirectPath = async (signal?: AbortSignal, currentPath?: string
 };
 
 export const useProfileRedirect = () => {
-	const [isRedirecting, setIsRedirecting] = useState(true);
+	// Start as null so we can render a loading state
+	const [redirectionComplete, setRedirectionComplete] = useState<boolean | null>(null);
 
 	useEffect(() => {
-		// Create abort controller to fetch abort
 		const controller = new AbortController();
 		const { signal } = controller;
 
 		const redirect = async () => {
-			try {
-				// Extract URL pathname
-				const currentPath = new URL(window.location.href).pathname;
+			const redirectPath = await getRedirectPath(signal);
 
-				const redirectPath = await getRedirectPath(signal, currentPath);
+			if (!redirectPath) {
+				setRedirectionComplete(true);
+				return;
+			}
 
-				// If invalid redirectPath, throw error
-				if (!redirectPath) {
-					throw new Error('Invalid Redirect Path!');
-				}
+			const currentPath = new URL(window.location.href).pathname;
 
-				// Redirect only if current url path is different from the redirectpath
-				if (currentPath !== redirectPath) {
-					window.location.href = redirectPath;
-				} else {
-					setIsRedirecting(false);
-				}
-			} catch (error) {
-				if (error.name === 'AbortError') {
-					// Do nothing for Abort Error
-					return;
-				}
-				console.error('Redirect Error!', error);
-				window.location.href = REDIRECT_PATHS.signIn;
+			if (currentPath !== redirectPath) {
+				window.location.href = redirectPath;
+			} else {
+				setRedirectionComplete(true);
 			}
 		};
 
@@ -148,5 +137,5 @@ export const useProfileRedirect = () => {
 		return () => controller.abort();
 	}, []);
 
-	return { isRedirecting };
+	return redirectionComplete;
 };

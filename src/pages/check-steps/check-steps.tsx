@@ -5,16 +5,17 @@ import 'open-props';
 import CheckSteps from '../../components/CheckSteps/CheckSteps.tsx';
 import '../../index.css';
 import { StrictMode } from 'react';
-import { AuthGateHomePageProtected } from '../../components/AuthGate/AuthGate.tsx';
+import { AuthGate } from '../../components/AuthGate/AuthGate.tsx';
+import { useProfileRedirect } from '../../hooks/useProfileRedirect.ts';
 
 const root = document.getElementById('root') as HTMLDivElement;
 
 createRoot(root).render(
 	(
 		<StrictMode>
-			<AuthGateHomePageProtected>
+			<AuthGate hook={useProfileRedirect}>
 				<CheckSteps />
-			</AuthGateHomePageProtected>
+			</AuthGate>
 		</StrictMode>
 	)
 );
