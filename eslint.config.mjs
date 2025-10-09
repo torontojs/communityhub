@@ -502,6 +502,15 @@ export default [
 		plugins,
 		rules
 	},
-	...storybook.configs['flat/recommended'],
+	{
+		name: 'Storybook tooling',
+		files: ['.storybook/**/*.{js,mjs,cjs,ts,cts,mts,jsx,tsx}'],
+		languageOptions,
+		plugins: {
+			...plugins,
+			storybook
+		},
+		rules
+	},
 	...storybook.configs['flat/recommended']
 ];
