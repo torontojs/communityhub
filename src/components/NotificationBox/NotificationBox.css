@@ -6,8 +6,8 @@ p, h2 {
 h2 {
 	font-size: calc(20rem / 16);
 	.info & { color: var(--color-blue-700); }
-
 	.error & { color: var(--color-red-700); }
+	.success & { color: var(--color-green-700); }
 }
 
 p { font-size: calc(18rem / 16); }
@@ -25,7 +25,6 @@ p { font-size: calc(18rem / 16); }
 .info {
 	.wrapper& {
 		border-color: var(--color-blue-500);
-
 		background-color: var(--color-blue-50);
 	}
 }
@@ -34,6 +33,13 @@ p { font-size: calc(18rem / 16); }
 	.wrapper& {
 		border-color: var(--color-red-500);
 		background-color: var(--color-red-50);
+	}
+}
+
+.success {
+	.wrapper& {
+		border-color: var(--color-green-500);
+		background-color: var(--color-green-50);
 	}
 }
 
@@ -58,4 +64,5 @@ button {
 
 	.info & { border-top-color: var(--color-blue-500); }
 	.error & { border-top-color: var(--color-red-500); }
+	.success & { border-top-color: var(--color-green-500); }
 }
