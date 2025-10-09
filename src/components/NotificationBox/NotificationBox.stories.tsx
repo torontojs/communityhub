@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import NotificationBox from './NotificationBox.tsx';
 
+import { fn } from 'storybook/test';
+
 const meta: Meta<typeof NotificationBox> = {
 	title: 'Components/Notification Boxes',
 	component: NotificationBox,
@@ -15,10 +17,38 @@ const meta: Meta<typeof NotificationBox> = {
 export default meta;
 type Story = StoryObj<typeof NotificationBox>;
 
-export const Info: Story = {
+export const InfoNotificationBox: Story = {
 	args: {
 		title: 'Notification box title',
 		children: 'Notification box content',
-		variant: 'info'
+		variant: 'info',
+		onDismiss: fn()
+	}
+};
+
+export const ErrorNotificationBox: Story = {
+	args: {
+		title: 'Notification box title',
+		children: 'Notification box content',
+		variant: 'error',
+		onDismiss: fn()
+	}
+};
+
+export const SuccessNotificationBox: Story = {
+	args: {
+		title: 'Notification box title',
+		children: 'Notification box content',
+		variant: 'success',
+		onDismiss: fn()
+	}
+};
+
+export const WarningNotificationBox: Story = {
+	args: {
+		title: 'Notification box title',
+		children: 'Notification box content',
+		variant: 'warning',
+		onDismiss: fn()
 	}
 };
