@@ -8,6 +8,7 @@ h2 {
 	.info & { color: var(--color-blue-700); }
 	.error & { color: var(--color-red-700); }
 	.success & { color: var(--color-green-700); }
+	.warning & { color: var(--color-yellow-700); }
 }
 
 p { font-size: calc(18rem / 16); }
@@ -43,6 +44,13 @@ p { font-size: calc(18rem / 16); }
 	}
 }
 
+.warning {
+	.wrapper& {
+		border-color: var(--color-yellow-500);
+		background-color: var(--color-yellow-50);
+	}
+}
+
 .icon {
 	.wrapper & {
 		position: absolute;
@@ -65,4 +73,5 @@ button {
 	.info & { border-top-color: var(--color-blue-500); }
 	.error & { border-top-color: var(--color-red-500); }
 	.success & { border-top-color: var(--color-green-500); }
+	.warning & { border-top-color: var(--color-yellow-500); }
 }
