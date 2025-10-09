@@ -99,7 +99,7 @@ export default function NotificationBox({ title, variant = 'info', children }: N
 			<div className='content'>{children}</div>
 			<button aria-label='Dismiss notification'>
 				<CloseIcon />
-				Close
+				<span>Close</span>
 			</button>
 		</div>
 	);

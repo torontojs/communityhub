@@ -65,13 +65,33 @@ button {
 	align-items: center;
 	gap: 8px;
 	border-top: 1px solid;
+	border-top-color: var(--color);
+	position: relative;
+	overflow: hidden;
 
-	&:focus { outline: auto; }
+	.info & { --color: var(--color-blue-500); }
+	.error & { --color: var(--color-red-500); }
+	.success & { --color: var(--color-green-500); }
+	.warning & { --color: var(--color-yellow-500); }
+
+	&:focus {
+		outline: auto;
+		outline-color: var(--color);
+	}
 
 	&:hover { cursor: pointer; }
 
-	.info & { border-top-color: var(--color-blue-500); }
-	.error & { border-top-color: var(--color-red-500); }
-	.success & { border-top-color: var(--color-green-500); }
-	.warning & { border-top-color: var(--color-yellow-500); }
+	& * { position: relative; }
+
+	&::before {
+		position: absolute;
+		background-color: var(--color);
+		content: '';
+		height: 100%;
+		width: 100%;
+		transform: translateY(-100%);
+		transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+	}
+
+	&:hover::before { transform: translateY(0); }
 }
