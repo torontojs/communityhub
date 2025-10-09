@@ -6,6 +6,7 @@ type Variant = 'error' | 'info' | 'success' | 'warning';
 interface NotificationBoxProps {
 	title: string;
 	variant: Variant;
+	onDismiss?(event?: React.MouseEvent<HTMLButtonElement>): void;
 	children?: React.ReactNode;
 }
 
@@ -89,7 +90,7 @@ const ICONS: Record<Variant, React.ReactNode> = {
 	error: <ErrorIcon />
 };
 
-export default function NotificationBox({ title, variant = 'info', children }: NotificationBoxProps) {
+export default function NotificationBox({ title, variant = 'info', onDismiss, children }: NotificationBoxProps) {
 	return (
 		<div className={`wrapper ${variant}`} role={variant === 'error' ? 'alert' : 'status'} aria-live='polite' aria-atomic='true'>
 			<span className='icon'>
@@ -97,7 +98,7 @@ export default function NotificationBox({ title, variant = 'info', children }: N
 			</span>
 			<h2 className='title'>{title}</h2>
 			<div className='content'>{children}</div>
-			<button aria-label='Dismiss notification'>
+			<button aria-label='Dismiss notification' onClick={onDismiss}>
 				<CloseIcon />
 				<span>Close</span>
 			</button>
