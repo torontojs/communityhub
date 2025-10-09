@@ -40,3 +40,6 @@ env.d.ts
 
 # Hurl log file
 hurl_results.txt
+
+*storybook.log
+storybook-static

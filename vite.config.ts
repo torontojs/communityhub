@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { cloudflare } from '@cloudflare/vite-plugin';
 import react from '@vitejs/plugin-react';
 
+import path from 'node:path';
 import { defineConfig, type UserConfig } from 'vite';
 
 export default defineConfig(({ mode }) => {
@@ -13,8 +14,8 @@ export default defineConfig(({ mode }) => {
 		plugins: [
 			react(),
 			cloudflare({
-				configPath: '../wrangler.toml',
-				persistState: { path: '../.wrangler/state' }
+				configPath: path.resolve(__dirname, 'wrangler.toml'),
+				persistState: { path: path.resolve(__dirname, '.wrangler/state') }
 			})
 		],
 		appType: 'mpa',
