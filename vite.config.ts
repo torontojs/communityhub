@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
 			cloudflare({
 				configPath: '../wrangler.toml',
 				persistState: { path: '../.wrangler/state' }
-			}),
+			})
 		],
 		appType: 'mpa',
 		esbuild: { target: 'esnext' },
