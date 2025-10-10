@@ -12,7 +12,13 @@ import { defineConfig, type UserConfig } from 'vite';
 import { createLogger } from 'vite';
 const logger = createLogger();
 
-let cachedInputs: Record<string, string> | null = null;
+declare global {
+	var __appInputCache: {
+		inputs: Record<string, string> | null
+	} | undefined;
+}
+
+const inputCache = globalThis.__appInputCache ??= { inputs: null };
 
 export default defineConfig(({ mode }) => {
 	const config: UserConfig = {
@@ -42,8 +48,8 @@ export default defineConfig(({ mode }) => {
 			outDir: '../dist',
 			rollupOptions: {
 				input: (() => {
-					if (cachedInputs) {
-						return cachedInputs;
+					if (inputCache.inputs) {
+						return inputCache.inputs;
 					}
 
 					const inputs: Record<string, string> = {
@@ -54,7 +60,7 @@ export default defineConfig(({ mode }) => {
 					const pagesDir = path.resolve('src', 'pages');
 					if (!fs.existsSync(pagesDir)) {
 						logger.info('ℹ No pages directory found, using main entry only');
-						cachedInputs = inputs;
+						inputCache.inputs = inputs;
 						return inputs;
 					}
 
@@ -82,7 +88,7 @@ export default defineConfig(({ mode }) => {
 						}
 					}
 
-					cachedInputs = inputs;
+					inputCache.inputs = inputs;
 					return inputs;
 				})()
 			}
