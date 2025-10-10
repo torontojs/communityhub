@@ -9,6 +9,8 @@ import { cloudflare } from '@cloudflare/vite-plugin';
 import react from '@vitejs/plugin-react';
 
 import { defineConfig, type UserConfig } from 'vite';
+import { createLogger } from 'vite';
+const logger = createLogger();
 
 export default defineConfig(({ mode }) => {
 	const config: UserConfig = {
@@ -41,16 +43,35 @@ export default defineConfig(({ mode }) => {
 					const inputs: Record<string, string> = {
 						index: path.resolve('src', 'index.html')
 					};
+					logger.info(`✓ Added main entry: ${path.resolve('src', 'index.html')}`);
 
 					const pagesDir = path.resolve('src', 'pages');
-					if (!fs.existsSync(pagesDir)) { return inputs; }
+					if (!fs.existsSync(pagesDir)) {
+						logger.info('ℹ No pages directory found, using main entry only');
+						return inputs;
+					}
 
 					for (const folder of fs.readdirSync(pagesDir)) {
+						if (folder.startsWith('_')) {
+							logger.info(`⊘ Skipped ${folder}: private directory (underscore prefix)`);
+							continue;
+						}
+
 						const folderPath = path.join(pagesDir, folder);
 						const htmlEntry = path.join(folderPath, 'index.html');
 
-						if (fs.statSync(folderPath).isDirectory() && fs.existsSync(htmlEntry)) {
-							inputs[folder] = htmlEntry;
+						try {
+							const stats = fs.statSync(folderPath);
+							if (stats.isDirectory()) {
+								if (fs.existsSync(htmlEntry)) {
+									inputs[folder] = htmlEntry;
+									logger.info(`✓ Added page: ${folder}`);
+								} else {
+									logger.info(`⊘ Skipped ${folder}: no index.html found`);
+								}
+							}
+						} catch (error: any) {
+							logger.warn(`⚠ Error processing ${folder}: ${error.message}`);
 						}
 					}
 
