@@ -12,6 +12,8 @@ import { defineConfig, type UserConfig } from 'vite';
 import { createLogger } from 'vite';
 const logger = createLogger();
 
+let cachedInputs: Record<string, string> | null = null;
+
 export default defineConfig(({ mode }) => {
 	const config: UserConfig = {
 		plugins: [
@@ -19,7 +21,7 @@ export default defineConfig(({ mode }) => {
 			cloudflare({
 				configPath: '../wrangler.toml',
 				persistState: { path: '../.wrangler/state' }
-			})
+			}),
 		],
 		appType: 'mpa',
 		esbuild: { target: 'esnext' },
@@ -40,6 +42,10 @@ export default defineConfig(({ mode }) => {
 			outDir: '../dist',
 			rollupOptions: {
 				input: (() => {
+					if (cachedInputs) {
+						return cachedInputs;
+					}
+
 					const inputs: Record<string, string> = {
 						index: path.resolve('src', 'index.html')
 					};
@@ -48,6 +54,7 @@ export default defineConfig(({ mode }) => {
 					const pagesDir = path.resolve('src', 'pages');
 					if (!fs.existsSync(pagesDir)) {
 						logger.info('ℹ No pages directory found, using main entry only');
+						cachedInputs = inputs;
 						return inputs;
 					}
 
@@ -75,6 +82,7 @@ export default defineConfig(({ mode }) => {
 						}
 					}
 
+					cachedInputs = inputs;
 					return inputs;
 				})()
 			}
