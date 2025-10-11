@@ -40,7 +40,7 @@ const Label = forwardRef<HTMLSpanElement, Props>(({
 					</defs>
 				</svg>
 			)}
-		{icon}
+		{hasIcon && icon}
 		{children}
 	</span>
 ));
