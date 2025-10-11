@@ -249,6 +249,8 @@
 
 		--color-accent: #ed342f; /* Default brand tone, for links, buttons and highlights */
 		--color-accent: hsla(2, 84%, 56%, 1);
+		--color-accent-light: #fee2e2;
+		--color-default-light: hsla(0, 0%, 0%, 0.15);
 
 		--color-button: #0000000e; /* Default tone for buttons in light mode */
 		--color-button: hsla(0, 0%, 0%, 0.15);

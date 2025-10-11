@@ -3,4 +3,16 @@
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
+	gap: var(--spacing-xs);
+}
+
+.label-collection {
+	display: flex;
+	gap: var(--spacing-lg);
+	align-items: center;
+
+	p {
+		font-weight: bold;
+		text-align: center;
+	}
 }
