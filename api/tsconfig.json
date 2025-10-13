@@ -1,11 +1,18 @@
 {
-	"include": ["./**/*"],
+	"include": [
+		"./**/*"
+	],
 	"extends": "../tsconfig.base.json",
 	"compilerOptions": {
-		"lib": ["ESNext"],
+		"lib": [
+			"ESNext"
+		],
 		"types": [
 			"./src/env.d.ts",
-			"@types/node"
+			"@types/node",
+			"vitest/globals",
+			"@cloudflare/workers-types",
+			"@cloudflare/vitest-pool-workers"
 		]
 	}
 }

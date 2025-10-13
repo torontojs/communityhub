@@ -1,99 +1,60 @@
-import { describe, expect, test } from 'vitest';
+import { env } from 'cloudflare:test';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { app } from '../../index.ts';
-import type { StatusResponse } from '../../utils/responses.ts';
-import { MockEnvBindings } from '../../utils/testing.ts';
+import type * as authModule from '../../utils/auth.ts';
 
-const MOCK_ENV = new MockEnvBindings();
+type AuthModule = typeof authModule;
 
-describe.skip('Sign-up route', () => {
-	const signUpResponse = async (email: string, password: string, name: string) => {
-		const response = await app.request('/auth/sign-up', {
-			method: 'POST',
-			headers: new Headers({ 'Content-Type': 'application/json' }),
-			body: JSON.stringify({
-				email,
-				password,
-				name
-			})
-		}, MOCK_ENV);
-
-		const json: StatusResponse = await response.json();
-		return json;
+vi.mock('../../utils/auth.ts', async () => {
+	const actual = await vi.importActual<AuthModule>('../../utils/auth.ts');
+	return {
+		...actual,
+		revalidateSession: vi.fn().mockResolvedValue(null),
+		createSession: vi.fn().mockResolvedValue(undefined)
 	};
+});
 
-	test('Failure: registration should be valid email', async () => {
-		const json: StatusResponse = await signUpResponse('vitest', 'hashed_password_1', 'Vitest');
-		expect(json.errors).toHaveProperty('email');
+vi.mock('../../utils/password-hashing.ts', () => ({
+	validatePassword: vi.fn().mockResolvedValue(true)
+}));
+
+vi.mock('../../routes/auth/data.ts', () => ({
+	getLoginInfo: vi.fn().mockResolvedValue({
+		id: 'profile-123',
+		email: 'member@example.com',
+		access: ['volunteer'],
+		password: 'hashed',
+		status: 'active'
+	})
+}));
+
+describe('POST /auth/sign-in', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
 	});
 
-	test.todo('Failure: registration should fail if email is already registered');
-	test.todo('Failure: registration should have valid password');
-	test.todo('Failure: registration should have name');
-
-	test('Registration successful', async () => {
-		const json: StatusResponse = await signUpResponse('vitest@example.com', 'hashed_password_1', 'Vitest');
-
-		expect(json.message).toBe('Created a new profile and sent an email for confirmation');
-	});
-
-	test.todo('failure: activation should not be successful if incorrect token');
-
-	test.todo('failure: activation should not be successful if token expired');
-
-	test('Activation successful', async () => {
+	it('returns 201 and creates a session for valid credentials', async () => {
 		const response = await app.request(
-			`/auth/activate?token=${crypto.randomUUID()}`,
+			'/api/auth/sign-in',
 			{
-				method: 'GET'
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email: 'member@example.com', password: 'helloWorld' })
 			},
-			new MockEnvBindings({
-				activations: {
-					// @ts-expect-error
-					get: () => 'test@email.com'
-				}
-			})
+			env
 		);
 
-		const json: StatusResponse = await response.json();
+		expect(response.status).toBe(201);
 
-		expect(json.message).toBe('Account activated successfully');
-	});
-});
+		const payload = await response.json();
+		expect(payload).toEqual({ message: 'Sign in successful' });
 
-describe.skip('Sign-in route', () => {
-	test('Failure: Should not log in with incorrect username and/or password', async () => {
-		const response = await app.request('/auth/sign-in', {
-			method: 'POST',
-			headers: new Headers({ 'Content-Type': 'application/json' }),
-			body: JSON.stringify({
-				email: 'notfound@example.com',
-				password: 'wrong'
+		const { createSession } = await import('../../utils/auth.ts');
+		expect(createSession).toHaveBeenCalledWith(
+			expect.objectContaining({
+				id: 'profile-123',
+				email: 'member@example.com'
 			})
-		}, MOCK_ENV);
-
-		const json: StatusResponse = await response.json();
-
-		expect(response.status).equals(401);
-		expect(json.message).toBe('Either your email/password combination is invalid, or your account is not active');
+		);
 	});
-	test.todo('Should not log in if account is not activated');
-
-	test.skip('Success: Should log in successfully with correct username and password', async () => {
-		const response = await app.request('/auth/sign-in', {
-			method: 'POST',
-			headers: new Headers({ 'Content-Type': 'application/json' }),
-			body: JSON.stringify({
-				email: 'profile1@example.com',
-				password: 'hashed_password_1'
-			})
-		}, MOCK_ENV);
-		const json: StatusResponse = await response.json();
-
-		expect(json.message).toBe('Authorized successfully');
-	});
-});
-
-describe('Sign-out route', () => {
-	test.todo('Bad request if invalid token provided');
-	test.todo('User is successfully logged out');
 });
