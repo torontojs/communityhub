@@ -76,8 +76,10 @@ const getRedirectPathForStatus = (status: ProfileStatus, currentPath: string): s
 			return REDIRECT_PATHS.completeProfile;
 
 		case 'profile-completed':
+			if (normalized === normalizePath(REDIRECT_PATHS.home)) {
+				return null;
+			}
 			return REDIRECT_PATHS.home;
-
 		case 'created':
 		case 'deleted':
 		case 'error':
