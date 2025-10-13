@@ -129,5 +129,34 @@ describe('Authentication routes', () => {
 				})
 			);
 		});
+
+		it('returns 200 but skips creation when email already exists', async () => {
+			const app = await loadApp();
+
+			const { checkExistingEmail } = await import('../../routes/auth/data.ts');
+			vi.mocked(checkExistingEmail).mockResolvedValueOnce(true);
+
+			const response = await app.request(
+				'/api/auth/sign-up',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						email: 'already@taken.tld',
+						password: 'H0lyGr@il42!',
+						name: 'Existing User'
+					})
+				},
+				env
+			);
+
+			expect(response.status).toBe(200);
+
+			const { insertProfile } = await import('../../routes/profile/data.ts');
+			const { sendAccountConfirmationEmail } = await import('../../email/index.ts');
+
+			expect(insertProfile).not.toHaveBeenCalled();
+			expect(sendAccountConfirmationEmail).not.toHaveBeenCalled();
+		});
 	});
 });
