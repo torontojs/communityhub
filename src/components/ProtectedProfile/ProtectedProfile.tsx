@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import './ProtectedProfile.css';
+// import Logo from '../Logo/Logo.tsx';
 
 interface Links {
 	platform: string;
@@ -18,6 +20,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [birthday, setBirthday] = useState<string>('');
 	const [skills, setSkills] = useState<string[]>([]);
 	const [links, setLinks] = useState<LinksArray>([]);
+	const [activatedAt, setIsActivatedAt] = useState<string>('');
 
 	useEffect(() => {
 		async function fetchProtectedProfile() {
@@ -36,7 +39,8 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					throw new Error('Error parsing protected profile response data');
 				}
 
-				const { data: { name, email, description, isBasedOnGTA, canJoinLocalEvents, pronouns, birthday, links, skills } } = data;
+				console.log('data', data);
+				const { data: { name, email, description, isBasedOnGTA, canJoinLocalEvents, pronouns, birthday, links, skills, activatedAt } } = data;
 
 				setName(name);
 				setEmail(email);
@@ -48,6 +52,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				setSkills(skills);
 				setLinks(links);
 				setIsLoading(false);
+				setIsActivatedAt(activatedAt);
 			} catch (err) {
 				console.error(err);
 			}
@@ -58,24 +63,63 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	if (isLoading) { return <h1>Is Loading...</h1>; }
 	return (
 		<>
-			<h1>Protected Profile</h1>
-			<ul>
-				<li>Name: {name}</li>
-				<li>Email:{email}</li>
-				<li>Description:{description}</li>
-				<li>Based in GTA:{isBasedOnGTA}</li>
-				<li>Able to join local events:{canJoinLocalEvents}</li>
-				<li>Pronouns:{pronouns}</li>
-				<li>Birthday:{birthday}</li>
-				<p>Links</p>
-				<ul>
-					{links.map((entry: Links): React.JSX.Element => <li>{entry.platform}:{entry.url}</li>)}
-				</ul>
-				<p>Skills:</p>
-				<ul>
-					{skills.map((entry: string): React.JSX.Element => <li>{entry}</li>)}
-				</ul>
-			</ul>
+			<div className='grid-container'>
+				<header>
+					<p>
+						Good morning, {name}
+					</p>
+				</header>
+				<nav className='sidebar-left'>
+					<a href='/pages/home'>
+						<img src='TBD' alt='TBD' />Community
+					</a>
+				</nav>
+				<main>
+					<nav className='tabs'>Volunteers / Profile tabs</nav>
+					<article className='profile'>
+						<header>
+							<h1>{name}</h1>
+							<p>{pronouns}</p>
+							<p>{email}</p>
+							<p>Member since: {activatedAt}</p>
+						</header>
+						<section className='about'>
+							<h2>About</h2>
+						</section>
+
+						<section className='skills'>
+							<h2>Skills</h2>
+						</section>
+
+						<section className='social-links'>
+							<h2>Social Links</h2>
+						</section>
+
+						<section className='teams'>
+							<h2>Teams</h2>
+						</section>
+					</article>
+				</main>
+				<footer>Footer stub</footer>
+			</div>
 		</>
 	);
 };
+// <h1>Protected Profile</h1>
+// <ul>
+// 	<li>Name: {name}</li>
+// 	<li>Email:{email}</li>
+// 	<li>Description:{description}</li>
+// 	<li>Based in GTA:{isBasedOnGTA}</li>
+// 	<li>Able to join local events:{canJoinLocalEvents}</li>
+// 	<li>Pronouns:{pronouns}</li>
+// 	<li>Birthday:{birthday}</li>
+// 	<p>Links</p>
+// 	<ul>
+// 		{links.map((entry: Links): React.JSX.Element => <li>{entry.platform}:{entry.url}</li>)}
+// 	</ul>
+// 	<p>Skills:</p>
+// 	<ul>
+// 		{skills.map((entry: string): React.JSX.Element => <li>{entry}</li>)}
+// 	</ul>
+// </ul>
