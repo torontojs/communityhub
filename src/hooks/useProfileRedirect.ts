@@ -57,12 +57,11 @@ export const REGEX_REMOVE_TRAILING_SLASHES = /\/+$/u;
 const normalizePath = (path: string) => path.replace(new RegExp(REGEX_REMOVE_TRAILING_SLASHES.source, REGEX_REMOVE_TRAILING_SLASHES.flags), '');
 
 const getRedirectPathForStatus = (status: ProfileStatus, currentPath: string): string | null => {
-	const normalized = normalizePath(currentPath ?? '');
 	switch (status) {
 		case 'activated':
 			if (
-				normalized === normalizePath(REDIRECT_PATHS.checkSteps) ||
-				normalized === normalizePath(REDIRECT_PATHS.reviewConductCode)
+				currentPath === normalizePath(REDIRECT_PATHS.checkSteps) ||
+				currentPath === normalizePath(REDIRECT_PATHS.reviewConductCode)
 			) {
 				return null;
 			}
@@ -70,13 +69,13 @@ const getRedirectPathForStatus = (status: ProfileStatus, currentPath: string): s
 
 		case 'tos-accepted':
 		case 'social-handle-provided':
-			if (normalized === normalizePath(REDIRECT_PATHS.completeProfile)) {
+			if (currentPath === normalizePath(REDIRECT_PATHS.completeProfile)) {
 				return null;
 			}
 			return REDIRECT_PATHS.completeProfile;
 
 		case 'profile-completed':
-			if (normalized === normalizePath(REDIRECT_PATHS.home)) {
+			if (currentPath === normalizePath(REDIRECT_PATHS.home)) {
 				return null;
 			}
 			return REDIRECT_PATHS.home;
