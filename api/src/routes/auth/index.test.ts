@@ -205,5 +205,25 @@ describe('Authentication routes', () => {
 			const tokens = await env.ActivationTokens.list();
 			expect(tokens.keys).toHaveLength(0);
 		});
+
+		it('return 401 when incorrect token', async () => {
+			const app = await loadApp();
+
+			const keys = await env.ActivationTokens.list();
+			await Promise.all(keys.keys.map(({ name }) => env.ActivationTokens.delete(name)));
+
+			const invalidToken = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
+
+			const response = await app.request(
+				`/api/auth/activate?token=${invalidToken}`,
+				{ method: 'GET' },
+				env
+			);
+
+			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+			await expect(response.json()).resolves.toEqual({
+				message: 'Invalid or expired token'
+			});
+		});
 	});
 });
