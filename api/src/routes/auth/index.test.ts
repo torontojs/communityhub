@@ -8,6 +8,12 @@ import { StatusCodes } from '../../utils/responses.ts';
 import type * as ProfileModule from '../profile/data.ts';
 import type * as AuthDataModule from './data.ts';
 
+const USER = {
+	name: 'King Arthur',
+	email: 'king.arthur@camelot.uk',
+	password: 'H0lyGr@il42!'
+};
+
 vi.mock('../../../src/utils/passwordStrengthCheck.ts', async () => {
 	const actual = await vi.importActual<typeof PasswordStrengthModule>(
 		'../../../src/utils/passwordStrengthCheck.ts'
@@ -45,7 +51,7 @@ vi.mock('../../../src/routes/profile/data.ts', async () => {
 	);
 	return {
 		...actual,
-		insertProfile: vi.fn().mockResolvedValue({ id: 'profile-123' })
+		insertProfile: vi.fn().mockResolvedValue({ id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8' })
 	};
 });
 
@@ -80,11 +86,7 @@ describe('Authentication routes', () => {
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						email: 'arthur@camelot.uk',
-						password: 'H0lyGr@il42!',
-						name: 'King Arthur'
-					})
+					body: JSON.stringify(USER)
 				},
 				env
 			);
@@ -99,9 +101,8 @@ describe('Authentication routes', () => {
 
 			const { insertProfile } = await import('../../routes/profile/data.ts');
 			expect(insertProfile).toHaveBeenCalledWith(env.Database, {
-				email: 'arthur@camelot.uk',
-				password: 'hashed-password',
-				name: 'King Arthur'
+				...USER,
+				password: 'hashed-password'
 			});
 
 			const tokens = await env.ActivationTokens.list();
@@ -114,15 +115,15 @@ describe('Authentication routes', () => {
 
 			const stored = await env.ActivationTokens.get(firstActivationTokenKey.name, 'json');
 			expect(stored).toMatchObject({
-				email: 'arthur@camelot.uk',
-				id: 'profile-123'
+				email: 'king.arthur@camelot.uk',
+				id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
 			});
 
 			const { sendAccountConfirmationEmail } = await import('../../email/index.ts');
 			expect(sendAccountConfirmationEmail).toHaveBeenCalledWith(
 				expect.anything(),
 				expect.objectContaining({
-					email: 'arthur@camelot.uk',
+					email: USER.email,
 					// apiKey: env.RESEND_API_KEY,
 					senderEmail: env.SENDER_EMAIL,
 					token: expect.any(String)
@@ -141,22 +142,43 @@ describe('Authentication routes', () => {
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						email: 'already@taken.tld',
-						password: 'H0lyGr@il42!',
-						name: 'Existing User'
-					})
+					body: JSON.stringify(USER)
 				},
 				env
 			);
 
-			expect(response.status).toBe(200);
+			expect(response.status).toBe(StatusCodes.OKAY);
 
 			const { insertProfile } = await import('../../routes/profile/data.ts');
 			const { sendAccountConfirmationEmail } = await import('../../email/index.ts');
 
 			expect(insertProfile).not.toHaveBeenCalled();
 			expect(sendAccountConfirmationEmail).not.toHaveBeenCalled();
+		});
+
+		it('returns 422 when password fails strength check', async () => {
+			const app = await loadApp();
+
+			const { passwordStrengthCheck } = await import('../../utils/passwordStrengthCheck.ts');
+			vi.mocked(passwordStrengthCheck).mockReturnValueOnce(false);
+
+			const response = await app.request(
+				'/api/auth/sign-up',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(USER)
+				},
+				env
+			);
+
+			expect(response.status).toBe(StatusCodes.UNPROCESSABLE_CONTENT);
+			await expect(response.json()).resolves.toEqual({
+				message: 'Weak Password found'
+			});
+
+			const tokens = await env.ActivationTokens.list();
+			expect(tokens.keys).toHaveLength(0);
 		});
 	});
 });
