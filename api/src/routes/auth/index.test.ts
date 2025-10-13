@@ -180,5 +180,30 @@ describe('Authentication routes', () => {
 			const tokens = await env.ActivationTokens.list();
 			expect(tokens.keys).toHaveLength(0);
 		});
+
+		it('returns 422 when sign-up no name', async () => {
+			const app = await loadApp();
+
+			const response = await app.request(
+				'/api/auth/sign-up',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						...USER,
+						name: undefined
+					})
+				},
+				env
+			);
+
+			expect(response.status).toBe(StatusCodes.UNPROCESSABLE_CONTENT);
+			await expect(response.json()).resolves.toEqual({
+				errors: { name: 'Invalid input: expected string, received undefined' }
+			});
+
+			const tokens = await env.ActivationTokens.list();
+			expect(tokens.keys).toHaveLength(0);
+		});
 	});
 });
