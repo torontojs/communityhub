@@ -56,16 +56,23 @@ export const REGEX_REMOVE_TRAILING_SLASHES = /\/+$/u;
  */
 const normalizePath = (path: string) => path.replace(new RegExp(REGEX_REMOVE_TRAILING_SLASHES.source, REGEX_REMOVE_TRAILING_SLASHES.flags), '');
 
-const getRedirectPathForStatus = (status: ProfileStatus, currentPath?: string): string => {
+const getRedirectPathForStatus = (status: ProfileStatus, currentPath: string): string | null => {
 	const normalized = normalizePath(currentPath ?? '');
 	switch (status) {
 		case 'activated':
-			return normalized === normalizePath(REDIRECT_PATHS.reviewConductCode)
-				? REDIRECT_PATHS.reviewConductCode
-				: REDIRECT_PATHS.checkSteps;
+			if (
+				normalized === normalizePath(REDIRECT_PATHS.checkSteps) ||
+				normalized === normalizePath(REDIRECT_PATHS.reviewConductCode)
+			) {
+				return null;
+			}
+			return REDIRECT_PATHS.checkSteps;
 
 		case 'tos-accepted':
 		case 'social-handle-provided':
+			if (normalized === normalizePath(REDIRECT_PATHS.completeProfile)) {
+				return null;
+			}
 			return REDIRECT_PATHS.completeProfile;
 
 		case 'profile-completed':
@@ -79,7 +86,7 @@ const getRedirectPathForStatus = (status: ProfileStatus, currentPath?: string): 
 	}
 };
 
-export const getRedirectPath = async (signal?: AbortSignal, currentPath?: string): Promise<RedirectPathResult> => {
+export const getRedirectPath = async (signal: AbortSignal, currentPath: string): Promise<RedirectPathResult> => {
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
@@ -116,14 +123,13 @@ export const useProfileRedirect = () => {
 		const { signal } = controller;
 
 		const redirect = async () => {
-			const redirectPath = await getRedirectPath(signal);
+			const currentPath = normalizePath(new URL(window.location.href).pathname);
+			const redirectPath = await getRedirectPath(signal, currentPath);
 
 			if (!redirectPath) {
 				setRedirectionComplete(true);
 				return;
 			}
-
-			const currentPath = new URL(window.location.href).pathname;
 
 			if (currentPath !== redirectPath) {
 				window.location.href = redirectPath;

@@ -3,14 +3,16 @@
 	display: grid;
 	grid-template-columns: 306px 1fr;
 	grid-template-rows: auto 1fr auto;
-	gap: 15px;
 	max-width: 1440px;
 	margin: 0 auto;
 	height: 90vh;
 
 	& header { grid-column: 1 / -1; }
 
-	& footer { grid-column: 1 / -1; }
+	& main {
+		margin: 10px 15px;
+		height: 100%;
+	}
 }
 
 /* Header, nav, main are positioned by the grid */

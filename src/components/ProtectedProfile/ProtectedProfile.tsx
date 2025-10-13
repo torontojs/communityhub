@@ -71,7 +71,10 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				</header>
 				<nav className='sidebar-left'>
 					<a href='/pages/home'>
-						<img src='TBD' alt='TBD' />Community
+						<img src='TBD' alt='Community Icon' />Community
+					</a>
+					<a href='#'>
+						<img src='TBC' alt='Profile Management Icon' />Profile Management
 					</a>
 				</nav>
 				<main>
@@ -100,7 +103,6 @@ export const ProtectedProfile = (): React.JSX.Element => {
 						</section>
 					</article>
 				</main>
-				<footer>Footer stub</footer>
 			</div>
 		</>
 	);
