@@ -12,7 +12,9 @@ import type * as AuthDataModule from './data.ts';
 const USER = {
 	name: 'King Arthur',
 	email: 'king.arthur@camelot.uk',
-	password: 'H0lyGr@il42!'
+	password: 'H0lyGr@il42!',
+	access: 'volunteer' as const,
+	status: 'active'
 };
 
 vi.mock('../../../src/utils/passwordStrengthCheck.ts', async () => {
@@ -25,7 +27,7 @@ vi.mock('../../../src/utils/passwordStrengthCheck.ts', async () => {
 	};
 });
 
-vi.mock('../../../src/utils/password-hashing.ts', async () => {
+vi.mock('../../utils/password-hashing.ts', async () => {
 	const actual = await vi.importActual<typeof PasswordHashingModule>(
 		'../../../src/utils/password-hashing.ts'
 	);
@@ -36,7 +38,7 @@ vi.mock('../../../src/utils/password-hashing.ts', async () => {
 	};
 });
 
-vi.mock('../../../src/routes/auth/data.ts', async () => {
+vi.mock('../../routes/auth/data.ts', async () => {
 	const actual = await vi.importActual<typeof AuthDataModule>(
 		'../../../src/routes/auth/data.ts'
 	);
@@ -46,7 +48,7 @@ vi.mock('../../../src/routes/auth/data.ts', async () => {
 			id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8',
 			email: 'king.arthur@camelot.uk',
 			password: 'hashed-password',
-			access: ['volunteer'],
+			access: 'volunteer',
 			status: 'active'
 		}),
 		checkExistingEmail: vi.fn().mockResolvedValue(false),
@@ -56,7 +58,7 @@ vi.mock('../../../src/routes/auth/data.ts', async () => {
 	};
 });
 
-vi.mock('../../../src/routes/profile/data.ts', async () => {
+vi.mock('../../routes/profile/data.ts', async () => {
 	const actual = await vi.importActual<typeof ProfileModule>(
 		'../../../src/routes/profile/data.ts'
 	);
@@ -66,7 +68,7 @@ vi.mock('../../../src/routes/profile/data.ts', async () => {
 	};
 });
 
-vi.mock('../../../src/email/index.ts', async () => {
+vi.mock('../../email/index.ts', async () => {
 	const actual = await vi.importActual<typeof EmailModule>(
 		'../../../src/email/index.ts'
 	);
@@ -76,15 +78,14 @@ vi.mock('../../../src/email/index.ts', async () => {
 	};
 });
 
-vi.mock('../../../src/utils/auth.ts', async () => {
+vi.mock('../../utils/auth.ts', async () => {
 	const actual = await vi.importActual<typeof AuthUtilsModule>(
 		'../../../src/utils/auth.ts'
 	);
 	return {
 		...actual,
 		revalidateSession: vi.fn().mockResolvedValue(null),
-		createSession: vi.fn().mockResolvedValue(undefined),
-		deleteSession: vi.fn()
+		createSession: vi.fn().mockResolvedValue(undefined)
 	};
 });
 
@@ -124,7 +125,8 @@ describe('Authentication routes', () => {
 
 			const { insertProfile } = await import('../../routes/profile/data.ts');
 			expect(insertProfile).toHaveBeenCalledWith(env.Database, {
-				...USER,
+				email: USER.email,
+				name: USER.name,
 				password: 'hashed-password'
 			});
 
@@ -249,6 +251,8 @@ describe('Authentication routes', () => {
 			});
 		});
 
+		it.todo('return 401 when expired token');
+
 		it('return 200 when Activation successful', async () => {
 			const app = await loadApp();
 
@@ -293,5 +297,47 @@ describe('Authentication routes', () => {
 				})
 			);
 		});
+
+		it('returns 401 login with incorrect email', async () => {
+			const app = await loadApp();
+
+			const { getLoginInfo } = await import('../../routes/auth/data.ts');
+			vi.mocked(getLoginInfo).mockResolvedValueOnce(null);
+
+			const response = await app.request(
+				'/api/auth/sign-in',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(USER)
+				},
+				env
+			);
+
+			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+			await expect(response.json()).resolves.toEqual({ message: 'Either your email/password combination is invalid, or your account is not active' });
+		});
+
+		it('returns 401 login with incorrect password', async () => {
+			const app = await loadApp();
+
+			const { validatePassword } = await import('../../utils/password-hashing.ts');
+			vi.mocked(validatePassword).mockResolvedValueOnce(false);
+
+			const response = await app.request(
+				'/api/auth/sign-in',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(USER)
+				},
+				env
+			);
+
+			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+			await expect(response.json()).resolves.toEqual({ message: 'Either your email/password combination is invalid, or your account is not active' });
+		});
+
+		it.todo('Should not log in if account is not activated');
 	});
 });
