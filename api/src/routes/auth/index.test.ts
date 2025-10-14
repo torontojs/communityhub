@@ -2,6 +2,7 @@ import { env } from 'cloudflare:test';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type * as EmailModule from '../../email/index.ts';
+import type * as AuthUtilsModule from '../../utils/auth.ts';
 import type * as PasswordHashingModule from '../../utils/password-hashing.ts';
 import type * as PasswordStrengthModule from '../../utils/passwordStrengthCheck.ts';
 import { StatusCodes } from '../../utils/responses.ts';
@@ -30,7 +31,8 @@ vi.mock('../../../src/utils/password-hashing.ts', async () => {
 	);
 	return {
 		...actual,
-		hashPassword: vi.fn().mockResolvedValue('hashed-password')
+		hashPassword: vi.fn().mockResolvedValue('hashed-password'),
+		validatePassword: vi.fn().mockResolvedValue(true)
 	};
 });
 
@@ -40,6 +42,13 @@ vi.mock('../../../src/routes/auth/data.ts', async () => {
 	);
 	return {
 		...actual,
+		getLoginInfo: vi.fn().mockResolvedValue({
+			id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8',
+			email: 'king.arthur@camelot.uk',
+			password: 'hashed-password',
+			access: ['volunteer'],
+			status: 'active'
+		}),
 		checkExistingEmail: vi.fn().mockResolvedValue(false),
 		updateProfileStatus: vi.fn().mockResolvedValue(undefined),
 		activateProfile: vi.fn().mockResolvedValue(true),
@@ -64,6 +73,18 @@ vi.mock('../../../src/email/index.ts', async () => {
 	return {
 		...actual,
 		sendAccountConfirmationEmail: vi.fn().mockResolvedValue(undefined)
+	};
+});
+
+vi.mock('../../../src/utils/auth.ts', async () => {
+	const actual = await vi.importActual<typeof AuthUtilsModule>(
+		'../../../src/utils/auth.ts'
+	);
+	return {
+		...actual,
+		revalidateSession: vi.fn().mockResolvedValue(null),
+		createSession: vi.fn().mockResolvedValue(undefined),
+		deleteSession: vi.fn()
 	};
 });
 
@@ -244,6 +265,33 @@ describe('Authentication routes', () => {
 			await expect(response.json()).resolves.toEqual({
 				message: 'Account activated successfully'
 			});
+		});
+	});
+
+	describe('POST /api/auth/sign-in', () => {
+		it('returns 201 and creates a session when credentials are valid', async () => {
+			const app = await loadApp();
+
+			const response = await app.request(
+				'/api/auth/sign-in',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(USER)
+				},
+				env
+			);
+
+			expect(response.status).toBe(StatusCodes.CREATED);
+			await expect(response.json()).resolves.toEqual({ message: 'Sign in successful' });
+
+			const { createSession } = await import('../../../src/utils/auth.ts');
+			expect(createSession).toHaveBeenCalledWith(
+				expect.objectContaining({
+					id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8',
+					email: USER.email
+				})
+			);
 		});
 	});
 });
