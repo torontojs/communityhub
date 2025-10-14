@@ -1,12 +1,8 @@
 {
-	"include": [
-		"./**/*"
-	],
+	"include": ["./**/*"],
 	"extends": "../tsconfig.base.json",
 	"compilerOptions": {
-		"lib": [
-			"ESNext"
-		],
+		"lib": ["ESNext"],
 		"types": [
 			"./src/env.d.ts",
 			"@types/node",
