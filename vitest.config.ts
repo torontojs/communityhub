@@ -7,7 +7,7 @@ export default defineWorkersConfig(async () => {
 	const migrations = await readD1Migrations(migrationsPath);
 
 	const rawSeedSql = fs.readFileSync(path.join(process.cwd(), 'db/seeds/seed-data.sql'), 'utf8');
-	const seedSql = rawSeedSql.split('\n').filter((line) => !line.trim().startsWith('--')).join('\n').replace(/\n/g, '');
+	const seedSql = rawSeedSql.split('\n').filter((line) => !line.trim().startsWith('--')).join('');
 
 	return {
 		test: {
