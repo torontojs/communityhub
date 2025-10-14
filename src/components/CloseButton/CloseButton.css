@@ -1,0 +1,38 @@
+@layer components {
+	.close-button {
+		cursor: pointer;
+		width: 16px;
+		height: 16px;
+		padding: 0;
+		border-radius: 2px;
+		outline: none;
+		border: none;
+		background: none;
+
+		&[data-variant='error'] {
+			background-color: var(--color-accent);
+			.close-icon { color: var(--color-background); }
+		}
+
+		&[data-variant='outline'] {
+			border: 1px solid var(--color-accent);
+			.close-icon { color: var(--color-accent); }
+		}
+
+		&[data-variant='warning'] {
+			background-color: var(--color-black);
+			.close-icon { color: var(--color-background); }
+		}
+
+		&[data-variant='dismiss'] {
+			border: 1px solid var(--color-black);
+			.close-icon { color: var(--color-black); }
+		}
+
+		&[data-variant='default'] .close-icon { color: var(--color-black); }
+	}
+	.close-icon {
+		display: block;
+		margin: auto;
+	}
+}
