@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 
-export interface EnvironmentBindings {
+interface EnvironmentBindings {
 	Bindings: Cloudflare.Env;
 
 	Variables: {
