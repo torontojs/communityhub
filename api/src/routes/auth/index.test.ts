@@ -340,4 +340,52 @@ describe('Authentication routes', () => {
 
 		it.todo('Should not log in if account is not activated');
 	});
+
+	describe('POST /api/auth/sign-out', () => {
+		it('returns 204 when the user signs out successfully', async () => {
+			const token = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
+			const sessionPayload = {
+				id: token,
+				...USER,
+				token,
+				originalExpiry: new Date().toISOString()
+			};
+
+			const { revalidateSession } = await import('../../utils/auth.ts');
+
+			await env.SessionTokens.put(token, JSON.stringify(sessionPayload));
+			vi.mocked(revalidateSession).mockResolvedValue(sessionPayload);
+
+			const app = await loadApp();
+			const response = await app.request(
+				'/api/auth/sign-out',
+				{
+					method: 'POST',
+					headers: { Cookie: `auth_token=${token}` }
+				},
+				env
+			);
+
+			expect(response.status).toBe(StatusCodes.NO_CONTENT);
+
+			const remaining = await env.SessionTokens.list();
+			expect(remaining.keys.some(({ name }) => name === token)).toBe(false);
+		});
+
+		it('returns 401 when the session is missing or invalid', async () => {
+			const app = await loadApp();
+			const { revalidateSession } = await import('../../utils/auth.ts');
+
+			vi.mocked(revalidateSession).mockResolvedValue(undefined);
+
+			const response = await app.request(
+				'/api/auth/sign-out',
+				{ method: 'POST' },
+				env
+			);
+
+			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+			await expect(response.json()).resolves.toEqual({ message: 'Invalid session' });
+		});
+	});
 });
