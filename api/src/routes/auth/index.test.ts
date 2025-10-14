@@ -41,7 +41,9 @@ vi.mock('../../../src/routes/auth/data.ts', async () => {
 	return {
 		...actual,
 		checkExistingEmail: vi.fn().mockResolvedValue(false),
-		updateProfileStatus: vi.fn().mockResolvedValue(undefined)
+		updateProfileStatus: vi.fn().mockResolvedValue(undefined),
+		activateProfile: vi.fn().mockResolvedValue(true),
+		checkActiveEmail: vi.fn().mockResolvedValue(false)
 	};
 });
 
@@ -223,6 +225,24 @@ describe('Authentication routes', () => {
 			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
 			await expect(response.json()).resolves.toEqual({
 				message: 'Invalid or expired token'
+			});
+		});
+
+		it('return 200 when Activation successful', async () => {
+			const app = await loadApp();
+
+			const token = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
+			await env.ActivationTokens.put(token, JSON.stringify(USER), { expirationTtl: 60 });
+
+			const response = await app.request(
+				`/api/auth/activate?token=${token}`,
+				{ method: 'GET' },
+				env
+			);
+
+			expect(response.status).toBe(StatusCodes.OKAY);
+			await expect(response.json()).resolves.toEqual({
+				message: 'Account activated successfully'
 			});
 		});
 	});
