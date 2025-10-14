@@ -1,28 +1,19 @@
-import { defineWorkersConfig, readD1Migrations } from '@cloudflare/vitest-pool-workers/config';
-import fs from 'node:fs';
-import path from 'node:path';
+import { defineWorkersConfig } from '@cloudflare/vitest-pool-workers/config';
+import { migrations, seedSql } from './db/seeds/seedSql';
 
-export default defineWorkersConfig(async () => {
-	const migrationsPath = path.join(process.cwd(), 'db/migrations');
-	const migrations = await readD1Migrations(migrationsPath);
-
-	const rawSeedSql = fs.readFileSync(path.join(process.cwd(), 'db/seeds/seed-data.sql'), 'utf8');
-	const seedSql = rawSeedSql.split('\n').filter((line) => !line.trim().startsWith('--')).join('');
-
-	return {
-		test: {
-			poolOptions: {
-				workers: {
-					wrangler: { configPath: './wrangler.toml' },
-					miniflare: {
-						bindings: {
-							TEST_MIGRATIONS: migrations,
-							SEED_SQL: seedSql
-						}
+export default defineWorkersConfig({
+	test: {
+		poolOptions: {
+			workers: {
+				wrangler: { configPath: './wrangler.toml' },
+				miniflare: {
+					bindings: {
+						TEST_MIGRATIONS: migrations,
+						SEED_SQL: seedSql
 					}
 				}
-			},
-			coverage: { reporter: ['text', 'lcov'] }
-		}
-	};
+			}
+		},
+		coverage: { reporter: ['text', 'lcov'] }
+	}
 });
