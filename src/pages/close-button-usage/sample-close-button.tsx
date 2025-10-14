@@ -6,10 +6,6 @@ import '../../index.css';
 
 const root = document.getElementById('root') as HTMLDivElement;
 
-const handleClick = () => {
-	alert('Close clicked');
-};
-
 createRoot(root).render(
 	(
 		<StrictMode>
@@ -20,33 +16,33 @@ createRoot(root).render(
 						<legend>
 							error close button:
 						</legend>
-						<CloseButton onClick={handleClick} variant='error' />
+						<CloseButton variant='error' />
 					</fieldset>
 
 					<fieldset>
 						<legend>
 							close button with outline:
 						</legend>
-						<CloseButton onClick={handleClick} variant='outline' />
+						<CloseButton variant='outline' />
 					</fieldset>
 
 					<fieldset>
 						<legend>
 							close button with black background:
 						</legend>
-						<CloseButton onClick={handleClick} variant='warning' />
+						<CloseButton variant='warning' />
 					</fieldset>
 					<fieldset>
 						<legend>
 							close button with black outline:
 						</legend>
-						<CloseButton onClick={handleClick} variant='dismiss' />
+						<CloseButton variant='dismiss' />
 					</fieldset>
 					<fieldset>
 						<legend>
 							default close button:
 						</legend>
-						<CloseButton onClick={handleClick} variant='default' />
+						<CloseButton variant='default' />
 					</fieldset>
 				</section>
 			</div>
