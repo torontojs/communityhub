@@ -24,7 +24,7 @@ const API_ENDPOINTS = {
 	ACTIVATE: '/api/auth/activate'
 } as const;
 
-vi.mock('../../../src/utils/passwordStrengthCheck.ts', async () => {
+vi.mock('../../utils/passwordStrengthCheck.ts', async () => {
 	const actual = await vi.importActual<typeof PasswordStrengthModule>(
 		'../../../src/utils/passwordStrengthCheck.ts'
 	);
@@ -109,7 +109,7 @@ describe('Authentication routes', () => {
 		await Promise.all(sessionKeys.keys.map(async ({ name }) => env.SessionTokens.delete(name)));
 	});
 
-	describe('POST API_ENDPOINTS.SIGN_UP', () => {
+	describe('POST /api/auth/sign-up', () => {
 		it('creates profile and activation token when payload is valid', async () => {
 			const app = await loadApp();
 			const response = await app.request(
