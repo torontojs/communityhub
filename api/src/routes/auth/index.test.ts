@@ -15,7 +15,14 @@ const USER = {
 	password: 'H0lyGr@il42!',
 	access: 'volunteer' as const,
 	status: 'active'
-};
+} as const;
+
+const API_ENDPOINTS = {
+	SIGN_UP: '/api/auth/sign-up',
+	SIGN_IN: '/api/auth/sign-in',
+	SIGN_OUT: '/api/auth/sign-out',
+	ACTIVATE: '/api/auth/activate'
+} as const;
 
 vi.mock('../../../src/utils/passwordStrengthCheck.ts', async () => {
 	const actual = await vi.importActual<typeof PasswordStrengthModule>(
@@ -96,17 +103,17 @@ describe('Authentication routes', () => {
 		vi.clearAllMocks();
 
 		const activationKeys = await env.ActivationTokens.list();
-		await Promise.all(activationKeys.keys.map(({ name }) => env.ActivationTokens.delete(name)));
+		await Promise.all(activationKeys.keys.map(async ({ name }) => env.ActivationTokens.delete(name)));
 
 		const sessionKeys = await env.SessionTokens.list();
 		await Promise.all(sessionKeys.keys.map(async ({ name }) => env.SessionTokens.delete(name)));
 	});
 
-	describe('POST /api/auth/sign-up', () => {
+	describe('POST API_ENDPOINTS.SIGN_UP', () => {
 		it('creates profile and activation token when payload is valid', async () => {
 			const app = await loadApp();
 			const response = await app.request(
-				'/api/auth/sign-up',
+				API_ENDPOINTS.SIGN_UP,
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
@@ -163,7 +170,7 @@ describe('Authentication routes', () => {
 			vi.mocked(checkExistingEmail).mockResolvedValueOnce(true);
 
 			const response = await app.request(
-				'/api/auth/sign-up',
+				API_ENDPOINTS.SIGN_UP,
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
@@ -188,7 +195,7 @@ describe('Authentication routes', () => {
 			vi.mocked(passwordStrengthCheck).mockReturnValueOnce(false);
 
 			const response = await app.request(
-				'/api/auth/sign-up',
+				API_ENDPOINTS.SIGN_UP,
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
@@ -210,7 +217,7 @@ describe('Authentication routes', () => {
 			const app = await loadApp();
 
 			const response = await app.request(
-				'/api/auth/sign-up',
+				API_ENDPOINTS.SIGN_UP,
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
@@ -235,7 +242,7 @@ describe('Authentication routes', () => {
 			const app = await loadApp();
 
 			const keys = await env.ActivationTokens.list();
-			await Promise.all(keys.keys.map(({ name }) => env.ActivationTokens.delete(name)));
+			await Promise.all(keys.keys.map(async ({ name }) => env.ActivationTokens.delete(name)));
 
 			const invalidToken = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
 
@@ -260,7 +267,7 @@ describe('Authentication routes', () => {
 			await env.ActivationTokens.put(token, JSON.stringify(USER), { expirationTtl: 60 });
 
 			const response = await app.request(
-				`/api/auth/activate?token=${token}`,
+				`${API_ENDPOINTS.ACTIVATE}?token=${token}`,
 				{ method: 'GET' },
 				env
 			);
@@ -277,7 +284,7 @@ describe('Authentication routes', () => {
 			const app = await loadApp();
 
 			const response = await app.request(
-				'/api/auth/sign-in',
+				API_ENDPOINTS.SIGN_IN,
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
@@ -305,7 +312,7 @@ describe('Authentication routes', () => {
 			vi.mocked(getLoginInfo).mockResolvedValueOnce(null);
 
 			const response = await app.request(
-				'/api/auth/sign-in',
+				API_ENDPOINTS.SIGN_IN,
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
@@ -325,7 +332,7 @@ describe('Authentication routes', () => {
 			vi.mocked(validatePassword).mockResolvedValueOnce(false);
 
 			const response = await app.request(
-				'/api/auth/sign-in',
+				API_ENDPOINTS.SIGN_IN,
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
@@ -358,7 +365,7 @@ describe('Authentication routes', () => {
 
 			const app = await loadApp();
 			const response = await app.request(
-				'/api/auth/sign-out',
+				API_ENDPOINTS.SIGN_OUT,
 				{
 					method: 'POST',
 					headers: { Cookie: `auth_token=${token}` }
@@ -379,7 +386,7 @@ describe('Authentication routes', () => {
 			vi.mocked(revalidateSession).mockResolvedValue(undefined);
 
 			const response = await app.request(
-				'/api/auth/sign-out',
+				API_ENDPOINTS.SIGN_OUT,
 				{ method: 'POST' },
 				env
 			);
