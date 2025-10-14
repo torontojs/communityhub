@@ -6,7 +6,7 @@ export default defineWorkersConfig(async () => {
 	const migrationsPath = path.join(process.cwd(), 'db/migrations');
 	const migrations = await readD1Migrations(migrationsPath);
 
-	const seedSql = fs.readFileSync(path.join(process.cwd(), 'db/seeds/seed-data-no-comment.sql'), 'utf8');
+	const seedSql = fs.readFileSync(path.join(process.cwd(), 'db/seeds/seed-data.sql'), 'utf8');
 	return {
 		test: {
 			poolOptions: {
