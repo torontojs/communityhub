@@ -10,8 +10,11 @@ export interface EnvironmentBindings {
 
 declare module 'cloudflare:test' {
 	// ProvidedEnv controls the type of `import("cloudflare:test").env`
-	// eslint-disable-next-line @typescript-eslint/no-empty-interface
-	interface ProvidedEnv extends Env {}
+
+	interface ProvidedEnv extends Env {
+		TEST_MIGRATIONS: D1Migration[];
+		SEED_SQL: string;
+	}
 }
 
 type ISODate = string;
