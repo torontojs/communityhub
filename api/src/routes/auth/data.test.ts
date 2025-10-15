@@ -1,94 +1,90 @@
-import { env } from 'cloudflare:test';
-import { applyD1Migrations } from 'cloudflare:test';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { applyD1Migrations, env } from 'cloudflare:test';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo } from './data.ts';
 
-const USER = {
-	id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8',
-	email: 'king.arthur@camelot.uk',
-	password: 'saMwRm9Sfm0QSkmxgAIadA==:1pkHxwpYK2HCWlItbMNfJ0XmvTmnTXD2l70s5GMLtMUC85fhbMU9B0VKSFzWALQXtc945LB5zsKNg0w1cybCKA==',
-	name: 'King Arthur',
-	access: 'organizer'
-};
+beforeAll(async () => {
+	await applyD1Migrations(env.Database, env.TEST_MIGRATIONS);
+});
 
-describe('Auth data functions', () => {
-	beforeAll(async () => {
-		await applyD1Migrations(env.Database, env.TEST_MIGRATIONS);
-		await env.Database.exec(env.SEED_SQL);
-	});
+beforeEach(async () => {
+	await env.Database.exec(env.SEED_SQL);
+});
 
+describe('Auth data functions test', () => {
 	describe('getLoginInfo', () => {
-		it('returns credentials for an active, non-deleted profile', async () => {
-			const result = await getLoginInfo(env.Database, 'king.arthur@camelot.uk');
+		it('retrieves credentials when a matching active profile exist', async () => {
+			const email = 'king.arthur@camelot.uk';
+
+			const result = await getLoginInfo(env.Database, email);
 
 			expect(result).toEqual({
-				id: USER.id,
-				password: USER.password,
-				access: USER.access
+				id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8',
+				password: 'saMwRm9Sfm0QSkmxgAIadA==:1pkHxwpYK2HCWlItbMNfJ0XmvTmnTXD2l70s5GMLtMUC85fhbMU9B0VKSFzWALQXtc945LB5zsKNg0w1cybCKA==',
+				access: 'organizer'
 			});
 		});
 
-		it('returns null if no matching user found', async () => {
+		it('returns no credentials for an unknown email', async () => {
 			const result = await getLoginInfo(env.Database, 'notfound@example.com');
-
 			expect(result).toBeNull();
 		});
 	});
 
 	describe('getHeartbeatInfo', () => {
-		it('returns heartbeat info for activated user', async () => {
-			const result = await getHeartbeatInfo(env.Database, USER.id);
+		it('returns heartbeat details for an active user', async () => {
+			const userId = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
+
+			const result = await getHeartbeatInfo(env.Database, userId);
 
 			expect(result).toEqual({
-				id: USER.id,
-				access: USER.access,
-				name: USER.name,
+				id: userId,
+				access: 'organizer',
+				name: 'King Arthur',
 				avatar: null,
 				status: 'profile-completed'
 			});
 		});
 
-		it('returns null if user is not found', async () => {
+		it('returns no heartbeat details for an unknown user id', async () => {
 			const result = await getHeartbeatInfo(env.Database, 'nonexistent-id');
 			expect(result).toBeNull();
 		});
 	});
 
 	describe('checkExistingEmail', () => {
-		it('returns true if email exists', async () => {
-			const result = await checkExistingEmail(env.Database, USER.email);
-
-			expect(result).toBe(true);
+		it('detects that an email already exists', async () => {
+			const exists = await checkExistingEmail(env.Database, 'king.arthur@camelot.uk');
+			expect(exists).toBe(true);
 		});
 
-		it('returns false if email does not exist', async () => {
-			const result = await checkExistingEmail(env.Database, 'none@example.com');
-
-			expect(result).toBe(false);
+		it('detects that an email does not exist', async () => {
+			const exists = await checkExistingEmail(env.Database, 'none@example.com');
+			expect(exists).toBe(false);
 		});
 	});
 
 	describe('checkActiveEmail', () => {
-		it('returns true if email is active', async () => {
-			const result = await checkActiveEmail(env.Database, USER.email);
-
-			expect(result).toBe(true);
+		it('reports an email as active when the profile is active', async () => {
+			const isActive = await checkActiveEmail(env.Database, 'king.arthur@camelot.uk');
+			expect(isActive).toBe(true);
 		});
 
-		it('returns false if email is inactive', async () => {
-			const result = await checkActiveEmail(env.Database, 'inactive@example.com');
-
-			expect(result).toBe(false);
+		it('reports an email as inactive when the profile is inactive', async () => {
+			const isActive = await checkActiveEmail(env.Database, 'inactive@example.com');
+			expect(isActive).toBe(false);
 		});
 	});
 
 	describe('activateProfile', () => {
-		it('returns true when update succeeds', async () => {
-			const result = await activateProfile(env.Database, USER.email);
+		it('activates the profile for a known email and signals success', async () => {
+			const email = 'king.arthur@camelot.uk';
+
+			const result = await activateProfile(env.Database, email);
 
 			expect(result).toBe(true);
-		});
 
-		it.todo('returns false when update fail');
+			const isActive = await checkActiveEmail(env.Database, email);
+			expect(isActive).toBe(true);
+		});
 	});
 });
