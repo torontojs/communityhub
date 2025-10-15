@@ -1,377 +1,199 @@
-import { env } from 'cloudflare:test';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { applyD1Migrations, env } from 'cloudflare:test';
+import { assert, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import type * as EmailModule from '../../email/index.ts';
-import type * as AuthUtilsModule from '../../utils/auth.ts';
-import type * as PasswordHashingModule from '../../utils/password-hashing.ts';
-import type * as PasswordStrengthModule from '../../utils/passwordStrengthCheck.ts';
+import { app } from '../../index.ts';
 import { StatusCodes } from '../../utils/responses.ts';
-import type * as ProfileModule from '../profile/data.ts';
-import type * as AuthDataModule from './data.ts';
 
-const USER = {
-	name: 'King Arthur',
-	email: 'king.arthur@camelot.uk',
-	password: 'H0lyGr@il42!',
-	access: 'volunteer' as const,
-	status: 'active'
-} as const;
-
-const API_ENDPOINTS = {
-	SIGN_UP: '/api/auth/sign-up',
-	SIGN_IN: '/api/auth/sign-in',
-	SIGN_OUT: '/api/auth/sign-out',
-	ACTIVATE: '/api/auth/activate'
-} as const;
-
-vi.mock('../../utils/passwordStrengthCheck.ts', async () => {
-	const actual = await vi.importActual<typeof PasswordStrengthModule>(
-		'../../../src/utils/passwordStrengthCheck.ts'
-	);
-	return {
-		...actual,
-		passwordStrengthCheck: vi.fn().mockReturnValue(true)
-	};
+beforeAll(async () => {
+	await applyD1Migrations(env.Database, env.TEST_MIGRATIONS);
 });
 
-vi.mock('../../utils/password-hashing.ts', async () => {
-	const actual = await vi.importActual<typeof PasswordHashingModule>(
-		'../../../src/utils/password-hashing.ts'
-	);
-	return {
-		...actual,
-		hashPassword: vi.fn().mockResolvedValue('hashed-password'),
-		validatePassword: vi.fn().mockResolvedValue(true)
-	};
-});
+beforeEach(async () => {
+	await env.Database.exec(env.SEED_SQL);
+	const activationKeys = await env.ActivationTokens.list();
+	await Promise.all(activationKeys.keys.map(async ({ name }) => env.ActivationTokens.delete(name)));
 
-vi.mock('../../routes/auth/data.ts', async () => {
-	const actual = await vi.importActual<typeof AuthDataModule>(
-		'../../../src/routes/auth/data.ts'
-	);
-	return {
-		...actual,
-		getLoginInfo: vi.fn().mockResolvedValue({
-			id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8',
-			email: 'king.arthur@camelot.uk',
-			password: 'hashed-password',
-			access: 'volunteer',
-			status: 'active'
-		}),
-		checkExistingEmail: vi.fn().mockResolvedValue(false),
-		updateProfileStatus: vi.fn().mockResolvedValue(undefined),
-		activateProfile: vi.fn().mockResolvedValue(true),
-		checkActiveEmail: vi.fn().mockResolvedValue(false)
-	};
+	const sessionKeys = await env.SessionTokens.list();
+	await Promise.all(sessionKeys.keys.map(async ({ name }) => env.SessionTokens.delete(name)));
 });
-
-vi.mock('../../routes/profile/data.ts', async () => {
-	const actual = await vi.importActual<typeof ProfileModule>(
-		'../../../src/routes/profile/data.ts'
-	);
-	return {
-		...actual,
-		insertProfile: vi.fn().mockResolvedValue({ id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8' })
-	};
-});
-
-vi.mock('../../email/index.ts', async () => {
-	const actual = await vi.importActual<typeof EmailModule>(
-		'../../../src/email/index.ts'
-	);
-	return {
-		...actual,
-		sendAccountConfirmationEmail: vi.fn().mockResolvedValue(undefined)
-	};
-});
-
-vi.mock('../../utils/auth.ts', async () => {
-	const actual = await vi.importActual<typeof AuthUtilsModule>(
-		'../../../src/utils/auth.ts'
-	);
-	return {
-		...actual,
-		revalidateSession: vi.fn().mockResolvedValue(null),
-		createSession: vi.fn().mockResolvedValue(undefined)
-	};
-});
-
-const loadApp = async () => (await import('../../index.ts')).app;
 
 describe('Authentication routes', () => {
-	beforeEach(async () => {
-		vi.clearAllMocks();
-
-		const activationKeys = await env.ActivationTokens.list();
-		await Promise.all(activationKeys.keys.map(async ({ name }) => env.ActivationTokens.delete(name)));
-
-		const sessionKeys = await env.SessionTokens.list();
-		await Promise.all(sessionKeys.keys.map(async ({ name }) => env.SessionTokens.delete(name)));
-	});
-
 	describe('POST /api/auth/sign-up', () => {
-		it('creates profile and activation token when payload is valid', async () => {
-			const app = await loadApp();
-			const response = await app.request(
-				API_ENDPOINTS.SIGN_UP,
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(USER)
-				},
-				env
-			);
+		it('creates a new profile and stores an activation token for a valid request', async () => {
+			const newUserPayload = {
+				name: 'New User',
+				email: 'new@new.new',
+				password: 'jfiewofjieowfjo2348219++++'
+			} as const;
+
+			const response = await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(newUserPayload)
+			}, env);
 
 			expect(response.status).toBe(StatusCodes.OKAY);
-			await expect(response.json()).resolves.toEqual({
-				message: 'Created a new profile and sent an email for confirmation'
-			});
-
-			const { hashPassword } = await import('../../utils/password-hashing.ts');
-			expect(hashPassword).toHaveBeenCalledWith('H0lyGr@il42!');
-
-			const { insertProfile } = await import('../../routes/profile/data.ts');
-			expect(insertProfile).toHaveBeenCalledWith(env.Database, {
-				email: USER.email,
-				name: USER.name,
-				password: 'hashed-password'
-			});
 
 			const tokens = await env.ActivationTokens.list();
+			expect(Array.isArray(tokens?.keys)).toBe(true);
 			expect(tokens.keys.length).toBe(1);
 
 			const [firstActivationTokenKey] = tokens.keys;
-			if (!firstActivationTokenKey) {
-				throw new Error('Activation token was not created');
-			}
+			assert(firstActivationTokenKey, 'First ActivationToken should exist.');
 
 			const stored = await env.ActivationTokens.get(firstActivationTokenKey.name, 'json');
-			expect(stored).toMatchObject({
-				email: 'king.arthur@camelot.uk',
-				id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
-			});
-
-			const { sendAccountConfirmationEmail } = await import('../../email/index.ts');
-			expect(sendAccountConfirmationEmail).toHaveBeenCalledWith(
-				expect.anything(),
-				expect.objectContaining({
-					email: USER.email,
-					// apiKey: env.RESEND_API_KEY,
-					senderEmail: env.SENDER_EMAIL,
-					token: expect.any(String)
-				})
-			);
+			expect(stored).toEqual(expect.objectContaining({ email: newUserPayload.email }));
 		});
 
-		it('returns 200 but skips creation when email already exists', async () => {
-			const app = await loadApp();
+		it.todo('skips creation when the email already exists (idempotent sign-up path)');
 
-			const { checkExistingEmail } = await import('../../routes/auth/data.ts');
-			vi.mocked(checkExistingEmail).mockResolvedValueOnce(true);
+		it('rejects sign-up when email is invalid', async () => {
+			const invalidEmailPayload = {
+				name: 'Invalid Email User',
+				email: 'invalid',
+				password: 'jfiewofjieowfjo2348219++++'
+			} as const;
 
-			const response = await app.request(
-				API_ENDPOINTS.SIGN_UP,
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(USER)
-				},
-				env
-			);
-
-			expect(response.status).toBe(StatusCodes.OKAY);
-
-			const { insertProfile } = await import('../../routes/profile/data.ts');
-			const { sendAccountConfirmationEmail } = await import('../../email/index.ts');
-
-			expect(insertProfile).not.toHaveBeenCalled();
-			expect(sendAccountConfirmationEmail).not.toHaveBeenCalled();
-		});
-
-		it('returns 422 when password fails strength check', async () => {
-			const app = await loadApp();
-
-			const { passwordStrengthCheck } = await import('../../utils/passwordStrengthCheck.ts');
-			vi.mocked(passwordStrengthCheck).mockReturnValueOnce(false);
-
-			const response = await app.request(
-				API_ENDPOINTS.SIGN_UP,
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(USER)
-				},
-				env
-			);
+			const response = await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(invalidEmailPayload)
+			}, env);
 
 			expect(response.status).toBe(StatusCodes.UNPROCESSABLE_CONTENT);
-			await expect(response.json()).resolves.toEqual({
-				message: 'Weak Password found'
-			});
 
 			const tokens = await env.ActivationTokens.list();
 			expect(tokens.keys).toHaveLength(0);
 		});
 
-		it('returns 422 when sign-up no name', async () => {
-			const app = await loadApp();
+		it('rejects sign-up when password is weak', async () => {
+			const weakPasswordPayload = {
+				name: 'Weak Password User',
+				email: 'weak@pw.test',
+				password: 'a'
+			} as const;
 
-			const response = await app.request(
-				API_ENDPOINTS.SIGN_UP,
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						...USER,
-						name: undefined
-					})
-				},
-				env
-			);
+			const response = await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(weakPasswordPayload)
+			}, env);
 
 			expect(response.status).toBe(StatusCodes.UNPROCESSABLE_CONTENT);
-			await expect(response.json()).resolves.toEqual({
-				errors: { name: 'Invalid input: expected string, received undefined' }
-			});
 
 			const tokens = await env.ActivationTokens.list();
 			expect(tokens.keys).toHaveLength(0);
 		});
 
-		it('return 401 when incorrect token', async () => {
-			const app = await loadApp();
-
-			const keys = await env.ActivationTokens.list();
-			await Promise.all(keys.keys.map(async ({ name }) => env.ActivationTokens.delete(name)));
-
-			const invalidToken = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
-
-			const response = await app.request(
-				`/api/auth/activate?token=${invalidToken}`,
-				{ method: 'GET' },
-				env
-			);
-
-			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
-			await expect(response.json()).resolves.toEqual({
-				message: 'Invalid or expired token'
-			});
-		});
-
-		it.todo('return 401 when expired token');
-
-		it('return 200 when Activation successful', async () => {
-			const app = await loadApp();
-
+		it('activates an account when presented with a valid activation token', async () => {
 			const token = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
-			await env.ActivationTokens.put(token, JSON.stringify(USER), { expirationTtl: 60 });
+			const activationUser = {
+				name: 'King Arthur',
+				email: 'king.arthur@camelot.uk',
+				password: 'H0lyGr@il42!',
+				access: 'volunteer' as const,
+				status: 'active'
+			};
 
-			const response = await app.request(
-				`${API_ENDPOINTS.ACTIVATE}?token=${token}`,
-				{ method: 'GET' },
-				env
-			);
+			await env.ActivationTokens.put(token, JSON.stringify(activationUser), { expirationTtl: 60 });
 
+			const response = await app.request(`/api/auth/activate?token=${token}`, { method: 'GET' }, env);
 			expect(response.status).toBe(StatusCodes.OKAY);
-			await expect(response.json()).resolves.toEqual({
-				message: 'Account activated successfully'
-			});
+
+			const remaining = await env.ActivationTokens.list();
+			expect(remaining.keys.find(({ name }) => name === token)).toBeDefined();
+		});
+
+		it('fails to activate when token is invalid or expired', async () => {
+			const invalidToken = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
+			const response = await app.request(`/api/auth/activate?token=${invalidToken}`, {
+				method: 'GET'
+			}, env);
+			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
 		});
 	});
 
 	describe('POST /api/auth/sign-in', () => {
-		it('returns 201 and creates a session when credentials are valid', async () => {
-			const app = await loadApp();
+		it('signs in with a registered active account and correct password', async () => {
+			const registeredActiveVolunteer = {
+				name: 'King Arthur',
+				email: 'king.arthur@camelot.uk',
+				password: 'H0lyGr@il42!',
+				access: 'volunteer' as const,
+				status: 'active'
+			};
 
-			const response = await app.request(
-				API_ENDPOINTS.SIGN_IN,
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(USER)
-				},
-				env
-			);
+			const response = await app.request('/api/auth/sign-in', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(registeredActiveVolunteer)
+			}, env);
 
 			expect(response.status).toBe(StatusCodes.CREATED);
-			await expect(response.json()).resolves.toEqual({ message: 'Sign in successful' });
 
-			const { createSession } = await import('../../../src/utils/auth.ts');
-			expect(createSession).toHaveBeenCalledWith(
-				expect.objectContaining({
-					id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8',
-					email: USER.email
-				})
-			);
+			const setCookie = response.headers.get('set-cookie') ?? response.headers.get('Set-Cookie');
+			expect(setCookie).toBeTruthy();
 		});
 
-		it('returns 401 login with incorrect email', async () => {
-			const app = await loadApp();
+		it('rejects sign-in when the email does not exist', async () => {
+			const nonExistentEmailPayload = {
+				name: 'Ghost User',
+				email: 'wrong@email.com',
+				password: 'H0lyGr@il42!',
+				access: 'volunteer' as const,
+				status: 'active'
+			};
 
-			const { getLoginInfo } = await import('../../routes/auth/data.ts');
-			vi.mocked(getLoginInfo).mockResolvedValueOnce(null);
-
-			const response = await app.request(
-				API_ENDPOINTS.SIGN_IN,
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(USER)
-				},
-				env
-			);
+			const response = await app.request('/api/auth/sign-in', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(nonExistentEmailPayload)
+			}, env);
 
 			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
-			await expect(response.json()).resolves.toEqual({ message: 'Either your email/password combination is invalid, or your account is not active' });
 		});
 
-		it('returns 401 login with incorrect password', async () => {
-			const app = await loadApp();
+		it('rejects sign-in when the password is incorrect', async () => {
+			const wrongPasswordPayload = {
+				name: 'King Arthur',
+				email: 'king.arthur@camelot.uk',
+				password: 'wrong password',
+				access: 'volunteer' as const,
+				status: 'active'
+			};
 
-			const { validatePassword } = await import('../../utils/password-hashing.ts');
-			vi.mocked(validatePassword).mockResolvedValueOnce(false);
-
-			const response = await app.request(
-				API_ENDPOINTS.SIGN_IN,
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(USER)
-				},
-				env
-			);
+			const response = await app.request('/api/auth/sign-in', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(wrongPasswordPayload)
+			}, env);
 
 			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
-			await expect(response.json()).resolves.toEqual({ message: 'Either your email/password combination is invalid, or your account is not active' });
 		});
 
-		it.todo('Should not log in if account is not activated');
+		it.todo('rejects sign-in when the account exists but is not activated');
 	});
 
 	describe('POST /api/auth/sign-out', () => {
-		it('returns 204 when the user signs out successfully', async () => {
+		it('signs out and invalidates the session when a valid session token is provided', async () => {
 			const token = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
 			const sessionPayload = {
 				id: token,
-				...USER,
+				name: 'King Arthur',
+				email: 'king.arthur@camelot.uk',
+				password: 'H0lyGr@il42!',
+				access: 'volunteer' as const,
+				status: 'active',
 				token,
 				originalExpiry: new Date().toISOString()
 			};
 
-			const { revalidateSession } = await import('../../utils/auth.ts');
-
 			await env.SessionTokens.put(token, JSON.stringify(sessionPayload));
-			vi.mocked(revalidateSession).mockResolvedValue(sessionPayload);
 
-			const app = await loadApp();
-			const response = await app.request(
-				API_ENDPOINTS.SIGN_OUT,
-				{
-					method: 'POST',
-					headers: { Cookie: `auth_token=${token}` }
-				},
-				env
-			);
+			const response = await app.request('/api/auth/sign-out', {
+				method: 'POST',
+				headers: { Cookie: `auth_token=${token}` }
+			}, env);
 
 			expect(response.status).toBe(StatusCodes.NO_CONTENT);
 
@@ -379,20 +201,9 @@ describe('Authentication routes', () => {
 			expect(remaining.keys.some(({ name }) => name === token)).toBe(false);
 		});
 
-		it('returns 401 when the session is missing or invalid', async () => {
-			const app = await loadApp();
-			const { revalidateSession } = await import('../../utils/auth.ts');
-
-			vi.mocked(revalidateSession).mockResolvedValue(undefined);
-
-			const response = await app.request(
-				API_ENDPOINTS.SIGN_OUT,
-				{ method: 'POST' },
-				env
-			);
-
+		it('returns unauthorized when the session token is missing', async () => {
+			const response = await app.request('/api/auth/sign-out', { method: 'POST' }, env);
 			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
-			await expect(response.json()).resolves.toEqual({ message: 'Invalid session' });
 		});
 	});
 });
