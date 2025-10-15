@@ -32,7 +32,6 @@ html_handling = "auto-trailing-slash"
 NODE_ENV = "local"
 BASE_URL = "http://localhost:4242"
 FRONTEND_URL = "http://localhost:3000"
-RESEND_API_KEY = "your-api-key-here"
 
 [[d1_databases]]
 binding = "Database"
@@ -67,7 +66,6 @@ NODE_ENV = "development"
 SENDER_EMAIL="organizers+dev@torontojs.com"
 BASE_URL = "https://vms-dev.torontojs.com"
 FRONTEND_URL = "https://volunteer-dev.torontojs.com"
-RESEND_API_KEY = "your-api-key-here"
 
 [[env.dev.d1_databases]]
 binding = "Database"
