@@ -86,7 +86,7 @@ describe('Authentication routes', () => {
 		});
 
 		it('activates an account when presented with a valid activation token', async () => {
-			const token = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
+			const token = '00000000-0000-0000-0000-000000000000';
 			const activationUser = {
 				name: 'King Arthur',
 				email: 'king.arthur@camelot.uk',
@@ -105,7 +105,7 @@ describe('Authentication routes', () => {
 		});
 
 		it('fails to activate when token is invalid or expired', async () => {
-			const invalidToken = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
+			const invalidToken = '00000000-0000-0000-0000-000000000000';
 			const response = await app.request(`/api/auth/activate?token=${invalidToken}`, {
 				method: 'GET'
 			}, env);
@@ -176,7 +176,7 @@ describe('Authentication routes', () => {
 
 	describe('POST /api/auth/sign-out', () => {
 		it('signs out and invalidates the session when a valid session token is provided', async () => {
-			const token = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
+			const token = '00000000-0000-0000-0000-000000000000';
 			const sessionPayload = {
 				id: token,
 				name: 'King Arthur',
