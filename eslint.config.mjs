@@ -1,6 +1,3 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from 'eslint-plugin-storybook';
-
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import reactPlugin from 'eslint-plugin-react';
@@ -501,16 +498,5 @@ export default [
 		languageOptions,
 		plugins,
 		rules
-	},
-	{
-		name: 'Storybook tooling',
-		files: ['.storybook/**/*.{js,mjs,cjs,ts,cts,mts,jsx,tsx}'],
-		languageOptions,
-		plugins: {
-			...plugins,
-			storybook
-		},
-		rules
-	},
-	...storybook.configs['flat/recommended']
+	}
 ];

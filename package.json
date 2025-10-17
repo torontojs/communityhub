@@ -7,32 +7,39 @@
 	"scripts": {
 		"dev": "vite dev",
 		"prepare": "husky",
+
 		"start": "npm run dev",
+
 		"dev:cron": "wrangler dev --test-scheduled",
+
 		"generate:types": "wrangler types api/src/env.d.ts",
 		"db:setup": "wrangler d1 migrations apply vms-local --local",
 		"db:seed": "wrangler d1 execute vms-local --local --file=./db/seeds/seed-data.sql",
+
 		"build": "vite build",
 		"prepreview": "npm run build",
 		"preview": "vite preview",
+
 		"predeploy:dev": "npm run build",
 		"deploy:dev": "wrangler deploy --minify --env dev",
+
 		"predeploy:prod": "npm run build",
 		"deploy:prod": "wrangler deploy --minify --env production",
+
 		"format": "dprint fmt",
 		"format:check": "dprint check",
+
 		"typecheck:api": "tsc -p ./api --noEmit",
 		"typecheck:client": "tsc -p ./src --noEmit",
 		"typecheck": "npm run typecheck:api && npm run typecheck:client",
 		"lint:js": "eslint",
 		"lint": "npm run typecheck && npm run lint:js",
+
 		"test:coverage": "vitest run --coverage",
 		"test:unit": "vitest run",
 		"test:api-file": "hurl --continue-on-error --jobs 4 --max-time 300 --test --variables-file .dev.vars --variables-file .api-test.vars",
 		"test:api": "npm run test:api-file -- --glob \"**/*.hurl\"",
-		"test": "vitest",
-		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"test": "vitest"
 	},
 	"dependencies": {
 		"@hono/swagger-ui": "0.5.2",
@@ -48,9 +55,6 @@
 		"@cloudflare/vite-plugin": "1.9.6",
 		"@cloudflare/vitest-pool-workers": "0.8.55",
 		"@orangeopensource/hurl": "6.1.1",
-		"@storybook/addon-docs": "^9.1.10",
-		"@storybook/addon-onboarding": "^9.1.10",
-		"@storybook/react-vite": "^9.1.10",
 		"@types/node": "^22.16.5",
 		"@types/react": "18.3.23",
 		"@types/react-dom": "18.3.7",
@@ -64,10 +68,8 @@
 		"eslint-plugin-react": "^7.37.5",
 		"eslint-plugin-react-hooks": "^5.2.0",
 		"eslint-plugin-react-refresh": "^0.4.20",
-		"eslint-plugin-storybook": "^9.1.10",
 		"globals": "16.3.0",
 		"husky": "9.1.7",
-		"storybook": "^9.1.10",
 		"typescript": "5.8.3",
 		"vite": "^7.0.4",
 		"vitest": "3.2.4",
