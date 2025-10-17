@@ -52,7 +52,8 @@ export default defineConfig(({ mode }) => {
 					'input-usage': fileURLToPath(new URL('./src/pages/text-input-usage/index.html', import.meta.url)),
 					'reset-password': fileURLToPath(new URL('./src/pages/reset-password/index.html', import.meta.url)),
 					'date-usage': fileURLToPath(new URL('./src/pages/date-usage/index.html', import.meta.url)),
-					'helper-message': fileURLToPath(new URL('./src/pages/usage-helper-message/index.html', import.meta.url))
+					'helper-message': fileURLToPath(new URL('./src/pages/usage-helper-message/index.html', import.meta.url)),
+					'notification-box-usage': fileURLToPath(new URL('./src/pages/notification-box-usage/index.html', import.meta.url))
 				}
 			}
 		},
