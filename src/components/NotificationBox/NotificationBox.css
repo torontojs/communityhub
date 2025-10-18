@@ -1,24 +1,19 @@
-p, h2 {
-	padding: 0;
-	margin: 0;
-}
-
 h2 {
-	font-size: calc(20rem / 16);
-	.info & { color: var(--color-blue-700); }
-	.error & { color: var(--color-red-700); }
-	.success & { color: var(--color-green-700); }
-	.warning & { color: var(--color-yellow-700); }
+  .notification-box-wrapper & {
+    .info & { color: var(--color-blue-700); }
+    .error & { color: var(--color-red-700); }
+    .success & { color: var(--color-green-700); }
+    .warning & { color: var(--color-yellow-700); }
+    padding: 0;
+    margin: 0;
+  }
 }
 
-p { font-size: calc(18rem / 16); }
-
-.wrapper {
-	--padding: 16px;
-	border-radius: 16px;
-	padding: var(--padding);
+.notification-box-wrapper {
+	border-radius: var(--rounded-md);
+	padding: var(--spacing-sm);
 	position: relative;
-	border: 2px solid;
+	border: calc(2rem/16) solid;
 	border-color: var(--color-border);
 	background-color: var(--color-bg);
 
@@ -44,44 +39,45 @@ p { font-size: calc(18rem / 16); }
 }
 
 button {
-	all: unset;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	border-top: 1px solid;
-	border-top-color: var(--color);
-	position: relative;
-	overflow: hidden;
+  .notification-box-wrapper & {
+    all: unset;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    border-top: var(--border-base) solid var(--color);
+    position: relative;
+    overflow: hidden;
 
-	.info & { --color: var(--color-blue-500); }
-	.error & { --color: var(--color-red-500); }
-	.success & { --color: var(--color-green-500); }
-	.warning & { --color: var(--color-yellow-500); }
+    .info & { --color: var(--color-blue-500); }
+    .error & { --color: var(--color-red-500); }
+    .success & { --color: var(--color-green-500); }
+    .warning & { --color: var(--color-yellow-500); }
 
-	&:focus {
-		outline: auto;
-		outline-color: var(--color);
-	}
+    &:focus {
+      outline: auto;
+      outline-color: var(--color);
+    }
 
-	&:hover { cursor: pointer; }
+    &:hover { cursor: pointer; }
 
-	& * { position: relative; }
+    & * { position: relative; }
 
-	&::before {
-		position: absolute;
-		background-color: var(--color);
-		content: '';
-		height: 100%;
-		width: 100%;
-		transform: translateY(-100%);
-		transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-	}
+    &::before {
+      position: absolute;
+      background-color: var(--color);
+      content: '';
+      height: 100%;
+      width: 100%;
+      transform: translateY(-100%);
+      transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
 
-	&:hover::before { transform: translateY(0); }
+    &:hover::before { transform: translateY(0); }
+  }
 }
 
 .header {
-	.wrapper & {
+	.notification-box-wrapper & {
 		display: flex;
 		gap: 16px;
 		align-items: baseline;
