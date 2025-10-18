@@ -9,7 +9,7 @@ import NotificationBox from '../../components/NotificationBox/NotificationBox.ts
 const root = document.getElementById('root') as HTMLDivElement;
 
 const handleDismiss = () => {
-  console.log('Close button clicked');
+  alert('Close button clicked');
 };
 
 createRoot(root).render(
