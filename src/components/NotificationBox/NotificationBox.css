@@ -5,6 +5,8 @@
 	border: calc(2rem/16) solid;
 	border-color: var(--color-border);
 	background-color: var(--color-bg);
+  display: grid;
+  grid-template-columns: 1fr auto;
 
 	&[data-variant="info"] {
 		--color-border: var(--color-blue-500);
@@ -48,6 +50,8 @@ button {
     border-top: var(--border-base) solid var(--color-border);
     position: relative;
     overflow: hidden;
+    grid-row: 3;
+    width: calc(79rem/16);
 
     &:focus {
       outline: auto;
@@ -57,26 +61,17 @@ button {
     &:hover { cursor: pointer; }
 
     & * { position: relative; }
-
-    &::before {
-      position: absolute;
-      background-color: var(--color-border);
-      content: '';
-      height: 100%;
-      width: 100%;
-      transform: translateY(-100%);
-      transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-    }
-
-    &:hover::before { transform: translateY(0); }
   }
 }
 
-.header {
-	.notification-box-wrapper & {
-		display: flex;
-		gap: 16px;
-		align-items: baseline;
-		justify-content: space-between;
-	}
+span {
+  .notification-box-wrapper button & {
+    font-size: calc(14rem / 16);
+  }
+}
+
+.content {
+  .notification-box-wrapper & {
+    grid-row: 2;
+  }
 }

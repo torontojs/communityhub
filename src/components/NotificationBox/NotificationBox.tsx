@@ -93,10 +93,8 @@ const ICONS: Record<Variant, React.ReactNode> = {
 export default function NotificationBox({ title, variant, onDismiss, children }: NotificationBoxProps) {
   return (
     <div className={`notification-box-wrapper`} data-variant={variant} role={variant === 'error' ? 'alert' : 'status'} aria-live='polite' aria-atomic='true'>
-      <div className='header'>
-        <h2 className='title text-h2'>{title}</h2>
-        {ICONS[variant]}
-      </div>
+      <h2 className='title text-h2'>{title}</h2>
+      {ICONS[variant]}
       <div className='content'>{children}</div>
       <button aria-label='Dismiss notification' onClick={onDismiss}>
         <CloseIcon />
