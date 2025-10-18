@@ -1,14 +1,3 @@
-h2 {
-  .notification-box-wrapper & {
-    .info & { color: var(--color-blue-700); }
-    .error & { color: var(--color-red-700); }
-    .success & { color: var(--color-green-700); }
-    .warning & { color: var(--color-yellow-700); }
-    padding: 0;
-    margin: 0;
-  }
-}
-
 .notification-box-wrapper {
 	border-radius: var(--rounded-md);
 	padding: var(--spacing-sm);
@@ -17,25 +6,37 @@ h2 {
 	border-color: var(--color-border);
 	background-color: var(--color-bg);
 
-	.info& {
+	&[data-variant="info"] {
 		--color-border: var(--color-blue-500);
 		--color-bg: var(--color-blue-50);
+    --color: var(--color-blue-700);
 	}
 
-	.error& {
+	&[data-variant="error"] {
 		--color-border: var(--color-red-500);
 		--color-bg: var(--color-red-50);
+    --color: var(--color-red-700);
 	}
 
-	.success& {
+	&[data-variant="success"] {
 		--color-border: var(--color-green-500);
 		--color-bg: var(--color-green-50);
+    --color: var(--color-green-700);
 	}
 
-	.warning& {
+	&[data-variant="warning"] {
 		--color-border: var(--color-yellow-500);
 		--color-bg: var(--color-yellow-50);
+    --color: var(--color-yellow-700);
 	}
+}
+
+h2 {
+  .notification-box-wrapper & {
+    padding: 0;
+    margin: 0;
+    color: var(--color);
+  }
 }
 
 button {
@@ -44,18 +45,13 @@ button {
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
-    border-top: var(--border-base) solid var(--color);
+    border-top: var(--border-base) solid var(--color-border);
     position: relative;
     overflow: hidden;
 
-    .info & { --color: var(--color-blue-500); }
-    .error & { --color: var(--color-red-500); }
-    .success & { --color: var(--color-green-500); }
-    .warning & { --color: var(--color-yellow-500); }
-
     &:focus {
       outline: auto;
-      outline-color: var(--color);
+      outline-color: var(--color-border);
     }
 
     &:hover { cursor: pointer; }
@@ -64,7 +60,7 @@ button {
 
     &::before {
       position: absolute;
-      background-color: var(--color);
+      background-color: var(--color-border);
       content: '';
       height: 100%;
       width: 100%;
