@@ -2,76 +2,68 @@
 	border-radius: var(--rounded-md);
 	padding: var(--spacing-sm);
 	position: relative;
-	border: calc(2rem/16) solid;
+	border: calc(2rem / 16) solid;
 	border-color: var(--color-border);
 	background-color: var(--color-bg);
-  display: grid;
-  grid-template-columns: 1fr auto;
+	display: grid;
+	grid-template-columns: 1fr auto;
 
-	&[data-variant="info"] {
+	&[data-variant='info'] {
 		--color-border: var(--color-blue-500);
 		--color-bg: var(--color-blue-50);
-    --color: var(--color-blue-700);
+		--color: var(--color-blue-700);
 	}
 
-	&[data-variant="error"] {
+	&[data-variant='error'] {
 		--color-border: var(--color-red-500);
 		--color-bg: var(--color-red-50);
-    --color: var(--color-red-700);
+		--color: var(--color-red-700);
 	}
 
-	&[data-variant="success"] {
+	&[data-variant='success'] {
 		--color-border: var(--color-green-500);
 		--color-bg: var(--color-green-50);
-    --color: var(--color-green-700);
+		--color: var(--color-green-700);
 	}
 
-	&[data-variant="warning"] {
+	&[data-variant='warning'] {
 		--color-border: var(--color-yellow-500);
 		--color-bg: var(--color-yellow-50);
-    --color: var(--color-yellow-700);
+		--color: var(--color-yellow-700);
 	}
 }
 
 h2 {
-  .notification-box-wrapper & {
-    padding: 0;
-    margin: 0;
-    color: var(--color);
-  }
+	.notification-box-wrapper & {
+		padding: 0;
+		margin: 0;
+		color: var(--color);
+	}
 }
 
 button {
-  .notification-box-wrapper & {
-    all: unset;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-    border-top: var(--border-base) solid var(--color-border);
-    position: relative;
-    overflow: hidden;
-    grid-row: 3;
-    width: calc(79rem/16);
+	.notification-box-wrapper & {
+		all: unset;
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-xs);
+		border-top: var(--border-base) solid var(--color-border);
+		position: relative;
+		overflow: hidden;
+		grid-row: 3;
+		width: calc(79rem / 16);
 
-    &:focus {
-      outline: auto;
-      outline-color: var(--color-border);
-    }
+		&:focus {
+			outline: auto;
+			outline-color: var(--color-border);
+		}
 
-    &:hover { cursor: pointer; }
+		&:hover { cursor: pointer; }
 
-    & * { position: relative; }
-  }
+		& * { position: relative; }
+	}
 }
 
-span {
-  .notification-box-wrapper button & {
-    font-size: calc(14rem / 16);
-  }
-}
+span { .notification-box-wrapper button & { font-size: calc(14rem / 16); } }
 
-.content {
-  .notification-box-wrapper & {
-    grid-row: 2;
-  }
-}
+.content { .notification-box-wrapper & { grid-row: 2; } }
