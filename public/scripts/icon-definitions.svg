@@ -1,67 +1,78 @@
 <svg xmlns='http://www.w3.org/2000/svg' id='icon-definitions' aria-hidden='true' role='none' focusable='false'>
-	<defs>
-		<!-- Default (Gray Info) -->
-		<symbol id='icon-default' viewBox='0 0 16 16' fill='none'>
-			<g clip-path='url(#clip-default)'>
-				<path
-					d='M8 14.6666C11.6819 14.6666 14.6666 11.6818 14.6666 7.99992C14.6666 4.31802 11.6819 1.33325 8 1.33325C4.3181 1.33325 1.33333 4.31802 1.33333 7.99992C1.33333 11.6818 4.3181 14.6666 8 14.6666Z'
-					stroke='#999999'
-					stroke-width='2'
-					stroke-linecap='round'
-					stroke-linejoin='round'
-				/>
-				<path d='M8 10.6667V8' stroke='#999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
-				<path d='M8 5.33325H8.00667' stroke='#999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
-			</g>
-			<defs>
-				<clip-path id='clip-default'>
-					<rect width='16' height='16' fill='white' />
-				</clip-path>
-			</defs>
-		</symbol>
+  <defs>
+    <!-- Default (Gray Info) -->
+    <symbol id='icon-default' viewBox='0 0 16 16' fill='none'>
+      <g clip-path='url(#clip-default)'>
+        <path
+          d='M8 14.6666C11.6819 14.6666 14.6666 11.6818 14.6666 7.99992C14.6666 4.31802 11.6819 1.33325 8 1.33325C4.3181 1.33325 1.33333 4.31802 1.33333 7.99992C1.33333 11.6818 4.3181 14.6666 8 14.6666Z'
+          stroke='#999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+        <path d='M8 10.6667V8' stroke='#999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+        <path d='M8 5.33325H8.00667' stroke='#999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+      </g>
+      <defs>
+        <clip-path id='clip-default'>
+          <rect width='16' height='16' fill='white' />
+        </clip-path>
+      </defs>
+    </symbol>
 
-		<!-- Info (Blue Info) -->
-		<symbol id='icon-info' viewBox='0 0 16 16' fill='none'>
-			<g clip-path='url(#clip-info)'>
-				<path
-					d='M8 14.6668C11.6819 14.6668 14.6666 11.6821 14.6666 8.00016C14.6666 4.31826 11.6819 1.3335 8 1.3335C4.3181 1.3335 1.33333 4.31826 1.33333 8.00016C1.33333 11.6821 4.3181 14.6668 8 14.6668Z'
-					stroke='#3388FF'
-					stroke-width='2'
-					stroke-linecap='round'
-					stroke-linejoin='round'
-				/>
-				<path d='M8 10.6667V8' stroke='#3388FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
-				<path d='M8 5.3335H8.00667' stroke='#3388FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
-			</g>
-			<defs>
-				<clip-path id='clip-info'>
-					<rect width='16' height='16' fill='white' />
-				</clip-path>
-			</defs>
-		</symbol>
+    <!-- Info (Blue Info) -->
+    <symbol id='icon-info' viewBox='0 0 16 16' fill='none'>
+      <g clip-path='url(#clip-info)'>
+        <path
+          d='M8 14.6668C11.6819 14.6668 14.6666 11.6821 14.6666 8.00016C14.6666 4.31826 11.6819 1.3335 8 1.3335C4.3181 1.3335 1.33333 4.31826 1.33333 8.00016C1.33333 11.6821 4.3181 14.6668 8 14.6668Z'
+          stroke='#3388FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+        <path d='M8 10.6667V8' stroke='#3388FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+        <path d='M8 5.3335H8.00667' stroke='#3388FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+      </g>
+      <defs>
+        <clip-path id='clip-info'>
+          <rect width='16' height='16' fill='white' />
+        </clip-path>
+      </defs>
+    </symbol>
 
-		<!-- Error (X Icon) -->
-		<symbol id='icon-error' viewBox='0 0 16 16' fill='none'>
-			<path d='M12 4L4 12' stroke='#E51429' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
-			<path d='M4 4L12 12' stroke='#E51429' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
-		</symbol>
+    <!-- Error (X Icon) -->
+    <symbol id='icon-error' viewBox='0 0 16 16' fill='none'>
+      <path d='M12 4L4 12' stroke='#E51429' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+      <path d='M4 4L12 12' stroke='#E51429' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+    </symbol>
 
-		<!-- Success (Checkmark) -->
-		<symbol id='icon-success' viewBox='0 0 16 16' fill='none'>
-			<path d='M13.3334 4L6.00002 11.3333L2.66669 8' stroke='#06D6A0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
-		</symbol>
+    <svg id='icon-error-with-border' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <path d='M15 9L9 15' stroke='#E51429' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+      <path
+        d='M2.586 16.726C2.2109 16.351 2.00011 15.8424 2 15.312V8.688C2.00011 8.15761 2.2109 7.64899 2.586 7.274L7.274 2.586C7.64899 2.2109 8.15761 2.00011 8.688 2H15.312C15.8424 2.00011 16.351 2.2109 16.726 2.586L21.414 7.274C21.7891 7.64899 21.9999 8.15761 22 8.688V15.312C21.9999 15.8424 21.7891 16.351 21.414 16.726L16.726 21.414C16.351 21.7891 15.8424 21.9999 15.312 22H8.688C8.15761 21.9999 7.64899 21.7891 7.274 21.414L2.586 16.726Z'
+        stroke='#E51429' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+      <path d='M9 9L15 15' stroke='#E51429' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+    </svg>
 
-		<!-- Warning -->
-		<symbol id='icon-warning' viewBox='0 0 16 16' fill='none'>
-			<path
-				d='M14.4867 12L9.15335 2.66665C9.03706 2.46146 8.86842 2.29078 8.66463 2.17203C8.46084 2.05329 8.22921 1.99072 7.99335 1.99072C7.75749 1.99072 7.52585 2.05329 7.32206 2.17203C7.11828 2.29078 6.94964 2.46146 6.83335 2.66665L1.50001 12C1.38247 12.2036 1.32083 12.4346 1.32135 12.6697C1.32187 12.9047 1.38453 13.1355 1.50298 13.3385C1.62142 13.5416 1.79145 13.7097 1.99581 13.8259C2.20018 13.942 2.43162 14.0021 2.66668 14H13.3333C13.5673 13.9997 13.797 13.938 13.9995 13.8208C14.202 13.7037 14.3702 13.5354 14.487 13.3327C14.6039 13.1301 14.6654 12.9002 14.6653 12.6663C14.6653 12.4324 14.6036 12.2026 14.4867 12Z'
-				stroke='#DE9502'
-				stroke-width='2'
-				stroke-linecap='round'
-				stroke-linejoin='round'
-			/>
-			<path d='M8 6V8.66667' stroke='#DE9502' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
-			<path d='M8 11.3335H8.00667' stroke='#DE9502' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
-		</symbol>
-	</defs>
+    <!-- Success (Checkmark) -->
+    <symbol id='icon-success' viewBox='0 0 16 16' fill='none'>
+      <path d='M13.3334 4L6.00002 11.3333L2.66669 8' stroke='#06D6A0' stroke-width='2' stroke-linecap='round'
+        stroke-linejoin='round' />
+    </symbol>
+
+    <svg id='icon-success-with-border' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <path
+        d='M21.801 9.99999C22.2577 12.2413 21.9322 14.5714 20.8789 16.6018C19.8255 18.6322 18.1079 20.24 16.0125 21.1573C13.9171 22.0746 11.5706 22.2458 9.36431 21.6424C7.15798 21.0389 5.2252 19.6974 3.88828 17.8414C2.55137 15.9854 1.89113 13.7272 2.01767 11.4434C2.14421 9.15952 3.04989 6.98808 4.58366 5.29116C6.11743 3.59424 8.18659 2.47442 10.4461 2.11844C12.7056 1.76247 15.0188 2.19185 17 3.33499'
+        stroke='#06D6A0' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+      <path d='M9 11L12 14L22 4' stroke='#06D6A0' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+    </svg>
+
+    <!-- Warning -->
+    <symbol id='icon-warning' viewBox='0 0 16 16' fill='none'>
+      <path
+        d='M14.4867 12L9.15335 2.66665C9.03706 2.46146 8.86842 2.29078 8.66463 2.17203C8.46084 2.05329 8.22921 1.99072 7.99335 1.99072C7.75749 1.99072 7.52585 2.05329 7.32206 2.17203C7.11828 2.29078 6.94964 2.46146 6.83335 2.66665L1.50001 12C1.38247 12.2036 1.32083 12.4346 1.32135 12.6697C1.32187 12.9047 1.38453 13.1355 1.50298 13.3385C1.62142 13.5416 1.79145 13.7097 1.99581 13.8259C2.20018 13.942 2.43162 14.0021 2.66668 14H13.3333C13.5673 13.9997 13.797 13.938 13.9995 13.8208C14.202 13.7037 14.3702 13.5354 14.487 13.3327C14.6039 13.1301 14.6654 12.9002 14.6653 12.6663C14.6653 12.4324 14.6036 12.2026 14.4867 12Z'
+        stroke='#DE9502' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+      <path d='M8 6V8.66667' stroke='#DE9502' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+      <path d='M8 11.3335H8.00667' stroke='#DE9502' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+    </symbol>
+
+    <!-- Close -->
+    <svg id='icon-close' viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="15" height="15" rx="1.5" stroke="#333333" />
+      <path d="M12 4L4 12" stroke="#333333" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M4 4L12 12" stroke="#333333" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </defs>
 </svg>

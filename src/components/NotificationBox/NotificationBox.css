@@ -67,3 +67,17 @@ button {
 span { .notification-box-wrapper button & { font-size: calc(14rem / 16); } }
 
 .content { .notification-box-wrapper & { grid-row: 2; } }
+
+svg {
+	.notification-box-wrapper & {
+		--size: calc(20rem / 16);
+		width: var(--size);
+		height: var(--size);
+
+		button & {
+			--size: calc(16rem / 16);
+			width: var(--size);
+			height: var(--size);
+		}
+	}
+}
