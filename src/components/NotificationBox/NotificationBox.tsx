@@ -90,7 +90,7 @@ const ICONS: Record<Variant, React.ReactNode> = {
   error: <ErrorIcon />
 };
 
-export default function NotificationBox({ title, variant = 'info', onDismiss, children }: NotificationBoxProps) {
+export default function NotificationBox({ title, variant, onDismiss, children }: NotificationBoxProps) {
   return (
     <div className={`notification-box-wrapper ${variant}`} role={variant === 'error' ? 'alert' : 'status'} aria-live='polite' aria-atomic='true'>
       <div className='header'>
