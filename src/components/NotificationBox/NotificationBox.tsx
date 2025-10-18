@@ -100,7 +100,7 @@ export default function NotificationBox({ title, variant, onDismiss, children }:
       <div className='content'>{children}</div>
       <button aria-label='Dismiss notification' onClick={onDismiss}>
         <CloseIcon />
-        <span>Close</span>
+        <span aria-hidden="true">Close</span>
       </button>
     </div>
   );
