@@ -359,6 +359,7 @@ const CompleteProfile = () => {
 									label='Name'
 									value={profileData.name}
 									disabled={true}
+									readOnly={true}
 								/>
 								<div>
 									<label htmlFor='email' className='input-required'>
@@ -380,9 +381,7 @@ const CompleteProfile = () => {
 									name='slack'
 									label='Slack handle'
 									placeholder='Your slack handle to TorontoJS'
-									value={profileData.email}
 									onBlur={validateSlackHandle}
-									disabled={true}
 									required
 								/>
 								<TextInputComponent
@@ -541,10 +540,12 @@ const CompleteProfile = () => {
 								</div>
 							</div>
 							{!photoFile && (
-								<HelperMessageComponent
-									variant='info'
-									labelText="Please, ensure you're uploading a JPEG or PNG photo."
-								/>
+								<div className='file-upload-helper-message-container'>
+									<HelperMessageComponent
+										variant='info'
+										labelText="Please, ensure you're uploading a JPEG or PNG photo."
+									/>
+								</div>
 							)}
 						</div>
 					</details>
@@ -562,6 +563,7 @@ const CompleteProfile = () => {
 										ref={linkedinInputRef}
 										name='linkedin'
 										label='LinkedIn profile'
+										placeholder='Link to your LinkedIn profile'
 									/>
 								</div>
 								<div>
@@ -570,15 +572,17 @@ const CompleteProfile = () => {
 										ref={githubInputRef}
 										name='github'
 										label='GitHub profile'
+										placeholder='Link to your GitHub profile'
 									/>
 								</div>
-								<div>
+								<div className='details-information-grid'>
 									<label htmlFor='portfolio'>Site/portfolio</label>
 									<input
 										ref={sitePortfolioInputRef}
 										id='portfolio'
 										name='portfolio'
 										type='url'
+										placeholder='Link to your personal site'
 										className='text-input'
 									/>
 								</div>

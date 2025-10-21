@@ -60,6 +60,13 @@
 			}
 
 			.details-content-wrapper { padding: var(--spacing-sm); }
+			.file-upload-helper-message-container {
+				display: flex;
+				justify-content: center;
+				width: 100%;
+				padding-top: var(--spacing-sm);
+				padding-bottom: var(--spacing-sm);
+			}
 
 			.details-nutshell-grid {
 				display: grid;
@@ -262,7 +269,11 @@
 			display: inline-block;
 			margin-bottom: var(--spacing-xs);
 		}
-
+		.details-information-grid {
+			display: flex;
+			flex-direction: column;
+			gap: var(--spacing-xs);
+		}
 		#details-information-skills {
 			display: flex;
 			flex-direction: column;
@@ -412,11 +423,11 @@
 
 	/* TODO: move input styles to its own component */
 	.text-input {
+		font-size: var(--text-xs);
 		background-color: var(--color-input);
 		border: var(--border);
 		border-radius: var(--rounded-xs);
-		box-sizing: border-box;
-		height: 2.33rem;
+		gap: var(--spacing-xs);
 		padding: var(--spacing-xs);
 		width: 100%;
 	}

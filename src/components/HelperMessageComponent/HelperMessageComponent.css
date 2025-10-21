@@ -4,8 +4,7 @@
 		display: flex;
 		gap: var(--spacing-xs);
 		height: auto;
-		width: 100%;
-		justify-content: center;
+		width: fit-content;
 
 		&[data-variant='success'] { span { color: var(--color-success); } }
 
