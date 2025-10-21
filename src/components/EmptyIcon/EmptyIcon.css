@@ -1,0 +1,26 @@
+.container {
+	position: relative;
+	height: 122px;
+	width: 122px;
+}
+
+.empty-icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.empty-icon-ellipse-container {
+	display: flex;
+	justify-content: center;
+}
+
+.empty-icon-ellipse {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	height: 7px;
+	width: 122px;
+}

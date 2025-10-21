@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './ProtectedProfile.css';
-// import Logo from '../Logo/Logo.tsx';
+import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
 
 interface Links {
 	platform: string;
@@ -60,6 +60,10 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		void fetchProtectedProfile();
 	}, []);
 
+	const handleEditAbout = () => '';
+	const handleEditSkills = () => '';
+	const handleEditSocials = () => '';
+
 	if (isLoading) { return <h1>Is Loading...</h1>; }
 	return (
 		<>
@@ -78,29 +82,61 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					</a>
 				</nav>
 				<main>
-					<nav className='tabs'>Volunteers / Profile tabs</nav>
+					<p>My Profile</p>
 					<article className='profile'>
 						<header>
-							<h1>{name}</h1>
-							<p>{pronouns}</p>
-							<p>{email}</p>
-							<p>Member since: {activatedAt}</p>
+							<header>
+								<h1>{name}</h1>
+								<dl>
+									<dt>Pronouns</dt>
+									<dd>{pronouns}</dd>
+									<dt>Email</dt>
+									<dd>{email}</dd>
+									<dt>Member Since</dt>
+									<dd>{activatedAt}</dd>
+								</dl>
+							</header>
 						</header>
-						<section className='about'>
-							<h2>About</h2>
-						</section>
+						<div className='sections-container'>
+							<section className='about'>
+								<h2>About</h2>
+								<div>
+									<EmptyIcon />
+									<p>Write a delightful description which will help others get to know more about you.</p>
+									<button onClick={handleEditAbout}>Add description</button>
+								</div>
+							</section>
 
-						<section className='skills'>
-							<h2>Skills</h2>
-						</section>
+							<section className='skills'>
+								<h2>Skills</h2>
+								<div>
+									<EmptyIcon />
+									<p>You can show case your relevant skills here.</p>
+									<button onClick={handleEditSkills}>Add skills</button>
+								</div>
+							</section>
 
-						<section className='social-links'>
-							<h2>Social Links</h2>
-						</section>
+							<section className='social-links'>
+								<h2>Social Links</h2>
+								<button onClick={handleEditSocials}>
+									<img src='edit-pencil.svg' alt='Pencil Icon' />
+								</button>
+								<div>
+									<li>
+										<ul>Slack</ul>
+									</li>
+								</div>
+							</section>
 
-						<section className='teams'>
-							<h2>Teams</h2>
-						</section>
+							<section className='teams'>
+								<h2>Teams</h2>
+								<div>
+									<EmptyIcon />
+									<p>Find teams, learn more about opportunities and contact organizers to join their teams.</p>
+									<button>Join a team</button>
+								</div>
+							</section>
+						</div>
 					</article>
 				</main>
 			</div>
@@ -125,3 +161,6 @@ export const ProtectedProfile = (): React.JSX.Element => {
 // 		{skills.map((entry: string): React.JSX.Element => <li>{entry}</li>)}
 // 	</ul>
 // </ul>
+
+// -- Email: "root@torontojs.com"
+// -- Password: "correct horse battery staple"
