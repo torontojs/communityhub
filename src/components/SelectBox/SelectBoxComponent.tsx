@@ -13,7 +13,7 @@ const SelectBoxComponent = forwardRef<HTMLSelectElement, SelectBoxProps>(
 	({ placeholder, options, label, value, disabled = false }, ref) => (
 		<div>
 			<label>{label}</label>
-			<select disabled={disabled} value={value}>
+			<select disabled={disabled} value={value} ref={ref}>
 				{placeholder && <option value=''>{placeholder}</option>}
 				{options.map((option) => <option value={option.value}>{option.label}</option>)}
 			</select>
