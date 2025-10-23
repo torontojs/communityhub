@@ -382,7 +382,6 @@ const CompleteProfile = () => {
 									label='Slack handle'
 									placeholder='Your slack handle to TorontoJS'
 									onBlur={validateSlackHandle}
-									required
 								/>
 								<TextInputComponent
 									id='pronouns'

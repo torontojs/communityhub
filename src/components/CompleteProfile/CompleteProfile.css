@@ -104,8 +104,8 @@
 			.input-required::after {
 				color: var(--color-accent);
 				content: 'Required' / '';
-				font-size: 0.56rem;
-				font-weight: 400;
+				font-size: 0.75rem;
+				font-weight: var(--weight-semibold);
 				letter-spacing: 0;
 				text-transform: uppercase;
 			}
