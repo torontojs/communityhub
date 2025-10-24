@@ -3,9 +3,9 @@
 	display: grid;
 	grid-template-columns: 306px 1fr;
 	grid-template-rows: auto 1fr auto;
-	max-width: 1440px;
+	max-width: 1280px;
 	margin: 0 auto;
-	height: 90vh;
+	height: 1597px;
 
 	& header { grid-column: 1 / -1; }
 
@@ -15,10 +15,90 @@
 	}
 }
 
-/* Header, nav, main are positioned by the grid */
-/* header { border: 1px solid red; }
-nav { border: 1px solid red; }
-main { border: 1px solid red; } */
+.main-header {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: #000000 solid 1px;
+	align-items: center;
+	height: 60px;
+
+	& img {
+		height: 32px;
+		width: 32px;
+	}
+	& img:first-of-type { margin-left: 20px; }
+
+	& img:last-of-type { margin-right: 20px; }
+}
+
+.inner-header {
+	width: 80px;
+	height: 32px;
+	display: flex;
+	justify-content: space-between2;
+}
+
+.profile-header-container {
+	margin-bottom: 25px;
+	max-width: 920px;
+	height: 159px;
+	border: var(--border);
+	border-radius: var(--rounded-md);
+	border-color: rgba(140, 140, 140, 0.2);
+	padding: 20px 20px;
+}
+.profile-header {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 100%;
+
+	& h2, p {
+		margin: 0;
+		padding: 0;
+	}
+
+	& p { color: var(--color-gray-600); }
+
+	& .avatar {
+		height: 80px;
+		width: 80px;
+		border-radius: 50%;
+		background-color: red;
+		object-fit: cover;
+		display: flex;
+		align-self: self-start;
+	}
+	& .contact-info span { color: var(--color-gray-600); }
+
+	.user-bio {
+		display: flex;
+		flex-direction: column;
+		width: 445px;
+		gap: 10px;
+		margin-left: 100px;
+	}
+
+	& .contact-info { display: flex; }
+
+	& .contact-info span { display: flex; }
+
+	& button {
+		all: unset;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+	& span img {
+		display: flex;
+		align-self: center;
+		height: 24px;
+		width: 24px;
+		margin-right: 10px;
+	}
+	& span:nth-of-type(2) { margin-left: 20px; }
+}
 
 .sections-container {
 	display: flex;
@@ -29,8 +109,8 @@ main { border: 1px solid red; } */
 .about {
 	display: flex;
 	flex-direction: column;
-	max-width: 995px;
-	height: 312px;
+	max-width: 920px;
+	height: 310px;
 	border: var(--border);
 	border-radius: var(--rounded-md);
 	border-color: rgba(140, 140, 140, 0.2);
@@ -62,8 +142,8 @@ main { border: 1px solid red; } */
 .skills {
 	display: flex;
 	flex-direction: column;
-	max-width: 995px;
-	height: 312px;
+	max-width: 920px;
+	height: 310px;
 	border: var(--border);
 	border-radius: var(--rounded-md);
 	border-color: rgba(140, 140, 140, 0.2);
@@ -92,36 +172,89 @@ main { border: 1px solid red; } */
 		align-items: center;
 	}
 }
-.teams {
+
+.socials-links-container {
+	padding: 20px;
 	display: flex;
 	flex-direction: column;
-	max-width: 995px;
-	height: 312px;
+	max-width: 920px;
+	height: 210px;
 	border: var(--border);
 	border-radius: var(--rounded-md);
 	border-color: rgba(140, 140, 140, 0.2);
+	justify-content: space-between;
 
-	& h2 {
+	& .social-links-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+	}
+
+	& .social-links-header h2 {
 		line-height: 25px;
-		padding: 24px;
 		margin: 0;
+		padding: 0;
 	}
 
-	& p {
-		color: #999999;
-		height: 22px;
-		font-size: var(--text-xs);
-	}
-
-	& button {
+	& .social-links-header button {
 		all: unset;
-		color: var(--color-accent);
-		padding: 8px;
+		cursor: pointer;
 	}
 
-	& div {
+	& .social-links-header button img {
+		height: 24px;
+		width: 24px;
+	}
+
+	& .social-links-inner-container {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
 	}
+
+	& .social-links-inner-container li { all: unset; }
+}
+
+.teams-container {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	max-width: 920px;
+	height: 210px;
+	border: var(--border);
+	border-radius: var(--rounded-md);
+	border-color: rgba(140, 140, 140, 0.2);
+	justify-content: space-between;
+
+	& .teams-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+	}
+
+	& .teams-header h2 {
+		line-height: 25px;
+		margin: 0;
+		padding: 0;
+	}
+
+	& .teams-header button {
+		all: unset;
+		cursor: pointer;
+	}
+
+	& .teams-header button img {
+		height: 24px;
+		width: 24px;
+	}
+
+	& .teams-inner-container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	& .teams-inner-container li { all: unset; }
+}
+@media screen and (max-width: 640px) {
+	.grid-container { grid-template-columns: 1fr; }
+	.side-window { display: none; }
 }

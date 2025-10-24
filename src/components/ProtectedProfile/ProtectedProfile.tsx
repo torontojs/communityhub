@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import './ProtectedProfile.css';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
+import Social from '../Social/Social.tsx';
+// import Team from '../Team/Team.tsx';
 
 interface Links {
 	platform: string;
@@ -14,7 +16,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [email, setEmail] = useState<string>('');
 	const [name, setName] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
-	const [isBasedOnGTA, setIsBasedOnGTA] = useState<boolean | null>(null);
+	const [isBasedInGTA, setIsBasedOnGTA] = useState<boolean | null>(null);
 	const [canJoinLocalEvents, setCanJoinLocalEvents] = useState<boolean | null>(null);
 	const [pronouns, setPronoun] = useState<string>('');
 	const [birthday, setBirthday] = useState<string>('');
@@ -40,12 +42,12 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				}
 
 				console.log('data', data);
-				const { data: { name, email, description, isBasedOnGTA, canJoinLocalEvents, pronouns, birthday, links, skills, activatedAt } } = data;
+				const { data: { name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, birthday, links, skills, activatedAt } } = data;
 
 				setName(name);
 				setEmail(email);
 				setDescription(description);
-				setIsBasedOnGTA(isBasedOnGTA);
+				setIsBasedOnGTA(isBasedInGTA);
 				setCanJoinLocalEvents(canJoinLocalEvents);
 				setPronoun(pronouns);
 				setBirthday(birthday);
@@ -68,10 +70,12 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	return (
 		<>
 			<div className='grid-container'>
-				<header>
-					<p>
-						Good morning, {name}
-					</p>
+				<header className='main-header'>
+					<img src='/torontojs-logo.png' alt='Small Toronto JS Logo' />
+					<div className='inner-header'>
+						<img src='/small-sample-avatar.png' alt='Small User Avatar' />
+						<img src='/notification-bell.png' alt='Notification bell icon' />
+					</div>
 				</header>
 				<nav className='sidebar-left'>
 					<a href='/pages/home'>
@@ -82,21 +86,30 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					</a>
 				</nav>
 				<main>
-					<p>My Profile</p>
+					<h1>My Profile</h1>
 					<article className='profile'>
-						<header>
-							<header>
-								<h1>{name}</h1>
-								<dl>
-									<dt>Pronouns</dt>
-									<dd>{pronouns}</dd>
-									<dt>Email</dt>
-									<dd>{email}</dd>
-									<dt>Member Since</dt>
-									<dd>{activatedAt}</dd>
-								</dl>
+						<div className='profile-header-container'>
+							<header className='profile-header'>
+								<div className='avatar'></div>
+								<div className='user-bio'>
+									<h2>{name}</h2>
+									<p>{pronouns}</p>
+									<div className='contact-info'>
+										<span>
+											<img src='/profile-email.png' alt='Profile Email Icon' />
+											{email}
+										</span>
+										<span>
+											<img src='/location-icon.png' alt='Profile Location Icon' />
+											{isBasedInGTA ? 'Based in GTA' : 'Not based in GTA'}
+										</span>
+									</div>
+								</div>
+								<button>
+									<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
+								</button>
 							</header>
-						</header>
+						</div>
 						<div className='sections-container'>
 							<section className='about'>
 								<h2>About</h2>
@@ -116,24 +129,45 @@ export const ProtectedProfile = (): React.JSX.Element => {
 								</div>
 							</section>
 
-							<section className='social-links'>
-								<h2>Social Links</h2>
-								<button onClick={handleEditSocials}>
-									<img src='edit-pencil.svg' alt='Pencil Icon' />
-								</button>
-								<div>
-									<li>
-										<ul>Slack</ul>
-									</li>
+							<section className='socials-links'>
+								<div className='socials-links-container'>
+									<div className='social-links-header'>
+										<h2>Social Links</h2>
+										<button onClick={handleEditSocials}>
+											<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
+										</button>
+									</div>
+									<div className='social-links-inner-container'>
+										<ul>
+											{links.map((entry: Links) => (
+												<li>
+													<Social socialName={entry.platform} socialUrl={entry.url} />
+												</li>
+											))}
+										</ul>
+									</div>
 								</div>
 							</section>
 
 							<section className='teams'>
-								<h2>Teams</h2>
-								<div>
-									<EmptyIcon />
-									<p>Find teams, learn more about opportunities and contact organizers to join their teams.</p>
-									<button>Join a team</button>
+								<div className='teams-container'>
+									<div className='teams-header'>
+										<h2>Teams</h2>
+										<button onClick={handleEditSocials}>
+											<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
+										</button>
+									</div>
+									<div className='teams-inner-container'>
+										<ul>
+											{
+												/* {links.map((entry: Links) => (
+												<li>
+													<Team socialName={entry.platform} socialUrl={entry.url} />
+												</li>
+											))} */
+											}
+										</ul>
+									</div>
 								</div>
 							</section>
 						</div>
@@ -142,11 +176,12 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				<div style={{ display: 'none' }}>
 					{/* Unused state variables preserved for git commit */}
 					<span data-unused='description'>{description}</span>
-					<span data-unused='isBasedOnGTA'>{String(isBasedOnGTA)}</span>
+					<span data-unused='isBasedOnGTA'>{String(isBasedInGTA)}</span>
 					<span data-unused='canJoinLocalEvents'>{String(canJoinLocalEvents)}</span>
 					<span data-unused='birthday'>{birthday}</span>
 					<span data-unused='links'>{JSON.stringify(links)}</span>
 					<span data-unused='skills'>{JSON.stringify(skills)}</span>
+					<span data-unsued='activatedAt'>{activatedAt}</span>
 				</div>
 			</div>
 		</>
