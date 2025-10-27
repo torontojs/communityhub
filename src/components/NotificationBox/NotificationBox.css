@@ -38,6 +38,8 @@ h2 {
 		padding: 0;
 		margin: 0;
 		color: var(--color);
+		font-weight: var(--weight-medium);
+		font-size: var(--text-lg);
 	}
 }
 
