@@ -22,20 +22,55 @@
 	align-items: center;
 	height: 60px;
 
-	& img {
+	& .torontojs-logo {
 		height: 32px;
 		width: 32px;
+		margin-left: 20px;
 	}
-	& img:first-of-type { margin-left: 20px; }
-
-	& img:last-of-type { margin-right: 20px; }
 }
 
 .inner-header {
+	margin-right: 20px;
 	width: 80px;
 	height: 32px;
 	display: flex;
-	justify-content: space-between2;
+	justify-content: space-between;
+}
+
+.sidebar-left {
+	width: 280px;
+	height: 660px;
+	padding: var(--spacing-md) var(--spacing-sm);
+
+	& .sidebar-left-container { width: 100%; }
+
+	& a {
+		all: unset;
+		display: flex;
+		align-items: center;
+		width: 248px;
+		height: 50px;
+		cursor: pointer;
+		margin-bottom: 8px;
+	}
+
+	& a img {
+		height: 24px;
+		width: 24px;
+		margin: 15px;
+	}
+
+	& a span {
+		font-size: var(--text-xs);
+		color: #333333;
+	}
+
+	& a:nth-of-type(2) {
+		background-color: #e51429;
+		border-radius: var(--rounded-sm);
+	}
+
+	& a:nth-of-type(2) span { color: #ffffff; }
 }
 
 .profile-header-container {
@@ -50,7 +85,6 @@
 .profile-header {
 	position: relative;
 	display: flex;
-	align-items: center;
 	width: 100%;
 
 	& h2, p {
@@ -76,7 +110,7 @@
 		flex-direction: column;
 		width: 445px;
 		gap: 10px;
-		margin-left: 100px;
+		margin-left: 50px;
 	}
 
 	& .contact-info { display: flex; }
@@ -178,7 +212,7 @@
 	display: flex;
 	flex-direction: column;
 	max-width: 920px;
-	height: 210px;
+	min-height: 210px;
 	border: var(--border);
 	border-radius: var(--rounded-md);
 	border-color: rgba(140, 140, 140, 0.2);
@@ -219,7 +253,7 @@
 	display: flex;
 	flex-direction: column;
 	max-width: 920px;
-	height: 210px;
+	min-height: 210px;
 	border: var(--border);
 	border-radius: var(--rounded-md);
 	border-color: rgba(140, 140, 140, 0.2);
@@ -253,8 +287,10 @@
 	}
 
 	& .teams-inner-container li { all: unset; }
+	& ul, li { all: unset; }
 }
 @media screen and (max-width: 640px) {
 	.grid-container { grid-template-columns: 1fr; }
-	.side-window { display: none; }
+	.sidebar-left { display: none; }
+	.grid-container { max-width: 640px; }
 }

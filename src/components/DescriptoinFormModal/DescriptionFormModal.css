@@ -1,0 +1,12 @@
+.description-form-modal-container {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	& header {
+		display: flex;
+		flex-direction: column;
+	}
+
+	& .description-form-modal-button-container { display: flex; }
+}

@@ -1,19 +1,31 @@
 import './Team.css';
 
-interface TeamInfo {
-	teamName: string;
-	description: string;
-	role: string;
-}
-const Team = ({ teamName, description }: TeamInfo): React.JSX.Element => (
+// ISSUE 290
+// https://github.com/torontojs/communityhub/issues/290
+// interface TeamInfo {
+// 	teamName: string;
+// 	description: string;
+// 	role: string;
+// }
+const Team = (): React.JSX.Element => (
 	<div className='reusable-team-icon'>
-		<a href=''>
+		<div className='team-container'>
 			<div className='circle'>
-				<img src='/team-icon.png' alt='Team icon' />
+				<img src='/teams-icon.png' alt='Team icon' />
 			</div>
-			<p>{teamName}</p>
-			<textarea>{description}</textarea>
-		</a>
+			<div className='team-inner-container'>
+				<p className='team-name'>Volunteer Team</p>
+				<p>
+					<img src='/small-size-team-members.png' alt='Team Members Icon' />
+					<span>50 Members</span>
+				</p>
+			</div>
+		</div>
+		<p className='team-role'>Volunteer</p>
+		<p className='team-description'>
+			Shapes the visual identity of TorontoJS. Design graphics, websites, and user experiences. Perfect for UX/UI designers and visual creatives. Great opportunity to work on
+			real projects while cross collaborating.
+		</p>
 	</div>
 );
 

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import './ProtectedProfile.css';
+import DescriptionFormModal from '../DescriptoinFormModal/DescriptionFormModal.tsx';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
 import Social from '../Social/Social.tsx';
-// import Team from '../Team/Team.tsx';
+import Team from '../Team/Team.tsx';
 
 interface Links {
 	platform: string;
@@ -23,6 +24,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [skills, setSkills] = useState<string[]>([]);
 	const [links, setLinks] = useState<LinksArray>([]);
 	const [activatedAt, setIsActivatedAt] = useState<string>('');
+	const [descriptionModal, setDescriptionModal] = useState<boolean>(false);
 
 	useEffect(() => {
 		async function fetchProtectedProfile() {
@@ -41,7 +43,6 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					throw new Error('Error parsing protected profile response data');
 				}
 
-				console.log('data', data);
 				const { data: { name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, birthday, links, skills, activatedAt } } = data;
 
 				setName(name);
@@ -65,32 +66,41 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const handleEditAbout = () => '';
 	const handleEditSkills = () => '';
 	const handleEditSocials = () => '';
+	const handleEditTeams = () => '';
+
+	const handleDescriptionSubmit = () => '';
 
 	if (isLoading) { return <h1>Is Loading...</h1>; }
 	return (
 		<>
 			<div className='grid-container'>
 				<header className='main-header'>
-					<img src='/torontojs-logo.png' alt='Small Toronto JS Logo' />
+					<img className='torontojs-logo' src='/torontojs-logo.png' alt='Small Toronto JS Logo' />
 					<div className='inner-header'>
-						<img src='/small-sample-avatar.png' alt='Small User Avatar' />
-						<img src='/notification-bell.png' alt='Notification bell icon' />
+						<img className='small-avatar' src='/small-sample-avatar.png' alt='Small User Avatar' />
+						<img className='notification-bell' src='/notification-bell.png' alt='Notification bell icon' />
 					</div>
 				</header>
 				<nav className='sidebar-left'>
-					<a href='/pages/home'>
-						<img src='TBD' alt='Community Icon' />Community
-					</a>
-					<a href='#'>
-						<img src='TBC' alt='Profile Management Icon' />Profile Management
-					</a>
+					<div className='side-bar-left-container'>
+						<a href='/pages/home'>
+							<img src='/community-icon.png' alt='Community Icon' />
+							<span>Community</span>
+						</a>
+						<a href='/pages/profile'>
+							<img src='/person-icon-white.png' alt='Profile Management Icon' />
+							<span>Profile Management</span>
+						</a>
+					</div>
 				</nav>
 				<main>
 					<h1>My Profile</h1>
 					<article className='profile'>
 						<div className='profile-header-container'>
 							<header className='profile-header'>
-								<div className='avatar'></div>
+								<div className='avatar'>
+									<img src='/small-sample-avatar.png' alt='Medium Size Avatar' />
+								</div>
 								<div className='user-bio'>
 									<h2>{name}</h2>
 									<p>{pronouns}</p>
@@ -111,12 +121,43 @@ export const ProtectedProfile = (): React.JSX.Element => {
 							</header>
 						</div>
 						<div className='sections-container'>
+							{
+								/* {description.length === 0 ?
+								(
+									<section className='about'>
+										<h2>About</h2>
+										<div>
+											<EmptyIcon />
+											<p>Write a delightful description which will help others get to know more about you.</p>
+											<button onClick={handleEditAbout}>Add description</button>
+										</div>
+									</section>
+								) :
+								(
+									<section className='about'>
+										<h2>About</h2>
+										<div>
+											<EmptyIcon />
+											<p>Write a delightful description which will help others get to know more about you.</p>
+											<button onClick={handleEditAbout}>Add description</button>
+										</div>
+									</section>
+								)} */
+							}
+
 							<section className='about'>
 								<h2>About</h2>
 								<div>
-									<EmptyIcon />
-									<p>Write a delightful description which will help others get to know more about you.</p>
-									<button onClick={handleEditAbout}>Add description</button>
+									{!description ?
+										(
+											<>
+												<EmptyIcon />
+												<p>Write a delightful description which will help others get to know more about you.</p>
+											</>
+										) :
+										<p>{description}</p>}
+									<button onClick={() => setDescriptionModal(true)}>Add description</button>
+									{descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
 								</div>
 							</section>
 
@@ -153,19 +194,12 @@ export const ProtectedProfile = (): React.JSX.Element => {
 								<div className='teams-container'>
 									<div className='teams-header'>
 										<h2>Teams</h2>
-										<button onClick={handleEditSocials}>
-											<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
-										</button>
 									</div>
 									<div className='teams-inner-container'>
 										<ul>
-											{
-												/* {links.map((entry: Links) => (
-												<li>
-													<Team socialName={entry.platform} socialUrl={entry.url} />
-												</li>
-											))} */
-											}
+											<li>
+												<Team />
+											</li>
 										</ul>
 									</div>
 								</div>
