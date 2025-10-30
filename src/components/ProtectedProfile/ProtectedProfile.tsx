@@ -44,7 +44,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				}
 
 				const { data: { name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, birthday, links, skills, activatedAt } } = data;
-
+				console.log(data);
 				setName(name);
 				setEmail(email);
 				setDescription(description);
@@ -63,10 +63,10 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		void fetchProtectedProfile();
 	}, []);
 
-	const handleEditAbout = () => '';
+	// const handleEditAbout = () => '';
 	const handleEditSkills = () => '';
 	const handleEditSocials = () => '';
-	const handleEditTeams = () => '';
+	// const handleEditTeams = () => '';
 
 	const handleDescriptionSubmit = () => '';
 
@@ -121,30 +121,6 @@ export const ProtectedProfile = (): React.JSX.Element => {
 							</header>
 						</div>
 						<div className='sections-container'>
-							{
-								/* {description.length === 0 ?
-								(
-									<section className='about'>
-										<h2>About</h2>
-										<div>
-											<EmptyIcon />
-											<p>Write a delightful description which will help others get to know more about you.</p>
-											<button onClick={handleEditAbout}>Add description</button>
-										</div>
-									</section>
-								) :
-								(
-									<section className='about'>
-										<h2>About</h2>
-										<div>
-											<EmptyIcon />
-											<p>Write a delightful description which will help others get to know more about you.</p>
-											<button onClick={handleEditAbout}>Add description</button>
-										</div>
-									</section>
-								)} */
-							}
-
 							<section className='about'>
 								<h2>About</h2>
 								<div>
