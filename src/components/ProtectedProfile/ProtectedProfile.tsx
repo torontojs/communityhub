@@ -12,6 +12,32 @@ interface Links {
 
 type LinksArray = Links[];
 
+async function updateDescription(description: string) {
+	try {
+		const response = await fetch('/api/profile', {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ description })
+		});
+
+		if (!response.ok) {
+			throw new Error(`Response status: ${response.status}`);
+		}
+
+		const result = await response.json();
+
+		if (!result) {
+			console.error('Response not ok: ', result);
+		}
+		return result;
+	} catch (error) {
+		console.error(error.message);
+	}
+}
+
 export const ProtectedProfile = (): React.JSX.Element => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [email, setEmail] = useState<string>('');
@@ -63,12 +89,20 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		void fetchProtectedProfile();
 	}, []);
 
-	// const handleEditAbout = () => '';
 	const handleEditSkills = () => '';
 	const handleEditSocials = () => '';
-	// const handleEditTeams = () => '';
 
-	const handleDescriptionSubmit = () => '';
+	const handleDescriptionSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+		event.preventDefault();
+		const formData = new FormData(event.currentTarget);
+		console.log(formData.get('description'));
+		const formDataObject = formData.get('description');
+		const result = updateDescription(formDataObject);
+
+		if (result) {
+			setDescription(result);
+		}
+	};
 
 	if (isLoading) { return <h1>Is Loading...</h1>; }
 	return (
