@@ -92,17 +92,17 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const handleEditSkills = () => '';
 	const handleEditSocials = () => '';
 
-	const handleDescriptionSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-		event.preventDefault();
-		const formData = new FormData(event.currentTarget);
-		console.log(formData.get('description'));
-		const formDataObject = formData.get('description');
-		const result = updateDescription(formDataObject);
+	// const handleDescriptionSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+	// 	event.preventDefault();
+	// 	const formData = new FormData(event.currentTarget);
+	// 	console.log(formData.get('description'));
+	// 	const formDataObject = formData.get('description');
+	// 	// const result = await updateDescription(formDataObject);
 
-		if (result) {
-			setDescription(result);
-		}
-	};
+	// 	// if (result) {
+	// 	// 	setDescription(result);
+	// 	// }
+	// };
 
 	if (isLoading) { return <h1>Is Loading...</h1>; }
 	return (
@@ -167,7 +167,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 										) :
 										<p>{description}</p>}
 									<button onClick={() => setDescriptionModal(true)}>Add description</button>
-									{descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
+									{/* {descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />} */}
 								</div>
 							</section>
 
