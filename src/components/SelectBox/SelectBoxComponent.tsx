@@ -11,6 +11,7 @@ interface SelectBoxProps extends OptionHTMLAttributes<HTMLSelectElement> {
 	label: string;
 	helper?: string;
 	error?: string;
+	required?:boolean;
 }
 const SelectBoxComponent = forwardRef<HTMLSelectElement, SelectBoxProps>(
 	(
