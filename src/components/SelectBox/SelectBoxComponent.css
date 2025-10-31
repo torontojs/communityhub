@@ -1,89 +1,85 @@
 @layer components {
-  .selectbox-component-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    width: 202px;
-    height: 79px;
+	.selectbox-component-container {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+		width: 202px;
+		height: 79px;
 
-    .label-container {
-      align-items: center;
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
+		.label-container {
+			align-items: center;
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
 
-      & > label {
-        /* Label */
-        display: flex;
-        flex-grow: 1;
-        justify-content: space-between;
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 160%;
-        /* identical to box height, or 29px */
+			& > label {
+				/* Label */
+				display: flex;
+				flex-grow: 1;
+				justify-content: space-between;
+				font-weight: 600;
+				font-size: 18px;
+				line-height: 160%;
+				/* identical to box height, or 29px */
 
-        color: #333333;
-      }
-    }
-    &:has(select:disabled) .label-container > label {
-      color: #999999;
-    }
-    .selectbox-container {
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding: 8px;
-      gap: 8px;
+				color: #333333;
+			}
+		}
+		&:has(select:disabled) .label-container > label { color: #999999; }
+		.selectbox-container {
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			padding: 8px;
+			gap: 8px;
 
-      width: 202px;
-      height: 42px;
+			width: 202px;
+			height: 42px;
 
-      background: #e6e6e6;
-      border: 1px solid #c2c2c2;
-      border-radius: 2px;
+			background: #e6e6e6;
+			border: 1px solid #c2c2c2;
+			border-radius: 2px;
 
-      flex: none;
-      order: 1;
-      align-self: stretch;
-      flex-grow: 0;
+			flex: none;
+			order: 1;
+			align-self: stretch;
+			flex-grow: 0;
 
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 160%;
-      color: #333333;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 160%;
+			color: #333333;
 
-      appearance: none;
+			appearance: none;
 
-      background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='6' viewBox='0 0 12 6' width='12' xmlns='http://www.w3.org/2000/svg'><path d='M0 0l6 6 6-6z'/></svg>");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-      background-size: 12px;
+			background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='6' viewBox='0 0 12 6' width='12' xmlns='http://www.w3.org/2000/svg'><path d='M0 0l6 6 6-6z'/></svg>");
+			background-repeat: no-repeat;
+			background-position: right 8px center;
+			background-size: 12px;
 
-      &[data-error="true"] {
-        border-color: #e51429;
-      }
+			&[data-error='true'] { border-color: #e51429; }
 
-      &:disabled {
-        background: #ffffff;
-        color: #999999;
-        cursor: not-allowed;
-        background-image: url("data:image/svg+xml;utf8,<svg fill='%23999999' height='6' width='12' xmlns='http://www.w3.org/2000/svg'><path d='M0 0l6 6 6-6z'/></svg>");
-        background-repeat: no-repeat;
-        background-position: right 8px center;
-        background-size: 12px;
-      }
-    }
+			&:disabled {
+				background: #ffffff;
+				color: #999999;
+				cursor: not-allowed;
+				background-image: url("data:image/svg+xml;utf8,<svg fill='%23999999' height='6' width='12' xmlns='http://www.w3.org/2000/svg'><path d='M0 0l6 6 6-6z'/></svg>");
+				background-repeat: no-repeat;
+				background-position: right 8px center;
+				background-size: 12px;
+			}
+		}
 
-    &:has(select:required) > span.label-container > label::after {
-      color: #ed342f;
-      content: "Required" / "";
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-  }
+		&:has(select:required) > span.label-container > label::after {
+			color: #ed342f;
+			content: 'Required' / '';
+			font-weight: 600;
+			font-size: 12px;
+			text-transform: uppercase;
+		}
+	}
 }
