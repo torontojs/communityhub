@@ -103,7 +103,7 @@ export const getRedirectPath = async (signal: AbortSignal, currentPath: string):
 
 		const data: ProfileStatusResponse = await response.json();
 
-		// Redirects based on profile status or to sign-in if not profile status is returned
+		// Redirects based on profile status or to sign-in if no profile status is returned
 		return (data?.status && isValidStatus(data.status)) ? getRedirectPathForStatus(data.status, currentPath) : REDIRECT_PATHS.signIn;
 	} catch (err) {
 		if (err.name !== 'AbortError') {

@@ -12,8 +12,7 @@ async function authenticateAccount(token: string) {
 		if (!response.ok) {
 			window.location.href = '/pages/sign-in';
 		}
-		window.location.href = '/pages/sign-in';
-		// TODO: Create succesful page: https://github.com/torontojs/communityhub/issues/245
+		window.location.href = '/pages/account-ready';
 	} catch (error) {
 		console.error(error);
 	}

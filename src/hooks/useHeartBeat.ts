@@ -95,7 +95,7 @@ export const useHeartBeatProtected = () => {
 	useEffect(() => {
 		const check = async () => {
 			const auth = await getHeartBeatProtected();
-			if (!auth) { window.location.href = '/pages/home'; }
+			if (!auth) { window.location.href = '/pages/sign-in'; }
 			else {
 				setIsAuth(true);
 			}
@@ -131,7 +131,7 @@ export const useHeartBeatProtectedOrganizer = () => {
 	useEffect(() => {
 		const check = async () => {
 			const auth = await getHeartBeatProtectedOrganizer();
-			if (!auth) { window.location.href = '/pages/home'; }
+			if (!auth) { window.location.href = '/pages/sign-in'; }
 			else {
 				setIsAuth(true);
 			}
@@ -167,7 +167,7 @@ export const useHeartBeatProtectedAdmin = () => {
 	useEffect(() => {
 		const check = async () => {
 			const auth = await getHeartBeatProtectedAdmin();
-			if (!auth) { window.location.href = '/pages/home'; }
+			if (!auth) { window.location.href = '/pages/sign-in'; }
 			else {
 				setIsAuth(true);
 			}
