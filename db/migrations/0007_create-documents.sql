@@ -1,4 +1,4 @@
--- Migration number: 0007	2025-07-14T22:40:07.000Z
+-- Migration number: 0007
 
 DROP TABLE IF EXISTS documents;
 
