@@ -93,7 +93,6 @@ profileRoutes.openapi(
 		if (!profile || profile.id !== sessionData.id) {
 			return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}
-
 		return context.json({ data: profile, _links: { self: { href: context.req.url } } } satisfies DataResponse<typeof profile>, StatusCodes.OKAY);
 	}
 );
