@@ -1,7 +1,7 @@
 import type { AnchorHTMLAttributes } from 'react';
 import '../Button/Button.css';
 import './ButtonLink.css';
-
+type ButtonLinkComponentVariants = 'default' | 'disabled';
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
 	hasOutline?: boolean;
 	isPrimary?: boolean;
@@ -9,7 +9,6 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
 	href: string;
 	variant?: ButtonLinkComponentVariants;
 }
-type ButtonLinkComponentVariants = 'default' | 'disabled';
 
 const ButtonLink = ({
 	hasOutline = false,
