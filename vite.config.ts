@@ -3,22 +3,12 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import { cloudflare } from '@cloudflare/vite-plugin';
 import react from '@vitejs/plugin-react';
 
 import { defineConfig, type UserConfig } from 'vite';
-import { createLogger } from 'vite';
-const logger = createLogger();
-
-declare global {
-	var __appInputCache: {
-		inputs: Record<string, string> | null
-	} | undefined;
-}
-
-const inputCache = globalThis.__appInputCache ??= { inputs: null };
+import { virtualMpaPlugin } from './plugins/vite-plugin-virtual-mpa';
 
 export default defineConfig(({ mode }) => {
 	const config: UserConfig = {
@@ -27,7 +17,8 @@ export default defineConfig(({ mode }) => {
 			cloudflare({
 				configPath: '../wrangler.toml',
 				persistState: { path: '../.wrangler/state' }
-			})
+			}),
+			virtualMpaPlugin()
 		],
 		appType: 'mpa',
 		esbuild: { target: 'esnext' },
@@ -45,53 +36,7 @@ export default defineConfig(({ mode }) => {
 		build: {
 			target: 'esnext',
 			emptyOutDir: true,
-			outDir: '../dist',
-			rollupOptions: {
-				input: (() => {
-					if (inputCache.inputs) {
-						return inputCache.inputs;
-					}
-
-					const inputs: Record<string, string> = {
-						index: path.resolve('src', 'index.html')
-					};
-					logger.info(`✓ Added main entry: ${path.resolve('src', 'index.html')}`);
-
-					const pagesDir = path.resolve('src', 'pages');
-					if (!fs.existsSync(pagesDir)) {
-						logger.info('ℹ No pages directory found, using main entry only');
-						inputCache.inputs = inputs;
-						return inputs;
-					}
-
-					for (const folder of fs.readdirSync(pagesDir)) {
-						if (folder.startsWith('_')) {
-							logger.info(`⊘ Skipped ${folder}: private directory (underscore prefix)`);
-							continue;
-						}
-
-						const folderPath = path.join(pagesDir, folder);
-						const htmlEntry = path.join(folderPath, 'index.html');
-
-						try {
-							const stats = fs.statSync(folderPath);
-							if (stats.isDirectory()) {
-								if (fs.existsSync(htmlEntry)) {
-									inputs[folder] = htmlEntry;
-									logger.info(`✓ Added page: ${folder}`);
-								} else {
-									logger.info(`⊘ Skipped ${folder}: no index.html found`);
-								}
-							}
-						} catch (error: any) {
-							logger.warn(`⚠ Error processing ${folder}: ${error.message}`);
-						}
-					}
-
-					inputCache.inputs = inputs;
-					return inputs;
-				})()
-			}
+			outDir: '../dist'
 		},
 		optimizeDeps: { esbuildOptions: { target: 'esnext' } },
 		preview: {
