@@ -1,5 +1,5 @@
 import { useProfileRedirect } from '../../hooks/useProfileRedirect.ts';
-import ButtonLink from '../ButtonLink/ButtonLink.tsx';
+import Button from '../Button/Button.tsx';
 import Header from '../Header/Header.tsx';
 import { CheckConductCodeIcon } from '../Icons/CheckConductCodeIcon.tsx';
 import { CompleteProfileIcon } from '../Icons/CompleteProfileIcon.tsx';
@@ -29,9 +29,15 @@ const CheckSteps = () => {
 						<p className='text-h6'>Complete your profile</p>
 					</li>
 				</ul>
-				<ButtonLink id='continue-button' isPrimary isLarge href='/pages/review-conduct-code/'>
+				<Button
+					id='continue-button'
+					isLarge
+					onClick={() => {
+						window.location.href = '/pages/review-conduct-code/';
+					}}
+				>
 					Let's continue
-				</ButtonLink>
+				</Button>
 			</div>
 		</div>
 	);

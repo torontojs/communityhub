@@ -1,0 +1,9 @@
+@layer components {
+	.button-link {
+		display: block;
+
+		&[data-variant='default'] { color: var(--color-error) !important; }
+
+		&[data-variant='disabled'] { color: var(--color-gray-500) !important; }
+	}
+}

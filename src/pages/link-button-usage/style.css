@@ -1,0 +1,13 @@
+@layer components {
+	h1, p { text-align: center; }
+	.component-container {
+		border: 0.125rem dashed;
+		border-radius: 0.313rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		margin: auto;
+		padding: 1rem;
+		width: 400px;
+	}
+}

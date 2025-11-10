@@ -37,14 +37,4 @@
 		padding: var(--spacing-sm);
 		text-align: center;
 	}
-
-	#continue-button {
-		height: 57px;
-		padding-bottom: 12px;
-		padding-left: 16px;
-		padding-right: 16px;
-		padding-top: 12px;
-		text-decoration: none;
-		width: 298px;
-	}
 }
