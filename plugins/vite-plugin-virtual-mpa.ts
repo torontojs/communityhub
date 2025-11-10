@@ -14,7 +14,7 @@ if (!globalThis.inputs) {
 	const inputs: Record<string, string> = {
 		index: path.resolve('src', 'index.html')
 	};
-	logger.info(`✓ Added main entry: ${path.resolve('src', 'index.html')}`);
+	logger.info(`✓ Added main entry: ${inputs.index}`);
 
 	const pagesDir = path.resolve('src', 'pages');
 	if (!fs.existsSync(pagesDir)) {
