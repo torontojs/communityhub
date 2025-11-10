@@ -1,9 +1,6 @@
 /* eslint-env node */
 /* eslint-disable camelcase */
 
-import fs from 'node:fs';
-import path from 'node:path';
-
 import { cloudflare } from '@cloudflare/vite-plugin';
 import react from '@vitejs/plugin-react';
 
