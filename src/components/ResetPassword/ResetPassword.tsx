@@ -14,13 +14,10 @@ async function resetPassword(token: string | null, password: string) {
 			},
 			body: JSON.stringify({ token, password })
 		});
-		// TODO: Create password reset confirmation page
-		// https://github.com/torontojs/communityhub/issues/234
-		//
 		if (!response.ok) {
 			window.location.href = '/pages/sign-in';
 		} else {
-			window.location.href = '/pages/sign-in';
+			window.location.href = '/pages/reset-password-sucess';
 		}
 	} catch (error) {
 		console.error(error);
@@ -112,7 +109,7 @@ export const ResetPassword = (): React.JSX.Element => {
 		<div id='password-reset-form'>
 			<form onSubmit={handleSubmit} id='reset-content' noValidate>
 				<div>
-					<p className='center'>Enter you new password for your account.</p>
+					<p className='center'>Enter your new password for your account.</p>
 				</div>
 
 				<div className='input-block'>

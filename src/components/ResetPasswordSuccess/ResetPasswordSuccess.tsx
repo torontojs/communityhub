@@ -2,7 +2,7 @@ import './ResetPasswordSuccess.css';
 const ResetPasswordSuccess = () => (
 	<div className='reset-password-success'>
 		<p>
-			Your account was confirmed successfully. <br /> Click below to sign in.
+			Your password was reset successfuly<br />Click below to sign in.
 		</p>
 		<span className='line'></span>
 		<div>

@@ -3,8 +3,6 @@ import './ForgotPassword.css';
 import Button from '../Button/Button.tsx';
 import ClockIcon from '../Icons/ClockIcon.tsx';
 
-// TODO: Investigate if we're able to use heartbeat to check if forgot password request already in progress and how the page react if there is one
-
 async function requestPasswordRecovery(email: string) {
 	try {
 		const response = await fetch('/api/auth/forgot-password', {
