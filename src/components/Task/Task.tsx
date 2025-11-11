@@ -1,4 +1,4 @@
-import { forwardRef, type ParamHTMLAttributes } from 'react';
+import { type ParamHTMLAttributes } from 'react';
 import './Task.css';
 
 type TaskStatus = 'pending' | 'completed';
@@ -9,7 +9,7 @@ interface Props extends ParamHTMLAttributes<HTMLDivElement> {
 	icon?: React.JSX.Element;
 }
 
-export const Task = forwardRef<HTMLDivElement, Props>(({
+export const Task: React.FC<Props> = ({
 	taskStatus = 'pending',
 	label,
 	children,
@@ -36,4 +36,4 @@ export const Task = forwardRef<HTMLDivElement, Props>(({
 		</span>
 		<label>{label}</label>
 	</div>
-));
+);

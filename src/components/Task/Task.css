@@ -1,7 +1,11 @@
-.taskParent {
-	display: flex;
-	gap: var(--spacing-sm) 0;
-	align-items: center;
-	font-weight: bold;
-	label { margin-left: var(--spacing-sm); }
+@layer components {
+	.taskParent {
+		display: flex;
+		gap: var(--spacing-sm) 0;
+		align-items: center;
+		font-weight: bold;
+		label { margin-left: var(--spacing-sm); }
+
+		span { display: flex; }
+	}
 }
