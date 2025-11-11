@@ -1,4 +1,4 @@
-import React, { forwardRef, type ParamHTMLAttributes } from 'react';
+import type { ParamHTMLAttributes } from 'react';
 import './Label.css';
 
 type LabelColor =
@@ -18,7 +18,7 @@ interface Props extends ParamHTMLAttributes<HTMLSpanElement> {
 	icon?: React.JSX.Element;
 }
 
-const Label = forwardRef<HTMLSpanElement, Props>(({
+const Label: React.FC<Props> = ({
 	variant = 'default',
 	tone = 'dark',
 	hasIcon,
@@ -43,6 +43,6 @@ const Label = forwardRef<HTMLSpanElement, Props>(({
 		{hasIcon && icon}
 		{children}
 	</span>
-));
+);
 
 export default Label;
