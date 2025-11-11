@@ -1,4 +1,4 @@
-import { type ParamHTMLAttributes } from 'react';
+import type { ParamHTMLAttributes } from 'react';
 import './Task.css';
 
 type TaskStatus = 'pending' | 'completed';
