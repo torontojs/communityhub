@@ -184,7 +184,6 @@ it('counts audit rows', async () => {
 
 > Note: Each test runs with **isolated storage** (enabled by default). Writes are undone after the test, so ordering is reliable.
 
----
 
 ## Workers side effect tests with Hono OpenAPI
 
