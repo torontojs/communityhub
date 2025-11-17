@@ -289,9 +289,7 @@ The pattern we use is:
 > 1. Call the `/openapi` endpoint and assert that the document is served and shaped as expected.
 > 2. For a documented route, call it the way a client would (method, body, headers).
 > 3. Assert that the HTTP contract matches the OpenAPI definition (status, headers, response shape).
-> 4. Assert that the externally visible side effects (KV, D1, R2) actually happened.
-
-If this pattern shows up in multiple tests, cookie parsing or side-effect checks can be extracted into small helpers with their **own** tests  keeping these contract tests focused on behavior instead of plumbing.
+> 4. Assert that the externally visible side effects (KV, D1, R2) actually happened.
 
 ```ts
 import { env } from 'cloudflare:test';
