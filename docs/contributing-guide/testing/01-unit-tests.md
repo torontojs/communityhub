@@ -25,8 +25,6 @@ We use [`vitest`](https://vitest.dev/guide/) to run tests. It’s fast and works
 
 To run all tests:
 
-To run all tests:
-
 ```shell
 npm test
 ```
