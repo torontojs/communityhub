@@ -21,13 +21,17 @@ E.g.:
 
 ## Tools
 
-For unit testing we use vitest, a fast test runner that integrates well with Vite and the Cloudflare Workers runtime. The `npm test` script is a thin wrapper around Vitest; it runs the full test suite in Node using the configuration in this repo.
+We use [`vitest`](https://vitest.dev/guide/) to run tests. It’s fast and works well with Cloudflare Workers.
+
+To run all tests:
 
 ```shell
 npm test
 ```
 
-On success, you should see output similar to:
+Vitest will show which tests passed or failed. If a test fails, it tells you what was expected and what actually happened.
+
+On Success:
 
 ```text
 ? src/math.spec.ts (3 tests)
@@ -40,49 +44,58 @@ Start time  11:23:45
 Duration    1.42s
 ```
 
-If any test fails, Vitest will:
-
-- Print the failing test name and file.
-- Show the expected vs. received values.
-- Exit with a non-zero status code so CI can detect the failure.
-
 ## Principles
 
 These principles define how we approach unit testing for our Workers-based services.
 
 1. **No mocking**
 
-Use the real Workers test runtime (D1, KV, R2, timers). Storage is isolated per test.
+   Instead of faking KV, D1, or R2, we use the real Workers testing environment.
 
-Why: Mocks can drift from real platform behaviour and hide subtle integration issues. By exercising the actual runtime and its storage primitives, tests more accurately reflect production and catch bugs that only appear in real environments.
+   Why?
+   - Mocks often behave differently than the real platform.
+   - They can hide bugs.
+   - Tests that use real storage are more trustworthy.
+
+   Each test runs with its own isolated storage, so tests don’t affect each other.
 
 2. **Do not test Zod/validators**
 
-Validation libraries are well-tested. Avoid re-testing them.
+   We use libraries like Zod for validation. These libraries already have their own tests.
 
-Why: Testing library code is redundant and adds noise to the test suite. We expect library authors to test their own code, so our tests should not duplicate that work. Instead, tests should focus on our business logic and side effects after validation has already succeeded or failed.
+   So we don’t waste time checking every wrong input.
+
+   Instead, we focus our tests on what happens after validation succeeds.
 
 3. **Types from schemas**
 
-Derive types with `z.infer<typeof Schema>`. Use Pick, Omit, or Partial when necessary.
+   We get TypeScript types directly from Zod schemas using `z.infer<typeof Schema>`. Use Pick, Omit, or Partial when necessary.
 
-Why: Deriving types from schemas keeps runtime validation and TypeScript types in sync. This reduces the risk of drift between what the schema enforces and what the types claim, making tests (and implementation code) safer and easier to maintain.
+   This keeps the types match what the runtime expects.
 
 4. **Focus on post-validation logic**
 
-Unit tests should assert business logic and side effects after validation. We do not unit test validators themselves; Hurl or integration tests already ensure payload mismatches return 4xx.
+   Once a request passes validation, the important questions are:
+   - What does the code return?
+   - What does it write to KV, D1, or R2?
+   - What rules or checks does it enforce?
 
-Why: Validation problems are already caught by higher-level tests (e.g. Hurl/API tests). Re-testing every invalid input path at the unit level leads to slow, noisy tests with little extra value. Focusing on post-validation logic keeps unit tests tight and makes failures more directly tied to business rules.
+   We focus our unit tests on this part.
 
 5. **Tests must be repeatable**
 
-Running the same test multiple times should yield the same result.
+   Running the same test many times should always give the same result.
 
-Why: If a test produces different results across runs, you cannot reliably compare the state before and after a code change to know whether a failure was introduced by the new code. Repeatable tests avoid flakiness and make it clear when a change has actually broken behaviour, rather than exposing randomness, clock drift, or shared-state issues.
+   This means:
+   - No shared state between tests
+   - No depending on real time unless controlled
+   - No tests that depend on other tests
 
-## Writing classic unit tests
+   Flaky tests waste everyone’s time, so we avoid them.
 
-When you're testing a pure function (one that has no side effects and always returns the same output for the same input), the tests can focus entirely on inputs and outputs. The descriptions of the tests themselves should explain the scenario and why the test is doing what it does, instead of relying on a vague comment like // has side effects or // edge case.
+## Testing Simple Functions
+
+Pure functions (no side effects) are the easiest to test. For example:
 
 ```ts
 // src/math.ts
@@ -95,37 +108,45 @@ export function clamp(n: number, lo: number, hi: number) {
 }
 ```
 
+A good test tries several realistic examples:
+
 ```ts
 // tests/math.spec.ts
-import { describe, expect, it } from 'vitest';
-import { clamp } from '../src/math';
-
 describe('clamp()', () => {
-	it('handles integers, floats, +0 and -0', () => {
+	it('keeps numbers inside the limit', () => {
 		expect(clamp(3, 0, 5)).toBe(3);
-		expect(clamp(3.3, 0, 5)).toBe(3.3);
-		expect(Object.is(clamp(+0, -1, 1), +0)).toBe(true);
-		expect(Object.is(clamp(-0, -1, 1), -0)).toBe(true);
 	});
 
-	it('clips at bounds and negatives', () => {
-		expect(clamp(-10, -5, 5)).toBe(-5);
+	it('clips numbers too high or low', () => {
 		expect(clamp(99, -5, 5)).toBe(5);
 	});
 
-	it('handles big and special values', () => {
-		expect(clamp(Number.MAX_SAFE_INTEGER + 1, 0, Number.MAX_SAFE_INTEGER)).toBe(
-			Number.MAX_SAFE_INTEGER
-		);
-		expect(clamp(Infinity, 0, 1)).toBe(1);
-		expect(() => clamp(NaN as any, 0, 1)).toThrow(/number/);
+	it('throws for NaN', () => {
+		expect(() => clamp(NaN, 0, 1)).toThrow();
 	});
 });
 ```
 
-## Tests that use real Workers runtime
+Each test has a description about what should happen.
 
-### Session lifecycle (Cookie + KV + D1)
+## Testing Workers Code with Real Side Effects
+
+Many parts of our code talk to KV, D1, R2, or cookies. These aren’t pure functions, but we can still test them easily using the Workers test runtime.
+
+The general pattern is:
+
+1. Call the Worker the way a real client would.
+2. Check the HTTP response.
+3. Check that the side effects happened.
+
+### Example: Sessions (Cookie + KV + D1)
+
+A common session test:
+
+1. Call the /api/session endpoint.
+2. Check that the Worker sets a cookie.
+3. Look up the session in KV.
+4. Check that D1 got a matching audit entry.
 
 For code with real side effects (cookies, KV, D1, etc.), we still want the tests to **tell a story** rather than look like a grab bag of low-level operations.
 
@@ -188,7 +209,14 @@ describe('Session lifecycle', () => {
 });
 ```
 
-### R2: side effects
+### Example: R2 Writes
+
+If an endpoint stores bytes in R2:
+
+1. Send it some data.
+2. Check the HTTP status.
+3. Read the data back from R2.
+4. Make sure it matches.
 
 When an endpoint writes to R2, the interesting behavior isn't just returns 201. It's the bytes you send actually end up stored under the key you expect.
 
@@ -223,7 +251,14 @@ it('stores bytes in R2', async () => {
 });
 ```
 
-### DB helper functions
+### Example: Small Database Helpers
+
+If you write a DB helper like for `SELECT` or `INSERT`:
+
+1. Start with a table.
+2. Insert a row.
+3. Call the helper.
+4. Check that it returns the correct count.
 
 When you add a small DB helper like `countAudit`, the interesting behavior isnt just that it "returns a number". Its that the helper expresses a specific query once and reliably reports the count for whatever rows are currently in the table.
 
@@ -273,23 +308,25 @@ it('counts audit rows', async () => {
 });
 ```
 
-> Note: Each test runs with **isolated storage** (enabled by default). Writes are undone after the test, so ordering is reliable.
-
 ## Workers side effect tests with Hono OpenAPI
 
-When you wire up Hono's OpenAPI support, there are _two_ big things you want to be confident about:
+If the Worker uses Hono with OpenAPI, we test two things:
 
-1. The generated OpenAPI document is actually being served and contains the metadata clients rely on (title, servers, etc.).
-2. The endpoints described in that document really **perform their side effects** (KV/D1/R2) and honor the HTTP contract the spec promises.
+1. The OpenAPI Document Loads
 
-The pattern we use is:
+   We check that /openapi returns the expected JSON with things like:
+   - The API name
+   - The server URLs
 
-> When you want to test a Hono + OpenAPI Worker:
->
-> 1. Call the `/openapi` endpoint and assert that the document is served and shaped as expected.
-> 2. For a documented route, call it the way a client would (method, body, headers).
-> 3. Assert that the HTTP contract matches the OpenAPI definition (status, headers, response shape).
-> 4. Assert that the externally visible side effects (KV, D1, R2) actually happened.
+2. The Documented Routes Work for Real
+
+   For a route described in OpenAPI, we:
+
+   1. Call it like a real client.
+   2. Check the response.
+   3. Check the actual KV/D1/R2 side effects.
+
+This makes sure the description and the behavior match.
 
 ```ts
 import { env } from 'cloudflare:test';
