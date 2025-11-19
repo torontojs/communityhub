@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './ProtectedProfile.css';
 import DescriptionFormModal from '../DescriptoinFormModal/DescriptionFormModal.tsx';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
-import Social from '../Social/Social.tsx';
+// import Social from '../Social/Social.tsx';
 import Team from '../Team/Team.tsx';
 
 interface Links {
@@ -12,34 +12,8 @@ interface Links {
 
 type LinksArray = Links[];
 
-async function updateDescription(description: string) {
-	try {
-		const response = await fetch('/api/profile', {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ description })
-		});
-
-		if (!response.ok) {
-			throw new Error(`Response status: ${response.status}`);
-		}
-
-		const result = await response.json();
-
-		if (!result) {
-			console.error('Response not ok: ', result);
-		}
-		return result;
-	} catch (error) {
-		console.error(error.message);
-	}
-}
-
 export const ProtectedProfile = (): React.JSX.Element => {
-	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [userId, setUserId] = useState<string>();
 	const [email, setEmail] = useState<string>('');
 	const [name, setName] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
@@ -51,6 +25,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [links, setLinks] = useState<LinksArray>([]);
 	const [activatedAt, setIsActivatedAt] = useState<string>('');
 	const [descriptionModal, setDescriptionModal] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	useEffect(() => {
 		async function fetchProtectedProfile() {
@@ -69,8 +44,8 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					throw new Error('Error parsing protected profile response data');
 				}
 
-				const { data: { name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, birthday, links, skills, activatedAt } } = data;
-				console.log(data);
+				const { data: { id, name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, birthday, links, skills, activatedAt } } = data;
+				setUserId(id);
 				setName(name);
 				setEmail(email);
 				setDescription(description);
@@ -80,31 +55,59 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				setBirthday(birthday);
 				setSkills(skills);
 				setLinks(links);
-				setIsLoading(false);
 				setIsActivatedAt(activatedAt);
+				setIsLoading(true);
 			} catch (err) {
 				console.error(err);
 			}
 		}
 		void fetchProtectedProfile();
-	}, []);
+	}, [isLoading, name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, birthday, links, skills]);
+
+	const updateDescription = async (desc: string | null) => {
+		try {
+			const response = await fetch(`/api/profiles/${userId}`, {
+				method: 'PATCH',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ description: desc })
+			});
+
+			if (!response.ok) {
+				console.error('Response no ok, ', response);
+			}
+
+			const result = await response.json();
+
+			if (!result) {
+				return;
+			}
+
+			return desc;
+		} catch (error) {
+			console.error('Update description error, ', error.message);
+		}
+	};
 
 	const handleEditSkills = () => '';
 	const handleEditSocials = () => '';
 
-	// const handleDescriptionSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-	// 	event.preventDefault();
-	// 	const formData = new FormData(event.currentTarget);
-	// 	console.log(formData.get('description'));
-	// 	const formDataObject = formData.get('description');
-	// 	// const result = await updateDescription(formDataObject);
+	const handleDescriptionSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+		event.preventDefault();
+		const formData = new FormData(event.currentTarget);
+		const desc = formData.get('description') as string;
 
-	// 	// if (result) {
-	// 	// 	setDescription(result);
-	// 	// }
-	// };
+		const updatedDescription = await updateDescription(desc);
 
-	if (isLoading) { return <h1>Is Loading...</h1>; }
+		if (!updatedDescription) { return; }
+
+		setDescription(updatedDescription);
+	};
+
+	if (!isLoading) { return <h1>...is loading!</h1>; }
+
 	return (
 		<>
 			<div className='grid-container'>
@@ -156,20 +159,63 @@ export const ProtectedProfile = (): React.JSX.Element => {
 						</div>
 						<div className='sections-container'>
 							<section className='about'>
-								<h2>About</h2>
 								<div>
-									{!description ?
+									{description ?
 										(
 											<>
-												<EmptyIcon />
-												<p>Write a delightful description which will help others get to know more about you.</p>
+												<div className='about-header-container'>
+													<h3>About</h3>
+													<button onClick={() => setDescriptionModal(true)}>
+														<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
+													</button>
+												</div>
+												<div className='about-description-container'>
+													<p className='about-description'>{description}</p>
+												</div>
+												{descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
 											</>
 										) :
-										<p>{description}</p>}
-									<button onClick={() => setDescriptionModal(true)}>Add description</button>
-									{/* {descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />} */}
+										(
+											<>
+												<h3>About</h3>
+												<EmptyIcon />
+												<p>Write a delightful description which will help others get to know more about you.</p>
+												<button onClick={() => setDescriptionModal(true)}>Add description</button>
+												{descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
+											</>
+										)}
 								</div>
 							</section>
+							{
+								/* <section className='about'>
+								<div>
+									{description ?
+										(
+											<>
+												<div className='about-header-container'>
+													<h2>About</h2>
+													<button onClick={() => setDescriptionModal(true)}>
+														<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
+													</button>
+												</div>
+												<div className='about-description-container'>
+													<p className='about-description'>{description}</p>
+												</div>
+												{descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
+											</>
+										) :
+										(
+											<>
+												<h2>About</h2>
+												<EmptyIcon />
+												<p>Write a delightful description which will help others get to know more about you.</p>
+												<button onClick={() => setDescriptionModal(true)}>Add description</button>
+												{descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
+											</>
+										)}
+								</div>
+							</section> */
+							}
 
 							<section className='skills'>
 								<h2>Skills</h2>
@@ -188,15 +234,17 @@ export const ProtectedProfile = (): React.JSX.Element => {
 											<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
 										</button>
 									</div>
-									<div className='social-links-inner-container'>
+									{
+										/* <div className='social-links-inner-container'>
 										<ul>
-											{links.map((entry: Links) => (
-												<li>
+											{links.map((entry: Links, index: number) => (
+												<li key={index}>
 													<Social socialName={entry.platform} socialUrl={entry.url} />
 												</li>
 											))}
 										</ul>
-									</div>
+									</div> */
+									}
 								</div>
 							</section>
 
