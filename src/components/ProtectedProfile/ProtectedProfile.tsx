@@ -82,12 +82,13 @@ export const ProtectedProfile = (): React.JSX.Element => {
 			const result = await response.json();
 
 			if (!result) {
-				return;
+				return null;
 			}
 
 			return desc;
 		} catch (error) {
 			console.error('Update description error, ', error.message);
+			return null;
 		}
 	};
 
@@ -140,16 +141,16 @@ export const ProtectedProfile = (): React.JSX.Element => {
 								</div>
 								<div className='user-bio'>
 									<h2>{name}</h2>
-									<p>{pronouns}</p>
+									<p className='user-bio-pronouns'>{pronouns}</p>
 									<div className='contact-info'>
-										<span>
+										<div className='profile-email'>
 											<img src='/profile-email.png' alt='Profile Email Icon' />
 											{email}
-										</span>
-										<span>
+										</div>
+										<div className='profile-location'>
 											<img src='/location-icon.png' alt='Profile Location Icon' />
-											{isBasedInGTA ? 'Based in GTA' : 'Not based in GTA'}
-										</span>
+											<p>{isBasedInGTA ? 'Based in GTA' : 'Not based in GTA'}</p>
+										</div>
 									</div>
 								</div>
 								<button>
@@ -186,36 +187,6 @@ export const ProtectedProfile = (): React.JSX.Element => {
 										)}
 								</div>
 							</section>
-							{
-								/* <section className='about'>
-								<div>
-									{description ?
-										(
-											<>
-												<div className='about-header-container'>
-													<h2>About</h2>
-													<button onClick={() => setDescriptionModal(true)}>
-														<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
-													</button>
-												</div>
-												<div className='about-description-container'>
-													<p className='about-description'>{description}</p>
-												</div>
-												{descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
-											</>
-										) :
-										(
-											<>
-												<h2>About</h2>
-												<EmptyIcon />
-												<p>Write a delightful description which will help others get to know more about you.</p>
-												<button onClick={() => setDescriptionModal(true)}>Add description</button>
-												{descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
-											</>
-										)}
-								</div>
-							</section> */
-							}
 
 							<section className='skills'>
 								<h2>Skills</h2>

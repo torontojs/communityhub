@@ -6,25 +6,26 @@
 	width: 100%;
 	min-height: 100%;
 	display: flex;
-	justify-content: center;
 	align-items: center;
 	z-index: 1000;
 }
 
 .description-form-modal-container {
+	margin-top: 50px;
 	display: flex;
 	flex-direction: column;
-	gap: var(--spacing-lg);
+	gap: var(--spacing-md);
 	background-color: #ffffff;
 	max-width: 1080px;
-	padding: var(--spacing-lg);
+	padding: var(--spacing-md);
 	border-radius: var(--rounded-md);
 	z-index: 1001;
 
 	& h2 {
 		padding: 0;
 		width: 120x;
-		/* height: 36px; */
+		all: unset;
+		font-size: var(--text-lg);
 	}
 
 	& p { margin: 0; }
@@ -62,7 +63,8 @@ div .description-form-modal-button-container {
 
 	& button:last-of-type {
 		border: none;
-		background-color: #e5e5e5;
+		color: var(--color-white);
+		background-color: var(--color-red-500);
 	}
 }
 

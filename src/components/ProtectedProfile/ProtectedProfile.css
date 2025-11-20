@@ -103,19 +103,27 @@
 		display: flex;
 		align-self: self-start;
 	}
-	& .contact-info span { color: var(--color-gray-600); }
 
-	.user-bio {
+	& .contact-info { color: var(--color-gray-600); }
+
+	& .user-bio {
 		display: flex;
 		flex-direction: column;
-		width: 445px;
+		width: 100%;
 		gap: 10px;
 		margin-left: 50px;
 	}
 
-	& .contact-info { display: flex; }
+	& .contact-info {
+		display: flex;
+		gap: var(--spacing-md);
+	}
 
-	& .contact-info span { display: flex; }
+	& .profile-email { display: flex; }
+
+	& .profile-email img { margin-right: 15px; }
+
+	& .profile-location { display: flex; }
 
 	& button {
 		all: unset;
@@ -124,7 +132,7 @@
 		right: 0;
 	}
 
-	& span img {
+	& .profile-location img {
 		display: flex;
 		align-self: center;
 		height: 24px;
