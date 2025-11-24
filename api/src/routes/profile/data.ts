@@ -1,6 +1,6 @@
 import { DBTables, DEFAULT_TEAM_ID, generateBaseDBfields } from '../../utils/db.ts';
 import { EventLog } from '../event-log/data.ts';
-import type { CreateProfileData, Profile, ProfileLink, ProfileSkill, UpdateProfileData } from './validation.ts';
+import type { CreateProfileData, Profile, ProfileLink, ProfileSkill, ProfileTeam, UpdateProfileData } from './validation.ts';
 
 function transformProfile(profile: Profile) {
 	const filteredProfile = Object.fromEntries(Object.entries(profile).filter(([, value]) => Boolean(value))) as Profile;
@@ -10,7 +10,8 @@ function transformProfile(profile: Profile) {
 		isBasedOnGTA: Boolean(profile.isBasedOnGTA),
 		canJoinLocalEvents: Boolean(profile.canJoinLocalEvents),
 		links: profile.links ?? [],
-		skills: profile.skills ?? []
+		skills: profile.skills ?? [],
+		teams: profile.teams ?? []
 	};
 }
 
@@ -227,8 +228,7 @@ export async function getProfileById(database: D1Database, id: string) {
 
 	profile.links = (results[1]?.results as ProfileLink[] | undefined ?? []).map((link) => link);
 	profile.skills = (results[2]?.results as ProfileSkill[] | undefined ?? []).map(({ skill }) => skill);
-	console.log(results[3]);
-
+	profile.teams = results[3]?.results as ProfileTeam[] | undefined ?? [];
 	return transformProfile(profile);
 }
 
