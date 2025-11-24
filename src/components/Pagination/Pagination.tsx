@@ -5,7 +5,7 @@ interface Props {
 	pages?: number;
 }
 
-const Pagination = ({ pages = 2 }: Props) => {
+const Pagination = ({ pages = 1 }: Props) => {
 	const [page, setPage] = useState(1);
 
 	return (
