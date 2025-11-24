@@ -199,7 +199,24 @@ export async function getProfileById(database: D1Database, id: string) {
 			LIMIT 1
 		`).bind(id),
 		database.prepare(`SELECT platform, url FROM ${DBTables.PROFILE_LINKS} WHERE profileId = ?`).bind(id),
-		database.prepare(`SELECT skill FROM ${DBTables.PROFILE_SKILLS} WHERE profileId = ?`).bind(id)
+		database.prepare(`SELECT skill FROM ${DBTables.PROFILE_SKILLS} WHERE profileId = ?`).bind(id),
+		database.prepare(`
+			SELECT
+				team.name,
+				team.description,
+				role.name AS role,
+				(
+					SELECT COUNT(*)
+					FROM ${DBTables.ROLE} AS r_count
+					WHERE r_count.teamId = team.id AND r_count.deletedAt IS NULL
+				) AS memberCount
+			FROM ${DBTables.ROLE} AS role
+			JOIN ${DBTables.TEAM} AS team ON role.teamId = team.id
+			WHERE
+				role.profileId = ?
+				AND role.deletedAt IS NULL
+				AND team.deletedAt IS NULL
+		`).bind(id)
 	]);
 
 	const profile = results[0]?.results[0] as Profile | undefined;
@@ -210,6 +227,7 @@ export async function getProfileById(database: D1Database, id: string) {
 
 	profile.links = (results[1]?.results as ProfileLink[] | undefined ?? []).map((link) => link);
 	profile.skills = (results[2]?.results as ProfileSkill[] | undefined ?? []).map(({ skill }) => skill);
+	console.log(results[3]);
 
 	return transformProfile(profile);
 }
