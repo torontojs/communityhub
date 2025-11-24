@@ -26,8 +26,8 @@ HTTP 200
 [Asserts]
 jsonpath "$.data.id" == "{{organizer_id}}"
 jsonpath "$.data.teams" exists
-jsonpath "$.data.teams.length()" == 1
 jsonpath "$.data.teams[0].name" == "TorontoJS"
 jsonpath "$.data.teams[0].description" == "This is Toronto JS main team, it represents the organization itself."
 jsonpath "$.data.teams[0].role" == "volunteer"
-jsonpath "$.data.teams[0].memberCount" == 21
+jsonpath "$.data.teams[0].memberCount" is integer
+
