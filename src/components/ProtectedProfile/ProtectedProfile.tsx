@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import './ProtectedProfile.css';
 import DescriptionFormModal from '../DescriptoinFormModal/DescriptionFormModal.tsx';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
-// import Social from '../Social/Social.tsx';
+import Social from '../Social/Social.tsx';
+import SocialLinksFormModal from '../SocialLinksFormModal/SocialLinksFormModal.tsx';
 import Team from '../Team/Team.tsx';
 
 interface Links {
@@ -25,6 +26,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [links, setLinks] = useState<LinksArray>([]);
 	const [activatedAt, setIsActivatedAt] = useState<string>('');
 	const [descriptionModal, setDescriptionModal] = useState<boolean>(false);
+	const [socialLinksModal, setSocialLinksModal] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -92,8 +94,22 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		}
 	};
 
+	// const updateSocialLinks = async () => {};
+
 	const handleEditSkills = () => '';
-	const handleEditSocials = () => '';
+
+	// NEEDS TO BE COMPLETED
+	const handleSocialLinksSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+		event.preventDefault();
+		const formData = new FormData(event.currentTarget);
+		const desc = formData.get('description') as string;
+
+		const updatedDescription = await updateDescription(desc);
+
+		if (!updatedDescription) { return; }
+
+		setDescription(updatedDescription);
+	};
 
 	const handleDescriptionSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
@@ -197,7 +213,8 @@ export const ProtectedProfile = (): React.JSX.Element => {
 								</div>
 							</section>
 
-							<section className='socials-links'>
+							{
+								/* <section className='socials-links'>
 								<div className='socials-links-container'>
 									<div className='social-links-header'>
 										<h2>Social Links</h2>
@@ -205,8 +222,8 @@ export const ProtectedProfile = (): React.JSX.Element => {
 											<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
 										</button>
 									</div>
-									{
-										/* <div className='social-links-inner-container'>
+
+									<div className='social-links-inner-container'>
 										<ul>
 											{links.map((entry: Links, index: number) => (
 												<li key={index}>
@@ -214,8 +231,30 @@ export const ProtectedProfile = (): React.JSX.Element => {
 												</li>
 											))}
 										</ul>
-									</div> */
-									}
+									</div>
+								</div>
+							</section> */
+							}
+
+							<section className='social-links'>
+								<div className='social-links-container'>
+									<div className='social-links-header'>
+										<h2>Social Links</h2>
+										<button onClick={() => setSocialLinksModal(true)}>
+											<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
+										</button>
+									</div>
+
+									<div className='social-links-inner-container'>
+										<ul>
+											{links.map((entry: Links, index: number) => (
+												<li key={index}>
+													<Social socialName={entry.platform} socialUrl={entry.url} />
+												</li>
+											))}
+										</ul>
+									</div>
+									{socialLinksModal && <SocialLinksFormModal onSubmit={handleSocialLinksSubmit} onClose={() => setSocialLinksModal(false)} />}
 								</div>
 							</section>
 
