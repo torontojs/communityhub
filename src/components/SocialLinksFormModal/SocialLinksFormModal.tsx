@@ -66,13 +66,6 @@ const SocialLinksFormModal = ({ onClose, onSubmit }: Props): React.JSX.Element =
 
 				<div className='input-block'>
 					<label className='label' htmlFor='input'>
-						Slack
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
 						Dev To
 					</label>
 					<input id='input' type='url' name='url' placeholder='https://'></input>

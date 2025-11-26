@@ -202,8 +202,6 @@
 		font-size: var(--text-base);
 		color: var(--color-gray-900);
 	}
-
-	button {}
 }
 .skills {
 	display: flex;
