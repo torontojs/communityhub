@@ -47,6 +47,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				}
 
 				const { data: { id, name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, birthday, links, skills, activatedAt } } = data;
+				console.log('links', links);
 				setUserId(id);
 				setName(name);
 				setEmail(email);
@@ -102,6 +103,8 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const handleSocialLinksSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
+
+		console.log('formData', formData);
 		const desc = formData.get('description') as string;
 
 		const updatedDescription = await updateDescription(desc);
@@ -254,7 +257,13 @@ export const ProtectedProfile = (): React.JSX.Element => {
 											))}
 										</ul>
 									</div>
-									{socialLinksModal && <SocialLinksFormModal onSubmit={handleSocialLinksSubmit} onClose={() => setSocialLinksModal(false)} />}
+									{socialLinksModal && (
+										<SocialLinksFormModal
+											linksArrayProp={links}
+											onSubmit={handleSocialLinksSubmit}
+											onClose={() => setSocialLinksModal(false)}
+										/>
+									)}
 								</div>
 							</section>
 

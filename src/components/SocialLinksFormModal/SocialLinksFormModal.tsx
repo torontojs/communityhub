@@ -1,10 +1,19 @@
 import './SocialLinksFormModal.css';
+
+interface Links {
+	platform: string;
+	url: string;
+}
+
+type LinksArray = Links[];
+
 interface Props {
+	linksArrayProp: LinksArray;
 	onClose(): void;
 	onSubmit(Event: React.FormEvent<HTMLFormElement>): void;
 }
 
-const SocialLinksFormModal = ({ onClose, onSubmit }: Props): React.JSX.Element => (
+const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => (
 	<div className='social-links-modal'>
 		<form
 			className='social-links-form-modal-container'
@@ -24,14 +33,14 @@ const SocialLinksFormModal = ({ onClose, onSubmit }: Props): React.JSX.Element =
 			<div className='social-links-modal-inputs-container'>
 				<div className='input-block'>
 					<label className='label' htmlFor='input'>
-						Slack
+						Site
 					</label>
 					<input id='input' type='url' name='url' placeholder='https://'></input>
 				</div>
 
 				<div className='input-block'>
 					<label className='label' htmlFor='input'>
-						Site/Porfolio
+						Slack
 					</label>
 					<input id='input' type='url' name='url' placeholder='https://'></input>
 				</div>
@@ -52,7 +61,14 @@ const SocialLinksFormModal = ({ onClose, onSubmit }: Props): React.JSX.Element =
 
 				<div className='input-block'>
 					<label className='label' htmlFor='input'>
-						X/Twitter
+						Portfolio
+					</label>
+					<input id='input' type='url' name='url' placeholder='https://'></input>
+				</div>
+
+				<div className='input-block'>
+					<label className='label' htmlFor='input'>
+						Codepen
 					</label>
 					<input id='input' type='url' name='url' placeholder='https://'></input>
 				</div>
@@ -66,7 +82,7 @@ const SocialLinksFormModal = ({ onClose, onSubmit }: Props): React.JSX.Element =
 
 				<div className='input-block'>
 					<label className='label' htmlFor='input'>
-						Dev To
+						Threads
 					</label>
 					<input id='input' type='url' name='url' placeholder='https://'></input>
 				</div>
@@ -74,6 +90,33 @@ const SocialLinksFormModal = ({ onClose, onSubmit }: Props): React.JSX.Element =
 				<div className='input-block'>
 					<label className='label' htmlFor='input'>
 						Facebook
+					</label>
+					<input id='input' type='url' name='url' placeholder='https://'></input>
+				</div>
+
+				<div className='input-block'>
+					<label className='label' htmlFor='input'>
+						Bluesky
+					</label>
+					<input id='input' type='url' name='url' placeholder='https://'></input>
+				</div>
+
+				<div className='input-block'>
+					<label className='label' htmlFor='input'>
+						Mastodon
+					</label>
+					<input id='input' type='url' name='url' placeholder='https://'></input>
+				</div>
+
+				<div className='input-block'>
+					<label className='label' htmlFor='input'>
+						Twitter
+					</label>
+					<input id='input' type='url' name='url' placeholder='https://'></input>
+				</div>
+				<div className='input-block'>
+					<label className='label' htmlFor='input'>
+						Dev.to
 					</label>
 					<input id='input' type='url' name='url' placeholder='https://'></input>
 				</div>
