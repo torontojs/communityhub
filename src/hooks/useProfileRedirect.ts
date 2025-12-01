@@ -13,13 +13,13 @@ interface ProfileStatusResponse {
 }
 
 const VALID_STATUSES = new Set<ProfileStatus>([
-	'activated',
 	'created',
-	'deleted',
-	'error',
-	'profile-completed',
+	'activated',
+	'tos-accepted',
 	'social-handle-provided',
-	'tos-accepted'
+	'profile-completed',
+	'deleted',
+	'error'
 ]);
 
 const isValidStatus = (status: string): status is ProfileStatus => VALID_STATUSES.has(status as ProfileStatus);
@@ -56,21 +56,29 @@ export const REGEX_REMOVE_TRAILING_SLASHES = /\/+$/u;
  */
 const normalizePath = (path: string) => path.replace(new RegExp(REGEX_REMOVE_TRAILING_SLASHES.source, REGEX_REMOVE_TRAILING_SLASHES.flags), '');
 
-const getRedirectPathForStatus = (status: ProfileStatus, currentPath?: string): string => {
-	const normalized = normalizePath(currentPath ?? '');
+const getRedirectPathForStatus = (status: ProfileStatus, currentPath: string): string | null => {
 	switch (status) {
 		case 'activated':
-			return normalized === normalizePath(REDIRECT_PATHS.reviewConductCode)
-				? REDIRECT_PATHS.reviewConductCode
-				: REDIRECT_PATHS.checkSteps;
+			if (
+				currentPath === normalizePath(REDIRECT_PATHS.checkSteps) ||
+				currentPath === normalizePath(REDIRECT_PATHS.reviewConductCode)
+			) {
+				return null;
+			}
+			return REDIRECT_PATHS.checkSteps;
 
 		case 'tos-accepted':
 		case 'social-handle-provided':
+			if (currentPath === normalizePath(REDIRECT_PATHS.completeProfile)) {
+				return null;
+			}
 			return REDIRECT_PATHS.completeProfile;
 
 		case 'profile-completed':
+			if (currentPath === normalizePath(REDIRECT_PATHS.home)) {
+				return null;
+			}
 			return REDIRECT_PATHS.home;
-
 		case 'created':
 		case 'deleted':
 		case 'error':
@@ -79,7 +87,7 @@ const getRedirectPathForStatus = (status: ProfileStatus, currentPath?: string): 
 	}
 };
 
-export const getRedirectPath = async (signal?: AbortSignal, currentPath?: string): Promise<RedirectPathResult> => {
+export const getRedirectPath = async (signal: AbortSignal, currentPath: string): Promise<RedirectPathResult> => {
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
@@ -95,7 +103,7 @@ export const getRedirectPath = async (signal?: AbortSignal, currentPath?: string
 
 		const data: ProfileStatusResponse = await response.json();
 
-		// Redirects based on profile status or to sign-in if not profile status is returned
+		// Redirects based on profile status or to sign-in if no profile status is returned
 		return (data?.status && isValidStatus(data.status)) ? getRedirectPathForStatus(data.status, currentPath) : REDIRECT_PATHS.signIn;
 	} catch (err) {
 		if (err.name !== 'AbortError') {
@@ -108,48 +116,33 @@ export const getRedirectPath = async (signal?: AbortSignal, currentPath?: string
 };
 
 export const useProfileRedirect = () => {
-	const [isRedirecting, setIsRedirecting] = useState(true);
+	// Start as null so we can render a loading state
+	const [redirectionComplete, setRedirectionComplete] = useState<boolean | null>(null);
 
 	useEffect(() => {
-		// Create abort controller to fetch abort
 		const controller = new AbortController();
 		const { signal } = controller;
 
 		const redirect = async () => {
-			try {
-				// Extract URL pathname
-				const currentPath = new URL(window.location.href).pathname;
+			const currentPath = normalizePath(new URL(window.location.href).pathname);
+			const redirectPath = await getRedirectPath(signal, currentPath);
 
-				const redirectPath = await getRedirectPath(signal, currentPath);
+			if (!redirectPath) {
+				setRedirectionComplete(true);
+				return;
+			}
 
-				// If invalid redirectPath, throw error
-				if (!redirectPath) {
-					throw new Error('Invalid Redirect Path!');
-				}
-
-				// Redirect only if current url path is different from the redirectpath
-				if (currentPath !== redirectPath) {
-					window.location.href = redirectPath;
-				} else {
-					setIsRedirecting(false);
-				}
-			} catch (error) {
-				if (error.name === 'AbortError') {
-					// Do nothing for Abort Error
-					return;
-				}
-				console.error('Redirect Error!', error);
-				window.location.href = REDIRECT_PATHS.signIn;
+			if (currentPath !== redirectPath) {
+				window.location.href = redirectPath;
+			} else {
+				setRedirectionComplete(true);
 			}
 		};
 
 		void redirect();
 
-		// Cleanup function to abort fetch
-		return () => {
-			controller.abort();
-		};
+		return () => controller.abort();
 	}, []);
 
-	return { isRedirecting };
+	return redirectionComplete;
 };
