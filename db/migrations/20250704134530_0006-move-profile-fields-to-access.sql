@@ -1,4 +1,4 @@
--- Migration number: 0006
+-- Migration number: 0006	2025-07-04T13:45:30.000Z
 -- Move activatedAt, deletedAt, and deletedReason from profile to access
 
 -- 1. Add new columns to access table

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { type FormEventHandler, useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { CodeOfConduct } from '../Documents/CodeOfConduct.tsx';
 import { ImageReleaseForm } from '../Documents/ImageReleaseForm.tsx';
@@ -8,8 +8,52 @@ import { ArrowDownIcon } from '../Icons/ArrowDownIcon.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './ReviewConductCode.css';
 
+const docTypes = ['code-of-conduct', 'image-release-form', 'volunteer-agreement'];
+
 const ReviewConductCode = () => {
 	const [agreementChecked, setAgreementChecked] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	// TODO: Display success and error messages
+	// const [submitError, setSubmitError] = useState<string | null>(null);
+	const [, setSubmitError] = useState<string | null>(null);
+
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+		event.preventDefault();
+
+		setIsSubmitting(true);
+		setSubmitError(null);
+
+		if (agreementChecked) {
+			try {
+				const responses = await Promise.all(
+					docTypes.map(async (type) =>
+						fetch(`/api/documents/sign/${type}`, {
+							method: 'POST',
+							credentials: 'include',
+							headers: {
+								'Content-Type': 'application/json'
+							}
+						})
+					)
+				);
+
+				const results = await Promise.all(responses.map(async (res) => res.json()));
+				const allSuccessful = responses.every((res) => res.ok);
+
+				if (allSuccessful) {
+					console.log('All documents signed:', results);
+					window.location.href = '/pages/complete-profile';
+				} else {
+					setSubmitError('Some documents failed to sign. Please try again!');
+				}
+			} catch (error) {
+				console.error('Error signing documents:', error);
+				setSubmitError('Something went wrong. Please try again!');
+			} finally {
+				setIsSubmitting(false);
+			}
+		}
+	};
 
 	return (
 		<>
@@ -31,7 +75,9 @@ const ReviewConductCode = () => {
 						</li>
 						<li className='nutshell-item'>
 							<span className='number'>2</span>
-							<span className='step-label'>Developers, designers and other tech workers are welcome to collaborate in projects and events for the community.</span>
+							<span className='step-label'>
+								Developers, designers and other tech workers are welcome to collaborate in projects and events for the community.
+							</span>
 						</li>
 						<li className='nutshell-item'>
 							<span className='number'>3</span>
@@ -76,7 +122,7 @@ const ReviewConductCode = () => {
 					</li>
 				</ul>
 
-				<form className='agreement-form' action='/pages/complete-profile/'>
+				<form onSubmit={handleSubmit} className='agreement-form' action='/pages/complete-profile/'>
 					<label htmlFor='agreement' className='checkbox-label'>
 						<input
 							type='checkbox'
@@ -89,8 +135,8 @@ const ReviewConductCode = () => {
 						I agree to TorontoJS’s conduct code and other forms
 					</label>
 
-					<Button type='submit' isPrimary isLarge aria-disabled={!agreementChecked} id='complete-profile-button'>
-						Let me complete my profile
+					<Button type='submit' isPrimary isLarge aria-disabled={!agreementChecked || isSubmitting} id='complete-profile-button'>
+						{isSubmitting ? 'Signing...' : 'Let me complete my profile'}
 					</Button>
 				</form>
 			</div>
