@@ -13,6 +13,24 @@ interface Props {
 	onSubmit(Event: React.FormEvent<HTMLFormElement>): void;
 }
 
+const socialMediaPlatforms: string[] = [
+	'site',
+	'slack',
+	'linkedin',
+	'github',
+	'portfolio',
+	'codepen',
+	'instagram',
+	'threads',
+	'facebook',
+	'bluesky',
+	'mastodon',
+	'twitter',
+	'dev.to'
+];
+
+const getSocialMediaUrl = (socialMedia: Links[], platform: string): string => '';
+
 const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => (
 	<div className='social-links-modal'>
 		<form
@@ -31,95 +49,18 @@ const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): Rea
 			<p>Connect your social or portfolio links so others can find and follow your work.</p>
 
 			<div className='social-links-modal-inputs-container'>
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Site
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
+				{socialMediaPlatforms.map((platform) => {
+					const url = getSocialMediaUrl(linksArrayProp, platform);
 
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Slack
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Linkedin
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Github
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Portfolio
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Codepen
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Instagram
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Threads
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Facebook
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Bluesky
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Mastodon
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Twitter
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
-				<div className='input-block'>
-					<label className='label' htmlFor='input'>
-						Dev.to
-					</label>
-					<input id='input' type='url' name='url' placeholder='https://'></input>
-				</div>
+					return (
+						<div className='input-block'>
+							<label className='label' htmlFor='input'>
+								{platform}
+							</label>
+							<input id='input' type='url' name='url' placeholder={url}></input>
+						</div>
+					);
+				})}
 			</div>
 
 			<div className='social-links-form-modal-button-container'>
