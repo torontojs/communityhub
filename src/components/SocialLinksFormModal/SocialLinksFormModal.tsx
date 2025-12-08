@@ -29,7 +29,10 @@ const socialMediaPlatforms: string[] = [
 	'dev.to'
 ];
 
-const getSocialMediaUrl = (socialMedia: Links[], platform: string): string => '';
+const getSocialMediaUrl = (socialMedia: Links[], platFormName: string): string => {
+	const url = socialMedia.find(({ platform }) => platform === platFormName);
+	return url?.platform ?? 'https://';
+};
 
 const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => (
 	<div className='social-links-modal'>
