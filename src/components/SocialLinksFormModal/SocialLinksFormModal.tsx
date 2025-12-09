@@ -30,8 +30,8 @@ const socialMediaPlatforms: string[] = [
 ];
 
 const getSocialMediaUrl = (socialMedia: Links[], platFormName: string): string => {
-	const url = socialMedia.find(({ platform }) => platform === platFormName);
-	return url?.platform ?? 'https://';
+	const res = socialMedia.find(({ platform }) => platform === platFormName);
+	return res?.url ?? 'https://';
 };
 
 const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => (
@@ -58,7 +58,7 @@ const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): Rea
 					return (
 						<div className='input-block'>
 							<label className='label' htmlFor='input'>
-								{platform}
+								{platform.charAt(0).toUpperCase() + platform.slice(1)}
 							</label>
 							<input id='input' type='url' name='url' placeholder={url}></input>
 						</div>

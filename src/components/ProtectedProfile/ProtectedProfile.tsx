@@ -47,7 +47,6 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				}
 
 				const { data: { id, name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, birthday, links, skills, activatedAt } } = data;
-				console.log('links', links);
 				setUserId(id);
 				setName(name);
 				setEmail(email);
@@ -82,18 +81,49 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				console.error('Response no ok, ', response);
 			}
 
-			const result = await response.json();
-
-			if (!result) {
-				return null;
-			}
-
 			return desc;
 		} catch (error) {
 			console.error('Update description error, ', error.message);
 			return null;
 		}
 	};
+
+	// const updateSocialLinks = async (updateLinks: Links[]) => {
+	// 	// 		const body: {
+	// 	//     description?: string | undefined;
+	// 	//     name?: string | undefined;
+	// 	//     isBasedOnGTA?: boolean | undefined;
+	// 	//     canJoinLocalEvents?: boolean | undefined;
+	// 	//     pronouns?: string | undefined;
+	// 	//     birthday?: string | undefined;
+	// 	//     avatar?: string | undefined;
+	// 	//     links?: {
+	// 	//         platform: "site" | "slack" | "linkedin" | "github" | "portfolio" | "codepen" | "instagram" | "threads" | "facebook" | "bluesky" | "mastodon" | "twitter" | "devto";
+	// 	//         url: string;
+	// 	//     }[] | undefined;
+	// 	//     skills?: string[] | undefined;
+	// 	// }
+	// 	try {
+	// 		const response = await fetch(`/api'profiles/${userId}`, {
+	// 			method: 'PATCH',
+	// 			credentials: 'include',
+	// 			headers: {
+	// 				'Content-Type': 'application/json'
+	// 			},
+	// 			body: JSON.stringify({ links: updateLinks })
+	// 		});
+
+	// 		if (!response.ok) {
+	// 			console.error('Response not ok, ', response);
+	// 		}
+
+	// 		const result = await response.json();
+
+	// 		return links;
+	// 	} catch (error) {
+	// 		console.error('Update description error, ', error.message);
+	// 	}
+	// };
 
 	// const updateSocialLinks = async () => {};
 
@@ -102,9 +132,10 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	// NEEDS TO BE COMPLETED
 	const handleSocialLinksSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
+		console.log('social links event object', event);
 		const formData = new FormData(event.currentTarget);
 
-		console.log('formData', formData);
+		console.log('social formData', formData);
 		const desc = formData.get('description') as string;
 
 		const updatedDescription = await updateDescription(desc);
