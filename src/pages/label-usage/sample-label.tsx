@@ -11,62 +11,56 @@ createRoot(root).render(
 	(
 		<StrictMode>
 			<div className='parent'>
-				<h2>Label Usage</h2>
-				<div className='label-collection'>
-					<div>
-						<p>Accent Dark</p>
+				<h1>Label Usage</h1>
+				<div>
+					<fieldset>
+						<legend>Accent Dark</legend>
 						<Label variant='accent' hasIcon>Label</Label>
-					</div>
-					<div>
-						<p>Accent Light</p>
+					</fieldset>
+					<fieldset>
+						<legend>Accent Light</legend>
 						<Label variant='accent' tone='light' hasIcon>Label</Label>
-					</div>
-					<div>
-						<p>Error Dark</p>
+					</fieldset>
+					<fieldset>
+						<legend>Error Dark</legend>
 						<Label variant='error' hasIcon>Error</Label>
-					</div>
-					<div>
-						<p>Error Light</p>
+					</fieldset>
+					<fieldset>
+						<legend>Error Light</legend>
 						<Label variant='error' tone='light' hasIcon>Error</Label>
-					</div>
-				</div>
-
-				<div className='label-collection'>
-					<div>
-						<p>Warning Dark</p>
+					</fieldset>
+					<fieldset>
+						<legend>Warning Dark</legend>
 						<Label variant='warning' hasIcon>Warning</Label>
-					</div>
-					<div>
-						<p>Warning Light</p>
+					</fieldset>
+					<fieldset>
+						<legend>Warning Light</legend>
 						<Label variant='warning' tone='light' hasIcon>Warning</Label>
-					</div>
-					<div>
-						<p>Success Dark</p>
+					</fieldset>
+					<fieldset>
+						<legend>Success Dark</legend>
 						<Label variant='success' hasIcon>Success</Label>
-					</div>
-					<div>
-						<p>Success Light</p>
+					</fieldset>
+					<fieldset>
+						<legend>Success Light</legend>
 						<Label variant='success' tone='light' hasIcon>Success</Label>
-					</div>
-				</div>
-
-				<div className='label-collection'>
-					<div>
-						<p>Info Dark</p>
+					</fieldset>
+					<fieldset>
+						<legend>Info Dark</legend>
 						<Label variant='info' hasIcon>Info</Label>
-					</div>
-					<div>
-						<p>Info Light</p>
+					</fieldset>
+					<fieldset>
+						<legend>Info Light</legend>
 						<Label variant='info' tone='light' hasIcon>Info</Label>
-					</div>
-					<div>
-						<p>Default Dark</p>
+					</fieldset>
+					<fieldset>
+						<legend>Default Dark</legend>
 						<Label hasIcon>Default</Label>
-					</div>
-					<div>
-						<p>Default Light</p>
+					</fieldset>
+					<fieldset>
+						<legend>Default Light</legend>
 						<Label tone='light' hasIcon>Default</Label>
-					</div>
+					</fieldset>
 				</div>
 			</div>
 		</StrictMode>

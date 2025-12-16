@@ -4,15 +4,11 @@
 	flex-direction: column;
 	align-items: center;
 	gap: var(--spacing-xs);
-}
+	border: 0.125rem dashed;
+	border-radius: 0.25rem;
+	margin: 3rem;
+	max-width: 15rem;
+	padding: 1rem;
 
-.label-collection {
-	display: flex;
-	gap: var(--spacing-lg);
-	align-items: center;
-
-	p {
-		font-weight: var(--weight-bold);
-		text-align: center;
-	}
+	fieldset { margin: 1rem auto; }
 }
