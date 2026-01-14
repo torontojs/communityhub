@@ -79,7 +79,21 @@ export async function updateTeamMembers(database: D1Database, teamId: string, da
 	return results.every(({ success }) => success);
 }
 
-export async function getAllMembers(database: D1Database, teamId: string) {
+export async function countAllMembers(database: D1Database, teamId: string) {
+	const { results } = await database.prepare(`
+		SELECT COUNT(*) AS count FROM ${DBTables.ROLE} AS role
+		INNER JOIN ${DBTables.ACCESS} AS access ON access.id = role.profileId
+		INNER JOIN ${DBTables.PROFILE} AS profile ON profile.id = role.profileId
+		WHERE
+			role.teamId = ?
+			AND role.deletedAt IS NULL
+			AND access.activatedAt IS NOT NULL
+			AND access.deletedAt IS NULL
+	`).bind(teamId).run();
+	return results;
+}
+
+export async function getAllMembers(database: D1Database, teamId: string, limit?: number, offset = 0) {
 	const { results } = await database.prepare(`
 		SELECT
 			role.id AS id,
@@ -101,7 +115,8 @@ export async function getAllMembers(database: D1Database, teamId: string) {
 			AND role.deletedAt IS NULL
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
-	`).bind(teamId).run<TeamMemberInfo>();
+		${limit ? `LIMIT ${limit} OFFSET ${offset}` : ''}
+		`).bind(teamId).run<TeamMemberInfo>();
 
 	return results;
 }

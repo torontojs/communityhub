@@ -14,7 +14,7 @@ import {
 import { IdParamSchema } from '../../utils/validation.ts';
 import { nonExistingProfileIds } from '../profile/data.ts';
 import { doesTeamExist } from '../team/data.ts';
-import { addTeamMembers, deleteTeamMembers, getAllMembers, nonExistingTeamMemberIds, updateTeamMembers } from './data.ts';
+import { addTeamMembers, countAllMembers, deleteTeamMembers, getAllMembers, nonExistingTeamMemberIds, updateTeamMembers } from './data.ts';
 import { AddTeamMembersSchema, TeamMemberInfoSchema, UpdateTeamMembersSchema } from './validation.ts';
 
 export const teamMemberRoutes = new OpenAPIHono<EnvironmentBindings>({
@@ -51,22 +51,32 @@ teamMemberRoutes.openapi(
 			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}
 
-		const members = await getAllMembers(context.env.Database, id);
+		// Pagination Setup TODO: Create a utility function for the below?
+		const { limit, page } = context.req.query();
+		const integerOrUndefined = (query?: string): number | undefined => query === '0' || Number(query) ? Math.floor(Number(query)) : undefined;
+
+		const count = await countAllMembers(context.env.Database, id);
+		const totalMembersCount = (count[0]?.['count']) as number;
+		const limitCount = integerOrUndefined(limit);
+		const selectedPage = integerOrUndefined(page);
+		const lastPageCount = !limitCount ? 1 : Math.ceil(totalMembersCount / limitCount);
+		const offset = !limitCount ? 0 : ((selectedPage ? selectedPage - 1 : 1) * limitCount);
+
+		const members = await getAllMembers(context.env.Database, id, limitCount, offset);
 
 		return context.json(
-			// TODO: implement proper pagination
 			{
 				data: members,
-				start: 0,
-				end: members.length - 1,
-				total: members.length,
+				start: offset,
+				end: !limitCount || offset + limitCount > totalMembersCount ? totalMembersCount - 1 : offset + limitCount - 1,
+				total: totalMembersCount,
 				size: members.length,
-				currentPage: 1,
-				lastPage: 1,
+				currentPage: selectedPage ?? 1,
+				lastPage: lastPageCount,
 				_links: {
-					self: { href: context.req.url },
-					first: { href: context.req.url },
-					last: { href: context.req.url }
+					self: { href: context.req.url.split('?')[0] + (limit ? `?limit=${limit}&page=${selectedPage}` : '') },
+					first: { href: context.req.url.split('?')[0] + (limit ? `?limit=${limit}&page=1` : '') },
+					last: { href: context.req.url.split('?')[0] + (limit ? `?limit=${limit}&page=${lastPageCount}` : '') }
 				}
 			} satisfies PaginatedResponse<typeof members>,
 			StatusCodes.OKAY
