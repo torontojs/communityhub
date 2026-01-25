@@ -59,21 +59,20 @@ jobs:
         if: ${{ env.TARGET_ENV == 'dev' }}
         run: |
           echo "Fetching tables from Dev database..."
-          TABLES=$(npx wrangler d1 execute Database --env dev --remote --command "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name NOT LIKE 'd1_%';" --json | jq -r '.[0].results[].name' | tac)
+          TABLES=$(npx wrangler d1 execute Database --env dev --remote --command "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name NOT LIKE 'd1_%';" --json | jq -r '.[0].results[].name')
 
           if [ -z "$TABLES" ] || [ "$TABLES" == "null" ]; then
             echo "No tables found. Skipping drop."
           else
-            # 2. Build one unified SQL string
-            # We wrap it in a transaction to force D1 to process it as one unit
-            SQL_QUERY="PRAGMA foreign_keys = OFF; BEGIN TRANSACTION;"
+            # Build a single string with PRAGMA first, then all DROPs
+            # We do NOT use BEGIN or COMMIT here.
+            SQL_BATCH="PRAGMA foreign_keys = OFF;"
             for table in $TABLES; do
-              SQL_QUERY="$SQL_QUERY DROP TABLE IF EXISTS \"$table\";"
+              SQL_BATCH="$SQL_BATCH DROP TABLE IF EXISTS \"$table\";"
             done
-            SQL_QUERY="$SQL_QUERY COMMIT;"
 
-            echo "Executing Atomic Bulk Drop..."
-            npx wrangler d1 execute Database --env dev --remote --command "$SQL_QUERY"
+            echo "Executing Multi-Statement Drop Batch..."
+            npx wrangler d1 execute Database --env dev --remote --command "$SQL_BATCH"
           fi
 
       - name: Apply D1 Migrations to Database (Dev and Prod)
