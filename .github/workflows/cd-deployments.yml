@@ -67,7 +67,7 @@ jobs:
           else
             for table in $TABLES; do
               echo "Dropping table: $table"
-              # npx wrangler d1 execute Database --env dev --remote --command "DROP TABLE IF EXISTS \"$table\";"
+              npx wrangler d1 execute Database --env dev --remote --command "DROP TABLE IF EXISTS \"$table\";"
             done
           fi
 
