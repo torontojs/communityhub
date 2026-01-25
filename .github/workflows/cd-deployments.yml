@@ -59,14 +59,15 @@ jobs:
         if: ${{ env.TARGET_ENV == 'dev' }}
         run: |
           echo "Fetching tables from Dev database..."
-          TABLES=$(npx wrangler d1 execute Database --env dev --remote --command "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_';" --json | jq -r '.[0].results[].name')
+          # Note the % wildcards below – they are crucial!
+          TABLES=$(npx wrangler d1 execute Database --env dev --remote --command "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name NOT LIKE 'd1_%';" --json | jq -r '.[0].results[].name')
 
           if [ -z "$TABLES" ] || [ "$TABLES" == "null" ]; then
             echo "No tables found. Skipping drop."
           else
             for table in $TABLES; do
               echo "Dropping table: $table"
-              npx wrangler d1 execute Database --env dev --remote --command "DROP TABLE IF EXISTS $table;"
+              # npx wrangler d1 execute Database --env dev --remote --command "DROP TABLE IF EXISTS \"$table\";"
             done
           fi
 
