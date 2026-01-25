@@ -62,9 +62,9 @@ jobs:
           TABLES=("documents" "access" "role" "team" "profile_skills" "profile_links" "profile" "event_log" "migrations")
 
           for table in "${TABLES[@]}"; do
-            echo "Deleting data from $table..."
-            # Using DELETE FROM keeps the table structure but wipes the rows
-            npx wrangler d1 execute Database --env dev --remote --command "DELETE FROM \"$table\";"
+            echo "Dropping table: $table"
+
+            npx wrangler d1 execute Database --env dev --remote --command "DROP TABLE IF EXISTS \"$table\";"
           done
 
       - name: Apply D1 Migrations to Database (Dev and Prod)
