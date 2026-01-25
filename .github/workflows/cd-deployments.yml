@@ -58,22 +58,14 @@ jobs:
       - name: Reset Dev Database Tables
         if: ${{ env.TARGET_ENV == 'dev' }}
         run: |
-          echo "Fetching tables from Dev database..."
-          TABLES=$(npx wrangler d1 execute Database --env dev --remote --command "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name NOT LIKE 'd1_%';" --json | jq -r '.[0].results[].name')
+          # List tables from most-dependent (children) to least-dependent (parents)
+          TABLES=("documents" "access" "role" "team" "profile_skills" "profile_links" "profile" "event_log" "migrations")
 
-          if [ -z "$TABLES" ] || [ "$TABLES" == "null" ]; then
-            echo "No tables found. Skipping drop."
-          else
-            # Build a single string with PRAGMA first, then all DROPs
-            # We do NOT use BEGIN or COMMIT here.
-            SQL_BATCH="PRAGMA foreign_keys = OFF;"
-            for table in $TABLES; do
-              SQL_BATCH="$SQL_BATCH DROP TABLE IF EXISTS \"$table\";"
-            done
-
-            echo "Executing Multi-Statement Drop Batch..."
-            npx wrangler d1 execute Database --env dev --remote --command "$SQL_BATCH"
-          fi
+          for table in "${TABLES[@]}"; do
+            echo "Deleting data from $table..."
+            # Using DELETE FROM keeps the table structure but wipes the rows
+            npx wrangler d1 execute Database --env dev --remote --command "DELETE FROM \"$table\";"
+          done
 
       - name: Apply D1 Migrations to Database (Dev and Prod)
         run: npx wrangler d1 migrations apply Database --env ${{ env.TARGET_ENV }} --remote
