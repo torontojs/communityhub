@@ -65,10 +65,13 @@ jobs:
           if [ -z "$TABLES" ] || [ "$TABLES" == "null" ]; then
             echo "No tables found. Skipping drop."
           else
+            DROP_COMMANDS="PRAGMA foreign_keys = OFF;"
             for table in $TABLES; do
-              echo "Dropping table: $table"
-              npx wrangler d1 execute Database --env dev --remote --command "DROP TABLE IF EXISTS \"$table\";"
+              DROP_COMMANDS="$DROP_COMMANDS DROP TABLE IF EXISTS \"$table\";"
             done
+
+            echo "Executing bulk drop with foreign_keys OFF..."
+            npx wrangler d1 execute Database --env dev --remote --command "$DROP_COMMANDS"
           fi
 
       - name: Apply D1 Migrations to Database (Dev and Prod)
