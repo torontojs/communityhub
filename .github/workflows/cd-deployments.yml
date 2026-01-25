@@ -54,23 +54,12 @@ jobs:
           DB_ID=$(npx wrangler d1 info ${{ env.DEV_COMM_HUB_D1_DB_NAME }} --json | jq -r '.uuid')
           echo "DEV_COMM_HUB_D1_DB_ID=$DB_ID" >> $GITHUB_ENV
 
-      - name: Apply D1 Migrations to DEV D1 Database (Dev Only)
-        env:
-          DEV_COMM_HUB_D1_DB_ID: ${{ env.DEV_COMM_HUB_D1_DB_ID }}
-        if: ${{ env.TARGET_ENV == 'dev' }}
-        run: npx wrangler d1 migrations apply Database --env dev --remote
+      - name: Apply D1 Migrations to Database (Dev and Prod)
+        run: npx wrangler d1 migrations apply Database --env ${{ env.TARGET_ENV }} --remote
 
       - name: Seed Data to DEV D1 Database (Dev Only)
-        env:
-          DEV_COMM_HUB_D1_DB_ID: ${{ env.DEV_COMM_HUB_D1_DB_ID }}
         if: ${{ env.TARGET_ENV == 'dev' }}
         run: npx wrangler d1 execute Database --env dev --remote --file=./db/seeds/seed-data.sql
-
-      - name: Apply D1 Migrations to PROD D1 Database (Prod Only)
-        env:
-          PROD_COMM_HUB_D1_DB_ID: ${{ env.PROD_COMM_HUB_D1_DB_ID }}
-        if: ${{ env.TARGET_ENV == 'production' }}
-        run: npx wrangler d1 migrations apply Database --env production --remote
 
       # Deployment using Cloudflare Action (Dev and Prod)
       - name: Deploy Worker using cloudflare/wrangler-action@v3
