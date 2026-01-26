@@ -82,9 +82,3 @@ jobs:
           accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
           environment: ${{ env.TARGET_ENV }}
           workingDirectory: "./"
-
-          # Pass secrets directly for the Worker's environment
-          secrets: |
-            RESEND_API_KEY
-        env:
-          RESEND_API_KEY: ${{ env.TARGET_ENV == 'production' && secrets.PROD_COMM_HUB_RESEND_API_KEY || secrets.DEV_COMM_HUB_RESEND_API_KEY}}
