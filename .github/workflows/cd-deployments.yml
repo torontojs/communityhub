@@ -42,19 +42,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # - name: Manage D1 Database (Dev Only)
-      #   if: ${{ env.TARGET_ENV == 'dev' }}
-      #   run: |
-      #     echo "Attempting to delete Dev database"
-      #     npx wrangler d1 delete ${{ env.DEV_COMM_HUB_D1_DB_NAME }} -y || true > /dev/null
-
-      # - name: Create New Dev D1 Instance (Dev Only)
-      #   if: ${{ env.TARGET_ENV == 'dev' }}
-      #   run: |
-      #     npx wrangler d1 create ${{ env.DEV_COMM_HUB_D1_DB_NAME }} --env dev > /dev/null
-      #     DB_ID=$(npx wrangler d1 info ${{ env.DEV_COMM_HUB_D1_DB_NAME }} --json | jq -r '.uuid')
-      #     echo "DEV_COMM_HUB_D1_DB_ID=$DB_ID" >> $GITHUB_ENV
-
       - name: Reset Dev Database Tables
         if: ${{ env.TARGET_ENV == 'dev' }}
         run: |
