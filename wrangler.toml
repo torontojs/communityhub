@@ -56,10 +56,6 @@ binding = "PasswordResetToken"
 id = "vms-local-password-reset-token"
 preview_id = "vms-local-password-reset-token"
 
-[[r2_buckets]]
-binding = "ExportedFiles"
-bucket_name = "vms-local-exported-files"
-
 # DEV env configurations
 [env.dev.vars]
 NODE_ENV = "development"
@@ -95,10 +91,6 @@ binding = "PasswordResetToken"
 id = "5392322d41c44203bce89425fcc12f12"
 preview_id = "vms-dev-password-reset-token"
 
-[[env.dev.r2_buckets]]
-binding = "ExportedFiles"
-bucket_name = "vms-exported-files"
-
 # PRODUCTION env configuration
 [env.production.vars]
 NODE_ENV = "production"
@@ -133,7 +125,3 @@ preview_id = "vms-production-activation-tokens"
 binding = "PasswordResetToken"
 id = "08ad1ddf3a134007bbed3b9266cd6d1f"
 preview_id = "vms-production-password-reset-token"
-
-[[env.production.r2_buckets]]
-binding = "ExportedFiles"
-bucket_name = "vms-exported-files"
