@@ -1,5 +1,5 @@
 .reusable-social-icon {
-	width: 149px;
+	min-width: 149px;
 	height: 80px;
 
 	border: var(--border);
