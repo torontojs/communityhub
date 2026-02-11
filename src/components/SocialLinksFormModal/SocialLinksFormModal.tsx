@@ -15,7 +15,6 @@ interface Props {
 
 const socialMediaPlatforms: string[] = [
 	'site',
-	'slack',
 	'linkedin',
 	'github',
 	'portfolio',
@@ -26,12 +25,12 @@ const socialMediaPlatforms: string[] = [
 	'bluesky',
 	'mastodon',
 	'twitter',
-	'dev.to'
+	'devto'
 ];
 
-const getSocialMediaUrl = (socialMedia: Links[], platFormName: string): string => {
-	const res = socialMedia.find(({ platform }) => platform === platFormName);
-	return res?.url ?? 'https://';
+const getSocialMediaUrl = (socialMedia: Links[], platformName: string): string => {
+	const res = socialMedia.find(({ platform }) => platform === platformName);
+	return res?.url ?? '';
 };
 
 const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => (
@@ -52,22 +51,24 @@ const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): Rea
 			<p>Connect your social or portfolio links so others can find and follow your work.</p>
 
 			<div className='social-links-modal-inputs-container'>
-				{socialMediaPlatforms.map((platform) => {
-					const url = getSocialMediaUrl(linksArrayProp, platform);
-
-					return (
-						<div className='input-block'>
-							<label className='label' htmlFor='input'>
-								{platform.charAt(0).toUpperCase() + platform.slice(1)}
-							</label>
-							<input id='input' type='url' name='url' placeholder={url}></input>
-						</div>
-					);
-				})}
+				{socialMediaPlatforms.map((platform) => (
+					<div className='input-block' key={platform}>
+						<label className='label' htmlFor={`input-${platform}`}>
+							{platform.charAt(0).toUpperCase() + platform.slice(1)}
+						</label>
+						<input
+							id={`input-${platform}`}
+							type='text'
+							name={platform}
+							defaultValue={getSocialMediaUrl(linksArrayProp, platform)}
+							placeholder='https://'
+						/>
+					</div>
+				))}
 			</div>
 
 			<div className='social-links-form-modal-button-container'>
-				<button onClick={onClose}>Cancel</button>
+				<button type='button' onClick={onClose}>Cancel</button>
 				<button type='submit'>
 					Submit
 				</button>

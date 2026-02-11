@@ -2,7 +2,7 @@ import { DBTables, DEFAULT_TEAM_ID, generateBaseDBfields } from '../../utils/db.
 import { EventLog } from '../event-log/data.ts';
 import type { CreateProfileData, Profile, ProfileLink, ProfileSkill, UpdateProfileData } from './validation.ts';
 
-function transformProfile(profile: Profile) {
+export function transformProfile(profile: Profile) {
 	const filteredProfile = Object.fromEntries(Object.entries(profile).filter(([, value]) => Boolean(value))) as Profile;
 
 	return {
@@ -117,21 +117,16 @@ export async function updateProfileById(
 		}).filter(([, value]) => value !== null && value !== undefined)
 	);
 
-	const existingData = await database.batch([
-		database.prepare(`SELECT platform, url FROM ${DBTables.PROFILE_LINKS} WHERE profileId = ?`).bind(id),
-		database.prepare(`SELECT skill FROM ${DBTables.PROFILE_SKILLS} WHERE profileId = ?`).bind(id)
-	]);
+	// Only include links that have URLs and skills that are non-empty
+	const incomingLinks = (links ?? []).filter(({ url }) => url);
+	const incomingSkills = (skills ?? []).filter((skill) => skill);
 
-	// Filter links to add based on existing ones.
-	const existingLinks = (existingData[0]?.results as ProfileLink[] | undefined ?? []).map(({ platform }) => platform);
-	const filteredLinks = (links ?? []).filter(({ platform }) => !existingLinks.includes(platform));
-
-	// Filter skills to add based on existing ones.
-	const existingSkills = (existingData[1]?.results as ProfileSkill[] | undefined ?? []).map(({ skill }) => skill);
-	const filteredSkills = (skills ?? []).filter((skill) => !existingSkills.includes(skill));
-
-	const results = await database.batch([
-		database.prepare(`
+	// If scalar fields were provided, build the UPDATE query; otherwise return an empty array
+	// so that spreading into the batch is a no-op
+	const hasFieldsToUpdate = Object.keys(fieldsToUpdate).length > 0;
+	const profileUpdateQuery = hasFieldsToUpdate
+		? [
+			database.prepare(`
 			UPDATE ${DBTables.PROFILE} AS profile
 			SET
 				${Object.keys(fieldsToUpdate).map((key) => `${key} = ?`).join(', ')}
@@ -145,41 +140,56 @@ export async function updateProfileById(
 				profile.id = ?
 				AND access.activatedAt IS NOT NULL
 				AND access.deletedAt IS NULL
-		`).bind(...Object.values(fieldsToUpdate), id),
-		...filteredLinks.map(({ platform, url }) => {
-			const { id: linkId } = generateBaseDBfields();
+		`).bind(...Object.values(fieldsToUpdate), id)
+		]
+		: [];
 
-			return database.prepare(`
-				INSERT INTO ${DBTables.PROFILE_LINKS} (
-					id, platform, url, profileId
-				)
-				SELECT
-					?, ?, ?, id
-				FROM ${DBTables.ACCESS}
-				WHERE
-					id = ?
-					AND activatedAt IS NOT NULL
-					AND deletedAt IS NULL
-				LIMIT 1
-			`).bind(linkId, platform, url, id);
-		}),
-		...filteredSkills.map((skill) => {
-			const { id: skillId } = generateBaseDBfields();
+	// Build links queries only if links were provided
+	const hasLinks = links !== undefined;
+	const linksQueries = hasLinks
+		? [
+			database.prepare(`
+				DELETE FROM ${DBTables.PROFILE_LINKS}
+				WHERE profileId = ?
+			`).bind(id),
+			...incomingLinks.map(({ platform, url }) => {
+				const { id: linkId } = generateBaseDBfields();
 
-			return database.prepare(`
-				INSERT INTO ${DBTables.PROFILE_SKILLS} (
-					id, skill, profileId
-				)
-				SELECT
-					?, ?, id
-				FROM ${DBTables.ACCESS}
-				WHERE
-					id = ?
-					AND activatedAt IS NOT NULL
-					AND deletedAt IS NULL
-				LIMIT 1
-			`).bind(skillId, skill, id);
-		})
+				return database.prepare(`
+					INSERT INTO ${DBTables.PROFILE_LINKS} (
+						id, platform, url, profileId
+					)
+					VALUES (?, ?, ?, ?)
+				`).bind(linkId, platform, url, id);
+			})
+		]
+		: [];
+
+	// Build skills queries only if skills were provided
+	const hasSkills = skills !== undefined;
+	const skillsQueries = hasSkills
+		? [
+			database.prepare(`
+				DELETE FROM ${DBTables.PROFILE_SKILLS}
+				WHERE profileId = ?
+			`).bind(id),
+			...incomingSkills.map((skill) => {
+				const { id: skillId } = generateBaseDBfields();
+
+				return database.prepare(`
+					INSERT INTO ${DBTables.PROFILE_SKILLS} (
+						id, skill, profileId
+					)
+					VALUES (?, ?, ?)
+				`).bind(skillId, skill, id);
+			})
+		]
+		: [];
+
+	const results = await database.batch([
+		...profileUpdateQuery,
+		...linksQueries,
+		...skillsQueries
 	]);
 
 	return results.every(({ success }) => success);

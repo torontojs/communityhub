@@ -64,7 +64,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 			}
 		}
 		void fetchProtectedProfile();
-	}, [isLoading, name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, birthday, links, skills]);
+	}, []);
 
 	const updateDescription = async (desc: string | null) => {
 		try {
@@ -88,61 +88,69 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		}
 	};
 
-	// const updateSocialLinks = async (updateLinks: Links[]) => {
-	// 	// 		const body: {
-	// 	//     description?: string | undefined;
-	// 	//     name?: string | undefined;
-	// 	//     isBasedOnGTA?: boolean | undefined;
-	// 	//     canJoinLocalEvents?: boolean | undefined;
-	// 	//     pronouns?: string | undefined;
-	// 	//     birthday?: string | undefined;
-	// 	//     avatar?: string | undefined;
-	// 	//     links?: {
-	// 	//         platform: "site" | "slack" | "linkedin" | "github" | "portfolio" | "codepen" | "instagram" | "threads" | "facebook" | "bluesky" | "mastodon" | "twitter" | "devto";
-	// 	//         url: string;
-	// 	//     }[] | undefined;
-	// 	//     skills?: string[] | undefined;
-	// 	// }
-	// 	try {
-	// 		const response = await fetch(`/api'profiles/${userId}`, {
-	// 			method: 'PATCH',
-	// 			credentials: 'include',
-	// 			headers: {
-	// 				'Content-Type': 'application/json'
-	// 			},
-	// 			body: JSON.stringify({ links: updateLinks })
-	// 		});
+	const socialMediaPlatforms = [
+		'site',
+		'linkedin',
+		'github',
+		'portfolio',
+		'codepen',
+		'instagram',
+		'threads',
+		'facebook',
+		'bluesky',
+		'mastodon',
+		'twitter',
+		'devto'
+	] as const;
 
-	// 		if (!response.ok) {
-	// 			console.error('Response not ok, ', response);
-	// 		}
+	const updateSocialLinks = async (updatedLinks: Links[]): Promise<Links[] | null> => {
+		try {
+			const response = await fetch(`/api/profiles/${userId}`, {
+				method: 'PATCH',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ links: updatedLinks })
+			});
 
-	// 		const result = await response.json();
+			if (!response.ok) {
+				console.error('Response not ok, ', response);
+				return null;
+			}
 
-	// 		return links;
-	// 	} catch (error) {
-	// 		console.error('Update description error, ', error.message);
-	// 	}
-	// };
-
-	// const updateSocialLinks = async () => {};
+			return updatedLinks;
+		} catch (error) {
+			console.error('Update social links error, ', error);
+			return null;
+		}
+	};
 
 	const handleEditSkills = () => '';
 
-	// NEEDS TO BE COMPLETED
 	const handleSocialLinksSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
-		console.log('social links event object', event);
 		const formData = new FormData(event.currentTarget);
 
-		console.log('social formData', formData);
-		const desc = formData.get('description') as string;
+		// Build links array from form data - only include non-empty URLs
+		const updatedLinks: Links[] = socialMediaPlatforms
+			.map((platform) => ({
+				platform,
+				url: (formData.get(platform) as string)?.trim() ?? ''
+			}))
+			.filter(({ url }) => url !== '');
 
-		const updatedDescription = await updateDescription(desc);
+		// Preserve existing slack entry — slack is set during onboarding, not here
+		const existingSlack = links.find(({ platform }) => platform === 'slack');
+		if (existingSlack) {
+			updatedLinks.unshift(existingSlack);
+		}
 
-		if (!updatedDescription) { return; }
+		const result = await updateSocialLinks(updatedLinks);
 
-		setDescription(updatedDescription);
+		if (!result) { return; }
+
+		setLinks(result);
 	};
 
 	const handleDescriptionSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -247,29 +255,6 @@ export const ProtectedProfile = (): React.JSX.Element => {
 								</div>
 							</section>
 
-							{
-								/* <section className='socials-links'>
-								<div className='socials-links-container'>
-									<div className='social-links-header'>
-										<h2>Social Links</h2>
-										<button onClick={handleEditSocials}>
-											<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
-										</button>
-									</div>
-
-									<div className='social-links-inner-container'>
-										<ul>
-											{links.map((entry: Links, index: number) => (
-												<li key={index}>
-													<Social socialName={entry.platform} socialUrl={entry.url} />
-												</li>
-											))}
-										</ul>
-									</div>
-								</div>
-							</section> */
-							}
-
 							<section className='social-links'>
 								<div className='social-links-container'>
 									<div className='social-links-header'>
@@ -329,24 +314,3 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		</>
 	);
 };
-// <h1>Protected Profile</h1>
-// <ul>
-// 	<li>Name: {name}</li>
-// 	<li>Email:{email}</li>
-// 	<li>Description:{description}</li>
-// 	<li>Based in GTA:{isBasedOnGTA}</li>
-// 	<li>Able to join local events:{canJoinLocalEvents}</li>
-// 	<li>Pronouns:{pronouns}</li>
-// 	<li>Birthday:{birthday}</li>
-// 	<p>Links</p>
-// 	<ul>
-// 		{links.map((entry: Links): React.JSX.Element => <li>{entry.platform}:{entry.url}</li>)}
-// 	</ul>
-// 	<p>Skills:</p>
-// 	<ul>
-// 		{skills.map((entry: string): React.JSX.Element => <li>{entry}</li>)}
-// 	</ul>
-// </ul>
-
-// -- Email: "root@torontojs.com"
-// -- Password: "correct horse battery staple"
