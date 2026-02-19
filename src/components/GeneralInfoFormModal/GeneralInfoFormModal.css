@@ -164,9 +164,7 @@
 	left: 1.312rem;
 }
 
-.general-info-form-modal-container .text-input-component-container:has(input[aria-disabled]) label {
-	color: var(--color-foreground);
-}
+.general-info-form-modal-container .text-input-component-container:has(input[aria-disabled]) label { color: var(--color-foreground); }
 
 .general-info-form-modal-button-container {
 	display: flex;

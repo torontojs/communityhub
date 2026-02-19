@@ -330,7 +330,13 @@ export const ProtectedProfile = (): React.JSX.Element => {
 												<div className='about-description-container'>
 													<p className='about-description'>{description}</p>
 												</div>
-												{descriptionModal && <DescriptionFormModal description={description} onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
+												{descriptionModal && (
+													<DescriptionFormModal
+														description={description}
+														onSubmit={handleDescriptionSubmit}
+														onClose={() => setDescriptionModal(false)}
+													/>
+												)}
 											</>
 										) :
 										(
@@ -339,7 +345,13 @@ export const ProtectedProfile = (): React.JSX.Element => {
 												<EmptyIcon />
 												<p>Write a delightful description here which will help others get to know more about you.</p>
 												<button onClick={() => setDescriptionModal(true)}>Add description</button>
-												{descriptionModal && <DescriptionFormModal description={description} onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
+												{descriptionModal && (
+													<DescriptionFormModal
+														description={description}
+														onSubmit={handleDescriptionSubmit}
+														onClose={() => setDescriptionModal(false)}
+													/>
+												)}
 											</>
 										)}
 								</div>

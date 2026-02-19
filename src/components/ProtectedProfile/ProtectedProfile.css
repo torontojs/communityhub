@@ -35,6 +35,13 @@
 	height: 32px;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+}
+
+.inner-header .small-avatar,
+.inner-header .notification-bell {
+	height: 32px;
+	width: 32px;
 }
 
 .sidebar-left {
@@ -121,7 +128,12 @@
 
 	& .profile-email { display: flex; }
 
-	& .profile-email img { margin-right: 15px; }
+	& .profile-email img {
+		height: 24px;
+		width: 24px;
+		flex-shrink: 0;
+		margin-right: 15px;
+	}
 
 	& .profile-location { display: flex; }
 
@@ -407,7 +419,10 @@
 	& .teams-inner-container li { all: unset; }
 	& ul, li { all: unset; }
 }
-.hamburger-menu { display: none; }
+.hamburger-menu {
+	display: none;
+	margin-left: 20px;
+}
 
 @media screen and (max-width: 1024px) {
 	.grid-container { grid-template-columns: 70px 1fr; }
