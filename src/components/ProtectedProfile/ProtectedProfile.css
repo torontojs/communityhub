@@ -207,33 +207,68 @@
 	display: flex;
 	flex-direction: column;
 	max-width: 920px;
-	height: 310px;
 	border: var(--border);
 	border-radius: var(--rounded-md);
 	border-color: rgba(140, 140, 140, 0.2);
+	padding: 24px;
 
 	& h2 {
 		line-height: 25px;
-		padding: 24px;
 		margin: 0;
 	}
 
-	& p {
-		color: #999999;
-		height: 22px;
-		font-size: var(--text-xs);
+	& .skills-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
 	}
 
-	& button {
+	& .skills-header button {
 		all: unset;
-		color: var(--color-accent);
-		padding: 8px;
+		cursor: pointer;
 	}
 
-	& div {
+	& .skills-header button img {
+		height: 24px;
+		width: 24px;
+	}
+
+	& .skills-list {
+		all: unset;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin-top: 16px;
+	}
+
+	& .skill-tag {
+		all: unset;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 6px 12px;
+		border: 1px solid rgba(140, 140, 140, 0.3);
+		border-radius: var(--rounded-sm);
+		font-size: var(--text-xs);
+		color: var(--color-gray-900);
+	}
+
+	& .skills-empty {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
+
+	& .skills-empty p {
+		color: #999999;
+		font-size: var(--text-xs);
+	}
+
+	& .skills-empty button {
+		all: unset;
+		color: var(--color-accent);
+		padding: 8px;
+		cursor: pointer;
 	}
 }
 
@@ -325,6 +360,7 @@
 			display: flex;
 			flex-direction: row;
 			gap: 20px;
+			flex-wrap: wrap;
 		}
 
 		& .social-links-inner-container li { all: unset; }
@@ -371,8 +407,27 @@
 	& .teams-inner-container li { all: unset; }
 	& ul, li { all: unset; }
 }
+.hamburger-menu { display: none; }
+
+@media screen and (max-width: 1024px) {
+	.grid-container { grid-template-columns: 70px 1fr; }
+
+	.sidebar-left {
+		width: 70px;
+		padding: var(--spacing-md) var(--spacing-xs);
+
+		& a {
+			width: 50px;
+			justify-content: center;
+		}
+
+		& a span { display: none; }
+	}
+}
+
 @media screen and (max-width: 640px) {
 	.grid-container { grid-template-columns: 1fr; }
 	.sidebar-left { display: none; }
-	.grid-container { max-width: 640px; }
+	.hamburger-menu { display: block; }
+	.torontojs-logo { display: none; }
 }

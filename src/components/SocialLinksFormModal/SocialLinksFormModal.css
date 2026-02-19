@@ -51,23 +51,10 @@
 	justify-content: end;
 	gap: 20px;
 
-	& button {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	& .button {
 		width: 162px;
 		height: 42px;
-		color: #333333;
 		font-size: var(--text-xs);
-		font-weight: var(--weight-bold);
-		border: var(--border);
-		border-radius: var(--rounded-md);
-	}
-
-	& button:last-of-type {
-		border: none;
-		color: var(--color-white);
-		background-color: var(--color-red-500);
 	}
 }
 

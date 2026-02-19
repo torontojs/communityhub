@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import './ProtectedProfile.css';
 import DescriptionFormModal from '../DescriptoinFormModal/DescriptionFormModal.tsx';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
+import GeneralInfoFormModal from '../GeneralInfoFormModal/GeneralInfoFormModal.tsx';
+import SkillsFormModal from '../SkillsFormModal/SkillsFormModal.tsx';
 import Social from '../Social/Social.tsx';
 import SocialLinksFormModal from '../SocialLinksFormModal/SocialLinksFormModal.tsx';
 import Team from '../Team/Team.tsx';
@@ -26,7 +28,9 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [links, setLinks] = useState<LinksArray>([]);
 	const [activatedAt, setIsActivatedAt] = useState<string>('');
 	const [descriptionModal, setDescriptionModal] = useState<boolean>(false);
+	const [skillsModal, setSkillsModal] = useState<boolean>(false);
 	const [socialLinksModal, setSocialLinksModal] = useState<boolean>(false);
+	const [generalInfoModal, setGeneralInfoModal] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -126,7 +130,72 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		}
 	};
 
-	const handleEditSkills = () => '';
+	const updateSkills = async (updatedSkills: string[]): Promise<string[] | null> => {
+		try {
+			const response = await fetch(`/api/profiles/${userId}`, {
+				method: 'PATCH',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ skills: updatedSkills })
+			});
+
+			if (!response.ok) {
+				console.error('Response not ok, ', response);
+				return null;
+			}
+
+			return updatedSkills;
+		} catch (error) {
+			console.error('Update skills error, ', error);
+			return null;
+		}
+	};
+
+	const updateGeneralInfo = async (data: { name: string, pronouns?: string, isBasedOnGTA: boolean, canJoinLocalEvents: boolean }) => {
+		try {
+			const response = await fetch(`/api/profiles/${userId}`, {
+				method: 'PATCH',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
+
+			if (!response.ok) {
+				console.error('Response not ok, ', response);
+				return null;
+			}
+
+			return data;
+		} catch (error) {
+			console.error('Update general info error, ', error);
+			return null;
+		}
+	};
+
+	const handleGeneralInfoSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+		event.preventDefault();
+		const formData = new FormData(event.currentTarget);
+
+		const updatedData = {
+			name: (formData.get('name') as string)?.trim(),
+			pronouns: (formData.get('pronouns') as string)?.trim() || undefined,
+			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
+			isBasedOnGTA: formData.get('isBasedInGTA') === 'on'
+		};
+
+		const result = await updateGeneralInfo(updatedData);
+
+		if (!result) { return; }
+
+		if (result.name) { setName(result.name); }
+		if (result.pronouns !== undefined) { setPronoun(result.pronouns ?? ''); }
+		setCanJoinLocalEvents(result.canJoinLocalEvents ?? null);
+		setIsBasedOnGTA(result.isBasedOnGTA ?? null);
+	};
 
 	const handleSocialLinksSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
@@ -153,6 +222,24 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		setLinks(result);
 	};
 
+	const handleSkillsSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+		event.preventDefault();
+		const formData = new FormData(event.currentTarget);
+		const rawSkills = formData.get('skills') as string;
+
+		const updatedSkills = rawSkills
+			.split(',')
+			.map((skill) => skill.trim())
+			.filter((skill) => skill !== '')
+			.slice(0, 10);
+
+		const result = await updateSkills(updatedSkills);
+
+		if (!result) { return; }
+
+		setSkills(result);
+	};
+
 	const handleDescriptionSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
@@ -171,6 +258,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		<>
 			<div className='grid-container'>
 				<header className='main-header'>
+					<img className='hamburger-menu' src='/hamburger-menu.png' alt='Menu' />
 					<img className='torontojs-logo' src='/torontojs-logo.png' alt='Small Toronto JS Logo' />
 					<div className='inner-header'>
 						<img className='small-avatar' src='/small-sample-avatar.png' alt='Small User Avatar' />
@@ -211,10 +299,21 @@ export const ProtectedProfile = (): React.JSX.Element => {
 										</div>
 									</div>
 								</div>
-								<button>
+								<button onClick={() => setGeneralInfoModal(true)}>
 									<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
 								</button>
 							</header>
+							{generalInfoModal && (
+								<GeneralInfoFormModal
+									name={name}
+									email={email}
+									pronouns={pronouns}
+									isBasedInGTA={isBasedInGTA}
+									canJoinLocalEvents={canJoinLocalEvents}
+									onSubmit={handleGeneralInfoSubmit}
+									onClose={() => setGeneralInfoModal(false)}
+								/>
+							)}
 						</div>
 						<div className='sections-container'>
 							<section className='about'>
@@ -231,28 +330,53 @@ export const ProtectedProfile = (): React.JSX.Element => {
 												<div className='about-description-container'>
 													<p className='about-description'>{description}</p>
 												</div>
-												{descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
+												{descriptionModal && <DescriptionFormModal description={description} onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
 											</>
 										) :
 										(
 											<>
 												<h3>About</h3>
 												<EmptyIcon />
-												<p>Write a delightful description which will help others get to know more about you.</p>
+												<p>Write a delightful description here which will help others get to know more about you.</p>
 												<button onClick={() => setDescriptionModal(true)}>Add description</button>
-												{descriptionModal && <DescriptionFormModal onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
+												{descriptionModal && <DescriptionFormModal description={description} onSubmit={handleDescriptionSubmit} onClose={() => setDescriptionModal(false)} />}
 											</>
 										)}
 								</div>
 							</section>
 
 							<section className='skills'>
-								<h2>Skills</h2>
-								<div>
-									<EmptyIcon />
-									<p>You can show case your relevant skills here.</p>
-									<button onClick={handleEditSkills}>Add skills</button>
-								</div>
+								{skills.length > 0 ?
+									(
+										<>
+											<div className='skills-header'>
+												<h2>Skills</h2>
+												<button onClick={() => setSkillsModal(true)}>
+													<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
+												</button>
+											</div>
+											<ul className='skills-list'>
+												{skills.map((skill, index) => <li key={index} className='skill-tag'>{skill}</li>)}
+											</ul>
+										</>
+									) :
+									(
+										<>
+											<h2>Skills</h2>
+											<div className='skills-empty'>
+												<EmptyIcon />
+												<p>You can showcase your relevant skills here.</p>
+												<button onClick={() => setSkillsModal(true)}>Add Skills</button>
+											</div>
+										</>
+									)}
+								{skillsModal && (
+									<SkillsFormModal
+										skills={skills}
+										onSubmit={handleSkillsSubmit}
+										onClose={() => setSkillsModal(false)}
+									/>
+								)}
 							</section>
 
 							<section className='social-links'>

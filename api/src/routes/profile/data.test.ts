@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { describe, expect, test } from 'vitest';
-import type { Profile } from './validation.ts';
 import { transformProfile } from './data.ts';
+import type { Profile } from './validation.ts';
 
 const baseProfile: Profile = {
 	id: '3227114d-43c4-42ed-8aea-f3860fe42222',

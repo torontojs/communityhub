@@ -1,4 +1,5 @@
 import './SocialLinksFormModal.css';
+import Button from '../Button/Button.tsx';
 
 interface Links {
 	platform: string;
@@ -68,10 +69,8 @@ const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): Rea
 			</div>
 
 			<div className='social-links-form-modal-button-container'>
-				<button type='button' onClick={onClose}>Cancel</button>
-				<button type='submit'>
-					Submit
-				</button>
+				<Button type='button' hasOutline onClick={onClose}>Cancel</Button>
+				<Button type='submit' isPrimary>Save</Button>
 			</div>
 		</form>
 	</div>
