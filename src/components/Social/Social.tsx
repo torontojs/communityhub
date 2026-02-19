@@ -10,7 +10,7 @@ const Social = ({ socialName, socialUrl }: SocialInfo): React.JSX.Element => (
 			<div className='circle'>
 				<img src='/default-social-icon.png' alt='social-icon-default.png' />
 			</div>
-			<p>{socialName}</p>
+			<p>{socialName.charAt(0).toUpperCase() + socialName.slice(1)}</p>
 		</a>
 	</div>
 );
