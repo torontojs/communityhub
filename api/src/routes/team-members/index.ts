@@ -52,17 +52,23 @@ teamMemberRoutes.openapi(
 		}
 
 		// Pagination Setup TODO: Create a utility function for the below?
-		const { limit, page } = context.req.query();
-		const integerOrUndefined = (query?: string): number | undefined => query === '0' || Number(query) ? Math.floor(Number(query)) : undefined;
-
 		const count = await countAllMembers(context.env.Database, id);
 		const totalMembersCount = (count[0]?.['count']) as number;
-		const limitCount = integerOrUndefined(limit);
-		const selectedPage = integerOrUndefined(page);
+		const limitCount = z.coerce.number().optional().parse(context.req.query()['limit']);
+		const selectedPage = z.coerce.number().optional().parse(context.req.query()['page']);
 		const lastPageCount = !limitCount ? 1 : Math.ceil(totalMembersCount / limitCount);
 		const offset = !limitCount ? 0 : ((selectedPage ? selectedPage - 1 : 1) * limitCount);
 
 		const members = await getAllMembers(context.env.Database, id, limitCount, offset);
+		const firstPage = new URL(context.req.url);
+		firstPage.searchParams.set('limit', limitCount?.toString() ?? '');
+		firstPage.searchParams.set('page', '1');
+		const currentPage = new URL(context.req.url);
+		currentPage.searchParams.set('limit', limitCount?.toString() ?? '');
+		currentPage.searchParams.set('page', selectedPage?.toString() ?? '');
+		const lastPage = new URL(context.req.url);
+		lastPage.searchParams.set('limit', limitCount?.toString() ?? '');
+		lastPage.searchParams.set('page', lastPageCount.toString());
 
 		return context.json(
 			{
@@ -74,9 +80,9 @@ teamMemberRoutes.openapi(
 				currentPage: selectedPage ?? 1,
 				lastPage: lastPageCount,
 				_links: {
-					self: { href: context.req.url.split('?')[0] + (limit ? `?limit=${limit}&page=${selectedPage}` : '') },
-					first: { href: context.req.url.split('?')[0] + (limit ? `?limit=${limit}&page=1` : '') },
-					last: { href: context.req.url.split('?')[0] + (limit ? `?limit=${limit}&page=${lastPageCount}` : '') }
+					self: { href: currentPage.toString() },
+					first: { href: firstPage.toString() },
+					last: { href: lastPage.toString() }
 				}
 			} satisfies PaginatedResponse<typeof members>,
 			StatusCodes.OKAY
