@@ -44,14 +44,8 @@ jobs:
       - name: Reset Dev Database Tables
         if: ${{ env.TARGET_ENV == 'dev' }}
         run: |
-          # List tables from most-dependent (children) to least-dependent (parents)
-          TABLES=("documents" "access" "role" "team" "profile_skills" "profile_links" "profile" "event_log" "migrations")
-
-          for table in "${TABLES[@]}"; do
-            echo "Dropping table: $table"
-
-            npx wrangler d1 execute Database --env dev --remote --command "DROP TABLE IF EXISTS \"$table\";"
-          done
+          echo "Dropping all tables in dev environment..."
+          npx wrangler d1 execute Database --env dev --remote --file=./db/scripts/drop-dev-tables.sql
 
       - name: Apply D1 Migrations to Database (Dev and Prod)
         run: npx wrangler d1 migrations apply Database --env ${{ env.TARGET_ENV }} --remote
