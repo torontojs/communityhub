@@ -20,7 +20,6 @@ jobs:
       deployments: write
 
     env:
-      NODE_VERSION: 22
       CLOUDFLARE_API_TOKEN: ${{ secrets.TJS_CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.TJS_CLOUDFLARE_ACCOUNT_ID }}
 
@@ -31,7 +30,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version-file: ".nvmrc"
           cache: "npm"
 
       - name: Install dependencies and utilities
