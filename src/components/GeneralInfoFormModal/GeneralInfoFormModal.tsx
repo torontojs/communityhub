@@ -43,31 +43,31 @@ const GeneralInfoFormModal = ({ name, email, pronouns, isBasedInGTA, canJoinLoca
 						{name.split(' ').map((w) => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase()}
 					</div>
 					<div className='general-info-fields'>
-					<div className='general-info-inputs'>
-						<TextInputComponent
-							label='Name'
-							name='name'
-							value={name}
-							required
-						/>
-						<TextInputComponent
-							label='E-mail'
-							name='email'
-							value={email}
-							disabled
-							required
-						/>
-					</div>
-					<div className='general-info-pronouns'>
-						<label htmlFor='pronouns-select'>Pronouns</label>
-						<select id='pronouns-select' name='pronouns' defaultValue={pronouns}>
-							{pronounOptions.map((option) => (
-								<option key={option} value={option}>
-									{option || 'Select pronouns'}
-								</option>
-							))}
-						</select>
-					</div>
+						<div className='general-info-inputs'>
+							<TextInputComponent
+								label='Name'
+								name='name'
+								value={name}
+								required
+							/>
+							<TextInputComponent
+								label='E-mail'
+								name='email'
+								value={email}
+								disabled
+								required
+							/>
+						</div>
+						<div className='general-info-pronouns'>
+							<label htmlFor='pronouns-select'>Pronouns</label>
+							<select id='pronouns-select' name='pronouns' defaultValue={pronouns}>
+								{pronounOptions.map((option) => (
+									<option key={option} value={option}>
+										{option || 'Select pronouns'}
+									</option>
+								))}
+							</select>
+						</div>
 					</div>
 				</div>
 			</div>

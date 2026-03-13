@@ -437,7 +437,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 						</div>
 					</article>
 				</main>
-				</div>
+			</div>
 			{menuOpen && (
 				<>
 					<div className='mobile-nav-overlay' onClick={() => setMenuOpen(false)} />
