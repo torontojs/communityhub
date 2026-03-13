@@ -84,7 +84,6 @@
 
 @media screen and (max-width: 640px) {
 	.skills-form-modal-container {
-		margin-top: 0;
 		max-width: 100%;
 		min-height: 100%;
 		border-radius: 0;

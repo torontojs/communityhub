@@ -32,6 +32,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [socialLinksModal, setSocialLinksModal] = useState<boolean>(false);
 	const [generalInfoModal, setGeneralInfoModal] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		async function fetchProtectedProfile() {
@@ -201,7 +202,6 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
 
-		// Build links array from form data - only include non-empty URLs
 		const updatedLinks: Links[] = socialMediaPlatforms
 			.map((platform) => ({
 				platform,
@@ -209,7 +209,6 @@ export const ProtectedProfile = (): React.JSX.Element => {
 			}))
 			.filter(({ url }) => url !== '');
 
-		// Preserve existing slack entry — slack is set during onboarding, not here
 		const existingSlack = links.find(({ platform }) => platform === 'slack');
 		if (existingSlack) {
 			updatedLinks.unshift(existingSlack);
@@ -258,7 +257,9 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		<>
 			<div className='grid-container'>
 				<header className='main-header'>
-					<img className='hamburger-menu' src='/hamburger-menu.png' alt='Menu' />
+					<button className='hamburger-menu' onClick={() => setMenuOpen(true)} aria-label='Open navigation menu'>
+						<img src='/hamburger-menu.png' alt='' />
+					</button>
 					<img className='torontojs-logo' src='/torontojs-logo.png' alt='Small Toronto JS Logo' />
 					<div className='inner-header'>
 						<img className='small-avatar' src='/small-sample-avatar.png' alt='Small User Avatar' />
@@ -436,17 +437,30 @@ export const ProtectedProfile = (): React.JSX.Element => {
 						</div>
 					</article>
 				</main>
-				<div style={{ display: 'none' }}>
-					{/* Unused state variables preserved for git commit */}
-					<span data-unused='description'>{description}</span>
-					<span data-unused='isBasedOnGTA'>{String(isBasedInGTA)}</span>
-					<span data-unused='canJoinLocalEvents'>{String(canJoinLocalEvents)}</span>
-					<span data-unused='birthday'>{birthday}</span>
-					<span data-unused='links'>{JSON.stringify(links)}</span>
-					<span data-unused='skills'>{JSON.stringify(skills)}</span>
-					<span data-unsued='activatedAt'>{activatedAt}</span>
 				</div>
-			</div>
+			{menuOpen && (
+				<>
+					<div className='mobile-nav-overlay' onClick={() => setMenuOpen(false)} />
+					<nav className='mobile-nav-drawer' aria-label='Mobile navigation'>
+						<div className='mobile-nav-drawer-header'>
+							<img src='/torontojs-logo.png' alt='TorontoJS Logo' />
+							<button className='mobile-nav-close' onClick={() => setMenuOpen(false)} aria-label='Close navigation menu'>
+								✕
+							</button>
+						</div>
+						<div className='mobile-nav-links'>
+							<a href='/pages/home'>
+								<img src='/community-icon.png' alt='Community Icon' />
+								<span>Community</span>
+							</a>
+							<a href='/pages/profile'>
+								<img src='/person-icon-white.png' alt='Profile Icon' />
+								<span>My Profile</span>
+							</a>
+						</div>
+					</nav>
+				</>
+			)}
 		</>
 	);
 };

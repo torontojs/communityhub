@@ -66,6 +66,34 @@
 	gap: var(--spacing-md);
 }
 
+.general-info-avatar-row {
+	display: flex;
+	flex-direction: row;
+	gap: var(--spacing-md);
+	align-items: flex-start;
+}
+
+.general-info-avatar-placeholder {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background-color: rgba(229, 20, 41, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: var(--text-lg);
+	font-weight: var(--weight-semibold);
+	color: var(--color-accent);
+	flex-shrink: 0;
+}
+
+.general-info-fields {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+	flex: 1;
+}
+
 .general-info-inputs {
 	display: flex;
 	gap: var(--spacing-md);
@@ -181,7 +209,6 @@
 
 @media screen and (max-width: 640px) {
 	.general-info-form-modal-container {
-		margin-top: 0;
 		max-width: 100%;
 		min-height: 100%;
 		border-radius: 0;

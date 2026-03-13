@@ -69,17 +69,6 @@
 	}
 }
 
-.social-links-modal .title-close {
-	display: flex;
-	width: 100%;
-	flex-direction: row;
-	justify-content: space-between;
-	& img {
-		height: 20px;
-		width: 20px;
-	}
-}
-
 .social-links-modal-inputs-container {
 	max-width: 854px;
 	display: flex;
