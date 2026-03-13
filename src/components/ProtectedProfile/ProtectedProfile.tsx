@@ -256,10 +256,10 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					<button className='hamburger-menu' onClick={() => setMenuOpen(true)} aria-label='Open navigation menu'>
 						<img src='/hamburger-menu.png' alt='' />
 					</button>
-					<img className='torontojs-logo' src='/torontojs-logo.png' alt='Small Toronto JS Logo' />
+					<a href='/pages/home'><img className='torontojs-logo' src='/torontojs-logo.png' alt='Small Toronto JS Logo' /></a>
 					<div className='inner-header'>
 						<img className='small-avatar' src='/small-sample-avatar.png' alt='Small User Avatar' />
-						<img className='notification-bell' src='/notification-bell.png' alt='Notification bell icon' />
+						<a href='/pages/notifications'><img className='notification-bell' src='/notification-bell.png' alt='Notification bell icon' /></a>
 					</div>
 				</header>
 				<nav className='sidebar-left'>
