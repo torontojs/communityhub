@@ -49,7 +49,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					throw new Error('Error parsing protected profile response data');
 				}
 
-				const { data: { id, name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, birthday, links, skills, activatedAt } } = data;
+				const { data: { id, name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, links, skills } } = data;
 				setUserId(id);
 				setName(name);
 				setEmail(email);
