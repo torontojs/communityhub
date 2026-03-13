@@ -23,10 +23,8 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [isBasedInGTA, setIsBasedOnGTA] = useState<boolean | null>(null);
 	const [canJoinLocalEvents, setCanJoinLocalEvents] = useState<boolean | null>(null);
 	const [pronouns, setPronoun] = useState<string>('');
-	const [birthday, setBirthday] = useState<string>('');
 	const [skills, setSkills] = useState<string[]>([]);
 	const [links, setLinks] = useState<LinksArray>([]);
-	const [activatedAt, setIsActivatedAt] = useState<string>('');
 	const [descriptionModal, setDescriptionModal] = useState<boolean>(false);
 	const [skillsModal, setSkillsModal] = useState<boolean>(false);
 	const [socialLinksModal, setSocialLinksModal] = useState<boolean>(false);
@@ -59,10 +57,8 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				setIsBasedOnGTA(isBasedInGTA);
 				setCanJoinLocalEvents(canJoinLocalEvents);
 				setPronoun(pronouns);
-				setBirthday(birthday);
 				setSkills(skills);
 				setLinks(links);
-				setIsActivatedAt(activatedAt);
 				setIsLoading(true);
 			} catch (err) {
 				console.error(err);
