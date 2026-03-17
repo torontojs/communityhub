@@ -293,7 +293,6 @@ export function generatePaginatedResponseSchema<T extends unknown[]>(data: ZodTy
 			start: z
 				.number()
 				.int()
-				.default(0)
 				.describe(
 					'The index for the first result on this page, starting from 0 and taking into account the offset from previous pages. For example, if `currentPage` is 4, and `total` is also 10, this means `start` would be 4 * 10 = 40.'
 				),
@@ -312,23 +311,18 @@ export function generatePaginatedResponseSchema<T extends unknown[]>(data: ZodTy
 			size: z
 				.number()
 				.int()
-				.nonnegative()
-				.default(0)
-				.transform((val) => val === 0 ? 'ALL' : val)
 				.describe(
-					'The total number of items **_per page_**. Not to be confused with `total`, which is the total number of items _on the current page_. For exampe, if we have 12 results, and want to split them into pages with 10 results each, then `size` would be 10, regardless of how many items the actual page has. If size is 0, all results are to be returned.'
+					'The total number of items **_per page_**. Not to be confused with `total`, which is the total number of items _on the current page_. For exampe, if we have 12 results, and want to split them into pages with 10 results each, then `size` would be 10, regardless of how many items the actual page has.'
 				),
 			currentPage: z
 				.number()
 				.int()
 				.positive()
-				.default(1)
 				.describe('The number for the current page, starting from 1.'),
 			lastPage: z
 				.number()
 				.int()
 				.positive()
-				.default(1)
 				.describe('The number of last page.')
 		})
 		.extend(HALPaginatedResponseSchema.shape);
