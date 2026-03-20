@@ -93,7 +93,9 @@ export async function countAllMembers(database: D1Database, teamId: string) {
 	return results;
 }
 
-export async function getAllMembers(database: D1Database, teamId: string, limit?: number, offset = 0) {
+export async function getAllMembers(database: D1Database, teamId: string, limit = 0, offset = 0) {
+	const sqlLimit = limit === 0 ? null : limit;
+	const sqlOffset = !sqlLimit ? 0 : offset;
 	const { results } = await database.prepare(`
 		SELECT
 			role.id AS id,
@@ -115,8 +117,8 @@ export async function getAllMembers(database: D1Database, teamId: string, limit?
 			AND role.deletedAt IS NULL
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
-		${limit ? `LIMIT ${limit} OFFSET ${offset}` : ''}
-		`).bind(teamId).run<TeamMemberInfo>();
+		LIMIT ${sqlLimit ?? 'ALL'} OFFSET ${sqlOffset}
+		`).bind(teamId, limit, offset).run<TeamMemberInfo>();
 
 	return results;
 }
