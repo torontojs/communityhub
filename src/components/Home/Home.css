@@ -1,1 +1,238 @@
+.grid-container.home-grid-container {
+	display: grid;
+	grid-template-columns: 306px 1fr;
+	grid-template-rows: auto 1fr auto;
+	height: auto;
+	margin: 0 auto;
+	max-width: 1280px;
 
+	& header { grid-column: 1 / -1; }
+
+	& main {
+		height: 100%;
+		margin: 10px 15px 40px;
+	}
+}
+
+.main-header {
+	align-items: center;
+	border-bottom: #000000 solid 1px;
+	display: flex;
+	height: 60px;
+	justify-content: space-between;
+
+	& .torontojs-logo {
+		height: 32px;
+		margin-left: 20px;
+		width: 32px;
+	}
+}
+
+.inner-header {
+	display: flex;
+	height: 32px;
+	justify-content: space-between;
+	margin-right: 20px;
+	width: 80px;
+}
+
+.sidebar-left {
+	height: 660px;
+	padding: var(--spacing-md) var(--spacing-sm);
+	width: 280px;
+
+	& .sidebar-left-container { width: 100%; }
+
+	& a {
+		all: unset;
+		align-items: center;
+		cursor: pointer;
+		display: flex;
+		height: 50px;
+		margin-bottom: 8px;
+		width: 248px;
+	}
+
+	& a img {
+		height: 24px;
+		margin: 15px;
+		width: 24px;
+	}
+
+	& a span {
+		color: #333333;
+		font-size: var(--text-xs);
+	}
+
+	& .sidebar-text-only {
+		margin-left: 54px;
+	}
+
+	& a:first-of-type {
+		background-color: #e51429;
+		border-radius: var(--rounded-sm);
+	}
+
+	& a:first-of-type span { color: #ffffff; }
+}
+
+.sections-container {
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+}
+
+.about {
+	border: var(--border);
+	border-color: rgba(140, 140, 140, 0.2);
+	border-radius: var(--rounded-md);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	line-height: 160%;
+	max-width: 920px;
+	padding: 24px;
+
+	& h3 {
+		align-self: flex-start;
+		font-size: var(--text-lg);
+		font-weight: var(--weight-regular);
+		line-height: 25px;
+		margin: 0;
+	}
+
+	& .about-header-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	& div {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+	}
+
+	& .about-description-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: left;
+		width: 100%;
+	}
+
+	& .about-description {
+		color: var(--color-gray-900);
+		font-size: var(--text-base);
+		font-weight: var(--weight-regular);
+	}
+}
+
+.about h3,
+.skills h2,
+.social-links .social-links-header h2 {
+	color: var(--color-gray-900);
+	font-size: var(--text-lg);
+	font-weight: var(--weight-regular);
+	line-height: 25px;
+}
+
+.skills {
+	border: var(--border);
+	border-color: rgba(140, 140, 140, 0.2);
+	border-radius: var(--rounded-md);
+	display: flex;
+	flex-direction: column;
+	max-width: 920px;
+
+	& h2 {
+		margin: 0;
+		padding: 24px 24px 0;
+	}
+}
+
+.social-links {
+	position: relative;
+
+	& .social-links-container {
+		border: var(--border);
+		border-color: rgba(140, 140, 140, 0.2);
+		border-radius: var(--rounded-md);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		max-width: 920px;
+		min-height: 210px;
+		padding: 20px;
+		position: relative;
+	}
+
+	& .social-links-header {
+		align-items: flex-start;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	& .social-links-header h2 {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.social-links .home-section-content {
+	padding: 16px 0 0;
+}
+
+.social-links .home-list {
+	gap: 0;
+}
+
+.home-section-content {
+	padding: 0 24px 24px;
+}
+
+.home-goals-section .home-section-content {
+	padding-top: 16px;
+}
+
+.home-goals-section .home-list {
+	gap: 0;
+}
+
+.home-contributing-section .home-section-content {
+	padding-top: 16px;
+}
+
+.home-list {
+	color: var(--color-gray-700);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 0;
+	padding-left: 20px;
+}
+
+.home-list li {
+	font-size: var(--text-xs);
+	line-height: 1.6;
+	padding-left: 2px;
+}
+
+.home-copy {
+	color: var(--color-gray-700);
+	font-size: var(--text-xs);
+	line-height: 1.6;
+	margin: 0;
+}
+
+.home-copy a,
+.home-list a {
+	color: var(--color-accent);
+	text-decoration: underline;
+}
+
+@media screen and (max-width: 640px) {
+	.grid-container.home-grid-container { grid-template-columns: 1fr; }
+	.sidebar-left { display: none; }
+	.grid-container.home-grid-container { max-width: 640px; }
+}
