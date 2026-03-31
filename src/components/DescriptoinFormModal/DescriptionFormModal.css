@@ -50,9 +50,30 @@
 		gap: 20px;
 
 		& .button {
+			all: unset;
+			box-sizing: border-box;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
 			width: 162px;
 			height: 42px;
 			font-size: var(--text-xs);
+			font-weight: var(--weight-bold);
+			text-align: center;
+			border-radius: var(--rounded-md);
+		}
+
+		& .button[data-outline='true'] {
+			background-color: transparent;
+			border: var(--border-base) solid var(--color-black);
+			color: var(--color-black);
+		}
+
+		& .button[data-primary='true'] {
+			background-color: var(--color-accent);
+			border: var(--border-base) solid var(--color-accent);
+			color: var(--color-white);
 		}
 	}
 }
