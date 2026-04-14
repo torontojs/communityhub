@@ -6,7 +6,7 @@ interface Props {
 	name: string;
 	email: string;
 	pronouns: string;
-	isBasedInGTA: boolean | null;
+	isBasedOnGTA: boolean | null;
 	canJoinLocalEvents: boolean | null;
 	onClose(): void;
 	onSubmit(event: React.FormEvent<HTMLFormElement>): void;
@@ -19,7 +19,7 @@ const pronounOptions = [
 	'They/Them/Theirs'
 ];
 
-const GeneralInfoFormModal = ({ name, email, pronouns, isBasedInGTA, canJoinLocalEvents, onClose, onSubmit }: Props): React.JSX.Element => (
+const GeneralInfoFormModal = ({ name, email, pronouns, isBasedOnGTA, canJoinLocalEvents, onClose, onSubmit }: Props): React.JSX.Element => (
 	<div className='general-info-modal'>
 		<form
 			className='general-info-form-modal-container'
@@ -88,12 +88,12 @@ const GeneralInfoFormModal = ({ name, email, pronouns, isBasedInGTA, canJoinLoca
 					<div className='slider-checkbox-row'>
 						<input
 							type='checkbox'
-							id='isBasedInGTA'
-							name='isBasedInGTA'
+							id='isBasedOnGTA'
+							name='isBasedOnGTA'
 							className='slider-checkbox'
-							defaultChecked={isBasedInGTA ?? false}
+							defaultChecked={isBasedOnGTA ?? false}
 						/>
-						<label htmlFor='isBasedInGTA'>Based in Greater Toronto Area</label>
+						<label htmlFor='isBasedOnGTA'>Based in Greater Toronto Area</label>
 					</div>
 				</div>
 			</div>

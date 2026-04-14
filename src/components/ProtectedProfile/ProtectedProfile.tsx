@@ -20,7 +20,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [email, setEmail] = useState<string>('');
 	const [name, setName] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
-	const [isBasedInGTA, setIsBasedOnGTA] = useState<boolean | null>(null);
+	const [isBasedOnGTA, setIsBasedOnGTA] = useState<boolean | null>(null);
 	const [canJoinLocalEvents, setCanJoinLocalEvents] = useState<boolean | null>(null);
 	const [pronouns, setPronoun] = useState<string>('');
 	const [skills, setSkills] = useState<string[]>([]);
@@ -49,12 +49,12 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					throw new Error('Error parsing protected profile response data');
 				}
 
-				const { data: { id, name, email, description, isBasedInGTA, canJoinLocalEvents, pronouns, links, skills } } = data;
+				const { data: { id, name, email, description, isBasedOnGTA, canJoinLocalEvents, pronouns, links, skills } } = data;
 				setUserId(id);
 				setName(name);
 				setEmail(email);
 				setDescription(description);
-				setIsBasedOnGTA(isBasedInGTA);
+				setIsBasedOnGTA(isBasedOnGTA);
 				setCanJoinLocalEvents(canJoinLocalEvents);
 				setPronoun(pronouns);
 				setSkills(skills);
@@ -181,7 +181,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 			name: (formData.get('name') as string)?.trim(),
 			pronouns: (formData.get('pronouns') as string)?.trim() || undefined,
 			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
-			isBasedOnGTA: formData.get('isBasedInGTA') === 'on'
+			isBasedOnGTA: formData.get('isBasedOnGTA') === 'on'
 		};
 
 		const result = await updateGeneralInfo(updatedData);
@@ -296,7 +296,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 										</div>
 										<div className='profile-location'>
 											<img src='/location-icon.png' alt='Profile Location Icon' />
-											<p>{isBasedInGTA ? 'Based in GTA' : 'Not based in GTA'}</p>
+											<p>{isBasedOnGTA ? 'Based in GTA' : 'Not based in GTA'}</p>
 										</div>
 									</div>
 								</div>
@@ -309,7 +309,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 									name={name}
 									email={email}
 									pronouns={pronouns}
-									isBasedInGTA={isBasedInGTA}
+									isBasedOnGTA={isBasedOnGTA}
 									canJoinLocalEvents={canJoinLocalEvents}
 									onSubmit={handleGeneralInfoSubmit}
 									onClose={() => setGeneralInfoModal(false)}
