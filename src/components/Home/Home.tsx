@@ -19,7 +19,7 @@ const goals = [
 	}
 ];
 
-const people = [
+const currLead = [
 	{
 		handle: '@dann',
 		href: 'https://github.com/dxnn',
@@ -41,6 +41,31 @@ const people = [
 		role: 'Project Manager'
 	}
 ];
+
+// const orignalCore = [
+// 	{
+// 		handle: '@dann',
+// 		href: 'https://github.com/dxnn',
+// 		role: 'Project Owner'
+// 	},
+// 	{
+// 		handle: 'Marinana Rocha',
+// 		href: '#',
+// 		role: 'Lead Designer'
+// 	},
+// 	{
+// 		handle: 'Ken Beaudin',
+// 		href: 'https://github.com/kbventures',
+// 		role: 'Lead Developer'
+// 	},
+// 	{
+// 		handle: 'Marco Campos',
+// 		href: 'https://github.com/madcampos',
+// 		role: 'Project Manager'
+// 	}
+// ];
+
+// TODO: ADD previous core and current core contributor list, and maybe a list of past volunteers as well?
 
 export const Home = () => (
 	<div className='grid-container home-grid-container'>
@@ -79,7 +104,8 @@ export const Home = () => (
 							</div>
 							<div className='about-description-container'>
 								<p className='about-description'>
-									The VMS is the central place for onboarding volunteers, tracking their history, and giving Toronto JS better visibility into community operations.
+									The VMS is the central place for onboarding volunteers, tracking their history, and giving Toronto JS better visibility into community
+									operations.
 								</p>
 							</div>
 						</div>
@@ -105,7 +131,7 @@ export const Home = () => (
 							</div>
 							<div className='social-links-inner-container home-section-content'>
 								<ul className='home-list'>
-									{people.map((person) => (
+									{currLead.map((person) => (
 										<li key={person.handle}>
 											<a href={person.href} target='_blank' rel='noreferrer'>{person.handle}</a>: {person.role}
 										</li>
