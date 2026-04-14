@@ -12,12 +12,12 @@
 }
 
 .skills-form-modal-container {
-	margin-top: 50px;
+	margin-top: 3.125rem;
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-md);
 	background-color: #ffffff;
-	max-width: 1080px;
+	max-width: 67.5rem;
 	width: 100%;
 	padding: var(--spacing-md);
 	border-radius: var(--rounded-md);
@@ -45,12 +45,12 @@
 		line-height: 160%;
 		font-weight: var(--weight-regular);
 		font-size: var(--text-md);
-		color: var(--color-grey-900);
-		padding: 15px;
+		color: var(--color-gray-900);
+		padding: 0.9375rem;
 		width: 100%;
-		min-height: 120px;
-		border: 1px solid #c2c2c2;
-		background-color: #e5e5e5;
+		min-height: 7.5rem;
+		border: var(--border);
+		background-color: var(--color-input);
 		box-sizing: border-box;
 		resize: vertical;
 		font-family: inherit;
@@ -64,8 +64,8 @@
 	justify-content: space-between;
 
 	& img {
-		height: 20px;
-		width: 20px;
+		height: 1.25rem;
+		width: 1.25rem;
 	}
 }
 
@@ -73,16 +73,16 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: end;
-	gap: 20px;
+	gap: 1.25rem;
 
 	& .button {
-		width: 162px;
-		height: 42px;
+		width: 10.125rem;
+		height: 2.625rem;
 		font-size: var(--text-xs);
 	}
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 40rem) {
 	.skills-form-modal-container {
 		max-width: 100%;
 		min-height: 100%;

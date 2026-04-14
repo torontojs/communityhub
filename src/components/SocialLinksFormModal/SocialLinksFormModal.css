@@ -13,20 +13,19 @@
 }
 
 .social-links-form-modal-container {
-	margin-top: 50px;
+	margin-top: 3.125rem;
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-md);
 	background-color: #ffffff;
-	max-width: 1080px;
-	min-height: 596px;
+	max-width: 67.5rem;
+	min-height: 37.25rem;
 	padding: var(--spacing-md);
 	border-radius: var(--rounded-md);
 	z-index: 1001;
 
 	& h2 {
 		padding: 0;
-		width: 120x;
 		all: unset;
 		font-size: var(--text-lg);
 	}
@@ -49,11 +48,11 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: end;
-	gap: 20px;
+	gap: 1.25rem;
 
 	& .button {
-		width: 162px;
-		height: 42px;
+		width: 10.125rem;
+		height: 2.625rem;
 		font-size: var(--text-xs);
 	}
 }
@@ -64,41 +63,41 @@
 	flex-direction: row;
 	justify-content: space-between;
 	& img {
-		height: 20px;
-		width: 20px;
+		height: 1.25rem;
+		width: 1.25rem;
 	}
 }
 
 .social-links-modal-inputs-container {
-	max-width: 854px;
+	max-width: 53.375rem;
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--spacing-md);
 
 	& .input-block {
-		max-width: 373px;
-		height: 79px;
-		flex: 1 2 calc(50% - 10px);
+		max-width: 23.3125rem;
+		height: 4.9375rem;
+		flex: 1 2 calc(50% - 0.625rem);
 		display: flex;
 		flex-direction: column;
-		gap: --var(--spacing-md);
+		gap: var(--spacing-xs);
 	}
 
 	& label {
 		font-size: var(--text-base);
 		font-weight: var(--weight-semibold);
 		line-height: 160%;
-		height: 29px;
+		height: 1.8125rem;
 	}
 
 	& input {
-		height: 42px;
+		height: 2.625rem;
 		background-color: var(--color-gray-100);
-		border: 1px var(--color-gray-300) solid;
+		border: var(--border);
 		color: var(--color-black);
 		font-size: var(--text-sm);
 		font-weight: var(--weight-regular);
-		padding-left: 10px;
+		padding-left: 0.625rem;
 	}
 
 	& label, input { width: 100%; }
