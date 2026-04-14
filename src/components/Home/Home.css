@@ -64,9 +64,7 @@
 		font-size: var(--text-xs);
 	}
 
-	& .sidebar-text-only {
-		margin-left: 54px;
-	}
+	& .sidebar-text-only { margin-left: 54px; }
 
 	& a:first-of-type {
 		background-color: #e51429;
@@ -179,29 +177,17 @@
 	}
 }
 
-.social-links .home-section-content {
-	padding: 16px 0 0;
-}
+.social-links .home-section-content { padding: 16px 0 0; }
 
-.social-links .home-list {
-	gap: 0;
-}
+.social-links .home-list { gap: 0; }
 
-.home-section-content {
-	padding: 0 24px 24px;
-}
+.home-section-content { padding: 0 24px 24px; }
 
-.home-goals-section .home-section-content {
-	padding-top: 16px;
-}
+.home-goals-section .home-section-content { padding-top: 16px; }
 
-.home-goals-section .home-list {
-	gap: 0;
-}
+.home-goals-section .home-list { gap: 0; }
 
-.home-contributing-section .home-section-content {
-	padding-top: 16px;
-}
+.home-contributing-section .home-section-content { padding-top: 16px; }
 
 .home-list {
 	color: var(--color-gray-700);
