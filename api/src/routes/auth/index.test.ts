@@ -1,99 +1,209 @@
-import { describe, expect, test } from 'vitest';
+import { applyD1Migrations, env } from 'cloudflare:test';
+import { assert, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+
 import { app } from '../../index.ts';
-import type { StatusResponse } from '../../utils/responses.ts';
-import { MockEnvBindings } from '../../utils/testing.ts';
+import { StatusCodes } from '../../utils/responses.ts';
 
-const MOCK_ENV = new MockEnvBindings();
+beforeAll(async () => {
+	await applyD1Migrations(env.Database, env.TEST_MIGRATIONS);
+});
 
-describe.skip('Sign-up route', () => {
-	const signUpResponse = async (email: string, password: string, name: string) => {
-		const response = await app.request('/auth/sign-up', {
-			method: 'POST',
-			headers: new Headers({ 'Content-Type': 'application/json' }),
-			body: JSON.stringify({
-				email,
-				password,
-				name
-			})
-		}, MOCK_ENV);
+beforeEach(async () => {
+	await env.Database.exec(env.SEED_SQL);
+	const activationKeys = await env.ActivationTokens.list();
+	await Promise.all(activationKeys.keys.map(async ({ name }) => env.ActivationTokens.delete(name)));
 
-		const json: StatusResponse = await response.json();
-		return json;
-	};
+	const sessionKeys = await env.SessionTokens.list();
+	await Promise.all(sessionKeys.keys.map(async ({ name }) => env.SessionTokens.delete(name)));
+});
 
-	test('Failure: registration should be valid email', async () => {
-		const json: StatusResponse = await signUpResponse('vitest', 'hashed_password_1', 'Vitest');
-		expect(json.errors).toHaveProperty('email');
-	});
+describe('Authentication routes', () => {
+	describe('POST /api/auth/sign-up', () => {
+		it('creates a new profile and stores an activation token for a valid request', async () => {
+			const newUserPayload = {
+				name: 'New User',
+				email: 'new@new.new',
+				password: 'jfiewofjieowfjo2348219++++'
+			} as const;
 
-	test.todo('Failure: registration should fail if email is already registered');
-	test.todo('Failure: registration should have valid password');
-	test.todo('Failure: registration should have name');
+			const response = await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(newUserPayload)
+			}, env);
 
-	test('Registration successful', async () => {
-		const json: StatusResponse = await signUpResponse('vitest@example.com', 'hashed_password_1', 'Vitest');
+			expect(response.status).toBe(StatusCodes.OKAY);
 
-		expect(json.message).toBe('Created a new profile and sent an email for confirmation');
-	});
+			const tokens = await env.ActivationTokens.list();
+			expect(Array.isArray(tokens?.keys)).toBe(true);
+			expect(tokens.keys.length).toBe(1);
 
-	test.todo('failure: activation should not be successful if incorrect token');
+			const [firstActivationTokenKey] = tokens.keys;
+			assert(firstActivationTokenKey, 'First ActivationToken should exist.');
 
-	test.todo('failure: activation should not be successful if token expired');
+			const stored = await env.ActivationTokens.get(firstActivationTokenKey.name, 'json');
+			expect(stored).toEqual(expect.objectContaining({ email: newUserPayload.email }));
+		});
 
-	test('Activation successful', async () => {
-		const response = await app.request(
-			`/auth/activate?token=${crypto.randomUUID()}`,
-			{
+		it.todo('skips creation when the email already exists (idempotent sign-up path)');
+
+		it('rejects sign-up when email is invalid', async () => {
+			const invalidEmailPayload = {
+				name: 'Invalid Email User',
+				email: 'invalid',
+				password: 'jfiewofjieowfjo2348219++++'
+			} as const;
+
+			const response = await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(invalidEmailPayload)
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.UNPROCESSABLE_CONTENT);
+
+			const tokens = await env.ActivationTokens.list();
+			expect(tokens.keys).toHaveLength(0);
+		});
+
+		it('rejects sign-up when password is weak', async () => {
+			const weakPasswordPayload = {
+				name: 'Weak Password User',
+				email: 'weak@pw.test',
+				password: 'a'
+			} as const;
+
+			const response = await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(weakPasswordPayload)
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.UNPROCESSABLE_CONTENT);
+
+			const tokens = await env.ActivationTokens.list();
+			expect(tokens.keys).toHaveLength(0);
+		});
+
+		it('activates an account when presented with a valid activation token', async () => {
+			const token = '00000000-0000-0000-0000-000000000000';
+			const activationUser = {
+				name: 'King Arthur',
+				email: 'king.arthur@camelot.uk',
+				password: 'H0lyGr@il42!',
+				access: 'volunteer' as const,
+				status: 'active'
+			};
+
+			await env.ActivationTokens.put(token, JSON.stringify(activationUser), { expirationTtl: 60 });
+
+			const response = await app.request(`/api/auth/activate?token=${token}`, { method: 'GET' }, env);
+			expect(response.status).toBe(StatusCodes.OKAY);
+
+			const remaining = await env.ActivationTokens.list();
+			expect(remaining.keys.find(({ name }) => name === token)).toBeDefined();
+		});
+
+		it('fails to activate when token is invalid or expired', async () => {
+			const invalidToken = '00000000-0000-0000-0000-000000000000';
+			const response = await app.request(`/api/auth/activate?token=${invalidToken}`, {
 				method: 'GET'
-			},
-			new MockEnvBindings({
-				activations: {
-					// @ts-expect-error
-					get: () => 'test@email.com'
-				}
-			})
-		);
-
-		const json: StatusResponse = await response.json();
-
-		expect(json.message).toBe('Account activated successfully');
+			}, env);
+			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+		});
 	});
-});
 
-describe.skip('Sign-in route', () => {
-	test('Failure: Should not log in with incorrect username and/or password', async () => {
-		const response = await app.request('/auth/sign-in', {
-			method: 'POST',
-			headers: new Headers({ 'Content-Type': 'application/json' }),
-			body: JSON.stringify({
-				email: 'notfound@example.com',
-				password: 'wrong'
-			})
-		}, MOCK_ENV);
+	describe('POST /api/auth/sign-in', () => {
+		it('signs in with a registered active account and correct password', async () => {
+			const registeredActiveVolunteer = {
+				name: 'King Arthur',
+				email: 'king.arthur@camelot.uk',
+				password: 'H0lyGr@il42!',
+				access: 'volunteer' as const,
+				status: 'active'
+			};
 
-		const json: StatusResponse = await response.json();
+			const response = await app.request('/api/auth/sign-in', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(registeredActiveVolunteer)
+			}, env);
 
-		expect(response.status).equals(401);
-		expect(json.message).toBe('Either your email/password combination is invalid, or your account is not active');
+			expect(response.status).toBe(StatusCodes.CREATED);
+
+			const setCookie = response.headers.get('set-cookie') ?? response.headers.get('Set-Cookie');
+			expect(setCookie).toBeTruthy();
+		});
+
+		it('rejects sign-in when the email does not exist', async () => {
+			const nonExistentEmailPayload = {
+				name: 'Ghost User',
+				email: 'wrong@email.com',
+				password: 'H0lyGr@il42!',
+				access: 'volunteer' as const,
+				status: 'active'
+			};
+
+			const response = await app.request('/api/auth/sign-in', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(nonExistentEmailPayload)
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+		});
+
+		it('rejects sign-in when the password is incorrect', async () => {
+			const wrongPasswordPayload = {
+				name: 'King Arthur',
+				email: 'king.arthur@camelot.uk',
+				password: 'wrong password',
+				access: 'volunteer' as const,
+				status: 'active'
+			};
+
+			const response = await app.request('/api/auth/sign-in', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(wrongPasswordPayload)
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+		});
+
+		it.todo('rejects sign-in when the account exists but is not activated');
 	});
-	test.todo('Should not log in if account is not activated');
 
-	test.skip('Success: Should log in successfully with correct username and password', async () => {
-		const response = await app.request('/auth/sign-in', {
-			method: 'POST',
-			headers: new Headers({ 'Content-Type': 'application/json' }),
-			body: JSON.stringify({
-				email: 'profile1@example.com',
-				password: 'hashed_password_1'
-			})
-		}, MOCK_ENV);
-		const json: StatusResponse = await response.json();
+	describe('POST /api/auth/sign-out', () => {
+		it('signs out and invalidates the session when a valid session token is provided', async () => {
+			const token = '00000000-0000-0000-0000-000000000000';
+			const sessionPayload = {
+				id: token,
+				name: 'King Arthur',
+				email: 'king.arthur@camelot.uk',
+				password: 'H0lyGr@il42!',
+				access: 'volunteer' as const,
+				status: 'active',
+				token,
+				originalExpiry: new Date().toISOString()
+			};
 
-		expect(json.message).toBe('Authorized successfully');
+			await env.SessionTokens.put(token, JSON.stringify(sessionPayload));
+
+			const response = await app.request('/api/auth/sign-out', {
+				method: 'POST',
+				headers: { Cookie: `auth_token=${token}` }
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.NO_CONTENT);
+
+			const remaining = await env.SessionTokens.list();
+			expect(remaining.keys.some(({ name }) => name === token)).toBe(false);
+		});
+
+		it('returns unauthorized when the session token is missing', async () => {
+			const response = await app.request('/api/auth/sign-out', { method: 'POST' }, env);
+			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+		});
 	});
-});
-
-describe('Sign-out route', () => {
-	test.todo('Bad request if invalid token provided');
-	test.todo('User is successfully logged out');
 });
