@@ -67,7 +67,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		void fetchProtectedProfile();
 	}, []);
 
-	const updateDescription = async (desc: string | null) => {
+	const updateDescription = async (desc: string | null): Promise<string | null> => {
 		try {
 			const response = await fetch(`/api/profiles/${userId}`, {
 				method: 'PATCH',
@@ -80,6 +80,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 
 			if (!response.ok) {
 				console.error('Response no ok, ', response);
+				return null;
 			}
 
 			return desc;
@@ -235,16 +236,17 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		setSkills(result);
 	};
 
-	const handleDescriptionSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+	const handleDescriptionSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
 		const desc = formData.get('description') as string;
 
 		const updatedDescription = await updateDescription(desc);
 
-		if (!updatedDescription) { return; }
+		if (updatedDescription === null) { return false; }
 
 		setDescription(updatedDescription);
+		return true;
 	};
 
 	if (!isLoading) { return <h1>...is loading!</h1>; }

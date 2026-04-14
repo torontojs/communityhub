@@ -4,16 +4,18 @@ import Button from '../Button/Button.tsx';
 interface Props {
 	description: string;
 	onClose(): void;
-	onSubmit(Event: React.FormEvent<HTMLFormElement>): void;
+	onSubmit(event: React.FormEvent<HTMLFormElement>): Promise<boolean>;
 }
 
 const DescriptionFormModal = ({ description, onClose, onSubmit }: Props): React.JSX.Element => (
 	<div className='description-modal'>
 		<form
 			className='description-form-modal-container'
-			onSubmit={(event) => {
-				onSubmit(event);
-				onClose();
+			onSubmit={async (event) => {
+				const isSaved = await onSubmit(event);
+				if (isSaved) {
+					onClose();
+				}
 			}}
 		>
 			<div className='title-close'>
