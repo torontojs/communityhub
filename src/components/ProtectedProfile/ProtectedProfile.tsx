@@ -174,7 +174,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		}
 	};
 
-	const handleGeneralInfoSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+	const handleGeneralInfoSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
 
@@ -187,15 +187,16 @@ export const ProtectedProfile = (): React.JSX.Element => {
 
 		const result = await updateGeneralInfo(updatedData);
 
-		if (!result) { return; }
+		if (!result) { return false; }
 
 		if (result.name) { setName(result.name); }
 		if (result.pronouns !== undefined) { setPronoun(result.pronouns ?? ''); }
 		setCanJoinLocalEvents(result.canJoinLocalEvents ?? null);
 		setIsBasedOnGTA(result.isBasedOnGTA ?? null);
+		return true;
 	};
 
-	const handleSocialLinksSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+	const handleSocialLinksSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
 
@@ -213,12 +214,13 @@ export const ProtectedProfile = (): React.JSX.Element => {
 
 		const result = await updateSocialLinks(updatedLinks);
 
-		if (!result) { return; }
+		if (!result) { return false; }
 
 		setLinks(result);
+		return true;
 	};
 
-	const handleSkillsSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+	const handleSkillsSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
 		const rawSkills = formData.get('skills') as string;
@@ -231,9 +233,10 @@ export const ProtectedProfile = (): React.JSX.Element => {
 
 		const result = await updateSkills(updatedSkills);
 
-		if (!result) { return; }
+		if (!result) { return false; }
 
 		setSkills(result);
+		return true;
 	};
 
 	const handleDescriptionSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {

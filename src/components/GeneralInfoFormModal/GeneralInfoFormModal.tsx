@@ -9,7 +9,7 @@ interface Props {
 	isBasedOnGTA: boolean | null;
 	canJoinLocalEvents: boolean | null;
 	onClose(): void;
-	onSubmit(event: React.FormEvent<HTMLFormElement>): void;
+	onSubmit(event: React.FormEvent<HTMLFormElement>): Promise<boolean>;
 }
 
 const pronounOptions = [
@@ -23,9 +23,11 @@ const GeneralInfoFormModal = ({ name, email, pronouns, isBasedOnGTA, canJoinLoca
 	<div className='general-info-modal'>
 		<form
 			className='general-info-form-modal-container'
-			onSubmit={(event) => {
-				onSubmit(event);
-				onClose();
+			onSubmit={async (event) => {
+				const isSaved = await onSubmit(event);
+				if (isSaved) {
+					onClose();
+				}
 			}}
 		>
 			<div className='title-close'>

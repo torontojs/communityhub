@@ -11,7 +11,7 @@ type LinksArray = Links[];
 interface Props {
 	linksArrayProp: LinksArray;
 	onClose(): void;
-	onSubmit(Event: React.FormEvent<HTMLFormElement>): void;
+	onSubmit(event: React.FormEvent<HTMLFormElement>): Promise<boolean>;
 }
 
 const socialMediaPlatforms: string[] = [
@@ -38,9 +38,11 @@ const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): Rea
 	<div className='social-links-modal'>
 		<form
 			className='social-links-form-modal-container'
-			onSubmit={(event) => {
-				onSubmit(event);
-				onClose();
+			onSubmit={async (event) => {
+				const isSaved = await onSubmit(event);
+				if (isSaved) {
+					onClose();
+				}
 			}}
 		>
 			<div className='title-close'>
