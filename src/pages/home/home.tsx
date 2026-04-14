@@ -2,7 +2,6 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AuthGate } from '../../components/AuthGate/AuthGate.tsx';
 import { Home } from '../../components/Home/Home.tsx';
-import 'open-props';
 import '../../index.css';
 import { useProfileRedirect } from '../../hooks/useProfileRedirect.ts';
 
