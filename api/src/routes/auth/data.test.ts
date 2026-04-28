@@ -19,7 +19,7 @@ describe('Auth data functions test', () => {
 
 			expect(result).toEqual({
 				id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8',
-				password: 'saMwRm9Sfm0QSkmxgAIadA==:1pkHxwpYK2HCWlItbMNfJ0XmvTmnTXD2l70s5GMLtMUC85fhbMU9B0VKSFzWALQXtc945LB5zsKNg0w1cybCKA==',
+				password: '93BLyQ4D5SV2T/WV0e8gvQ==:ppVJhUYl+QxiDb6I1OSN0oOlgRPX1BnW1Y5hbLbsSpX25KVau2jYLAvgUtKlPwdpWl/AjzMz3DDi0TNbcOcVcw==',
 				access: 'organizer'
 			});
 		});

@@ -118,7 +118,7 @@ describe('Authentication routes', () => {
 			const registeredActiveVolunteer = {
 				name: 'King Arthur',
 				email: 'king.arthur@camelot.uk',
-				password: 'H0lyGr@il42!',
+				password: 'H0lyGr@il42!L0rd',
 				access: 'volunteer' as const,
 				status: 'active'
 			};
