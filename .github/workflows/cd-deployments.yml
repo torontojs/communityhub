@@ -9,7 +9,6 @@ on:
     branches:
       - main
       - dev
-      - chore/deployment # For testing only, remove before merging with dev
 
 jobs:
   deploy:
