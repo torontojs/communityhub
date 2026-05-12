@@ -20,9 +20,9 @@ const DescriptionFormModal = ({ description, onClose, onSubmit }: Props): React.
 		>
 			<div className='title-close'>
 				<h2>Edit About</h2>
-				<button type='button' onClick={onClose}>
+				<Button className='description-modal-close-button' type='button' onClick={onClose} aria-label='Close edit about modal'>
 					<img src='/black-x.png' alt='Black X icon' />
-				</button>
+				</Button>
 			</div>
 			<p>Introduce yourself in a few lines -- your background, interests, or experience. Changes will be saved to your profile once you click save.</p>
 			<textarea className='description-form-modal-textarea' name='description' defaultValue={description}></textarea>

@@ -28,7 +28,6 @@ const SkillsFormModal = ({ skills, onClose, onSubmit }: Props): React.JSX.Elemen
 				You can add up to 10 skills here and separate them with commas, to help others know where you shine. (e.g. HTML, CSS, JavaScript, UX Design etc)
 			</p>
 			<textarea
-				className='skills-form-modal-textarea'
 				name='skills'
 				defaultValue={skills.join(', ')}
 			>

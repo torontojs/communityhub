@@ -36,9 +36,12 @@
 		color: var(--color-gray-500);
 	}
 
-	& .title-close button {
+	& .general-info-modal-close-button {
 		all: unset;
 		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	& h3 {

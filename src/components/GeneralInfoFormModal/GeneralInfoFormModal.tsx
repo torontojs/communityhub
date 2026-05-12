@@ -32,9 +32,9 @@ const GeneralInfoFormModal = ({ name, email, pronouns, isBasedOnGTA, canJoinLoca
 		>
 			<div className='title-close'>
 				<h2>Edit General Information</h2>
-				<button type='button' onClick={onClose}>
+				<Button className='general-info-modal-close-button' type='button' onClick={onClose} aria-label='Close edit general information modal'>
 					<img src='/black-x.png' alt='Black X icon' />
-				</button>
+				</Button>
 			</div>
 			<p>Update your personal details below. Changes will be saved to your profile once you click Save.</p>
 
