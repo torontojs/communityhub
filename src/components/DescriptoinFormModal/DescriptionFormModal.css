@@ -22,11 +22,7 @@
 	border-radius: var(--rounded-md);
 	z-index: 1001;
 
-	& h2 {
-		padding: 0;
-		all: unset;
-		font-size: var(--text-lg);
-	}
+	& h2 { font-size: var(--text-lg); }
 
 	& p { margin: 0; }
 
