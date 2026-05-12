@@ -259,7 +259,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 			<div className='grid-container'>
 				<header className='main-header'>
 					<button className='hamburger-menu' onClick={() => setMenuOpen(true)} aria-label='Open navigation menu'>
-						<img src='/hamburger-menu.png' alt='' />
+						<img src='/hamburger-menu.svg' alt='' />
 					</button>
 					<a href='/pages/home'>
 						<img className='torontojs-logo' src='/torontojs-logo.png' alt='Small Toronto JS Logo' />
