@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { LONG_TEXT_SIZE_IN_CHAR, SHORT_TEXT_SIZE_IN_CHAR } from '../../middleware/body-size.ts';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit, IdSchema } from '../../utils/db.ts';
+import { TeamSchema } from '../team/validation.ts';
 
 export const PlatformEnumSchema = z.enum([
 	'site',
@@ -37,6 +38,27 @@ export const ProfileSkillNameSchema = z
 	.max(SHORT_TEXT_SIZE_IN_CHAR, `Skill must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`);
 
 export type ProfileSkillName = z.infer<typeof ProfileSkillNameSchema>;
+
+export const RoleNameSchema = z
+	.string()
+	.trim()
+	.min(1, 'Name must be at least one character long.')
+	.max(SHORT_TEXT_SIZE_IN_CHAR, `Name must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
+	.describe("The role's name.");
+
+export const ProfileTeamSchema = z.object({
+	id: IdSchema,
+	name: TeamSchema.shape.name,
+	description: TeamSchema.shape.description,
+	role: RoleNameSchema,
+	memberCount: z
+		.number()
+		.int()
+		.nonnegative()
+		.describe('Total count of active members in this team.')
+});
+
+export type ProfileTeam = z.infer<typeof ProfileTeamSchema>;
 
 export const ProfileSchema = BaseDbEntitySchema.extend(
 	z.object({
@@ -100,7 +122,11 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 		skills: z
 			.array(ProfileSkillNameSchema)
 			.optional()
-			.describe('A list of skills the person has provided.')
+			.describe('A list of skills the person has provided.'),
+		teams: z
+			.array(ProfileTeamSchema)
+			.optional()
+			.describe('A list of teams the person belongs to.')
 	}).shape
 );
 
