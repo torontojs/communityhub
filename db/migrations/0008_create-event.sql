@@ -1,8 +1,8 @@
---Migration number: 0008
+-- Migration number: 0008
 
 DROP TABLE IF EXISTS event;
 
--- The event a orgganizer can create
+-- The event an organizer can create
 CREATE TABLE IF NOT EXISTS event (
 	-- UUID stored as text
 	id TEXT NOT NULL UNIQUE COLLATE BINARY,
@@ -16,17 +16,17 @@ CREATE TABLE IF NOT EXISTS event (
 	profileId TEXT NOT NULL COLLATE BINARY,
 	-- The UUID of the team this event belongs to
 	teamId TEXT COLLATE BINARY,
-	-- The UUID of the projet this event belongs to
+	-- The UUID of the project this event belongs to
 	projectId TEXT COLLATE BINARY,
 	-- The date when this event was created, saved as an ISO timestamp
 	happenedAt TEXT NOT NULL,
-	-- The date when this event was added to the database, saved as an ISO timesamp
+	-- The date when this event was added to the database, saved as an ISO timestamp
 	insertedAt DATETIME NOT NULL,
 	-- The date this event was closed/deleted, saved as an ISO timestamp
 	deletedAt DATETIME DEFAULT NULL,
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (profileId) REFERENCES profile(id),
-    FOREIGN KEY (teamId) REFERENCES team(id) ON DELETE SET NULL,
+	FOREIGN KEY (teamId) REFERENCES team(id) ON DELETE SET NULL,
 	FOREIGN KEY (projectId) REFERENCES project(id) ON DELETE SET NULL
-)
+);

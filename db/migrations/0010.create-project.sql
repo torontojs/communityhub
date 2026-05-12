@@ -1,8 +1,8 @@
--- Migration number: 0009
+-- Migration number: 0010
 
 DROP TABLE IF EXISTS project;
 
--- The project a organizer can create
+-- The project an organizer can create
 CREATE TABLE IF NOT EXISTS project (
 	-- UUID stored as text
 	id TEXT NOT NULL UNIQUE COLLATE BINARY,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS project (
 	name TEXT NOT NULL,
 	-- Description of the project
 	description TEXT,
-	-- The UUID of the profile this event is assigned to
+	-- The UUID of the profile this project is assigned to
 	profileId TEXT NOT NULL COLLATE BINARY,
 	-- The UUID of the team this project is assigned to
 	teamId TEXT NOT NULL COLLATE BINARY,
@@ -21,11 +21,12 @@ CREATE TABLE IF NOT EXISTS project (
 	-- The date when this project was created, saved as an ISO timestamp
 	happenedAt TEXT NOT NULL,
 	-- The date when this project was added to the database, saved as an ISO timestamp
-	insertedAt DATETIME NOT NUll,
-	-- The data this project was closed/deleted, saved as an ISO Timestamp
+	insertedAt DATETIME NOT NULL,
+	-- The date this project was closed/deleted, saved as an ISO timestamp
 	deletedAt DATETIME DEFAULT NULL,
 
 	PRIMARY KEY (id),
-    FOREIGN KEY (teamId) REFERENCES team(id),
+	FOREIGN KEY (profileId) REFERENCES profile(id),
+	FOREIGN KEY (teamId) REFERENCES team(id),
 	FOREIGN KEY (eventId) REFERENCES event(id) ON DELETE SET NULL
-)
+);

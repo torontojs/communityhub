@@ -1,9 +1,9 @@
--- Migration number: 0009 	 2025-01-30T00:58:39.397Z
+-- Migration number: 0009
 
-DROP TABLE IF EXISTS event-role;
+DROP TABLE IF EXISTS event_role;
 
 -- The role a person may have at an event
-CREATE TABLE IF NOT EXISTS role (
+CREATE TABLE IF NOT EXISTS event_role (
 	-- The UUID, stored as text
 	id TEXT NOT NULL UNIQUE COLLATE BINARY,
 	-- Schema version to use
@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS role (
 	name TEXT NOT NULL,
 	-- The event role description
 	description TEXT,
+	-- The UUID of the event this event role belongs to
+	eventId TEXT NOT NULL COLLATE BINARY,
 	-- The UUID of the team this event role belongs to
 	teamId TEXT COLLATE BINARY,
 	-- The UUID of the profile this event role is assigned to
@@ -26,8 +28,9 @@ CREATE TABLE IF NOT EXISTS role (
 	deletedAt DATETIME DEFAULT NULL,
 
 	PRIMARY KEY (id),
+	FOREIGN KEY (eventId) REFERENCES event(id),
 	FOREIGN KEY (teamId) REFERENCES team(id),
 	FOREIGN KEY (profileId) REFERENCES profile(id)
 );
 
-CREATE INDEX idx_role_profile_and_team ON role (profileId, teamId);
+CREATE INDEX idx_event_role_profile_and_event ON event_role (profileId, eventId);

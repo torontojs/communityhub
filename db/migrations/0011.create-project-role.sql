@@ -1,9 +1,9 @@
--- Migration number: 0009 	 2025-01-30T00:58:39.397Z
+-- Migration number: 0011
 
-DROP TABLE IF EXISTS project-role;
+DROP TABLE IF EXISTS project_role;
 
 -- The role a person may have on a project
-CREATE TABLE IF NOT EXISTS role (
+CREATE TABLE IF NOT EXISTS project_role (
 	-- The UUID, stored as text
 	id TEXT NOT NULL UNIQUE COLLATE BINARY,
 	-- Schema version to use
@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS role (
 	name TEXT NOT NULL,
 	-- The project role description
 	description TEXT,
+	-- The UUID of the project this project role belongs to
+	projectId TEXT NOT NULL COLLATE BINARY,
 	-- The UUID of the team this project role belongs to
 	teamId TEXT NOT NULL COLLATE BINARY,
 	-- The UUID of the profile this project role is assigned to
@@ -26,8 +28,9 @@ CREATE TABLE IF NOT EXISTS role (
 	deletedAt DATETIME DEFAULT NULL,
 
 	PRIMARY KEY (id),
+	FOREIGN KEY (projectId) REFERENCES project(id),
 	FOREIGN KEY (teamId) REFERENCES team(id),
 	FOREIGN KEY (profileId) REFERENCES profile(id)
 );
 
-CREATE INDEX idx_role_profile_and_team ON role (profileId, teamId);
+CREATE INDEX idx_project_role_profile_and_project ON project_role (profileId, projectId);
