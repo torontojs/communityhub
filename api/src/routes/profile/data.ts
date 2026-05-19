@@ -1,6 +1,6 @@
 import { DBTables, DEFAULT_TEAM_ID, generateBaseDBfields } from '../../utils/db.ts';
 import { EventLog } from '../event-log/data.ts';
-import type { CreateProfileData, Profile, ProfileLink, ProfileSkill, UpdateProfileData } from './validation.ts';
+import type { CreateProfileData, Profile, ProfileLink, ProfileSkill, ProfileTeam, UpdateProfileData } from './validation.ts';
 
 function transformProfile(profile: Profile) {
 	const filteredProfile = Object.fromEntries(Object.entries(profile).filter(([, value]) => Boolean(value))) as Profile;
@@ -10,7 +10,8 @@ function transformProfile(profile: Profile) {
 		isBasedOnGTA: Boolean(profile.isBasedOnGTA),
 		canJoinLocalEvents: Boolean(profile.canJoinLocalEvents),
 		links: profile.links ?? [],
-		skills: profile.skills ?? []
+		skills: profile.skills ?? [],
+		teams: profile.teams ?? []
 	};
 }
 
@@ -199,7 +200,24 @@ export async function getProfileById(database: D1Database, id: string) {
 			LIMIT 1
 		`).bind(id),
 		database.prepare(`SELECT platform, url FROM ${DBTables.PROFILE_LINKS} WHERE profileId = ?`).bind(id),
-		database.prepare(`SELECT skill FROM ${DBTables.PROFILE_SKILLS} WHERE profileId = ?`).bind(id)
+		database.prepare(`SELECT skill FROM ${DBTables.PROFILE_SKILLS} WHERE profileId = ?`).bind(id),
+		database.prepare(`
+			SELECT
+				team.name,
+				team.description,
+				role.name AS role,
+				(
+					SELECT COUNT(*)
+					FROM ${DBTables.ROLE} AS r_count
+					WHERE r_count.teamId = team.id AND r_count.deletedAt IS NULL
+				) AS memberCount
+			FROM ${DBTables.ROLE} AS role
+			JOIN ${DBTables.TEAM} AS team ON role.teamId = team.id
+			WHERE
+				role.profileId = ?
+				AND role.deletedAt IS NULL
+				AND team.deletedAt IS NULL
+		`).bind(id)
 	]);
 
 	const profile = results[0]?.results[0] as Profile | undefined;
@@ -210,7 +228,7 @@ export async function getProfileById(database: D1Database, id: string) {
 
 	profile.links = (results[1]?.results as ProfileLink[] | undefined ?? []).map((link) => link);
 	profile.skills = (results[2]?.results as ProfileSkill[] | undefined ?? []).map(({ skill }) => skill);
-
+	profile.teams = results[3]?.results as ProfileTeam[] | undefined ?? [];
 	return transformProfile(profile);
 }
 
