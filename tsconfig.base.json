@@ -2,7 +2,6 @@
 	"include": ["src/**/*", "api/**/*"],
 	"exclude": ["node_modules/**/*", "dist/**/*"],
 	"compilerOptions": {
-		"ignoreDeprecations": "6.0",
 		"allowImportingTsExtensions": true,
 		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
