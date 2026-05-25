@@ -1,6 +1,6 @@
 import { DBTables, generateBaseDBfields } from '../../utils/db.ts';
 import { EventLog } from '../event-log/data.ts';
-import type { CreateEventData, Event, UpdateEventData } from './validation.ts';
+import type { CreateEventData, Event as EventData, UpdateEventData } from './validation.ts';
 
 export async function doesEventExist(database: D1Database, id: string) {
 	const existingEvent = await database
@@ -51,7 +51,7 @@ export async function insertEvent(database: D1Database, profileId: string, { nam
 
 export async function updateEventById(database: D1Database, id: string, data: UpdateEventData) {
 	const keys: string[] = [];
-	const values: Array<string | null> = [];
+	const values: (string | null)[] = [];
 
 	if (data.name !== undefined) {
 		values.push(data.name);
@@ -94,7 +94,7 @@ export async function getEventById(database: D1Database, id: string) {
 			LIMIT 1
 		`)
 		.bind(id)
-		.first<Event>();
+		.first<EventData>();
 
 	return event;
 }
@@ -104,7 +104,7 @@ export async function getAllEvents(database: D1Database) {
 		SELECT *
 		FROM ${DBTables.EVENT}
 		WHERE deletedAt IS NULL
-	`).run<Event>();
+	`).run<EventData>();
 
 	return results;
 }
