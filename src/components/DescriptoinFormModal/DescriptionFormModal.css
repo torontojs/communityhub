@@ -6,26 +6,23 @@
 	width: 100%;
 	min-height: 100%;
 	display: flex;
-	justify-content: center;
 	align-items: center;
 	z-index: 1000;
 }
 
 .description-form-modal-container {
+	margin-top: 3.125rem;
 	display: flex;
 	flex-direction: column;
-	gap: var(--spacing-lg);
+	gap: var(--spacing-md);
 	background-color: #ffffff;
-	max-width: 1080px;
-	padding: var(--spacing-lg);
+	max-width: 67.5rem;
+	width: 100%;
+	padding: var(--spacing-md);
 	border-radius: var(--rounded-md);
 	z-index: 1001;
 
-	& h2 {
-		padding: 0;
-		width: 120x;
-		/* height: 36px; */
-	}
+	& h2 { font-size: var(--text-lg); }
 
 	& p { margin: 0; }
 
@@ -33,36 +30,46 @@
 		line-height: 160%;
 		font-weight: var(--weight-regular);
 		font-size: var(--text-md);
-		color: var(--color-grey-900);
-		padding: 15px;
+		color: var(--color-gray-900);
+		padding: 0.9375rem;
 		width: 100%;
-		height: 184px;
-		border: 1px solid #c2c2c2;
-		background-color: #e5e5e5;
-	}
-}
-div .description-form-modal-button-container {
-	display: flex;
-	flex-direction: row;
-	justify-content: end;
-	gap: 20px;
-
-	& button {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 162px;
-		height: 42px;
-		color: #333333;
-		font-size: var(--text-xs);
-		font-weight: var(--weight-bold);
+		height: 11.5rem;
 		border: var(--border);
-		border-radius: var(--rounded-md);
+		background-color: var(--color-input);
 	}
 
-	& button:last-of-type {
-		border: none;
-		background-color: #e5e5e5;
+	& .description-form-modal-button-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: end;
+		gap: 1.25rem;
+
+		& .button {
+			all: unset;
+			box-sizing: border-box;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			width: 10.125rem;
+			height: 2.625rem;
+			font-size: var(--text-xs);
+			font-weight: var(--weight-bold);
+			text-align: center;
+			border-radius: var(--rounded-md);
+		}
+
+		& .button[data-outline='true'] {
+			background-color: transparent;
+			border: var(--border-base) solid var(--color-black);
+			color: var(--color-black);
+		}
+
+		& .button[data-primary='true'] {
+			background-color: var(--color-accent);
+			border: var(--border-base) solid var(--color-accent);
+			color: var(--color-white);
+		}
 	}
 }
 
@@ -71,8 +78,17 @@ div .description-form-modal-button-container {
 	width: 100%;
 	flex-direction: row;
 	justify-content: space-between;
+
+	& .description-modal-close-button {
+		all: unset;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 	& img {
-		height: 20px;
-		width: 20px;
+		height: 1.25rem;
+		width: 1.25rem;
 	}
 }

@@ -12,12 +12,13 @@ const Button = forwardRef<HTMLButtonElement, Props>(({
 	hasOutline = false,
 	isPrimary = false,
 	children,
+	className,
 	size,
 	...rest
 }, ref) => (
 	<button
 		ref={ref}
-		className='button'
+		className={['button', className].filter(Boolean).join(' ')}
 		data-size={size ?? 'medium'}
 		data-outline={hasOutline}
 		data-primary={isPrimary}

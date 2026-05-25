@@ -1,0 +1,41 @@
+.reusable-social-icon {
+	min-width: 9.3125rem;
+	height: 5rem;
+
+	border: var(--border);
+	border-radius: var(--rounded-md);
+	padding: 0.9375rem 1.375rem;
+	border-color: var(--color-border);
+
+	& a {
+		all: unset;
+		height: 100%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 0 0.625rem;
+	}
+
+	& img {
+		height: 2.25rem;
+		width: 2.25rem;
+	}
+
+	p {
+		all: unset;
+		margin-left: 0.625rem;
+		font-size: var(--text-md);
+		line-height: 160%;
+		font-weight: var(--weight-semibold);
+	}
+	.circle {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		height: 3.75rem;
+		width: 3.75rem;
+		background: #fce4ec;
+		gap: 1.25rem;
+	}
+}

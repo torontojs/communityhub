@@ -1,0 +1,223 @@
+.general-info-modal {
+	background-color: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	min-height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	z-index: 1000;
+}
+
+.general-info-form-modal-container {
+	margin-top: 3.125rem;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+	background-color: #ffffff;
+	max-width: 67.5rem;
+	width: 100%;
+	padding: var(--spacing-md);
+	border-radius: var(--rounded-md);
+	z-index: 1001;
+
+	& h2 {
+		all: unset;
+		font-size: var(--text-lg);
+	}
+
+	& > p {
+		margin: 0;
+		font-weight: var(--weight-regular);
+		font-size: var(--text-xs);
+		line-height: 160%;
+		color: var(--color-gray-500);
+	}
+
+	& .general-info-modal-close-button {
+		all: unset;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	& h3 {
+		margin: 0;
+		font-size: var(--text-base);
+		font-weight: var(--weight-semibold);
+	}
+}
+
+.general-info-modal .title-close {
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	justify-content: space-between;
+
+	& img {
+		height: 1.25rem;
+		width: 1.25rem;
+	}
+}
+
+.general-info-section {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+}
+
+.general-info-avatar-row {
+	display: flex;
+	flex-direction: row;
+	gap: var(--spacing-md);
+	align-items: flex-start;
+}
+
+.general-info-avatar-placeholder {
+	width: 5rem;
+	height: 5rem;
+	border-radius: 50%;
+	background-color: rgba(229, 20, 41, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: var(--text-lg);
+	font-weight: var(--weight-semibold);
+	color: var(--color-accent);
+	flex-shrink: 0;
+}
+
+.general-info-fields {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+	flex: 1;
+}
+
+.general-info-inputs {
+	display: flex;
+	gap: var(--spacing-md);
+
+	& > div { flex: 1; }
+}
+
+.general-info-pronouns {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+	max-width: calc(50% - var(--spacing-md) / 2);
+
+	& label {
+		font-size: var(--text-md);
+		font-weight: var(--weight-semibold);
+		color: var(--color-foreground);
+	}
+
+	& select {
+		font-size: var(--text-xs);
+		background-color: var(--color-input);
+		border: var(--border);
+		border-radius: var(--rounded-xs);
+		padding: var(--spacing-xs);
+		width: 100%;
+		height: 2.33rem;
+	}
+}
+
+.other-info-section {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+}
+
+.general-info-modal .slider-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+}
+
+.general-info-modal .slider-checkbox-row {
+	position: relative;
+
+	& label {
+		font-size: var(--text-xs);
+		letter-spacing: 0;
+	}
+}
+
+.general-info-modal .slider-checkbox {
+	height: 0;
+	left: 1.125rem;
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	width: 0;
+}
+
+.general-info-modal .slider-checkbox + label {
+	align-items: center;
+	cursor: pointer;
+	display: flex;
+	position: relative;
+}
+
+.general-info-modal .slider-checkbox + label::before {
+	background-color: white;
+	border: var(--border);
+	border-color: var(--color-accent);
+	border-radius: 0.625rem;
+	content: '';
+	height: 1.125rem;
+	margin-right: 0.4rem;
+	min-width: 2.25rem;
+	transition: 300ms ease-in-out;
+	width: 2.25rem;
+}
+
+.general-info-modal .slider-checkbox:checked + label::before { background-color: var(--color-accent); }
+
+.general-info-modal .slider-checkbox + label::after {
+	background-color: var(--color-accent);
+	border-radius: 0.625rem;
+	content: '';
+	height: 0.75rem;
+	left: 0.188rem;
+	position: absolute;
+	transition: 300ms ease-in-out;
+	width: 0.75rem;
+}
+
+.general-info-modal .slider-checkbox:checked + label::after {
+	background-color: white;
+	left: 1.312rem;
+}
+
+.general-info-form-modal-container .text-input-component-container:has(input[aria-disabled]) label { color: var(--color-foreground); }
+
+.general-info-form-modal-button-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+	gap: 1.25rem;
+
+	& .button {
+		width: 10.125rem;
+		height: 2.625rem;
+		font-size: var(--text-xs);
+	}
+}
+
+@media screen and (max-width: 40rem) {
+	.general-info-form-modal-container {
+		max-width: 100%;
+		min-height: 100%;
+		border-radius: 0;
+	}
+
+	.general-info-inputs { flex-direction: column; }
+
+	.general-info-pronouns { max-width: 100%; }
+}
