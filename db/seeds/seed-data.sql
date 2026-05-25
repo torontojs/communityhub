@@ -2827,6 +2827,68 @@ VALUES (
 	'00a34ce0-c620-4954-9bcc-ac839e718bad', 'team'
 );
 
+-- #region Events
+
+INSERT INTO "event" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name", "description", "teamId"
+)
+VALUES (
+	'940a2368-ee4e-46df-9a78-182c0b0417d1', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Seed Event One', 'Seed event used by list and get API tests.', '70ca1ff2-6ab6-4533-ae79-203f5b08742c'
+);
+
+INSERT INTO "event" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name", "description", "teamId"
+)
+VALUES (
+	'09fe5dfa-69de-46ea-9ee5-506a8782b40c', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Seed Event Update', 'Seed event used by update API tests.', '82df0f4a-2a32-4c14-86d9-4b17fc7566e4'
+);
+
+INSERT INTO "event" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name", "description", "teamId"
+)
+VALUES (
+	'7ba7dfeb-c383-4cc0-8515-97f10c69159f', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Seed Event Delete', 'Seed event used by delete API tests.', 'd602086f-35f5-4013-85e2-e7a268e4644e'
+);
+
+-- #endregion
+
+-- #region Projects
+
+INSERT INTO "project" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name", "description", "teamId"
+)
+VALUES (
+	'f6f899c7-1849-4119-af8c-9e42b4c55719', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Seed Project One', 'Seed project used by list and get API tests.', '70ca1ff2-6ab6-4533-ae79-203f5b08742c'
+);
+
+INSERT INTO "project" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name", "description", "teamId"
+)
+VALUES (
+	'd1848e4d-f8b9-4750-8d78-bf9427c0a3bf', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Seed Project Update', 'Seed project used by update API tests.', '82df0f4a-2a32-4c14-86d9-4b17fc7566e4'
+);
+
+INSERT INTO "project" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name", "description", "teamId"
+)
+VALUES (
+	'7aeec4b2-f05f-4f2b-8225-13b76011c1ee', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Seed Project Delete', 'Seed project used by delete API tests.', 'd602086f-35f5-4013-85e2-e7a268e4644e'
+);
+
+-- #endregion
+
 -- Team member: Ni Sayer
 INSERT INTO "role" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",

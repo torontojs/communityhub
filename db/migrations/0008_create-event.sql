@@ -12,13 +12,9 @@ CREATE TABLE IF NOT EXISTS event (
 	name TEXT NOT NULL,
 	-- Description of the event
 	description TEXT,
-	-- The UUID of the profile this event is assigned to
-	profileId TEXT NOT NULL COLLATE BINARY,
 	-- The UUID of the team this event belongs to
 	teamId TEXT COLLATE BINARY,
 	-- The UUID of the project this event belongs to
-	projectId TEXT COLLATE BINARY,
-	-- The date when this event was created, saved as an ISO timestamp
 	happenedAt TEXT NOT NULL,
 	-- The date when this event was added to the database, saved as an ISO timestamp
 	insertedAt DATETIME NOT NULL,
@@ -26,7 +22,5 @@ CREATE TABLE IF NOT EXISTS event (
 	deletedAt DATETIME DEFAULT NULL,
 
 	PRIMARY KEY (id),
-	FOREIGN KEY (profileId) REFERENCES profile(id),
-	FOREIGN KEY (teamId) REFERENCES team(id) ON DELETE SET NULL,
-	FOREIGN KEY (projectId) REFERENCES project(id) ON DELETE SET NULL
+	FOREIGN KEY (teamId) REFERENCES team(id) ON DELETE SET NULL
 );

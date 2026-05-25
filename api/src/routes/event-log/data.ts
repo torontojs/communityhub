@@ -66,6 +66,46 @@ export class EventLog {
 		});
 	}
 
+	static createEvent(database: D1Database, profileId: string, eventId: string) {
+		return EventLog.createLogEntry(database, {
+			subject: profileId,
+			subjectSource: LogItemSourceEnum.PROFILE,
+			verb: 'created',
+			object: eventId,
+			objectSource: LogItemSourceEnum.EVENT
+		});
+	}
+
+	static closeEvent(database: D1Database, profileId: string, eventId: string) {
+		return EventLog.createLogEntry(database, {
+			subject: profileId,
+			subjectSource: LogItemSourceEnum.PROFILE,
+			verb: 'closed',
+			object: eventId,
+			objectSource: LogItemSourceEnum.EVENT
+		});
+	}
+
+	static createProject(database: D1Database, profileId: string, projectId: string) {
+		return EventLog.createLogEntry(database, {
+			subject: profileId,
+			subjectSource: LogItemSourceEnum.PROFILE,
+			verb: 'created',
+			object: projectId,
+			objectSource: LogItemSourceEnum.PROJECT
+		});
+	}
+
+	static closeProject(database: D1Database, profileId: string, projectId: string) {
+		return EventLog.createLogEntry(database, {
+			subject: profileId,
+			subjectSource: LogItemSourceEnum.PROFILE,
+			verb: 'closed',
+			object: projectId,
+			objectSource: LogItemSourceEnum.PROJECT
+		});
+	}
+
 	static joinTeam(database: D1Database, profileId: string, teamId: string) {
 		return EventLog.createLogEntry(database, {
 			subject: profileId,

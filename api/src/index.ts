@@ -6,8 +6,10 @@ import { cors } from 'hono/cors';
 import packageJson from '../../package.json' with { type: 'json' };
 import { authRoutes } from './routes/auth/index.ts';
 import { documentRoutes } from './routes/documents/index.ts';
+import { eventRoutes } from './routes/event/index.ts';
 import { healthCheckRoutes } from './routes/health-check/index.ts';
 import { profileRoutes } from './routes/profile/index.ts';
+import { projectRoutes } from './routes/project/index.ts';
 import { teamMemberRoutes } from './routes/team-members/index.ts';
 import { teamRoutes } from './routes/team/index.ts';
 import { cronHandler } from './scheduler/index.ts';
@@ -72,6 +74,8 @@ apiRoutes.route('/auth', authRoutes);
 apiRoutes.route('/profiles', profileRoutes);
 apiRoutes.route('/documents', documentRoutes);
 apiRoutes.route('/teams', teamRoutes);
+apiRoutes.route('/events', eventRoutes);
+apiRoutes.route('/projects', projectRoutes);
 // All routes follow the format /teams/{id}/members
 apiRoutes.route('/teams', teamMemberRoutes);
 
