@@ -1,0 +1,26 @@
+h1 { .app .page & { font-size: calc(64rem / 16); } }
+
+p { .app .page & { font-size: calc(20rem / 16); } }
+
+hr { .app .page & { width: 100%; } }
+
+time {
+	.app .page & {
+		--color: #999999;
+		font-size: calc(14rem / 16);
+		color: var(--color);
+		flex: 1;
+		width: 100%;
+	}
+}
+
+.component-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	flex: 1;
+	width: 100%;
+	border: 2px dashed #9747ff;
+	padding: 8px;
+	border-radius: 5px;
+}

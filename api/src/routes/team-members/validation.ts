@@ -1,17 +1,12 @@
 import { z } from 'zod';
-import { LONG_TEXT_SIZE_IN_CHAR, SHORT_TEXT_SIZE_IN_CHAR } from '../../middleware/body-size.ts';
+import { LONG_TEXT_SIZE_IN_CHAR } from '../../middleware/body-size.ts';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit } from '../../utils/db.ts';
-import { ProfileSchema } from '../profile/validation.ts';
+import { ProfileSchema, RoleNameSchema } from '../profile/validation.ts';
 import { TeamSchema } from '../team/validation.ts';
 
 export const TeamMembershipSchema = BaseDbEntitySchema.extend(
 	z.object({
-		name: z
-			.string()
-			.trim()
-			.min(1, 'Name must be at least one character long.')
-			.max(SHORT_TEXT_SIZE_IN_CHAR, `Name must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
-			.describe("The role's name."),
+		name: RoleNameSchema,
 		description: z
 			.string()
 			.trim()
