@@ -41,7 +41,7 @@ const AuthenticatedLayout = ({ activePage, children, className, mainClassName }:
 
 	const navLinks = navItems.map((item) => (
 		<a href={item.href} data-active={item.id === activePage} key={item.id}>
-			<img src={item.icon} alt={`${item.label} Icon`} />
+			<img className={item.id === 'profile' ? 'profile-nav-icon' : undefined} src={item.icon} alt={`${item.label} Icon`} />
 			<span>{item.label}</span>
 		</a>
 	));
@@ -58,7 +58,7 @@ const AuthenticatedLayout = ({ activePage, children, className, mainClassName }:
 					</a>
 					<div className='inner-header'>
 						<img className='small-avatar' src='/small-sample-avatar.png' alt='Small User Avatar' />
-						<a href='/pages/notifications'>
+						<a href='/pages/notifications/'>
 							<img className='notification-bell' src='/notification-bell.png' alt='Notification bell icon' />
 						</a>
 					</div>

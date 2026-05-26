@@ -59,6 +59,8 @@
 		width: 1.5rem;
 	}
 
+	& a .profile-nav-icon { filter: brightness(0); }
+
 	& a span {
 		color: var(--color-black);
 		font-size: var(--text-xs);

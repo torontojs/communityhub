@@ -68,6 +68,8 @@
 		margin: 0.9375rem;
 	}
 
+	& a .profile-nav-icon { filter: brightness(0); }
+
 	& a span {
 		font-size: var(--text-xs);
 		color: var(--color-black);
@@ -77,6 +79,8 @@
 		background-color: var(--color-accent);
 		border-radius: var(--rounded-sm);
 	}
+
+	& a:nth-of-type(2) .profile-nav-icon { filter: none; }
 
 	& a:nth-of-type(2) span { color: #ffffff; }
 }
@@ -164,12 +168,16 @@
 			margin: 0.9375rem;
 		}
 
+		& a .profile-nav-icon { filter: brightness(0); }
+
 		& a span {
 			font-size: var(--text-xs);
 			color: var(--color-black);
 		}
 
 		& a:nth-of-type(2) { background-color: var(--color-accent); }
+
+		& a:nth-of-type(2) .profile-nav-icon { filter: none; }
 
 		& a:nth-of-type(2) span { color: #ffffff; }
 	}

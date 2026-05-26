@@ -15,6 +15,14 @@ interface Links {
 
 type LinksArray = Links[];
 
+interface ProfileTeam {
+	description?: string;
+	id: string;
+	memberCount?: number;
+	name: string;
+	role?: string;
+}
+
 export const ProtectedProfile = (): React.JSX.Element => {
 	const [userId, setUserId] = useState<string>();
 	const [email, setEmail] = useState<string>('');
@@ -25,6 +33,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [pronouns, setPronoun] = useState<string>('');
 	const [skills, setSkills] = useState<string[]>([]);
 	const [links, setLinks] = useState<LinksArray>([]);
+	const [teams, setTeams] = useState<ProfileTeam[]>([]);
 	const [descriptionModal, setDescriptionModal] = useState<boolean>(false);
 	const [skillsModal, setSkillsModal] = useState<boolean>(false);
 	const [socialLinksModal, setSocialLinksModal] = useState<boolean>(false);
@@ -49,7 +58,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					throw new Error('Error parsing protected profile response data');
 				}
 
-				const { data: { id, name, email, description, isBasedOnGTA, canJoinLocalEvents, pronouns, links, skills } } = data;
+				const { data: { id, name, email, description, isBasedOnGTA, canJoinLocalEvents, pronouns, links, skills, teams } } = data;
 				setUserId(id);
 				setName(name);
 				setEmail(email);
@@ -59,6 +68,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				setPronoun(pronouns);
 				setSkills(skills);
 				setLinks(links);
+				setTeams(teams);
 				setIsLoading(true);
 			} catch (err) {
 				console.error(err);
@@ -266,7 +276,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					</a>
 					<div className='inner-header'>
 						<img className='small-avatar' src='/small-sample-avatar.png' alt='Small User Avatar' />
-						<a href='/pages/notifications'>
+						<a href='/pages/notifications/'>
 							<img className='notification-bell' src='/notification-bell.png' alt='Notification bell icon' />
 						</a>
 					</div>
@@ -277,8 +287,8 @@ export const ProtectedProfile = (): React.JSX.Element => {
 							<img src='/community-icon.png' alt='Community Icon' />
 							<span>Community</span>
 						</a>
-						<a href='/pages/profile'>
-							<img src='/person-icon-white.png' alt='Profile Management Icon' />
+						<a href='/pages/protected-profile/'>
+							<img className='profile-nav-icon' src='/person-icon-white.png' alt='Profile Management Icon' />
 							<span>Profile Management</span>
 						</a>
 						<a href='/pages/team'>
@@ -436,9 +446,17 @@ export const ProtectedProfile = (): React.JSX.Element => {
 									</div>
 									<div className='teams-inner-container'>
 										<ul>
-											<li>
-												<Team />
-											</li>
+											{teams.map((team) => (
+												<li key={team.id}>
+													<Team
+														name={team.name}
+														memberCount={team.memberCount ?? 0}
+														role={team.role}
+														description={team.description}
+														href={`/pages/team?id=${team.id}`}
+													/>
+												</li>
+											))}
 										</ul>
 									</div>
 								</div>
@@ -463,7 +481,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 								<span>Community</span>
 							</a>
 							<a href='/pages/profile'>
-								<img src='/person-icon-white.png' alt='Profile Icon' />
+								<img className='profile-nav-icon' src='/person-icon-white.png' alt='Profile Icon' />
 								<span>My Profile</span>
 							</a>
 							<a href='/pages/team'>

@@ -73,7 +73,9 @@ export const Home = () => (
 			<img className='torontojs-logo' src='/torontojs-logo.png' alt='Small Toronto JS Logo' />
 			<div className='inner-header'>
 				<img className='small-avatar' src='/small-sample-avatar.png' alt='Small User Avatar' />
-				<img className='notification-bell' src='/notification-bell.png' alt='Notification bell icon' />
+				<a href='/pages/notifications/'>
+					<img className='notification-bell' src='/notification-bell.png' alt='Notification bell icon' />
+				</a>
 			</div>
 		</header>
 
@@ -84,7 +86,7 @@ export const Home = () => (
 					<span>Community</span>
 				</a>
 				<a href='/pages/protected-profile/'>
-					<img src='/person-icon-white.png' alt='Profile Management Icon' />
+					<img className='profile-nav-icon' src='/person-icon-white.png' alt='Profile Management Icon' />
 					<span>Profile</span>
 				</a>
 				<a href='/pages/team'>
