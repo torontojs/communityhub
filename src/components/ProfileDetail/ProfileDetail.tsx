@@ -78,7 +78,7 @@ const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 	}
 
 	return (
-		<AuthenticatedLayout activePage='profile' mainClassName='profile-detail-page'>
+		<AuthenticatedLayout mainClassName='profile-detail-page'>
 			<h1>{profile.name}</h1>
 			<article className='profile-detail'>
 				<div className='profile-detail-header-container'>

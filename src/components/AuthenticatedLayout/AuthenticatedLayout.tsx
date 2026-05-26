@@ -4,7 +4,7 @@ import './AuthenticatedLayout.css';
 type ActivePage = 'community' | 'profile' | 'teams';
 
 interface Props {
-	activePage: ActivePage;
+	activePage?: ActivePage;
 	children: ReactNode;
 	className?: string;
 	mainClassName?: string;
