@@ -4,8 +4,7 @@ import type { TeamMemberProfile } from '../Teams/Teams.tsx';
 const TeamMemberCard = (props: TeamMemberProfile) => (
 	<article className='team-member-card'>
 		<a
-			href={props.socialLinks ? props.socialLinks['linkedin'] : '#'}
-			target='_blank'
+			href={`/pages/profile?id=${props.profileId}`}
 			className='team-member-profile-link'
 		>
 			<div className='team-member-profile'>
@@ -13,17 +12,13 @@ const TeamMemberCard = (props: TeamMemberProfile) => (
 					<img
 						className='avatar'
 						src={props.avatar ?? '/default-avatar.png'}
-						alt={`Team ${props.name} Avatar`}
+						alt={`${props.profileName} avatar`}
 					/>
 				</picture>
 				<header>
-					<h3 className='team-member-card-heading'>{props.name}</h3>
+					<h4 className='team-member-card-heading'>{props.profileName}</h4>
 				</header>
-				<div className='social-media-links'>
-					<ul aria-label='Social Media Links'>
-						<li>linkedin</li>
-					</ul>
-				</div>
+				<p className='team-member-role'>{props.name}</p>
 			</div>
 		</a>
 	</article>

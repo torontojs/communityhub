@@ -281,6 +281,10 @@ export const ProtectedProfile = (): React.JSX.Element => {
 							<img src='/person-icon-white.png' alt='Profile Management Icon' />
 							<span>Profile Management</span>
 						</a>
+						<a href='/pages/team'>
+							<img src='/teams-icon.png' alt='Teams Icon' />
+							<span>Teams</span>
+						</a>
 					</div>
 				</nav>
 				<main>
@@ -461,6 +465,10 @@ export const ProtectedProfile = (): React.JSX.Element => {
 							<a href='/pages/profile'>
 								<img src='/person-icon-white.png' alt='Profile Icon' />
 								<span>My Profile</span>
+							</a>
+							<a href='/pages/team'>
+								<img src='/teams-icon.png' alt='Teams Icon' />
+								<span>Teams</span>
 							</a>
 						</div>
 					</nav>

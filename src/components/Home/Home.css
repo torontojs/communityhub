@@ -64,8 +64,6 @@
 		font-size: var(--text-xs);
 	}
 
-	& .sidebar-text-only { margin-left: 3.375rem; }
-
 	& a:first-of-type {
 		background-color: var(--color-accent);
 		border-radius: var(--rounded-sm);

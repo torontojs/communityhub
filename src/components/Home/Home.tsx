@@ -88,7 +88,8 @@ export const Home = () => (
 					<span>Profile</span>
 				</a>
 				<a href='/pages/team'>
-					<span className='sidebar-text-only'>Teams</span>
+					<img src='/teams-icon.png' alt='Teams Icon' />
+					<span>Teams</span>
 				</a>
 			</div>
 		</nav>

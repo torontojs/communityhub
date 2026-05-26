@@ -1,4 +1,5 @@
 .reusable-team-icon {
+	color: inherit;
 	display: flex;
 	flex-direction: column;
 	width: 19.3125rem;
@@ -8,6 +9,7 @@
 	margin: 1.25rem 0;
 	padding: 1.25rem;
 	gap: 1.25rem;
+	text-decoration: none;
 
 	& .team-container { display: flex; }
 

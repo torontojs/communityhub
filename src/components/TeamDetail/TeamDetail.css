@@ -1,0 +1,275 @@
+.team-detail-page {
+	margin: 0.625rem 0.9375rem 2.5rem;
+	max-width: 57.5rem;
+}
+
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 0.0625rem;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 0.0625rem;
+}
+
+.team-detail-page-header { margin-bottom: 1.25rem; }
+
+.team-detail-breadcrumb {
+	align-items: center;
+	color: var(--color-gray-600);
+	display: flex;
+	font-size: var(--text-xs);
+	gap: 0.5rem;
+	margin-bottom: 1.25rem;
+}
+
+.team-detail-breadcrumb a {
+	color: var(--color-black);
+	font-weight: var(--weight-semibold);
+	text-decoration: underline;
+}
+
+.team-detail-breadcrumb a::after,
+.team-detail-breadcrumb span::before {
+	color: var(--color-gray-500);
+	content: '>';
+	margin-left: 0.5rem;
+}
+
+.team-detail-breadcrumb span::before { margin-right: 0.5rem; }
+
+.team-detail-title-row {
+	align-items: center;
+	display: flex;
+	gap: var(--spacing-md);
+	justify-content: space-between;
+}
+
+.team-detail-title-row h1 {
+	color: var(--color-black);
+	font-size: var(--text-xl);
+	font-weight: var(--weight-bold);
+	line-height: 1.2;
+	margin: 0;
+}
+
+.team-detail-edit-button {
+	min-height: 2.25rem;
+	width: 9rem;
+}
+
+.team-detail-members-card,
+.team-detail-status {
+	border: var(--border);
+	border-color: rgba(140, 140, 140, 0.2);
+	border-radius: var(--rounded-md);
+	padding: var(--spacing-md);
+}
+
+.team-detail-status {
+	color: var(--color-gray-600);
+	font-size: var(--text-sm);
+	margin: 2rem auto;
+	max-width: 57.5rem;
+}
+
+.team-detail-members-header {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: var(--spacing-md);
+}
+
+.team-detail-members-header h2 {
+	font-size: var(--text-lg);
+	font-weight: var(--weight-regular);
+	line-height: 1.5625rem;
+	margin: 0;
+}
+
+.team-detail-search {
+	align-items: center;
+	border: var(--border);
+	border-radius: var(--rounded-sm);
+	display: flex;
+	height: 2.5rem;
+	padding: 0 var(--spacing-sm);
+	width: 18.75rem;
+}
+
+.team-detail-search-icon {
+	border: var(--border-base) solid var(--color-gray-600);
+	border-radius: var(--rounded-full);
+	box-sizing: border-box;
+	height: 0.75rem;
+	margin-right: 0.75rem;
+	position: relative;
+	width: 0.75rem;
+}
+
+.team-detail-search-icon::after {
+	background: var(--color-gray-600);
+	content: '';
+	height: 0.375rem;
+	position: absolute;
+	right: -0.25rem;
+	top: 0.5rem;
+	transform: rotate(-45deg);
+	width: var(--border-base);
+}
+
+.team-detail-search input {
+	all: unset;
+	color: var(--color-black);
+	font-size: var(--text-xs);
+	width: 100%;
+}
+
+.team-detail-search input::placeholder { color: var(--color-gray-600); }
+
+.team-detail-members-table {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.team-detail-members-row {
+	align-items: center;
+	background-color: var(--color-gray-50);
+	border-radius: var(--rounded-sm);
+	display: grid;
+	gap: var(--spacing-md);
+	grid-template-columns: minmax(9rem, 1.5fr) minmax(7rem, 1fr) minmax(9rem, 1.4fr) minmax(6rem, 0.8fr) minmax(7rem, 1fr);
+	min-height: 3.25rem;
+	padding: 0 var(--spacing-md);
+}
+
+.team-detail-members-row-heading {
+	background: transparent;
+	color: var(--color-black);
+	font-size: 0.625rem;
+	font-weight: var(--weight-semibold);
+	min-height: auto;
+	text-transform: uppercase;
+}
+
+.team-detail-member-name {
+	align-items: center;
+	color: var(--color-accent);
+	display: flex;
+	font-size: var(--text-xs);
+	gap: 0.75rem;
+	min-width: 0;
+	text-decoration: underline;
+}
+
+.team-detail-member-teams {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.375rem;
+}
+
+.team-detail-member-teams span {
+	background-color: var(--color-green-card);
+	border-radius: var(--rounded-sm);
+	color: var(--color-black);
+	font-size: var(--text-xs);
+	line-height: 1;
+	padding: 0.375rem 0.75rem;
+}
+
+.team-detail-member-name img,
+.team-detail-member-avatar {
+	align-items: center;
+	background-color: var(--color-gray-200);
+	border-radius: var(--rounded-full);
+	color: var(--color-black);
+	display: flex;
+	flex-shrink: 0;
+	font-size: 0.625rem;
+	height: 2rem;
+	justify-content: center;
+	width: 2rem;
+}
+
+.team-detail-member-name img { object-fit: cover; }
+
+.team-detail-member-role {
+	color: var(--color-foreground);
+	font-size: var(--text-xs);
+}
+
+.team-detail-members-row > span {
+	color: var(--color-foreground);
+	font-size: var(--text-xs);
+}
+
+.team-detail-empty-state {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 10.25rem;
+}
+
+.team-detail-empty-state .container {
+	height: 5rem;
+	width: 5rem;
+}
+
+.team-detail-empty-state .empty-icon {
+	height: 4rem;
+	width: 4rem;
+}
+
+.team-detail-empty-state .empty-icon-ellipse {
+	height: 0.4375rem;
+	width: 5rem;
+}
+
+.team-detail-empty-state p {
+	color: var(--color-gray-500);
+	font-size: var(--text-xs);
+	margin: 0.25rem 0 0;
+}
+
+@media screen and (max-width: 40rem) {
+	.team-detail-breadcrumb { display: none; }
+
+	.team-detail-page {
+		margin: 0 1rem 2rem;
+		max-width: none;
+	}
+
+	.team-detail-title-row {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.team-detail-title-row h1 { font-size: var(--text-lg); }
+
+	.team-detail-edit-button {
+		align-self: flex-end;
+		width: 9rem;
+	}
+
+	.team-detail-members-header {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: var(--spacing-sm);
+	}
+
+	.team-detail-search {
+		box-sizing: border-box;
+		width: 100%;
+	}
+
+	.team-detail-members-row {
+		align-items: flex-start;
+		grid-template-columns: 1fr;
+		padding: var(--spacing-sm);
+	}
+
+	.team-detail-members-row-heading { display: none; }
+}

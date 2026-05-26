@@ -98,9 +98,21 @@ export async function getAllMembers(database: D1Database, teamId: string, limit?
 		SELECT
 			role.id AS id,
 			role.name AS name,
+			role.insertedAt AS joinedTeamAt,
 			profile.id AS profileId,
 			profile.name AS profileName,
-			profile.avatar AS avatar
+			profile.avatar AS avatar,
+			profile.email AS email,
+			profile.isBasedOnGTA AS isBasedOnGTA,
+			(
+				SELECT GROUP_CONCAT(team.name, '||')
+				FROM ${DBTables.ROLE} AS member_role
+				INNER JOIN ${DBTables.TEAM} AS team ON team.id = member_role.teamId
+				WHERE
+					member_role.profileId = profile.id
+					AND member_role.deletedAt IS NULL
+					AND team.deletedAt IS NULL
+			) AS teamNames
 		FROM ${DBTables.ROLE} AS role
 		INNER JOIN
 			${DBTables.ACCESS} AS access
@@ -118,7 +130,10 @@ export async function getAllMembers(database: D1Database, teamId: string, limit?
 		${limit ? `LIMIT ${limit} OFFSET ${offset}` : ''}
 		`).bind(teamId).run<TeamMemberInfo>();
 
-	return results;
+	return results.map((member) => ({
+		...member,
+		isBasedOnGTA: Boolean(member.isBasedOnGTA)
+	}));
 }
 
 export async function deleteTeamMembers(database: D1Database, teamId: string, data: string[]) {

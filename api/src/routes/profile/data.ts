@@ -213,6 +213,7 @@ export async function getProfileById(database: D1Database, id: string) {
 		database.prepare(`SELECT skill FROM ${DBTables.PROFILE_SKILLS} WHERE profileId = ?`).bind(id),
 		database.prepare(`
 			SELECT
+				team.id,
 				team.name,
 				team.description,
 				role.name AS role,

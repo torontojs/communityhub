@@ -1,0 +1,89 @@
+.team-card {
+	border: var(--border);
+	border-color: rgba(140, 140, 140, 0.2);
+	border-radius: var(--rounded-md);
+	padding: var(--spacing-md);
+}
+
+.team-card-header {
+	align-items: flex-start;
+	display: flex;
+	gap: 1rem;
+	margin-bottom: 0.875rem;
+	width: 100%;
+}
+
+.team-card-icon {
+	align-items: center;
+	background-color: var(--color-red-card);
+	border-radius: var(--rounded-full);
+	display: none;
+	height: 2.75rem;
+	justify-content: center;
+	width: 2.75rem;
+}
+
+.team-card-icon img {
+	height: 1.25rem;
+	width: 1.25rem;
+}
+
+.team-card-main {
+	align-items: flex-start;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.team-card-title {
+	color: var(--color-black);
+	font-size: var(--text-base);
+	font-weight: var(--weight-semibold);
+	line-height: 1.25;
+	margin: 0;
+	max-width: 100%;
+}
+
+.team-card-title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.team-card-header p {
+	color: var(--color-gray-600);
+	font-size: var(--text-xs);
+	line-height: 1.25;
+	margin: 0.125rem 0 0;
+}
+
+.team-card-edit-button {
+	all: unset;
+	cursor: pointer;
+	display: flex;
+	flex-shrink: 0;
+	line-height: 0;
+	padding: 0.125rem;
+}
+
+.team-card-edit-button img {
+	display: block;
+	height: 1.25rem;
+	width: 1.25rem;
+}
+
+.team-card-body > p {
+	color: var(--color-foreground);
+	font-size: var(--text-xs);
+	line-height: 1.55;
+	margin: 0;
+}
+
+@media screen and (max-width: 40rem) {
+	.team-card { padding: 1rem; }
+
+	.team-card-header { margin-bottom: 0.75rem; }
+
+	.team-card-icon { display: flex; }
+
+	.team-card-edit-button { display: none; }
+}
