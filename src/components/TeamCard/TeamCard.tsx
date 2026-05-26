@@ -5,7 +5,7 @@ interface Props {
 	href?: string;
 	memberCountLabel: string;
 	name: string;
-	onEdit?: () => void;
+	onEdit?(): void;
 }
 
 const TeamCard = ({ description, href, memberCountLabel, name, onEdit }: Props): React.JSX.Element => (

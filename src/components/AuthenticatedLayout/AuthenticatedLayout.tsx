@@ -10,12 +10,12 @@ interface Props {
 	mainClassName?: string;
 }
 
-const navItems: Array<{
+const navItems: {
 	id: ActivePage,
 	href: string,
 	icon: string,
 	label: string
-}> = [
+}[] = [
 	{
 		id: 'community',
 		href: '/pages/home',
