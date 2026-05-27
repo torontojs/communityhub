@@ -56,10 +56,6 @@ binding = "PasswordResetToken"
 id = "vms-local-password-reset-token"
 preview_id = "vms-local-password-reset-token"
 
-[[r2_buckets]]
-binding = "ExportedFiles"
-bucket_name = "vms-local-exported-files"
-
 # DEV env configurations
 [env.dev.vars]
 NODE_ENV = "development"
@@ -67,10 +63,18 @@ SENDER_EMAIL="organizers+dev@torontojs.com"
 BASE_URL = "https://vms-dev.torontojs.com"
 FRONTEND_URL = "https://volunteer-dev.torontojs.com"
 
+[env.dev.assets]
+directory = "dist/client"
+binding = "Assets"
+not_found_handling = "none"
+html_handling = "auto-trailing-slash"
+
 [[env.dev.d1_databases]]
 binding = "Database"
 database_name = "vms-dev"
 database_id = "72806519-1579-4df2-8db8-d3bdee7fd797"
+migrations_table = "migrations"
+migrations_dir = "db/migrations"
 
 [[env.dev.kv_namespaces]]
 binding = "SessionTokens"
@@ -87,10 +91,6 @@ binding = "PasswordResetToken"
 id = "5392322d41c44203bce89425fcc12f12"
 preview_id = "vms-dev-password-reset-token"
 
-[[env.dev.r2_buckets]]
-binding = "ExportedFiles"
-bucket_name = "vms-exported-files"
-
 # PRODUCTION env configuration
 [env.production.vars]
 NODE_ENV = "production"
@@ -98,10 +98,18 @@ SENDER_EMAIL="organizers@torontojs.com"
 BASE_URL = "https://vms.torontojs.com"
 FRONTEND_URL = "https://volunteer.torontojs.com"
 
+[env.production.assets]
+directory = "dist/client"
+binding = "Assets"
+not_found_handling = "none"
+html_handling = "auto-trailing-slash"
+
 [[env.production.d1_databases]]
 binding = "Database"
 database_name = "vms-production"
 database_id = "e6210263-1cd7-4af4-8241-afca8b93fb14"
+migrations_table = "migrations"
+migrations_dir = "db/migrations"
 
 [[env.production.kv_namespaces]]
 binding = "SessionTokens"
@@ -117,7 +125,3 @@ preview_id = "vms-production-activation-tokens"
 binding = "PasswordResetToken"
 id = "08ad1ddf3a134007bbed3b9266cd6d1f"
 preview_id = "vms-production-password-reset-token"
-
-[[env.production.r2_buckets]]
-binding = "ExportedFiles"
-bucket_name = "vms-exported-files"

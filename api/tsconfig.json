@@ -5,7 +5,9 @@
 		"lib": ["ESNext"],
 		"types": [
 			"./src/env.d.ts",
-			"@types/node"
+			"@types/node",
+			"vitest/globals",
+			"@cloudflare/vitest-pool-workers"
 		]
 	}
 }

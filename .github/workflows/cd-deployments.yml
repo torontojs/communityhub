@@ -1,0 +1,63 @@
+name: Cloudflare Worker Deployments
+
+env:
+  # Set the target environment variable for use in steps
+  TARGET_ENV: ${{ github.ref_name == 'main' && 'production' || 'dev' }}
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      deployments: write
+
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.TJS_CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.TJS_CLOUDFLARE_ACCOUNT_ID }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies and utilities
+        run: |
+          npm ci
+          sudo apt-get update
+
+      - name: Build project
+        run: npm run build
+
+      - name: Reset Dev Database Tables
+        if: ${{ env.TARGET_ENV == 'dev' }}
+        run: |
+          echo "Dropping all tables in dev environment..."
+          npx wrangler d1 execute Database --env dev --remote --file=./db/scripts/drop-dev-tables.sql
+
+      - name: Apply D1 Migrations to Database (Dev and Prod)
+        run: npx wrangler d1 migrations apply Database --env ${{ env.TARGET_ENV }} --remote
+
+      - name: Seed Data to DEV D1 Database (Dev Only)
+        if: ${{ env.TARGET_ENV == 'dev' }}
+        run: npx wrangler d1 execute Database --env dev --remote --file=./db/seeds/seed-data.sql
+
+      # Deployment using Cloudflare Action (Dev and Prod)
+      - name: Deploy Worker using cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          environment: ${{ env.TARGET_ENV }}
+          workingDirectory: "./"
