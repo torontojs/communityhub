@@ -70,6 +70,7 @@
 	border-radius: var(--rounded-md);
 	display: none;
 	font-size: var(--text-sm);
+	margin-top: 0.5rem;
 
 	p {
 		letter-spacing: 0%;
@@ -82,7 +83,6 @@
 
 	&.password-fail {
 		display: flex;
-		margin-top: 0.5rem;
 
 		&[data-password-fail=''] { display: none; }
 
@@ -107,13 +107,8 @@
 	}
 }
 
-#name-input-helper-text { display: none; }
-#name-input:not(:focus):user-invalid ~ #name-input-helper-text { display: block; }
+#name-input ~ .helper-container { display: none; }
+#name-input:user-invalid:not(:focus) ~ .helper-container { display: flex; }
 
 #email-input-helper-text { display: none; }
 #email-input:not(:focus):user-invalid ~ #email-input-helper-text { display: block; }
-
-.button-styling {
-	background: #ef343f;
-	color: white;
-}
