@@ -56,8 +56,9 @@ teamMemberRoutes.openapi(
 		const totalMembersCount = (count[0]?.['count']) as number;
 		const limitCount = z.coerce.number().optional().parse(context.req.query()['limit']);
 		const selectedPage = z.coerce.number().optional().parse(context.req.query()['page']);
+		const currentPageCount = selectedPage ?? 1;
 		const lastPageCount = !limitCount ? 1 : Math.ceil(totalMembersCount / limitCount);
-		const offset = !limitCount ? 0 : ((selectedPage ? selectedPage - 1 : 1) * limitCount);
+		const offset = !limitCount ? 0 : ((currentPageCount - 1) * limitCount);
 
 		const members = await getAllMembers(context.env.Database, id, limitCount, offset);
 		const firstPage = new URL(context.req.url);
@@ -65,7 +66,7 @@ teamMemberRoutes.openapi(
 		firstPage.searchParams.set('page', '1');
 		const currentPage = new URL(context.req.url);
 		currentPage.searchParams.set('limit', limitCount?.toString() ?? '');
-		currentPage.searchParams.set('page', selectedPage?.toString() ?? '');
+		currentPage.searchParams.set('page', currentPageCount.toString());
 		const lastPage = new URL(context.req.url);
 		lastPage.searchParams.set('limit', limitCount?.toString() ?? '');
 		lastPage.searchParams.set('page', lastPageCount.toString());
@@ -77,7 +78,7 @@ teamMemberRoutes.openapi(
 				end: !limitCount || offset + limitCount > totalMembersCount ? totalMembersCount - 1 : offset + limitCount - 1,
 				total: totalMembersCount,
 				size: members.length,
-				currentPage: selectedPage ?? 1,
+				currentPage: currentPageCount,
 				lastPage: lastPageCount,
 				_links: {
 					self: { href: currentPage.toString() },

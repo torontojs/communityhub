@@ -30,14 +30,13 @@
 	text-decoration: underline;
 }
 
-.team-detail-breadcrumb a::after,
-.team-detail-breadcrumb span::before {
+.team-detail-breadcrumb a::after {
 	color: var(--color-gray-500);
 	content: '>';
+	display: inline-block;
 	margin-left: 0.5rem;
+	text-decoration: none;
 }
-
-.team-detail-breadcrumb span::before { margin-right: 0.5rem; }
 
 .team-detail-title-row {
 	align-items: center;
@@ -48,7 +47,7 @@
 
 .team-detail-title-row h1 {
 	color: var(--color-black);
-	font-size: var(--text-xl);
+	font-size: var(--text-4xl);
 	font-weight: var(--weight-bold);
 	line-height: 1.2;
 	margin: 0;
@@ -148,7 +147,7 @@
 .team-detail-members-row-heading {
 	background: transparent;
 	color: var(--color-black);
-	font-size: 0.625rem;
+	font-size: var(--text-xs);
 	font-weight: var(--weight-semibold);
 	min-height: auto;
 	text-transform: uppercase;
@@ -194,6 +193,8 @@
 }
 
 .team-detail-member-name img { object-fit: cover; }
+
+.team-detail-member-avatar { text-decoration: none; }
 
 .team-detail-member-role {
 	color: var(--color-foreground);
@@ -246,8 +247,6 @@
 		align-items: flex-start;
 		flex-direction: column;
 	}
-
-	.team-detail-title-row h1 { font-size: var(--text-lg); }
 
 	.team-detail-edit-button {
 		align-self: flex-end;
