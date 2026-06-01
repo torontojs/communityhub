@@ -22,6 +22,11 @@ export const teamRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
 
+const TeamPaginationQuerySchema = z.object({
+	limit: z.coerce.number().int().positive().optional(),
+	page: z.coerce.number().int().positive().optional().default(1)
+});
+
 teamRoutes.openapi(
 	createRoute({
 		method: 'get',
@@ -75,13 +80,25 @@ teamRoutes.openapi(
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
 				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(TeamSchema)) } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid pagination response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
 	}),
 	async (context) => {
 		const totalTeamsCount = await countAllTeams(context.env.Database);
-		const limitCount = z.coerce.number().int().positive().optional().parse(context.req.query()['limit']);
-		const currentPageCount = z.coerce.number().int().positive().optional().default(1).parse(context.req.query()['page']);
+		const pagination = TeamPaginationQuerySchema.safeParse(context.req.query());
+
+		if (!pagination.success) {
+			return context.json({
+				message: 'Invalid pagination parameters',
+				errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+			} satisfies StatusResponse, StatusCodes.UNPROCESSABLE_CONTENT);
+		}
+
+		const { limit: limitCount, page: currentPageCount } = pagination.data;
 		const lastPageCount = !limitCount ? 1 : Math.max(1, Math.ceil(totalTeamsCount / limitCount));
 		const offset = !limitCount ? 0 : ((currentPageCount - 1) * limitCount);
 		const teams = await getAllTeams(context.env.Database, limitCount, offset);

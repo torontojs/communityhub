@@ -21,6 +21,11 @@ export const teamMemberRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
 
+const TeamMembersPaginationQuerySchema = z.object({
+	limit: z.coerce.number().int().positive().optional(),
+	page: z.coerce.number().int().positive().optional().default(1)
+});
+
 teamMemberRoutes.openapi(
 	createRoute({
 		method: 'get',
@@ -40,6 +45,10 @@ teamMemberRoutes.openapi(
 			[StatusCodes.NOT_FOUND]: {
 				description: 'Error response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid pagination response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
 	}),
@@ -51,13 +60,19 @@ teamMemberRoutes.openapi(
 			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}
 
-		// Pagination Setup TODO: Create a utility function for the below?
 		const count = await countAllMembers(context.env.Database, id);
 		const totalMembersCount = (count[0]?.['count']) as number;
-		const limitCount = z.coerce.number().optional().parse(context.req.query()['limit']);
-		const selectedPage = z.coerce.number().optional().parse(context.req.query()['page']);
-		const currentPageCount = selectedPage ?? 1;
-		const lastPageCount = !limitCount ? 1 : Math.ceil(totalMembersCount / limitCount);
+		const pagination = TeamMembersPaginationQuerySchema.safeParse(context.req.query());
+
+		if (!pagination.success) {
+			return context.json({
+				message: 'Invalid pagination parameters',
+				errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+			} satisfies StatusResponse, StatusCodes.UNPROCESSABLE_CONTENT);
+		}
+
+		const { limit: limitCount, page: currentPageCount } = pagination.data;
+		const lastPageCount = !limitCount ? 1 : Math.max(1, Math.ceil(totalMembersCount / limitCount));
 		const offset = !limitCount ? 0 : ((currentPageCount - 1) * limitCount);
 
 		const members = await getAllMembers(context.env.Database, id, limitCount, offset);

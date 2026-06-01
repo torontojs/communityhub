@@ -12,7 +12,7 @@ auth-token: cookie "auth_token"
 
 # Update self profile
 PATCH {{host}}/api/profiles/{{update_profile_id}}
-Cookie: auth_auth={{auth-token}}
+Cookie: auth_token={{auth-token}}
 {
 	"name": "Updated Name - root"
 }

@@ -23,3 +23,20 @@ HTTP 200
 jsonpath "$.start" == 1
 jsonpath "$.currentPage" == 2
 jsonpath "$.size" == 1
+
+# A page beyond the last page should return an empty result set
+GET {{host}}/api/teams?limit=1&page=999
+HTTP 200
+[Asserts]
+jsonpath "$.currentPage" == 999
+jsonpath "$.size" == 0
+
+# Invalid pagination values should be rejected
+GET {{host}}/api/teams?limit=0
+HTTP 422
+
+GET {{host}}/api/teams?page=0
+HTTP 422
+
+GET {{host}}/api/teams?limit=abc
+HTTP 422
