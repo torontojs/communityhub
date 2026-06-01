@@ -160,6 +160,10 @@
 	font-size: var(--text-xs);
 	gap: 0.75rem;
 	min-width: 0;
+	text-decoration: none;
+}
+
+.team-detail-member-name-text {
 	text-decoration: underline;
 }
 

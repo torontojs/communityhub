@@ -50,8 +50,7 @@ const TEAM_MEMBERS_PAGE_SIZE_OPTIONS = [TEAM_MEMBERS_PAGE_SIZE_SMALL, TEAM_MEMBE
 
 const canManage = (access: AccessLevel | null): boolean => access === 'admin' || access === 'organizer';
 
-const getMemberTeamNames = (member: TeamMember, fallbackTeamName: string): string[] =>
-	(member.teamNames ?? fallbackTeamName).split('||').filter(Boolean);
+const getMemberTeamNames = (member: TeamMember, fallbackTeamName: string): string[] => (member.teamNames ?? fallbackTeamName).split('||').filter(Boolean);
 
 const getInitials = (name: string): string =>
 	name
@@ -277,7 +276,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 											{member.avatar ?
 												<img src={member.avatar} alt='' /> :
 												<span className='team-detail-member-avatar'>{getInitials(member.profileName)}</span>}
-											<span>{member.profileName}</span>
+											<span className='team-detail-member-name-text'>{member.profileName}</span>
 										</a>
 										<div className='team-detail-member-teams' role='cell'>
 											{teamNames.slice(0, MAXIMUM_VISIBLE_MEMBER_TEAMS).map((teamName) => <span key={teamName}>{teamName}</span>)}
