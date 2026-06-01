@@ -32,11 +32,20 @@ interface DataResponse<T> {
 }
 
 interface PaginatedResponse<T> {
+	currentPage: number;
 	data: T[];
+	lastPage: number;
 	total: number;
 }
 
 type AccessLevel = 'admin' | 'organizer' | 'volunteer';
+
+const FIRST_PAGE = 1;
+const TEAM_MEMBERS_PAGE_SIZE_LARGE = 25;
+const TEAM_MEMBERS_PAGE_SIZE_MAXIMUM = 50;
+const TEAM_MEMBERS_PAGE_SIZE_SMALL = 5;
+const TEAM_MEMBERS_PAGE_SIZE = 10;
+const TEAM_MEMBERS_PAGE_SIZE_OPTIONS = [TEAM_MEMBERS_PAGE_SIZE_SMALL, TEAM_MEMBERS_PAGE_SIZE, TEAM_MEMBERS_PAGE_SIZE_LARGE, TEAM_MEMBERS_PAGE_SIZE_MAXIMUM];
 
 const canManage = (access: AccessLevel | null): boolean => access === 'admin' || access === 'organizer';
 
@@ -69,6 +78,9 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [members, setMembers] = useState<TeamMember[]>([]);
+	const [membersCurrentPage, setMembersCurrentPage] = useState<number>(FIRST_PAGE);
+	const [membersLastPage, setMembersLastPage] = useState<number>(FIRST_PAGE);
+	const [membersPageSize, setMembersPageSize] = useState<number>(TEAM_MEMBERS_PAGE_SIZE);
 	const [membersTotal, setMembersTotal] = useState<number>(0);
 	const [pageError, setPageError] = useState<string | null>(null);
 	const [searchQuery, setSearchQuery] = useState<string>('');
@@ -85,13 +97,13 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		return member.profileName.toLowerCase().includes(query) || member.email.toLowerCase().includes(query);
 	});
 
-	const fetchTeamDetail = async (): Promise<void> => {
+	const fetchTeamDetail = async (page = FIRST_PAGE, pageSize = membersPageSize): Promise<void> => {
 		setPageError(null);
 
 		try {
 			const [teamResponse, membersResponse] = await Promise.all([
 				fetch(`/api/teams/${teamId}`),
-				fetch(`/api/teams/${teamId}/members`)
+				fetch(`/api/teams/${teamId}/members?limit=${pageSize}&page=${page}`)
 			]);
 
 			if (!teamResponse.ok) {
@@ -107,6 +119,8 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 
 			setTeam(teamData.data);
 			setMembers(membersData.data);
+			setMembersCurrentPage(membersData.currentPage);
+			setMembersLastPage(membersData.lastPage);
 			setMembersTotal(membersData.total);
 		} catch (error) {
 			setPageError('Unable to load team. Please try refreshing the page.');
@@ -141,6 +155,18 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		void fetchTeamDetail();
 	}, [teamId]);
 
+	const handleMembersPageChange = (page: number): void => {
+		setIsLoaded(false);
+		fetchTeamDetail(page).catch((error: unknown) => console.error('Error changing team members page:', error));
+	};
+
+	const handleMembersPageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+		const pageSize = Number(event.target.value);
+		setMembersPageSize(pageSize);
+		setIsLoaded(false);
+		fetchTeamDetail(FIRST_PAGE, pageSize).catch((error: unknown) => console.error('Error changing team members page size:', error));
+	};
+
 	const handleEditTeamSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
 		event.preventDefault();
 		setEditError(null);
@@ -174,7 +200,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 				return false;
 			}
 
-			await fetchTeamDetail();
+			await fetchTeamDetail(membersCurrentPage, membersPageSize);
 			return true;
 		} catch (error) {
 			setEditError('Unable to update team. Please try again.');
@@ -259,6 +285,27 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 						</div>
 					)}
 			</section>
+
+			<div className='team-detail-pagination'>
+				<label>
+					<span>Results per page</span>
+					<select value={membersPageSize} onChange={handleMembersPageSizeChange}>
+						{TEAM_MEMBERS_PAGE_SIZE_OPTIONS.map((pageSize) => <option key={pageSize} value={pageSize}>{pageSize}</option>)}
+					</select>
+				</label>
+				<nav aria-label='Team members pagination'>
+					{Array.from({ length: membersLastPage }, (_, index) => index + FIRST_PAGE).map((page) => (
+						<button
+							type='button'
+							aria-current={page === membersCurrentPage ? 'page' : undefined}
+							key={page}
+							onClick={() => handleMembersPageChange(page)}
+						>
+							{page}
+						</button>
+					))}
+				</nav>
+			</div>
 
 			{isEditModalOpen && (
 				<AddTeamFormModal

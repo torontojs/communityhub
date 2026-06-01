@@ -15,7 +15,7 @@ import {
 	StatusResponseSchema
 } from '../../utils/responses.ts';
 import { IdParamSchema } from '../../utils/validation.ts';
-import { deleteTeamById, doesSameTeamNameExist, doesTeamExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
+import { countAllTeams, deleteTeamById, doesSameTeamNameExist, doesTeamExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
 import { CreateTeamSchema, TeamSchema, UpdateTeamSchema } from './validation.ts';
 
 export const teamRoutes = new OpenAPIHono<EnvironmentBindings>({
@@ -79,22 +79,36 @@ teamRoutes.openapi(
 		}
 	}),
 	async (context) => {
-		const teams = await getAllTeams(context.env.Database);
+		const totalTeamsCount = await countAllTeams(context.env.Database);
+		const limitCount = z.coerce.number().int().positive().optional().parse(context.req.query()['limit']);
+		const currentPageCount = z.coerce.number().int().positive().optional().default(1).parse(context.req.query()['page']);
+		const lastPageCount = !limitCount ? 1 : Math.max(1, Math.ceil(totalTeamsCount / limitCount));
+		const offset = !limitCount ? 0 : ((currentPageCount - 1) * limitCount);
+		const teams = await getAllTeams(context.env.Database, limitCount, offset);
+
+		const firstPage = new URL(context.req.url);
+		firstPage.searchParams.set('limit', limitCount?.toString() ?? '');
+		firstPage.searchParams.set('page', '1');
+		const currentPage = new URL(context.req.url);
+		currentPage.searchParams.set('limit', limitCount?.toString() ?? '');
+		currentPage.searchParams.set('page', currentPageCount.toString());
+		const lastPage = new URL(context.req.url);
+		lastPage.searchParams.set('limit', limitCount?.toString() ?? '');
+		lastPage.searchParams.set('page', lastPageCount.toString());
 
 		return context.json(
-			// TODO: implement proper pagination
 			{
 				data: teams,
-				start: 0,
-				end: teams.length - 1,
-				total: teams.length,
+				start: offset,
+				end: !limitCount || offset + limitCount > totalTeamsCount ? totalTeamsCount - 1 : offset + limitCount - 1,
+				total: totalTeamsCount,
 				size: teams.length,
-				currentPage: 1,
-				lastPage: 1,
+				currentPage: currentPageCount,
+				lastPage: lastPageCount,
 				_links: {
-					self: { href: context.req.url },
-					first: { href: context.req.url },
-					last: { href: context.req.url }
+					self: { href: currentPage.toString() },
+					first: { href: firstPage.toString() },
+					last: { href: lastPage.toString() }
 				}
 			} satisfies PaginatedResponse<typeof teams>,
 			StatusCodes.OKAY

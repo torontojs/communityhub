@@ -20,7 +20,9 @@ export interface TeamMemberProfile {
 }
 
 interface PaginatedResponse<T> {
+	currentPage: number;
 	data: T[];
+	lastPage: number;
 }
 
 interface TeamMembersState {
@@ -31,26 +33,38 @@ interface TeamMembersState {
 
 type AccessLevel = 'admin' | 'organizer' | 'volunteer';
 
+const FIRST_PAGE = 1;
+const TEAMS_PAGE_SIZE_LARGE = 25;
+const TEAMS_PAGE_SIZE_MAXIMUM = 50;
+const TEAMS_PAGE_SIZE_SMALL = 5;
+const TEAMS_PAGE_SIZE = 10;
+const TEAMS_PAGE_SIZE_OPTIONS = [TEAMS_PAGE_SIZE_SMALL, TEAMS_PAGE_SIZE, TEAMS_PAGE_SIZE_LARGE, TEAMS_PAGE_SIZE_MAXIMUM];
+
 const Teams = () => {
 	const [isLoadedTeamsData, setIsLoadedTeamsData] = useState<boolean>(false);
 	const [isAddTeamModalOpen, setIsAddTeamModalOpen] = useState<boolean>(false);
 	const [editingTeam, setEditingTeam] = useState<Team | null>(null);
 	const [currentUserAccess, setCurrentUserAccess] = useState<AccessLevel | null>(null);
 	const [teamsData, setTeamsData] = useState<Team[]>([]);
+	const [teamsCurrentPage, setTeamsCurrentPage] = useState<number>(FIRST_PAGE);
+	const [teamsLastPage, setTeamsLastPage] = useState<number>(FIRST_PAGE);
+	const [teamsPageSize, setTeamsPageSize] = useState<number>(TEAMS_PAGE_SIZE);
 	const [teamMembersByTeamId, setTeamMembersByTeamId] = useState<Record<string, TeamMembersState>>({});
 	const [addTeamError, setAddTeamError] = useState<string | null>(null);
 	const [teamsDataError, setTeamsDataError] = useState<string | null>(null);
 	const canManageTeams = currentUserAccess === 'admin' || currentUserAccess === 'organizer';
 
 	const fetchTeamsData = useCallback(
-		async ({ showLoading = true }: { showLoading?: boolean } = {}): Promise<void> => {
+		async (
+			{ page = teamsCurrentPage, pageSize = teamsPageSize, showLoading = true }: { page?: number, pageSize?: number, showLoading?: boolean } = {}
+		): Promise<void> => {
 			if (showLoading) {
 				setIsLoadedTeamsData(false);
 			}
 			setTeamsDataError(null);
 
 			try {
-				const responseTeams = await fetch('/api/teams');
+				const responseTeams = await fetch(`/api/teams?limit=${pageSize}&page=${page}`);
 				if (!responseTeams.ok) {
 					throw new Error('Failed to fetch teams data');
 				}
@@ -58,6 +72,8 @@ const Teams = () => {
 				const teamsResponse = await responseTeams.json() as PaginatedResponse<Team>;
 
 				setTeamsData(teamsResponse.data);
+				setTeamsCurrentPage(teamsResponse.currentPage);
+				setTeamsLastPage(teamsResponse.lastPage);
 			} catch (error) {
 				setTeamsDataError('Unable to load teams. Please try refreshing the page.');
 				console.error('Error fetching teams data:', error);
@@ -65,7 +81,7 @@ const Teams = () => {
 				setIsLoadedTeamsData(true);
 			}
 		},
-		[]
+		[teamsCurrentPage, teamsPageSize]
 	);
 
 	useEffect(() => {
@@ -147,6 +163,15 @@ const Teams = () => {
 
 		setAddTeamError(null);
 		setIsAddTeamModalOpen(true);
+	};
+
+	const handleTeamsPageChange = (page: number): void => {
+		setTeamsCurrentPage(page);
+	};
+
+	const handleTeamsPageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+		setTeamsPageSize(Number(event.target.value));
+		setTeamsCurrentPage(FIRST_PAGE);
 	};
 
 	const handleEditTeamSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
@@ -329,6 +354,26 @@ const Teams = () => {
 							</div>
 						)}
 				</section>
+				<div className='teams-pagination'>
+					<label>
+						<span>Results per page</span>
+						<select value={teamsPageSize} onChange={handleTeamsPageSizeChange}>
+							{TEAMS_PAGE_SIZE_OPTIONS.map((pageSize) => <option key={pageSize} value={pageSize}>{pageSize}</option>)}
+						</select>
+					</label>
+					<nav aria-label='Teams pagination'>
+						{Array.from({ length: teamsLastPage }, (_, index) => index + FIRST_PAGE).map((page) => (
+							<button
+								type='button'
+								aria-current={page === teamsCurrentPage ? 'page' : undefined}
+								key={page}
+								onClick={() => handleTeamsPageChange(page)}
+							>
+								{page}
+							</button>
+						))}
+					</nav>
+				</div>
 				{isAddTeamModalOpen && (
 					<AddTeamFormModal
 						error={addTeamError}

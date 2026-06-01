@@ -106,6 +106,54 @@
 	font-weight: var(--weight-semibold);
 }
 
+.teams-pagination {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	margin-top: var(--spacing-sm);
+}
+
+.teams-pagination label {
+	align-items: center;
+	display: flex;
+	gap: var(--spacing-xs);
+}
+
+.teams-pagination span,
+.teams-pagination select {
+	color: var(--color-gray-600);
+	font-size: var(--text-xs);
+}
+
+.teams-pagination select {
+	background-color: var(--color-background);
+	border: var(--border);
+	border-radius: var(--rounded-sm);
+	padding: 0.25rem var(--spacing-sm);
+}
+
+.teams-pagination nav {
+	display: flex;
+	gap: var(--spacing-xs);
+}
+
+.teams-pagination button {
+	background-color: transparent;
+	border: 0;
+	border-radius: var(--rounded-full);
+	color: var(--color-gray-600);
+	cursor: pointer;
+	font-size: var(--text-xs);
+	height: 1.5rem;
+	padding: 0;
+	width: 1.5rem;
+}
+
+.teams-pagination button[aria-current='page'] {
+	background-color: var(--color-gray-700);
+	color: var(--color-white);
+}
+
 @media screen and (max-width: 64rem) {
 	.teams-page {
 		margin-inline: 0.9375rem;

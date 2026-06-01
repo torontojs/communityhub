@@ -93,12 +93,24 @@ export async function getTeamById(database: D1Database, id: string) {
 	return team;
 }
 
-export async function getAllTeams(database: D1Database) {
-	const { results } = await database.prepare(`
+export async function countAllTeams(database: D1Database) {
+	const result = await database.prepare(`
+		SELECT COUNT(*) AS count
+		FROM ${DBTables.TEAM}
+		WHERE deletedAt IS NULL
+	`).first<{ count: number }>();
+
+	return result?.count ?? 0;
+}
+
+export async function getAllTeams(database: D1Database, limit?: number, offset = 0) {
+	const query = database.prepare(`
 		SELECT *
 		FROM ${DBTables.TEAM}
 		WHERE deletedAt IS NULL
-	`).run<Team>();
+		${limit ? 'LIMIT ? OFFSET ?' : ''}
+	`);
+	const { results } = await (limit ? query.bind(limit, offset) : query).run<Team>();
 
 	return results;
 }
