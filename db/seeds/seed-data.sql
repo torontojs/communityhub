@@ -98,6 +98,161 @@ VALUES (
 
 -- #endregion
 
+-- #region Team: Committee for Elaborate Tea Breaks
+-- Create team
+INSERT INTO "team" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name",
+	"description"
+)
+VALUES (
+	'd7fc8dd1-2b51-449d-9fb2-b837b53bb98d', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Committee for Elaborate Tea Breaks',
+	'Schedules carefully structured pauses for tea, biscuits, and extended discussion of kettle readiness.'
+);
+
+-- Add team to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'516989a8-095d-4486-a20d-685fb367d744', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 'profile',
+	'created',
+	'd7fc8dd1-2b51-449d-9fb2-b837b53bb98d', 'team'
+);
+
+-- Team members
+
+-- #endregion
+
+-- #region Team: Office of Excessive Paperwork
+-- Create team
+INSERT INTO "team" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name",
+	"description"
+)
+VALUES (
+	'b356f5e5-578c-4772-a781-f2b7c135d337', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Office of Excessive Paperwork',
+	'Produces forms, copies, and approval workflows for situations that previously required none.'
+);
+
+-- Add team to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'9939ba66-2406-4c4f-bd92-fb8b0db564df', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 'profile',
+	'created',
+	'b356f5e5-578c-4772-a781-f2b7c135d337', 'team'
+);
+
+-- Team members
+
+-- #endregion
+
+-- #region Team: Bureau of Unexpected Meetings
+-- Create team
+INSERT INTO "team" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name",
+	"description"
+)
+VALUES (
+	'97fc9cad-f325-41ac-a4e8-cf2fb30b40c1', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Bureau of Unexpected Meetings',
+	'Coordinates spontaneous calendar invitations with unclear agendas and ambitious follow-up sessions.'
+);
+
+-- Add team to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'5af291d1-37c2-4084-8b5d-0163b63d62bf', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 'profile',
+	'created',
+	'97fc9cad-f325-41ac-a4e8-cf2fb30b40c1', 'team'
+);
+
+-- Team members
+
+-- #endregion
+
+-- #region Team: Department of Strategic Queueing
+-- Create team
+INSERT INTO "team" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name",
+	"description"
+)
+VALUES (
+	'2fe1ed1f-56dc-498d-95e2-5240c9115a79', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Department of Strategic Queueing',
+	'Researches orderly lines, advanced waiting techniques, and the optimal placement of velvet ropes.'
+);
+
+-- Add team to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'297ee048-7045-450c-93fe-0ea92ed32f89', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 'profile',
+	'created',
+	'2fe1ed1f-56dc-498d-95e2-5240c9115a79', 'team'
+);
+
+-- Team members
+
+-- #endregion
+
+-- #region Team: Council for Very Important Memos
+-- Create team
+INSERT INTO "team" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name",
+	"description"
+)
+VALUES (
+	'139e78a2-9d36-4f31-9828-3446ca4d3da6', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Council for Very Important Memos',
+	'Drafts formal notices about formatting standards, meeting etiquette, and the circulation of future notices.'
+);
+
+-- Add team to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'05519aec-685b-403c-a84b-e9eb853f4ba4', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 'profile',
+	'created',
+	'139e78a2-9d36-4f31-9828-3446ca4d3da6', 'team'
+);
+
+-- Team members
+
+-- #endregion
+
 -- #region User: king.arthur@camelot.uk
 
 -- Email: "king.arthur@camelot.uk"

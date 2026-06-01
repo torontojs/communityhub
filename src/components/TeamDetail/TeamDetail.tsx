@@ -41,6 +41,7 @@ interface PaginatedResponse<T> {
 type AccessLevel = 'admin' | 'organizer' | 'volunteer';
 
 const FIRST_PAGE = 1;
+const MAXIMUM_VISIBLE_MEMBER_TEAMS = 2;
 const TEAM_MEMBERS_PAGE_SIZE_LARGE = 25;
 const TEAM_MEMBERS_PAGE_SIZE_MAXIMUM = 50;
 const TEAM_MEMBERS_PAGE_SIZE_SMALL = 5;
@@ -48,6 +49,9 @@ const TEAM_MEMBERS_PAGE_SIZE = 10;
 const TEAM_MEMBERS_PAGE_SIZE_OPTIONS = [TEAM_MEMBERS_PAGE_SIZE_SMALL, TEAM_MEMBERS_PAGE_SIZE, TEAM_MEMBERS_PAGE_SIZE_LARGE, TEAM_MEMBERS_PAGE_SIZE_MAXIMUM];
 
 const canManage = (access: AccessLevel | null): boolean => access === 'admin' || access === 'organizer';
+
+const getMemberTeamNames = (member: TeamMember, fallbackTeamName: string): string[] =>
+	(member.teamNames ?? fallbackTeamName).split('||').filter(Boolean);
 
 const getInitials = (name: string): string =>
 	name
@@ -87,6 +91,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	const [team, setTeam] = useState<Team | null>(null);
 
 	const canManageTeams = canManage(access);
+	const hasMembers = members.length > 0;
 	const visibleMembers = members.filter((member) => {
 		const query = searchQuery.trim().toLowerCase();
 
@@ -238,16 +243,18 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 			<section className='team-detail-members-card' aria-labelledby='team-members-heading'>
 				<div className='team-detail-members-header'>
 					<h2 id='team-members-heading'>Members ({membersTotal})</h2>
-					<label className='team-detail-search'>
-						<span className='visually-hidden'>Search members</span>
-						<span className='team-detail-search-icon' aria-hidden='true' />
-						<input
-							type='search'
-							value={searchQuery}
-							onChange={(event) => setSearchQuery(event.target.value)}
-							placeholder='Search by name or email'
-						/>
-					</label>
+					{hasMembers && (
+						<label className='team-detail-search'>
+							<span className='visually-hidden'>Search members</span>
+							<span className='team-detail-search-icon' aria-hidden='true' />
+							<input
+								type='search'
+								value={searchQuery}
+								onChange={(event) => setSearchQuery(event.target.value)}
+								placeholder='Search by name or email'
+							/>
+						</label>
+					)}
 				</div>
 
 				{visibleMembers.length > 0 ?
@@ -260,28 +267,34 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 								<span role='columnheader'>Based in the GTA?</span>
 								<span role='columnheader'>Joined the team</span>
 							</div>
-							{visibleMembers.map((member) => (
-								<div className='team-detail-members-row' role='row' key={member.id}>
-									<a className='team-detail-member-name' href={`/pages/profile?id=${member.profileId}`} role='cell'>
-										{member.avatar ?
-											<img src={member.avatar} alt='' /> :
-											<span className='team-detail-member-avatar'>{getInitials(member.profileName)}</span>}
-										<span>{member.profileName}</span>
-									</a>
-									<div className='team-detail-member-teams' role='cell'>
-										{(member.teamNames ?? team.name).split('||').filter(Boolean).map((teamName) => <span key={teamName}>{teamName}</span>)}
+							{visibleMembers.map((member) => {
+								const teamNames = getMemberTeamNames(member, team.name);
+								const additionalTeamCount = teamNames.length - MAXIMUM_VISIBLE_MEMBER_TEAMS;
+
+								return (
+									<div className='team-detail-members-row' role='row' key={member.id}>
+										<a className='team-detail-member-name' href={`/pages/profile?id=${member.profileId}`} role='cell'>
+											{member.avatar ?
+												<img src={member.avatar} alt='' /> :
+												<span className='team-detail-member-avatar'>{getInitials(member.profileName)}</span>}
+											<span>{member.profileName}</span>
+										</a>
+										<div className='team-detail-member-teams' role='cell'>
+											{teamNames.slice(0, MAXIMUM_VISIBLE_MEMBER_TEAMS).map((teamName) => <span key={teamName}>{teamName}</span>)}
+											{additionalTeamCount > 0 && <span className='team-detail-member-teams-overflow'>+{additionalTeamCount}</span>}
+										</div>
+										<span className='team-detail-member-role' role='cell'>{member.name}</span>
+										<span role='cell'>{member.isBasedOnGTA ? 'Yes' : 'No'}</span>
+										<span role='cell'>{formatJoinedDate(member.joinedTeamAt)}</span>
 									</div>
-									<span className='team-detail-member-role' role='cell'>{member.name}</span>
-									<span role='cell'>{member.isBasedOnGTA ? 'Yes' : 'No'}</span>
-									<span role='cell'>{formatJoinedDate(member.joinedTeamAt)}</span>
-								</div>
-							))}
+								);
+							})}
 						</div>
 					) :
 					(
 						<div className='team-detail-empty-state'>
 							<EmptyIcon />
-							<p>No members to display yet.</p>
+							<p>{hasMembers ? 'No members match your search.' : 'No members to display yet.'}</p>
 						</div>
 					)}
 			</section>
