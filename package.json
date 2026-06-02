@@ -36,9 +36,11 @@
 		"lint": "npm run typecheck && npm run lint:js",
 
 		"test:coverage": "vitest run --coverage",
-		"test:unit": "vitest run",
+		"test:unit": "vitest run --exclude api/src/routes/auth/index.test.ts",
+		"test:integration": "vitest run api/src/routes/auth/index.test.ts",
 		"test:api-file": "hurl --continue-on-error --jobs 4 --max-time 300 --test --variables-file .dev.vars --variables-file .api-test.vars",
 		"test:api": "npm run test:api-file -- --glob \"**/*.hurl\"",
+		"test:all": "npm run test:unit && npm run test:integration && npm run test:api",
 		"test": "vitest"
 	},
 	"dependencies": {

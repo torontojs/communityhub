@@ -1,1 +1,224 @@
+.grid-container.home-grid-container {
+	display: grid;
+	grid-template-columns: 19.125rem 1fr;
+	grid-template-rows: auto 1fr auto;
+	height: auto;
+	margin: 0 auto;
+	max-width: 80rem;
 
+	& header { grid-column: 1 / -1; }
+
+	& main {
+		height: 100%;
+		margin: 0.625rem 0.9375rem var(--spacing-lg);
+	}
+}
+
+.main-header {
+	align-items: center;
+	border-bottom: var(--border);
+	display: flex;
+	height: 3.75rem;
+	justify-content: space-between;
+
+	& .torontojs-logo {
+		height: 2rem;
+		margin-left: 1.25rem;
+		width: 2rem;
+	}
+}
+
+.inner-header {
+	display: flex;
+	height: 2rem;
+	justify-content: space-between;
+	margin-right: 1.25rem;
+	width: 5rem;
+}
+
+.sidebar-left {
+	height: 41.25rem;
+	padding: var(--spacing-md) var(--spacing-sm);
+	width: 17.5rem;
+
+	& .sidebar-left-container { width: 100%; }
+
+	& a {
+		all: unset;
+		align-items: center;
+		cursor: pointer;
+		display: flex;
+		height: 3.125rem;
+		margin-bottom: var(--spacing-xs);
+		width: 15.5rem;
+	}
+
+	& a img {
+		height: 1.5rem;
+		margin: 0.9375rem;
+		width: 1.5rem;
+	}
+
+	& a span {
+		color: var(--color-black);
+		font-size: var(--text-xs);
+	}
+
+	& .sidebar-text-only { margin-left: 3.375rem; }
+
+	& a:first-of-type {
+		background-color: var(--color-accent);
+		border-radius: var(--rounded-sm);
+	}
+
+	& a:first-of-type span { color: #ffffff; }
+}
+
+.sections-container {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5625rem;
+}
+
+.about {
+	border: var(--border);
+	border-color: rgba(140, 140, 140, 0.2);
+	border-radius: var(--rounded-md);
+	display: flex;
+	flex-direction: column;
+	gap: 0.625rem;
+	line-height: 160%;
+	max-width: 57.5rem;
+	padding: var(--spacing-md);
+
+	& h3 {
+		align-self: flex-start;
+		font-size: var(--text-lg);
+		font-weight: var(--weight-regular);
+		line-height: 1.5625rem;
+		margin: 0;
+	}
+
+	& .about-header-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	& div {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+	}
+
+	& .about-description-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: left;
+		width: 100%;
+	}
+
+	& .about-description {
+		color: var(--color-gray-900);
+		font-size: var(--text-base);
+		font-weight: var(--weight-regular);
+	}
+}
+
+.about h3,
+.skills h2,
+.social-links .social-links-header h2 {
+	color: var(--color-gray-900);
+	font-size: var(--text-lg);
+	font-weight: var(--weight-regular);
+	line-height: 1.5625rem;
+}
+
+.skills {
+	border: var(--border);
+	border-color: rgba(140, 140, 140, 0.2);
+	border-radius: var(--rounded-md);
+	display: flex;
+	flex-direction: column;
+	max-width: 57.5rem;
+
+	& h2 {
+		margin: 0;
+		padding: var(--spacing-md) var(--spacing-md) 0;
+	}
+}
+
+.social-links {
+	position: relative;
+
+	& .social-links-container {
+		border: var(--border);
+		border-color: rgba(140, 140, 140, 0.2);
+		border-radius: var(--rounded-md);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		max-width: 57.5rem;
+		min-height: 13.125rem;
+		padding: 1.25rem;
+		position: relative;
+	}
+
+	& .social-links-header {
+		align-items: flex-start;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	& .social-links-header h2 {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.social-links .home-section-content { padding: var(--spacing-sm) 0 0; }
+
+.social-links .home-list { gap: 0; }
+
+.home-section-content { padding: 0 var(--spacing-md) var(--spacing-md); }
+
+.home-goals-section .home-section-content { padding-top: var(--spacing-sm); }
+
+.home-goals-section .home-list { gap: 0; }
+
+.home-contributing-section .home-section-content { padding-top: var(--spacing-sm); }
+
+.home-list {
+	color: var(--color-gray-700);
+	display: flex;
+	flex-direction: column;
+	gap: 0.625rem;
+	margin: 0;
+	padding-left: 1.25rem;
+}
+
+.home-list li {
+	font-size: var(--text-xs);
+	line-height: 1.6;
+	padding-left: 0.125rem;
+}
+
+.home-copy {
+	color: var(--color-gray-700);
+	font-size: var(--text-xs);
+	line-height: 1.6;
+	margin: 0;
+}
+
+.home-copy a,
+.home-list a {
+	color: var(--color-accent);
+	text-decoration: underline;
+}
+
+@media screen and (max-width: 40rem) {
+	.grid-container.home-grid-container { grid-template-columns: 1fr; }
+	.sidebar-left { display: none; }
+	.grid-container.home-grid-container { max-width: 40rem; }
+}
