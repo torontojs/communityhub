@@ -63,11 +63,14 @@ async function getEventLog(_app: OpenAPIHono<EnvironmentBindings>, _env: Env, _c
 	return Promise.resolve([] as EventLog[]);
 }
 
-async function uploadFile(env: Env, path: string, data: string) {
-	const textEncoder = new TextEncoder();
-	const dataBuffer = textEncoder.encode(data);
-	const hash = await crypto.subtle.digest('SHA-1', dataBuffer);
-	const result = await env.ExportedFiles.put(path, data, { sha1: hash });
+async function uploadFile(_env: Env, path: string, _data: string) {
+	// TODO: Re-enable when R2 is configured or Re-write for a different storage
+	// const textEncoder = new TextEncoder();
+	// const dataBuffer = textEncoder.encode(data);
+	// const hash = await crypto.subtle.digest('SHA-1', dataBuffer);
+	// const result = await env.ExportedFiles.put(path, data, { sha1: hash });
+
+	const result = await Promise.resolve(null);
 
 	if (!result) {
 		throw new Error(`File not uploaded: ${path}`);

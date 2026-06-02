@@ -20,7 +20,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'65c09d85-eda1-470e-9a2e-9ce7a1994613', 1, 'admin', '0az0isH9H1/NnD4TsbRlOQ==:fCgNPS12kUKtM6xtAmsaT4TXydTxDPXz5/GQY16FdQXgl3bhGUZjMYTbFJMOJlbQe4bmQ0z9wEYbjDApTnd7iA==', 'root@torontojs.com', '2025-06-14T22:04:47Z', 'profile-completed', NULL
+	'65c09d85-eda1-470e-9a2e-9ce7a1994613', 1, 'admin', 'ZmWgn7sLLqtjXIUGvi4aKw==:aglWvBMkT025hhph8cAVr8oDwEpBadGeafAB+6ECM94E9poiN80yGD3RlmEpXC3eFP2Mb/2m7fIB32RLAvif2w==', 'root@torontojs.com', '2025-06-14T22:04:47Z', 'profile-completed', NULL
 );
 
 -- Add event log to Toronto JS
@@ -101,7 +101,7 @@ VALUES (
 -- #region User: king.arthur@camelot.uk
 
 -- Email: "king.arthur@camelot.uk"
--- Password: "H0lyGr@il42!"
+-- Password: "H0lyGr@il42!L0rd"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -120,7 +120,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 1, 'organizer', 'saMwRm9Sfm0QSkmxgAIadA==:1pkHxwpYK2HCWlItbMNfJ0XmvTmnTXD2l70s5GMLtMUC85fhbMU9B0VKSFzWALQXtc945LB5zsKNg0w1cybCKA==', 'king.arthur@camelot.uk', '2025-06-14T22:04:47Z', 'profile-completed', NULL
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 1, 'organizer', '93BLyQ4D5SV2T/WV0e8gvQ==:ppVJhUYl+QxiDb6I1OSN0oOlgRPX1BnW1Y5hbLbsSpX25KVau2jYLAvgUtKlPwdpWl/AjzMz3DDi0TNbcOcVcw==', 'king.arthur@camelot.uk', '2025-06-14T22:04:47Z', 'profile-completed', NULL
 );
 
 -- Add event log to Toronto JS
@@ -256,7 +256,7 @@ VALUES (
 -- #region User: black.knight@bridgeguard.io
 
 -- Email: "black.knight@bridgeguard.io"
--- Password: "ItzJustaFsh!"
+-- Password: "ItzJustaFsh!Kn1ght"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -275,7 +275,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'bf950534-e8f9-4f5a-a246-610aa63faf21', 1, 'organizer', 'RF7QfD2By+hvuHJAYnhgQQ==:UkSTkyjigT206gSFG34zf5LJtSRs5Ps7p1bmBCP2VI44TvmHwTFuN/ec52wt/iqjb2pyvw12bwh/+bRbIPywkw==', 'black.knight@bridgeguard.io', '2025-06-14T22:04:47Z', 'profile-completed', NULL
+	'bf950534-e8f9-4f5a-a246-610aa63faf21', 1, 'organizer', 'wamS3XGyTFC5mDz3zqYRNQ==:Ixi0nJPa9le/Etzs6spFbr0jAah5SYorbzLb4J+e8gntXVIOAXWhz4OpyXOYgsgvJ0r74yzDDfBJCVTlLmZuig==', 'black.knight@bridgeguard.io', '2025-06-14T22:04:47Z', 'profile-completed', NULL
 );
 
 -- Add event log to Toronto JS
@@ -383,7 +383,7 @@ VALUES (
 -- #region User: sir.robin@cowardly.co
 
 -- Email: "sir.robin@cowardly.co"
--- Password: "RunAway!1234"
+-- Password: "RunAway!1234Run"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -402,7 +402,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'37a4882c-3b7d-46c0-b019-c37e2445dae8', 1, 'volunteer', 'T9BIjZ5/dWpsZQUR+bsOPw==:Rh4lV5+K0hkSmoTgaFtKXswXmLiug1VrhwLyrmnWhUCLzJ+BEde5jtEqVYYHg5NRvXimpq/YPXSUlx17YHsELQ==', 'sir.robin@cowardly.co', '2025-06-14T22:04:47Z', 'tos-accepted', NULL
+	'37a4882c-3b7d-46c0-b019-c37e2445dae8', 1, 'volunteer', 'fv1Ixj0MF3dzd0lmXlDPFA==:I1ik41ibuwlkBE+zBdEb9/mVpyBEvO0UmrEGgbChQlLQLeEdrOvALJZIclirsYGc4IwI66JavqOSBtYObvLM1w==', 'sir.robin@cowardly.co', '2025-06-14T22:04:47Z', 'tos-accepted', NULL
 );
 
 -- Add event log to Toronto JS
@@ -517,7 +517,7 @@ VALUES (
 -- #region User: lancelot@heroics.inc
 
 -- Email: "lancelot@heroics.inc"
--- Password: "LeapotFaith!"
+-- Password: "LeapotFaith!L0t"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -536,7 +536,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'890cae10-7bbd-4f0c-961a-df495ec7527b', 1, 'volunteer', 'OAEJZMe2bPEhrfEL6yy8+A==:A9AbiYj4H3Cuq1gbQSF7xJUBP60nLu7S0RhdPk1P47HRTiljxzXdYWRIT4HESOXRiiUdMOtpUB7yFxLVbGud1g==', 'lancelot@heroics.inc', '2025-06-14T22:04:47Z', 'tos-accepted', NULL
+	'890cae10-7bbd-4f0c-961a-df495ec7527b', 1, 'volunteer', 'B7CEFz67Ysk1ZzObUQWb4A==:C8d/LdXooPoMF27ERkP0C6tQQ4ac+NcOLonmkHuGCJFNg9tsyFzBeSsEeE9496MiVkUZlWEOxiuDGFFSTVtrZA==', 'lancelot@heroics.inc', '2025-06-14T22:04:47Z', 'tos-accepted', NULL
 );
 
 -- Add event log to Toronto JS
@@ -665,7 +665,7 @@ VALUES (
 -- #region User: galahad@verypure.org
 
 -- Email: "galahad@verypure.org"
--- Password: "ChasteKnght1"
+-- Password: "ChasteKnght1Gal"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -684,7 +684,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'bfc463bf-a066-4896-8bda-1af982893a49', 1, 'volunteer', 'WWhernvmj1GsKxb6IpBFZA==:aQs5O7VcM6lRbjyoc4fHdgJ7z3KyTcep8OF746Ad61jmKeVeUYiD12a7n0/V5qNEZZcpBB6jkJR3dAsr63ISPQ==', 'galahad@verypure.org', '2025-06-14T22:04:47Z', 'tos-accepted', NULL
+	'bfc463bf-a066-4896-8bda-1af982893a49', 1, 'volunteer', 'XmPEb99/LHuedcYE2fTmVw==:0C7+G7je9G/+6boZFeTTMbfXiAvM/H5hW/ltIlOTytv0KwFx4WXMpA4dmQ3vmehCB0lbLdYuYrj4cmrVAc3THg==', 'galahad@verypure.org', '2025-06-14T22:04:47Z', 'tos-accepted', NULL
 );
 
 -- Add event log to Toronto JS
@@ -792,7 +792,7 @@ VALUES (
 -- #region User: patsy@coconutlogistics.com
 
 -- Email: "patsy@coconutlogistics.com"
--- Password: "ClopClopClop"
+-- Password: "ClopClopClopCoconut"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -811,7 +811,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'3caf90c5-7c7e-4931-82b4-888666cd8bac', 1, 'volunteer', 'gz4s4SWC1LaNuI7kPZam7A==:PyJWRghOLb3aiTyeKAEGAdbeRpbKpVksqgagvXNhM0stXa2W30eql88hN/HGf5bEPNPACRHC5IiamIL146jbPw==', 'patsy@coconutlogistics.com', '2025-06-14T22:04:47Z', 'social-handle-provided', NULL
+	'3caf90c5-7c7e-4931-82b4-888666cd8bac', 1, 'volunteer', 'tQkoYoa4h+6c7ug3x1LJrQ==:HkAG7fMX7D1IDfidvU60QP7aQRApCZkKF1AnmpZ/QnrYdSSv0ABU58aNzYFsSf7jlrUIuZ4BhzunrCfOAbxN1w==', 'patsy@coconutlogistics.com', '2025-06-14T22:04:47Z', 'social-handle-provided', NULL
 );
 
 -- Add event log to Toronto JS
@@ -926,7 +926,7 @@ VALUES (
 -- #region User: tim@enkanta.io
 
 -- Email: "tim@enkanta.io"
--- Password: "BOOM!!Fire12"
+-- Password: "BOOM!!Fire12Tim"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -945,7 +945,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'2f512451-861c-4d69-aa25-b27ee54d16cb', 1, 'volunteer', 'UH22zeePAZIeUSCK+f6G0g==:3IOE9mo3WkX9yXYkibkExTsSC3y9E5pJsm11bQrWsDSnLAosmSkAjImDMlG9NT1ln757vKjGbUP1PLnjSo/JQg==', 'tim@enkanta.io', '2025-06-14T22:04:47Z', 'activated', NULL
+	'2f512451-861c-4d69-aa25-b27ee54d16cb', 1, 'volunteer', 'gdkVwO3xm/PQZ2qgP3akyg==:B/Pv7FN9cG1sh45Emi3m4dbMQGJfZw6xNyjmwbThww/hjeNKEWUoXMUUMMrMRKvavcO7QaISsX/dqs8e7KHhIg==', 'tim@enkanta.io', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1033,7 +1033,7 @@ VALUES (
 -- #region User: dennis@anarcho-peasants.org
 
 -- Email: "dennis@anarcho-peasants.org"
--- Password: "HelpHelpImBN"
+-- Password: "HelpHelpImBNden"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -1052,7 +1052,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'012c9ecf-4897-4879-bd7c-9c877d409626', 1, 'volunteer', 'tEHIZPeIirV+OX+BB5S7CQ==:BFpS7JggR37u6Sbrb2blebtNE4Ef/kKjpAayRn5lSQ98d2p8QuftUK/fP+Ye+jKv4AJZAHMKbLPwerGphUC4Ug==', 'dennis@anarcho-peasants.org', '2025-06-14T22:04:47Z', 'activated', NULL
+	'012c9ecf-4897-4879-bd7c-9c877d409626', 1, 'volunteer', '/srovBoHtK1ch9mDrPE03Q==:b6PXE+YJoLc2yo0f96W6herkVX+UfSzO4Y8UyouU+Qp3q52BPx0+SmksZBGf7KbMkTr+YZaRhC/cjN+02DO6DQ==', 'dennis@anarcho-peasants.org', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1147,7 +1147,7 @@ VALUES (
 -- #region User: roger@shrubbery.ltd
 
 -- Email: "roger@shrubbery.ltd"
--- Password: "Shrubbery4Ni"
+-- Password: "Shrubbery4NiR0g"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -1166,7 +1166,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'76fded46-124d-4b2b-abcc-f1db71bbf622', 1, 'volunteer', '+AuNT6CJWpxV8EGXK7M2ZQ==:UjcsAsxrgt7GGzhrdhToRY5nMt74DVmI69pZuTqhdzpdpiHDVqSS82+fKv9/OJNtCcqSvzKzjJFkKhoziiul4w==', 'roger@shrubbery.ltd', '2025-06-14T22:04:47Z', 'activated', NULL
+	'76fded46-124d-4b2b-abcc-f1db71bbf622', 1, 'volunteer', 'da2XfP/Pwfomf78dM7Eybg==:95Qpvk+FynvWw799C+iwCTv7M4zsHob74jkgPIXHw/iXgHElh+u8uwb8FB2YD6GolCX+8Vc3aHVq41t+RfGh/A==', 'roger@shrubbery.ltd', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1233,7 +1233,7 @@ VALUES (
 -- #region User: brother.maynard@holyhand.biz
 
 -- Email: "brother.maynard@holyhand.biz"
--- Password: "HolyHand993!"
+-- Password: "HolyHand993!br0"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -1252,7 +1252,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'89bb6497-0e60-4fc4-b6e3-419c34ce49b1', 1, 'volunteer', '55+O9iEsAmGRwh6wLibvSw==:hedC5wmrsulJnnzCHoK0ljGmRY4sHOOUeYJTJ54ht+qq8EjmpdxvlUuhwKtxVPE4TbXcn3owcdpm5NySJN1bfA==', 'brother.maynard@holyhand.biz', '2025-06-14T22:04:47Z', 'activated', NULL
+	'89bb6497-0e60-4fc4-b6e3-419c34ce49b1', 1, 'volunteer', 'qw7gQkzmNGuOMMg7x6vnNQ==:FzUGoWNVzuT9knSTffkVARey5Bey97FOyb+I6Uno5BJm4ubpTtu3TUz6xmqXYmZGax75M1O3gQUTEc7NRhVYqQ==', 'brother.maynard@holyhand.biz', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1326,7 +1326,7 @@ VALUES (
 -- #region User: prince.herbert@castleanthrax.uk
 
 -- Email: "prince.herbert@castleanthrax.uk"
--- Password: "SongLuvLark!"
+-- Password: "SongLuvLarkH3rb!"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -1345,7 +1345,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'5a401f5d-e129-40f8-9190-b3615d3cd8d6', 1, 'volunteer', '3TlbsGFyTQoPDlWru4BTQQ==:Ec+dZ1LBwrdR5vX4x2ajwsZRMq5o9kbf1KLUy1nnPqAJ9QFVVm6SBwUcO62TFj4C4YEOvOT+S7pQO+DYFwQJXw==', 'prince.herbert@castleanthrax.uk', '2025-06-14T22:04:47Z', 'activated', NULL
+	'5a401f5d-e129-40f8-9190-b3615d3cd8d6', 1, 'volunteer', 'T2SwiBJbkrKqi19Jj6oACg==:hqgAJ8FXPOQwuQvHvy4s6YB+/9MsrmJYZivp70Jg5fnbngCnrQUHKI3X9mkJYormY7Rv8qnM38jVSrwCJ/Umsg==', 'prince.herbert@castleanthrax.uk', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1433,7 +1433,7 @@ VALUES (
 -- #region User: concorde@swiftcourier.io
 
 -- Email: "concorde@swiftcourier.io"
--- Password: "SwiftSwallow"
+-- Password: "SwiftSwallowCour13r"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -1452,7 +1452,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'e2d65023-1c52-4fa6-ab0a-7277a6707fb7', 1, 'volunteer', 'TQ9q6Q/iSsVtswLaFqF+Lg==:HLAhA8fcQdu2Rosw656fuHyAHT2HvOkOUwAc7AvhwFmOO+WkvhN9svwy6uoJA+MbKztyrrngCE0J4gpl4RvUcw==', 'concorde@swiftcourier.io', '2025-06-14T22:04:47Z', 'social-handle-provided', NULL
+	'e2d65023-1c52-4fa6-ab0a-7277a6707fb7', 1, 'volunteer', 'aI6tpH+Wgi3nXEK58DB4fA==:Fz5aMhGYMipga/6HSG5qrWvbvCiEMbeMhpLWAk9KiLO05xf0VIRT2bmSytwI5feIutZcpnG2dt8H/D1bjOvmAQ==', 'concorde@swiftcourier.io', '2025-06-14T22:04:47Z', 'social-handle-provided', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1567,7 +1567,7 @@ VALUES (
 -- #region User: lady.zoot@castleanthrax.uk
 
 -- Email: "lady.zoot@castleanthrax.uk"
--- Password: "ZootZing2024"
+-- Password: "ZootZingLady2024"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -1586,7 +1586,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'22fa5d4f-1e53-42f3-a00d-7010e7973b12', 1, 'volunteer', 'rxi8VXC0Ges9vF2FdUwbKw==:zGIMG1G60tl19sJdx+m9jwx/BVnkuBo1Ij237Ke3kRsNXSg5wqGyp9QbSjvdBCVkCuX2KxUaFP4Pq+VdO/qG4A==', 'lady.zoot@castleanthrax.uk', '2025-06-14T22:04:47Z', 'activated', NULL
+	'22fa5d4f-1e53-42f3-a00d-7010e7973b12', 1, 'volunteer', 'RmEdYzYe03G99ST67dYNCg==:8Wh87Lo2ii1auZxm8qymUd3QW3uil26xAS1eXtwCm14u/BZIadoW2o8/EKc9YeHonUm86kAtnX4pzlv8faWKUA==', 'lady.zoot@castleanthrax.uk', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1667,7 +1667,7 @@ VALUES (
 -- #region User: knight.ni@forestsayni.com
 
 -- Email: "knight.ni@forestsayni.com"
--- Password: "NiNiNiNi42?!"
+-- Password: "NiNiNiNi42?Kn!ght"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -1686,7 +1686,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'6eb87900-a6d3-4fa3-82e8-70aaa8754053', 1, 'volunteer', 'rdPgtBEQMJtw6WJ7FrD8xw==:TnE0yHLiPy06aRQJRIjCoGI04sBVvx43V6MOGi5RbhcE7KA8kEFN9Me/S2Pc+wmi0+JOFCGzczEZICFZCWoOPA==', 'knight.ni@forestsayni.com', '2025-06-14T22:04:47Z', 'deleted', '2025-06-14T22:04:47Z'
+	'6eb87900-a6d3-4fa3-82e8-70aaa8754053', 1, 'volunteer', 'VnMSDPDSH0RhqohUOAKKcg==:Jtd0VNq8NvNCxmDQrGKBKJnRf/SBY57nAh2DVXVtE1rKBTMHRlUtIdCevdu5MkvXgqpj6c/yyACZ0zkg5+67Jg==', 'knight.ni@forestsayni.com', '2025-06-14T22:04:47Z', 'deleted', '2025-06-14T22:04:47Z'
 );
 
 -- Add event log to Toronto JS
@@ -1747,7 +1747,7 @@ VALUES (
 -- #region User: historian@grail-docu.net
 
 -- Email: "historian@grail-docu.net"
--- Password: "GrailQuiz1!X"
+-- Password: "GrailQuiz1!Xt0r1"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -1766,7 +1766,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'777b0252-5d54-4fcf-92da-c94715edd5f3', 1, 'volunteer', 'x9DlAnE9mPHD5cIvYbMS3A==:/ZQNwiWizlwj+EaIFKvUvFfVB2Mo+ANhIR9Aev8fIA+VJIDHLAIlR2vyerJOXMk7z+035t+qQK0Nk5l3VjRpKw==', 'historian@grail-docu.net', '2025-06-14T22:04:47Z', 'activated', NULL
+	'777b0252-5d54-4fcf-92da-c94715edd5f3', 1, 'volunteer', '6+/XmrNkbjUsHOG9YYwdrw==:qVcJ0FK4jG1FKgKni4cWdxqadtKGJehloOLLMLomArTEoFfV0M+wQ1tf3GM1agik5Fq/iAJ07j66EToLemPyZw==', 'historian@grail-docu.net', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1861,7 +1861,7 @@ VALUES (
 -- #region User: bridge.keeper@threequestions.org
 
 -- Email: "bridge.keeper@threequestions.org"
--- Password: "BridgeAns33?"
+-- Password: "BridgeAns33?K33p3r"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -1880,7 +1880,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'8340b8c6-5a96-4072-8af0-87c4fde2fea0', 1, 'volunteer', 'gKdbE/8xsaET19vf8d8Y3g==:qa1BYWGVJivd3dpZrbNR8Rv5SRNgtsiuCi5zJ1ioHOw4bY93c0yp897L4GNlcvTLT5qJlfYiMKTUcqhv1HWEBw==', 'bridge.keeper@threequestions.org', NULL, 'created', NULL
+	'8340b8c6-5a96-4072-8af0-87c4fde2fea0', 1, 'volunteer', 'OT4nBsL++OAg32XDOAbnnw==:mCORqpmunCVNhwUURw5VuvxSoKClvH+ma9p/U+flmHL9CgFXWzywa3yJEyq+bQ8tCVONAwTZWPRKfGRTgzss0w==', 'bridge.keeper@threequestions.org', NULL, 'created', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1941,7 +1941,7 @@ VALUES (
 -- #region User: mrs.bun@whizzo.choc
 
 -- Email: "mrs.bun@whizzo.choc"
--- Password: "DeadParrot!!"
+-- Password: "DeadParrot!!B!!n"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -1960,7 +1960,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'56da65b8-1b11-4af8-8b88-912df3a0d4bd', 1, 'volunteer', 'GA1EjdK0RJ306qzdPRYQxw==:XRorwr/p0EGWhfbtRvalgpUcTFB/HIv+yLcJFMNUlpNn068vqkB4IOh569wbb+ZlvrI0p0G7Hk6OtaBCYvZDSQ==', 'mrs.bun@whizzo.choc', NULL, 'created', NULL
+	'56da65b8-1b11-4af8-8b88-912df3a0d4bd', 1, 'volunteer', 'hRrTCxFvZez7DOv2NthgSg==:8CDUZez5qMKyZX2iVclFwPxtjFl6cyWlAXOqMNH1plQNlixh8cUSp3HE6frmvzuqKNSctlU9vER2/IWRIqiIHQ==', 'mrs.bun@whizzo.choc', NULL, 'created', NULL
 );
 
 -- Add event log to Toronto JS
@@ -2048,7 +2048,7 @@ VALUES (
 -- #region User: camel.spotter@zoology.co
 
 -- Email: "camel.spotter@zoology.co"
--- Password: "CamelSpotr9!"
+-- Password: "CamelSpotr9!9!9"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -2067,7 +2067,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'fac6e738-ab0a-4a66-ab92-a0e76f2c4ba5', 1, 'volunteer', 'RYngyQsVASpQna+n5I4x4w==:ByVfpjw3V9deHBg2OVn0mtgpymwATkkySz7j7Npynh0OlfFQR26vXbkJcqOvNTMJIgH4l7ouaTRGNJAJLGsDQg==', 'camel.spotter@zoology.co', NULL, 'created', NULL
+	'fac6e738-ab0a-4a66-ab92-a0e76f2c4ba5', 1, 'volunteer', 'hKz0XKEpCbMVreHccljD2g==:tM0MjznF8AiYhBRiT+tijWGjk9M/ZgDrUWuyvbdcdpWpKtBfb9a5UiNVLA8VWeHqquZzNa1RqdAR0cpoEZMDuw==', 'camel.spotter@zoology.co', NULL, 'created', NULL
 );
 
 -- Add event log to Toronto JS
@@ -2128,7 +2128,7 @@ VALUES (
 -- #region User: knight.truth@roundtable.ai
 
 -- Email: "knight.truth@roundtable.ai"
--- Password: "KnightOTruth"
+-- Password: "KnightOTruthTabl3"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -2147,7 +2147,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'2217e267-144e-4651-bfce-87ce653f9f03', 1, 'volunteer', 'WNxTWmcM6N3O5bDskzAi+g==:L1KzEPXkXIz/ezWBC/oBbBv93YuKpAIqXvEb6FXsb5zbzN9Yt1QOXQb+IatlOzqzHcVa8DdgWgDyuB9iGH+LJg==', 'knight.truth@roundtable.ai', '2025-06-14T22:04:47Z', 'activated', NULL
+	'2217e267-144e-4651-bfce-87ce653f9f03', 1, 'volunteer', 'DUYgBj/GXy1O+hR8xIt4dg==:JCWv+fv75G9oAOFiJ8NUJwplpj5AjiY+6DCFt3DDZszhQmMfGX/BbD7sSWpXlfNtFUYvGX+EQmlsHncedOJ68A==', 'knight.truth@roundtable.ai', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -2221,7 +2221,7 @@ VALUES (
 -- #region User: fish.slapper@dance-troupe.com
 
 -- Email: "fish.slapper@dance-troupe.com"
--- Password: "FshSlapper22"
+-- Password: "FshSlapper22Danc3"
 
 -- Create profile
 INSERT INTO "profile" (
@@ -2240,7 +2240,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'307a325e-1513-4718-a9b7-106d16c347d2', 1, 'volunteer', 'xuVDrUwzM10jkPg2qERnJQ==:5epH3EvAhnpz2ZC1e+4G56n+7XGlJZ+pUuRU1fvOnoxlpx9QIejZmSZXeb2xKaHEnnlCfOyj8uijpDbSx4dabA==', 'fish.slapper@dance-troupe.com', NULL, 'created', NULL
+	'307a325e-1513-4718-a9b7-106d16c347d2', 1, 'volunteer', 'HH3qDAxgtZvoDbsNqD4HhA==:QgvylGXim/LU5iJeWrFc4yMz7+0re/tN9IOgUeSwjy9Oh6dGP5U/udWhjk6kXC7+ybgDuUCV3vpm1wBBq09LJg==', 'fish.slapper@dance-troupe.com', NULL, 'created', NULL
 );
 
 -- Add event log to Toronto JS
@@ -2855,5 +2855,3 @@ VALUES (
 
 
 -- #endregion
-
-
