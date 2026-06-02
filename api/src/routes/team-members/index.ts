@@ -65,10 +65,13 @@ teamMemberRoutes.openapi(
 		const pagination = TeamMembersPaginationQuerySchema.safeParse(context.req.query());
 
 		if (!pagination.success) {
-			return context.json({
-				message: 'Invalid pagination parameters',
-				errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
-			} satisfies StatusResponse, StatusCodes.UNPROCESSABLE_CONTENT);
+			return context.json(
+				{
+					message: 'Invalid pagination parameters',
+					errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
 		}
 
 		const { limit: limitCount, page: currentPageCount } = pagination.data;
