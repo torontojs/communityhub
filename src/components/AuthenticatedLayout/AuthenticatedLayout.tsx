@@ -1,5 +1,6 @@
 import { type ReactNode, useState } from 'react';
 import './AuthenticatedLayout.css';
+import { handleLogOut } from '../../utilities/handleLogOut.ts';
 
 type ActivePage = 'community' | 'profile' | 'teams';
 
@@ -45,6 +46,14 @@ const AuthenticatedLayout = ({ activePage, children, className, mainClassName }:
 			<span>{item.label}</span>
 		</a>
 	));
+	const signOutButton = (
+		<button className='sign-out-button' type='button' onClick={handleLogOut}>
+			<svg aria-hidden='true' viewBox='0 0 24 24'>
+				<path d='M10 17l5-5-5-5M15 12H3M21 3v18h-8' />
+			</svg>
+			<span>Sign out</span>
+		</button>
+	);
 
 	return (
 		<>
@@ -66,6 +75,7 @@ const AuthenticatedLayout = ({ activePage, children, className, mainClassName }:
 				<nav className='sidebar-left' aria-label='Primary navigation'>
 					<div className='sidebar-left-container'>
 						{navLinks}
+						{signOutButton}
 					</div>
 				</nav>
 				<main className={mainClassName}>
@@ -85,6 +95,7 @@ const AuthenticatedLayout = ({ activePage, children, className, mainClassName }:
 						<div className='mobile-nav-links'>
 							{navLinks}
 						</div>
+						{signOutButton}
 					</nav>
 				</>
 			)}
