@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './ProtectedProfile.css';
+import AuthenticatedLayout from '../AuthenticatedLayout/AuthenticatedLayout.tsx';
 import Button from '../Button/Button.tsx';
 import DescriptionFormModal from '../DescriptoinFormModal/DescriptionFormModal.tsx';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
@@ -40,7 +41,6 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [socialLinksModal, setSocialLinksModal] = useState<boolean>(false);
 	const [generalInfoModal, setGeneralInfoModal] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		async function fetchProtectedProfile() {
@@ -263,236 +263,181 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		return true;
 	};
 
-	if (!isLoading) { return <h1>...is loading!</h1>; }
+	if (!isLoading) {
+		return (
+			<AuthenticatedLayout activePage='profile' mainClassName='protected-profile-page'>
+				<h1>...is loading!</h1>
+			</AuthenticatedLayout>
+		);
+	}
 
 	return (
-		<>
-			<div className='grid-container'>
-				<header className='main-header'>
-					<button className='hamburger-menu' onClick={() => setMenuOpen(true)} aria-label='Open navigation menu'>
-						<img src='/hamburger-menu.svg' alt='' />
-					</button>
-					<a href='/pages/home'>
-						<img className='torontojs-logo' src='/torontojs-logo.png' alt='Small Toronto JS Logo' />
-					</a>
-					<div className='inner-header'>
-						<img className='small-avatar' src='/small-sample-avatar.png' alt='Small User Avatar' />
-						<a href='/pages/notifications/'>
-							<img className='notification-bell' src='/notification-bell.png' alt='Notification bell icon' />
-						</a>
-					</div>
-				</header>
-				<nav className='sidebar-left'>
-					<div className='side-bar-left-container'>
-						<a href='/pages/home'>
-							<img src='/community-icon.png' alt='Community Icon' />
-							<span>Community</span>
-						</a>
-						<a href='/pages/protected-profile/'>
-							<img className='profile-nav-icon' src='/person-icon-white.png' alt='Profile Management Icon' />
-							<span>Profile Management</span>
-						</a>
-						<a href='/pages/team'>
-							<img src='/teams-icon.png' alt='Teams Icon' />
-							<span>Teams</span>
-						</a>
-					</div>
-				</nav>
-				<main>
-					<h1>My Profile</h1>
-					<article className='profile'>
-						<div className='profile-header-container'>
-							<header className='profile-header'>
-								<div className='avatar'>
-									<img src='/small-sample-avatar.png' alt='Medium Size Avatar' />
-								</div>
-								<div className='user-bio'>
-									<h2>{name}</h2>
-									<p className='user-bio-pronouns'>{pronouns}</p>
-									<div className='contact-info'>
-										<div className='profile-email'>
-											<img src='/profile-email.png' alt='Profile Email Icon' />
-											{email}
-										</div>
-										<div className='profile-location'>
-											<img src='/location-icon.png' alt='Profile Location Icon' />
-											<p>{isBasedOnGTA ? 'Based in GTA' : 'Not based in GTA'}</p>
-										</div>
-									</div>
-								</div>
-								<button onClick={() => setGeneralInfoModal(true)}>
-									<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
-								</button>
-							</header>
-							{generalInfoModal && (
-								<GeneralInfoFormModal
-									name={name}
-									email={email}
-									pronouns={pronouns}
-									isBasedOnGTA={isBasedOnGTA}
-									canJoinLocalEvents={canJoinLocalEvents}
-									onSubmit={handleGeneralInfoSubmit}
-									onClose={() => setGeneralInfoModal(false)}
-								/>
-							)}
+		<AuthenticatedLayout activePage='profile' mainClassName='protected-profile-page'>
+			<h1>My Profile</h1>
+			<article className='profile'>
+				<div className='profile-header-container'>
+					<header className='profile-header'>
+						<div className='avatar'>
+							<img src='/small-sample-avatar.png' alt='Medium Size Avatar' />
 						</div>
-						<div className='sections-container'>
-							<section className='about'>
-								<div>
-									{description ?
-										(
-											<>
-												<div className='about-header-container'>
-													<h3>About</h3>
-													<button onClick={() => setDescriptionModal(true)}>
-														<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
-													</button>
-												</div>
-												<div className='about-description-container'>
-													<p className='about-description'>{description}</p>
-												</div>
-												{descriptionModal && (
-													<DescriptionFormModal
-														description={description}
-														onSubmit={handleDescriptionSubmit}
-														onClose={() => setDescriptionModal(false)}
-													/>
-												)}
-											</>
-										) :
-										(
-											<>
-												<h3>About</h3>
-												<EmptyIcon />
-												<p>Write a delightful description here which will help others get to know more about you.</p>
-												<button onClick={() => setDescriptionModal(true)}>Add description</button>
-												{descriptionModal && (
-													<DescriptionFormModal
-														description={description}
-														onSubmit={handleDescriptionSubmit}
-														onClose={() => setDescriptionModal(false)}
-													/>
-												)}
-											</>
-										)}
+						<div className='user-bio'>
+							<h2>{name}</h2>
+							<p className='user-bio-pronouns'>{pronouns}</p>
+							<div className='contact-info'>
+								<div className='profile-email'>
+									<img src='/profile-email.png' alt='Profile Email Icon' />
+									{email}
 								</div>
-							</section>
-
-							<section className='skills'>
-								{skills.length > 0 ?
-									(
-										<>
-											<div className='skills-header'>
-												<h2>Skills</h2>
-												<button onClick={() => setSkillsModal(true)}>
-													<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
-												</button>
-											</div>
-											<ul className='skills-list'>
-												{skills.map((skill, index) => <li key={index} className='skill-tag'>{skill}</li>)}
-											</ul>
-										</>
-									) :
-									(
-										<>
-											<h2>Skills</h2>
-											<div className='skills-empty'>
-												<EmptyIcon />
-												<p>You can showcase your relevant skills here.</p>
-												<Button type='button' isPrimary onClick={() => setSkillsModal(true)}>Add Skills</Button>
-											</div>
-										</>
-									)}
-								{skillsModal && (
-									<SkillsFormModal
-										skills={skills}
-										onSubmit={handleSkillsSubmit}
-										onClose={() => setSkillsModal(false)}
-									/>
+								<div className='profile-location'>
+									<img src='/location-icon.png' alt='Profile Location Icon' />
+									<p>{isBasedOnGTA ? 'Based in GTA' : 'Not based in GTA'}</p>
+								</div>
+							</div>
+						</div>
+						<button onClick={() => setGeneralInfoModal(true)}>
+							<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
+						</button>
+					</header>
+					{generalInfoModal && (
+						<GeneralInfoFormModal
+							name={name}
+							email={email}
+							pronouns={pronouns}
+							isBasedOnGTA={isBasedOnGTA}
+							canJoinLocalEvents={canJoinLocalEvents}
+							onSubmit={handleGeneralInfoSubmit}
+							onClose={() => setGeneralInfoModal(false)}
+						/>
+					)}
+				</div>
+				<div className='sections-container'>
+					<section className='about'>
+						<div>
+							{description ?
+								(
+									<>
+										<div className='about-header-container'>
+											<h3>About</h3>
+											<button onClick={() => setDescriptionModal(true)}>
+												<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
+											</button>
+										</div>
+										<div className='about-description-container'>
+											<p className='about-description'>{description}</p>
+										</div>
+										{descriptionModal && (
+											<DescriptionFormModal
+												description={description}
+												onSubmit={handleDescriptionSubmit}
+												onClose={() => setDescriptionModal(false)}
+											/>
+										)}
+									</>
+								) :
+								(
+									<>
+										<h3>About</h3>
+										<EmptyIcon />
+										<p>Write a delightful description here which will help others get to know more about you.</p>
+										<button onClick={() => setDescriptionModal(true)}>Add description</button>
+										{descriptionModal && (
+											<DescriptionFormModal
+												description={description}
+												onSubmit={handleDescriptionSubmit}
+												onClose={() => setDescriptionModal(false)}
+											/>
+										)}
+									</>
 								)}
-							</section>
+						</div>
+					</section>
 
-							<section className='social-links'>
-								<div className='social-links-container'>
-									<div className='social-links-header'>
-										<h2>Social Links</h2>
-										<button onClick={() => setSocialLinksModal(true)}>
+					<section className='skills'>
+						{skills.length > 0 ?
+							(
+								<>
+									<div className='skills-header'>
+										<h2>Skills</h2>
+										<button onClick={() => setSkillsModal(true)}>
 											<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
 										</button>
 									</div>
+									<ul className='skills-list'>
+										{skills.map((skill, index) => <li key={index} className='skill-tag'>{skill}</li>)}
+									</ul>
+								</>
+							) :
+							(
+								<>
+									<h2>Skills</h2>
+									<div className='skills-empty'>
+										<EmptyIcon />
+										<p>You can showcase your relevant skills here.</p>
+										<Button type='button' isPrimary onClick={() => setSkillsModal(true)}>Add Skills</Button>
+									</div>
+								</>
+							)}
+						{skillsModal && (
+							<SkillsFormModal
+								skills={skills}
+								onSubmit={handleSkillsSubmit}
+								onClose={() => setSkillsModal(false)}
+							/>
+						)}
+					</section>
 
-									<div className='social-links-inner-container'>
-										<ul>
-											{links.map((entry: Links, index: number) => (
-												<li key={index}>
-													<Social socialName={entry.platform} socialUrl={entry.url} />
-												</li>
-											))}
-										</ul>
-									</div>
-									{socialLinksModal && (
-										<SocialLinksFormModal
-											linksArrayProp={links}
-											onSubmit={handleSocialLinksSubmit}
-											onClose={() => setSocialLinksModal(false)}
-										/>
-									)}
-								</div>
-							</section>
+					<section className='social-links'>
+						<div className='social-links-container'>
+							<div className='social-links-header'>
+								<h2>Social Links</h2>
+								<button onClick={() => setSocialLinksModal(true)}>
+									<img src='/edit-pencil-icon.png' alt='Edit Pencil Icon' />
+								</button>
+							</div>
 
-							<section className='teams'>
-								<div className='teams-container'>
-									<div className='teams-header'>
-										<h2>Teams</h2>
-									</div>
-									<div className='teams-inner-container'>
-										<ul>
-											{teams.map((team) => (
-												<li key={team.id}>
-													<Team
-														name={team.name}
-														memberCount={team.memberCount ?? 0}
-														role={team.role}
-														description={team.description}
-														href={`/pages/team?id=${team.id}`}
-													/>
-												</li>
-											))}
-										</ul>
-									</div>
-								</div>
-							</section>
+							<div className='social-links-inner-container'>
+								<ul>
+									{links.map((entry: Links, index: number) => (
+										<li key={index}>
+											<Social socialName={entry.platform} socialUrl={entry.url} />
+										</li>
+									))}
+								</ul>
+							</div>
+							{socialLinksModal && (
+								<SocialLinksFormModal
+									linksArrayProp={links}
+									onSubmit={handleSocialLinksSubmit}
+									onClose={() => setSocialLinksModal(false)}
+								/>
+							)}
 						</div>
-					</article>
-				</main>
-			</div>
-			{menuOpen && (
-				<>
-					<div className='mobile-nav-overlay' onClick={() => setMenuOpen(false)} />
-					<nav className='mobile-nav-drawer' aria-label='Mobile navigation'>
-						<div className='mobile-nav-drawer-header'>
-							<img src='/torontojs-logo.png' alt='TorontoJS Logo' />
-							<button className='mobile-nav-close' onClick={() => setMenuOpen(false)} aria-label='Close navigation menu'>
-								✕
-							</button>
+					</section>
+
+					<section className='teams'>
+						<div className='teams-container'>
+							<div className='teams-header'>
+								<h2>Teams</h2>
+							</div>
+							<div className='teams-inner-container'>
+								<ul>
+									{teams.map((team) => (
+										<li key={team.id}>
+											<Team
+												name={team.name}
+												memberCount={team.memberCount ?? 0}
+												role={team.role}
+												description={team.description}
+												href={`/pages/team?id=${team.id}`}
+											/>
+										</li>
+									))}
+								</ul>
+							</div>
 						</div>
-						<div className='mobile-nav-links'>
-							<a href='/pages/home'>
-								<img src='/community-icon.png' alt='Community Icon' />
-								<span>Community</span>
-							</a>
-							<a href='/pages/profile'>
-								<img className='profile-nav-icon' src='/person-icon-white.png' alt='Profile Icon' />
-								<span>My Profile</span>
-							</a>
-							<a href='/pages/team'>
-								<img src='/teams-icon.png' alt='Teams Icon' />
-								<span>Teams</span>
-							</a>
-						</div>
-					</nav>
-				</>
-			)}
-		</>
+					</section>
+				</div>
+			</article>
+		</AuthenticatedLayout>
 	);
 };

@@ -293,15 +293,21 @@ const Teams = () => {
 
 	// If data not yet loaded
 	if (!isLoadedTeamsData) {
-		return <div aria-live='polite' role='status' className='teams-page-status'>Loading teams...</div>;
+		return (
+			<AuthenticatedLayout activePage='teams' className='teams-grid-container' mainClassName='teams-page'>
+				<div aria-live='polite' role='status' className='teams-page-status'>Loading teams...</div>
+			</AuthenticatedLayout>
+		);
 	}
 
 	// If error encountered
 	if (teamsDataError) {
 		return (
-			<div aria-live='polite' role='status' className='teams-page-status'>
-				{teamsDataError}
-			</div>
+			<AuthenticatedLayout activePage='teams' className='teams-grid-container' mainClassName='teams-page'>
+				<div aria-live='polite' role='status' className='teams-page-status'>
+					{teamsDataError}
+				</div>
+			</AuthenticatedLayout>
 		);
 	}
 
@@ -403,9 +409,11 @@ const Teams = () => {
 
 	// Default fallback
 	return (
-		<div aria-live='polite' role='status' className='teams-page-status'>
-			Unable to load the page. Please try refreshing the page.
-		</div>
+		<AuthenticatedLayout activePage='teams' className='teams-grid-container' mainClassName='teams-page'>
+			<div aria-live='polite' role='status' className='teams-page-status'>
+				Unable to load the page. Please try refreshing the page.
+			</div>
+		</AuthenticatedLayout>
 	);
 };
 

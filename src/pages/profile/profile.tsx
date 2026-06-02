@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import 'open-props';
 import './style.css';
 import '../../index.css';
+import AuthenticatedLayout from '../../components/AuthenticatedLayout/AuthenticatedLayout.tsx';
 import { AuthGate } from '../../components/AuthGate/AuthGate.tsx';
 import ProfileDetail from '../../components/ProfileDetail/ProfileDetail.tsx';
 import { useHeartBeatProtected } from '../../hooks/useHeartBeat.ts';
@@ -19,7 +20,11 @@ createRoot(root).render(
 				<div className='App'>
 					{profileId ?
 						<ProfileDetail profileId={profileId} /> :
-						<div aria-live='polite' role='status'>Profile not found.</div>}
+						(
+							<AuthenticatedLayout activePage='profile' mainClassName='profile-detail-page'>
+								<div aria-live='polite' role='status'>Profile not found.</div>
+							</AuthenticatedLayout>
+						)}
 				</div>
 			</AuthGate>
 		</StrictMode>

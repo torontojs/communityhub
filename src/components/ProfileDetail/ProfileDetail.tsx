@@ -70,15 +70,23 @@ const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 	}, [profileId]);
 
 	if (!isLoaded) {
-		return <div aria-live='polite' role='status' className='profile-detail-status'>Loading profile...</div>;
+		return (
+			<AuthenticatedLayout activePage='profile' mainClassName='profile-detail-page'>
+				<div aria-live='polite' role='status' className='profile-detail-status'>Loading profile...</div>
+			</AuthenticatedLayout>
+		);
 	}
 
 	if (pageError || !profile) {
-		return <div aria-live='polite' role='status' className='profile-detail-status'>{pageError ?? 'Profile not found.'}</div>;
+		return (
+			<AuthenticatedLayout activePage='profile' mainClassName='profile-detail-page'>
+				<div aria-live='polite' role='status' className='profile-detail-status'>{pageError ?? 'Profile not found.'}</div>
+			</AuthenticatedLayout>
+		);
 	}
 
 	return (
-		<AuthenticatedLayout mainClassName='profile-detail-page'>
+		<AuthenticatedLayout activePage='profile' mainClassName='profile-detail-page'>
 			<h1>{profile.name}</h1>
 			<article className='profile-detail'>
 				<div className='profile-detail-header-container'>

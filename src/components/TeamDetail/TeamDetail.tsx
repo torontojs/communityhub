@@ -214,11 +214,19 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	};
 
 	if (!isLoaded) {
-		return <div aria-live='polite' role='status' className='team-detail-status'>Loading team...</div>;
+		return (
+			<AuthenticatedLayout activePage='teams' mainClassName='team-detail-page'>
+				<div aria-live='polite' role='status' className='team-detail-status'>Loading team...</div>
+			</AuthenticatedLayout>
+		);
 	}
 
 	if (pageError || !team) {
-		return <div aria-live='polite' role='status' className='team-detail-status'>{pageError ?? 'Team not found.'}</div>;
+		return (
+			<AuthenticatedLayout activePage='teams' mainClassName='team-detail-page'>
+				<div aria-live='polite' role='status' className='team-detail-status'>{pageError ?? 'Team not found.'}</div>
+			</AuthenticatedLayout>
+		);
 	}
 
 	return (
