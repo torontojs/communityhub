@@ -6,7 +6,7 @@ interface SocialInfo {
 }
 const Social = ({ socialName, socialUrl }: SocialInfo): React.JSX.Element => (
 	<div className='reusable-social-icon'>
-		<a href={socialUrl}>
+		<a href={socialUrl} target='_blank' rel='noopener noreferrer'>
 			<div className='circle'>
 				<img src='/default-social-icon.png' alt='social-icon-default.png' />
 			</div>
