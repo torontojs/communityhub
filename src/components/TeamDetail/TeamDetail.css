@@ -296,7 +296,7 @@
 	.team-detail-breadcrumb { display: none; }
 
 	.team-detail-page {
-		margin: 0 1rem 2rem;
+		margin: 1.125rem 0.75rem 2rem;
 		max-width: none;
 	}
 
@@ -305,27 +305,96 @@
 		flex-direction: column;
 	}
 
+	.team-detail-title-row h1 { font-size: var(--text-xl); }
+
 	.team-detail-edit-button {
 		align-self: flex-end;
 		width: 9rem;
 	}
 
+	.team-detail-members-card { padding: var(--spacing-sm); }
+
 	.team-detail-members-header {
 		align-items: flex-start;
 		flex-direction: column;
 		gap: var(--spacing-sm);
+		margin-bottom: var(--spacing-xs);
 	}
 
 	.team-detail-search {
 		box-sizing: border-box;
+		height: 2.25rem;
 		width: 100%;
 	}
 
+	.team-detail-members-table { gap: var(--spacing-xs); }
+
 	.team-detail-members-row {
 		align-items: flex-start;
-		grid-template-columns: 1fr;
-		padding: var(--spacing-sm);
+		background-color: var(--color-white);
+		border: var(--border);
+		border-color: var(--color-gray-200);
+		border-radius: var(--rounded-md);
+		column-gap: var(--spacing-sm);
+		grid-template-areas:
+			'name name'
+			'role role'
+			'teams teams'
+			'location joined';
+		grid-template-columns: auto 1fr;
+		padding: var(--spacing-xs);
+		row-gap: var(--spacing-xs);
 	}
 
 	.team-detail-members-row-heading { display: none; }
+
+	.team-detail-member-name {
+		grid-area: name;
+		gap: var(--spacing-xs);
+	}
+
+	.team-detail-member-name img,
+	.team-detail-member-avatar {
+		height: 2.5rem;
+		width: 2.5rem;
+	}
+
+	.team-detail-member-role {
+		color: var(--color-gray-600);
+		font-size: 0.625rem;
+		grid-area: role;
+		margin-left: 3rem;
+		margin-top: -1.5rem;
+	}
+
+	.team-detail-member-teams {
+		grid-area: teams;
+		margin-top: var(--spacing-xs);
+	}
+
+	.team-detail-member-teams span {
+		font-size: 0.625rem;
+		padding: 0.25rem 0.5rem;
+	}
+
+	.team-detail-member-location { grid-area: location; }
+
+	.team-detail-member-joined-date {
+		grid-area: joined;
+		justify-self: end;
+	}
+
+	.team-detail-member-location::before,
+	.team-detail-member-joined-date::before {
+		color: var(--color-gray-600);
+		font-size: 0.5625rem;
+		margin-right: 0.25rem;
+		text-transform: uppercase;
+	}
+
+	.team-detail-member-location::before { content: 'Based in the GTA?'; }
+
+	.team-detail-member-joined-date::before { content: 'Joined'; }
+
+	.team-detail-pagination { display: none; }
 }

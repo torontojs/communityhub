@@ -291,8 +291,8 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 											{additionalTeamCount > 0 && <span className='team-detail-member-teams-overflow'>+{additionalTeamCount}</span>}
 										</div>
 										<span className='team-detail-member-role' role='cell'>{member.name}</span>
-										<span role='cell'>{member.isBasedOnGTA ? 'Yes' : 'No'}</span>
-										<span role='cell'>{formatJoinedDate(member.joinedTeamAt)}</span>
+										<span className='team-detail-member-location' role='cell'>{member.isBasedOnGTA ? 'Yes' : 'No'}</span>
+										<span className='team-detail-member-joined-date' role='cell'>{formatJoinedDate(member.joinedTeamAt)}</span>
 									</div>
 								);
 							})}
