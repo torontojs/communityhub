@@ -8,7 +8,10 @@
 
 		&[data-variant='success'] { span { color: var(--color-success); } }
 
-		&[data-variant='error'] { span { color: var(--color-error); } }
+		&[data-variant='error'] {
+			.helper-icon { color: var(--color-error); }
+			.helper-content { color: var(--color-error-text); }
+		}
 
 		&[data-variant='info'] { span { color: var(--color-info); } }
 
@@ -26,7 +29,8 @@
 		}
 
 		.helper-content {
-			font-size: 0.875rem;
+			font-size: var(--text-sm);
+			line-height: var(--leading-base);
 			font-style: normal;
 			font-weight: var(--weight-regular);
 		}

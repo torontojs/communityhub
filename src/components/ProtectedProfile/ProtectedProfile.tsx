@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './ProtectedProfile.css';
+import Button from '../Button/Button.tsx';
 import DescriptionFormModal from '../DescriptoinFormModal/DescriptionFormModal.tsx';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
 import GeneralInfoFormModal from '../GeneralInfoFormModal/GeneralInfoFormModal.tsx';
@@ -398,7 +399,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 											<div className='skills-empty'>
 												<EmptyIcon />
 												<p>You can showcase your relevant skills here.</p>
-												<button onClick={() => setSkillsModal(true)}>Add Skills</button>
+												<Button type='button' isPrimary onClick={() => setSkillsModal(true)}>Add Skills</Button>
 											</div>
 										</>
 									)}

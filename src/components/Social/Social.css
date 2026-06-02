@@ -17,6 +17,11 @@
 		cursor: pointer;
 	}
 
+	& a:focus-visible {
+		outline: 0.125rem solid var(--color-border);
+		outline-offset: 0.25rem;
+	}
+
 	& img {
 		height: 2.25rem;
 		width: 2.25rem;
