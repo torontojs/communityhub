@@ -46,7 +46,7 @@ const AddTeamFormModal = ({
 			</div>
 			<p>
 				{mode === 'add' ?
-					'Create a new team for your TorontoJS community. Add a team name and optional description.' :
+					'Create a new team for your TorontoJS community. Add a team name, description, and avatar.' :
 					'Update this team name and optional description.'}
 			</p>
 
@@ -68,13 +68,14 @@ const AddTeamFormModal = ({
 						</div>
 						<div className='add-team-textarea-container'>
 							<span className='add-team-textarea-label-container'>
-								<label htmlFor='add-team-description'>Description</label>
+								<label htmlFor='add-team-description'>Short Description</label>
 							</span>
 							<textarea
 								id='add-team-description'
 								name='description'
 								placeholder="Describe the team's purpose and what they do"
 								defaultValue={initialDescription}
+								required={mode === 'add'}
 							/>
 						</div>
 						{error && <p className='add-team-modal-error' role='alert'>{error}</p>}
@@ -84,7 +85,7 @@ const AddTeamFormModal = ({
 
 			<div className='add-team-form-modal-button-container'>
 				<Button type='button' hasOutline size='small' onClick={onClose}>Cancel</Button>
-				<Button type='submit' isPrimary size='small'>{mode === 'add' ? 'Create' : 'Save'}</Button>
+				<Button type='submit' isPrimary size='small'>{mode === 'add' ? 'Create Team' : 'Save'}</Button>
 			</div>
 		</form>
 	</div>

@@ -145,6 +145,13 @@
 	}
 }
 
+.add-team-textarea-container:has(textarea:required) .add-team-textarea-label-container::after {
+	color: var(--color-error);
+	content: 'Required';
+	font-size: var(--text-xs);
+	text-transform: uppercase;
+}
+
 .add-team-textarea-container textarea {
 	background-color: var(--color-input);
 	border: var(--border);
@@ -179,24 +186,52 @@
 
 @media screen and (max-width: 40rem) {
 	.add-team-form-modal-container {
-		border-radius: 0;
-		max-width: 100%;
-		min-height: 100dvh;
-		width: 100%;
+		border-radius: var(--rounded-md);
+		gap: var(--spacing-sm);
+		margin: 0.125rem;
+		max-width: 25rem;
+		padding: var(--spacing-sm);
+		width: calc(100% - 0.25rem);
 	}
 
+	.add-team-form-modal-container > p {
+		line-height: 160%;
+		max-width: 12.5rem;
+	}
+
+	.add-team-section {
+		gap: var(--spacing-sm);
+		margin-top: var(--spacing-xs);
+	}
+
+	.add-team-section h3 { display: none; }
+
 	.add-team-avatar-row {
-		display: flex;
 		flex-direction: column;
+		gap: var(--spacing-sm);
+	}
+
+	.add-team-avatar-placeholder {
+		align-self: center;
+		height: 4.125rem;
+		width: 4.125rem;
+
+		& img {
+			height: 2.5rem;
+			width: 2.5rem;
+		}
 	}
 
 	.add-team-inputs,
 	.add-team-textarea-container { width: 100%; }
 
-	.add-team-form-modal-button-container {
-		flex-direction: column-reverse;
-		align-items: flex-end;
+	.add-team-textarea-container textarea { min-height: 7rem; }
 
-		& .button { width: 10.125rem; }
+	.add-team-form-modal-button-container {
+		align-items: center;
+		justify-content: space-between;
+		margin-top: var(--spacing-xs);
+
+		& .button { width: auto; }
 	}
 }
