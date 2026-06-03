@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useState } from 'react';
 import './AuthenticatedLayout.css';
 import { handleLogOut } from '../../utilities/handleLogOut.ts';
 
-type ActivePage = 'community' | 'profile' | 'teams';
+type ActivePage = 'community' | 'profile' | 'teams' | 'volunteer';
 
 interface Props {
 	activePage?: ActivePage;
@@ -33,6 +33,11 @@ const navItems: {
 		id: 'teams',
 		href: '/pages/team',
 		label: 'Teams'
+	},
+	{
+		id: 'volunteer',
+		href: '/pages/volunteer/',
+		label: 'Volunteer'
 	}
 ];
 
@@ -72,7 +77,7 @@ const AuthenticatedLayout = ({ activePage, children, className, mainClassName }:
 
 	const navLinks = navItems.map((item) => (
 		<a href={item.href} data-active={item.id === activePage} key={item.id}>
-			{item.id === 'teams' ?
+			{item.id === 'teams' || item.id === 'volunteer' ?
 				(
 					<svg className='teams-nav-icon' aria-hidden='true' viewBox='0 0 24 24'>
 						<path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' />

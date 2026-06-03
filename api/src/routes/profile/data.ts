@@ -1,5 +1,4 @@
 import { DBTables, DEFAULT_TEAM_ID, generateBaseDBfields } from '../../utils/db.ts';
-import { generateGravatarUrl } from '../../utils/gravatar.ts';
 import { EventLog } from '../event-log/data.ts';
 import type { CreateProfileData, Profile, ProfileLink, ProfileSkill, ProfileTeam, UpdateProfileData } from './validation.ts';
 
@@ -47,10 +46,9 @@ export async function nonExistingProfileIds(database: D1Database, ids: string[])
 	return [...new Set(ids).difference(existingIds)];
 }
 
-export async function insertProfile(database: D1Database, { email, name, password }: CreateProfileData) {
+export async function insertProfile(database: D1Database, { avatar, email, name, password }: CreateProfileData) {
 	const { id: profileId, schemaVersion, happenedAt, insertedAt } = generateBaseDBfields();
 	const { id: roleId } = generateBaseDBfields();
-	const avatar = await generateGravatarUrl(email);
 
 	const results = await database.batch([
 		database.prepare(`
@@ -69,7 +67,7 @@ export async function insertProfile(database: D1Database, { email, name, passwor
 			insertedAt,
 			email,
 			name,
-			avatar
+			avatar ?? null
 		),
 		database.prepare(`
 			INSERT INTO ${DBTables.ACCESS} (

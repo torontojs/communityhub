@@ -150,14 +150,6 @@
 	}
 }
 
-.add-team-textarea-container:has(textarea:required) .add-team-textarea-label-container::after {
-	color: var(--color-error);
-	content: 'Required';
-	font-size: var(--text-2xs);
-	font-weight: var(--weight-semibold);
-	text-transform: uppercase;
-}
-
 .add-team-textarea-container textarea {
 	background-color: var(--color-input);
 	border: var(--border);

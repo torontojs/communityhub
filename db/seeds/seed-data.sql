@@ -7,12 +7,12 @@
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'65c09d85-eda1-470e-9a2e-9ce7a1994613', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'root@torontojs.com', 'root',
-	'they/them', '01-01', 'root'
+	'they/them', '01-01', 'root', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000001?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -262,12 +262,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'king.arthur@camelot.uk', 'King Arthur',
-	'he/him', '03-14', 'Gallant monarch forever seeking sacred drinkware.'
+	'he/him', '03-14', 'Gallant monarch forever seeking sacred drinkware.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000002?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -417,12 +417,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'bf950534-e8f9-4f5a-a246-610aa63faf21', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'black.knight@bridgeguard.io', 'Black Knight',
-	'he/him', '10-31', 'Won’t let minor flesh wounds hinder workplace performance.'
+	'he/him', '10-31', 'Won’t let minor flesh wounds hinder workplace performance.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000003?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -544,12 +544,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'37a4882c-3b7d-46c0-b019-c37e2445dae8', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'sir.robin@cowardly.co', 'Sir Robin',
-	'he/him', '07-07', 'Bravely runs from every KPI imaginable.'
+	'he/him', '07-07', 'Bravely runs from every KPI imaginable.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000004?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -678,12 +678,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'890cae10-7bbd-4f0c-961a-df495ec7527b', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'lancelot@heroics.inc', 'Sir Lancelot',
-	'he/him', '01-26', 'Over-zealous champion who solves problems with a flying tackle.'
+	'he/him', '01-26', 'Over-zealous champion who solves problems with a flying tackle.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000005?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -826,12 +826,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'bfc463bf-a066-4896-8bda-1af982893a49', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'galahad@verypure.org', 'Sir Galahad',
-	'he/him', '04-02', 'Keeps projects—and himself—untouched by corruption.'
+	'he/him', '04-02', 'Keeps projects—and himself—untouched by corruption.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000006?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -953,12 +953,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'3caf90c5-7c7e-4931-82b4-888666cd8bac', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'patsy@coconutlogistics.com', 'Patsy Steward',
-	'they/them', '05-19', 'Carries everyone else’s baggage, literally and figuratively.'
+	'they/them', '05-19', 'Carries everyone else’s baggage, literally and figuratively.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000007?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1087,12 +1087,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'2f512451-861c-4d69-aa25-b27ee54d16cb', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'tim@enkanta.io', 'Tim Enchanter',
-	'he/him', '09-09', 'Prefers explosive stand-ups—sometimes literally.'
+	'he/him', '09-09', 'Prefers explosive stand-ups—sometimes literally.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000008?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1194,12 +1194,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'012c9ecf-4897-4879-bd7c-9c877d409626', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'dennis@anarcho-peasants.org', 'Dennis Peasant',
-	'they/them', '11-05', 'Self-appointed voice of the oppressed cubicle worker.'
+	'they/them', '11-05', 'Self-appointed voice of the oppressed cubicle worker.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000009?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1308,12 +1308,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'76fded46-124d-4b2b-abcc-f1db71bbf622', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'roger@shrubbery.ltd', 'Roger Shrubber',
-	'he/him', '06-22', 'Can acquire, shape, and deliver any shrub at scale.'
+	'he/him', '06-22', 'Can acquire, shape, and deliver any shrub at scale.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000a?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1394,12 +1394,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'89bb6497-0e60-4fc4-b6e3-419c34ce49b1', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'brother.maynard@holyhand.biz', 'Brother Maynard',
-	'he/him', '12-03', 'Keeps sacred texts and grenades perfectly catalogued.'
+	'he/him', '12-03', 'Keeps sacred texts and grenades perfectly catalogued.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000b?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1487,12 +1487,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'5a401f5d-e129-40f8-9190-b3615d3cd8d6', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'prince.herbert@castleanthrax.uk', 'Prince Herbert',
-	'he/him', '08-12', 'Longs to turn every memo into a power ballad.'
+	'he/him', '08-12', 'Longs to turn every memo into a power ballad.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000c?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1594,12 +1594,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'e2d65023-1c52-4fa6-ab0a-7277a6707fb7', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'concorde@swiftcourier.io', 'Concorde Squire',
-	'he/him', '02-24', 'Gets messages across enemy lines faster than an unladen swallow.'
+	'he/him', '02-24', 'Gets messages across enemy lines faster than an unladen swallow.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000d?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1728,12 +1728,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'22fa5d4f-1e53-42f3-a00d-7010e7973b12', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'lady.zoot@castleanthrax.uk', 'Lady Zoot',
-	'she/her', '04-28', 'Caters corporate retreats with perilous peril.'
+	'she/her', '04-28', 'Caters corporate retreats with perilous peril.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000e?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1828,12 +1828,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'6eb87900-a6d3-4fa3-82e8-70aaa8754053', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'knight.ni@forestsayni.com', 'Knight Ni',
-	'they/them', '09-17', 'Negotiation style: say ‘Ni’ until opponents cave.'
+	'they/them', '09-17', 'Negotiation style: say ‘Ni’ until opponents cave.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000f?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1908,12 +1908,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'777b0252-5d54-4fcf-92da-c94715edd5f3', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'historian@grail-docu.net', 'Grail Historian',
-	'they/them', '01-11', 'Keeps getting cut off by sudden cavalry charges.'
+	'they/them', '01-11', 'Keeps getting cut off by sudden cavalry charges.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000010?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -2022,12 +2022,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'8340b8c6-5a96-4072-8af0-87c4fde2fea0', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'bridge.keeper@threequestions.org', 'Bridge Keeper',
-	'he/him', '03-30', 'You must answer him these questions three—before entering any meeting.'
+	'he/him', '03-30', 'You must answer him these questions three—before entering any meeting.', NULL
 );
 
 -- Add to access table
@@ -2102,12 +2102,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'56da65b8-1b11-4af8-8b88-912df3a0d4bd', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'mrs.bun@whizzo.choc', 'Mrs Bun',
-	'she/her', '12-20', 'Only sells chocolates with at least one outrageous surprise inside.'
+	'she/her', '12-20', 'Only sells chocolates with at least one outrageous surprise inside.', NULL
 );
 
 -- Add to access table
@@ -2209,12 +2209,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'fac6e738-ab0a-4a66-ab92-a0e76f2c4ba5', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'camel.spotter@zoology.co', 'Camel Spotter',
-	'they/them', '07-29', 'Hasn’t actually seen a camel—claims they all flew away.'
+	'they/them', '07-29', 'Hasn’t actually seen a camel—claims they all flew away.', NULL
 );
 
 -- Add to access table
@@ -2289,12 +2289,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'2217e267-144e-4651-bfce-87ce653f9f03', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'knight.truth@roundtable.ai', 'Knight OTruth',
-	'he/him', '05-15', 'Slices through red tape—and sometimes interns—seeking honesty.'
+	'he/him', '05-15', 'Slices through red tape—and sometimes interns—seeking honesty.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000011?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -2382,12 +2382,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'307a325e-1513-4718-a9b7-106d16c347d2', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'fish.slapper@dance-troupe.com', 'Fsh Slapper',
-	'they/them', '11-27', 'Delivers constructive feedback via lightly-smoked haddock.'
+	'they/them', '11-27', 'Delivers constructive feedback via lightly-smoked haddock.', NULL
 );
 
 -- Add to access table

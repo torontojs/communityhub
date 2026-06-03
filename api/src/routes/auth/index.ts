@@ -40,7 +40,7 @@ authRoutes.openapi(
 		middleware: [bodySizeCheck] as const
 	}),
 	async (context) => {
-		const { email, password, name } = context.req.valid('json');
+		const { avatar, email, password, name } = context.req.valid('json');
 
 		if (!passwordStrengthCheck(password)) {
 			return context.json({ message: 'Weak Password found' }, StatusCodes.UNPROCESSABLE_CONTENT);
@@ -55,7 +55,7 @@ authRoutes.openapi(
 		}
 
 		const hashedPasswordWithSalt = await hashPassword(password);
-		const { id } = await insertProfile(context.env.Database, { email, password: hashedPasswordWithSalt, name });
+		const { id } = await insertProfile(context.env.Database, { avatar, email, password: hashedPasswordWithSalt, name });
 		await updateProfileStatus(context.env.Database, id);
 
 		// eslint-disable-next-line @typescript-eslint/no-magic-numbers

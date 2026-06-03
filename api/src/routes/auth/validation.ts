@@ -69,6 +69,7 @@ export type SignInData = z.infer<typeof SignInSchema>;
 export const SignUpSchema = z.object({
 	name: ProfileSchema.shape.name,
 	email: ProfileSchema.shape.email,
+	avatar: ProfileSchema.shape.avatar,
 	password: PlainTextPasswordSchema
 });
 

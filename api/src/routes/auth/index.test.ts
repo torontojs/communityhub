@@ -46,8 +46,30 @@ describe('Authentication routes', () => {
 
 			const profile = await env.Database.prepare('SELECT avatar FROM profile WHERE email = ?')
 				.bind(newUserPayload.email)
-				.first<{ avatar: string }>();
-			expect(profile?.avatar).toBe('https://gravatar.com/avatar/5f638246a38c7f43710eb462a07f350c2a92417789f743d6d591921499e2fd02?s=200&d=mp&r=g');
+				.first<{ avatar: string | null }>();
+			expect(profile?.avatar).toBeNull();
+		});
+
+		it('stores a provided Gravatar avatar URL for a valid sign-up request', async () => {
+			const newUserPayload = {
+				name: 'New Avatar User',
+				email: 'new-avatar@new.new',
+				avatar: 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000020?s=200&d=robohash&r=g',
+				password: 'jfiewofjieowfjo2348219++++'
+			} as const;
+
+			const response = await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(newUserPayload)
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.OKAY);
+
+			const profile = await env.Database.prepare('SELECT avatar FROM profile WHERE email = ?')
+				.bind(newUserPayload.email)
+				.first<{ avatar: string | null }>();
+			expect(profile?.avatar).toBe(newUserPayload.avatar);
 		});
 
 		it.todo('skips creation when the email already exists (idempotent sign-up path)');

@@ -75,7 +75,6 @@ const AddTeamFormModal = ({
 								name='description'
 								placeholder="Describe the team's purpose and what they do"
 								defaultValue={initialDescription}
-								required={mode === 'add'}
 							/>
 						</div>
 						{error && <p className='add-team-modal-error' role='alert'>{error}</p>}

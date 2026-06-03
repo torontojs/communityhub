@@ -240,9 +240,14 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 				<div className='team-detail-title-row'>
 					<h1>{team.name}</h1>
 					{canManageTeams && (
-						<Button type='button' hasOutline size='small' className='team-detail-edit-button' onClick={() => setIsEditModalOpen(true)}>
-							Edit info
-						</Button>
+						<div className='team-detail-actions'>
+							<Button type='button' hasOutline size='small' className='team-detail-edit-button' onClick={() => setIsEditModalOpen(true)}>
+								Edit info
+							</Button>
+							<Button type='button' isPrimary size='small' className='team-detail-add-member-button'>
+								Add member
+							</Button>
+						</div>
 					)}
 				</div>
 			</div>

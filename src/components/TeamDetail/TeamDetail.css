@@ -53,10 +53,17 @@
 	margin: 0;
 }
 
-.team-detail-edit-button {
-	min-height: 2.25rem;
-	width: 9rem;
+.team-detail-actions {
+	display: flex;
+	gap: var(--spacing-xs);
 }
+
+.team-detail-actions .button {
+	min-height: 2.25rem;
+	width: 5.625rem;
+}
+
+.team-detail-actions .team-detail-add-member-button { width: 6.75rem; }
 
 .team-detail-members-card,
 .team-detail-status {
@@ -307,10 +314,7 @@
 
 	.team-detail-title-row h1 { font-size: var(--text-xl); }
 
-	.team-detail-edit-button {
-		align-self: flex-end;
-		width: 9rem;
-	}
+	.team-detail-actions { align-self: flex-end; }
 
 	.team-detail-members-card { padding: var(--spacing-sm); }
 

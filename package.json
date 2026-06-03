@@ -7,34 +7,25 @@
 	"scripts": {
 		"dev": "vite dev",
 		"prepare": "husky",
-
 		"start": "npm run dev",
-
 		"dev:cron": "wrangler dev --test-scheduled",
-
 		"generate:types": "wrangler types api/src/env.d.ts",
 		"db:setup": "wrangler d1 migrations apply vms-local --local",
 		"db:seed": "wrangler d1 execute vms-local --local --file=./db/seeds/seed-data.sql",
-
 		"build": "vite build",
 		"prepreview": "npm run build",
 		"preview": "vite preview",
-
 		"predeploy:dev": "npm run build",
 		"deploy:dev": "wrangler deploy --minify --env dev",
-
 		"predeploy:prod": "npm run build",
 		"deploy:prod": "wrangler deploy --minify --env production",
-
 		"format": "dprint fmt",
 		"format:check": "dprint check",
-
 		"typecheck:api": "tsc -p ./api --noEmit",
 		"typecheck:client": "tsc -p ./src --noEmit",
 		"typecheck": "npm run typecheck:api && npm run typecheck:client",
 		"lint:js": "eslint",
 		"lint": "npm run typecheck && npm run lint:js",
-
 		"test:coverage": "vitest run --coverage",
 		"test:unit": "vitest run --exclude api/src/routes/auth/index.test.ts",
 		"test:integration": "vitest run api/src/routes/auth/index.test.ts",
@@ -72,6 +63,7 @@
 		"eslint-plugin-react-refresh": "^0.4.20",
 		"globals": "16.3.0",
 		"husky": "9.1.7",
+		"snyk": "^1.1305.1",
 		"typescript": "5.8.3",
 		"vite": "^7.0.4",
 		"vitest": "3.2.4",
