@@ -25,27 +25,27 @@ Snyk is installed and authenticated. The Snyk dependency scan completed against 
 
 ## Tools Utilized
 
-| Tool | Link | What it does | Command / status |
-| --- | --- | --- | --- |
-| npm audit | https://docs.npmjs.com/cli/commands/npm-audit | Checks `package-lock.json` dependencies against the npm advisory database. | Completed: `npm audit --json` |
-| Snyk CLI | https://docs.snyk.io/snyk-cli | Commercial/open-source dependency and code security scanner. | Installed: `1.1305.1`; completed authenticated scan with 32 issues / 33 vulnerable paths. |
-| Retire.js | https://retirejs.github.io/retire.js/ | Finds vulnerable JavaScript libraries, especially bundled/browser JS. | Completed: `npx retire --path . --outputformat json` |
-| eslint-plugin-security | https://github.com/eslint-community/eslint-plugin-security | Static analysis for common JS security patterns such as unsafe regex, object injection, and child process usage. | Completed through temporary ESLint config. |
-| eslint-plugin-no-unsanitized | https://github.com/mozilla/eslint-plugin-no-unsanitized | Detects unsafe DOM sinks such as `innerHTML` and `insertAdjacentHTML`. | Completed through temporary ESLint config. |
-| lockfile-lint | https://github.com/lirantal/lockfile-lint | Validates lockfile package URLs and protocols to reduce dependency confusion / lockfile tampering risk. | Completed: no issues detected. |
-| Semgrep OWASP Top Ten rules | https://semgrep.dev/p/owasp-top-ten | Static analysis rules mapped to OWASP Top 10 categories. | Installed: `1.164.0`; rerun completed with 0 findings. |
-| OWASP ZAP | https://www.zaproxy.org/ | Dynamic application security scanner for running web apps and APIs. | Not run; Docker is installed, but Docker socket access failed with permission denied. |
-| OWASP Dependency-Check | https://owasp.org/www-project-dependency-check/ | Dependency CVE scanner using NVD, CISA KEV, npm audit, and other ecosystem metadata. | Completed natively using official release `12.2.2`; found 168 vulnerability records across 27 dependencies. |
+| Tool                         | Link                                                       | What it does                                                                                                     | Command / status                                                                                            |
+| ---------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| npm audit                    | https://docs.npmjs.com/cli/commands/npm-audit              | Checks `package-lock.json` dependencies against the npm advisory database.                                       | Completed: `npm audit --json`                                                                               |
+| Snyk CLI                     | https://docs.snyk.io/snyk-cli                              | Commercial/open-source dependency and code security scanner.                                                     | Installed: `1.1305.1`; completed authenticated scan with 32 issues / 33 vulnerable paths.                   |
+| Retire.js                    | https://retirejs.github.io/retire.js/                      | Finds vulnerable JavaScript libraries, especially bundled/browser JS.                                            | Completed: `npx retire --path . --outputformat json`                                                        |
+| eslint-plugin-security       | https://github.com/eslint-community/eslint-plugin-security | Static analysis for common JS security patterns such as unsafe regex, object injection, and child process usage. | Completed through temporary ESLint config.                                                                  |
+| eslint-plugin-no-unsanitized | https://github.com/mozilla/eslint-plugin-no-unsanitized    | Detects unsafe DOM sinks such as `innerHTML` and `insertAdjacentHTML`.                                           | Completed through temporary ESLint config.                                                                  |
+| lockfile-lint                | https://github.com/lirantal/lockfile-lint                  | Validates lockfile package URLs and protocols to reduce dependency confusion / lockfile tampering risk.          | Completed: no issues detected.                                                                              |
+| Semgrep OWASP Top Ten rules  | https://semgrep.dev/p/owasp-top-ten                        | Static analysis rules mapped to OWASP Top 10 categories.                                                         | Installed: `1.164.0`; rerun completed with 0 findings.                                                      |
+| OWASP ZAP                    | https://www.zaproxy.org/                                   | Dynamic application security scanner for running web apps and APIs.                                              | Not run; Docker is installed, but Docker socket access failed with permission denied.                       |
+| OWASP Dependency-Check       | https://owasp.org/www-project-dependency-check/            | Dependency CVE scanner using NVD, CISA KEV, npm audit, and other ecosystem metadata.                             | Completed natively using official release `12.2.2`; found 168 vulnerability records across 27 dependencies. |
 
 ## OWASP Top 10 Mapping
 
-| OWASP category | Evidence found | Risk |
-| --- | --- | --- |
-| A03: Injection | `insertAdjacentHTML` with fetched SVG text; profile social links rendered into `href`. | Medium review priority. |
-| A05: Security Misconfiguration | Lockfile source/protocol check passed. Dynamic app configuration was not scanned by ZAP. | Low/incomplete. |
-| A06: Vulnerable and Outdated Components | `npm audit`, Snyk, Retire.js, and Dependency-Check found vulnerable packages, including critical/high issues. | High priority. |
-| A07: Identification and Authentication Failures | Password hashing/constant-time comparison exists; scanner timing warning appears to be a false positive on a null token check. | Low from current scan. |
-| A01/A04/A08/A09/A10 | No confirmed finding from completed local scans. | Not fully covered without dynamic ZAP testing. |
+| OWASP category                                  | Evidence found                                                                                                                 | Risk                                           |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| A03: Injection                                  | `insertAdjacentHTML` with fetched SVG text; profile social links rendered into `href`.                                         | Medium review priority.                        |
+| A05: Security Misconfiguration                  | Lockfile source/protocol check passed. Dynamic app configuration was not scanned by ZAP.                                       | Low/incomplete.                                |
+| A06: Vulnerable and Outdated Components         | `npm audit`, Snyk, Retire.js, and Dependency-Check found vulnerable packages, including critical/high issues.                  | High priority.                                 |
+| A07: Identification and Authentication Failures | Password hashing/constant-time comparison exists; scanner timing warning appears to be a false positive on a null token check. | Low from current scan.                         |
+| A01/A04/A08/A09/A10                             | No confirmed finding from completed local scans.                                                                               | Not fully covered without dynamic ZAP testing. |
 
 ## Dependency Findings
 
@@ -63,15 +63,15 @@ Summary:
 
 Important direct packages involved:
 
-| Package | Severity | Notes / fix direction |
-| --- | --- | --- |
-| `vitest` | Critical | Advisory: arbitrary file read/execution when Vitest UI server is listening. Audit suggests `vitest@4.1.8`, a major upgrade. |
-| `@vitest/coverage-v8` | Critical | Affected through Vitest. Audit suggests `@vitest/coverage-v8@4.1.8`, a major upgrade. |
-| `@cloudflare/vitest-pool-workers` | Critical | Affected through `devalue`, `miniflare`, `vitest`, and `wrangler`. Audit suggests `0.16.12`, a major upgrade. |
-| `vite` | High | Multiple dev-server/file-read/path traversal advisories. Audit reports a fix is available. |
-| `wrangler` | High | Includes a Wrangler OS command injection advisory and transitive Miniflare issues. |
-| `@cloudflare/vite-plugin` | High | Affected through Miniflare/Wrangler/ws. Audit suggests `1.39.2`. |
-| `@orangeopensource/hurl` | High | Affected through `axios` and `tar`. Audit suggests `8.0.1`, a major upgrade. |
+| Package                           | Severity | Notes / fix direction                                                                                                       |
+| --------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `vitest`                          | Critical | Advisory: arbitrary file read/execution when Vitest UI server is listening. Audit suggests `vitest@4.1.8`, a major upgrade. |
+| `@vitest/coverage-v8`             | Critical | Affected through Vitest. Audit suggests `@vitest/coverage-v8@4.1.8`, a major upgrade.                                       |
+| `@cloudflare/vitest-pool-workers` | Critical | Affected through `devalue`, `miniflare`, `vitest`, and `wrangler`. Audit suggests `0.16.12`, a major upgrade.               |
+| `vite`                            | High     | Multiple dev-server/file-read/path traversal advisories. Audit reports a fix is available.                                  |
+| `wrangler`                        | High     | Includes a Wrangler OS command injection advisory and transitive Miniflare issues.                                          |
+| `@cloudflare/vite-plugin`         | High     | Affected through Miniflare/Wrangler/ws. Audit suggests `1.39.2`.                                                            |
+| `@orangeopensource/hurl`          | High     | Affected through `axios` and `tar`. Audit suggests `8.0.1`, a major upgrade.                                                |
 
 Other notable transitive packages reported: `axios`, `tar`, `undici`, `rollup`, `postcss`, `picomatch`, `devalue`, `defu`, `ajv`, `brace-expansion`, `ws`, and `yaml`.
 
@@ -105,20 +105,20 @@ Summary:
 
 Findings by package:
 
-| Package | Current version | Findings | Severity mix | Remediation |
-| --- | --- | ---: | --- | --- |
-| `hono` | `4.8.5` | 30 | 5 high, 24 medium, 1 low | Upgrade to `hono@4.12.21`. |
-| `yaml` | `2.8.0` | 2 paths for the same issue | 2 medium paths | Upgrade transitive path through `@hono/zod-openapi` / `openapi3-ts` so `yaml` reaches `2.8.3+`; Snyk suggested `yaml@2.9.0`. |
-| `zxcvbn` | `4.4.2` | 1 | 1 medium | No direct upgrade or patch available; consider replacing or constraining input length before calling `zxcvbn`. |
+| Package  | Current version |                   Findings | Severity mix             | Remediation                                                                                                                  |
+| -------- | --------------- | -------------------------: | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| `hono`   | `4.8.5`         |                         30 | 5 high, 24 medium, 1 low | Upgrade to `hono@4.12.21`.                                                                                                   |
+| `yaml`   | `2.8.0`         | 2 paths for the same issue | 2 medium paths           | Upgrade transitive path through `@hono/zod-openapi` / `openapi3-ts` so `yaml` reaches `2.8.3+`; Snyk suggested `yaml@2.9.0`. |
+| `zxcvbn` | `4.4.2`         |                          1 | 1 medium                 | No direct upgrade or patch available; consider replacing or constraining input length before calling `zxcvbn`.               |
 
 High-severity Snyk findings:
 
-| Package | Issue | Snyk ID | Fixed in |
-| --- | --- | --- | --- |
-| `hono@4.8.5` | Use of Incorrectly-Resolved Name or Reference | `SNYK-JS-HONO-12485162` | `4.9.6` |
-| `hono@4.8.5` | Unverified Ownership | `SNYK-JS-HONO-13669873` | `4.10.2` |
-| `hono@4.8.5` | Improper Verification of Cryptographic Signature | `SNYK-JS-HONO-14927373` | `4.11.4` |
-| `hono@4.8.5` | Use of a Broken or Risky Cryptographic Algorithm | `SNYK-JS-HONO-14927374` | `4.11.4` |
+| Package      | Issue                                                | Snyk ID                 | Fixed in  |
+| ------------ | ---------------------------------------------------- | ----------------------- | --------- |
+| `hono@4.8.5` | Use of Incorrectly-Resolved Name or Reference        | `SNYK-JS-HONO-12485162` | `4.9.6`   |
+| `hono@4.8.5` | Unverified Ownership                                 | `SNYK-JS-HONO-13669873` | `4.10.2`  |
+| `hono@4.8.5` | Improper Verification of Cryptographic Signature     | `SNYK-JS-HONO-14927373` | `4.11.4`  |
+| `hono@4.8.5` | Use of a Broken or Risky Cryptographic Algorithm     | `SNYK-JS-HONO-14927374` | `4.11.4`  |
 | `hono@4.8.5` | Allocation of Resources Without Limits or Throttling | `SNYK-JS-HONO-16438966` | `4.12.16` |
 
 Primary remediation:
@@ -182,7 +182,7 @@ File:
 Pattern:
 
 ```tsx
-<a aria-label={`${key} for ${profileData.name}`} href={value}>{socialIconsMap[key]}</a>
+<a aria-label={`${key} for ${profileData.name}`} href={value}>{socialIconsMap[key]}</a>;
 ```
 
 `href` is populated from profile JSON. React escapes text, but it does not make an unsafe URL scheme safe.
@@ -316,18 +316,18 @@ Summary:
 
 Top vulnerable dependencies by number of records:
 
-| Dependency | Vulnerability records | Highest severity |
-| --- | ---: | --- |
-| `hono:4.8.5` | 51 | critical |
-| `axios:1.8.2` | 39 | critical |
-| `undici:7.14.0` | 12 | critical |
-| `vite:7.0.5` | 10 | high |
-| `minimatch:9.0.5` | 6 | high |
-| `tar:7.4.3` | 6 | high |
-| `undici:5.29.0` | 6 | critical |
-| `devalue:4.3.3` | 5 | high |
-| `flatted:3.3.3` | 4 | high |
-| `picomatch:4.0.3` | 4 | high |
+| Dependency        | Vulnerability records | Highest severity |
+| ----------------- | --------------------: | ---------------- |
+| `hono:4.8.5`      |                    51 | critical         |
+| `axios:1.8.2`     |                    39 | critical         |
+| `undici:7.14.0`   |                    12 | critical         |
+| `vite:7.0.5`      |                    10 | high             |
+| `minimatch:9.0.5` |                     6 | high             |
+| `tar:7.4.3`       |                     6 | high             |
+| `undici:5.29.0`   |                     6 | critical         |
+| `devalue:4.3.3`   |                     5 | high             |
+| `flatted:3.3.3`   |                     4 | high             |
+| `picomatch:4.0.3` |                     4 | high             |
 
 Notes:
 
