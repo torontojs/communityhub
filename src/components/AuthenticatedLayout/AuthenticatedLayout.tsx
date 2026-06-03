@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import './AuthenticatedLayout.css';
 import { handleLogOut } from '../../utilities/handleLogOut.ts';
 
@@ -38,6 +38,37 @@ const navItems: {
 
 const AuthenticatedLayout = ({ activePage, children, className, mainClassName }: Props): React.JSX.Element => {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
+	const [avatar, setAvatar] = useState<string>('/default-avatar.png');
+
+	useEffect(() => {
+		const controller = new AbortController();
+
+		async function fetchCurrentUserAvatar(): Promise<void> {
+			try {
+				const response = await fetch('/api/auth/heartbeat', {
+					credentials: 'include',
+					signal: controller.signal
+				});
+
+				if (!response.ok) {
+					return;
+				}
+
+				const data = await response.json() as { avatar?: string | null };
+				if (data.avatar) {
+					setAvatar(data.avatar);
+				}
+			} catch (error) {
+				if (error instanceof Error && error.name !== 'AbortError') {
+					console.error('Failed to load current user avatar:', error);
+				}
+			}
+		}
+
+		void fetchCurrentUserAvatar();
+
+		return () => controller.abort();
+	}, []);
 
 	const navLinks = navItems.map((item) => (
 		<a href={item.href} data-active={item.id === activePage} key={item.id}>
@@ -74,7 +105,7 @@ const AuthenticatedLayout = ({ activePage, children, className, mainClassName }:
 						<img className='torontojs-logo' src='/torontojs-logo.png' alt='Small Toronto JS Logo' />
 					</a>
 					<div className='inner-header'>
-						<img className='small-avatar' src='/small-sample-avatar.png' alt='Small User Avatar' />
+						<img className='small-avatar' src={avatar} alt='Small User Avatar' />
 						<a href='/pages/notifications/'>
 							<img className='notification-bell' src='/notification-bell.png' alt='Notification bell icon' />
 						</a>

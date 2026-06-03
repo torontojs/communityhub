@@ -14,6 +14,12 @@ describe('UpdateProfileSchema', () => {
 		expect(result.success).toBe(false);
 	});
 
+	test('rejects avatar updates', () => {
+		const result = UpdateProfileSchema.safeParse({ avatar: 'https://example.com/avatar.png' });
+
+		expect(result.success).toBe(false);
+	});
+
 	test('accepts empty links array (means "remove all links")', () => {
 		const result = UpdateProfileSchema.safeParse({ links: [] });
 

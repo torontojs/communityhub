@@ -43,6 +43,11 @@ describe('Authentication routes', () => {
 
 			const stored = await env.ActivationTokens.get(firstActivationTokenKey.name, 'json');
 			expect(stored).toEqual(expect.objectContaining({ email: newUserPayload.email }));
+
+			const profile = await env.Database.prepare('SELECT avatar FROM profile WHERE email = ?')
+				.bind(newUserPayload.email)
+				.first<{ avatar: string }>();
+			expect(profile?.avatar).toBe('https://gravatar.com/avatar/5f638246a38c7f43710eb462a07f350c2a92417789f743d6d591921499e2fd02?s=200&d=mp&r=g');
 		});
 
 		it.todo('skips creation when the email already exists (idempotent sign-up path)');

@@ -137,7 +137,7 @@ export const CreateProfileSchema = ProfileSchema.pick({ name: true, email: true 
 export type CreateProfileData = z.infer<typeof CreateProfileSchema>;
 
 export const UpdateProfileSchema = ProfileSchema
-	.omit({ ...BaseDBFieldsToOmit, email: true })
+	.omit({ ...BaseDBFieldsToOmit, avatar: true, email: true })
 	.partial()
 	.refine(
 		(data) => Object.keys(data).length > 0,

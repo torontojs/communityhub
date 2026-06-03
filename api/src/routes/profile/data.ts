@@ -1,4 +1,5 @@
 import { DBTables, DEFAULT_TEAM_ID, generateBaseDBfields } from '../../utils/db.ts';
+import { generateGravatarUrl } from '../../utils/gravatar.ts';
 import { EventLog } from '../event-log/data.ts';
 import type { CreateProfileData, Profile, ProfileLink, ProfileSkill, ProfileTeam, UpdateProfileData } from './validation.ts';
 
@@ -49,16 +50,17 @@ export async function nonExistingProfileIds(database: D1Database, ids: string[])
 export async function insertProfile(database: D1Database, { email, name, password }: CreateProfileData) {
 	const { id: profileId, schemaVersion, happenedAt, insertedAt } = generateBaseDBfields();
 	const { id: roleId } = generateBaseDBfields();
+	const avatar = await generateGravatarUrl(email);
 
 	const results = await database.batch([
 		database.prepare(`
 			INSERT INTO ${DBTables.PROFILE} (
 				id, schemaVersion, happenedAt, insertedAt,
-				email, name
+				email, name, avatar
 			)
 			VALUES (
 				?, ?, ?, ?,
-				?, ?
+				?, ?, ?
 			)
 		`).bind(
 			profileId,
@@ -66,7 +68,8 @@ export async function insertProfile(database: D1Database, { email, name, passwor
 			happenedAt,
 			insertedAt,
 			email,
-			name
+			name,
+			avatar
 		),
 		database.prepare(`
 			INSERT INTO ${DBTables.ACCESS} (
@@ -104,7 +107,7 @@ export async function insertProfile(database: D1Database, { email, name, passwor
 export async function updateProfileById(
 	database: D1Database,
 	id: string,
-	{ name, description, isBasedOnGTA, canJoinLocalEvents, pronouns, birthday, avatar, links, skills }: UpdateProfileData
+	{ name, description, isBasedOnGTA, canJoinLocalEvents, pronouns, birthday, links, skills }: UpdateProfileData
 ) {
 	const fieldsToUpdate = Object.fromEntries(
 		Object.entries({
@@ -113,8 +116,7 @@ export async function updateProfileById(
 			isBasedOnGTA,
 			canJoinLocalEvents,
 			pronouns,
-			birthday,
-			avatar
+			birthday
 		}).filter(([, value]) => value !== null && value !== undefined)
 	);
 

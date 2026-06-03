@@ -14,6 +14,8 @@
 	grid-column: 1 / -1;
 	height: 3.75rem;
 	justify-content: space-between;
+	margin-inline: calc((100% - 100vw) / 2);
+	width: 100vw;
 }
 
 .authenticated-layout .torontojs-logo {

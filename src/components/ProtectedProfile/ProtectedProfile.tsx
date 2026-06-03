@@ -29,6 +29,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [userId, setUserId] = useState<string>();
 	const [email, setEmail] = useState<string>('');
 	const [name, setName] = useState<string>('');
+	const [avatar, setAvatar] = useState<string>('/default-avatar.png');
 	const [description, setDescription] = useState<string>('');
 	const [isBasedOnGTA, setIsBasedOnGTA] = useState<boolean | null>(null);
 	const [canJoinLocalEvents, setCanJoinLocalEvents] = useState<boolean | null>(null);
@@ -59,10 +60,11 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					throw new Error('Error parsing protected profile response data');
 				}
 
-				const { data: { id, name, email, description, isBasedOnGTA, canJoinLocalEvents, pronouns, links, skills, teams } } = data;
+				const { data: { id, name, email, avatar, description, isBasedOnGTA, canJoinLocalEvents, pronouns, links, skills, teams } } = data;
 				setUserId(id);
 				setName(name);
 				setEmail(email);
+				setAvatar(avatar ?? '/default-avatar.png');
 				setDescription(description);
 				setIsBasedOnGTA(isBasedOnGTA);
 				setCanJoinLocalEvents(canJoinLocalEvents);
@@ -278,7 +280,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				<div className='profile-header-container'>
 					<header className='profile-header'>
 						<div className='avatar'>
-							<img src='/small-sample-avatar.png' alt='Medium Size Avatar' />
+							<img src={avatar} alt='Medium Size Avatar' />
 						</div>
 						<div className='user-bio'>
 							<h2>{name}</h2>
