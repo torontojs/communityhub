@@ -1,26 +1,29 @@
 .general-info-modal {
+	align-items: start;
 	background-color: rgba(0, 0, 0, 0.5);
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	min-height: 100%;
 	display: flex;
 	justify-content: center;
-	align-items: start;
+	height: 100dvh;
+	inset: 0;
+	overflow: hidden;
+	position: fixed;
+	width: 100%;
 	z-index: 1000;
 }
 
 .general-info-form-modal-container {
-	margin-top: 3.125rem;
+	background-color: #ffffff;
+	border-radius: var(--rounded-md);
+	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-md);
-	background-color: #ffffff;
+	margin-top: 3.125rem;
+	max-height: calc(100dvh - 6.25rem);
 	max-width: 67.5rem;
-	width: 100%;
+	overflow-y: auto;
 	padding: var(--spacing-md);
-	border-radius: var(--rounded-md);
+	width: 100%;
 	z-index: 1001;
 
 	& h2 {
@@ -212,9 +215,11 @@
 
 @media screen and (max-width: 40rem) {
 	.general-info-form-modal-container {
-		max-width: 100%;
-		min-height: 100%;
 		border-radius: 0;
+		margin-top: 0;
+		max-height: 100dvh;
+		max-width: 100%;
+		min-height: 100dvh;
 	}
 
 	.general-info-inputs { flex-direction: column; }
