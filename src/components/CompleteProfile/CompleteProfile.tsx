@@ -99,10 +99,7 @@ const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 
 // eslint-disable-next-line max-lines-per-function
 const CompleteProfile = () => {
-	const fileInputRef = useRef<HTMLInputElement>(null);
-	const uploadPhotoButtonRef = useRef<HTMLButtonElement>(null);
 	const skillInputRef = useRef<HTMLInputElement>(null);
-	const avatarUploadStatusRef = useRef<HTMLSpanElement>(null);
 	const slackHandleInputRef = useRef<HTMLInputElement>(null);
 
 	// Social Input Refs
@@ -110,7 +107,6 @@ const CompleteProfile = () => {
 	const githubInputRef = useRef<HTMLInputElement>(null);
 	const sitePortfolioInputRef = useRef<HTMLInputElement>(null);
 
-	const [photoFile, setPhotoFile] = useState<string | null>(null);
 	const [socialIcons, setSocialIcons] = useState<SocialIcons[]>([
 		{ id: 'instagram', name: 'Instagram', element: <Instagram />, inputVisible: false },
 		{ id: 'facebook', name: 'Facebook', element: <Facebook />, inputVisible: false },
@@ -144,22 +140,6 @@ const CompleteProfile = () => {
 		const isValid = slackUrl.trim() !== '';
 		setIsSubmissionDisabled(!isValid);
 		return isValid;
-	};
-
-	const handleUploadPhotoButtonClick = () => {
-		fileInputRef.current?.click();
-	};
-
-	const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const file = event.target.files?.[0];
-		if (file) {
-			setPhotoFile(URL.createObjectURL(file));
-		}
-	};
-
-	const handleRemovePhoto = () => {
-		setPhotoFile(null);
-		uploadPhotoButtonRef.current?.focus();
 	};
 
 	const handleAddSkill = (skillName: string) => {
@@ -209,6 +189,7 @@ const CompleteProfile = () => {
 			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
 			pronouns: formData.get('pronouns') as string,
 			birthday: profileData.birthday,
+			avatar: (formData.get('avatar') as string)?.trim() || undefined,
 			links: linksFromForm,
 			skills: profileData.skills
 		};
@@ -237,6 +218,14 @@ const CompleteProfile = () => {
 		setProfileData((prev) => ({
 			...prev,
 			[name]: checked
+		}));
+	};
+
+	const handleAvatarInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+		const { value } = evt.target;
+		setProfileData((prev) => ({
+			...prev,
+			avatar: value
 		}));
 	};
 
@@ -295,6 +284,7 @@ const CompleteProfile = () => {
 					id: data.data?.id,
 					name: data.data?.name,
 					email: data.data?.email,
+					avatar: data.data?.avatar ?? '',
 					isBasedOnGTA: data.data?.isBasedOnGTA,
 					canJoinLocalEvents: data.data?.canJoinLocalEvents
 				};
@@ -335,7 +325,7 @@ const CompleteProfile = () => {
 					{ label: 'Complete your profile' }
 				]}
 			/>
-			<form onSubmit={handleSubmit} encType='multipart/form-data' id='complete-profile-form'>
+			<form onSubmit={handleSubmit} id='complete-profile-form'>
 				<h2>Complete your profile</h2>
 
 				<div id='fields-wrapper'>
@@ -510,41 +500,23 @@ const CompleteProfile = () => {
 						</summary>
 
 						<div className='details-content-wrapper'>
-							<div className='details-content-file-upload'>
-								{photoFile && (
-									<picture>
-										<img src={photoFile} />
-									</picture>
-								)}
+							<div className='details-content-avatar-url'>
+								<picture>
+									<img src={profileData.avatar || '/default-avatar.png'} alt='' />
+								</picture>
 
-								<div className='details-file-upload-buttons-wrapper'>
-									<span ref={avatarUploadStatusRef} aria-live='polite' aria-atomic='true' role='status' className='file-upload-success'>
-										{photoFile ? 'Avatar uploaded successfully' : ''}
-									</span>
-
-									<Button
-										type='button'
-										onClick={handleUploadPhotoButtonClick}
-										ref={uploadPhotoButtonRef}
-									>
-										Upload {photoFile ? 'New' : 'Your'} Photo{' '}
-									</Button>
+								<div>
+									<label htmlFor='avatar'>Gravatar URL</label>
 									<input
-										ref={fileInputRef}
-										id='image-upload'
-										type='file'
-										accept='image/png, image/jpeg'
-										onChange={handlePhotoUpload}
+										id='avatar'
+										name='avatar'
+										type='url'
+										className='text-input'
+										value={profileData.avatar ?? ''}
+										onChange={handleAvatarInputChange}
+										placeholder='https://gravatar.com/avatar/...'
 									/>
-									{photoFile && (
-										<Button
-											type='button'
-											hasOutline
-											onClick={handleRemovePhoto}
-										>
-											Remove Photo
-										</Button>
-									)}
+									<p>Paste a Gravatar avatar URL. Leave blank to use the default avatar.</p>
 								</div>
 							</div>
 						</div>

@@ -107,7 +107,7 @@ export async function insertProfile(database: D1Database, { email, name, passwor
 export async function updateProfileById(
 	database: D1Database,
 	id: string,
-	{ name, description, isBasedOnGTA, canJoinLocalEvents, pronouns, birthday, links, skills }: UpdateProfileData
+	{ name, description, isBasedOnGTA, canJoinLocalEvents, pronouns, birthday, avatar, links, skills }: UpdateProfileData
 ) {
 	const fieldsToUpdate = Object.fromEntries(
 		Object.entries({
@@ -116,7 +116,8 @@ export async function updateProfileById(
 			isBasedOnGTA,
 			canJoinLocalEvents,
 			pronouns,
-			birthday
+			birthday,
+			avatar
 		}).filter(([, value]) => value !== null && value !== undefined)
 	);
 

@@ -178,7 +178,7 @@
 		}
 	}
 
-	.details-content-file-upload {
+	.details-content-avatar-url {
 		align-items: center;
 		display: flex;
 		gap: var(--spacing-sm);
@@ -206,7 +206,7 @@
 			}
 		}
 
-		& .details-file-upload-buttons-wrapper {
+		& > div {
 			display: flex;
 			flex-direction: column;
 			gap: var(--spacing-xs);
@@ -214,38 +214,16 @@
 			min-width: 15.25rem;
 			width: 15.25rem;
 
-			& input[id='image-upload'] { display: none; }
-
-			& .file-upload-success {
-				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M20 6L9 17L4 12' stroke='%23009900' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-				background-position: start;
-				background-repeat: no-repeat;
-				background-size: contain;
-				color: var(--color-success);
-				content: '';
-				font-size: 0.875rem;
-				font-weight: var(--weight-regular);
-				letter-spacing: 0;
-				text-align: center;
-			}
-
-			& .custom-file-upload {
-				border-radius: var(--rounded-md);
+			& label {
 				color: var(--color-black);
-				cursor: pointer;
-				font-size: var(--text-xs);
+				font-size: var(--text-base);
 				font-weight: var(--weight-semibold);
 				letter-spacing: 0;
-				padding: var(--spacing-xs) var(--spacing-sm);
-				text-align: center;
 			}
 
-			label.custom-file-upload { background-color: var(--color-input); }
-
-			& > button {
+			& p {
+				color: var(--color-gray-600);
 				font-size: var(--text-xs);
-				font-weight: var(--weight-bold);
-				height: 2.625rem;
 				letter-spacing: 0;
 				margin: 0;
 			}
