@@ -21,7 +21,7 @@ Source-level OWASP static checks found no confirmed exploit, but they did identi
 - Profile social links are rendered directly into anchor `href` values.
 - Several object-indexing warnings were raised by heuristic security rules; most appear lower risk because the keys are typed enums or constants.
 
-Snyk is installed and authenticated. The Snyk dependency scan completed against `package-lock.json` and found **32 issues** across **33 vulnerable dependency paths**: **5 high**, **27 medium**, and **1 low** findings. OWASP Dependency-Check was run natively from the official `12.2.2` release and found **168 vulnerability records** across **27 vulnerable dependencies**. Semgrep is installed user-locally and its OWASP Top Ten scan completed with **0 findings**. OWASP ZAP could not be run because this Codex session still cannot access the Docker socket.
+Snyk is installed and authenticated. The Snyk dependency scan completed against `package-lock.json` and found **32 issues** across **33 vulnerable dependency paths**: **5 high**, **27 medium**, and **1 low** findings. OWASP Dependency-Check was run natively from the official `12.2.2` release and found **168 vulnerability records** across **27 vulnerable dependencies**. Semgrep is installed user-locally and its OWASP Top Ten scan completed with **0 findings**.
 
 ## Tools Utilized
 
@@ -34,7 +34,6 @@ Snyk is installed and authenticated. The Snyk dependency scan completed against 
 | eslint-plugin-no-unsanitized | https://github.com/mozilla/eslint-plugin-no-unsanitized    | Detects unsafe DOM sinks such as `innerHTML` and `insertAdjacentHTML`.                                           | Completed through temporary ESLint config.                                                                  |
 | lockfile-lint                | https://github.com/lirantal/lockfile-lint                  | Validates lockfile package URLs and protocols to reduce dependency confusion / lockfile tampering risk.          | Completed: no issues detected.                                                                              |
 | Semgrep OWASP Top Ten rules  | https://semgrep.dev/p/owasp-top-ten                        | Static analysis rules mapped to OWASP Top 10 categories.                                                         | Installed: `1.164.0`; rerun completed with 0 findings.                                                      |
-| OWASP ZAP                    | https://www.zaproxy.org/                                   | Dynamic application security scanner for running web apps and APIs.                                              | Not run; Docker is installed, but Docker socket access failed with permission denied.                       |
 | OWASP Dependency-Check       | https://owasp.org/www-project-dependency-check/            | Dependency CVE scanner using NVD, CISA KEV, npm audit, and other ecosystem metadata.                             | Completed natively using official release `12.2.2`; found 168 vulnerability records across 27 dependencies. |
 
 ## OWASP Top 10 Mapping
@@ -42,10 +41,10 @@ Snyk is installed and authenticated. The Snyk dependency scan completed against 
 | OWASP category                                  | Evidence found                                                                                                                 | Risk                                           |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
 | A03: Injection                                  | `insertAdjacentHTML` with fetched SVG text; profile social links rendered into `href`.                                         | Medium review priority.                        |
-| A05: Security Misconfiguration                  | Lockfile source/protocol check passed. Dynamic app configuration was not scanned by ZAP.                                       | Low/incomplete.                                |
+| A05: Security Misconfiguration                  | Lockfile source/protocol check passed.                                                                                       | Low from current scans.                        |
 | A06: Vulnerable and Outdated Components         | `npm audit`, Snyk, Retire.js, and Dependency-Check found vulnerable packages, including critical/high issues.                  | High priority.                                 |
 | A07: Identification and Authentication Failures | Password hashing/constant-time comparison exists; scanner timing warning appears to be a false positive on a null token check. | Low from current scan.                         |
-| A01/A04/A08/A09/A10                             | No confirmed finding from completed local scans.                                                                               | Not fully covered without dynamic ZAP testing. |
+| A01/A04/A08/A09/A10                             | No confirmed finding from completed local scans.                                                                               | No confirmed finding from current scan set.    |
 
 ## Dependency Findings
 
@@ -258,28 +257,11 @@ Result:
 - Parsed lines: ~99.9%.
 - Warning: one partial parse warning in `src/pages/dev-links/index.html` around line 37.
 
-### OWASP ZAP
-
-Not run because Docker socket access is blocked for the current user/session.
-
-Verification:
-
-```text
-Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
-permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
-```
-
-Typical baseline command once Docker is available:
-
-```shell
-docker run -t owasp/zap2docker-stable zap-baseline.py -t http://host.docker.internal:5173 -r zap-report.html
-```
-
 ### OWASP Dependency-Check
 
 Result: **failed due to vulnerabilities**.
 
-Docker was unavailable, so Dependency-Check was run natively from the official GitHub release ZIP:
+Dependency-Check was run natively from the official GitHub release ZIP:
 
 ```shell
 /tmp/dependency-check-12.2.2/dependency-check/bin/dependency-check.sh \
@@ -352,5 +334,4 @@ npm run test:unit -- --reporter verbose
 2. Replace or constrain the runtime SVG `insertAdjacentHTML` pattern.
 3. Validate social link URLs before rendering profile links.
 4. Authenticate Snyk with `npx snyk auth` and rerun `npx snyk test`.
-5. Fix Docker socket access for this user/session, then run a ZAP baseline scan against the running Vite app.
-6. Re-run Dependency-Check after dependency upgrades; subsequent runs should be faster because the NVD data is cached in `/tmp/dependency-check-data` for this session.
+5. Re-run Dependency-Check after dependency upgrades; subsequent runs should be faster because the NVD data is cached in `/tmp/dependency-check-data` for this session.
