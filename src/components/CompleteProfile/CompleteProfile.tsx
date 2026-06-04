@@ -248,7 +248,7 @@ const CompleteProfile = () => {
 		const updateProfileParams: UpdateProfileParams = {
 			isBasedOnGTA: formData.get('isBasedOnGTA') === 'on',
 			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
-			pronouns: formData.get('pronouns') as string,
+			pronouns: (formData.get('pronouns') as string)?.trim() || undefined,
 			birthday: profileData.birthday,
 			avatar: (formData.get('avatar') as string)?.trim() || undefined,
 			links: linksFromForm,
