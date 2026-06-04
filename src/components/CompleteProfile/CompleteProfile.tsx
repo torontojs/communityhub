@@ -202,7 +202,7 @@ const CompleteProfile = () => {
 		setSocialIcons((prevIcons) => prevIcons.map((input) => input.id === inputId ? { ...input, inputVisible: !input.inputVisible } : input));
 	};
 
-	const getProfileParams = (formData: FormData): UpdateProfileParams => {
+	const getProfileParams = async (formData: FormData): Promise<UpdateProfileParams> => {
 		// Create links array from social inputs
 		const linksFromForm: { platform: string, url: string }[] = [];
 		for (const [key, value] of formData.entries()) {
@@ -211,12 +211,15 @@ const CompleteProfile = () => {
 			}
 		}
 
+		const formAvatar = (formData.get('avatar') as string)?.trim();
+		const avatarUrl = formAvatar ? (await getGravatarAvatarUrl(formAvatar) ?? formAvatar) : undefined;
+
 		const updateProfileParams: UpdateProfileParams = {
 			isBasedOnGTA: formData.get('isBasedOnGTA') === 'on',
 			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
 			pronouns: formData.get('pronouns') as string,
 			birthday: profileData.birthday,
-			avatar: (formData.get('avatar') as string)?.trim() || undefined,
+			avatar: avatarUrl,
 			links: linksFromForm,
 			skills: profileData.skills
 		};
@@ -274,10 +277,9 @@ const CompleteProfile = () => {
 		if (!profileId || !validateSlackHandle() || isSubmissionDisabled) { return; }
 
 		const formData = new FormData(event.currentTarget);
-		const profileParams = getProfileParams(formData);
-
 		try {
 			setIsSubmitting(true);
+			const profileParams = await getProfileParams(formData);
 			await updateProfile(profileParams, profileId);
 		} catch (error) {
 			if (error instanceof Error) {
