@@ -26,9 +26,16 @@ export type SocialMediaPlatforms = z.infer<typeof PlatformEnumSchema>;
 export const PlatformLinkOrUserSchema = z
 	.string()
 	.trim()
-	.min(1, 'Social media url/user must be at least one character long.')
-	.max(SHORT_TEXT_SIZE_IN_CHAR, `Social media url/user must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
-	.describe('The social media url or username for a platform.');
+	.min(1, 'Social media URL must be at least one character long.')
+	.max(SHORT_TEXT_SIZE_IN_CHAR, `Social media URL must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
+	.refine((value) => {
+		try {
+			return new URL(value).protocol === 'https:';
+		} catch {
+			return false;
+		}
+	}, { message: 'Social media URL must be a valid HTTPS URL.' })
+	.describe('The HTTPS URL for a social media or platform profile.');
 
 export type PlatformLink = z.infer<typeof PlatformLinkOrUserSchema>;
 

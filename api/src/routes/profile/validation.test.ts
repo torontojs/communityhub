@@ -72,6 +72,23 @@ describe('UpdateProfileSchema', () => {
 		expect(result.success).toBe(false);
 	});
 
+	test('rejects link with unsafe url scheme', () => {
+		const unsafeUrl = `java${'script'}:alert(1)`;
+		const result = UpdateProfileSchema.safeParse({
+			links: [{ platform: 'github', url: unsafeUrl }]
+		});
+
+		expect(result.success).toBe(false);
+	});
+
+	test('rejects link without an HTTPS url', () => {
+		const result = UpdateProfileSchema.safeParse({
+			links: [{ platform: 'github', url: 'github-user' }]
+		});
+
+		expect(result.success).toBe(false);
+	});
+
 	test('rejects invalid birthday format', () => {
 		const result = UpdateProfileSchema.safeParse({ birthday: '2025-01-15' });
 
