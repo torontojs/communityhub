@@ -44,11 +44,12 @@ const getGravatarUrlType = (value?: string): 'empty' | 'image' | 'invalid' | 'pr
 
 	try {
 		const url = new URL(value.trim());
-		const [firstPath = '', secondPath] = url.pathname.split('/').filter(Boolean);
+		const [firstPath = '', secondPath, thirdPath] = url.pathname.split('/').filter(Boolean);
 
 		if (url.protocol !== 'https:' || !isGravatarHost(url.hostname)) { return 'invalid'; }
 		if (firstPath === 'avatar' && secondPath) { return 'image'; }
 		if ((url.hostname === 'gravatar.com' || url.hostname === 'www.gravatar.com') && firstPath && !secondPath) { return 'profile'; }
+		if (url.hostname === 'api.gravatar.com' && firstPath === 'v3' && secondPath === 'profiles' && thirdPath) { return 'profile'; }
 
 		return 'invalid';
 	} catch {
@@ -121,13 +122,21 @@ const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 const getGravatarProfileSlug = (value: string): string | null => {
 	try {
 		const url = new URL(value.trim());
-		const [slug = '', extraPath] = url.pathname.split('/').filter(Boolean);
+		const [firstPath = '', secondPath = '', thirdPath = '', extraPath] = url.pathname.split('/').filter(Boolean);
 
-		if (url.protocol !== 'https:' || !['gravatar.com', 'www.gravatar.com'].includes(url.hostname.toLowerCase()) || slug === 'avatar' || extraPath) {
+		if (url.protocol !== 'https:') {
 			return null;
 		}
 
-		return slug.replace(/\.card$/iu, '');
+		if (['gravatar.com', 'www.gravatar.com'].includes(url.hostname.toLowerCase()) && firstPath !== 'avatar' && !secondPath) {
+			return firstPath.replace(/\.card$/iu, '');
+		}
+
+		if (url.hostname === 'api.gravatar.com' && firstPath === 'v3' && secondPath === 'profiles' && thirdPath && !extraPath) {
+			return thirdPath;
+		}
+
+		return null;
 	} catch {
 		return null;
 	}

@@ -41,14 +41,23 @@ export function isGravatarAvatarUrl(url: string): boolean {
 export function isGravatarProfileUrl(url: string): boolean {
 	try {
 		const parsedUrl = new URL(url);
-		const [slug = '', extraPath] = parsedUrl.pathname.split('/').filter(Boolean);
+		const [firstPath = '', secondPath = '', thirdPath = '', extraPath] = parsedUrl.pathname.split('/').filter(Boolean);
 		const hostname = parsedUrl.hostname.toLowerCase();
 
-		return parsedUrl.protocol === 'https:' &&
+		if (parsedUrl.protocol !== 'https:') { return false; }
+
+		return (
 			(hostname === 'gravatar.com' || hostname === 'www.gravatar.com') &&
-			slug !== '' &&
-			slug !== 'avatar' &&
-			!extraPath;
+			firstPath !== '' &&
+			firstPath !== 'avatar' &&
+			!secondPath
+		) || (
+			hostname === 'api.gravatar.com' &&
+			firstPath === 'v3' &&
+			secondPath === 'profiles' &&
+			thirdPath !== '' &&
+			!extraPath
+		);
 	} catch {
 		return false;
 	}
@@ -59,7 +68,8 @@ export async function resolveGravatarAvatarUrl(url: string): Promise<string> {
 	if (!isGravatarProfileUrl(url)) { return url; }
 
 	const parsedUrl = new URL(url);
-	const [slug = ''] = parsedUrl.pathname.split('/').filter(Boolean);
+	const [firstPath = '', , thirdPath = ''] = parsedUrl.pathname.split('/').filter(Boolean);
+	const slug = parsedUrl.hostname === 'api.gravatar.com' ? thirdPath : firstPath;
 	try {
 		const response = await fetch(`https://api.gravatar.com/v3/profiles/${encodeURIComponent(slug.replace(/\.card$/iu, ''))}`);
 		if (!response.ok) { return url; }
