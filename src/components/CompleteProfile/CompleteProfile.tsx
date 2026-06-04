@@ -379,19 +379,17 @@ const CompleteProfile = () => {
 								</div>
 								<div>
 									<label htmlFor='pronouns'>Pronouns</label>
-									<input
+									<select
 										className='text-input'
 										id='pronouns'
 										name='pronouns'
-										type='text'
-										list='pronouns-options'
-										placeholder='Your pronouns (optional)'
-									/>
-									<datalist id='pronouns-options'>
-										<option>he/him</option>
-										<option>she/her</option>
-										<option>they/them</option>
-									</datalist>
+										defaultValue=''
+									>
+										<option value='' hidden>Pronouns optional</option>
+										<option value='he/him'>he/him</option>
+										<option value='she/her'>she/her</option>
+										<option value='they/them'>they/them</option>
+									</select>
 								</div>
 								<div>
 									<label>Date of birth</label>
