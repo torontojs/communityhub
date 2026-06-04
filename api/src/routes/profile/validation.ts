@@ -28,13 +28,6 @@ export const PlatformLinkOrUserSchema = z
 	.trim()
 	.min(1, 'Social media URL must be at least one character long.')
 	.max(SHORT_TEXT_SIZE_IN_CHAR, `Social media URL must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
-	.refine((value) => {
-		try {
-			return new URL(value).protocol === 'https:';
-		} catch {
-			return false;
-		}
-	}, { message: 'Social media URL must be a valid HTTPS URL.' })
 	.describe('The HTTPS URL for a social media or platform profile.');
 
 export type PlatformLink = z.infer<typeof PlatformLinkOrUserSchema>;
@@ -124,7 +117,15 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 			z.object({
 				platform: PlatformEnumSchema,
 				url: PlatformLinkOrUserSchema
-			})
+			}).refine(({ platform, url }) => {
+				if (platform === 'slack') { return true; }
+
+				try {
+					return new URL(url).protocol === 'https:';
+				} catch {
+					return false;
+				}
+			}, { message: 'Social media URL must be a valid HTTPS URL.', path: ['url'] })
 		)
 			.optional()
 			.describe('A list of objects containing platform names and respective links for social media and platforms the person want to make available on the Community Hub.'),

@@ -97,6 +97,14 @@ describe('UpdateProfileSchema', () => {
 		expect(result.success).toBe(false);
 	});
 
+	test('accepts Slack alias without an HTTPS url', () => {
+		const result = UpdateProfileSchema.safeParse({
+			links: [{ platform: 'slack', url: 'ken' }]
+		});
+
+		expect(result.success).toBe(true);
+	});
+
 	test('rejects invalid birthday format', () => {
 		const result = UpdateProfileSchema.safeParse({ birthday: '2025-01-15' });
 
