@@ -388,9 +388,9 @@ const CompleteProfile = () => {
 										placeholder='Your pronouns (optional)'
 									/>
 									<datalist id='pronouns-options'>
-										<option>He/him</option>
-										<option>She/her</option>
-										<option>They/them</option>
+										<option>he/him</option>
+										<option>she/her</option>
+										<option>they/them</option>
 									</datalist>
 								</div>
 								<div>
