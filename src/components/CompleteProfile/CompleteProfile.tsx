@@ -36,6 +36,23 @@ type UpdateProfileParams = Omit<ProfileParams, 'email'>;
 const platformEnum = ['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'];
 const gravatarProfileHosts = new Set(['gravatar.com', 'www.gravatar.com']);
 
+const getGravatarUrlType = (value?: string): 'profile' | 'image' | 'empty' | 'invalid' => {
+	if (!value?.trim()) { return 'empty'; }
+
+	try {
+		const url = new URL(value.trim());
+		const [firstPath = '', secondPath] = url.pathname.split('/').filter(Boolean);
+
+		if (url.protocol !== 'https:' || !gravatarProfileHosts.has(url.hostname.toLowerCase())) { return 'invalid'; }
+		if (firstPath === 'avatar' && secondPath) { return 'image'; }
+		if (firstPath && !secondPath) { return 'profile'; }
+
+		return 'invalid';
+	} catch {
+		return 'invalid';
+	}
+};
+
 // Validation helpers
 /**
  * Checks whether a birthday string is in the valid MM-DD format.
@@ -161,6 +178,7 @@ const CompleteProfile = () => {
 		links: [],
 		skills: []
 	});
+	const avatarUrlType = getGravatarUrlType(profileData.avatar);
 
 	const validateSlackHandle = () => {
 		const slackUrl = slackHandleInputRef.current?.value ?? '';
@@ -554,7 +572,12 @@ const CompleteProfile = () => {
 										onBlur={handleAvatarInputBlur}
 										placeholder='https://gravatar.com/profile-name'
 									/>
-									<p>Paste a Gravatar profile URL. Leave blank to use the default avatar.</p>
+									<p>
+										{avatarUrlType === 'profile' && 'Profile URL detected. The app will save the real image URL.'}
+										{avatarUrlType === 'image' && 'Image URL detected.'}
+										{avatarUrlType === 'empty' && 'Paste a Gravatar profile or image URL. Leave blank to use the default avatar.'}
+										{avatarUrlType === 'invalid' && 'Use a Gravatar profile or image URL.'}
+									</p>
 								</div>
 							</div>
 						</div>
