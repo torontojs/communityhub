@@ -38,13 +38,13 @@ Snyk is installed and authenticated. The Snyk dependency scan completed against 
 
 ## OWASP Top 10 Mapping
 
-| OWASP category                                  | Evidence found                                                                                                                 | Risk                                           |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
-| A03: Injection                                  | `insertAdjacentHTML` with fetched SVG text; profile social links rendered into `href`.                                         | Medium review priority.                        |
-| A05: Security Misconfiguration                  | Lockfile source/protocol check passed.                                                                                       | Low from current scans.                        |
-| A06: Vulnerable and Outdated Components         | `npm audit`, Snyk, Retire.js, and Dependency-Check found vulnerable packages, including critical/high issues.                  | High priority.                                 |
-| A07: Identification and Authentication Failures | Password hashing/constant-time comparison exists; scanner timing warning appears to be a false positive on a null token check. | Low from current scan.                         |
-| A01/A04/A08/A09/A10                             | No confirmed finding from completed local scans.                                                                               | No confirmed finding from current scan set.    |
+| OWASP category                                  | Evidence found                                                                                                                 | Risk                                        |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------- |
+| A03: Injection                                  | `insertAdjacentHTML` with fetched SVG text; profile social links rendered into `href`.                                         | Medium review priority.                     |
+| A05: Security Misconfiguration                  | Lockfile source/protocol check passed.                                                                                         | Low from current scans.                     |
+| A06: Vulnerable and Outdated Components         | `npm audit`, Snyk, Retire.js, and Dependency-Check found vulnerable packages, including critical/high issues.                  | High priority.                              |
+| A07: Identification and Authentication Failures | Password hashing/constant-time comparison exists; scanner timing warning appears to be a false positive on a null token check. | Low from current scan.                      |
+| A01/A04/A08/A09/A10                             | No confirmed finding from completed local scans.                                                                               | No confirmed finding from current scan set. |
 
 ## Dependency Findings
 
