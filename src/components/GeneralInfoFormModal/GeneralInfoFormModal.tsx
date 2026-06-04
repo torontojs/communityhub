@@ -14,9 +14,9 @@ interface Props {
 
 const pronounOptions = [
 	'',
-	'He/Him/His',
-	'She/Her/Hers',
-	'They/Them/Theirs'
+	'he/him',
+	'she/her',
+	'they/them'
 ];
 
 const GeneralInfoFormModal = ({ name, email, pronouns, isBasedOnGTA, canJoinLocalEvents, onClose, onSubmit }: Props): React.JSX.Element => (
