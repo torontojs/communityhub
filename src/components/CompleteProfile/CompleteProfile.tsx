@@ -34,6 +34,7 @@ interface ProfileParams {
 type UpdateProfileParams = Omit<ProfileParams, 'email'>;
 
 const platformEnum = ['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'];
+const gravatarProfileHosts = new Set(['gravatar.com', 'www.gravatar.com']);
 
 // Validation helpers
 /**
@@ -95,6 +96,32 @@ const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 	} catch (err) {
 		console.error(err);
 	}
+};
+
+const getGravatarProfileSlug = (value: string): string | null => {
+	try {
+		const url = new URL(value.trim());
+		const [slug = '', extraPath] = url.pathname.split('/').filter(Boolean);
+
+		if (url.protocol !== 'https:' || !gravatarProfileHosts.has(url.hostname.toLowerCase()) || slug === 'avatar' || extraPath) {
+			return null;
+		}
+
+		return slug.replace(/\.card$/iu, '');
+	} catch {
+		return null;
+	}
+};
+
+const getGravatarAvatarUrl = async (profileUrl: string): Promise<string | null> => {
+	const slug = getGravatarProfileSlug(profileUrl);
+	if (!slug) { return null; }
+
+	const response = await fetch(`https://api.gravatar.com/v3/profiles/${encodeURIComponent(slug)}`);
+	if (!response.ok) { return null; }
+
+	const profile = await response.json() as { avatar_url?: string };
+	return profile.avatar_url ?? null;
 };
 
 // eslint-disable-next-line max-lines-per-function
@@ -226,6 +253,16 @@ const CompleteProfile = () => {
 		setProfileData((prev) => ({
 			...prev,
 			avatar: value
+		}));
+	};
+
+	const handleAvatarInputBlur = async (evt: ChangeEvent<HTMLInputElement>) => {
+		const avatarUrl = await getGravatarAvatarUrl(evt.target.value);
+		if (!avatarUrl) { return; }
+
+		setProfileData((prev) => ({
+			...prev,
+			avatar: avatarUrl
 		}));
 	};
 
@@ -512,9 +549,10 @@ const CompleteProfile = () => {
 										className='text-input'
 										value={profileData.avatar ?? ''}
 										onChange={handleAvatarInputChange}
-										placeholder='https://gravatar.com/avatar/...'
+										onBlur={handleAvatarInputBlur}
+										placeholder='https://gravatar.com/profile-name'
 									/>
-									<p>Paste a Gravatar avatar URL. Leave blank to use the default avatar.</p>
+									<p>Paste a Gravatar profile URL. Leave blank to use the default avatar.</p>
 								</div>
 							</div>
 						</div>
