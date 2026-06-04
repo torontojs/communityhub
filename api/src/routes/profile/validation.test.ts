@@ -22,6 +22,14 @@ describe('UpdateProfileSchema', () => {
 		expect(result.success).toBe(true);
 	});
 
+	test('accepts Gravatar profile URL updates', () => {
+		const result = UpdateProfileSchema.safeParse({
+			avatar: 'https://gravatar.com/gleamingb80de23538'
+		});
+
+		expect(result.success).toBe(true);
+	});
+
 	test('rejects non-Gravatar avatar updates', () => {
 		const result = UpdateProfileSchema.safeParse({ avatar: 'https://example.com/avatar.png' });
 

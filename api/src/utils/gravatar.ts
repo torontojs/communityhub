@@ -37,3 +37,36 @@ export function isGravatarAvatarUrl(url: string): boolean {
 		return false;
 	}
 }
+
+export function isGravatarProfileUrl(url: string): boolean {
+	try {
+		const parsedUrl = new URL(url);
+		const [slug = '', extraPath] = parsedUrl.pathname.split('/').filter(Boolean);
+		const hostname = parsedUrl.hostname.toLowerCase();
+
+		return parsedUrl.protocol === 'https:' &&
+			(hostname === 'gravatar.com' || hostname === 'www.gravatar.com') &&
+			slug !== '' &&
+			slug !== 'avatar' &&
+			!extraPath;
+	} catch {
+		return false;
+	}
+}
+
+export async function resolveGravatarAvatarUrl(url: string): Promise<string> {
+	if (isGravatarAvatarUrl(url)) { return url; }
+	if (!isGravatarProfileUrl(url)) { return url; }
+
+	const parsedUrl = new URL(url);
+	const [slug = ''] = parsedUrl.pathname.split('/').filter(Boolean);
+	try {
+		const response = await fetch(`https://api.gravatar.com/v3/profiles/${encodeURIComponent(slug.replace(/\.card$/iu, ''))}`);
+		if (!response.ok) { return url; }
+
+		const profile: { avatar_url?: string } = await response.json();
+		return profile.avatar_url && isGravatarAvatarUrl(profile.avatar_url) ? profile.avatar_url : url;
+	} catch {
+		return url;
+	}
+}

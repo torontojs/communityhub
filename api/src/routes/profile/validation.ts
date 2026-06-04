@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { LONG_TEXT_SIZE_IN_CHAR, SHORT_TEXT_SIZE_IN_CHAR } from '../../middleware/body-size.ts';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit, IdSchema } from '../../utils/db.ts';
-import { isGravatarAvatarUrl } from '../../utils/gravatar.ts';
+import { isGravatarAvatarUrl, isGravatarProfileUrl } from '../../utils/gravatar.ts';
 import { TeamSchema } from '../team/validation.ts';
 
 export const PlatformEnumSchema = z.enum([
@@ -117,7 +117,7 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 			.trim()
 			.min(1, 'Avatar must be at least one character long.')
 			.max(SHORT_TEXT_SIZE_IN_CHAR, `Avatar must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
-			.refine(isGravatarAvatarUrl, { message: 'Avatar must be a Gravatar avatar URL.' })
+			.refine((url) => isGravatarAvatarUrl(url) || isGravatarProfileUrl(url), { message: 'Avatar must be a Gravatar URL.' })
 			.optional()
 			.describe("The user's avatar URL."),
 		links: z.array(

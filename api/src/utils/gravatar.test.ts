@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { generateGravatarUrl, isGravatarAvatarUrl } from './gravatar.ts';
+import { generateGravatarUrl, isGravatarAvatarUrl, isGravatarProfileUrl } from './gravatar.ts';
 
 describe('generateGravatarUrl', () => {
 	it('normalizes and hashes email addresses with SHA-256', async () => {
@@ -24,5 +24,15 @@ describe('isGravatarAvatarUrl', () => {
 
 	it('rejects non-Gravatar avatar URLs', () => {
 		expect(isGravatarAvatarUrl('https://example.com/avatar.png')).toBe(false);
+	});
+});
+
+describe('isGravatarProfileUrl', () => {
+	it('accepts HTTPS Gravatar profile URLs', () => {
+		expect(isGravatarProfileUrl('https://gravatar.com/gleamingb80de23538')).toBe(true);
+	});
+
+	it('rejects Gravatar avatar URLs', () => {
+		expect(isGravatarProfileUrl('https://gravatar.com/avatar/973dfe463ec85785f5f95af5ba3906eedb2d931c24e69824a89ea65dba4e813b')).toBe(false);
 	});
 });

@@ -34,18 +34,21 @@ interface ProfileParams {
 type UpdateProfileParams = Omit<ProfileParams, 'email'>;
 
 const platformEnum = ['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'];
-const gravatarProfileHosts = new Set(['gravatar.com', 'www.gravatar.com']);
+const isGravatarHost = (hostname: string): boolean => {
+	const normalizedHostname = hostname.toLowerCase();
+	return normalizedHostname === 'gravatar.com' || normalizedHostname.endsWith('.gravatar.com');
+};
 
-const getGravatarUrlType = (value?: string): 'profile' | 'image' | 'empty' | 'invalid' => {
+const getGravatarUrlType = (value?: string): 'empty' | 'image' | 'invalid' | 'profile' => {
 	if (!value?.trim()) { return 'empty'; }
 
 	try {
 		const url = new URL(value.trim());
 		const [firstPath = '', secondPath] = url.pathname.split('/').filter(Boolean);
 
-		if (url.protocol !== 'https:' || !gravatarProfileHosts.has(url.hostname.toLowerCase())) { return 'invalid'; }
+		if (url.protocol !== 'https:' || !isGravatarHost(url.hostname)) { return 'invalid'; }
 		if (firstPath === 'avatar' && secondPath) { return 'image'; }
-		if (firstPath && !secondPath) { return 'profile'; }
+		if ((url.hostname === 'gravatar.com' || url.hostname === 'www.gravatar.com') && firstPath && !secondPath) { return 'profile'; }
 
 		return 'invalid';
 	} catch {
@@ -120,7 +123,7 @@ const getGravatarProfileSlug = (value: string): string | null => {
 		const url = new URL(value.trim());
 		const [slug = '', extraPath] = url.pathname.split('/').filter(Boolean);
 
-		if (url.protocol !== 'https:' || !gravatarProfileHosts.has(url.hostname.toLowerCase()) || slug === 'avatar' || extraPath) {
+		if (url.protocol !== 'https:' || !['gravatar.com', 'www.gravatar.com'].includes(url.hostname.toLowerCase()) || slug === 'avatar' || extraPath) {
 			return null;
 		}
 
@@ -134,11 +137,15 @@ const getGravatarAvatarUrl = async (profileUrl: string): Promise<string | null> 
 	const slug = getGravatarProfileSlug(profileUrl);
 	if (!slug) { return null; }
 
-	const response = await fetch(`https://api.gravatar.com/v3/profiles/${encodeURIComponent(slug)}`);
-	if (!response.ok) { return null; }
+	try {
+		const response = await fetch(`https://api.gravatar.com/v3/profiles/${encodeURIComponent(slug)}`);
+		if (!response.ok) { return null; }
 
-	const profile = await response.json() as { avatar_url?: string };
-	return profile.avatar_url ?? null;
+		const profile = await response.json() as { avatar_url?: string };
+		return profile.avatar_url ?? null;
+	} catch {
+		return null;
+	}
 };
 
 // eslint-disable-next-line max-lines-per-function
@@ -220,7 +227,7 @@ const CompleteProfile = () => {
 		setSocialIcons((prevIcons) => prevIcons.map((input) => input.id === inputId ? { ...input, inputVisible: !input.inputVisible } : input));
 	};
 
-	const getProfileParams = async (formData: FormData): Promise<UpdateProfileParams> => {
+	const getProfileParams = (formData: FormData): UpdateProfileParams => {
 		// Create links array from social inputs
 		const linksFromForm: { platform: string, url: string }[] = [];
 		for (const [key, value] of formData.entries()) {
@@ -229,15 +236,12 @@ const CompleteProfile = () => {
 			}
 		}
 
-		const formAvatar = (formData.get('avatar') as string)?.trim();
-		const avatarUrl = formAvatar ? (await getGravatarAvatarUrl(formAvatar) ?? formAvatar) : undefined;
-
 		const updateProfileParams: UpdateProfileParams = {
 			isBasedOnGTA: formData.get('isBasedOnGTA') === 'on',
 			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
 			pronouns: formData.get('pronouns') as string,
 			birthday: profileData.birthday,
-			avatar: avatarUrl,
+			avatar: (formData.get('avatar') as string)?.trim() || undefined,
 			links: linksFromForm,
 			skills: profileData.skills
 		};
@@ -297,7 +301,7 @@ const CompleteProfile = () => {
 		const formData = new FormData(event.currentTarget);
 		try {
 			setIsSubmitting(true);
-			const profileParams = await getProfileParams(formData);
+			const profileParams = getProfileParams(formData);
 			await updateProfile(profileParams, profileId);
 		} catch (error) {
 			if (error instanceof Error) {

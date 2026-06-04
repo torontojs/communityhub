@@ -6,6 +6,7 @@ import { authorizeAdmin, authorizeVolunteer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { ACCESS_LEVEL, getSession } from '../../utils/auth.ts';
+import { resolveGravatarAvatarUrl } from '../../utils/gravatar.ts';
 import {
 	type DataResponse,
 	generateDataResponseSchema,
@@ -179,6 +180,7 @@ profileRoutes.openapi(
 		}
 
 		const body = context.req.valid('json');
+		body.avatar &&= await resolveGravatarAvatarUrl(body.avatar);
 		const isUpdated = await updateProfileById(context.env.Database, id, body);
 
 		if (!isUpdated) {
