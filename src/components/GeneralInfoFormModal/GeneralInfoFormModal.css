@@ -91,6 +91,13 @@
 	font-weight: var(--weight-semibold);
 	color: var(--color-accent);
 	flex-shrink: 0;
+	overflow: hidden;
+}
+
+.general-info-avatar-placeholder img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .general-info-fields {

@@ -5,6 +5,7 @@ import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
 interface Props {
 	name: string;
 	email: string;
+	avatar: string;
 	pronouns: string;
 	isBasedOnGTA: boolean | null;
 	canJoinLocalEvents: boolean | null;
@@ -19,7 +20,7 @@ const pronounOptions = [
 	'they/them'
 ];
 
-const GeneralInfoFormModal = ({ name, email, pronouns, isBasedOnGTA, canJoinLocalEvents, onClose, onSubmit }: Props): React.JSX.Element => (
+const GeneralInfoFormModal = ({ name, email, avatar, pronouns, isBasedOnGTA, canJoinLocalEvents, onClose, onSubmit }: Props): React.JSX.Element => (
 	<div className='general-info-modal'>
 		<form
 			className='general-info-form-modal-container'
@@ -42,7 +43,7 @@ const GeneralInfoFormModal = ({ name, email, pronouns, isBasedOnGTA, canJoinLoca
 				<h3>General Information</h3>
 				<div className='general-info-avatar-row'>
 					<div className='general-info-avatar-placeholder'>
-						{name.split(' ').map((w) => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase()}
+						<img src={avatar || '/default-avatar.png'} alt='' />
 					</div>
 					<div className='general-info-fields'>
 						<div className='general-info-inputs'>
@@ -58,6 +59,11 @@ const GeneralInfoFormModal = ({ name, email, pronouns, isBasedOnGTA, canJoinLoca
 								value={email}
 								disabled
 								required
+							/>
+							<TextInputComponent
+								label='Gravatar URL'
+								name='avatar'
+								value={avatar}
 							/>
 						</div>
 						<div className='general-info-pronouns'>
