@@ -1,4 +1,5 @@
 import { DBTables, generateBaseDBfields } from '../../utils/db.ts';
+import { resolveGravatarAvatarUrl } from '../../utils/gravatar.ts';
 import { EventLog } from '../event-log/data.ts';
 import type { AddTeamMembers, TeamMemberInfo, UpdateTeamMembers } from './validation.ts';
 
@@ -130,10 +131,11 @@ export async function getAllMembers(database: D1Database, teamId: string, limit?
 		${limit ? `LIMIT ${limit} OFFSET ${offset}` : ''}
 		`).bind(teamId).run<TeamMemberInfo>();
 
-	return results.map((member) => ({
+	return Promise.all(results.map(async (member) => ({
 		...member,
+		avatar: member.avatar ? await resolveGravatarAvatarUrl(member.avatar) : member.avatar,
 		isBasedOnGTA: Boolean(member.isBasedOnGTA)
-	}));
+	})));
 }
 
 export async function deleteTeamMembers(database: D1Database, teamId: string, data: string[]) {
