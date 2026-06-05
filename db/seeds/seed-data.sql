@@ -2035,7 +2035,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'8340b8c6-5a96-4072-8af0-87c4fde2fea0', 1, 'volunteer', 'OT4nBsL++OAg32XDOAbnnw==:mCORqpmunCVNhwUURw5VuvxSoKClvH+ma9p/U+flmHL9CgFXWzywa3yJEyq+bQ8tCVONAwTZWPRKfGRTgzss0w==', 'bridge.keeper@threequestions.org', NULL, 'created', NULL
+	'8340b8c6-5a96-4072-8af0-87c4fde2fea0', 1, 'volunteer', 'OT4nBsL++OAg32XDOAbnnw==:mCORqpmunCVNhwUURw5VuvxSoKClvH+ma9p/U+flmHL9CgFXWzywa3yJEyq+bQ8tCVONAwTZWPRKfGRTgzss0w==', 'bridge.keeper@threequestions.org', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
