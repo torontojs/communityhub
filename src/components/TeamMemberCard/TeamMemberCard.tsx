@@ -1,13 +1,14 @@
 import './TeamMemberCard.css';
 import type { TeamMemberProfile } from '../Teams/Teams.tsx';
 
-const getInitials = (name: string): string => name
-	.split(' ')
-	.map((part) => part[0])
-	.filter(Boolean)
-	.slice(0, 2)
-	.join('')
-	.toUpperCase();
+const getInitials = (name: string): string =>
+	name
+		.split(' ')
+		.map((part) => part[0])
+		.filter(Boolean)
+		.slice(0, 2)
+		.join('')
+		.toUpperCase();
 
 const TeamMemberCard = (props: TeamMemberProfile) => (
 	<article className='team-member-card'>

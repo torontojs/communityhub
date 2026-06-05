@@ -27,6 +27,13 @@ interface TeamMember {
 	avatar?: string;
 }
 
+interface ProfileOption {
+	avatar?: string;
+	email: string;
+	id: string;
+	name: string;
+}
+
 interface DataResponse<T> {
 	data: T;
 }
@@ -77,7 +84,11 @@ const formatJoinedDate = (value: string): string => {
 
 const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	const [access, setAccess] = useState<AccessLevel | null>(null);
+	const [addMemberError, setAddMemberError] = useState<string | null>(null);
+	const [addMemberQuery, setAddMemberQuery] = useState<string>('');
+	const [availableProfiles, setAvailableProfiles] = useState<ProfileOption[]>([]);
 	const [editError, setEditError] = useState<string | null>(null);
+	const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState<boolean>(false);
 	const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [members, setMembers] = useState<TeamMember[]>([]);
@@ -87,10 +98,24 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	const [membersTotal, setMembersTotal] = useState<number>(0);
 	const [pageError, setPageError] = useState<string | null>(null);
 	const [searchQuery, setSearchQuery] = useState<string>('');
+	const [selectedProfile, setSelectedProfile] = useState<ProfileOption | null>(null);
 	const [team, setTeam] = useState<Team | null>(null);
 
 	const canManageTeams = canManage(access);
 	const hasMembers = members.length > 0;
+	const memberProfileIds = new Set(members.map((member) => member.profileId));
+	const visibleProfileOptions = availableProfiles
+		.filter((profile) => !memberProfileIds.has(profile.id))
+		.filter((profile) => {
+			const query = addMemberQuery.trim().toLowerCase();
+
+			if (!query) {
+				return false;
+			}
+
+			return profile.name.toLowerCase().includes(query) || profile.email.toLowerCase().includes(query);
+		})
+		.slice(0, 5);
 	const visibleMembers = members.filter((member) => {
 		const query = searchQuery.trim().toLowerCase();
 
@@ -159,6 +184,29 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		void fetchTeamDetail();
 	}, [teamId]);
 
+	useEffect(() => {
+		if (!isAddMemberModalOpen) {
+			return;
+		}
+
+		const fetchProfiles = async (): Promise<void> => {
+			try {
+				const response = await fetch('/api/profiles', { credentials: 'include' });
+				if (!response.ok) {
+					throw new Error('Failed to fetch profiles');
+				}
+
+				const profiles = await response.json() as PaginatedResponse<ProfileOption>;
+				setAvailableProfiles(profiles.data);
+			} catch (error) {
+				setAddMemberError('Unable to load profiles.');
+				console.error('Error fetching profiles for add member modal:', error);
+			}
+		};
+
+		void fetchProfiles();
+	}, [isAddMemberModalOpen]);
+
 	const handleMembersPageChange = (page: number): void => {
 		setIsLoaded(false);
 		fetchTeamDetail(page).catch((error: unknown) => console.error('Error changing team members page:', error));
@@ -213,6 +261,34 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		}
 	};
 
+	const handleAddMember = async (profile: ProfileOption): Promise<void> => {
+		setAddMemberError(null);
+
+		try {
+			const response = await fetch(`/api/teams/${teamId}/members`, {
+				method: 'POST',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify([{ name: 'Member', profileId: profile.id }])
+			});
+
+			if (!response.ok) {
+				setAddMemberError('Unable to add member.');
+				return;
+			}
+
+			setIsAddMemberModalOpen(false);
+			setAddMemberQuery('');
+			setSelectedProfile(null);
+			await fetchTeamDetail(membersCurrentPage, membersPageSize);
+		} catch (error) {
+			setAddMemberError('Unable to add member.');
+			console.error('Error adding team member:', error);
+		}
+	};
+
 	if (!isLoaded) {
 		return (
 			<AuthenticatedLayout activePage='teams' mainClassName='team-detail-page'>
@@ -244,7 +320,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 							<Button type='button' hasOutline size='small' className='team-detail-edit-button' onClick={() => setIsEditModalOpen(true)}>
 								Edit info
 							</Button>
-							<Button type='button' isPrimary size='small' className='team-detail-add-member-button'>
+							<Button type='button' isPrimary size='small' className='team-detail-add-member-button' onClick={() => setIsAddMemberModalOpen(true)}>
 								Add member
 							</Button>
 						</div>
@@ -331,6 +407,75 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 					))}
 				</nav>
 			</div>
+
+			{isAddMemberModalOpen && (
+				<div className='team-detail-add-member-modal'>
+					<div className='team-detail-add-member-dialog'>
+						<div className='team-detail-add-member-title-row'>
+							<h2>Add member to {team.name} team</h2>
+							<button
+								type='button'
+								aria-label='Close add member modal'
+								onClick={() => {
+									setIsAddMemberModalOpen(false);
+									setAddMemberQuery('');
+									setAddMemberError(null);
+									setSelectedProfile(null);
+								}}
+							>
+								<img src='/black-x.png' alt='' />
+							</button>
+						</div>
+						<label className='team-detail-add-member-search'>
+							<span>Search for a member to add to this team</span>
+							<span className='team-detail-add-member-search-input'>
+								<span className='team-detail-search-icon' aria-hidden='true' />
+							<input
+								type='search'
+								value={addMemberQuery}
+								onChange={(event) => {
+									setAddMemberQuery(event.target.value);
+									setSelectedProfile(null);
+								}}
+								placeholder='Search by name or email'
+								autoFocus
+							/>
+							</span>
+						</label>
+						<div className='team-detail-add-member-results'>
+							{visibleProfileOptions.map((profile) => (
+								<button
+									type='button'
+									key={profile.id}
+									aria-pressed={selectedProfile?.id === profile.id}
+									onClick={() => setSelectedProfile(profile)}
+								>
+									{profile.avatar ?
+										<img src={profile.avatar} alt='' /> :
+										<span>{getInitials(profile.name)}</span>}
+									<span>
+										<strong>{profile.name}</strong>
+										<small>{profile.email}</small>
+									</span>
+								</button>
+							))}
+							{addMemberQuery.trim() && visibleProfileOptions.length === 0 && <p>No members found</p>}
+						</div>
+						{selectedProfile && (
+							<Button
+								type='button'
+								isPrimary
+								size='small'
+								className='team-detail-add-member-confirm'
+								onClick={() => void handleAddMember(selectedProfile)}
+							>
+								Confirm
+							</Button>
+						)}
+						{addMemberError && <p className='team-detail-add-member-error' role='alert'>{addMemberError}</p>}
+					</div>
+				</div>
+			)}
 
 			{isEditModalOpen && (
 				<AddTeamFormModal
