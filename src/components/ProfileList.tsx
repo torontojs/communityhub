@@ -29,9 +29,9 @@ const ProfileList = () => {
 	}
 
 	return (
-		<div>
+		<ul className='profile-list'>
 			{profileData.map((profile, index) => (
-				<div key={index} className='card'>
+				<li key={index} className='card'>
 					<div className='card-header'>
 						<h3>Volunteer Profile</h3>
 					</div>
@@ -77,9 +77,9 @@ const ProfileList = () => {
 								))}
 						</div>
 					</div>
-				</div>
+				</li>
 			))}
-		</div>
+		</ul>
 	);
 };
 
