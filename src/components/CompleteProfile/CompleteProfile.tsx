@@ -10,6 +10,7 @@ import { Threads } from '../Icons/Social/Threads.tsx';
 import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 
 interface SocialIcons {
 	id: string;
@@ -34,23 +35,6 @@ interface ProfileParams {
 type UpdateProfileParams = Omit<ProfileParams, 'email'>;
 
 const platformEnum = ['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'];
-const safeAvatarUrl = (url: string | undefined): string => {
-	if (!url) {
-		return '/default-avatar.png';
-	}
-	if (url.startsWith('/')) {
-		return url;
-	}
-	try {
-		const parsed = new URL(url);
-		if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
-			return url;
-		}
-	} catch {
-		return '/default-avatar.png';
-	}
-	return '/default-avatar.png';
-};
 
 const isGravatarHost = (hostname: string): boolean => {
 	const normalizedHostname = hostname.toLowerCase();
@@ -655,18 +639,20 @@ const CompleteProfile = () => {
 									<label htmlFor='skill'>
 										<span>Your skills</span>
 										<div id='skills'>
-											{profileData?.skills?.map((skill) => (
-												<span key={skill}>
-													{skill}
-													<button
-														type='button'
-														aria-label='Remove Skill'
-														onClick={() => handleRemoveSkill(skill)}
-													>
-														x
-													</button>
-												</span>
-											))}
+											<ul>
+												{profileData?.skills?.map((skill) => (
+													<li key={skill}>
+														{skill}
+														<button
+															type='button'
+															aria-label='Remove Skill'
+															onClick={() => handleRemoveSkill(skill)}
+														>
+															x
+														</button>
+													</li>
+												))}
+											</ul>
 											<input
 												id='skill'
 												ref={skillInputRef}

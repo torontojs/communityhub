@@ -121,8 +121,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	const [removeError, setRemoveError] = useState<string | null>(null);
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [selectedProfile, setSelectedProfile] = useState<ProfileOption | null>(null);
-	const [showRemovedToast, setShowRemovedToast] = useState<boolean>(false);
-	const [showSuccessToast, setShowSuccessToast] = useState<boolean>(false);
+	const [activeToast, setActiveToast] = useState<'added' | 'removed' | null>(null);
 	const [team, setTeam] = useState<Team | null>(null);
 
 	const canManageTeams = canManage(access);
@@ -219,22 +218,13 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	}, [isAddMemberModalOpen]);
 
 	useEffect(() => {
-		if (!showSuccessToast) {
+		if (!activeToast) {
 			return;
 		}
 
-		const timer = setTimeout(() => setShowSuccessToast(false), TOAST_DURATION_MS);
+		const timer = setTimeout(() => setActiveToast(null), TOAST_DURATION_MS);
 		return () => clearTimeout(timer);
-	}, [showSuccessToast]);
-
-	useEffect(() => {
-		if (!showRemovedToast) {
-			return;
-		}
-
-		const timer = setTimeout(() => setShowRemovedToast(false), TOAST_DURATION_MS);
-		return () => clearTimeout(timer);
-	}, [showRemovedToast]);
+	}, [activeToast]);
 
 	const handleMembersPageChange = (page: number): void => {
 		setIsLoaded(false);
@@ -307,7 +297,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 			}
 
 			setMemberToRemove(null);
-			setShowRemovedToast(true);
+			setActiveToast('removed');
 			await fetchTeamDetail(membersCurrentPage, membersPageSize);
 		} catch (error) {
 			setRemoveError('Unable to remove member. Please try again.');
@@ -336,7 +326,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 			setIsAddMemberModalOpen(false);
 			setAddMemberQuery('');
 			setSelectedProfile(null);
-			setShowSuccessToast(true);
+			setActiveToast('added');
 			await fetchTeamDetail(membersCurrentPage, membersPageSize);
 		} catch (error) {
 			setAddMemberError('Unable to add member.');
@@ -604,33 +594,25 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 				</div>
 			)}
 
-			{showSuccessToast && (
+			{activeToast && (
 				<div className='team-detail-success-toast' role='status' aria-live='polite'>
 					<button
 						type='button'
 						className='team-detail-success-toast-close'
 						aria-label='Dismiss notification'
-						onClick={() => setShowSuccessToast(false)}
+						onClick={() => setActiveToast(null)}
 					>
 						<img src='/black-x.png' alt='' />
 					</button>
-					<strong>Member added</strong>
-					<p>They're part of the team now</p>
-				</div>
-			)}
-
-			{showRemovedToast && (
-				<div className='team-detail-success-toast' role='status' aria-live='polite'>
-					<button
-						type='button'
-						className='team-detail-success-toast-close'
-						aria-label='Dismiss notification'
-						onClick={() => setShowRemovedToast(false)}
-					>
-						<img src='/black-x.png' alt='' />
-					</button>
-					<strong>Member removed</strong>
-					<p>They're no longer part of this team.</p>
+					{activeToast === 'added' ?
+						<>
+							<strong>Member added</strong>
+							<p>They're part of the team now</p>
+						</> :
+						<>
+							<strong>Member removed</strong>
+							<p>They're no longer part of this team.</p>
+						</>}
 				</div>
 			)}
 		</AuthenticatedLayout>

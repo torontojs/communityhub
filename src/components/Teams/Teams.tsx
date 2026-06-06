@@ -23,6 +23,7 @@ interface PaginatedResponse<T> {
 	currentPage: number;
 	data: T[];
 	lastPage: number;
+	total: number;
 }
 
 interface TeamMembersState {
@@ -248,7 +249,7 @@ const Teams = () => {
 						setTeamMembersByTeamId((current) => ({
 							...current,
 							[team.id]: {
-								count: teamMembersResponse.data.length,
+								count: teamMembersResponse.total,
 								error: null,
 								isLoaded: true
 							}
@@ -313,29 +314,30 @@ const Teams = () => {
 
 	return (
 		<AuthenticatedLayout activePage='teams' className='teams-grid-container' mainClassName='teams-page'>
-				<div className='teams-page-header'>
-					<nav className='teams-breadcrumb' aria-label='Breadcrumb'>
-						<a href='/pages/home'>Community</a>
-						<span>Teams</span>
-					</nav>
-					<div className='teams-title-row'>
-						<h1>Teams</h1>
-						{canManageTeams && teamsData.length > 0 && (
-							<Button
-								type='button'
-								className='teams-add-button'
-								isPrimary
-								size='small'
-								onClick={openAddTeamModal}
-							>
-								Add Team
-							</Button>
-						)}
-					</div>
+			<div className='teams-page-header'>
+				<nav className='teams-breadcrumb' aria-label='Breadcrumb'>
+					<a href='/pages/home'>Community</a>
+					<span>Teams</span>
+				</nav>
+				<div className='teams-title-row'>
+					<h1>Teams</h1>
+					{canManageTeams && teamsData.length > 0 && (
+						<Button
+							type='button'
+							className='teams-add-button'
+							isPrimary
+							size='small'
+							onClick={openAddTeamModal}
+						>
+							Add Team
+						</Button>
+					)}
 				</div>
-				<section className='teams-list' aria-label='TorontoJS teams'>
-					{teamsData.length > 0 ?
-						teamsData.map((team: Team) => (
+			</div>
+			<section aria-label='TorontoJS teams'>
+				{teamsData.length > 0 ?
+					<ul className='teams-list'>
+						{teamsData.map((team: Team) => (
 							<TeamCard
 								key={team.id}
 								href={`/pages/team?id=${team.id}`}
@@ -349,59 +351,60 @@ const Teams = () => {
 									} :
 									undefined}
 							/>
-						)) :
-						(
-							<div className='teams-empty-state'>
-								<EmptyIcon />
-								<p>No teams to display yet.</p>
-								{canManageTeams && <button type='button' onClick={openAddTeamModal}>Create Team</button>}
-							</div>
-						)}
-				</section>
-				<div className='teams-pagination'>
-					<label>
-						<span>Results per page</span>
-						<select value={teamsPageSize} onChange={handleTeamsPageSizeChange}>
-							{TEAMS_PAGE_SIZE_OPTIONS.map((pageSize) => <option key={pageSize} value={pageSize}>{pageSize}</option>)}
-						</select>
-					</label>
-					<nav aria-label='Teams pagination'>
-						{Array.from({ length: teamsLastPage }, (_, index) => index + FIRST_PAGE).map((page) => (
-							<button
-								type='button'
-								aria-current={page === teamsCurrentPage ? 'page' : undefined}
-								key={page}
-								onClick={() => handleTeamsPageChange(page)}
-							>
-								{page}
-							</button>
 						))}
-					</nav>
-				</div>
-				{isAddTeamModalOpen && (
-					<AddTeamFormModal
-						error={addTeamError}
-						onSubmit={handleAddTeamSubmit}
-						onClose={() => {
-							setAddTeamError(null);
-							setIsAddTeamModalOpen(false);
-						}}
-					/>
-				)}
-				{editingTeam && (
-					<AddTeamFormModal
-						mode='edit'
-						error={addTeamError}
-						initialName={editingTeam.name}
-						initialDescription={editingTeam.description ?? ''}
-						onSubmit={handleEditTeamSubmit}
-						onClose={() => {
-							setAddTeamError(null);
-							setEditingTeam(null);
-						}}
-					/>
-				)}
-			</AuthenticatedLayout>
+					</ul> :
+					(
+						<div className='teams-empty-state'>
+							<EmptyIcon />
+							<p>No teams to display yet.</p>
+							{canManageTeams && <button type='button' onClick={openAddTeamModal}>Create Team</button>}
+						</div>
+					)}
+			</section>
+			<div className='teams-pagination'>
+				<label>
+					<span>Results per page</span>
+					<select value={teamsPageSize} onChange={handleTeamsPageSizeChange}>
+						{TEAMS_PAGE_SIZE_OPTIONS.map((pageSize) => <option key={pageSize} value={pageSize}>{pageSize}</option>)}
+					</select>
+				</label>
+				<nav aria-label='Teams pagination'>
+					{Array.from({ length: teamsLastPage }, (_, index) => index + FIRST_PAGE).map((page) => (
+						<button
+							type='button'
+							aria-current={page === teamsCurrentPage ? 'page' : undefined}
+							key={page}
+							onClick={() => handleTeamsPageChange(page)}
+						>
+							{page}
+						</button>
+					))}
+				</nav>
+			</div>
+			{isAddTeamModalOpen && (
+				<AddTeamFormModal
+					error={addTeamError}
+					onSubmit={handleAddTeamSubmit}
+					onClose={() => {
+						setAddTeamError(null);
+						setIsAddTeamModalOpen(false);
+					}}
+				/>
+			)}
+			{editingTeam && (
+				<AddTeamFormModal
+					mode='edit'
+					error={addTeamError}
+					initialName={editingTeam.name}
+					initialDescription={editingTeam.description ?? ''}
+					onSubmit={handleEditTeamSubmit}
+					onClose={() => {
+						setAddTeamError(null);
+						setEditingTeam(null);
+					}}
+				/>
+			)}
+		</AuthenticatedLayout>
 	);
 };
 

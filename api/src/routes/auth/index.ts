@@ -5,6 +5,7 @@ import { authMiddleware } from '../../middleware/auth.ts';
 import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { createSession, deleteSession, getSession, revalidateSession } from '../../utils/auth.ts';
 import { createPasswordReset } from '../../utils/auth.ts';
+import { resolveGravatarAvatarUrl } from '../../utils/gravatar.ts';
 import { hashPassword, validatePassword } from '../../utils/password-hashing.ts';
 import { passwordStrengthCheck } from '../../utils/passwordStrengthCheck.ts';
 import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
@@ -55,7 +56,8 @@ authRoutes.openapi(
 		}
 
 		const hashedPasswordWithSalt = await hashPassword(password);
-		const { id } = await insertProfile(context.env.Database, { avatar, email, password: hashedPasswordWithSalt, name });
+		const resolvedAvatar = avatar ? await resolveGravatarAvatarUrl(avatar) : avatar;
+		const { id } = await insertProfile(context.env.Database, { avatar: resolvedAvatar, email, password: hashedPasswordWithSalt, name });
 		await updateProfileStatus(context.env.Database, id);
 
 		// eslint-disable-next-line @typescript-eslint/no-magic-numbers

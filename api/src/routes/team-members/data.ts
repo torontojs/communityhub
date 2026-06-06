@@ -128,8 +128,8 @@ export async function getAllMembers(database: D1Database, teamId: string, limit?
 			AND role.deletedAt IS NULL
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
-		${limit ? `LIMIT ${limit} OFFSET ${offset}` : ''}
-		`).bind(teamId).run<TeamMemberInfo>();
+		${limit ? 'LIMIT ? OFFSET ?' : ''}
+		`).bind(teamId, ...(limit ? [limit, offset] : [])).run<TeamMemberInfo>();
 
 	return Promise.all(results.map(async (member) => ({
 		...member,

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './GeneralInfoFormModal.css';
 import Button from '../Button/Button.tsx';
 import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 
 interface Props {
 	name: string;
@@ -21,23 +22,6 @@ const pronounOptions = [
 	'they/them'
 ];
 
-const safeAvatarUrl = (url: string): string => {
-	if (!url) {
-		return '/default-avatar.png';
-	}
-	if (url.startsWith('/')) {
-		return url;
-	}
-	try {
-		const parsed = new URL(url);
-		if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
-			return url;
-		}
-	} catch {
-		return '/default-avatar.png';
-	}
-	return '/default-avatar.png';
-};
 
 const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, isBasedOnGTA, canJoinLocalEvents, onClose, onSubmit }: Props): React.JSX.Element => {
 	const [avatarUrl, setAvatarUrl] = useState(initialAvatar);

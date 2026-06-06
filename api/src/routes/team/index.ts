@@ -14,7 +14,7 @@ import {
 	statusResponseFormatter,
 	StatusResponseSchema
 } from '../../utils/responses.ts';
-import { IdParamSchema } from '../../utils/validation.ts';
+import { IdParamSchema, PaginationQuerySchema } from '../../utils/validation.ts';
 import { countAllTeams, deleteTeamById, doesSameTeamNameExist, doesTeamExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
 import { CreateTeamSchema, TeamSchema, UpdateTeamSchema } from './validation.ts';
 
@@ -22,10 +22,6 @@ export const teamRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
 
-const TeamPaginationQuerySchema = z.object({
-	limit: z.coerce.number().int().positive().optional(),
-	page: z.coerce.number().int().positive().optional().default(1)
-});
 
 teamRoutes.openapi(
 	createRoute({
@@ -89,7 +85,7 @@ teamRoutes.openapi(
 	}),
 	async (context) => {
 		const totalTeamsCount = await countAllTeams(context.env.Database);
-		const pagination = TeamPaginationQuerySchema.safeParse(context.req.query());
+		const pagination = PaginationQuerySchema.safeParse(context.req.query());
 
 		if (!pagination.success) {
 			return context.json(
@@ -120,7 +116,7 @@ teamRoutes.openapi(
 			{
 				data: teams,
 				start: offset,
-				end: !limitCount || offset + limitCount > totalTeamsCount ? totalTeamsCount - 1 : offset + limitCount - 1,
+				end: !limitCount || offset + limitCount > totalTeamsCount ? Math.max(0, totalTeamsCount - 1) : offset + limitCount - 1,
 				total: totalTeamsCount,
 				size: teams.length,
 				currentPage: currentPageCount,

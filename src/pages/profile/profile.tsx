@@ -17,13 +17,11 @@ createRoot(root).render(
 		<StrictMode>
 			<AuthGate hook={useHeartBeatProtected}>
 				<div className='App'>
-					{profileId ?
-						<ProfileDetail profileId={profileId} /> :
-						(
-							<AuthenticatedLayout activePage='profile' mainClassName='profile-detail-page'>
-								<div aria-live='polite' role='status'>Profile not found.</div>
-							</AuthenticatedLayout>
-						)}
+					<AuthenticatedLayout activePage='profile' mainClassName='profile-detail-page'>
+						{profileId ?
+							<ProfileDetail profileId={profileId} /> :
+							<div aria-live='polite' role='status'>Profile not found.</div>}
+					</AuthenticatedLayout>
 				</div>
 			</AuthGate>
 		</StrictMode>

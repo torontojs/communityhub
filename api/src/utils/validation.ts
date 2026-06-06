@@ -6,3 +6,8 @@ export const IdParamSchema = z.object({
 });
 
 export type IdParam = z.infer<typeof IdParamSchema>;
+
+export const PaginationQuerySchema = z.object({
+	limit: z.coerce.number().int().positive().optional(),
+	page: z.coerce.number().int().positive().optional().default(1)
+});

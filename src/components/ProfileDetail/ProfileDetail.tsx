@@ -77,15 +77,11 @@ const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 	}, [profileId]);
 
 	if (!isLoaded) {
-		return (
-			<div aria-live='polite' role='status' className='profile-detail-status'>Loading profile...</div>
-		);
+		return <div aria-live='polite' role='status' className='profile-detail-status'>Loading profile...</div>;
 	}
 
 	if (pageError || !profile) {
-		return (
-			<div aria-live='polite' role='status' className='profile-detail-status'>{pageError ?? 'Profile not found.'}</div>
-		);
+		return <div aria-live='polite' role='status' className='profile-detail-status'>{pageError ?? 'Profile not found.'}</div>;
 	}
 
 	return (

@@ -11,7 +11,7 @@ import {
 	statusResponseFormatter,
 	StatusResponseSchema
 } from '../../utils/responses.ts';
-import { IdParamSchema } from '../../utils/validation.ts';
+import { IdParamSchema, PaginationQuerySchema } from '../../utils/validation.ts';
 import { nonExistingProfileIds } from '../profile/data.ts';
 import { doesTeamExist } from '../team/data.ts';
 import { addTeamMembers, countAllMembers, deleteTeamMembers, getAllMembers, nonExistingTeamMemberIds, updateTeamMembers } from './data.ts';
@@ -21,10 +21,6 @@ export const teamMemberRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
 
-const TeamMembersPaginationQuerySchema = z.object({
-	limit: z.coerce.number().int().positive().optional(),
-	page: z.coerce.number().int().positive().optional().default(1)
-});
 
 teamMemberRoutes.openapi(
 	createRoute({
@@ -62,7 +58,7 @@ teamMemberRoutes.openapi(
 
 		const count = await countAllMembers(context.env.Database, id);
 		const totalMembersCount = (count[0]?.['count']) as number;
-		const pagination = TeamMembersPaginationQuerySchema.safeParse(context.req.query());
+		const pagination = PaginationQuerySchema.safeParse(context.req.query());
 
 		if (!pagination.success) {
 			return context.json(
@@ -93,7 +89,7 @@ teamMemberRoutes.openapi(
 			{
 				data: members,
 				start: offset,
-				end: !limitCount || offset + limitCount > totalMembersCount ? totalMembersCount - 1 : offset + limitCount - 1,
+				end: !limitCount || offset + limitCount > totalMembersCount ? Math.max(0, totalMembersCount - 1) : offset + limitCount - 1,
 				total: totalMembersCount,
 				size: members.length,
 				currentPage: currentPageCount,
