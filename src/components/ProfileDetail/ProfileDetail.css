@@ -15,7 +15,7 @@
 .profile-detail-card,
 .profile-detail-status {
 	border: var(--border);
-	border-color: rgba(140, 140, 140, 0.2);
+	border-color: color-mix(in srgb, var(--color-gray-500) 20%, transparent);
 	border-radius: var(--rounded-md);
 	padding: var(--spacing-md);
 }
@@ -118,7 +118,7 @@
 
 .profile-detail-skills-list li {
 	all: unset;
-	border: var(--border-base) solid rgba(140, 140, 140, 0.3);
+	border: var(--border-base) solid color-mix(in srgb, var(--color-gray-500) 30%, transparent);
 	border-radius: var(--rounded-sm);
 	color: var(--color-gray-900);
 	font-size: var(--text-xs);
