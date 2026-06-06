@@ -273,7 +273,7 @@ teamRoutes.openapi(
 		}
 
 		if (body.name) {
-			const hasExistingTeamName = await doesSameTeamNameExist(context.env.Database, body.name);
+			const hasExistingTeamName = await doesSameTeamNameExist(context.env.Database, body.name, id);
 
 			if (hasExistingTeamName) {
 				return context.json({ message: 'Team already exists' } satisfies StatusResponse, StatusCodes.CONFLICT);
