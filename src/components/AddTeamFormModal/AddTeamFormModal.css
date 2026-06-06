@@ -1,6 +1,6 @@
 .add-team-modal {
 	align-items: start;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: color-mix(in srgb, var(--color-black) 50%, transparent);
 	display: flex;
 	justify-content: center;
 	left: 0;
