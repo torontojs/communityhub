@@ -7,7 +7,6 @@ import Teams from '../../components/Teams/Teams.tsx';
 import { useHeartBeatProtected } from '../../hooks/useHeartBeat.ts';
 
 import '../../index.css';
-import 'open-props';
 import './style.css';
 
 const root = document.getElementById('root') as HTMLDivElement;

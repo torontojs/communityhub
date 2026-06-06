@@ -1,7 +1,6 @@
 // import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import 'open-props';
 import CheckSteps from '../../components/CheckSteps/CheckSteps.tsx';
 import '../../index.css';
 import { StrictMode } from 'react';

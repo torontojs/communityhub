@@ -1,7 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import 'open-props';
 import ReviewConductCode from '../../components/ReviewConductCode/ReviewConductCode.tsx';
 import '../../index.css';
 import { AuthGate } from '../../components/AuthGate/AuthGate.tsx';

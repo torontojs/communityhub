@@ -1,8 +1,3 @@
-:root {
-	--background-color: var(--light-gray);
-	--font-family: var(--ff-serif);
-}
-
 /* Card Styles using W3C standards */
 .card {
 	background-color: white;

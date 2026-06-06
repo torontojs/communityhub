@@ -311,10 +311,8 @@ const Teams = () => {
 		);
 	}
 
-	// Render data
-	if (!teamsDataError) {
-		return (
-			<AuthenticatedLayout activePage='teams' className='teams-grid-container' mainClassName='teams-page'>
+	return (
+		<AuthenticatedLayout activePage='teams' className='teams-grid-container' mainClassName='teams-page'>
 				<div className='teams-page-header'>
 					<nav className='teams-breadcrumb' aria-label='Breadcrumb'>
 						<a href='/pages/home'>Community</a>
@@ -404,16 +402,6 @@ const Teams = () => {
 					/>
 				)}
 			</AuthenticatedLayout>
-		);
-	}
-
-	// Default fallback
-	return (
-		<AuthenticatedLayout activePage='teams' className='teams-grid-container' mainClassName='teams-page'>
-			<div aria-live='polite' role='status' className='teams-page-status'>
-				Unable to load the page. Please try refreshing the page.
-			</div>
-		</AuthenticatedLayout>
 	);
 };
 

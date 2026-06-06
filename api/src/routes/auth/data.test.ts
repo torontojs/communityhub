@@ -40,7 +40,7 @@ describe('Auth data functions test', () => {
 				id: userId,
 				access: 'organizer',
 				name: 'King Arthur',
-				avatar: null,
+				avatar: 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000002?s=200&d=robohash&r=g',
 				status: 'profile-completed'
 			});
 		});

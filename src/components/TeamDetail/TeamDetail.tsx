@@ -58,6 +58,8 @@ const TEAM_MEMBERS_PAGE_SIZE_OPTIONS = [TEAM_MEMBERS_PAGE_SIZE_SMALL, TEAM_MEMBE
 const PROFILE_SEARCH_LIMIT = 5;
 const TOAST_DURATION_MS = 4000;
 
+const UUID_RE = /^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i;
+
 const canManage = (access: AccessLevel | null): boolean => access === 'admin' || access === 'organizer';
 
 const matchesQuery = (query: string, ...fields: string[]): boolean => fields.some((field) => field.toLowerCase().includes(query));
@@ -132,9 +134,15 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	const fetchTeamDetail = async (page = FIRST_PAGE, pageSize = membersPageSize): Promise<void> => {
 		setPageError(null);
 
+		if (!UUID_RE.test(teamId)) {
+			setPageError('Unable to load team. Please try refreshing the page.');
+			setIsLoaded(true);
+			return;
+		}
+
 		try {
 			const [teamResponse, membersResponse] = await Promise.all([
-				fetch(`/api/teams/${teamId}`),
+				fetch(`/api/teams/${encodeURIComponent(teamId)}`),
 				fetch(`/api/teams/${teamId}/members?limit=${pageSize}&page=${page}`)
 			]);
 
@@ -259,7 +267,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		}
 
 		try {
-			const response = await fetch(`/api/teams/${teamId}`, {
+			const response = await fetch(`/api/teams/${encodeURIComponent(teamId)}`, {
 				method: 'PATCH',
 				credentials: 'include',
 				headers: {
@@ -286,7 +294,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		setRemoveError(null);
 
 		try {
-			const response = await fetch(`/api/teams/${teamId}/members`, {
+			const response = await fetch(`/api/teams/${encodeURIComponent(teamId)}/members`, {
 				method: 'DELETE',
 				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },
@@ -311,7 +319,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		setAddMemberError(null);
 
 		try {
-			const response = await fetch(`/api/teams/${teamId}/members`, {
+			const response = await fetch(`/api/teams/${encodeURIComponent(teamId)}/members`, {
 				method: 'POST',
 				credentials: 'include',
 				headers: {

@@ -1,9 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import 'open-props';
-import './style.css';
 import '../../index.css';
+import './style.css';
 import AuthenticatedLayout from '../../components/AuthenticatedLayout/AuthenticatedLayout.tsx';
 import { AuthGate } from '../../components/AuthGate/AuthGate.tsx';
 import ProfileDetail from '../../components/ProfileDetail/ProfileDetail.tsx';

@@ -34,6 +34,24 @@ interface ProfileParams {
 type UpdateProfileParams = Omit<ProfileParams, 'email'>;
 
 const platformEnum = ['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'];
+const safeAvatarUrl = (url: string | undefined): string => {
+	if (!url) {
+		return '/default-avatar.png';
+	}
+	if (url.startsWith('/')) {
+		return url;
+	}
+	try {
+		const parsed = new URL(url);
+		if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+			return url;
+		}
+	} catch {
+		return '/default-avatar.png';
+	}
+	return '/default-avatar.png';
+};
+
 const isGravatarHost = (hostname: string): boolean => {
 	const normalizedHostname = hostname.toLowerCase();
 	return normalizedHostname === 'gravatar.com' || normalizedHostname.endsWith('.gravatar.com');
@@ -570,7 +588,7 @@ const CompleteProfile = () => {
 						<div className='details-content-wrapper'>
 							<div className='details-content-avatar-url'>
 								<picture>
-									<img src={profileData.avatar || '/default-avatar.png'} alt='' />
+									<img src={safeAvatarUrl(profileData.avatar)} alt='' />
 								</picture>
 
 								<div>

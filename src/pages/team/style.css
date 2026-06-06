@@ -1,6 +1,0 @@
-@import 'open-props/open-props.min.css';
-
-:root {
-	color: var(--gray-9);
-	font-family: var(--font-neo-grotesque);
-}

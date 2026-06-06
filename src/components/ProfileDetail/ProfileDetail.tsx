@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import './ProfileDetail.css';
-import AuthenticatedLayout from '../AuthenticatedLayout/AuthenticatedLayout.tsx';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
 import Social from '../Social/Social.tsx';
 import Team from '../Team/Team.tsx';
@@ -40,6 +39,8 @@ interface Props {
 	profileId: string;
 }
 
+const UUID_RE = /^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i;
+
 const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [pageError, setPageError] = useState<string | null>(null);
@@ -49,8 +50,14 @@ const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 		const fetchProfile = async (): Promise<void> => {
 			setPageError(null);
 
+			if (!UUID_RE.test(profileId)) {
+				setPageError('Invalid profile ID.');
+				setIsLoaded(true);
+				return;
+			}
+
 			try {
-				const response = await fetch(`/api/profiles/${profileId}`);
+				const response = await fetch(`/api/profiles/${encodeURIComponent(profileId)}`);
 
 				if (!response.ok) {
 					throw new Error('Failed to fetch profile');
@@ -71,22 +78,18 @@ const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 
 	if (!isLoaded) {
 		return (
-			<AuthenticatedLayout activePage='profile' mainClassName='profile-detail-page'>
-				<div aria-live='polite' role='status' className='profile-detail-status'>Loading profile...</div>
-			</AuthenticatedLayout>
+			<div aria-live='polite' role='status' className='profile-detail-status'>Loading profile...</div>
 		);
 	}
 
 	if (pageError || !profile) {
 		return (
-			<AuthenticatedLayout activePage='profile' mainClassName='profile-detail-page'>
-				<div aria-live='polite' role='status' className='profile-detail-status'>{pageError ?? 'Profile not found.'}</div>
-			</AuthenticatedLayout>
+			<div aria-live='polite' role='status' className='profile-detail-status'>{pageError ?? 'Profile not found.'}</div>
 		);
 	}
 
 	return (
-		<AuthenticatedLayout activePage='profile' mainClassName='profile-detail-page'>
+		<>
 			<h1>{profile.name}</h1>
 			<article className='profile-detail'>
 				<div className='profile-detail-header-container'>
@@ -187,7 +190,7 @@ const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 					</section>
 				</div>
 			</article>
-		</AuthenticatedLayout>
+		</>
 	);
 };
 

@@ -21,6 +21,24 @@ const pronounOptions = [
 	'they/them'
 ];
 
+const safeAvatarUrl = (url: string): string => {
+	if (!url) {
+		return '/default-avatar.png';
+	}
+	if (url.startsWith('/')) {
+		return url;
+	}
+	try {
+		const parsed = new URL(url);
+		if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+			return url;
+		}
+	} catch {
+		return '/default-avatar.png';
+	}
+	return '/default-avatar.png';
+};
+
 const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, isBasedOnGTA, canJoinLocalEvents, onClose, onSubmit }: Props): React.JSX.Element => {
 	const [avatarUrl, setAvatarUrl] = useState(initialAvatar);
 	const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
@@ -70,7 +88,7 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 							aria-label='Edit profile photo'
 							onClick={openAvatarModal}
 						>
-							<img src={avatarUrl || '/default-avatar.png'} alt='' />
+							<img src={safeAvatarUrl(avatarUrl)} alt='' />
 							<span className='general-info-avatar-overlay' aria-hidden='true'>Edit</span>
 						</button>
 						<input type='hidden' name='avatar' value={avatarUrl} />
@@ -150,7 +168,7 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 							</button>
 						</div>
 						<div className='general-info-avatar-dialog-preview'>
-							<img src={avatarInput || '/default-avatar.png'} alt='Preview' />
+							<img src={safeAvatarUrl(avatarInput)} alt='Preview' />
 						</div>
 						<TextInputComponent
 							label='Gravatar URL'

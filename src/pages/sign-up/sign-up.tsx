@@ -1,4 +1,3 @@
-import 'open-props';
 import { createRoot } from 'react-dom/client';
 import { AuthGate } from '../../components/AuthGate/AuthGate.tsx';
 import FooterNav from '../../components/Footer/Footer.tsx';

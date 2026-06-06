@@ -45,9 +45,3 @@ hurl_results.txt
 .claudeignore
 .codexignore
 CLAUDE.md
-
-# Binary assets (excluded from AI context)
-*.woff
-*.woff2
-*.ttf
-*.eot

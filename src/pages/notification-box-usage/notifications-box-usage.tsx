@@ -1,7 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import 'open-props';
 import '../../index.css';
 import './style.css';
 import NotificationBox from '../../components/NotificationBox/NotificationBox.tsx';
