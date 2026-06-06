@@ -605,14 +605,18 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 						<img src='/black-x.png' alt='' />
 					</button>
 					{activeToast === 'added' ?
-						<>
-							<strong>Member added</strong>
-							<p>They're part of the team now</p>
-						</> :
-						<>
-							<strong>Member removed</strong>
-							<p>They're no longer part of this team.</p>
-						</>}
+						(
+							<>
+								<strong>Member added</strong>
+								<p>They're part of the team now</p>
+							</>
+						) :
+						(
+							<>
+								<strong>Member removed</strong>
+								<p>They're no longer part of this team.</p>
+							</>
+						)}
 				</div>
 			)}
 		</AuthenticatedLayout>

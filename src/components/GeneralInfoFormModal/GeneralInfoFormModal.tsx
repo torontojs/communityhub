@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import './GeneralInfoFormModal.css';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import Button from '../Button/Button.tsx';
 import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
-import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 
 interface Props {
 	name: string;
@@ -21,7 +21,6 @@ const pronounOptions = [
 	'she/her',
 	'they/them'
 ];
-
 
 const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, isBasedOnGTA, canJoinLocalEvents, onClose, onSubmit }: Props): React.JSX.Element => {
 	const [avatarUrl, setAvatarUrl] = useState(initialAvatar);

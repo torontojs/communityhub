@@ -22,7 +22,6 @@ export const teamRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
 
-
 teamRoutes.openapi(
 	createRoute({
 		method: 'get',

@@ -336,23 +336,25 @@ const Teams = () => {
 			</div>
 			<section aria-label='TorontoJS teams'>
 				{teamsData.length > 0 ?
-					<ul className='teams-list'>
-						{teamsData.map((team: Team) => (
-							<TeamCard
-								key={team.id}
-								href={`/pages/team?id=${team.id}`}
-								name={team.name}
-								memberCountLabel={getMemberCountLabel(team)}
-								description={team.description ?? 'No team description has been added yet.'}
-								onEdit={canManageTeams ?
-									() => {
-										setAddTeamError(null);
-										setEditingTeam(team);
-									} :
-									undefined}
-							/>
-						))}
-					</ul> :
+					(
+						<ul className='teams-list'>
+							{teamsData.map((team: Team) => (
+								<TeamCard
+									key={team.id}
+									href={`/pages/team?id=${team.id}`}
+									name={team.name}
+									memberCountLabel={getMemberCountLabel(team)}
+									description={team.description ?? 'No team description has been added yet.'}
+									onEdit={canManageTeams ?
+										() => {
+											setAddTeamError(null);
+											setEditingTeam(team);
+										} :
+										undefined}
+								/>
+							))}
+						</ul>
+					) :
 					(
 						<div className='teams-empty-state'>
 							<EmptyIcon />
