@@ -40,3 +40,14 @@ env.d.ts
 
 # Hurl log file
 hurl_results.txt
+
+# AI tool files
+.claudeignore
+.codexignore
+CLAUDE.md
+
+# Binary assets (excluded from AI context)
+*.woff
+*.woff2
+*.ttf
+*.eot

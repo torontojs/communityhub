@@ -4,6 +4,7 @@ import AddTeamFormModal from '../AddTeamFormModal/AddTeamFormModal.tsx';
 import AuthenticatedLayout from '../AuthenticatedLayout/AuthenticatedLayout.tsx';
 import Button from '../Button/Button.tsx';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
+import TrashIcon from '../Icons/Utilities/TrashIcon.tsx';
 
 interface Props {
 	teamId: string;
@@ -96,9 +97,13 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	const [membersLastPage, setMembersLastPage] = useState<number>(FIRST_PAGE);
 	const [membersPageSize, setMembersPageSize] = useState<number>(TEAM_MEMBERS_PAGE_SIZE);
 	const [membersTotal, setMembersTotal] = useState<number>(0);
+	const [memberToRemove, setMemberToRemove] = useState<TeamMember | null>(null);
 	const [pageError, setPageError] = useState<string | null>(null);
+	const [removeError, setRemoveError] = useState<string | null>(null);
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [selectedProfile, setSelectedProfile] = useState<ProfileOption | null>(null);
+	const [showRemovedToast, setShowRemovedToast] = useState<boolean>(false);
+	const [showSuccessToast, setShowSuccessToast] = useState<boolean>(false);
 	const [team, setTeam] = useState<Team | null>(null);
 
 	const canManageTeams = canManage(access);
@@ -207,6 +212,24 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		void fetchProfiles();
 	}, [isAddMemberModalOpen]);
 
+	useEffect(() => {
+		if (!showSuccessToast) {
+			return;
+		}
+
+		const timer = setTimeout(() => setShowSuccessToast(false), 4000);
+		return () => clearTimeout(timer);
+	}, [showSuccessToast]);
+
+	useEffect(() => {
+		if (!showRemovedToast) {
+			return;
+		}
+
+		const timer = setTimeout(() => setShowRemovedToast(false), 4000);
+		return () => clearTimeout(timer);
+	}, [showRemovedToast]);
+
 	const handleMembersPageChange = (page: number): void => {
 		setIsLoaded(false);
 		fetchTeamDetail(page).catch((error: unknown) => console.error('Error changing team members page:', error));
@@ -261,6 +284,35 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		}
 	};
 
+	const handleRemoveMember = async (): Promise<void> => {
+		if (!memberToRemove) {
+			return;
+		}
+
+		setRemoveError(null);
+
+		try {
+			const response = await fetch(`/api/teams/${teamId}/members`, {
+				method: 'DELETE',
+				credentials: 'include',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify([memberToRemove.id])
+			});
+
+			if (!response.ok) {
+				setRemoveError('Unable to remove member. Please try again.');
+				return;
+			}
+
+			setMemberToRemove(null);
+			setShowRemovedToast(true);
+			await fetchTeamDetail(membersCurrentPage, membersPageSize);
+		} catch (error) {
+			setRemoveError('Unable to remove member. Please try again.');
+			console.error('Error removing team member:', error);
+		}
+	};
+
 	const handleAddMember = async (profile: ProfileOption): Promise<void> => {
 		setAddMemberError(null);
 
@@ -282,6 +334,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 			setIsAddMemberModalOpen(false);
 			setAddMemberQuery('');
 			setSelectedProfile(null);
+			setShowSuccessToast(true);
 			await fetchTeamDetail(membersCurrentPage, membersPageSize);
 		} catch (error) {
 			setAddMemberError('Unable to add member.');
@@ -347,13 +400,14 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 
 				{visibleMembers.length > 0 ?
 					(
-						<div className='team-detail-members-table' role='table' aria-label={`${team.name} members`}>
+						<div className='team-detail-members-table' role='table' aria-label={`${team.name} members`} data-manageable={canManageTeams}>
 							<div className='team-detail-members-row team-detail-members-row-heading' role='row'>
 								<span role='columnheader'>Name</span>
 								<span role='columnheader'>Team(s)</span>
 								<span role='columnheader'>Role(s)</span>
 								<span role='columnheader'>Based in the GTA?</span>
 								<span role='columnheader'>Joined the team</span>
+								{canManageTeams && <span role='columnheader' />}
 							</div>
 							{visibleMembers.map((member) => {
 								const teamNames = getMemberTeamNames(member, team.name);
@@ -374,6 +428,16 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 										<span className='team-detail-member-role' role='cell'>{member.name}</span>
 										<span className='team-detail-member-location' role='cell'>{member.isBasedOnGTA ? 'Yes' : 'No'}</span>
 										<span className='team-detail-member-joined-date' role='cell'>{formatJoinedDate(member.joinedTeamAt)}</span>
+										{canManageTeams && (
+											<button
+												type='button'
+												className='team-detail-member-remove-btn'
+												aria-label={`Remove ${member.profileName} from team`}
+												onClick={() => setMemberToRemove(member)}
+											>
+												<TrashIcon />
+											</button>
+										)}
 									</div>
 								);
 							})}
@@ -430,16 +494,16 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 							<span>Search for a member to add to this team</span>
 							<span className='team-detail-add-member-search-input'>
 								<span className='team-detail-search-icon' aria-hidden='true' />
-							<input
-								type='search'
-								value={addMemberQuery}
-								onChange={(event) => {
-									setAddMemberQuery(event.target.value);
-									setSelectedProfile(null);
-								}}
-								placeholder='Search by name or email'
-								autoFocus
-							/>
+								<input
+									type='search'
+									value={addMemberQuery}
+									onChange={(event) => {
+										setAddMemberQuery(event.target.value);
+										setSelectedProfile(null);
+									}}
+									placeholder='Search by name or email'
+									autoFocus
+								/>
 							</span>
 						</label>
 						<div className='team-detail-add-member-results'>
@@ -467,7 +531,9 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 								isPrimary
 								size='small'
 								className='team-detail-add-member-confirm'
-								onClick={() => void handleAddMember(selectedProfile)}
+									onClick={() => {
+										handleAddMember(selectedProfile).catch((error: unknown) => console.error('Error confirming team member:', error));
+									}}
 							>
 								Confirm
 							</Button>
@@ -489,6 +555,81 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 						setIsEditModalOpen(false);
 					}}
 				/>
+			)}
+
+			{memberToRemove && (
+				<div className='team-detail-remove-modal'>
+					<div className='team-detail-remove-dialog' role='dialog' aria-modal='true' aria-labelledby='remove-member-title'>
+						<div className='team-detail-remove-title-row'>
+							<h2 id='remove-member-title'>Remove {memberToRemove.profileName} from {team.name}?</h2>
+							<button
+								type='button'
+								aria-label='Close remove member modal'
+								onClick={() => {
+									setMemberToRemove(null);
+									setRemoveError(null);
+								}}
+							>
+								<img src='/black-x.png' alt='' />
+							</button>
+						</div>
+						<p className='team-detail-remove-description'>They will lose access to this team.</p>
+						{removeError && <p className='team-detail-remove-error' role='alert'>{removeError}</p>}
+						<div className='team-detail-remove-actions'>
+							<Button
+								type='button'
+								hasOutline
+								size='small'
+								onClick={() => {
+									setMemberToRemove(null);
+									setRemoveError(null);
+								}}
+							>
+								Cancel
+							</Button>
+							<Button
+								type='button'
+								isPrimary
+								size='small'
+								onClick={() => {
+									handleRemoveMember().catch((error: unknown) => console.error('Error removing team member:', error));
+								}}
+							>
+								Yes
+							</Button>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{showSuccessToast && (
+				<div className='team-detail-success-toast' role='status' aria-live='polite'>
+					<button
+						type='button'
+						className='team-detail-success-toast-close'
+						aria-label='Dismiss notification'
+						onClick={() => setShowSuccessToast(false)}
+					>
+						<img src='/black-x.png' alt='' />
+					</button>
+					<strong>Member added</strong>
+					<p>They're part of the team now</p>
+				</div>
+			)}
+
+			{showRemovedToast && (
+				<div className='team-detail-success-toast' role='status' aria-live='polite'>
+					<button
+						type='button'
+						className='team-detail-success-toast-close'
+						aria-label='Dismiss notification'
+						onClick={() => setShowRemovedToast(false)}
+					>
+						<img src='/black-x.png' alt='' />
+					</button>
+					<strong>Member removed</strong>
+					<p>They're no longer part of this team.</p>
+				</div>
 			)}
 		</AuthenticatedLayout>
 	);
