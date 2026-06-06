@@ -268,7 +268,14 @@
 				padding: var(--spacing-xs);
 				resize: none;
 
-				& > span {
+				& > ul {
+					display: contents;
+					list-style: none;
+					margin: 0;
+					padding: 0;
+				}
+
+				& > ul > li {
 					align-items: center;
 					background-color: var(--color-accent);
 					border: solid var(--border-base) var(--color-accent);

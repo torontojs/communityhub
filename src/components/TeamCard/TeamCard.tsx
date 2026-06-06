@@ -9,7 +9,7 @@ interface Props {
 }
 
 const TeamCard = ({ description, href, memberCountLabel, name, onEdit }: Props): React.JSX.Element => (
-	<article className='team-card'>
+	<li className='team-card'>
 		<header className='team-card-header'>
 			<div className='team-card-icon'>
 				<img src='/teams-icon.png' alt='' />
@@ -31,7 +31,7 @@ const TeamCard = ({ description, href, memberCountLabel, name, onEdit }: Props):
 		<div className='team-card-body'>
 			<p>{description}</p>
 		</div>
-	</article>
+	</li>
 );
 
 export default TeamCard;
