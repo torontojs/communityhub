@@ -164,7 +164,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		}
 	};
 
-	const updateGeneralInfo = async (data: { name: string, avatar?: string, pronouns?: string, isBasedOnGTA: boolean, canJoinLocalEvents: boolean }) => {
+	const updateGeneralInfo = async (data: { name: string, avatar?: string | null, pronouns?: string, isBasedOnGTA: boolean, canJoinLocalEvents: boolean }) => {
 		try {
 			const response = await fetch(`/api/profiles/${userId}`, {
 				method: 'PATCH',
@@ -193,7 +193,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 
 		const updatedData = {
 			name: (formData.get('name') as string)?.trim(),
-			avatar: (formData.get('avatar') as string)?.trim() || undefined,
+			avatar: (formData.get('avatar') as string)?.trim() || null,
 			pronouns: (formData.get('pronouns') as string)?.trim() || undefined,
 			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
 			isBasedOnGTA: formData.get('isBasedOnGTA') === 'on'

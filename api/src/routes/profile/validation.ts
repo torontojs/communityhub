@@ -149,6 +149,7 @@ export type CreateProfileData = z.infer<typeof CreateProfileSchema>;
 export const UpdateProfileSchema = ProfileSchema
 	.omit({ ...BaseDBFieldsToOmit, email: true })
 	.partial()
+	.extend({ avatar: ProfileSchema.shape.avatar.unwrap().nullable().optional() })
 	.refine(
 		(data) => Object.keys(data).length > 0,
 		{ message: 'At least one property is required.' }

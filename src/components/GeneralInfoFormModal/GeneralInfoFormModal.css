@@ -117,9 +117,7 @@
 }
 
 .general-info-avatar-placeholder:hover .general-info-avatar-overlay,
-.general-info-avatar-placeholder:focus-visible .general-info-avatar-overlay {
-	opacity: 1;
-}
+.general-info-avatar-placeholder:focus-visible .general-info-avatar-overlay { opacity: 1; }
 
 .general-info-avatar-modal {
 	align-items: start;

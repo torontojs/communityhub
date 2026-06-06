@@ -116,7 +116,7 @@ export async function updateProfileById(
 			pronouns,
 			birthday,
 			avatar
-		}).filter(([, value]) => value !== null && value !== undefined)
+		}).filter(([key, value]) => key === 'avatar' ? value !== undefined : value !== null && value !== undefined)
 	);
 
 	// Only include links that have URLs and skills that are non-empty

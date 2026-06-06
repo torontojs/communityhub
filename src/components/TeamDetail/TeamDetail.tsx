@@ -55,8 +55,24 @@ const TEAM_MEMBERS_PAGE_SIZE_MAXIMUM = 50;
 const TEAM_MEMBERS_PAGE_SIZE_SMALL = 5;
 const TEAM_MEMBERS_PAGE_SIZE = 10;
 const TEAM_MEMBERS_PAGE_SIZE_OPTIONS = [TEAM_MEMBERS_PAGE_SIZE_SMALL, TEAM_MEMBERS_PAGE_SIZE, TEAM_MEMBERS_PAGE_SIZE_LARGE, TEAM_MEMBERS_PAGE_SIZE_MAXIMUM];
+const PROFILE_SEARCH_LIMIT = 5;
+const TOAST_DURATION_MS = 4000;
 
 const canManage = (access: AccessLevel | null): boolean => access === 'admin' || access === 'organizer';
+
+const matchesQuery = (query: string, ...fields: string[]): boolean => fields.some((field) => field.toLowerCase().includes(query));
+
+const filterProfiles = (profiles: ProfileOption[], memberIds: Set<string>, query: string): ProfileOption[] => {
+	const q = query.trim().toLowerCase();
+	return profiles
+		.filter((p) => !memberIds.has(p.id) && q && matchesQuery(q, p.name, p.email))
+		.slice(0, PROFILE_SEARCH_LIMIT);
+};
+
+const filterMembers = (members: TeamMember[], query: string): TeamMember[] => {
+	const q = query.trim().toLowerCase();
+	return q ? members.filter((m) => matchesQuery(q, m.profileName, m.email)) : members;
+};
 
 const getMemberTeamNames = (member: TeamMember, fallbackTeamName: string): string[] => (member.teamNames ?? fallbackTeamName).split('||').filter(Boolean);
 
@@ -83,6 +99,7 @@ const formatJoinedDate = (value: string): string => {
 	}).format(date);
 };
 
+// eslint-disable-next-line complexity
 const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	const [access, setAccess] = useState<AccessLevel | null>(null);
 	const [addMemberError, setAddMemberError] = useState<string | null>(null);
@@ -109,27 +126,8 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	const canManageTeams = canManage(access);
 	const hasMembers = members.length > 0;
 	const memberProfileIds = new Set(members.map((member) => member.profileId));
-	const visibleProfileOptions = availableProfiles
-		.filter((profile) => !memberProfileIds.has(profile.id))
-		.filter((profile) => {
-			const query = addMemberQuery.trim().toLowerCase();
-
-			if (!query) {
-				return false;
-			}
-
-			return profile.name.toLowerCase().includes(query) || profile.email.toLowerCase().includes(query);
-		})
-		.slice(0, 5);
-	const visibleMembers = members.filter((member) => {
-		const query = searchQuery.trim().toLowerCase();
-
-		if (!query) {
-			return true;
-		}
-
-		return member.profileName.toLowerCase().includes(query) || member.email.toLowerCase().includes(query);
-	});
+	const visibleProfileOptions = filterProfiles(availableProfiles, memberProfileIds, addMemberQuery);
+	const visibleMembers = filterMembers(members, searchQuery);
 
 	const fetchTeamDetail = async (page = FIRST_PAGE, pageSize = membersPageSize): Promise<void> => {
 		setPageError(null);
@@ -217,7 +215,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 			return;
 		}
 
-		const timer = setTimeout(() => setShowSuccessToast(false), 4000);
+		const timer = setTimeout(() => setShowSuccessToast(false), TOAST_DURATION_MS);
 		return () => clearTimeout(timer);
 	}, [showSuccessToast]);
 
@@ -226,7 +224,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 			return;
 		}
 
-		const timer = setTimeout(() => setShowRemovedToast(false), 4000);
+		const timer = setTimeout(() => setShowRemovedToast(false), TOAST_DURATION_MS);
 		return () => clearTimeout(timer);
 	}, [showRemovedToast]);
 
@@ -284,11 +282,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		}
 	};
 
-	const handleRemoveMember = async (): Promise<void> => {
-		if (!memberToRemove) {
-			return;
-		}
-
+	const handleRemoveMember = async (member: TeamMember): Promise<void> => {
 		setRemoveError(null);
 
 		try {
@@ -296,7 +290,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 				method: 'DELETE',
 				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify([memberToRemove.id])
+				body: JSON.stringify([member.id])
 			});
 
 			if (!response.ok) {
@@ -531,9 +525,9 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 								isPrimary
 								size='small'
 								className='team-detail-add-member-confirm'
-									onClick={() => {
-										handleAddMember(selectedProfile).catch((error: unknown) => console.error('Error confirming team member:', error));
-									}}
+								onClick={() => {
+									handleAddMember(selectedProfile).catch((error: unknown) => console.error('Error confirming team member:', error));
+								}}
 							>
 								Confirm
 							</Button>
@@ -592,7 +586,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 								isPrimary
 								size='small'
 								onClick={() => {
-									handleRemoveMember().catch((error: unknown) => console.error('Error removing team member:', error));
+									handleRemoveMember(memberToRemove).catch((error: unknown) => console.error('Error removing team member:', error));
 								}}
 							>
 								Yes
