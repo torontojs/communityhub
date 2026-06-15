@@ -73,7 +73,7 @@
 	background-color: var(--color-grey);
 	bottom: 0;
 	content: '';
-	height: 1px;
+	height: var(--border-base);
 	left: 0;
 	opacity: 1;
 	position: absolute;
