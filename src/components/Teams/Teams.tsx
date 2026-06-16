@@ -9,6 +9,7 @@ interface Team {
 	id: string;
 	name: string;
 	description?: string;
+	memberCount?: number;
 }
 
 export interface TeamMemberProfile {
@@ -24,12 +25,6 @@ interface PaginatedResponse<T> {
 	data: T[];
 	lastPage: number;
 	total: number;
-}
-
-interface TeamMembersState {
-	count: number;
-	error: string | null;
-	isLoaded: boolean;
 }
 
 type AccessLevel = 'admin' | 'organizer' | 'volunteer';
@@ -50,15 +45,12 @@ const Teams = () => {
 	const [teamsCurrentPage, setTeamsCurrentPage] = useState<number>(FIRST_PAGE);
 	const [teamsLastPage, setTeamsLastPage] = useState<number>(FIRST_PAGE);
 	const [teamsPageSize, setTeamsPageSize] = useState<number>(TEAMS_PAGE_SIZE);
-	const [teamMembersByTeamId, setTeamMembersByTeamId] = useState<Record<string, TeamMembersState>>({});
 	const [addTeamError, setAddTeamError] = useState<string | null>(null);
 	const [teamsDataError, setTeamsDataError] = useState<string | null>(null);
 	const canManageTeams = currentUserAccess === 'admin' || currentUserAccess === 'organizer';
 
 	const fetchTeamsData = useCallback(
-		async (
-			{ page = teamsCurrentPage, pageSize = teamsPageSize, showLoading = true }: { page?: number, pageSize?: number, showLoading?: boolean } = {}
-		): Promise<void> => {
+		async ({ page, pageSize, showLoading = true }: { page: number, pageSize: number, showLoading?: boolean }): Promise<void> => {
 			if (showLoading) {
 				setIsLoadedTeamsData(false);
 			}
@@ -82,12 +74,12 @@ const Teams = () => {
 				setIsLoadedTeamsData(true);
 			}
 		},
-		[teamsCurrentPage, teamsPageSize]
+		[]
 	);
 
 	useEffect(() => {
-		void fetchTeamsData();
-	}, [fetchTeamsData]);
+		void fetchTeamsData({ page: teamsCurrentPage, pageSize: teamsPageSize });
+	}, [fetchTeamsData, teamsCurrentPage, teamsPageSize]);
 
 	useEffect(() => {
 		const fetchCurrentUserAccess = async (): Promise<void> => {
@@ -148,7 +140,7 @@ const Teams = () => {
 				return false;
 			}
 
-			await fetchTeamsData({ showLoading: false });
+			await fetchTeamsData({ showLoading: false, page: teamsCurrentPage, pageSize: teamsPageSize });
 			return true;
 		} catch (error) {
 			setAddTeamError('Unable to create team. Please try again.');
@@ -215,7 +207,7 @@ const Teams = () => {
 				return false;
 			}
 
-			await fetchTeamsData({ showLoading: false });
+			await fetchTeamsData({ showLoading: false, page: teamsCurrentPage, pageSize: teamsPageSize });
 			return true;
 		} catch (error) {
 			setAddTeamError('Unable to update team. Please try again.');
@@ -224,72 +216,9 @@ const Teams = () => {
 		}
 	};
 
-	useEffect(() => {
-		if (!isLoadedTeamsData || teamsData.length === 0) {
-			return;
-		}
-
-		let isMounted = true;
-
-		setTeamMembersByTeamId(
-			Object.fromEntries(teamsData.map((team) => [team.id, { count: 0, error: null, isLoaded: false }]))
-		);
-
-		teamsData.forEach((team) => {
-			const fetchTeamMembersData = async (): Promise<void> => {
-				try {
-					const responseTeamMembers = await fetch(`/api/teams/${team.id}/members`);
-					if (!responseTeamMembers.ok) {
-						throw new Error(`Failed to fetch team members for ${team.id}`);
-					}
-
-					const teamMembersResponse = await responseTeamMembers.json() as PaginatedResponse<TeamMemberProfile>;
-
-					if (isMounted) {
-						setTeamMembersByTeamId((current) => ({
-							...current,
-							[team.id]: {
-								count: teamMembersResponse.total,
-								error: null,
-								isLoaded: true
-							}
-						}));
-					}
-				} catch (error) {
-					if (isMounted) {
-						setTeamMembersByTeamId((current) => ({
-							...current,
-							[team.id]: {
-								count: 0,
-								error: 'Unable to load team members. Please try refreshing the page.',
-								isLoaded: true
-							}
-						}));
-					}
-					console.error('Error fetching team members data:', error);
-				}
-			};
-
-			void fetchTeamMembersData();
-		});
-
-		return () => {
-			isMounted = false;
-		};
-	}, [isLoadedTeamsData, teamsData]);
-
 	const getMemberCountLabel = (team: Team): string => {
-		const teamMembersData = teamMembersByTeamId[team.id];
-
-		if (!teamMembersData?.isLoaded) {
-			return 'Loading members';
-		}
-
-		if (teamMembersData.error) {
-			return 'Members unavailable';
-		}
-
-		return `${teamMembersData.count} ${teamMembersData.count === 1 ? 'member' : 'members'}`;
+		if (team.memberCount === undefined) return '';
+		return `${team.memberCount} ${team.memberCount === 1 ? 'member' : 'members'}`;
 	};
 
 	// If data not yet loaded
@@ -395,6 +324,7 @@ const Teams = () => {
 			)}
 			{editingTeam && (
 				<AddTeamFormModal
+					key={editingTeam.id}
 					mode='edit'
 					error={addTeamError}
 					initialName={editingTeam.name}

@@ -1,6 +1,7 @@
 import { type ReactNode, useEffect, useState } from 'react';
 import './AuthenticatedLayout.css';
 import { handleLogOut } from '../../utilities/handleLogOut.ts';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 
 type ActivePage = 'community' | 'profile' | 'teams' | 'volunteer';
 
@@ -61,7 +62,7 @@ const AuthenticatedLayout = ({ activePage, children, className, mainClassName }:
 
 				const data = await response.json() as { avatar?: string | null };
 				if (data.avatar) {
-					setAvatar(data.avatar);
+					setAvatar(safeAvatarUrl(data.avatar));
 				}
 			} catch (error) {
 				if (error instanceof Error && error.name !== 'AbortError') {
@@ -128,7 +129,14 @@ const AuthenticatedLayout = ({ activePage, children, className, mainClassName }:
 			</div>
 			{menuOpen && (
 				<>
-					<div className='mobile-nav-overlay' onClick={() => setMenuOpen(false)} />
+					<div
+						className='mobile-nav-overlay'
+						role='button'
+						tabIndex={0}
+						aria-label='Close navigation menu'
+						onClick={() => setMenuOpen(false)}
+						onKeyDown={(e) => { if (e.key === 'Escape' || e.key === 'Enter') setMenuOpen(false); }}
+					/>
 					<nav className='mobile-nav-drawer' aria-label='Mobile navigation'>
 						<div className='mobile-nav-drawer-header'>
 							<img src='/torontojs-logo.png' alt='TorontoJS Logo' />

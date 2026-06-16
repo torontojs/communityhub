@@ -28,7 +28,7 @@ const AddTeamFormModal = ({
 	onClose,
 	onSubmit
 }: Props): React.JSX.Element => (
-	<div className='add-team-modal'>
+	<div className='add-team-modal' role='dialog' aria-modal='true' aria-labelledby='add-team-modal-title'>
 		<form
 			className='add-team-form-modal-container'
 			onSubmit={async (event) => {
@@ -39,7 +39,7 @@ const AddTeamFormModal = ({
 			}}
 		>
 			<div className='title-close'>
-				<h2>{mode === 'add' ? 'Add New Team' : 'Edit Team Info'}</h2>
+				<h2 id='add-team-modal-title'>{mode === 'add' ? 'Add New Team' : 'Edit Team Info'}</h2>
 				<Button className='add-team-modal-close-button' type='button' onClick={onClose} aria-label='Close add team modal'>
 					<img src='/black-x.png' alt='Black X icon' />
 				</Button>

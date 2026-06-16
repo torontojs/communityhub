@@ -105,9 +105,15 @@ export async function countAllTeams(database: D1Database) {
 
 export async function getAllTeams(database: D1Database, limit?: number, offset = 0) {
 	const query = database.prepare(`
-		SELECT *
-		FROM ${DBTables.TEAM}
-		WHERE deletedAt IS NULL
+		SELECT team.*,
+			(
+				SELECT COUNT(*)
+				FROM ${DBTables.ROLE} AS role
+				WHERE role.teamId = team.id
+					AND role.deletedAt IS NULL
+			) AS memberCount
+		FROM ${DBTables.TEAM} AS team
+		WHERE team.deletedAt IS NULL
 		${limit ? 'LIMIT ? OFFSET ?' : ''}
 	`);
 	const { results } = await (limit ? query.bind(limit, offset) : query).run<Team>();

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './TeamDetail.css';
 import AddTeamFormModal from '../AddTeamFormModal/AddTeamFormModal.tsx';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import AuthenticatedLayout from '../AuthenticatedLayout/AuthenticatedLayout.tsx';
 import Button from '../Button/Button.tsx';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
@@ -142,7 +143,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		try {
 			const [teamResponse, membersResponse] = await Promise.all([
 				fetch(`/api/teams/${encodeURIComponent(teamId)}`),
-				fetch(`/api/teams/${teamId}/members?limit=${pageSize}&page=${page}`)
+				fetch(`/api/teams/${encodeURIComponent(teamId)}/members?limit=${pageSize}&page=${page}`)
 			]);
 
 			if (!teamResponse.ok) {
@@ -409,7 +410,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 									<div className='team-detail-members-row' role='row' key={member.id}>
 										<a className='team-detail-member-name' href={`/pages/profile?id=${member.profileId}`} role='cell'>
 											{member.avatar ?
-												<img src={member.avatar} alt='' /> :
+												<img src={safeAvatarUrl(member.avatar)} alt='' /> :
 												<span className='team-detail-member-avatar'>{getInitials(member.profileName)}</span>}
 											<span className='team-detail-member-name-text'>{member.profileName}</span>
 										</a>
@@ -466,9 +467,9 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 
 			{isAddMemberModalOpen && (
 				<div className='team-detail-add-member-modal'>
-					<div className='team-detail-add-member-dialog'>
+					<div className='team-detail-add-member-dialog' role='dialog' aria-modal='true' aria-labelledby='add-member-modal-title'>
 						<div className='team-detail-add-member-title-row'>
-							<h2>Add member to {team.name} team</h2>
+							<h2 id='add-member-modal-title'>Add member to {team.name} team</h2>
 							<button
 								type='button'
 								aria-label='Close add member modal'
@@ -507,7 +508,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 									onClick={() => setSelectedProfile(profile)}
 								>
 									{profile.avatar ?
-										<img src={profile.avatar} alt='' /> :
+										<img src={safeAvatarUrl(profile.avatar)} alt='' /> :
 										<span>{getInitials(profile.name)}</span>}
 									<span>
 										<strong>{profile.name}</strong>
