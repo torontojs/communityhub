@@ -3,24 +3,33 @@ import { safeAvatarUrl } from '../utils/safeAvatarUrl.ts';
 
 type AccessLevel = 'admin' | 'organizer' | 'volunteer';
 
+export type ProfileStatus = 'activated' | 'created' | 'deleted' | 'error' | 'profile-completed' | 'social-handle-provided' | 'tos-accepted';
+
 interface AuthState {
 	accessLevel: AccessLevel | null;
 	avatar: string;
+	isLoading: boolean;
+	profileStatus: ProfileStatus | null;
 }
 
 const DEFAULT_AVATAR = '/default-avatar.png';
 
 const AuthContext = createContext<AuthState>({
 	accessLevel: null,
-	avatar: DEFAULT_AVATAR
+	avatar: DEFAULT_AVATAR,
+	isLoading: true,
+	profileStatus: null
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }): React.JSX.Element => {
 	const [avatar, setAvatar] = useState<string>(DEFAULT_AVATAR);
 	const [accessLevel, setAccessLevel] = useState<AccessLevel | null>(null);
+	const [profileStatus, setProfileStatus] = useState<ProfileStatus | null>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	useEffect(() => {
 		const controller = new AbortController();
+		let cancelled = false;
 
 		const fetchAuth = async (): Promise<void> => {
 			try {
@@ -29,25 +38,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.JSX.E
 					signal: controller.signal
 				});
 
-				if (!response.ok) { return; }
+				if (cancelled) { return; }
 
-				const data = await response.json() as { avatar?: string | null, access?: AccessLevel };
+				if (!response.ok) {
+					setIsLoading(false);
+					return;
+				}
+
+				const data = await response.json() as { avatar?: string | null; access?: AccessLevel; status?: ProfileStatus };
 				if (data.avatar) { setAvatar(safeAvatarUrl(data.avatar)); }
 				if (data.access) { setAccessLevel(data.access); }
+				if (data.status) { setProfileStatus(data.status); }
+				setIsLoading(false);
 			} catch (error) {
-				if (error instanceof Error && error.name !== 'AbortError') {
+				if (!cancelled && error instanceof Error && error.name !== 'AbortError') {
 					console.error('Failed to load auth state:', error);
+					setIsLoading(false);
 				}
 			}
 		};
 
 		void fetchAuth();
 
-		return () => controller.abort();
+		return () => {
+			cancelled = true;
+			controller.abort();
+		};
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ avatar, accessLevel }}>
+		<AuthContext.Provider value={{ avatar, accessLevel, isLoading, profileStatus }}>
 			{children}
 		</AuthContext.Provider>
 	);

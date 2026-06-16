@@ -5,6 +5,7 @@ import FooterNav from '../../components/Footer/Footer.tsx';
 import Header from '../../components/Header/Header.tsx';
 import SignInForm from '../../components/SignIn/SignInForm.tsx';
 import '../../index.css';
+import { AuthProvider } from '../../context/AuthContext.tsx';
 import { useHeartBeat } from '../../hooks/useHeartBeat.ts';
 
 const root = document.getElementById('root') as HTMLDivElement;
@@ -12,15 +13,17 @@ const root = document.getElementById('root') as HTMLDivElement;
 createRoot(root).render(
 	(
 		<StrictMode>
-			<div className='app'>
-				<div className='page'>
-					<AuthGate hook={useHeartBeat}>
-						<Header>Welcome to TorontoJS Community Hub</Header>
-						<SignInForm />
-						<FooterNav />
-					</AuthGate>
+			<AuthProvider>
+				<div className='app'>
+					<div className='page'>
+						<AuthGate hook={useHeartBeat}>
+							<Header>Welcome to TorontoJS Community Hub</Header>
+							<SignInForm />
+							<FooterNav />
+						</AuthGate>
+					</div>
 				</div>
-			</div>
+			</AuthProvider>
 		</StrictMode>
 	)
 );
