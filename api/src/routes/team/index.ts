@@ -5,6 +5,7 @@ import { authMiddleware } from '../../middleware/auth.ts';
 import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { getSession } from '../../utils/auth.ts';
 import {
+	buildPaginationMeta,
 	type DataResponse,
 	generateDataResponseSchema,
 	generatePaginatedResponseSchema,
@@ -83,7 +84,6 @@ teamRoutes.openapi(
 		}
 	}),
 	async (context) => {
-		const totalTeamsCount = await countAllTeams(context.env.Database);
 		const pagination = PaginationQuerySchema.safeParse(context.req.query());
 
 		if (!pagination.success) {
@@ -96,35 +96,16 @@ teamRoutes.openapi(
 			);
 		}
 
+		const totalTeamsCount = await countAllTeams(context.env.Database);
 		const { limit: limitCount, page: currentPageCount } = pagination.data;
-		const lastPageCount = !limitCount ? 1 : Math.max(1, Math.ceil(totalTeamsCount / limitCount));
-		const offset = !limitCount ? 0 : ((currentPageCount - 1) * limitCount);
+		const { offset, ...paginationMeta } = buildPaginationMeta(context.req.url, totalTeamsCount, limitCount, currentPageCount);
 		const teams = await getAllTeams(context.env.Database, limitCount, offset);
-
-		const firstPage = new URL(context.req.url);
-		firstPage.searchParams.set('limit', limitCount?.toString() ?? '');
-		firstPage.searchParams.set('page', '1');
-		const currentPage = new URL(context.req.url);
-		currentPage.searchParams.set('limit', limitCount?.toString() ?? '');
-		currentPage.searchParams.set('page', currentPageCount.toString());
-		const lastPage = new URL(context.req.url);
-		lastPage.searchParams.set('limit', limitCount?.toString() ?? '');
-		lastPage.searchParams.set('page', lastPageCount.toString());
 
 		return context.json(
 			{
 				data: teams,
-				start: offset,
-				end: !limitCount || offset + limitCount > totalTeamsCount ? Math.max(0, totalTeamsCount - 1) : offset + limitCount - 1,
-				total: totalTeamsCount,
-				size: teams.length,
-				currentPage: currentPageCount,
-				lastPage: lastPageCount,
-				_links: {
-					self: { href: currentPage.toString() },
-					first: { href: firstPage.toString() },
-					last: { href: lastPage.toString() }
-				}
+				...paginationMeta,
+				size: teams.length
 			} satisfies PaginatedResponse<typeof teams>,
 			StatusCodes.OKAY
 		);

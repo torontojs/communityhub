@@ -6,7 +6,7 @@ POST {{host}}/api/auth/sign-in
 	"email": "{{volunteer_email}}",
 	"password": "{{volunteer_password}}"
 }
-HTTP 201
+HTTP 200
 [Captures]
 auth-token: cookie "auth_token"
 

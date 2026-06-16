@@ -48,7 +48,6 @@ export function isGravatarProfileUrl(url: string): boolean {
 
 		return (
 			(hostname === 'gravatar.com' || hostname === 'www.gravatar.com') &&
-			firstPath !== '' &&
 			firstPath !== 'avatar' &&
 			!secondPath
 		) || (
@@ -63,7 +62,7 @@ export function isGravatarProfileUrl(url: string): boolean {
 	}
 }
 
-export async function resolveGravatarAvatarUrl(url: string): Promise<string> {
+export async function resolveGravatarAvatarUrl(url: string): Promise<string | null> {
 	if (isGravatarAvatarUrl(url)) { return url; }
 	if (!isGravatarProfileUrl(url)) { return url; }
 
@@ -72,11 +71,11 @@ export async function resolveGravatarAvatarUrl(url: string): Promise<string> {
 	const slug = parsedUrl.hostname === 'api.gravatar.com' ? thirdPath : firstPath;
 	try {
 		const response = await fetch(`https://api.gravatar.com/v3/profiles/${encodeURIComponent(slug.replace(/\.card$/iu, ''))}`);
-		if (!response.ok) { return url; }
+		if (!response.ok) { return null; }
 
 		const profile: { avatar_url?: string } = await response.json();
-		return profile.avatar_url && isGravatarAvatarUrl(profile.avatar_url) ? profile.avatar_url : url;
+		return profile.avatar_url && isGravatarAvatarUrl(profile.avatar_url) ? profile.avatar_url : null;
 	} catch {
-		return url;
+		return null;
 	}
 }

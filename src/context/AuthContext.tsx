@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.JSX.E
 					return;
 				}
 
-				const data = await response.json() as { avatar?: string | null; access?: AccessLevel; status?: ProfileStatus };
+				const data = await response.json() as { avatar?: string | null, access?: AccessLevel, status?: ProfileStatus };
 				if (data.avatar) { setAvatar(safeAvatarUrl(data.avatar)); }
 				if (data.access) { setAccessLevel(data.access); }
 				if (data.status) { setProfileStatus(data.status); }

@@ -334,3 +334,32 @@ export function generatePaginatedResponseSchema<T extends unknown[]>(data: ZodTy
 }
 
 export type PaginatedResponse<T extends unknown[]> = z.infer<ReturnType<typeof generatePaginatedResponseSchema<T>>>;
+
+export function buildPaginationMeta(url: string, total: number, limit: number | undefined, page: number) {
+	const lastPageCount = !limit ? 1 : Math.max(1, Math.ceil(total / limit));
+	const offset = !limit ? 0 : ((page - 1) * limit);
+
+	const firstPage = new URL(url);
+	firstPage.searchParams.set('limit', limit?.toString() ?? '');
+	firstPage.searchParams.set('page', '1');
+	const currentPage = new URL(url);
+	currentPage.searchParams.set('limit', limit?.toString() ?? '');
+	currentPage.searchParams.set('page', page.toString());
+	const lastPage = new URL(url);
+	lastPage.searchParams.set('limit', limit?.toString() ?? '');
+	lastPage.searchParams.set('page', lastPageCount.toString());
+
+	return {
+		offset,
+		start: offset,
+		end: !limit || offset + limit > total ? total - 1 : offset + limit - 1,
+		total,
+		currentPage: page,
+		lastPage: lastPageCount,
+		_links: {
+			self: { href: currentPage.toString() },
+			first: { href: firstPage.toString() },
+			last: { href: lastPage.toString() }
+		}
+	};
+}

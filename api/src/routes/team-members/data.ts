@@ -1,5 +1,4 @@
 import { DBTables, generateBaseDBfields } from '../../utils/db.ts';
-import { resolveGravatarAvatarUrl } from '../../utils/gravatar.ts';
 import { EventLog } from '../event-log/data.ts';
 import type { AddTeamMembers, TeamMemberInfo, UpdateTeamMembers } from './validation.ts';
 
@@ -95,7 +94,7 @@ export async function updateTeamMembers(database: D1Database, teamId: string, da
 }
 
 export async function countAllMembers(database: D1Database, teamId: string) {
-	const { results } = await database.prepare(`
+	const result = await database.prepare(`
 		SELECT COUNT(*) AS count FROM ${DBTables.ROLE} AS role
 		INNER JOIN ${DBTables.ACCESS} AS access ON access.id = role.profileId
 		INNER JOIN ${DBTables.PROFILE} AS profile ON profile.id = role.profileId
@@ -104,8 +103,8 @@ export async function countAllMembers(database: D1Database, teamId: string) {
 			AND role.deletedAt IS NULL
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
-	`).bind(teamId).run();
-	return results;
+	`).bind(teamId).first<{ count: number }>();
+	return result?.count ?? 0;
 }
 
 export async function getAllMembers(database: D1Database, teamId: string, limit?: number, offset = 0) {
@@ -145,11 +144,11 @@ export async function getAllMembers(database: D1Database, teamId: string, limit?
 		${limit ? 'LIMIT ? OFFSET ?' : ''}
 		`).bind(teamId, ...(limit ? [limit, offset] : [])).run<TeamMemberInfo>();
 
-	return Promise.all(results.map(async (member) => ({
+	return results.map((member) => ({
 		...member,
-		avatar: member.avatar ? await resolveGravatarAvatarUrl(member.avatar) : member.avatar,
+		avatar: member.avatar ?? undefined,
 		isBasedOnGTA: Boolean(member.isBasedOnGTA)
-	})));
+	}));
 }
 
 export async function deleteTeamMembers(database: D1Database, teamId: string, data: string[]) {

@@ -6,7 +6,7 @@ POST {{host}}/api/auth/sign-in
 	"email": "{{update_profile_email}}",
 	"password": "{{update_profile_password}}"
 }
-HTTP 201
+HTTP 200
 [Captures]
 auth-token: cookie "auth_token"
 

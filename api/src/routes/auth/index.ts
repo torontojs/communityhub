@@ -56,7 +56,7 @@ authRoutes.openapi(
 		}
 
 		const hashedPasswordWithSalt = await hashPassword(password);
-		const resolvedAvatar = avatar ? await resolveGravatarAvatarUrl(avatar) : avatar;
+		const resolvedAvatar = avatar ? (await resolveGravatarAvatarUrl(avatar)) ?? undefined : avatar;
 		const { id } = await insertProfile(context.env.Database, { avatar: resolvedAvatar, email, password: hashedPasswordWithSalt, name });
 		await updateProfileStatus(context.env.Database, id);
 

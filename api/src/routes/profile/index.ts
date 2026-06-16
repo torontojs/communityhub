@@ -181,7 +181,7 @@ profileRoutes.openapi(
 		}
 
 		const body = context.req.valid('json');
-		body.avatar &&= await resolveGravatarAvatarUrl(body.avatar);
+		body.avatar &&= (await resolveGravatarAvatarUrl(body.avatar)) ?? undefined;
 		const isUpdated = await updateProfileById(context.env.Database, id, body);
 
 		if (!isUpdated) {

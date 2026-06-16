@@ -61,6 +61,13 @@ export const ProfileTeamSchema = z.object({
 
 export type ProfileTeam = z.infer<typeof ProfileTeamSchema>;
 
+const AvatarSchema = z
+	.url()
+	.trim()
+	.min(1, 'Avatar must be at least one character long.')
+	.max(SHORT_TEXT_SIZE_IN_CHAR, `Avatar must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
+	.refine((url) => isGravatarAvatarUrl(url) || isGravatarProfileUrl(url), { message: 'Avatar must be a Gravatar URL.' });
+
 export const ProfileSchema = BaseDbEntitySchema.extend(
 	z.object({
 		email: z
@@ -105,12 +112,7 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 			)
 			.optional()
 			.describe("User's birthday, month and day only. Year is not included."),
-		avatar: z
-			.url()
-			.trim()
-			.min(1, 'Avatar must be at least one character long.')
-			.max(SHORT_TEXT_SIZE_IN_CHAR, `Avatar must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
-			.refine((url) => isGravatarAvatarUrl(url) || isGravatarProfileUrl(url), { message: 'Avatar must be a Gravatar URL.' })
+		avatar: AvatarSchema
 			.optional()
 			.describe("The user's avatar URL."),
 		links: z.array(
@@ -152,7 +154,7 @@ export type CreateProfileData = z.infer<typeof CreateProfileSchema>;
 export const UpdateProfileSchema = ProfileSchema
 	.omit({ ...BaseDBFieldsToOmit, email: true })
 	.partial()
-	.extend({ avatar: ProfileSchema.shape.avatar.unwrap().nullable().optional() })
+	.extend({ avatar: AvatarSchema.nullable().optional() })
 	.refine(
 		(data) => Object.keys(data).length > 0,
 		{ message: 'At least one property is required.' }

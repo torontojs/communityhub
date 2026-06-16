@@ -4,6 +4,7 @@ import { authorizeOrganizer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { bodySizeCheck } from '../../middleware/body-size.ts';
 import {
+	buildPaginationMeta,
 	generatePaginatedResponseSchema,
 	type PaginatedResponse,
 	StatusCodes,
@@ -55,8 +56,6 @@ teamMemberRoutes.openapi(
 			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}
 
-		const count = await countAllMembers(context.env.Database, id);
-		const totalMembersCount = (count[0]?.['count']) as number;
 		const pagination = PaginationQuerySchema.safeParse(context.req.query());
 
 		if (!pagination.success) {
@@ -69,36 +68,18 @@ teamMemberRoutes.openapi(
 			);
 		}
 
+		const totalMembersCount = await countAllMembers(context.env.Database, id);
 		const { limit: limitCount, page: currentPageCount } = pagination.data;
-		const lastPageCount = !limitCount ? 1 : Math.max(1, Math.ceil(totalMembersCount / limitCount));
-		const offset = !limitCount ? 0 : ((currentPageCount - 1) * limitCount);
+		const { offset, ...paginationMeta } = buildPaginationMeta(context.req.url, totalMembersCount, limitCount, currentPageCount);
 
 		const members = await getAllMembers(context.env.Database, id, limitCount, offset);
 		const publicMembers = members.map(({ email: _email, ...rest }) => rest);
-		const firstPage = new URL(context.req.url);
-		firstPage.searchParams.set('limit', limitCount?.toString() ?? '');
-		firstPage.searchParams.set('page', '1');
-		const currentPage = new URL(context.req.url);
-		currentPage.searchParams.set('limit', limitCount?.toString() ?? '');
-		currentPage.searchParams.set('page', currentPageCount.toString());
-		const lastPage = new URL(context.req.url);
-		lastPage.searchParams.set('limit', limitCount?.toString() ?? '');
-		lastPage.searchParams.set('page', lastPageCount.toString());
 
 		return context.json(
 			{
 				data: publicMembers,
-				start: offset,
-				end: !limitCount || offset + limitCount > totalMembersCount ? Math.max(0, totalMembersCount - 1) : offset + limitCount - 1,
-				total: totalMembersCount,
-				size: members.length,
-				currentPage: currentPageCount,
-				lastPage: lastPageCount,
-				_links: {
-					self: { href: currentPage.toString() },
-					first: { href: firstPage.toString() },
-					last: { href: lastPage.toString() }
-				}
+				...paginationMeta,
+				size: members.length
 			} satisfies PaginatedResponse<typeof publicMembers>,
 			StatusCodes.OKAY
 		);

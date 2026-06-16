@@ -12,9 +12,11 @@ export async function doesTeamExist(database: D1Database, id: string) {
 }
 
 export async function doesSameTeamNameExist(database: D1Database, name: string, excludeId?: string) {
+	const excludeClause = excludeId ? ' AND id != ?' : '';
+	const bindings = excludeId ? [name, excludeId] : [name];
 	const existingTeam = await database
-		.prepare(`SELECT id FROM ${DBTables.TEAM} WHERE name = ? AND deletedAt IS NULL AND id != ? LIMIT 1`)
-		.bind(name, excludeId ?? '')
+		.prepare(`SELECT id FROM ${DBTables.TEAM} WHERE name = ? AND deletedAt IS NULL${excludeClause} LIMIT 1`)
+		.bind(...bindings)
 		.first<{ id: string }>();
 
 	return Boolean(existingTeam);
