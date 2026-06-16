@@ -142,6 +142,9 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 
 export type Profile = z.infer<typeof ProfileSchema>;
 
+export const PublicProfileSchema = ProfileSchema.omit({ email: true, birthday: true });
+export type PublicProfile = z.infer<typeof PublicProfileSchema>;
+
 export const CreateProfileSchema = ProfileSchema.pick({ avatar: true, name: true, email: true }).extend(z.object({ password: z.string() }).shape);
 
 export type CreateProfileData = z.infer<typeof CreateProfileSchema>;

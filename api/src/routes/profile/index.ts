@@ -20,7 +20,7 @@ import {
 import { IdParamSchema } from '../../utils/validation.ts';
 import { updateProfileStatus } from '../auth/data.ts';
 import { deleteProfileById, doesProfileExist, getAllProfiles, getProfileById, updateProfileById } from './data.ts';
-import { ProfileSchema, UpdateProfileSchema } from './validation.ts';
+import { ProfileSchema, PublicProfileSchema, UpdateProfileSchema } from './validation.ts';
 
 export const profileRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
@@ -37,16 +37,17 @@ profileRoutes.openapi(
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(ProfileSchema)) } }
+				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(PublicProfileSchema)) } }
 			}
 		}
 	}),
 	async (context) => {
 		const profiles = await getAllProfiles(context.env.Database);
+		const publicProfiles = profiles.map(({ email: _email, birthday: _birthday, ...rest }) => rest);
 
 		return context.json(
 			{
-				data: profiles,
+				data: publicProfiles,
 				start: 0,
 				end: profiles.length - 1,
 				total: profiles.length,
@@ -58,7 +59,7 @@ profileRoutes.openapi(
 					first: { href: context.req.url },
 					last: { href: context.req.url }
 				}
-			} satisfies PaginatedResponse<typeof profiles>,
+			} satisfies PaginatedResponse<typeof publicProfiles>,
 			StatusCodes.OKAY
 		);
 	}
@@ -169,7 +170,7 @@ profileRoutes.openapi(
 		const { id } = context.req.valid('param');
 		const session = getSession(context);
 
-		// For volunteers, only allow if it's their own profile
+		// Non-admins (volunteers and organizers) can only edit their own profile
 		if (session.id !== id && session.access !== ACCESS_LEVEL.ADMIN) {
 			return context.json({ message: 'Can only modify own profile' }, StatusCodes.FORBIDDEN);
 		}

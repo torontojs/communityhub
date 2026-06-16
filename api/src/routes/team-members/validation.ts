@@ -53,3 +53,6 @@ export const TeamMemberInfoSchema = z.object({
 });
 
 export type TeamMemberInfo = z.infer<typeof TeamMemberInfoSchema>;
+
+export const PublicTeamMemberInfoSchema = TeamMemberInfoSchema.omit({ email: true });
+export type PublicTeamMemberInfo = z.infer<typeof PublicTeamMemberInfoSchema>;

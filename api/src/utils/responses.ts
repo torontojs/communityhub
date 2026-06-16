@@ -217,7 +217,8 @@ export const StatusResponseSchema = z
 
 export type StatusResponse = z.infer<typeof StatusResponseSchema>;
 
-export function statusResponseFormatter<T, C extends Context>(result: T, context: C) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function statusResponseFormatter<T, C extends Context>(result: T, context: C): any {
 	const errors = (result as { error: ZodError | undefined })?.error;
 
 	if (errors instanceof ZodError) {
@@ -226,7 +227,6 @@ export function statusResponseFormatter<T, C extends Context>(result: T, context
 		}, StatusCodes.UNPROCESSABLE_CONTENT);
 	}
 
-	return context.req;
 }
 
 export const HALLinkSchema = z
@@ -271,10 +271,10 @@ export const HALPaginatedResponseSchema = z.object({
 				.describe('The URL for the last resource. Note that this could be the same as the URL for the current resource.'),
 			next: HALLinkSchema
 				.optional()
-				.describe('The URL for the previous resource, if there is any.'),
+				.describe('The URL for the next resource, if there is any.'),
 			prev: HALLinkSchema
 				.optional()
-				.describe('The URL for the next resource, if there is any.')
+				.describe('The URL for the previous resource, if there is any.')
 		})
 		.describe('A list of links providing information about related data for this resource.')
 });

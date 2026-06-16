@@ -9,12 +9,14 @@ type TeamMember = Pick<Profile, 'avatar' | 'id' | 'name'>;
 async function getProfiles(app: OpenAPIHono<EnvironmentBindings>, env: Env, context: ExecutionContext) {
 	const results: Profile[] = [];
 
+	let page = 1;
 	let lastJson: PaginatedResponse<Profile[]>;
 	do {
-		const response = await app.request('/api/profiles', { method: 'GET' }, env, context);
+		const response = await app.request(`/api/profiles?page=${page}`, { method: 'GET' }, env, context);
 		lastJson = await response.json() as PaginatedResponse<Profile[]>;
 
 		results.push(...lastJson.data);
+		page++;
 	} while (lastJson.currentPage !== lastJson.lastPage);
 
 	return results;
@@ -23,12 +25,14 @@ async function getProfiles(app: OpenAPIHono<EnvironmentBindings>, env: Env, cont
 async function getTeams(app: OpenAPIHono<EnvironmentBindings>, env: Env, context: ExecutionContext) {
 	const results: Team[] = [];
 
+	let page = 1;
 	let lastJson: PaginatedResponse<Team[]>;
 	do {
-		const response = await app.request('/api/teams', { method: 'GET' }, env, context);
+		const response = await app.request(`/api/teams?page=${page}`, { method: 'GET' }, env, context);
 		lastJson = await response.json() as PaginatedResponse<Team[]>;
 
 		results.push(...lastJson.data);
+		page++;
 	} while (lastJson.currentPage !== lastJson.lastPage);
 
 	return results;
@@ -40,12 +44,14 @@ async function getTeamMembers(app: OpenAPIHono<EnvironmentBindings>, env: Env, c
 	for (const team of teams) {
 		const teamMembers: TeamMember[] = [];
 
+		let page = 1;
 		let lastJson: PaginatedResponse<TeamMember[]>;
 		do {
-			const response = await app.request(`/api/teams/${team.id}/members`, { method: 'GET' }, env, context);
+			const response = await app.request(`/api/teams/${team.id}/members?page=${page}`, { method: 'GET' }, env, context);
 			lastJson = await response.json() as PaginatedResponse<TeamMember[]>;
 
 			teamMembers.push(...lastJson.data);
+			page++;
 		} while (lastJson.currentPage !== lastJson.lastPage);
 
 		results.push({
@@ -106,10 +112,10 @@ export async function exportData(app: OpenAPIHono<EnvironmentBindings>, env: Env
 	}
 
 	for (const team of teams) {
-		await uploadFile(env, `/profiles/${team.id}.json`, JSON.stringify(team));
+		await uploadFile(env, `/teams/${team.id}.json`, JSON.stringify(team));
 	}
 
 	for (const log of eventLogs) {
-		await uploadFile(env, `/profiles/${log.id}.json`, JSON.stringify(log));
+		await uploadFile(env, `/event-logs/${log.id}.json`, JSON.stringify(log));
 	}
 }

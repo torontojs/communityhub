@@ -163,7 +163,7 @@ export async function createSession({
 				email,
 				access,
 				token: sessionToken,
-				originalExpiry: sessionExpiryDate.toISOString()
+				originalExpiry: new Date().toISOString()
 			} satisfies SessionData
 		),
 		{

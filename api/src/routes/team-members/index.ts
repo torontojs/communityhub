@@ -15,7 +15,7 @@ import { IdParamSchema, PaginationQuerySchema } from '../../utils/validation.ts'
 import { nonExistingProfileIds } from '../profile/data.ts';
 import { doesTeamExist } from '../team/data.ts';
 import { addTeamMembers, countAllMembers, deleteTeamMembers, getAllMembers, nonExistingTeamMemberIds, updateTeamMembers } from './data.ts';
-import { AddTeamMembersSchema, TeamMemberInfoSchema, UpdateTeamMembersSchema } from './validation.ts';
+import { AddTeamMembersSchema, PublicTeamMemberInfoSchema, UpdateTeamMembersSchema } from './validation.ts';
 
 export const teamMemberRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
@@ -35,7 +35,7 @@ teamMemberRoutes.openapi(
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(TeamMemberInfoSchema)) } }
+				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(PublicTeamMemberInfoSchema)) } }
 			},
 			[StatusCodes.NOT_FOUND]: {
 				description: 'Error response',
@@ -74,6 +74,7 @@ teamMemberRoutes.openapi(
 		const offset = !limitCount ? 0 : ((currentPageCount - 1) * limitCount);
 
 		const members = await getAllMembers(context.env.Database, id, limitCount, offset);
+		const publicMembers = members.map(({ email: _email, ...rest }) => rest);
 		const firstPage = new URL(context.req.url);
 		firstPage.searchParams.set('limit', limitCount?.toString() ?? '');
 		firstPage.searchParams.set('page', '1');
@@ -86,7 +87,7 @@ teamMemberRoutes.openapi(
 
 		return context.json(
 			{
-				data: members,
+				data: publicMembers,
 				start: offset,
 				end: !limitCount || offset + limitCount > totalMembersCount ? Math.max(0, totalMembersCount - 1) : offset + limitCount - 1,
 				total: totalMembersCount,
@@ -98,7 +99,7 @@ teamMemberRoutes.openapi(
 					first: { href: firstPage.toString() },
 					last: { href: lastPage.toString() }
 				}
-			} satisfies PaginatedResponse<typeof members>,
+			} satisfies PaginatedResponse<typeof publicMembers>,
 			StatusCodes.OKAY
 		);
 	}

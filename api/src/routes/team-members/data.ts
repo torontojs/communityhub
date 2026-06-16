@@ -4,6 +4,8 @@ import { EventLog } from '../event-log/data.ts';
 import type { AddTeamMembers, TeamMemberInfo, UpdateTeamMembers } from './validation.ts';
 
 export async function nonExistingTeamMemberIds(database: D1Database, teamId: string, ids: string[]) {
+	if (ids.length === 0) return [];
+
 	const { results } = await database.prepare(`
 		SELECT role.id AS id
 		FROM ${DBTables.ROLE} AS role
@@ -63,18 +65,30 @@ export async function addTeamMembers(database: D1Database, teamId: string, data:
 
 export async function updateTeamMembers(database: D1Database, teamId: string, data: UpdateTeamMembers) {
 	const results = await database.batch([
-		...data.map(({ id: roleId, description, name }) =>
-			database.prepare(`
+		...data.map(({ id: roleId, description, name }) => {
+			const keys: string[] = [];
+			const values: string[] = [];
+
+			if (name !== undefined) {
+				keys.push('name = ?');
+				values.push(name);
+			}
+
+			if (description !== undefined) {
+				keys.push('description = ?');
+				values.push(description);
+			}
+
+			return database.prepare(`
 				UPDATE ${DBTables.ROLE}
 				SET
-					name = ?,
-					description = ?
+					${keys.join(', ')}
 				WHERE
 					id = ?
 					AND teamId = ?
 					AND deletedAt IS NULL
-			`).bind(name ?? '', description ?? '', roleId, teamId)
-		)
+			`).bind(...values, roleId, teamId);
+		})
 	]);
 
 	return results.every(({ success }) => success);

@@ -31,6 +31,8 @@ export async function doesProfileExist(database: D1Database, id: string) {
 }
 
 export async function nonExistingProfileIds(database: D1Database, ids: string[]) {
+	if (ids.length === 0) return [];
+
 	const { results } = await database.prepare(`
 		SELECT profile.id
 		FROM ${DBTables.PROFILE} AS profile
@@ -132,14 +134,10 @@ export async function updateProfileById(
 			UPDATE ${DBTables.PROFILE} AS profile
 			SET
 				${Object.keys(fieldsToUpdate).map((key) => `${key} = ?`).join(', ')}
-			FROM (
-				SELECT id, activatedAt, deletedAt
-				FROM ${DBTables.ACCESS}
-				WHERE
-					access.id = id
-			) AS access
+			FROM ${DBTables.ACCESS} AS access
 			WHERE
 				profile.id = ?
+				AND access.id = profile.id
 				AND access.activatedAt IS NOT NULL
 				AND access.deletedAt IS NULL
 		`).bind(...Object.values(fieldsToUpdate), id)
@@ -254,9 +252,18 @@ export async function getAllProfiles(database: D1Database) {
 				access.activatedAt IS NOT NULL
 				AND access.deletedAt IS NULL
 		`),
-		// TODO: narrow down queries to only active profiles
-		database.prepare(`SELECT profileId, platform, url FROM ${DBTables.PROFILE_LINKS}`),
-		database.prepare(`SELECT profileId, skill FROM ${DBTables.PROFILE_SKILLS}`)
+		database.prepare(`
+			SELECT pl.profileId, pl.platform, pl.url
+			FROM ${DBTables.PROFILE_LINKS} AS pl
+			JOIN ${DBTables.ACCESS} AS access ON access.id = pl.profileId
+			WHERE access.activatedAt IS NOT NULL AND access.deletedAt IS NULL
+		`),
+		database.prepare(`
+			SELECT ps.profileId, ps.skill
+			FROM ${DBTables.PROFILE_SKILLS} AS ps
+			JOIN ${DBTables.ACCESS} AS access ON access.id = ps.profileId
+			WHERE access.activatedAt IS NOT NULL AND access.deletedAt IS NULL
+		`)
 	]);
 
 	const profiles = new Map(

@@ -4,7 +4,7 @@ import type { CreateTeamData, Team, UpdateTeamData } from './validation.ts';
 
 export async function doesTeamExist(database: D1Database, id: string) {
 	const existingTeam = await database
-		.prepare(`SELECT id FROM ${DBTables.TEAM} WHERE id = ? LIMIT 1`)
+		.prepare(`SELECT id FROM ${DBTables.TEAM} WHERE id = ? AND deletedAt IS NULL LIMIT 1`)
 		.bind(id)
 		.first<{ id: string }>();
 

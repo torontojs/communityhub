@@ -10,7 +10,7 @@ interface EmailSendingParams {
 	text?: string;
 }
 
-async function sendEmail(context: Context<{ Bindings: Env }>, { apiKey, from, to, subject, text, html }: EmailSendingParams) {
+async function sendEmail(context: Context<EnvironmentBindings>, { apiKey, from, to, subject, text, html }: EmailSendingParams) {
 	if (context.env.ARE_EMAILS_LOCAL_ONLY === 'true') {
 		/* eslint-disable no-console */
 		console.log(`[📨] You got mail!`);
@@ -36,13 +36,13 @@ interface AccountConfirmationEmailParams {
 	senderEmail: string;
 }
 
-export async function sendAccountConfirmationEmail(context: Context, {
+export async function sendAccountConfirmationEmail(context: Context<EnvironmentBindings>, {
 	token,
 	email,
 	apiKey,
 	senderEmail
 }: AccountConfirmationEmailParams) {
-	const activationUrl = new URL(`/pages/confirm-account/?token=${token}`, context.req.url).toString();
+	const activationUrl = new URL(`/pages/confirm-account/?token=${token}`, context.env.FRONTEND_URL).toString();
 
 	return sendEmail(context, {
 		apiKey,
@@ -65,13 +65,13 @@ interface PasswordResetEmailParams {
 	senderEmail: string;
 }
 
-export async function sendPasswordResetEmail(context: Context, {
+export async function sendPasswordResetEmail(context: Context<EnvironmentBindings>, {
 	token,
 	email,
 	apiKey,
 	senderEmail
 }: PasswordResetEmailParams) {
-	const resetUrl = new URL(`/pages/reset-password?token=${token}`, context.req.url).toString();
+	const resetUrl = new URL(`/pages/reset-password?token=${token}`, context.env.FRONTEND_URL).toString();
 
 	return sendEmail(context, {
 		apiKey,

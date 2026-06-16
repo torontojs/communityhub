@@ -112,9 +112,6 @@ authRoutes.openapi(
 	}),
 	async (context) => {
 		const { token } = context.req.valid('query');
-		if (!token) {
-			return context.json({ message: 'Invalid or missing token' }, StatusCodes.BAD_REQUEST);
-		}
 
 		const { email, id } = JSON.parse((await context.env.ActivationTokens.get(token)) ?? '{}') as { email?: string, id: string };
 		if (!email) {
@@ -123,6 +120,7 @@ authRoutes.openapi(
 
 		const userAlreadyActivated = await checkActiveEmail(context.env.Database, email);
 		if (userAlreadyActivated) {
+			await context.env.ActivationTokens.delete(token);
 			// INFO: Hide non existing emails to reduce attack surface from guessing registered emails.
 			return context.json({ message: 'Account activated successfully' } satisfies StatusResponse, StatusCodes.OKAY);
 		}
@@ -157,7 +155,7 @@ authRoutes.openapi(
 				description: 'Invalid email, profile Id, password or account not activated.',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			},
-			[StatusCodes.CREATED]: {
+			[StatusCodes.OKAY]: {
 				description: 'Sign in succesful',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			},
@@ -198,7 +196,7 @@ authRoutes.openapi(
 
 		await createSession({ id, email, access, context });
 
-		return context.json({ message: 'Sign in successful' } satisfies StatusResponse, StatusCodes.CREATED);
+		return context.json({ message: 'Sign in successful' } satisfies StatusResponse, StatusCodes.OKAY);
 	}
 );
 
@@ -251,6 +249,7 @@ authRoutes.openapi(
 		request: {
 			body: { content: { 'application/json': { schema: ForgotPasswordSchema } }, required: true }
 		},
+		middleware: [bodySizeCheck] as const,
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Password recovery request processed successfully. If the email exists in our system, a recovery link has been sent to the provided email address.',
@@ -274,18 +273,16 @@ authRoutes.openapi(
 			return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
 		}
 
-		const ForgotPasswordList = await context.env.PasswordResetToken.list();
-
-		for (const key of ForgotPasswordList.keys) {
-			const keyName = await context.env.PasswordResetToken.get(key.name);
-			if (keyName) {
-				return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
-			}
+		const existingToken = await context.env.PasswordResetToken.get(email);
+		if (existingToken) {
+			return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
 		}
 
 		const resetToken = crypto.randomUUID();
-		// // eslint-disable-next-line @typescript-eslint/no-magic-numb
 		await createPasswordReset({ context, email, resetToken });
+
+		const TEN_MINUTES_IN_SECONDS = 60 * 10;
+		await context.env.PasswordResetToken.put(email, resetToken, { expirationTtl: TEN_MINUTES_IN_SECONDS });
 
 		await sendPasswordResetEmail(context, {
 			apiKey: context.env.RESEND_API_KEY,
@@ -293,10 +290,6 @@ authRoutes.openapi(
 			token: resetToken,
 			email
 		});
-
-		const TEN_MINUTES_IN_SECONDS = 60 * 10;
-
-		await context.env.PasswordResetToken.put(resetToken, email, { expirationTtl: TEN_MINUTES_IN_SECONDS });
 
 		return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
 	}
@@ -313,6 +306,7 @@ authRoutes.openapi(
 		request: {
 			body: { content: { 'application/json': { schema: ResetPasswordSchema } }, required: true }
 		},
+		middleware: [bodySizeCheck] as const,
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successfully reset password',
@@ -355,6 +349,10 @@ authRoutes.openapi(
 		if (!success) {
 			return context.json({ message: 'Failed user password change ' } satisfies StatusResponse, StatusCodes.INTERNAL_SERVER_ERROR);
 		}
+
+		await context.env.PasswordResetToken.delete(token);
+		await context.env.PasswordResetToken.delete(email);
+
 		return context.json({ message: 'Succesfully changed password' } satisfies StatusResponse, StatusCodes.OKAY);
 	}
 );
@@ -363,13 +361,14 @@ authRoutes.openapi(
 	createRoute({
 		method: 'post',
 		path: '/check-password-reset-token',
-		operetionId: 'Valid-reset-pw-token',
+		operationId: 'Valid-reset-pw-token',
 		summary: 'Checks if password reset token is still valid',
 		description: 'Checks if password reset token is still valid',
 		tags: ['Token'],
 		request: {
 			body: { content: { 'application/json': { schema: ResetPasswordValidTokenSchema } }, required: true }
 		},
+		middleware: [bodySizeCheck] as const,
 		responses: {
 			[StatusCodes.BAD_REQUEST]: {
 				description: 'Invalid or notoken is provided.',
@@ -386,17 +385,13 @@ authRoutes.openapi(
 	async (context) => {
 		const { token } = context.req.valid('json');
 
-		if (!token) {
-			return context.json({ message: 'Invalid or missing token' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
-		}
-
 		const success = await context.env.PasswordResetToken.get(token);
 
 		if (!success) {
 			return context.json({ message: 'Invalid or missing token' } satisfies StatusResponse, StatusCodes.UNAUTHORIZED);
 		}
 
-		return context.json({ message: 'Invalid or missing token' } satisfies StatusResponse, StatusCodes.OKAY);
+		return context.json({ message: 'Valid token' } satisfies StatusResponse, StatusCodes.OKAY);
 	}
 );
 

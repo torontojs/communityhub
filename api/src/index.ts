@@ -49,7 +49,7 @@ apiRoutes.use(
 	})
 );
 
-// CORS middleware22
+// CORS middleware
 apiRoutes.use(
 	'/*',
 	cors({
