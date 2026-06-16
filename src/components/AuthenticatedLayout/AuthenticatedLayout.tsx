@@ -1,7 +1,7 @@
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import './AuthenticatedLayout.css';
 import { handleLogOut } from '../../utilities/handleLogOut.ts';
-import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
+import { useAuth } from '../../context/AuthContext.tsx';
 
 type ActivePage = 'community' | 'profile' | 'teams' | 'volunteer';
 
@@ -44,37 +44,7 @@ const navItems: {
 
 const AuthenticatedLayout = ({ activePage, children, className, mainClassName }: Props): React.JSX.Element => {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
-	const [avatar, setAvatar] = useState<string>('/default-avatar.png');
-
-	useEffect(() => {
-		const controller = new AbortController();
-
-		async function fetchCurrentUserAvatar(): Promise<void> {
-			try {
-				const response = await fetch('/api/auth/heartbeat', {
-					credentials: 'include',
-					signal: controller.signal
-				});
-
-				if (!response.ok) {
-					return;
-				}
-
-				const data = await response.json() as { avatar?: string | null };
-				if (data.avatar) {
-					setAvatar(safeAvatarUrl(data.avatar));
-				}
-			} catch (error) {
-				if (error instanceof Error && error.name !== 'AbortError') {
-					console.error('Failed to load current user avatar:', error);
-				}
-			}
-		}
-
-		void fetchCurrentUserAvatar();
-
-		return () => controller.abort();
-	}, []);
+	const { avatar } = useAuth();
 
 	const navLinks = navItems.map((item) => (
 		<a href={item.href} data-active={item.id === activePage} key={item.id}>
@@ -135,7 +105,9 @@ const AuthenticatedLayout = ({ activePage, children, className, mainClassName }:
 						tabIndex={0}
 						aria-label='Close navigation menu'
 						onClick={() => setMenuOpen(false)}
-						onKeyDown={(e) => { if (e.key === 'Escape' || e.key === 'Enter') setMenuOpen(false); }}
+						onKeyDown={(e) => {
+							if (e.key === 'Escape' || e.key === 'Enter') { setMenuOpen(false); }
+						}}
 					/>
 					<nav className='mobile-nav-drawer' aria-label='Mobile navigation'>
 						<div className='mobile-nav-drawer-header'>

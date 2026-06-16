@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useAuth } from '../../context/AuthContext.tsx';
 import './Teams.css';
 import AddTeamFormModal from '../AddTeamFormModal/AddTeamFormModal.tsx';
 import AuthenticatedLayout from '../AuthenticatedLayout/AuthenticatedLayout.tsx';
@@ -27,8 +28,6 @@ interface PaginatedResponse<T> {
 	total: number;
 }
 
-type AccessLevel = 'admin' | 'organizer' | 'volunteer';
-
 const FIRST_PAGE = 1;
 const TEAMS_PAGE_SIZE_LARGE = 25;
 const TEAMS_PAGE_SIZE_MAXIMUM = 50;
@@ -40,7 +39,7 @@ const Teams = () => {
 	const [isLoadedTeamsData, setIsLoadedTeamsData] = useState<boolean>(false);
 	const [isAddTeamModalOpen, setIsAddTeamModalOpen] = useState<boolean>(false);
 	const [editingTeam, setEditingTeam] = useState<Team | null>(null);
-	const [currentUserAccess, setCurrentUserAccess] = useState<AccessLevel | null>(null);
+	const { accessLevel: currentUserAccess } = useAuth();
 	const [teamsData, setTeamsData] = useState<Team[]>([]);
 	const [teamsCurrentPage, setTeamsCurrentPage] = useState<number>(FIRST_PAGE);
 	const [teamsLastPage, setTeamsLastPage] = useState<number>(FIRST_PAGE);
@@ -80,30 +79,6 @@ const Teams = () => {
 	useEffect(() => {
 		void fetchTeamsData({ page: teamsCurrentPage, pageSize: teamsPageSize });
 	}, [fetchTeamsData, teamsCurrentPage, teamsPageSize]);
-
-	useEffect(() => {
-		const fetchCurrentUserAccess = async (): Promise<void> => {
-			try {
-				const response = await fetch('/api/auth/heartbeat', {
-					method: 'GET',
-					credentials: 'include'
-				});
-
-				if (!response.ok) {
-					setCurrentUserAccess(null);
-					return;
-				}
-
-				const data = await response.json() as { access?: AccessLevel };
-				setCurrentUserAccess(data.access ?? null);
-			} catch (error) {
-				setCurrentUserAccess(null);
-				console.error('Error fetching current user access:', error);
-			}
-		};
-
-		void fetchCurrentUserAccess();
-	}, []);
 
 	const handleAddTeamSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
 		event.preventDefault();
@@ -217,7 +192,7 @@ const Teams = () => {
 	};
 
 	const getMemberCountLabel = (team: Team): string => {
-		if (team.memberCount === undefined) return '';
+		if (team.memberCount === undefined) { return ''; }
 		return `${team.memberCount} ${team.memberCount === 1 ? 'member' : 'members'}`;
 	};
 

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import './TeamDetail.css';
-import AddTeamFormModal from '../AddTeamFormModal/AddTeamFormModal.tsx';
 import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
+import { useAuth } from '../../context/AuthContext.tsx';
+import AddTeamFormModal from '../AddTeamFormModal/AddTeamFormModal.tsx';
 import AuthenticatedLayout from '../AuthenticatedLayout/AuthenticatedLayout.tsx';
 import Button from '../Button/Button.tsx';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
@@ -104,7 +105,7 @@ const formatJoinedDate = (value: string): string => {
 
 // eslint-disable-next-line complexity
 const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
-	const [access, setAccess] = useState<AccessLevel | null>(null);
+	const { accessLevel: access } = useAuth();
 	const [addMemberError, setAddMemberError] = useState<string | null>(null);
 	const [addMemberQuery, setAddMemberQuery] = useState<string>('');
 	const [availableProfiles, setAvailableProfiles] = useState<ProfileOption[]>([]);
@@ -171,27 +172,6 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 	};
 
 	useEffect(() => {
-		const fetchAccess = async (): Promise<void> => {
-			try {
-				const response = await fetch('/api/auth/heartbeat', {
-					method: 'GET',
-					credentials: 'include'
-				});
-
-				if (!response.ok) {
-					setAccess(null);
-					return;
-				}
-
-				const data = await response.json() as { access?: AccessLevel };
-				setAccess(data.access ?? null);
-			} catch (error) {
-				setAccess(null);
-				console.error('Error fetching current user access:', error);
-			}
-		};
-
-		void fetchAccess();
 		void fetchTeamDetail();
 	}, [teamId]);
 
