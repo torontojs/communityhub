@@ -1,3 +1,4 @@
+import Label from '../Label/Label.tsx';
 import './Team.css';
 
 // ISSUE 290
@@ -21,7 +22,7 @@ const Team = (): React.JSX.Element => (
 				</p>
 			</div>
 		</div>
-		<p className='team-role'>Volunteer</p>
+		{/* <p className='team-role'>Volunteer</p> */}<Label variant="error" tone="light" children="Volunteer"></Label>
 		<p className='team-description'>
 			Shapes the visual identity of TorontoJS. Design graphics, websites, and user experiences. Perfect for UX/UI designers and visual creatives. Great opportunity to work on
 			real projects while cross collaborating.

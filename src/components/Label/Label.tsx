@@ -41,7 +41,7 @@ const Label: React.FC<Props> = ({
 				</svg>
 			)}
 		{hasIcon && icon}
-		{children}
+		<p className='label-text'>{children}</p>
 	</span>
 );
 
