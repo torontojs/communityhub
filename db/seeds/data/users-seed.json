@@ -13,7 +13,7 @@
 		"role": "admin",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000001?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "bb07af9c-3a1c-4d0b-a51b-3b99e7220351", "platform": "site", "handle": "torontojs.com" }
+			{ "id": "bb07af9c-3a1c-4d0b-a51b-3b99e7220351", "platform": "site", "handle": "https://torontojs.com" }
 		],
 		"eventLog": { "joined": "82814359-97c4-4c76-86dc-c08293a283e3", "volunteered": "12dc94e2-7507-4faa-95e1-5faaffa9d638" },
 		"documents": {
@@ -40,11 +40,11 @@
 		"role": "organizer",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000002?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "4d6edf63-0592-4430-9773-98a85d39dd50", "platform": "twitter", "handle": "arthur_king" },
-			{ "id": "03f5b336-4b5a-4af7-9c6e-106d6ddd6ebd", "platform": "github", "handle": "arthur-king" },
-			{ "id": "bb774f31-83ad-4531-885b-45551217a59c", "platform": "linkedin", "handle": "arthur.king" },
-			{ "id": "db7df7ea-7a63-4d7c-b8fa-0e8afac910be", "platform": "mastodon", "handle": "arthur_king@mastodon.social" },
-			{ "id": "4f4286de-6b54-4df0-acea-d33b3230e0bd", "platform": "instagram", "handle": "arthur_king" },
+			{ "id": "4d6edf63-0592-4430-9773-98a85d39dd50", "platform": "twitter", "handle": "https://twitter.com/arthur_king" },
+			{ "id": "03f5b336-4b5a-4af7-9c6e-106d6ddd6ebd", "platform": "github", "handle": "https://github.com/arthur-king" },
+			{ "id": "bb774f31-83ad-4531-885b-45551217a59c", "platform": "linkedin", "handle": "https://linkedin.com/in/arthur.king" },
+			{ "id": "db7df7ea-7a63-4d7c-b8fa-0e8afac910be", "platform": "mastodon", "handle": "https://mastodon.social/@arthur_king" },
+			{ "id": "4f4286de-6b54-4df0-acea-d33b3230e0bd", "platform": "instagram", "handle": "https://instagram.com/arthur_king" },
 			{ "id": "d0bce4f7-0081-4271-aece-124b0449b197", "platform": "slack", "handle": "arthur_king" }
 		],
 		"eventLog": { "joined": "e170816b-9033-4446-b87a-6da342dc4562", "volunteered": "85f89cfc-6201-4109-ae73-926720d03940" },
@@ -67,12 +67,12 @@
 			{ "id": "a2437738-1eb1-4c0f-acb5-09502c87c884", "skill": "Trash-talking" }
 		],
 		"pronouns": "he/him",
-		"description": "Won’t let minor flesh wounds hinder workplace performance.",
+		"description": "Won't let minor flesh wounds hinder workplace performance.",
 		"birthday": "10-31",
 		"role": "organizer",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000003?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "32d80497-320a-4bad-9ef7-9c295c76a8fa", "platform": "twitter", "handle": "black_knight" },
+			{ "id": "32d80497-320a-4bad-9ef7-9c295c76a8fa", "platform": "twitter", "handle": "https://twitter.com/black_knight" },
 			{ "id": "cf2423da-15c4-435b-b9f4-cfb7f2be7a38", "platform": "slack", "handle": "black_knight" }
 		],
 		"eventLog": { "joined": "afa2ea59-186b-4f2e-a233-1686cbbae142", "volunteered": "7efbabdd-658a-4953-971d-52fdc04813e2" },
@@ -100,9 +100,9 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000004?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "654e4cc0-4213-4081-b6ea-a0861f0e0f7c", "platform": "twitter", "handle": "robin_brave" },
-			{ "id": "6cd29831-2f1f-40f9-b1fe-e3e2f7188d4c", "platform": "instagram", "handle": "robin_brave" },
-			{ "id": "fd7831a1-4884-4155-8179-c13ed7e7393a", "platform": "bluesky", "handle": "robin.brave" }
+			{ "id": "654e4cc0-4213-4081-b6ea-a0861f0e0f7c", "platform": "twitter", "handle": "https://twitter.com/robin_brave" },
+			{ "id": "6cd29831-2f1f-40f9-b1fe-e3e2f7188d4c", "platform": "instagram", "handle": "https://instagram.com/robin_brave" },
+			{ "id": "fd7831a1-4884-4155-8179-c13ed7e7393a", "platform": "bluesky", "handle": "https://bsky.app/profile/robin.brave" }
 		],
 		"eventLog": { "joined": "b1cb1429-4c9f-4a57-9992-916abb2b4b92", "volunteered": "a34f7262-d4f1-410a-ab61-0cc69b20a92f" },
 		"documents": {
@@ -129,11 +129,11 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000005?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "f95c3854-baeb-48e2-8641-deb4000557f1", "platform": "twitter", "handle": "lancelot_daring" },
-			{ "id": "a81a7194-431c-4205-8862-f4007ac88b57", "platform": "instagram", "handle": "lancelot_daring" },
-			{ "id": "df54288e-80d1-4f79-b78b-355e968c17e2", "platform": "linkedin", "handle": "lancelot.daring" },
-			{ "id": "2e3a2150-2333-4b51-a2e3-1c91b43dd3b1", "platform": "github", "handle": "lancelot-daring" },
-			{ "id": "cf84a4e0-270e-4640-9be5-4dcedf79873d", "platform": "threads", "handle": "lancelot_daring" }
+			{ "id": "f95c3854-baeb-48e2-8641-deb4000557f1", "platform": "twitter", "handle": "https://twitter.com/lancelot_daring" },
+			{ "id": "a81a7194-431c-4205-8862-f4007ac88b57", "platform": "instagram", "handle": "https://instagram.com/lancelot_daring" },
+			{ "id": "df54288e-80d1-4f79-b78b-355e968c17e2", "platform": "linkedin", "handle": "https://linkedin.com/in/lancelot.daring" },
+			{ "id": "2e3a2150-2333-4b51-a2e3-1c91b43dd3b1", "platform": "github", "handle": "https://github.com/lancelot-daring" },
+			{ "id": "cf84a4e0-270e-4640-9be5-4dcedf79873d", "platform": "threads", "handle": "https://threads.net/@lancelot_daring" }
 		],
 		"eventLog": { "joined": "dd472b06-e7ed-4368-9665-95fdb3e5281e", "volunteered": "d5685fd1-044c-4f24-b115-84a99bfd0084" },
 		"documents": {
@@ -160,8 +160,8 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000006?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "e60cb3e8-41b0-43bd-b6de-d227d4502b4d", "platform": "instagram", "handle": "galahad_pure" },
-			{ "id": "eb8af95c-1947-46d7-a0fc-d94438933a83", "platform": "mastodon", "handle": "galahad_pure@mastodon.social" }
+			{ "id": "e60cb3e8-41b0-43bd-b6de-d227d4502b4d", "platform": "instagram", "handle": "https://instagram.com/galahad_pure" },
+			{ "id": "eb8af95c-1947-46d7-a0fc-d94438933a83", "platform": "mastodon", "handle": "https://mastodon.social/@galahad_pure" }
 		],
 		"eventLog": { "joined": "b250c32d-5720-405a-987e-ca80725e86ab", "volunteered": "3314c9e2-ab76-4d18-9018-2ec1694729f3" },
 		"documents": {
@@ -183,14 +183,14 @@
 			{ "id": "ce3a537c-60fd-4d26-96ab-a5a2ceef4c83", "skill": "Project Support" }
 		],
 		"pronouns": "they/them",
-		"description": "Carries everyone else’s baggage, literally and figuratively.",
+		"description": "Carries everyone else's baggage, literally and figuratively.",
 		"birthday": "05-19",
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000007?s=200&d=robohash&r=g",
 		"links": [
 			{ "id": "f9e311d9-f4d3-46d9-adb0-695460677f5f", "platform": "slack", "handle": "patsy_loyal" },
-			{ "id": "74741efb-c435-4768-b0ff-104dc643da96", "platform": "twitter", "handle": "patsy_loyal" },
-			{ "id": "460fb469-2765-40b8-84a8-189761e38670", "platform": "github", "handle": "patsy-loyal" }
+			{ "id": "74741efb-c435-4768-b0ff-104dc643da96", "platform": "twitter", "handle": "https://twitter.com/patsy_loyal" },
+			{ "id": "460fb469-2765-40b8-84a8-189761e38670", "platform": "github", "handle": "https://github.com/patsy-loyal" }
 		],
 		"eventLog": { "joined": "5b3e1f5a-e6eb-4dfb-a13b-ee2e0647bec2", "volunteered": "b8470d70-d08b-48ff-a585-2193c5770817" },
 		"documents": {
@@ -217,10 +217,10 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000008?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "6928a770-9921-4f50-ba51-0ae03e49ed43", "platform": "twitter", "handle": "tim_enchanter" },
-			{ "id": "7e08bf96-9d8b-4a71-adf7-0adf8b0faf96", "platform": "github", "handle": "tim-enchanter" },
-			{ "id": "04cd9c2d-91a7-4307-85a5-5fc5fdbc114d", "platform": "mastodon", "handle": "tim_enchanter@mastodon.social" },
-			{ "id": "ade75613-bc36-4b8c-86d8-1dc9f32fb9b7", "platform": "instagram", "handle": "tim_enchanter" }
+			{ "id": "6928a770-9921-4f50-ba51-0ae03e49ed43", "platform": "twitter", "handle": "https://twitter.com/tim_enchanter" },
+			{ "id": "7e08bf96-9d8b-4a71-adf7-0adf8b0faf96", "platform": "github", "handle": "https://github.com/tim-enchanter" },
+			{ "id": "04cd9c2d-91a7-4307-85a5-5fc5fdbc114d", "platform": "mastodon", "handle": "https://mastodon.social/@tim_enchanter" },
+			{ "id": "ade75613-bc36-4b8c-86d8-1dc9f32fb9b7", "platform": "instagram", "handle": "https://instagram.com/tim_enchanter" }
 		],
 		"eventLog": { "joined": "28e051c4-85a6-4ee6-b7da-19ffe12d47ab", "volunteered": "77a4da9d-c119-4745-ba58-603bde5614cc" }
 	},
@@ -242,11 +242,11 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000009?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "865aa096-3330-40fa-8b9c-feed64938ec0", "platform": "instagram", "handle": "dennis_peasant" },
-			{ "id": "7457c9a6-16ed-4618-ab62-a1af0a200921", "platform": "twitter", "handle": "dennis_peasant" },
-			{ "id": "9021f7b6-5dca-4923-997e-8bd1670184d2", "platform": "linkedin", "handle": "dennis.peasant" },
-			{ "id": "ace08ad3-e235-4b8c-8a50-c59ca470a845", "platform": "github", "handle": "dennis-peasant" },
-			{ "id": "33cd809f-917e-4c02-aee3-6d668a99cb7e", "platform": "devto", "handle": "dennispeasant" }
+			{ "id": "865aa096-3330-40fa-8b9c-feed64938ec0", "platform": "instagram", "handle": "https://instagram.com/dennis_peasant" },
+			{ "id": "7457c9a6-16ed-4618-ab62-a1af0a200921", "platform": "twitter", "handle": "https://twitter.com/dennis_peasant" },
+			{ "id": "9021f7b6-5dca-4923-997e-8bd1670184d2", "platform": "linkedin", "handle": "https://linkedin.com/in/dennis.peasant" },
+			{ "id": "ace08ad3-e235-4b8c-8a50-c59ca470a845", "platform": "github", "handle": "https://github.com/dennis-peasant" },
+			{ "id": "33cd809f-917e-4c02-aee3-6d668a99cb7e", "platform": "devto", "handle": "https://dev.to/dennispeasant" }
 		],
 		"eventLog": { "joined": "20b01c4c-8490-4501-8e15-7472929dec2d", "volunteered": "964a03c1-3089-496b-a126-a9e677f29690" }
 	},
@@ -268,7 +268,7 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000a?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "e82ce081-f1af-4250-ae87-fb2ddc7ba5f8", "platform": "twitter", "handle": "shrubber" }
+			{ "id": "e82ce081-f1af-4250-ae87-fb2ddc7ba5f8", "platform": "twitter", "handle": "https://twitter.com/shrubber" }
 		],
 		"eventLog": { "joined": "ef3bd33c-2822-4844-9387-6eff6341ad49", "volunteered": "5ba53bc0-e11b-4f05-b205-3d660612e60c" }
 	},
@@ -290,8 +290,8 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000b?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "363535af-3f68-40ad-8072-2cb97d3cbd69", "platform": "twitter", "handle": "maynard_the_holy" },
-			{ "id": "cd85e9e2-3153-441c-8065-af740eedfd80", "platform": "instagram", "handle": "maynard_the_holy" }
+			{ "id": "363535af-3f68-40ad-8072-2cb97d3cbd69", "platform": "twitter", "handle": "https://twitter.com/maynard_the_holy" },
+			{ "id": "cd85e9e2-3153-441c-8065-af740eedfd80", "platform": "instagram", "handle": "https://instagram.com/maynard_the_holy" }
 		],
 		"eventLog": { "joined": "d33aa251-0ef6-4730-a391-cd67e0b66d08", "volunteered": "bbba389b-f0ab-4500-a932-c94c23e62d6c" }
 	},
@@ -313,10 +313,10 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000c?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "8943b94d-7343-476f-94f5-507b1b180539", "platform": "linkedin", "handle": "p.herbert" },
-			{ "id": "17404f29-858c-4a00-9687-1af101b79794", "platform": "twitter", "handle": "p_herbert" },
-			{ "id": "fe245bfe-f6c7-4336-8ec7-8f6fad1b7bf1", "platform": "mastodon", "handle": "p_herbert@mastodon.social" },
-			{ "id": "273dd34d-bbc9-401e-9e4a-e9b756cc04c2", "platform": "github", "handle": "p-herbert" }
+			{ "id": "8943b94d-7343-476f-94f5-507b1b180539", "platform": "linkedin", "handle": "https://linkedin.com/in/p.herbert" },
+			{ "id": "17404f29-858c-4a00-9687-1af101b79794", "platform": "twitter", "handle": "https://twitter.com/p_herbert" },
+			{ "id": "fe245bfe-f6c7-4336-8ec7-8f6fad1b7bf1", "platform": "mastodon", "handle": "https://mastodon.social/@p_herbert" },
+			{ "id": "273dd34d-bbc9-401e-9e4a-e9b756cc04c2", "platform": "github", "handle": "https://github.com/p-herbert" }
 		],
 		"eventLog": { "joined": "bff837ea-5f45-404c-b1e9-0e80fb5700cc", "volunteered": "c4b92328-40d6-4d74-9647-c5ff63255283" }
 	},
@@ -339,8 +339,8 @@
 		"avatar": "https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000d?s=200&d=robohash&r=g",
 		"links": [
 			{ "id": "7aa731c4-dcbe-49fa-970b-a813e1e36da6", "platform": "slack", "handle": "concorde_squire" },
-			{ "id": "452b1bae-e4f8-4fac-8bbc-9e686993b62e", "platform": "twitter", "handle": "concorde_the_squire" },
-			{ "id": "d8c8ff6c-4e5e-4a98-84e1-7e167a568469", "platform": "github", "handle": "concorde-the-squire" }
+			{ "id": "452b1bae-e4f8-4fac-8bbc-9e686993b62e", "platform": "twitter", "handle": "https://twitter.com/concorde_the_squire" },
+			{ "id": "d8c8ff6c-4e5e-4a98-84e1-7e167a568469", "platform": "github", "handle": "https://github.com/concorde-the-squire" }
 		],
 		"eventLog": { "joined": "5875b7be-33cf-49c9-941c-8642bf4a975c", "volunteered": "fca53493-6643-4883-b781-4b80dfc91079" },
 		"documents": {
@@ -367,9 +367,9 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000e?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "75510145-96e3-4603-903b-9b82e17857e5", "platform": "twitter", "handle": "lady_zoot" },
-			{ "id": "0f97c5af-bf26-4a8f-b5a0-fcb90d151fdc", "platform": "instagram", "handle": "lady_zoot" },
-			{ "id": "de21efbb-e670-48d6-8c87-932ae2111ec5", "platform": "bluesky", "handle": "lady.zoot" }
+			{ "id": "75510145-96e3-4603-903b-9b82e17857e5", "platform": "twitter", "handle": "https://twitter.com/lady_zoot" },
+			{ "id": "0f97c5af-bf26-4a8f-b5a0-fcb90d151fdc", "platform": "instagram", "handle": "https://instagram.com/lady_zoot" },
+			{ "id": "de21efbb-e670-48d6-8c87-932ae2111ec5", "platform": "bluesky", "handle": "https://bsky.app/profile/lady.zoot" }
 		],
 		"eventLog": { "joined": "677cb623-3dde-48d5-bec1-d2a990d08e5f", "volunteered": "3981a6b8-913a-4414-b5b0-fb846a6bfab1" }
 	},
@@ -386,7 +386,7 @@
 			{ "id": "e0ae85e2-9600-4f64-bff5-99100840566a", "skill": "Word-based Blackmail" }
 		],
 		"pronouns": "they/them",
-		"description": "Negotiation style: say ‘Ni’ until opponents cave.",
+		"description": "Negotiation style: say 'Ni' until opponents cave.",
 		"birthday": "09-17",
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000f?s=200&d=robohash&r=g",
@@ -411,11 +411,11 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000010?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "c4861359-9f8d-403f-8d7b-917d6659bd8f", "platform": "twitter", "handle": "grail_hist" },
-			{ "id": "947cc73f-745f-4bed-bee6-ef1a2dd78727", "platform": "instagram", "handle": "grail_hist" },
-			{ "id": "1fb33b9e-353f-4f05-9a0e-9d243ae74343", "platform": "linkedin", "handle": "grail.hist" },
-			{ "id": "ba0db504-ba08-435d-b7bd-2c6898b1b79d", "platform": "github", "handle": "grail-hist" },
-			{ "id": "4670af8f-4094-4f4a-9601-7434c0029429", "platform": "mastodon", "handle": "grail_hist@mastodon.social" }
+			{ "id": "c4861359-9f8d-403f-8d7b-917d6659bd8f", "platform": "twitter", "handle": "https://twitter.com/grail_hist" },
+			{ "id": "947cc73f-745f-4bed-bee6-ef1a2dd78727", "platform": "instagram", "handle": "https://instagram.com/grail_hist" },
+			{ "id": "1fb33b9e-353f-4f05-9a0e-9d243ae74343", "platform": "linkedin", "handle": "https://linkedin.com/in/grail.hist" },
+			{ "id": "ba0db504-ba08-435d-b7bd-2c6898b1b79d", "platform": "github", "handle": "https://github.com/grail-hist" },
+			{ "id": "4670af8f-4094-4f4a-9601-7434c0029429", "platform": "mastodon", "handle": "https://mastodon.social/@grail_hist" }
 		],
 		"eventLog": { "joined": "778c9887-3668-4ba2-8d3b-6c84d55913c9", "volunteered": "f3490921-9311-4764-b14c-158b8ede70e1" }
 	},
@@ -455,10 +455,10 @@
 		"birthday": "12-20",
 		"role": "volunteer",
 		"links": [
-			{ "id": "4281485f-0299-46dc-8ecb-5a40f7367360", "platform": "twitter", "handle": "mrs_bun" },
-			{ "id": "60072994-052b-4fcf-a384-2d71650f8d0b", "platform": "instagram", "handle": "mrs_bun" },
-			{ "id": "e789f19e-37f7-45ca-99e1-071bac81948e", "platform": "github", "handle": "mrs-bun" },
-			{ "id": "033403f8-9367-4d33-b165-19baada61308", "platform": "devto", "handle": "mrs.bun" }
+			{ "id": "4281485f-0299-46dc-8ecb-5a40f7367360", "platform": "twitter", "handle": "https://twitter.com/mrs_bun" },
+			{ "id": "60072994-052b-4fcf-a384-2d71650f8d0b", "platform": "instagram", "handle": "https://instagram.com/mrs_bun" },
+			{ "id": "e789f19e-37f7-45ca-99e1-071bac81948e", "platform": "github", "handle": "https://github.com/mrs-bun" },
+			{ "id": "033403f8-9367-4d33-b165-19baada61308", "platform": "devto", "handle": "https://dev.to/mrs.bun" }
 		],
 		"eventLog": { "joined": "e9da3c86-c97c-4545-abb0-9d6e42b134ec", "volunteered": "afa49bd7-d2e1-4a9a-977e-b0c26c052130" }
 	},
@@ -475,7 +475,7 @@
 			{ "id": "c5fa3970-02da-4dc8-a894-052f860f1fc9", "skill": "Denial" }
 		],
 		"pronouns": "they/them",
-		"description": "Hasn’t actually seen a camel—claims they all flew away.",
+		"description": "Hasn't actually seen a camel—claims they all flew away.",
 		"birthday": "07-29",
 		"role": "volunteer",
 		"links": [],
@@ -499,8 +499,8 @@
 		"role": "volunteer",
 		"avatar": "https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000011?s=200&d=robohash&r=g",
 		"links": [
-			{ "id": "e110bd62-5b4d-4b61-8e68-854cf63af032", "platform": "twitter", "handle": "knight_otruth" },
-			{ "id": "3e0a791f-915a-4bab-9404-d220d91bd1e7", "platform": "mastodon", "handle": "knight_otruth@mastodon.social" }
+			{ "id": "e110bd62-5b4d-4b61-8e68-854cf63af032", "platform": "twitter", "handle": "https://twitter.com/knight_otruth" },
+			{ "id": "3e0a791f-915a-4bab-9404-d220d91bd1e7", "platform": "mastodon", "handle": "https://mastodon.social/@knight_otruth" }
 		],
 		"eventLog": { "joined": "2213ab26-e693-4548-bdc1-1984cc454970", "volunteered": "35e73204-8fee-485a-9f31-35895afeb5af" }
 	},
@@ -521,8 +521,8 @@
 		"birthday": "11-27",
 		"role": "volunteer",
 		"links": [
-			{ "id": "1b78f46e-eeb5-46e9-8b12-b885e4c00834", "platform": "twitter", "handle": "fsh" },
-			{ "id": "87f57c6e-f92e-4f71-97c8-64e1cdba09d3", "platform": "instagram", "handle": "fsh" }
+			{ "id": "1b78f46e-eeb5-46e9-8b12-b885e4c00834", "platform": "twitter", "handle": "https://twitter.com/fsh" },
+			{ "id": "87f57c6e-f92e-4f71-97c8-64e1cdba09d3", "platform": "instagram", "handle": "https://instagram.com/fsh" }
 		],
 		"eventLog": { "joined": "fdd8a523-cb14-4f75-b930-cabdfd149557", "volunteered": "f2765ee3-a817-45fa-8cd9-80a37b5784de" }
 	}

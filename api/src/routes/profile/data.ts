@@ -31,7 +31,7 @@ export async function doesProfileExist(database: D1Database, id: string) {
 }
 
 export async function nonExistingProfileIds(database: D1Database, ids: string[]) {
-	if (ids.length === 0) return [];
+	if (ids.length === 0) { return []; }
 
 	const { results } = await database.prepare(`
 		SELECT profile.id

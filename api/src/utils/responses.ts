@@ -226,7 +226,6 @@ export function statusResponseFormatter<T, C extends Context>(result: T, context
 			errors: Object.fromEntries(errors.issues.map(({ path, message }) => [path.join('.'), message]))
 		}, StatusCodes.UNPROCESSABLE_CONTENT);
 	}
-
 }
 
 export const HALLinkSchema = z

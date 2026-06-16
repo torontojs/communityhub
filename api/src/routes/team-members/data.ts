@@ -4,7 +4,7 @@ import { EventLog } from '../event-log/data.ts';
 import type { AddTeamMembers, TeamMemberInfo, UpdateTeamMembers } from './validation.ts';
 
 export async function nonExistingTeamMemberIds(database: D1Database, teamId: string, ids: string[]) {
-	if (ids.length === 0) return [];
+	if (ids.length === 0) { return []; }
 
 	const { results } = await database.prepare(`
 		SELECT role.id AS id

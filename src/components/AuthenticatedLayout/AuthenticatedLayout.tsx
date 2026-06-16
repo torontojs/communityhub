@@ -1,7 +1,7 @@
 import { type ReactNode, useState } from 'react';
 import './AuthenticatedLayout.css';
-import { handleLogOut } from '../../utilities/handleLogOut.ts';
 import { useAuth } from '../../context/AuthContext.tsx';
+import { handleLogOut } from '../../utilities/handleLogOut.ts';
 
 type ActivePage = 'community' | 'profile' | 'teams' | 'volunteer';
 

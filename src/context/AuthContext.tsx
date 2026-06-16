@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
 import { safeAvatarUrl } from '../utils/safeAvatarUrl.ts';
 
 type AccessLevel = 'admin' | 'organizer' | 'volunteer';
@@ -29,11 +29,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.JSX.E
 					signal: controller.signal
 				});
 
-				if (!response.ok) return;
+				if (!response.ok) { return; }
 
 				const data = await response.json() as { avatar?: string | null, access?: AccessLevel };
-				if (data.avatar) setAvatar(safeAvatarUrl(data.avatar));
-				if (data.access) setAccessLevel(data.access);
+				if (data.avatar) { setAvatar(safeAvatarUrl(data.avatar)); }
+				if (data.access) { setAccessLevel(data.access); }
 			} catch (error) {
 				if (error instanceof Error && error.name !== 'AbortError') {
 					console.error('Failed to load auth state:', error);
