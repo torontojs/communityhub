@@ -33,9 +33,11 @@ describe('safeAvatarUrl', () => {
 		expect(safeAvatarUrl('not a url')).toBe(DEFAULT);
 	});
 
-	// NOTE: documents current behavior. `URL.href` already percent-encodes the
-	// space to %20, then encodeURI() re-encodes the % to %25 — a double-encode bug.
-	it('double-encodes already-encoded characters (known quirk)', () => {
-		expect(safeAvatarUrl('https://example.com/a b.png')).toBe('https://example.com/a%2520b.png');
+	it('percent-encodes unsafe characters exactly once', () => {
+		expect(safeAvatarUrl('https://example.com/a b.png')).toBe('https://example.com/a%20b.png');
+	});
+
+	it('does not double-encode already-encoded characters', () => {
+		expect(safeAvatarUrl('https://example.com/a%20b.png')).toBe('https://example.com/a%20b.png');
 	});
 });
