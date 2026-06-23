@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import type { AccessLevel, ProfileStatus } from '../types/index.ts';
 import { safeAvatarUrl } from '../utils/safeAvatarUrl.ts';
 
@@ -63,8 +63,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.JSX.E
 		};
 	}, []);
 
+	const value = useMemo(
+		() => ({ avatar, accessLevel, isLoading, profileStatus }),
+		[avatar, accessLevel, isLoading, profileStatus]
+	);
+
 	return (
-		<AuthContext.Provider value={{ avatar, accessLevel, isLoading, profileStatus }}>
+		<AuthContext.Provider value={value}>
 			{children}
 		</AuthContext.Provider>
 	);
