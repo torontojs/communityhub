@@ -119,7 +119,7 @@ export async function getAllMembers(database: D1Database, teamId: string, limit?
 			profile.email AS email,
 			profile.isBasedOnGTA AS isBasedOnGTA,
 			(
-				SELECT GROUP_CONCAT(team.name, '||')
+				SELECT json_group_array(team.name)
 				FROM ${DBTables.ROLE} AS member_role
 				INNER JOIN ${DBTables.TEAM} AS team ON team.id = member_role.teamId
 				WHERE
@@ -142,12 +142,13 @@ export async function getAllMembers(database: D1Database, teamId: string, limit?
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
 		${limit ? 'LIMIT ? OFFSET ?' : ''}
-		`).bind(teamId, ...(limit ? [limit, offset] : [])).run<TeamMemberInfo>();
+		`).bind(teamId, ...(limit ? [limit, offset] : [])).run<Omit<TeamMemberInfo, 'teamNames'> & { teamNames: string | null }>();
 
 	return results.map((member) => ({
 		...member,
 		avatar: member.avatar ?? undefined,
-		isBasedOnGTA: Boolean(member.isBasedOnGTA)
+		isBasedOnGTA: Boolean(member.isBasedOnGTA),
+		teamNames: member.teamNames ? JSON.parse(member.teamNames) as string[] : []
 	}));
 }
 

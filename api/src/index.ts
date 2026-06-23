@@ -3,6 +3,7 @@ import { env } from 'cloudflare:workers';
 import { swaggerUI } from '@hono/swagger-ui';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { cors } from 'hono/cors';
+import { secureHeaders } from 'hono/secure-headers';
 import packageJson from '../../package.json' with { type: 'json' };
 import { authRoutes } from './routes/auth/index.ts';
 import { documentRoutes } from './routes/documents/index.ts';
@@ -20,6 +21,26 @@ export const app = new OpenAPIHono<EnvironmentBindings>({
 const apiRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
+
+// Browser hardening, applied to every Worker response (API + assets).
+app.use(
+	'/*',
+	secureHeaders({
+		contentSecurityPolicy: {
+			defaultSrc: ["'self'"],
+			baseUri: ["'self'"],
+			frameAncestors: ["'none'"],
+			objectSrc: ["'none'"]
+		},
+		permissionsPolicy: {
+			camera: [],
+			geolocation: [],
+			microphone: []
+		},
+		referrerPolicy: 'no-referrer',
+		xFrameOptions: 'DENY'
+	})
+);
 
 // Catch all error handler.
 apiRoutes.onError((err, context) => {

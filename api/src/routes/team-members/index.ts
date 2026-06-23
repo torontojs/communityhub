@@ -16,7 +16,7 @@ import { IdParamSchema, PaginationQuerySchema } from '../../utils/validation.ts'
 import { nonExistingProfileIds } from '../profile/data.ts';
 import { doesTeamExist } from '../team/data.ts';
 import { addTeamMembers, countAllMembers, deleteTeamMembers, getAllMembers, nonExistingTeamMemberIds, updateTeamMembers } from './data.ts';
-import { AddTeamMembersSchema, PublicTeamMemberInfoSchema, UpdateTeamMembersSchema } from './validation.ts';
+import { AddTeamMembersSchema, PublicTeamMemberInfoSchema, TeamMemberInfoSchema, UpdateTeamMembersSchema } from './validation.ts';
 
 export const teamMemberRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
@@ -81,6 +81,74 @@ teamMemberRoutes.openapi(
 				...paginationMeta,
 				size: members.length
 			} satisfies PaginatedResponse<typeof publicMembers>,
+			StatusCodes.OKAY
+		);
+	}
+);
+
+teamMemberRoutes.openapi(
+	createRoute({
+		method: 'get',
+		path: '/{id}/members/authenticated',
+		operationId: 'List team members (authenticated)',
+		summary: 'List members of a team with private fields',
+		description: 'Retrieves all members of a team including email, for authenticated users.',
+		request: {
+			params: IdParamSchema
+		},
+		tags: ['Team Members'],
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Successful response',
+				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(TeamMemberInfoSchema)) } }
+			},
+			[StatusCodes.UNAUTHORIZED]: {
+				description: 'No cookies found, invalid or missing token, invalid session or session expired.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.NOT_FOUND]: {
+				description: 'Error response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid pagination response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		},
+		middleware: [authMiddleware] as const
+	}),
+	async (context) => {
+		const { id } = context.req.valid('param');
+
+		const isTeamIdValid = await doesTeamExist(context.env.Database, id);
+		if (!isTeamIdValid) {
+			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
+		}
+
+		const pagination = PaginationQuerySchema.safeParse(context.req.query());
+
+		if (!pagination.success) {
+			return context.json(
+				{
+					message: 'Invalid pagination parameters',
+					errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
+		const totalMembersCount = await countAllMembers(context.env.Database, id);
+		const { limit: limitCount, page: currentPageCount } = pagination.data;
+		const { offset, ...paginationMeta } = buildPaginationMeta(context.req.url, totalMembersCount, limitCount, currentPageCount);
+
+		const members = await getAllMembers(context.env.Database, id, limitCount, offset);
+
+		return context.json(
+			{
+				data: members,
+				...paginationMeta,
+				size: members.length
+			} satisfies PaginatedResponse<typeof members>,
 			StatusCodes.OKAY
 		);
 	}

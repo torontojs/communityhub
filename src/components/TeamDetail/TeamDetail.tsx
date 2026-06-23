@@ -27,7 +27,7 @@ interface TeamMember {
 	name: string;
 	profileId: string;
 	profileName: string;
-	teamNames?: string;
+	teamNames?: string[];
 	avatar?: string;
 }
 
@@ -63,7 +63,7 @@ const UUID_RE = /^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i;
 
 const canManage = (access: AccessLevel | null): boolean => access === 'admin' || access === 'organizer';
 
-const matchesQuery = (query: string, ...fields: string[]): boolean => fields.some((field) => field.toLowerCase().includes(query));
+const matchesQuery = (query: string, ...fields: (string | undefined)[]): boolean => fields.some((field) => field?.toLowerCase().includes(query) ?? false);
 
 const filterProfiles = (profiles: ProfileOption[], memberIds: Set<string>, query: string): ProfileOption[] => {
 	const q = query.trim().toLowerCase();
@@ -77,7 +77,7 @@ const filterMembers = (members: TeamMember[], query: string): TeamMember[] => {
 	return q ? members.filter((m) => matchesQuery(q, m.profileName, m.email)) : members;
 };
 
-const getMemberTeamNames = (member: TeamMember, fallbackTeamName: string): string[] => (member.teamNames ?? fallbackTeamName).split('||').filter(Boolean);
+const getMemberTeamNames = (member: TeamMember, fallbackTeamName: string): string[] => member.teamNames && member.teamNames.length > 0 ? member.teamNames : [fallbackTeamName];
 
 const getInitials = (name: string): string =>
 	name
@@ -143,7 +143,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		try {
 			const [teamResponse, membersResponse] = await Promise.all([
 				fetch(`/api/teams/${encodeURIComponent(teamId)}`),
-				fetch(`/api/teams/${encodeURIComponent(teamId)}/members?limit=${pageSize}&page=${page}`)
+				fetch(`/api/teams/${encodeURIComponent(teamId)}/members/authenticated?limit=${pageSize}&page=${page}`, { credentials: 'include' })
 			]);
 
 			if (!teamResponse.ok) {
@@ -181,7 +181,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 
 		const fetchProfiles = async (): Promise<void> => {
 			try {
-				const response = await fetch('/api/profiles', { credentials: 'include' });
+				const response = await fetch('/api/profiles/authenticated', { credentials: 'include' });
 				if (!response.ok) {
 					throw new Error('Failed to fetch profiles');
 				}

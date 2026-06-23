@@ -68,6 +68,49 @@ profileRoutes.openapi(
 profileRoutes.openapi(
 	createRoute({
 		method: 'get',
+		path: '/authenticated',
+		operationId: 'List profiles (authenticated)',
+		summary: 'List profiles with private fields',
+		description: 'Retrieves a list of profiles including email, for authenticated users.',
+		tags: ['Profile'],
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Successful response',
+				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(ProfileSchema)) } }
+			},
+			[StatusCodes.UNAUTHORIZED]: {
+				description: 'No cookies found, invalid or missing token, invalid session or session expired.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		},
+		middleware: [authMiddleware] as const
+	}),
+	async (context) => {
+		const profiles = await getAllProfiles(context.env.Database);
+
+		return context.json(
+			{
+				data: profiles,
+				start: 0,
+				end: profiles.length - 1,
+				total: profiles.length,
+				size: profiles.length,
+				currentPage: 1,
+				lastPage: 1,
+				_links: {
+					self: { href: context.req.url },
+					first: { href: context.req.url },
+					last: { href: context.req.url }
+				}
+			} satisfies PaginatedResponse<typeof profiles>,
+			StatusCodes.OKAY
+		);
+	}
+);
+
+profileRoutes.openapi(
+	createRoute({
+		method: 'get',
 		path: '/self',
 		operationId: 'Get profile data',
 		summary: 'Get profile data of logged-in user',

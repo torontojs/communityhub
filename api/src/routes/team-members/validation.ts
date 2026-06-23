@@ -49,7 +49,7 @@ export const TeamMemberInfoSchema = z.object({
 	email: ProfileSchema.shape.email,
 	isBasedOnGTA: ProfileSchema.shape.isBasedOnGTA,
 	joinedTeamAt: TeamMembershipSchema.shape.insertedAt,
-	teamNames: z.string().optional()
+	teamNames: z.array(z.string()).optional()
 });
 
 export type TeamMemberInfo = z.infer<typeof TeamMemberInfoSchema>;
