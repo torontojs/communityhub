@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { type ProfileStatus, useAuth } from '../context/AuthContext.tsx';
+import { useAuth } from '../context/AuthContext.tsx';
+import type { ProfileStatus } from '../types/index.ts';
 
 type RedirectPathResult = string | null;
 

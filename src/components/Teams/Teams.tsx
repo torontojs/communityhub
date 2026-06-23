@@ -13,14 +13,6 @@ interface Team {
 	memberCount?: number;
 }
 
-export interface TeamMemberProfile {
-	id: string;
-	profileId: string;
-	profileName: string;
-	name: string;
-	avatar?: string;
-}
-
 interface PaginatedResponse<T> {
 	currentPage: number;
 	data: T[];

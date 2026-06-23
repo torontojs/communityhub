@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './TeamDetail.css';
 import { useAuth } from '../../context/AuthContext.tsx';
 import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
+import type { AccessLevel } from '../../types/index.ts';
 import AddTeamFormModal from '../AddTeamFormModal/AddTeamFormModal.tsx';
 import AuthenticatedLayout from '../AuthenticatedLayout/AuthenticatedLayout.tsx';
 import Button from '../Button/Button.tsx';
@@ -47,8 +48,6 @@ interface PaginatedResponse<T> {
 	lastPage: number;
 	total: number;
 }
-
-type AccessLevel = 'admin' | 'organizer' | 'volunteer';
 
 const FIRST_PAGE = 1;
 const MAXIMUM_VISIBLE_MEMBER_TEAMS = 2;

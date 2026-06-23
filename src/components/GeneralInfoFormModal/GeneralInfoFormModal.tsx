@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './GeneralInfoFormModal.css';
 import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
+import { getGravatarUrlType } from '../../utils/gravatar.ts';
 import Button from '../Button/Button.tsx';
 import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
 
@@ -26,8 +27,15 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 	const [avatarUrl, setAvatarUrl] = useState(initialAvatar);
 	const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 	const [avatarInput, setAvatarInput] = useState(initialAvatar);
+	const [avatarError, setAvatarError] = useState('');
 
 	const handleAvatarSave = (): void => {
+		const urlType = getGravatarUrlType(avatarInput);
+		if (urlType === 'invalid') {
+			setAvatarError('Please enter a valid Gravatar URL.');
+			return;
+		}
+		setAvatarError('');
 		setAvatarUrl(avatarInput);
 		setIsAvatarModalOpen(false);
 	};
@@ -40,6 +48,7 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 
 	const openAvatarModal = (): void => {
 		setAvatarInput(avatarUrl);
+		setAvatarError('');
 		setIsAvatarModalOpen(true);
 	};
 
@@ -157,8 +166,12 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 							label='Gravatar URL'
 							name='avatar-input'
 							value={avatarInput}
-							onChange={(e) => setAvatarInput((e.target as HTMLInputElement).value)}
+							onChange={(e) => {
+								setAvatarInput((e.target as HTMLInputElement).value);
+								setAvatarError('');
+							}}
 						/>
+						{avatarError && <p role='alert'>{avatarError}</p>}
 						<div className='general-info-avatar-dialog-actions'>
 							<Button type='button' hasOutline size='small' onClick={handleAvatarRemove}>
 								Remove photo

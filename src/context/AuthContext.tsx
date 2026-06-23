@@ -1,9 +1,6 @@
 import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
 import { safeAvatarUrl } from '../utils/safeAvatarUrl.ts';
-
-type AccessLevel = 'admin' | 'organizer' | 'volunteer';
-
-export type ProfileStatus = 'activated' | 'created' | 'deleted' | 'error' | 'profile-completed' | 'social-handle-provided' | 'tos-accepted';
+import type { AccessLevel, ProfileStatus } from '../types/index.ts';
 
 interface AuthState {
 	accessLevel: AccessLevel | null;
