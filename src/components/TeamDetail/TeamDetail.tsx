@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './TeamDetail.css';
 import { useAuth } from '../../context/AuthContext.tsx';
 import type { AccessLevel } from '../../types/index.ts';
+import { getInitials } from '../../utils/getInitials.ts';
 import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import AddTeamFormModal from '../AddTeamFormModal/AddTeamFormModal.tsx';
 import AuthenticatedLayout from '../AuthenticatedLayout/AuthenticatedLayout.tsx';
@@ -79,14 +80,6 @@ const filterMembers = (members: TeamMember[], query: string): TeamMember[] => {
 
 const getMemberTeamNames = (member: TeamMember, fallbackTeamName: string): string[] => member.teamNames && member.teamNames.length > 0 ? member.teamNames : [fallbackTeamName];
 
-const getInitials = (name: string): string =>
-	name
-		.split(' ')
-		.map((word) => word[0])
-		.filter(Boolean)
-		.slice(0, 2)
-		.join('')
-		.toUpperCase();
 
 const formatJoinedDate = (value: string): string => {
 	const date = new Date(value);

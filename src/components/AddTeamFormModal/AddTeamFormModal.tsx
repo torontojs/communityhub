@@ -1,4 +1,5 @@
 import './AddTeamFormModal.css';
+import { getInitials } from '../../utils/getInitials.ts';
 import Button from '../Button/Button.tsx';
 import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
 
@@ -11,14 +12,6 @@ interface Props {
 	onSubmit(event: React.FormEvent<HTMLFormElement>): Promise<boolean>;
 }
 
-const getInitials = (name: string): string =>
-	name
-		.split(' ')
-		.map((word) => word[0])
-		.filter(Boolean)
-		.slice(0, 2)
-		.join('')
-		.toUpperCase();
 
 const AddTeamFormModal = ({
 	error,
