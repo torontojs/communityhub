@@ -80,7 +80,6 @@ const filterMembers = (members: TeamMember[], query: string): TeamMember[] => {
 
 const getMemberTeamNames = (member: TeamMember, fallbackTeamName: string): string[] => member.teamNames && member.teamNames.length > 0 ? member.teamNames : [fallbackTeamName];
 
-
 const formatJoinedDate = (value: string): string => {
 	const date = new Date(value);
 

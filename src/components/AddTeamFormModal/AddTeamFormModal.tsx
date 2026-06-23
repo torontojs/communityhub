@@ -12,7 +12,6 @@ interface Props {
 	onSubmit(event: React.FormEvent<HTMLFormElement>): Promise<boolean>;
 }
 
-
 const AddTeamFormModal = ({
 	error,
 	initialDescription = '',
