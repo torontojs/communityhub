@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './GeneralInfoFormModal.css';
-import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import { getGravatarUrlType } from '../../utils/gravatar.ts';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import Button from '../Button/Button.tsx';
 import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
 

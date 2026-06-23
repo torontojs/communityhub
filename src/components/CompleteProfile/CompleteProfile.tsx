@@ -10,8 +10,8 @@ import { Threads } from '../Icons/Social/Threads.tsx';
 import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
-import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import { getGravatarAvatarUrl, getGravatarUrlType } from '../../utils/gravatar.ts';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 
 interface SocialIcons {
 	id: string;
@@ -36,7 +36,6 @@ interface ProfileParams {
 type UpdateProfileParams = Omit<ProfileParams, 'email'>;
 
 const platformEnum = ['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'];
-
 
 /**
  * Checks whether a birthday string is in the valid MM-DD format.
@@ -98,7 +97,6 @@ const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 		console.error(err);
 	}
 };
-
 
 // eslint-disable-next-line max-lines-per-function
 const CompleteProfile = () => {

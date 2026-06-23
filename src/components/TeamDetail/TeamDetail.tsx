@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import './TeamDetail.css';
 import { useAuth } from '../../context/AuthContext.tsx';
-import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import type { AccessLevel } from '../../types/index.ts';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import AddTeamFormModal from '../AddTeamFormModal/AddTeamFormModal.tsx';
 import AuthenticatedLayout from '../AuthenticatedLayout/AuthenticatedLayout.tsx';
 import Button from '../Button/Button.tsx';

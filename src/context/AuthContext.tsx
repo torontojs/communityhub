@@ -1,6 +1,6 @@
 import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
-import { safeAvatarUrl } from '../utils/safeAvatarUrl.ts';
 import type { AccessLevel, ProfileStatus } from '../types/index.ts';
+import { safeAvatarUrl } from '../utils/safeAvatarUrl.ts';
 
 interface AuthState {
 	accessLevel: AccessLevel | null;
