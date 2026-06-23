@@ -37,11 +37,11 @@
 	"dependencies": {
 		"@hono/swagger-ui": "0.5.2",
 		"@hono/zod-openapi": "1.0.2",
-		"hono": "^4.8.5",
+		"hono": "^4.12.25",
 		"open-props": "^1.7.23",
 		"react": "18.3.1",
 		"react-dom": "18.3.1",
-		"resend": "^4.7.0",
+		"resend": "^4.8.0",
 		"zxcvbn": "^4.4.2"
 	},
 	"devDependencies": {
@@ -66,8 +66,8 @@
 		"typescript": "5.8.3",
 		"vite": "^7.0.4",
 		"vitest": "3.2.6",
-		"wrangler": "^4.25.0",
-		"zod": "^4.0.5"
+		"wrangler": "^4.101.0",
+		"zod": "^4.4.3"
 	},
 	"volta": {
 		"node": "22.17.1"
