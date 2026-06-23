@@ -15,10 +15,10 @@ import {
 	StatusCodes,
 	type StatusResponse,
 	statusResponseFormatter,
-	StatusResponseSchema
+	StatusResponseSchema,
+	buildPaginationMeta
 } from '../../utils/responses.ts';
 import { IdParamSchema, PaginationQuerySchema } from '../../utils/validation.ts';
-import { buildPaginationMeta } from '../../utils/responses.ts';
 import { updateProfileStatus } from '../auth/data.ts';
 import { countAllProfiles, deleteProfileById, doesProfileExist, getAllProfiles, getProfileById, updateProfileById } from './data.ts';
 import { ProfileSchema, PublicProfileSchema, UpdateProfileSchema } from './validation.ts';
