@@ -1,19 +1,9 @@
 import { type ReactElement, useEffect, useState } from 'react';
 import './ProfileCard.css';
+import type { MemberProfile } from '../../types/index.ts';
 import { Facebook } from '../Icons/Social/Facebook.tsx';
 import { LinkedIn } from '../Icons/Social/LinkedIn.tsx';
 import { XTwitter } from '../Icons/Social/XTwitter.tsx';
-
-export interface MemberProfile {
-	id: string;
-	name: string;
-	email: string;
-	avatar?: string;
-	socialLinks?: Record<string, string>;
-	description?: string;
-	happenedAt: string;
-	insertedAt: string;
-}
 
 // Maps user's social media to a React Component containing the icon for the respective social media
 // => It picks up an icon based on the user's social media handle in database

@@ -3,7 +3,6 @@ import { env } from 'cloudflare:workers';
 import { swaggerUI } from '@hono/swagger-ui';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { cors } from 'hono/cors';
-import { secureHeaders } from 'hono/secure-headers';
 import packageJson from '../../package.json' with { type: 'json' };
 import { authRoutes } from './routes/auth/index.ts';
 import { documentRoutes } from './routes/documents/index.ts';
@@ -28,26 +27,6 @@ apiRoutes.onError((err, context) => {
 
 	return context.json({ message: 'An error has occured' }, StatusCodes.INTERNAL_SERVER_ERROR);
 });
-
-// Browser hardening only; these headers are not required for API functionality.
-apiRoutes.use(
-	'/*',
-	secureHeaders({
-		contentSecurityPolicy: {
-			defaultSrc: ["'self'"],
-			baseUri: ["'self'"],
-			frameAncestors: ["'none'"],
-			objectSrc: ["'none'"]
-		},
-		permissionsPolicy: {
-			camera: [],
-			geolocation: [],
-			microphone: []
-		},
-		referrerPolicy: 'no-referrer',
-		xFrameOptions: 'DENY'
-	})
-);
 
 // CORS middleware
 apiRoutes.use(

@@ -1,5 +1,5 @@
 import './TeamMemberCard.css';
-import type { TeamMemberProfile } from '../Teams/Teams.tsx';
+import type { TeamMemberProfile } from '../../types/index.ts';
 
 const getInitials = (name: string): string =>
 	name
