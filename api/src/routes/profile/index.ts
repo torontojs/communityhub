@@ -17,9 +17,10 @@ import {
 	statusResponseFormatter,
 	StatusResponseSchema
 } from '../../utils/responses.ts';
-import { IdParamSchema } from '../../utils/validation.ts';
+import { IdParamSchema, PaginationQuerySchema } from '../../utils/validation.ts';
+import { buildPaginationMeta } from '../../utils/responses.ts';
 import { updateProfileStatus } from '../auth/data.ts';
-import { deleteProfileById, doesProfileExist, getAllProfiles, getProfileById, updateProfileById } from './data.ts';
+import { countAllProfiles, deleteProfileById, doesProfileExist, getAllProfiles, getProfileById, updateProfileById } from './data.ts';
 import { ProfileSchema, PublicProfileSchema, UpdateProfileSchema } from './validation.ts';
 
 export const profileRoutes = new OpenAPIHono<EnvironmentBindings>({
@@ -38,27 +39,37 @@ profileRoutes.openapi(
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
 				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(PublicProfileSchema)) } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid pagination response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
 	}),
 	async (context) => {
-		const profiles = await getAllProfiles(context.env.Database);
+		const pagination = PaginationQuerySchema.safeParse(context.req.query());
+
+		if (!pagination.success) {
+			return context.json(
+				{
+					message: 'Invalid pagination parameters',
+					errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
+		const totalCount = await countAllProfiles(context.env.Database);
+		const { limit: limitCount, page: currentPageCount } = pagination.data;
+		const { offset, ...paginationMeta } = buildPaginationMeta(context.req.url, totalCount, limitCount, currentPageCount);
+		const profiles = await getAllProfiles(context.env.Database, limitCount, offset);
 		const publicProfiles = profiles.map(({ email: _email, birthday: _birthday, ...rest }) => rest);
 
 		return context.json(
 			{
 				data: publicProfiles,
-				start: 0,
-				end: profiles.length - 1,
-				total: profiles.length,
-				size: profiles.length,
-				currentPage: 1,
-				lastPage: 1,
-				_links: {
-					self: { href: context.req.url },
-					first: { href: context.req.url },
-					last: { href: context.req.url }
-				}
+				...paginationMeta,
+				size: publicProfiles.length
 			} satisfies PaginatedResponse<typeof publicProfiles>,
 			StatusCodes.OKAY
 		);
@@ -81,27 +92,37 @@ profileRoutes.openapi(
 			[StatusCodes.UNAUTHORIZED]: {
 				description: 'No cookies found, invalid or missing token, invalid session or session expired.',
 				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid pagination response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
 		middleware: [authMiddleware, authorizeOrganizer] as const
 	}),
 	async (context) => {
-		const profiles = await getAllProfiles(context.env.Database);
+		const pagination = PaginationQuerySchema.safeParse(context.req.query());
+
+		if (!pagination.success) {
+			return context.json(
+				{
+					message: 'Invalid pagination parameters',
+					errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
+		const totalCount = await countAllProfiles(context.env.Database);
+		const { limit: limitCount, page: currentPageCount } = pagination.data;
+		const { offset, ...paginationMeta } = buildPaginationMeta(context.req.url, totalCount, limitCount, currentPageCount);
+		const profiles = await getAllProfiles(context.env.Database, limitCount, offset);
 
 		return context.json(
 			{
 				data: profiles,
-				start: 0,
-				end: profiles.length - 1,
-				total: profiles.length,
-				size: profiles.length,
-				currentPage: 1,
-				lastPage: 1,
-				_links: {
-					self: { href: context.req.url },
-					first: { href: context.req.url },
-					last: { href: context.req.url }
-				}
+				...paginationMeta,
+				size: profiles.length
 			} satisfies PaginatedResponse<typeof profiles>,
 			StatusCodes.OKAY
 		);

@@ -242,7 +242,19 @@ export async function getProfileById(database: D1Database, id: string) {
 	return transformProfile(profile);
 }
 
-export async function getAllProfiles(database: D1Database) {
+export async function countAllProfiles(database: D1Database) {
+	const result = await database.prepare(`
+		SELECT COUNT(*) AS count
+		FROM ${DBTables.PROFILE} AS profile
+		JOIN ${DBTables.ACCESS} AS access ON access.id = profile.id
+		WHERE
+			access.activatedAt IS NOT NULL
+			AND access.deletedAt IS NULL
+	`).first<{ count: number }>();
+	return result?.count ?? 0;
+}
+
+export async function getAllProfiles(database: D1Database, limit?: number, offset = 0) {
 	const results = await database.batch([
 		database.prepare(`
 			SELECT profile.*, access.activatedAt, access.deletedAt
@@ -251,7 +263,8 @@ export async function getAllProfiles(database: D1Database) {
 			WHERE
 				access.activatedAt IS NOT NULL
 				AND access.deletedAt IS NULL
-		`),
+			${limit ? 'LIMIT ? OFFSET ?' : ''}
+		`).bind(...(limit ? [limit, offset] : [])),
 		database.prepare(`
 			SELECT pl.profileId, pl.platform, pl.url
 			FROM ${DBTables.PROFILE_LINKS} AS pl
