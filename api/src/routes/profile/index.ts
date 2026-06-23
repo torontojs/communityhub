@@ -8,6 +8,7 @@ import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { ACCESS_LEVEL, getSession } from '../../utils/auth.ts';
 import { resolveGravatarAvatarUrl } from '../../utils/gravatar.ts';
 import {
+	buildPaginationMeta,
 	type DataResponse,
 	generateDataResponseSchema,
 	generatePaginatedResponseSchema,
@@ -15,8 +16,7 @@ import {
 	StatusCodes,
 	type StatusResponse,
 	statusResponseFormatter,
-	StatusResponseSchema,
-	buildPaginationMeta
+	StatusResponseSchema
 } from '../../utils/responses.ts';
 import { IdParamSchema, PaginationQuerySchema } from '../../utils/validation.ts';
 import { updateProfileStatus } from '../auth/data.ts';
@@ -226,6 +226,10 @@ profileRoutes.openapi(
 			[StatusCodes.FORBIDDEN]: {
 				description: 'Users can only edit their own profiles.',
 				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.BAD_REQUEST]: {
+				description: 'Could not resolve Gravatar avatar URL.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
 		middleware: [bodySizeCheck, authMiddleware, authorizeVolunteer] as const
@@ -245,7 +249,15 @@ profileRoutes.openapi(
 		}
 
 		const body = context.req.valid('json');
-		body.avatar &&= (await resolveGravatarAvatarUrl(body.avatar)) ?? undefined;
+
+		if (body.avatar) {
+			const resolvedAvatar = await resolveGravatarAvatarUrl(body.avatar);
+			if (resolvedAvatar === null) {
+				return context.json({ message: 'Could not resolve Gravatar avatar. Please check the URL and try again.' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
+			}
+			body.avatar = resolvedAvatar;
+		}
+
 		const isUpdated = await updateProfileById(context.env.Database, id, body);
 
 		if (!isUpdated) {

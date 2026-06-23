@@ -36,6 +36,10 @@ authRoutes.openapi(
 			[StatusCodes.UNPROCESSABLE_CONTENT]: {
 				description: 'Weak Password found',
 				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.BAD_REQUEST]: {
+				description: 'Could not resolve Gravatar avatar URL.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
 		middleware: [bodySizeCheck] as const
@@ -56,7 +60,15 @@ authRoutes.openapi(
 		}
 
 		const hashedPasswordWithSalt = await hashPassword(password);
-		const resolvedAvatar = avatar ? (await resolveGravatarAvatarUrl(avatar)) ?? undefined : avatar;
+
+		let resolvedAvatar: string | undefined;
+		if (avatar) {
+			const result = await resolveGravatarAvatarUrl(avatar);
+			if (result === null) {
+				return context.json({ message: 'Could not resolve Gravatar avatar. Please check the URL and try again.' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
+			}
+			resolvedAvatar = result;
+		}
 		const { id } = await insertProfile(context.env.Database, { avatar: resolvedAvatar, email, password: hashedPasswordWithSalt, name });
 		await updateProfileStatus(context.env.Database, id);
 
