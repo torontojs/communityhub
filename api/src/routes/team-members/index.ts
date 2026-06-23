@@ -115,7 +115,7 @@ teamMemberRoutes.openapi(
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
-		middleware: [authMiddleware] as const
+		middleware: [authMiddleware, authorizeOrganizer] as const
 	}),
 	async (context) => {
 		const { id } = context.req.valid('param');
