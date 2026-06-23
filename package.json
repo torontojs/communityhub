@@ -46,7 +46,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "1.9.6",
-		"@cloudflare/vitest-pool-workers": "0.8.49",
+		"@cloudflare/vitest-pool-workers": "0.8.71",
 		"@orangeopensource/hurl": "6.1.4",
 		"@types/node": "^22.20.0",
 		"@types/react": "18.3.31",
