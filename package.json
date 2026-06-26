@@ -54,15 +54,15 @@
 		"zxcvbn": "^4.4.2"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "1.9.6",
+		"@cloudflare/vite-plugin": "1.12.4",
 		"@cloudflare/vitest-pool-workers": "0.12.21",
 		"@orangeopensource/hurl": "7.1.7",
 		"@types/node": "^22.20.0",
 		"@types/react": "18.3.31",
 		"@types/react-dom": "18.3.7",
 		"@types/zxcvbn": "^4.4.5",
-		"@typescript-eslint/eslint-plugin": "8.37.0",
-		"@typescript-eslint/parser": "8.37.0",
+		"@typescript-eslint/eslint-plugin": "8.46.0",
+		"@typescript-eslint/parser": "8.46.0",
 		"@vitejs/plugin-react": "^4.7.0",
 		"@vitest/coverage-v8": "^3.2.6",
 		"dprint": "0.54.0",
@@ -72,10 +72,10 @@
 		"eslint-plugin-react-refresh": "^0.5.3",
 		"globals": "16.5.0",
 		"husky": "9.1.7",
-		"typescript": "5.8.3",
-		"vite": "^7.3.5",
+		"typescript": "5.9.3",
+		"vite": "^7.3.6",
 		"vitest": "3.2.6",
-		"wrangler": "^4.103.0",
+		"wrangler": "^4.105.0",
 		"zod": "^4.4.3"
 	},
 	"volta": {
