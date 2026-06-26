@@ -1,5 +1,10 @@
 const GRAVATAR_HASH_PATTERN = /^[a-f0-9]{32}(?:[a-f0-9]{32})?$/u;
 
+/**
+ * Returns true when `url` is a direct Gravatar *image* URL — one that points
+ * straight at an avatar, e.g. `https://gravatar.com/avatar/<hash>`. These are
+ * ready to display as-is and need no further resolution.
+ */
 export function isGravatarAvatarUrl(url: string): boolean {
 	try {
 		const parsedUrl = new URL(url);
@@ -16,6 +21,13 @@ export function isGravatarAvatarUrl(url: string): boolean {
 	}
 }
 
+/**
+ * Returns true when `url` is a Gravatar *profile* URL rather than a direct
+ * image — either a human-facing profile page (`https://gravatar.com/<slug>`)
+ * or the profiles API (`https://api.gravatar.com/v3/profiles/<slug>`). These
+ * are not images themselves; the underlying avatar must be looked up via
+ * {@link resolveGravatarAvatarUrl}.
+ */
 export function isGravatarProfileUrl(url: string): boolean {
 	try {
 		const parsedUrl = new URL(url);
@@ -40,8 +52,22 @@ export function isGravatarProfileUrl(url: string): boolean {
 	}
 }
 
+/**
+ * Normalizes a user-supplied avatar URL into a displayable image URL.
+ *
+ * - Already a direct Gravatar image URL → returned unchanged.
+ * - Not a Gravatar profile URL (e.g. a custom host like
+ *   `https://example.com/me.png`) → passed through unchanged.
+ * - A Gravatar profile URL → the profiles API is queried and the underlying
+ *   `avatar_url` is returned.
+ *
+ * Returns `null` only when a Gravatar profile lookup fails or yields no valid
+ * avatar; callers should treat that as a validation failure.
+ */
 export async function resolveGravatarAvatarUrl(url: string): Promise<string | null> {
+	// Already a direct image — nothing to resolve.
 	if (isGravatarAvatarUrl(url)) { return url; }
+	// Not a Gravatar profile link — it's an arbitrary avatar URL, accept as-is.
 	if (!isGravatarProfileUrl(url)) { return url; }
 
 	const parsedUrl = new URL(url);
