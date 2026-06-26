@@ -1,9 +1,8 @@
 const GRAVATAR_HASH_PATTERN = /^[a-f0-9]{32}(?:[a-f0-9]{32})?$/u;
 
 /**
- * Returns true when `url` is a direct Gravatar *image* URL — one that points
- * straight at an avatar, e.g. `https://gravatar.com/avatar/<hash>`. These are
- * ready to display as-is and need no further resolution.
+ * True if `url` is a direct Gravatar *image* URL, e.g.
+ * `https://gravatar.com/avatar/<hash>`. Already displayable — no lookup needed.
  */
 export function isGravatarAvatarUrl(url: string): boolean {
 	try {
@@ -22,11 +21,10 @@ export function isGravatarAvatarUrl(url: string): boolean {
 }
 
 /**
- * Returns true when `url` is a Gravatar *profile* URL rather than a direct
- * image — either a human-facing profile page (`https://gravatar.com/<slug>`)
- * or the profiles API (`https://api.gravatar.com/v3/profiles/<slug>`). These
- * are not images themselves; the underlying avatar must be looked up via
- * {@link resolveGravatarAvatarUrl}.
+ * True if `url` is a Gravatar *profile* URL — a profile page
+ * (`https://gravatar.com/<slug>`) or the profiles API
+ * (`https://api.gravatar.com/v3/profiles/<slug>`). Not an image itself; the
+ * avatar must be looked up via {@link resolveGravatarAvatarUrl}.
  */
 export function isGravatarProfileUrl(url: string): boolean {
 	try {
@@ -53,36 +51,37 @@ export function isGravatarProfileUrl(url: string): boolean {
 }
 
 /**
- * Normalizes a Gravatar URL into a displayable image URL.
+ * Turns a Gravatar URL into a displayable image URL.
  *
- * Callers are expected to have already restricted the input to Gravatar URLs
- * (see `AvatarSchema` in profile validation, which rejects anything that is
- * neither a Gravatar avatar nor a Gravatar profile URL). Given that:
+ * - Direct image URL → returned as-is.
+ * - Profile URL → the image is looked up via the Gravatar profiles API.
  *
- * - Already a direct Gravatar image URL → returned unchanged.
- * - A Gravatar profile URL → the profiles API is queried and the underlying
- *   `avatar_url` is returned.
- *
- * Returns `null` only when a Gravatar profile lookup fails or yields no valid
- * avatar; callers should treat that as a validation failure.
+ * Returns `null` if a profile lookup fails or finds no valid avatar; callers
+ * treat that as a validation failure. Input is restricted to Gravatar URLs
+ * upstream by `AvatarSchema`, so the final fallthrough return is just a safety
+ * net.
  */
 export async function resolveGravatarAvatarUrl(url: string): Promise<string | null> {
-	// Already a direct image — nothing to resolve.
+	// A direct image URL is already displayable.
 	if (isGravatarAvatarUrl(url)) { return url; }
-	// Defensive: callers validate Gravatar-only upstream, so a non-profile URL
-	// shouldn't reach here. If one does, pass it through rather than fetch.
-	if (!isGravatarProfileUrl(url)) { return url; }
 
-	const parsedUrl = new URL(url);
-	const [firstPath = '', , thirdPath = ''] = parsedUrl.pathname.split('/').filter(Boolean);
-	const slug = parsedUrl.hostname === 'api.gravatar.com' ? thirdPath : firstPath;
-	try {
-		const response = await fetch(`https://api.gravatar.com/v3/profiles/${encodeURIComponent(slug.replace(/\.card$/iu, ''))}`);
-		if (!response.ok) { return null; }
+	// A profile URL points at a page, not an image — ask the profiles API for
+	// the avatar behind it.
+	if (isGravatarProfileUrl(url)) {
+		const parsedUrl = new URL(url);
+		const [firstPath = '', , thirdPath = ''] = parsedUrl.pathname.split('/').filter(Boolean);
+		const slug = parsedUrl.hostname === 'api.gravatar.com' ? thirdPath : firstPath;
+		try {
+			const response = await fetch(`https://api.gravatar.com/v3/profiles/${encodeURIComponent(slug.replace(/\.card$/iu, ''))}`);
+			if (!response.ok) { return null; }
 
-		const profile: { avatar_url?: string } = await response.json();
-		return profile.avatar_url && isGravatarAvatarUrl(profile.avatar_url) ? profile.avatar_url : null;
-	} catch {
-		return null;
+			const profile: { avatar_url?: string } = await response.json();
+			return profile.avatar_url && isGravatarAvatarUrl(profile.avatar_url) ? profile.avatar_url : null;
+		} catch {
+			return null;
+		}
 	}
+
+	// Not a Gravatar URL — unreachable given upstream validation; return as-is.
+	return url;
 }
