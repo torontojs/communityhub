@@ -51,6 +51,23 @@ export function isGravatarProfileUrl(url: string): boolean {
 }
 
 /**
+ * Pulls the profile slug (username or id) out of a Gravatar profile URL.
+ *
+ * Two shapes are supported, with the slug in different positions:
+ * - `https://gravatar.com/<slug>`                   → first path segment
+ * - `https://api.gravatar.com/v3/profiles/<slug>`   → third path segment
+ *
+ * A trailing `.card` (which Gravatar appends to some profile links) is stripped.
+ */
+function getGravatarProfileSlug(parsedUrl: URL): string {
+	const segments = parsedUrl.pathname.split('/').filter(Boolean);
+	const slug = parsedUrl.hostname === 'api.gravatar.com'
+		? segments[2] ?? '' // v3 / profiles / <slug>
+		: segments[0] ?? ''; // <slug>
+	return slug.replace(/\.card$/iu, '');
+}
+
+/**
  * Turns a Gravatar URL into a displayable image URL.
  *
  * - Direct image URL → returned as-is.
@@ -68,11 +85,9 @@ export async function resolveGravatarAvatarUrl(url: string): Promise<string | nu
 	// A profile URL points at a page, not an image — ask the profiles API for
 	// the avatar behind it.
 	if (isGravatarProfileUrl(url)) {
-		const parsedUrl = new URL(url);
-		const [firstPath = '', , thirdPath = ''] = parsedUrl.pathname.split('/').filter(Boolean);
-		const slug = parsedUrl.hostname === 'api.gravatar.com' ? thirdPath : firstPath;
+		const slug = getGravatarProfileSlug(new URL(url));
 		try {
-			const response = await fetch(`https://api.gravatar.com/v3/profiles/${encodeURIComponent(slug.replace(/\.card$/iu, ''))}`);
+			const response = await fetch(`https://api.gravatar.com/v3/profiles/${encodeURIComponent(slug)}`);
 			if (!response.ok) { return null; }
 
 			const profile: { avatar_url?: string } = await response.json();
