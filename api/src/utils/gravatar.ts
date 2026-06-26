@@ -53,11 +53,13 @@ export function isGravatarProfileUrl(url: string): boolean {
 }
 
 /**
- * Normalizes a user-supplied avatar URL into a displayable image URL.
+ * Normalizes a Gravatar URL into a displayable image URL.
+ *
+ * Callers are expected to have already restricted the input to Gravatar URLs
+ * (see `AvatarSchema` in profile validation, which rejects anything that is
+ * neither a Gravatar avatar nor a Gravatar profile URL). Given that:
  *
  * - Already a direct Gravatar image URL → returned unchanged.
- * - Not a Gravatar profile URL (e.g. a custom host like
- *   `https://example.com/me.png`) → passed through unchanged.
  * - A Gravatar profile URL → the profiles API is queried and the underlying
  *   `avatar_url` is returned.
  *
@@ -67,7 +69,8 @@ export function isGravatarProfileUrl(url: string): boolean {
 export async function resolveGravatarAvatarUrl(url: string): Promise<string | null> {
 	// Already a direct image — nothing to resolve.
 	if (isGravatarAvatarUrl(url)) { return url; }
-	// Not a Gravatar profile link — it's an arbitrary avatar URL, accept as-is.
+	// Defensive: callers validate Gravatar-only upstream, so a non-profile URL
+	// shouldn't reach here. If one does, pass it through rather than fetch.
 	if (!isGravatarProfileUrl(url)) { return url; }
 
 	const parsedUrl = new URL(url);
