@@ -1,6 +1,8 @@
+import { DEFAULT_AVATAR } from './constants.ts';
+
 export const safeAvatarUrl = (url: string | undefined): string => {
 	if (!url) {
-		return '/default-avatar.png';
+		return DEFAULT_AVATAR;
 	}
 	try {
 		const parsed = new URL(url);
@@ -10,7 +12,7 @@ export const safeAvatarUrl = (url: string | undefined): string => {
 			return parsed.href;
 		}
 	} catch {
-		return '/default-avatar.png';
+		return DEFAULT_AVATAR;
 	}
-	return '/default-avatar.png';
+	return DEFAULT_AVATAR;
 };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './ProtectedProfile.css';
+import { DEFAULT_AVATAR } from '../../utils/constants.ts';
 import AuthenticatedLayout from '../AuthenticatedLayout/AuthenticatedLayout.tsx';
 import Button from '../Button/Button.tsx';
 import DescriptionFormModal from '../DescriptoinFormModal/DescriptionFormModal.tsx';
@@ -29,7 +30,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [userId, setUserId] = useState<string>();
 	const [email, setEmail] = useState<string>('');
 	const [name, setName] = useState<string>('');
-	const [avatar, setAvatar] = useState<string>('/default-avatar.png');
+	const [avatar, setAvatar] = useState<string>(DEFAULT_AVATAR);
 	const [description, setDescription] = useState<string>('');
 	const [isBasedOnGTA, setIsBasedOnGTA] = useState<boolean | null>(null);
 	const [canJoinLocalEvents, setCanJoinLocalEvents] = useState<boolean | null>(null);
@@ -64,7 +65,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				setUserId(id);
 				setName(name);
 				setEmail(email);
-				setAvatar(avatar ?? '/default-avatar.png');
+				setAvatar(avatar ?? DEFAULT_AVATAR);
 				setDescription(description);
 				setIsBasedOnGTA(isBasedOnGTA);
 				setCanJoinLocalEvents(canJoinLocalEvents);
@@ -204,7 +205,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		if (!result) { return false; }
 
 		if (result.name) { setName(result.name); }
-		if (result.avatar !== undefined) { setAvatar(result.avatar ?? '/default-avatar.png'); }
+		if (result.avatar !== undefined) { setAvatar(result.avatar ?? DEFAULT_AVATAR); }
 		if (result.pronouns !== undefined) { setPronoun(result.pronouns ?? ''); }
 		setCanJoinLocalEvents(result.canJoinLocalEvents ?? null);
 		setIsBasedOnGTA(result.isBasedOnGTA ?? null);

@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { DEFAULT_AVATAR as DEFAULT } from './constants.ts';
 import { safeAvatarUrl } from './safeAvatarUrl.ts';
-
-const DEFAULT = '/default-avatar.png';
 
 describe('safeAvatarUrl', () => {
 	it('falls back to the default avatar when the url is undefined', () => {

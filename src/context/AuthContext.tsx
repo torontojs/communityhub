@@ -1,5 +1,6 @@
 import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import type { AccessLevel, ProfileStatus } from '../types/index.ts';
+import { DEFAULT_AVATAR } from '../utils/constants.ts';
 import { safeAvatarUrl } from '../utils/safeAvatarUrl.ts';
 
 interface AuthState {
@@ -8,8 +9,6 @@ interface AuthState {
 	isLoading: boolean;
 	profileStatus: ProfileStatus | null;
 }
-
-const DEFAULT_AVATAR = '/default-avatar.png';
 
 const AuthContext = createContext<AuthState>({
 	accessLevel: null,
