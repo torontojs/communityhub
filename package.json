@@ -7,37 +7,30 @@
 	"scripts": {
 		"dev": "vite dev",
 		"prepare": "husky",
-
 		"start": "npm run dev",
-
 		"dev:cron": "wrangler dev --test-scheduled",
-
 		"generate:types": "wrangler types api/src/env.d.ts",
 		"db:setup": "wrangler d1 migrations apply vms-local --local",
 		"db:seed": "wrangler d1 execute vms-local --local --file=./db/seeds/seed-data.sql",
-
 		"build": "vite build",
 		"prepreview": "npm run build",
 		"preview": "vite preview",
-
 		"predeploy:dev": "npm run build",
 		"deploy:dev": "wrangler deploy --minify --env dev",
-
 		"predeploy:prod": "npm run build",
 		"deploy:prod": "wrangler deploy --minify --env production",
-
 		"format": "dprint fmt",
 		"format:check": "dprint check",
-
 		"typecheck:api": "tsc -p ./api --noEmit",
 		"typecheck:client": "tsc -p ./src --noEmit",
 		"typecheck": "npm run typecheck:api && npm run typecheck:client",
 		"lint:js": "eslint",
 		"lint": "npm run typecheck && npm run lint:js",
-
 		"test:coverage": "vitest run --coverage",
-		"test:unit": "vitest run --exclude api/src/routes/auth/index.test.ts",
+		"test:unit": "vitest run --exclude api/src/routes/auth/index.test.ts --exclude \"tests/e2e/**\"",
 		"test:integration": "vitest run api/src/routes/auth/index.test.ts",
+		"test:e2e": "playwright test",
+		"test:e2e:ui": "playwright test --ui",
 		"test:api-file": "hurl --continue-on-error --jobs 4 --max-time 300 --test --variables-file .dev.vars --variables-file .api-test.vars",
 		"test:api": "npm run test:api-file -- --glob \"**/*.hurl\"",
 		"test:all": "npm run test:unit && npm run test:integration && npm run test:api",
@@ -57,6 +50,7 @@
 		"@cloudflare/vite-plugin": "1.12.4",
 		"@cloudflare/vitest-pool-workers": "0.12.21",
 		"@orangeopensource/hurl": "7.1.7",
+		"@playwright/test": "^1.61.1",
 		"@types/node": "^22.20.0",
 		"@types/react": "18.3.31",
 		"@types/react-dom": "18.3.7",
