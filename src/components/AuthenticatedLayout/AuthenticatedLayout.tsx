@@ -32,7 +32,7 @@ const navItems: {
 	},
 	{
 		id: 'teams',
-		href: '/pages/team',
+		href: '/pages/teams',
 		label: 'Teams'
 	},
 	{

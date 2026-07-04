@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './ProfileDetail.css';
+import { useAuth } from '../../context/AuthContext.tsx';
 import { DEFAULT_AVATAR } from '../../utils/constants.ts';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
 import Social from '../Social/Social.tsx';
@@ -22,7 +23,7 @@ interface Profile {
 	avatar?: string;
 	canJoinLocalEvents?: boolean;
 	description?: string;
-	email: string;
+	email?: string;
 	id: string;
 	isBasedOnGTA?: boolean;
 	links?: ProfileLink[];
@@ -43,6 +44,7 @@ interface Props {
 const UUID_RE = /^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i;
 
 const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
+	const { accessLevel } = useAuth();
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [pageError, setPageError] = useState<string | null>(null);
 	const [profile, setProfile] = useState<Profile | null>(null);
@@ -58,7 +60,9 @@ const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 			}
 
 			try {
-				const response = await fetch(`/api/profiles/${encodeURIComponent(profileId)}`);
+				const canViewPrivateFields = accessLevel === 'admin' || accessLevel === 'organizer';
+				const endpointSuffix = canViewPrivateFields ? '/authenticated' : '';
+				const response = await fetch(`/api/profiles/${encodeURIComponent(profileId)}${endpointSuffix}`, { credentials: 'include' });
 
 				if (!response.ok) {
 					throw new Error('Failed to fetch profile');
@@ -75,7 +79,7 @@ const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 		};
 
 		void fetchProfile();
-	}, [profileId]);
+	}, [accessLevel, profileId]);
 
 	if (!isLoaded) {
 		return <div aria-live='polite' role='status' className='profile-detail-status'>Loading profile...</div>;
@@ -98,10 +102,12 @@ const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 							<h2>{profile.name}</h2>
 							{profile.pronouns && <p>{profile.pronouns}</p>}
 							<div className='profile-detail-contact-info'>
-								<div className='profile-detail-email'>
-									<img src='/profile-email.png' alt='' />
-									{profile.email}
-								</div>
+								{profile.email && (
+									<div className='profile-detail-email'>
+										<img src='/profile-email.png' alt='' />
+										{profile.email}
+									</div>
+								)}
 								<div className='profile-detail-location'>
 									<img src='/location-icon.png' alt='' />
 									<p>{profile.isBasedOnGTA ? 'Based in GTA' : 'Not based in GTA'}</p>

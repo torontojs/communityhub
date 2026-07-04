@@ -20,6 +20,14 @@ jsonpath "$.data[*].id" contains "{{volunteer_id}}"
 jsonpath "$.data[*].id" not contains "{{deleted_id}}"
 jsonpath "$.data[0].email" exists
 
+# Organizers get a single profile including private fields
+GET {{host}}/api/profiles/{{volunteer_id}}/authenticated
+Cookie: auth_token={{auth-token}}
+HTTP 200
+[Asserts]
+jsonpath "$.data.id" == "{{volunteer_id}}"
+jsonpath "$.data.email" exists
+
 # Pagination respects limit
 GET {{host}}/api/profiles/authenticated?limit=1
 Cookie: auth_token={{auth-token}}

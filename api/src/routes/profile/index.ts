@@ -166,6 +166,49 @@ profileRoutes.openapi(
 profileRoutes.openapi(
 	createRoute({
 		method: 'get',
+		path: '/{id}/authenticated',
+		operationId: 'Get profile (authenticated)',
+		summary: 'Get profile with private fields',
+		description: 'Retrieves a single profile including private fields, for organizers and administrators.',
+		tags: ['Profile'],
+		request: {
+			params: IdParamSchema
+		},
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Successful response',
+				content: { 'application/json': { schema: generateDataResponseSchema(ProfileSchema) } }
+			},
+			[StatusCodes.UNAUTHORIZED]: {
+				description: 'No cookies found, invalid or missing token, invalid session or session expired.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.FORBIDDEN]: {
+				description: 'The authenticated user does not have organizer access.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.NOT_FOUND]: {
+				description: 'Error response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		},
+		middleware: [authMiddleware, authorizeOrganizer] as const
+	}),
+	async (context) => {
+		const { id } = context.req.valid('param');
+		const profile = await getProfileById(context.env.Database, id);
+
+		if (!profile) {
+			return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
+		}
+
+		return context.json({ data: profile, _links: { self: { href: context.req.url } } } satisfies DataResponse<typeof profile>, StatusCodes.OKAY);
+	}
+);
+
+profileRoutes.openapi(
+	createRoute({
+		method: 'get',
 		path: '/{id}',
 		operationId: 'Get profile',
 		summary: 'Get profile by ID',
@@ -177,7 +220,7 @@ profileRoutes.openapi(
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generateDataResponseSchema(ProfileSchema) } }
+				content: { 'application/json': { schema: generateDataResponseSchema(PublicProfileSchema) } }
 			},
 			[StatusCodes.NOT_FOUND]: {
 				description: 'Error response',
@@ -194,7 +237,8 @@ profileRoutes.openapi(
 			return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}
 
-		return context.json({ data: profile, _links: { self: { href: context.req.url } } } satisfies DataResponse<typeof profile>, StatusCodes.OKAY);
+		const publicProfile = PublicProfileSchema.parse(profile);
+		return context.json({ data: publicProfile, _links: { self: { href: context.req.url } } } satisfies DataResponse<typeof publicProfile>, StatusCodes.OKAY);
 	}
 );
 

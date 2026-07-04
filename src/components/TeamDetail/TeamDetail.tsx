@@ -21,7 +21,7 @@ interface Team {
 }
 
 interface TeamMember {
-	email: string;
+	email?: string;
 	id: string;
 	isBasedOnGTA: boolean;
 	joinedTeamAt: string;
@@ -133,9 +133,10 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 		}
 
 		try {
+			const membersEndpoint = canManageTeams ? 'members/authenticated' : 'members';
 			const [teamResponse, membersResponse] = await Promise.all([
 				fetch(`/api/teams/${encodeURIComponent(teamId)}`),
-				fetch(`/api/teams/${encodeURIComponent(teamId)}/members/authenticated?limit=${pageSize}&page=${page}`, { credentials: 'include' })
+				fetch(`/api/teams/${encodeURIComponent(teamId)}/${membersEndpoint}?limit=${pageSize}&page=${page}`, { credentials: 'include' })
 			]);
 
 			if (!teamResponse.ok) {
@@ -327,7 +328,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 			<div className='team-detail-page-header'>
 				<nav className='team-detail-breadcrumb' aria-label='Breadcrumb'>
 					<a href='/pages/home'>Community</a>
-					<a href='/pages/team'>Teams</a>
+					<a href='/pages/teams'>Teams</a>
 					<span>{team.name}</span>
 				</nav>
 				<div className='team-detail-title-row'>
