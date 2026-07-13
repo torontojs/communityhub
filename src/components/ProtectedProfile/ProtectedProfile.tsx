@@ -27,6 +27,14 @@ interface ProfileTeam {
 	role?: string;
 }
 
+interface GeneralInfoData {
+	avatar?: string | null;
+	canJoinLocalEvents: boolean;
+	isBasedOnGTA: boolean;
+	name: string;
+	pronouns?: string | null;
+}
+
 export const ProtectedProfile = (): React.JSX.Element => {
 	const [userId, setUserId] = useState<string>();
 	const [email, setEmail] = useState<string>('');
@@ -166,7 +174,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		}
 	};
 
-	const updateGeneralInfo = async (data: { name: string, avatar?: string | null, pronouns?: string, isBasedOnGTA: boolean, canJoinLocalEvents: boolean }) => {
+	const updateGeneralInfo = async (data: GeneralInfoData) => {
 		try {
 			const response = await fetch(`/api/profiles/${userId}`, {
 				method: 'PATCH',
@@ -182,7 +190,14 @@ export const ProtectedProfile = (): React.JSX.Element => {
 				return null;
 			}
 
-			return data;
+			const profileResponse = await fetch('/api/profiles/self', { credentials: 'include' });
+			if (!profileResponse.ok) {
+				console.error('Profile refresh not ok, ', profileResponse);
+				return null;
+			}
+
+			const { data: savedData } = await profileResponse.json() as { data: GeneralInfoData };
+			return savedData;
 		} catch (error) {
 			console.error('Update general info error, ', error);
 			return null;

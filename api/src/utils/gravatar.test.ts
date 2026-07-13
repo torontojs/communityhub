@@ -63,6 +63,13 @@ describe('resolveGravatarAvatarUrl', () => {
 		expect(await resolveGravatarAvatarUrl('https://gravatar.com/johnsmith')).toBe(AVATAR_URL);
 	});
 
+	it('resolves the gleamingb80de23538 profile URL to its numbered Gravatar avatar host', async () => {
+		const avatarUrl = 'https://2.gravatar.com/avatar/f5111607a361fc4d3d500f33193de4fee7d5667b5a714a7765d389a89de3fefa';
+		mockFetch({ ok: true, body: { [AVATAR_URL_FIELD]: avatarUrl } });
+
+		expect(await resolveGravatarAvatarUrl('https://gravatar.com/gleamingb80de23538')).toBe(avatarUrl);
+	});
+
 	it('extracts the slug from an api.gravatar.com profile URL', async () => {
 		const fetchMock = mockFetch({ ok: true, body: { [AVATAR_URL_FIELD]: AVATAR_URL } });
 
