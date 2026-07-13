@@ -17,15 +17,15 @@ export const getHeartBeat = async (): Promise<boolean> => {
 
 // Public page: redirect away if already authenticated
 export const useHeartBeat = () => {
-	const { isLoading, profileStatus } = useAuth();
+	const { isAuthenticated, isLoading } = useAuth();
 
 	useEffect(() => {
 		if (isLoading) { return; }
-		if (profileStatus !== null) { window.location.href = '/pages/home'; }
-	}, [isLoading, profileStatus]);
+		if (isAuthenticated) { window.location.href = '/pages/home'; }
+	}, [isAuthenticated, isLoading]);
 
 	if (isLoading) { return null; }
-	if (profileStatus !== null) { return null; }
+	if (isAuthenticated) { return null; }
 	return true;
 };
 

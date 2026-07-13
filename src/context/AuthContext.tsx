@@ -6,6 +6,7 @@ import { safeAvatarUrl } from '../utils/safeAvatarUrl.ts';
 interface AuthState {
 	accessLevel: AccessLevel | null;
 	avatar: string;
+	isAuthenticated: boolean;
 	isLoading: boolean;
 	profileStatus: ProfileStatus | null;
 }
@@ -13,6 +14,7 @@ interface AuthState {
 const AuthContext = createContext<AuthState>({
 	accessLevel: null,
 	avatar: DEFAULT_AVATAR,
+	isAuthenticated: false,
 	isLoading: true,
 	profileStatus: null
 });
@@ -20,6 +22,7 @@ const AuthContext = createContext<AuthState>({
 export const AuthProvider = ({ children }: { children: ReactNode }): React.JSX.Element => {
 	const [avatar, setAvatar] = useState<string>(DEFAULT_AVATAR);
 	const [accessLevel, setAccessLevel] = useState<AccessLevel | null>(null);
+	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 	const [profileStatus, setProfileStatus] = useState<ProfileStatus | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -45,6 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.JSX.E
 				if (data.avatar) { setAvatar(safeAvatarUrl(data.avatar)); }
 				if (data.access) { setAccessLevel(data.access); }
 				if (data.status) { setProfileStatus(data.status); }
+				setIsAuthenticated(true);
 				setIsLoading(false);
 			} catch (error) {
 				if (!cancelled && error instanceof Error && error.name !== 'AbortError') {
@@ -63,8 +67,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.JSX.E
 	}, []);
 
 	const value = useMemo(
-		() => ({ avatar, accessLevel, isLoading, profileStatus }),
-		[avatar, accessLevel, isLoading, profileStatus]
+		() => ({ avatar, accessLevel, isAuthenticated, isLoading, profileStatus }),
+		[avatar, accessLevel, isAuthenticated, isLoading, profileStatus]
 	);
 
 	return (

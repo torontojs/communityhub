@@ -72,14 +72,14 @@ const getRedirectPathForStatus = (status: ProfileStatus, currentPath: string): R
 };
 
 export const useProfileRedirect = () => {
-	const { isLoading, profileStatus } = useAuth();
+	const { isAuthenticated, isLoading, profileStatus } = useAuth();
 	const [redirectionComplete, setRedirectionComplete] = useState<boolean | null>(null);
 
 	useEffect(() => {
 		if (isLoading) { return; }
 
 		const currentPath = normalizePath(new URL(window.location.href).pathname);
-		const validStatus = profileStatus && isValidStatus(profileStatus) ? profileStatus : null;
+		const validStatus = isAuthenticated && profileStatus && isValidStatus(profileStatus) ? profileStatus : null;
 		const redirectPath: RedirectPathResult = validStatus ? getRedirectPathForStatus(validStatus, currentPath) : REDIRECT_PATHS.signIn;
 
 		if (!redirectPath) {
@@ -92,7 +92,7 @@ export const useProfileRedirect = () => {
 		} else {
 			setRedirectionComplete(true);
 		}
-	}, [isLoading, profileStatus]);
+	}, [isAuthenticated, isLoading, profileStatus]);
 
 	return redirectionComplete;
 };
