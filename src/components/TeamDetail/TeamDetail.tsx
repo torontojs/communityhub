@@ -52,11 +52,10 @@ interface PaginatedResponse<T> {
 
 const FIRST_PAGE = 1;
 const MAXIMUM_VISIBLE_MEMBER_TEAMS = 2;
-const TEAM_MEMBERS_PAGE_SIZE_LARGE = 25;
-const TEAM_MEMBERS_PAGE_SIZE_MAXIMUM = 50;
-const TEAM_MEMBERS_PAGE_SIZE_SMALL = 5;
-const TEAM_MEMBERS_PAGE_SIZE = 10;
-const TEAM_MEMBERS_PAGE_SIZE_OPTIONS = [TEAM_MEMBERS_PAGE_SIZE_SMALL, TEAM_MEMBERS_PAGE_SIZE, TEAM_MEMBERS_PAGE_SIZE_LARGE, TEAM_MEMBERS_PAGE_SIZE_MAXIMUM];
+const MAXIMUM_PAGE_SIZE = 100;
+const TEAM_MEMBERS_PAGE_SIZE = 20;
+const TEAM_MEMBERS_PAGE_SIZE_MEDIUM = 50;
+const TEAM_MEMBERS_PAGE_SIZE_OPTIONS = [TEAM_MEMBERS_PAGE_SIZE, TEAM_MEMBERS_PAGE_SIZE_MEDIUM, MAXIMUM_PAGE_SIZE];
 const PROFILE_SEARCH_LIMIT = 5;
 const TOAST_DURATION_MS = 4000;
 
@@ -174,7 +173,7 @@ const TeamDetail = ({ teamId }: Props): React.JSX.Element => {
 
 		const fetchProfiles = async (): Promise<void> => {
 			try {
-				const response = await fetch('/api/profiles/authenticated', { credentials: 'include' });
+				const response = await fetch(`/api/profiles/authenticated?limit=${MAXIMUM_PAGE_SIZE}`, { credentials: 'include' });
 				if (!response.ok) {
 					throw new Error('Failed to fetch profiles');
 				}

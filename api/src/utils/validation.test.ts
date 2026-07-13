@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { IdParamSchema, PaginationQuerySchema } from './validation.ts';
+import { DEFAULT_PAGINATION_LIMIT, IdParamSchema, PaginationQuerySchema } from './validation.ts';
 
 const VALID_UUID = '3c5123c0-8548-4a02-a83c-32e9ce67eae8';
 
 describe('PaginationQuerySchema', () => {
-	it('defaults page to 1 when omitted', () => {
+	it('defaults limit to 20 and page to 1 when omitted', () => {
 		const result = PaginationQuerySchema.safeParse({});
 
 		expect(result.success).toBe(true);
-		expect(result.data).toEqual({ page: 1 });
+		expect(result.data).toEqual({ limit: DEFAULT_PAGINATION_LIMIT, page: 1 });
 	});
 
 	it('coerces numeric strings', () => {
@@ -18,15 +18,19 @@ describe('PaginationQuerySchema', () => {
 		expect(result.data).toEqual({ limit: 10, page: 2 });
 	});
 
-	it('treats limit as optional', () => {
+	it('defaults limit to 20 when omitted', () => {
 		const result = PaginationQuerySchema.safeParse({ page: '3' });
 
 		expect(result.success).toBe(true);
-		expect(result.data?.limit).toBeUndefined();
+		expect(result.data?.limit).toBe(DEFAULT_PAGINATION_LIMIT);
 	});
 
 	it('rejects a limit of 0', () => {
 		expect(PaginationQuerySchema.safeParse({ limit: '0' }).success).toBe(false);
+	});
+
+	it('rejects a limit greater than 100', () => {
+		expect(PaginationQuerySchema.safeParse({ limit: '101' }).success).toBe(false);
 	});
 
 	it('rejects a page of 0', () => {
