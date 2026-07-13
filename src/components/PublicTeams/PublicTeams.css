@@ -1,0 +1,9 @@
+.public-teams-grid .team-card {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.public-teams-grid .team-card-body { flex: 1; }
+
+.public-teams-grid .team-card-icon { display: flex; }
