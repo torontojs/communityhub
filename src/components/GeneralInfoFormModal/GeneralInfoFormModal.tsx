@@ -28,6 +28,7 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 	const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 	const [avatarInput, setAvatarInput] = useState(initialAvatar);
 	const [avatarError, setAvatarError] = useState('');
+	const avatarPreview = (url: string): string => getGravatarUrlType(url) === 'profile' ? safeAvatarUrl(undefined) : safeAvatarUrl(url);
 
 	const handleAvatarSave = (): void => {
 		const urlType = getGravatarUrlType(avatarInput);
@@ -80,7 +81,7 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 							aria-label='Edit profile photo'
 							onClick={openAvatarModal}
 						>
-							<img src={safeAvatarUrl(avatarUrl)} alt='' />
+							<img src={avatarPreview(avatarUrl)} alt='' />
 							<span className='general-info-avatar-overlay' aria-hidden='true'>Edit</span>
 						</button>
 						<input type='hidden' name='avatar' value={avatarUrl} />
@@ -160,7 +161,7 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 							</button>
 						</div>
 						<div className='general-info-avatar-dialog-preview'>
-							<img src={safeAvatarUrl(avatarInput)} alt='Preview' />
+							<img src={avatarPreview(avatarInput)} alt='Preview' />
 						</div>
 						<TextInputComponent
 							label='Gravatar URL'
