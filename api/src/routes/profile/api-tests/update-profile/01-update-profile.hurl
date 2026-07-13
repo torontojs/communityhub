@@ -19,7 +19,8 @@ Cookie: auth_token={{auth-token}}
 HTTP 200
 
 # Verify if profile was updated
-GET {{host}}/api/profiles/{{update_profile_id}}
+GET {{host}}/api/profiles/self
+Cookie: auth_token={{auth-token}}
 HTTP 200
 [Asserts]
 jsonpath "$.data.name" == "Updated Name"
