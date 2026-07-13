@@ -7,7 +7,6 @@ import { StatusCodes } from '../../utils/responses.ts';
 beforeAll(async () => {
 	await applyD1Migrations(env.Database, env.TEST_MIGRATIONS);
 });
-
 beforeEach(async () => {
 	await env.Database.exec(env.SEED_SQL);
 	const activationKeys = await env.ActivationTokens.list();
@@ -238,6 +237,39 @@ describe('Authentication routes', () => {
 	});
 
 	describe('POST /api/auth/reset-password', () => {
+		it('resets a password using a token created by the forgot-password route', async () => {
+			const email = 'king.arthur@camelot.uk';
+			const password = 'An Even Stronger Reset Password 84! With Symbols';
+
+			const forgotPasswordResponse = await app.request('/api/auth/forgot-password', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email })
+			}, env);
+			expect(forgotPasswordResponse.status).toBe(StatusCodes.OKAY);
+
+			const token = await env.PasswordResetToken.get(email);
+			expect(token).toBeTruthy();
+			if (!token) { throw new Error('Expected a password reset token'); }
+			expect(await env.PasswordResetToken.get(token)).toBe(email);
+
+			const resetPasswordResponse = await app.request('/api/auth/reset-password', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token, password })
+			}, env);
+			expect(resetPasswordResponse.status).toBe(StatusCodes.OKAY);
+			expect(await env.PasswordResetToken.get(email)).toBeNull();
+			expect(await env.PasswordResetToken.get(token)).toBeNull();
+
+			const signInResponse = await app.request('/api/auth/sign-in', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email, password })
+			}, env);
+			expect(signInResponse.status).toBe(StatusCodes.OKAY);
+		});
+
 		it('invalidates a password reset token after successful use', async () => {
 			const token = '99141843-fb98-48ca-90d7-3f7c14831e2c';
 			const email = 'king.arthur@camelot.uk';
