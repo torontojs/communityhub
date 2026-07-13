@@ -32,11 +32,38 @@ describe('buildPaginationMeta', () => {
 		expect(meta.lastPage).toBe(3);
 	});
 
-	it('reports at least one page when there are no results', () => {
+	it('uses zero-based metadata when there are no results', () => {
 		const meta = buildPaginationMeta(URL_BASE, 0, 10, 1);
 
 		expect(meta.lastPage).toBe(1);
 		expect(meta.offset).toBe(0);
+		expect(meta.start).toBe(0);
+		expect(meta.end).toBe(0);
+	});
+
+	it('uses zero-based metadata when there are no results and no limit', () => {
+		const meta = buildPaginationMeta(URL_BASE, 0, undefined, 1);
+
+		expect(meta.lastPage).toBe(1);
+		expect(meta.offset).toBe(0);
+		expect(meta.start).toBe(0);
+		expect(meta.end).toBe(0);
+	});
+
+	it('uses index zero when there is exactly one result', () => {
+		const meta = buildPaginationMeta(URL_BASE, 1, 10, 1);
+
+		expect(meta.start).toBe(0);
+		expect(meta.end).toBe(0);
+	});
+
+	it('uses zero-based metadata when the requested page is beyond the last page', () => {
+		const meta = buildPaginationMeta(URL_BASE, 25, 10, 4);
+
+		expect(meta.offset).toBe(30);
+		expect(meta.start).toBe(0);
+		expect(meta.end).toBe(0);
+		expect(meta.lastPage).toBe(3);
 	});
 
 	it('builds self/first/last links carrying the limit and page query params', () => {

@@ -335,9 +335,30 @@ export function generatePaginatedResponseSchema<T extends unknown[]>(data: ZodTy
 
 export type PaginatedResponse<T extends unknown[]> = z.infer<ReturnType<typeof generatePaginatedResponseSchema<T>>>;
 
+/**
+ * Builds zero-based pagination metadata. `start` and `end` are inclusive indexes.
+ * Both are `0` when the requested page has no results, preventing negative or
+ * inverted index ranges. If no limit is provided, all results belong to one page.
+ */
 export function buildPaginationMeta(url: string, total: number, limit: number | undefined, page: number) {
-	const lastPageCount = !limit ? 1 : Math.max(1, Math.ceil(total / limit));
-	const offset = !limit ? 0 : ((page - 1) * limit);
+	const hasLimit = limit !== undefined;
+
+	let lastPageCount = 1;
+	let offset = 0;
+
+	if (hasLimit) {
+		lastPageCount = Math.max(1, Math.ceil(total / limit));
+		offset = (page - 1) * limit;
+	}
+
+	const hasResultsOnCurrentPage = total > offset;
+	const start = hasResultsOnCurrentPage ? offset : 0;
+	let end = start;
+
+	if (hasResultsOnCurrentPage) {
+		const lastResultIndex = total - 1;
+		end = hasLimit ? Math.min(offset + limit - 1, lastResultIndex) : lastResultIndex;
+	}
 
 	const firstPage = new URL(url);
 	firstPage.searchParams.set('limit', limit?.toString() ?? '');
@@ -351,8 +372,8 @@ export function buildPaginationMeta(url: string, total: number, limit: number | 
 
 	return {
 		offset,
-		start: offset,
-		end: !limit || offset + limit > total ? total - 1 : offset + limit - 1,
+		start,
+		end,
 		total,
 		currentPage: page,
 		lastPage: lastPageCount,
