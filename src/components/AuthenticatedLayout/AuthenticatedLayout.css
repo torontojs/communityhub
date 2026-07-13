@@ -42,7 +42,6 @@
 .authenticated-layout .sidebar-left {
 	border-right: var(--border);
 	box-sizing: border-box;
-	height: 41.25rem;
 	padding: var(--spacing-md) var(--spacing-sm);
 	width: 17.5rem;
 }
