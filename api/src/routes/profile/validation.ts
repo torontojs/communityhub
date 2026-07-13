@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { LONG_TEXT_SIZE_IN_CHAR, SHORT_TEXT_SIZE_IN_CHAR } from '../../middleware/body-size.ts';
 import { BaseDbEntitySchema, BaseDBFieldsToOmit, IdSchema } from '../../utils/db.ts';
+import { isGravatarAvatarUrl, isGravatarProfileUrl } from '../../utils/gravatar.ts';
 import { TeamSchema } from '../team/validation.ts';
 
 export const PlatformEnumSchema = z.enum([
@@ -25,9 +26,9 @@ export type SocialMediaPlatforms = z.infer<typeof PlatformEnumSchema>;
 export const PlatformLinkOrUserSchema = z
 	.string()
 	.trim()
-	.min(1, 'Social media url/user must be at least one character long.')
-	.max(SHORT_TEXT_SIZE_IN_CHAR, `Social media url/user must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
-	.describe('The social media url or username for a platform.');
+	.min(1, 'Social media URL must be at least one character long.')
+	.max(SHORT_TEXT_SIZE_IN_CHAR, `Social media URL must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
+	.describe('The HTTPS URL for a social media or platform profile.');
 
 export type PlatformLink = z.infer<typeof PlatformLinkOrUserSchema>;
 
@@ -59,6 +60,13 @@ export const ProfileTeamSchema = z.object({
 });
 
 export type ProfileTeam = z.infer<typeof ProfileTeamSchema>;
+
+const AvatarSchema = z
+	.url()
+	.trim()
+	.min(1, 'Avatar must be at least one character long.')
+	.max(SHORT_TEXT_SIZE_IN_CHAR, `Avatar must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
+	.refine((url) => isGravatarAvatarUrl(url) || isGravatarProfileUrl(url), { message: 'Avatar must be a Gravatar URL.' });
 
 export const ProfileSchema = BaseDbEntitySchema.extend(
 	z.object({
@@ -104,18 +112,22 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 			)
 			.optional()
 			.describe("User's birthday, month and day only. Year is not included."),
-		avatar: z
-			.url()
-			.trim()
-			.min(1, 'Avatar must be at least one character long.')
-			.max(SHORT_TEXT_SIZE_IN_CHAR, `Avatar must be at most ${SHORT_TEXT_SIZE_IN_CHAR} characters long.`)
+		avatar: AvatarSchema
 			.optional()
 			.describe("The user's avatar URL."),
 		links: z.array(
 			z.object({
 				platform: PlatformEnumSchema,
 				url: PlatformLinkOrUserSchema
-			})
+			}).refine(({ platform, url }) => {
+				if (platform === 'slack') { return true; }
+
+				try {
+					return new URL(url).protocol === 'https:';
+				} catch {
+					return false;
+				}
+			}, { message: 'Social media URL must be a valid HTTPS URL.', path: ['url'] })
 		)
 			.optional()
 			.describe('A list of objects containing platform names and respective links for social media and platforms the person want to make available on the Community Hub.'),
@@ -132,13 +144,17 @@ export const ProfileSchema = BaseDbEntitySchema.extend(
 
 export type Profile = z.infer<typeof ProfileSchema>;
 
-export const CreateProfileSchema = ProfileSchema.pick({ name: true, email: true }).extend(z.object({ password: z.string() }).shape);
+export const PublicProfileSchema = ProfileSchema.omit({ email: true, birthday: true });
+export type PublicProfile = z.infer<typeof PublicProfileSchema>;
+
+export const CreateProfileSchema = ProfileSchema.pick({ avatar: true, name: true, email: true }).extend(z.object({ password: z.string() }).shape);
 
 export type CreateProfileData = z.infer<typeof CreateProfileSchema>;
 
 export const UpdateProfileSchema = ProfileSchema
 	.omit({ ...BaseDBFieldsToOmit, email: true })
 	.partial()
+	.extend({ avatar: AvatarSchema.nullable().optional() })
 	.refine(
 		(data) => Object.keys(data).length > 0,
 		{ message: 'At least one property is required.' }

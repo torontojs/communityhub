@@ -1,36 +1,195 @@
-.team {
-	margin: 3rem auto 4rem auto;
-	max-width: 60.625rem;
-	min-width: 20rem;
-	padding: 0 1rem;
+.teams-page {
+	margin: 0.625rem 0.9375rem 2.5rem;
+	max-width: 57.5rem;
 }
 
-h1 {
-	color: var(--color-grey-dark);
-	font-size: 2.5rem;
-	font-weight: 700;
-	text-align: center;
+.teams-page-header { margin-bottom: 1.25rem; }
+
+.teams-breadcrumb {
+	align-items: center;
+	color: var(--color-gray-600);
+	display: flex;
+	font-size: var(--text-xs);
+	gap: 0.5rem;
+	margin-bottom: 1.25rem;
 }
 
-.team-header h2 {
-	color: var(--color-grey-dark);
-	font-size: 2rem;
-	font-weight: 300;
+.teams-breadcrumb a {
+	color: var(--color-black);
+	font-weight: var(--weight-semibold);
+	text-decoration: underline;
+}
+
+.teams-breadcrumb span::before {
+	color: var(--color-gray-500);
+	content: '>';
+	margin-right: 0.5rem;
+}
+
+.teams-title-row {
+	align-items: center;
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+}
+
+.teams-title-row h1 {
+	color: var(--color-black);
+	font-size: var(--text-xl);
+	font-weight: var(--weight-bold);
+	line-height: 1.2;
 	margin: 0;
+	text-align: left;
 }
 
-.team-body {
+.teams-title-row .teams-add-button {
+	min-height: 2.25rem;
+	padding-inline: 1rem;
+	width: 9rem;
+}
+
+.teams-list {
 	display: flex;
 	flex-direction: column;
-}
-.team-members-list {
-	display: grid;
 	gap: 1rem;
-	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
-ul {
-	list-style-type: none;
-	margin: 0;
-	padding-left: 0;
+.teams-page-status {
+	border: var(--border);
+	border-color: rgba(140, 140, 140, 0.2);
+	border-radius: var(--rounded-md);
+	color: var(--color-gray-600);
+	font-size: var(--text-sm);
+	margin: 2rem auto;
+	max-width: 57.5rem;
+	padding: 1.25rem;
+}
+
+.teams-empty-state {
+	align-items: center;
+	border: var(--border);
+	border-color: rgba(140, 140, 140, 0.2);
+	border-radius: var(--rounded-md);
+	display: flex;
+	flex-direction: column;
+	min-height: 10.25rem;
+	justify-content: center;
+	padding: 2rem 1rem;
+}
+
+.teams-empty-state .container {
+	height: 5rem;
+	width: 5rem;
+}
+
+.teams-empty-state .empty-icon {
+	height: 4rem;
+	width: 4rem;
+}
+
+.teams-empty-state .empty-icon-ellipse {
+	height: 0.4375rem;
+	width: 5rem;
+}
+
+.teams-empty-state p {
+	color: var(--color-gray-500);
+	font-size: var(--text-xs);
+	margin: 0.25rem 0 0.75rem;
+}
+
+.teams-empty-state button {
+	all: unset;
+	color: var(--color-accent);
+	cursor: pointer;
+	font-size: var(--text-xs);
+	font-weight: var(--weight-semibold);
+}
+
+.teams-pagination {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	margin-top: var(--spacing-sm);
+}
+
+.teams-pagination label {
+	align-items: center;
+	display: flex;
+	gap: var(--spacing-xs);
+}
+
+.teams-pagination span,
+.teams-pagination select {
+	color: var(--color-gray-600);
+	font-size: var(--text-xs);
+}
+
+.teams-pagination select {
+	background-color: var(--color-background);
+	border: var(--border);
+	border-radius: var(--rounded-sm);
+	padding: 0.25rem var(--spacing-sm);
+}
+
+.teams-pagination nav {
+	display: flex;
+	gap: var(--spacing-xs);
+}
+
+.teams-pagination button {
+	background-color: transparent;
+	border: 0;
+	border-radius: var(--rounded-full);
+	color: var(--color-gray-600);
+	cursor: pointer;
+	font-size: var(--text-xs);
+	height: 1.5rem;
+	padding: 0;
+	width: 1.5rem;
+}
+
+.teams-pagination button[aria-current='page'] {
+	background-color: var(--color-gray-700);
+	color: var(--color-white);
+}
+
+@media screen and (max-width: 64rem) {
+	.teams-page {
+		margin-inline: 0.9375rem;
+		max-width: none;
+	}
+}
+
+@media screen and (max-width: 40rem) {
+	.teams-breadcrumb { display: none; }
+
+	.teams-page {
+		margin: 0 1rem 2rem;
+		max-width: none;
+	}
+
+	.teams-page-header { margin-bottom: 1rem; }
+
+	.teams-title-row {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.teams-title-row h1 { font-size: var(--text-lg); }
+
+	.teams-title-row .teams-add-button {
+		align-self: flex-end;
+		width: 9rem;
+	}
+
+	.teams-list { gap: 0.75rem; }
+
+	.teams-empty-state {
+		min-height: 8.25rem;
+		padding: 1.5rem 1rem;
+	}
 }

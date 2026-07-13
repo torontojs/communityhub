@@ -3,6 +3,8 @@ import { EventLog } from '../event-log/data.ts';
 import type { AddTeamMembers, TeamMemberInfo, UpdateTeamMembers } from './validation.ts';
 
 export async function nonExistingTeamMemberIds(database: D1Database, teamId: string, ids: string[]) {
+	if (ids.length === 0) { return []; }
+
 	const { results } = await database.prepare(`
 		SELECT role.id AS id
 		FROM ${DBTables.ROLE} AS role
@@ -62,25 +64,37 @@ export async function addTeamMembers(database: D1Database, teamId: string, data:
 
 export async function updateTeamMembers(database: D1Database, teamId: string, data: UpdateTeamMembers) {
 	const results = await database.batch([
-		...data.map(({ id: roleId, description, name }) =>
-			database.prepare(`
+		...data.map(({ id: roleId, description, name }) => {
+			const keys: string[] = [];
+			const values: string[] = [];
+
+			if (name !== undefined) {
+				keys.push('name = ?');
+				values.push(name);
+			}
+
+			if (description !== undefined) {
+				keys.push('description = ?');
+				values.push(description);
+			}
+
+			return database.prepare(`
 				UPDATE ${DBTables.ROLE}
 				SET
-					name = ?,
-					description = ?
+					${keys.join(', ')}
 				WHERE
 					id = ?
 					AND teamId = ?
 					AND deletedAt IS NULL
-			`).bind(name ?? '', description ?? '', roleId, teamId)
-		)
+			`).bind(...values, roleId, teamId);
+		})
 	]);
 
 	return results.every(({ success }) => success);
 }
 
 export async function countAllMembers(database: D1Database, teamId: string) {
-	const { results } = await database.prepare(`
+	const result = await database.prepare(`
 		SELECT COUNT(*) AS count FROM ${DBTables.ROLE} AS role
 		INNER JOIN ${DBTables.ACCESS} AS access ON access.id = role.profileId
 		INNER JOIN ${DBTables.PROFILE} AS profile ON profile.id = role.profileId
@@ -89,8 +103,8 @@ export async function countAllMembers(database: D1Database, teamId: string) {
 			AND role.deletedAt IS NULL
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
-	`).bind(teamId).run();
-	return results;
+	`).bind(teamId).first<{ count: number }>();
+	return result?.count ?? 0;
 }
 
 export async function getAllMembers(database: D1Database, teamId: string, limit?: number, offset = 0) {
@@ -98,9 +112,21 @@ export async function getAllMembers(database: D1Database, teamId: string, limit?
 		SELECT
 			role.id AS id,
 			role.name AS name,
+			role.insertedAt AS joinedTeamAt,
 			profile.id AS profileId,
 			profile.name AS profileName,
-			profile.avatar AS avatar
+			profile.avatar AS avatar,
+			profile.email AS email,
+			profile.isBasedOnGTA AS isBasedOnGTA,
+			(
+				SELECT json_group_array(team.name)
+				FROM ${DBTables.ROLE} AS member_role
+				INNER JOIN ${DBTables.TEAM} AS team ON team.id = member_role.teamId
+				WHERE
+					member_role.profileId = profile.id
+					AND member_role.deletedAt IS NULL
+					AND team.deletedAt IS NULL
+			) AS teamNames
 		FROM ${DBTables.ROLE} AS role
 		INNER JOIN
 			${DBTables.ACCESS} AS access
@@ -115,10 +141,15 @@ export async function getAllMembers(database: D1Database, teamId: string, limit?
 			AND role.deletedAt IS NULL
 			AND access.activatedAt IS NOT NULL
 			AND access.deletedAt IS NULL
-		${limit ? `LIMIT ${limit} OFFSET ${offset}` : ''}
-		`).bind(teamId).run<TeamMemberInfo>();
+		${limit ? 'LIMIT ? OFFSET ?' : ''}
+		`).bind(teamId, ...(limit ? [limit, offset] : [])).run<Omit<TeamMemberInfo, 'teamNames'> & { teamNames: string | null }>();
 
-	return results;
+	return results.map((member) => ({
+		...member,
+		avatar: member.avatar ?? undefined,
+		isBasedOnGTA: Boolean(member.isBasedOnGTA),
+		teamNames: member.teamNames ? JSON.parse(member.teamNames) as string[] : []
+	}));
 }
 
 export async function deleteTeamMembers(database: D1Database, teamId: string, data: string[]) {

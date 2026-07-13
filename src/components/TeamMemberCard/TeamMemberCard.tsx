@@ -1,29 +1,30 @@
 import './TeamMemberCard.css';
-import type { TeamMemberProfile } from '../Teams/Teams.tsx';
+import type { TeamMemberProfile } from '../../types/index.ts';
+import { getInitials } from '../../utils/getInitials.ts';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 
 const TeamMemberCard = (props: TeamMemberProfile) => (
 	<article className='team-member-card'>
 		<a
-			href={props.socialLinks ? props.socialLinks['linkedin'] : '#'}
-			target='_blank'
+			href={`/pages/profile?id=${props.profileId}`}
 			className='team-member-profile-link'
 		>
 			<div className='team-member-profile'>
-				<picture>
-					<img
-						className='avatar'
-						src={props.avatar ?? '/default-avatar.png'}
-						alt={`Team ${props.name} Avatar`}
-					/>
-				</picture>
+				{props.avatar ?
+					(
+						<picture>
+							<img
+								className='avatar'
+								src={safeAvatarUrl(props.avatar)}
+								alt={`${props.profileName} avatar`}
+							/>
+						</picture>
+					) :
+					<span className='avatar'>{getInitials(props.profileName)}</span>}
 				<header>
-					<h3 className='team-member-card-heading'>{props.name}</h3>
+					<h4 className='team-member-card-heading'>{props.profileName}</h4>
 				</header>
-				<div className='social-media-links'>
-					<ul aria-label='Social Media Links'>
-						<li>linkedin</li>
-					</ul>
-				</div>
+				<p className='team-member-role'>{props.name}</p>
 			</div>
 		</a>
 	</article>

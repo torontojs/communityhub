@@ -217,7 +217,8 @@ export const StatusResponseSchema = z
 
 export type StatusResponse = z.infer<typeof StatusResponseSchema>;
 
-export function statusResponseFormatter<T, C extends Context>(result: T, context: C) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function statusResponseFormatter<T, C extends Context>(result: T, context: C): any {
 	const errors = (result as { error: ZodError | undefined })?.error;
 
 	if (errors instanceof ZodError) {
@@ -225,8 +226,6 @@ export function statusResponseFormatter<T, C extends Context>(result: T, context
 			errors: Object.fromEntries(errors.issues.map(({ path, message }) => [path.join('.'), message]))
 		}, StatusCodes.UNPROCESSABLE_CONTENT);
 	}
-
-	return context.req;
 }
 
 export const HALLinkSchema = z
@@ -271,10 +270,10 @@ export const HALPaginatedResponseSchema = z.object({
 				.describe('The URL for the last resource. Note that this could be the same as the URL for the current resource.'),
 			next: HALLinkSchema
 				.optional()
-				.describe('The URL for the previous resource, if there is any.'),
+				.describe('The URL for the next resource, if there is any.'),
 			prev: HALLinkSchema
 				.optional()
-				.describe('The URL for the next resource, if there is any.')
+				.describe('The URL for the previous resource, if there is any.')
 		})
 		.describe('A list of links providing information about related data for this resource.')
 });
@@ -335,3 +334,53 @@ export function generatePaginatedResponseSchema<T extends unknown[]>(data: ZodTy
 }
 
 export type PaginatedResponse<T extends unknown[]> = z.infer<ReturnType<typeof generatePaginatedResponseSchema<T>>>;
+
+/**
+ * Builds zero-based pagination metadata. `start` and `end` are inclusive indexes.
+ * Both are `0` when the requested page has no results, preventing negative or
+ * inverted index ranges. If no limit is provided, all results belong to one page.
+ */
+export function buildPaginationMeta(url: string, total: number, limit: number | undefined, page: number) {
+	const hasLimit = limit !== undefined;
+
+	let lastPageCount = 1;
+	let offset = 0;
+
+	if (hasLimit) {
+		lastPageCount = Math.max(1, Math.ceil(total / limit));
+		offset = (page - 1) * limit;
+	}
+
+	const hasResultsOnCurrentPage = total > offset;
+	const start = hasResultsOnCurrentPage ? offset : 0;
+	let end = start;
+
+	if (hasResultsOnCurrentPage) {
+		const lastResultIndex = total - 1;
+		end = hasLimit ? Math.min(offset + limit - 1, lastResultIndex) : lastResultIndex;
+	}
+
+	const firstPage = new URL(url);
+	firstPage.searchParams.set('limit', limit?.toString() ?? '');
+	firstPage.searchParams.set('page', '1');
+	const currentPage = new URL(url);
+	currentPage.searchParams.set('limit', limit?.toString() ?? '');
+	currentPage.searchParams.set('page', page.toString());
+	const lastPage = new URL(url);
+	lastPage.searchParams.set('limit', limit?.toString() ?? '');
+	lastPage.searchParams.set('page', lastPageCount.toString());
+
+	return {
+		offset,
+		start,
+		end,
+		total,
+		currentPage: page,
+		lastPage: lastPageCount,
+		_links: {
+			self: { href: currentPage.toString() },
+			first: { href: firstPage.toString() },
+			last: { href: lastPage.toString() }
+		}
+	};
+}

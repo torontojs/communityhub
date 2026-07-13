@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 import ProfileList from '../../components/ProfileList.tsx';
 
-import 'open-props';
+import '../../index.css';
 import './style.css';
 
 const root = document.getElementById('root') as HTMLDivElement;

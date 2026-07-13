@@ -45,7 +45,14 @@ export const TeamMemberInfoSchema = z.object({
 	name: TeamMembershipSchema.shape.name,
 	profileId: ProfileSchema.shape.id,
 	profileName: ProfileSchema.shape.name,
-	avatar: ProfileSchema.shape.avatar
+	avatar: ProfileSchema.shape.avatar,
+	email: ProfileSchema.shape.email,
+	isBasedOnGTA: ProfileSchema.shape.isBasedOnGTA,
+	joinedTeamAt: TeamMembershipSchema.shape.insertedAt,
+	teamNames: z.array(z.string()).optional()
 });
 
 export type TeamMemberInfo = z.infer<typeof TeamMemberInfoSchema>;
+
+export const PublicTeamMemberInfoSchema = TeamMemberInfoSchema.omit({ email: true });
+export type PublicTeamMemberInfo = z.infer<typeof PublicTeamMemberInfoSchema>;

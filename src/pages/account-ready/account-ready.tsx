@@ -1,4 +1,3 @@
-import 'open-props';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import AccountReadyForm from '../../components/AccountReady/AccountReady.tsx';

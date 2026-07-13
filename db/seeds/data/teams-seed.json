@@ -148,5 +148,45 @@
 			}
 		],
 		"eventLog": { "created": "214342a4-5565-446b-a2ca-97d372dd5f7c" }
+	},
+	{
+		"id": "d7fc8dd1-2b51-449d-9fb2-b837b53bb98d",
+		"name": "Committee for Elaborate Tea Breaks",
+		"description": "Schedules carefully structured pauses for tea, biscuits, and extended discussion of kettle readiness.",
+		"organizerId": "3c5123c0-8548-4a02-a83c-32e9ce67eae8",
+		"roles": [],
+		"eventLog": { "created": "516989a8-095d-4486-a20d-685fb367d744" }
+	},
+	{
+		"id": "b356f5e5-578c-4772-a781-f2b7c135d337",
+		"name": "Office of Excessive Paperwork",
+		"description": "Produces forms, copies, and approval workflows for situations that previously required none.",
+		"organizerId": "3c5123c0-8548-4a02-a83c-32e9ce67eae8",
+		"roles": [],
+		"eventLog": { "created": "9939ba66-2406-4c4f-bd92-fb8b0db564df" }
+	},
+	{
+		"id": "97fc9cad-f325-41ac-a4e8-cf2fb30b40c1",
+		"name": "Bureau of Unexpected Meetings",
+		"description": "Coordinates spontaneous calendar invitations with unclear agendas and ambitious follow-up sessions.",
+		"organizerId": "3c5123c0-8548-4a02-a83c-32e9ce67eae8",
+		"roles": [],
+		"eventLog": { "created": "5af291d1-37c2-4084-8b5d-0163b63d62bf" }
+	},
+	{
+		"id": "2fe1ed1f-56dc-498d-95e2-5240c9115a79",
+		"name": "Department of Strategic Queueing",
+		"description": "Researches orderly lines, advanced waiting techniques, and the optimal placement of velvet ropes.",
+		"organizerId": "3c5123c0-8548-4a02-a83c-32e9ce67eae8",
+		"roles": [],
+		"eventLog": { "created": "297ee048-7045-450c-93fe-0ea92ed32f89" }
+	},
+	{
+		"id": "139e78a2-9d36-4f31-9828-3446ca4d3da6",
+		"name": "Council for Very Important Memos",
+		"description": "Drafts formal notices about formatting standards, meeting etiquette, and the circulation of future notices.",
+		"organizerId": "3c5123c0-8548-4a02-a83c-32e9ce67eae8",
+		"roles": [],
+		"eventLog": { "created": "05519aec-685b-403c-a84b-e9eb853f4ba4" }
 	}
 ]

@@ -7,12 +7,12 @@
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'65c09d85-eda1-470e-9a2e-9ce7a1994613', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'root@torontojs.com', 'root',
-	'they/them', '01-01', 'root'
+	'they/them', '01-01', 'root', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000001?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -55,7 +55,7 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'bb07af9c-3a1c-4d0b-a51b-3b99e7220351', 'site', 'torontojs.com', '65c09d85-eda1-470e-9a2e-9ce7a1994613'
+	'bb07af9c-3a1c-4d0b-a51b-3b99e7220351', 'site', 'https://torontojs.com', '65c09d85-eda1-470e-9a2e-9ce7a1994613'
 );
 
 
@@ -98,6 +98,161 @@ VALUES (
 
 -- #endregion
 
+-- #region Team: Committee for Elaborate Tea Breaks
+-- Create team
+INSERT INTO "team" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name",
+	"description"
+)
+VALUES (
+	'd7fc8dd1-2b51-449d-9fb2-b837b53bb98d', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Committee for Elaborate Tea Breaks',
+	'Schedules carefully structured pauses for tea, biscuits, and extended discussion of kettle readiness.'
+);
+
+-- Add team to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'516989a8-095d-4486-a20d-685fb367d744', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 'profile',
+	'created',
+	'd7fc8dd1-2b51-449d-9fb2-b837b53bb98d', 'team'
+);
+
+-- Team members
+
+-- #endregion
+
+-- #region Team: Office of Excessive Paperwork
+-- Create team
+INSERT INTO "team" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name",
+	"description"
+)
+VALUES (
+	'b356f5e5-578c-4772-a781-f2b7c135d337', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Office of Excessive Paperwork',
+	'Produces forms, copies, and approval workflows for situations that previously required none.'
+);
+
+-- Add team to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'9939ba66-2406-4c4f-bd92-fb8b0db564df', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 'profile',
+	'created',
+	'b356f5e5-578c-4772-a781-f2b7c135d337', 'team'
+);
+
+-- Team members
+
+-- #endregion
+
+-- #region Team: Bureau of Unexpected Meetings
+-- Create team
+INSERT INTO "team" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name",
+	"description"
+)
+VALUES (
+	'97fc9cad-f325-41ac-a4e8-cf2fb30b40c1', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Bureau of Unexpected Meetings',
+	'Coordinates spontaneous calendar invitations with unclear agendas and ambitious follow-up sessions.'
+);
+
+-- Add team to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'5af291d1-37c2-4084-8b5d-0163b63d62bf', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 'profile',
+	'created',
+	'97fc9cad-f325-41ac-a4e8-cf2fb30b40c1', 'team'
+);
+
+-- Team members
+
+-- #endregion
+
+-- #region Team: Department of Strategic Queueing
+-- Create team
+INSERT INTO "team" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name",
+	"description"
+)
+VALUES (
+	'2fe1ed1f-56dc-498d-95e2-5240c9115a79', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Department of Strategic Queueing',
+	'Researches orderly lines, advanced waiting techniques, and the optimal placement of velvet ropes.'
+);
+
+-- Add team to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'297ee048-7045-450c-93fe-0ea92ed32f89', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 'profile',
+	'created',
+	'2fe1ed1f-56dc-498d-95e2-5240c9115a79', 'team'
+);
+
+-- Team members
+
+-- #endregion
+
+-- #region Team: Council for Very Important Memos
+-- Create team
+INSERT INTO "team" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"name",
+	"description"
+)
+VALUES (
+	'139e78a2-9d36-4f31-9828-3446ca4d3da6', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'Council for Very Important Memos',
+	'Drafts formal notices about formatting standards, meeting etiquette, and the circulation of future notices.'
+);
+
+-- Add team to event log
+INSERT INTO "event_log" (
+	"id", "schemaVersion", "happenedAt", "insertedAt",
+	"subject", "subjectSource",
+	"verb",
+	"object", "objectSource"
+)
+VALUES (
+	'05519aec-685b-403c-a84b-e9eb853f4ba4', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
+	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 'profile',
+	'created',
+	'139e78a2-9d36-4f31-9828-3446ca4d3da6', 'team'
+);
+
+-- Team members
+
+-- #endregion
+
 -- #region User: king.arthur@camelot.uk
 
 -- Email: "king.arthur@camelot.uk"
@@ -107,12 +262,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'3c5123c0-8548-4a02-a83c-32e9ce67eae8', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'king.arthur@camelot.uk', 'King Arthur',
-	'he/him', '03-14', 'Gallant monarch forever seeking sacred drinkware.'
+	'he/him', '03-14', 'Gallant monarch forever seeking sacred drinkware.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000002?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -175,35 +330,35 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'4d6edf63-0592-4430-9773-98a85d39dd50', 'twitter', 'arthur_king', '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
+	'4d6edf63-0592-4430-9773-98a85d39dd50', 'twitter', 'https://twitter.com/arthur_king', '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'03f5b336-4b5a-4af7-9c6e-106d6ddd6ebd', 'github', 'arthur-king', '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
+	'03f5b336-4b5a-4af7-9c6e-106d6ddd6ebd', 'github', 'https://github.com/arthur-king', '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'bb774f31-83ad-4531-885b-45551217a59c', 'linkedin', 'arthur.king', '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
+	'bb774f31-83ad-4531-885b-45551217a59c', 'linkedin', 'https://linkedin.com/in/arthur.king', '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'db7df7ea-7a63-4d7c-b8fa-0e8afac910be', 'mastodon', 'arthur_king@mastodon.social', '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
+	'db7df7ea-7a63-4d7c-b8fa-0e8afac910be', 'mastodon', 'https://mastodon.social/@arthur_king', '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'4f4286de-6b54-4df0-acea-d33b3230e0bd', 'instagram', 'arthur_king', '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
+	'4f4286de-6b54-4df0-acea-d33b3230e0bd', 'instagram', 'https://instagram.com/arthur_king', '3c5123c0-8548-4a02-a83c-32e9ce67eae8'
 );
 
 INSERT INTO "profile_links" (
@@ -262,12 +417,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'bf950534-e8f9-4f5a-a246-610aa63faf21', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'black.knight@bridgeguard.io', 'Black Knight',
-	'he/him', '10-31', 'Won’t let minor flesh wounds hinder workplace performance.'
+	'he/him', '10-31', 'Won’t let minor flesh wounds hinder workplace performance.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000003?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -330,7 +485,7 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'32d80497-320a-4bad-9ef7-9c295c76a8fa', 'twitter', 'black_knight', 'bf950534-e8f9-4f5a-a246-610aa63faf21'
+	'32d80497-320a-4bad-9ef7-9c295c76a8fa', 'twitter', 'https://twitter.com/black_knight', 'bf950534-e8f9-4f5a-a246-610aa63faf21'
 );
 
 INSERT INTO "profile_links" (
@@ -389,12 +544,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'37a4882c-3b7d-46c0-b019-c37e2445dae8', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'sir.robin@cowardly.co', 'Sir Robin',
-	'he/him', '07-07', 'Bravely runs from every KPI imaginable.'
+	'he/him', '07-07', 'Bravely runs from every KPI imaginable.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000004?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -457,21 +612,21 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'654e4cc0-4213-4081-b6ea-a0861f0e0f7c', 'twitter', 'robin_brave', '37a4882c-3b7d-46c0-b019-c37e2445dae8'
+	'654e4cc0-4213-4081-b6ea-a0861f0e0f7c', 'twitter', 'https://twitter.com/robin_brave', '37a4882c-3b7d-46c0-b019-c37e2445dae8'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'6cd29831-2f1f-40f9-b1fe-e3e2f7188d4c', 'instagram', 'robin_brave', '37a4882c-3b7d-46c0-b019-c37e2445dae8'
+	'6cd29831-2f1f-40f9-b1fe-e3e2f7188d4c', 'instagram', 'https://instagram.com/robin_brave', '37a4882c-3b7d-46c0-b019-c37e2445dae8'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'fd7831a1-4884-4155-8179-c13ed7e7393a', 'bluesky', 'robin.brave', '37a4882c-3b7d-46c0-b019-c37e2445dae8'
+	'fd7831a1-4884-4155-8179-c13ed7e7393a', 'bluesky', 'https://bsky.app/profile/robin.brave', '37a4882c-3b7d-46c0-b019-c37e2445dae8'
 );
 
 
@@ -523,12 +678,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'890cae10-7bbd-4f0c-961a-df495ec7527b', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'lancelot@heroics.inc', 'Sir Lancelot',
-	'he/him', '01-26', 'Over-zealous champion who solves problems with a flying tackle.'
+	'he/him', '01-26', 'Over-zealous champion who solves problems with a flying tackle.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000005?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -591,35 +746,35 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'f95c3854-baeb-48e2-8641-deb4000557f1', 'twitter', 'lancelot_daring', '890cae10-7bbd-4f0c-961a-df495ec7527b'
+	'f95c3854-baeb-48e2-8641-deb4000557f1', 'twitter', 'https://twitter.com/lancelot_daring', '890cae10-7bbd-4f0c-961a-df495ec7527b'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'a81a7194-431c-4205-8862-f4007ac88b57', 'instagram', 'lancelot_daring', '890cae10-7bbd-4f0c-961a-df495ec7527b'
+	'a81a7194-431c-4205-8862-f4007ac88b57', 'instagram', 'https://instagram.com/lancelot_daring', '890cae10-7bbd-4f0c-961a-df495ec7527b'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'df54288e-80d1-4f79-b78b-355e968c17e2', 'linkedin', 'lancelot.daring', '890cae10-7bbd-4f0c-961a-df495ec7527b'
+	'df54288e-80d1-4f79-b78b-355e968c17e2', 'linkedin', 'https://linkedin.com/in/lancelot.daring', '890cae10-7bbd-4f0c-961a-df495ec7527b'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'2e3a2150-2333-4b51-a2e3-1c91b43dd3b1', 'github', 'lancelot-daring', '890cae10-7bbd-4f0c-961a-df495ec7527b'
+	'2e3a2150-2333-4b51-a2e3-1c91b43dd3b1', 'github', 'https://github.com/lancelot-daring', '890cae10-7bbd-4f0c-961a-df495ec7527b'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'cf84a4e0-270e-4640-9be5-4dcedf79873d', 'threads', 'lancelot_daring', '890cae10-7bbd-4f0c-961a-df495ec7527b'
+	'cf84a4e0-270e-4640-9be5-4dcedf79873d', 'threads', 'https://threads.net/@lancelot_daring', '890cae10-7bbd-4f0c-961a-df495ec7527b'
 );
 
 
@@ -671,12 +826,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'bfc463bf-a066-4896-8bda-1af982893a49', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'galahad@verypure.org', 'Sir Galahad',
-	'he/him', '04-02', 'Keeps projects—and himself—untouched by corruption.'
+	'he/him', '04-02', 'Keeps projects—and himself—untouched by corruption.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000006?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -739,14 +894,14 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'e60cb3e8-41b0-43bd-b6de-d227d4502b4d', 'instagram', 'galahad_pure', 'bfc463bf-a066-4896-8bda-1af982893a49'
+	'e60cb3e8-41b0-43bd-b6de-d227d4502b4d', 'instagram', 'https://instagram.com/galahad_pure', 'bfc463bf-a066-4896-8bda-1af982893a49'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'eb8af95c-1947-46d7-a0fc-d94438933a83', 'mastodon', 'galahad_pure@mastodon.social', 'bfc463bf-a066-4896-8bda-1af982893a49'
+	'eb8af95c-1947-46d7-a0fc-d94438933a83', 'mastodon', 'https://mastodon.social/@galahad_pure', 'bfc463bf-a066-4896-8bda-1af982893a49'
 );
 
 
@@ -798,12 +953,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'3caf90c5-7c7e-4931-82b4-888666cd8bac', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'patsy@coconutlogistics.com', 'Patsy Steward',
-	'they/them', '05-19', 'Carries everyone else’s baggage, literally and figuratively.'
+	'they/them', '05-19', 'Carries everyone else’s baggage, literally and figuratively.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000007?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -873,14 +1028,14 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'74741efb-c435-4768-b0ff-104dc643da96', 'twitter', 'patsy_loyal', '3caf90c5-7c7e-4931-82b4-888666cd8bac'
+	'74741efb-c435-4768-b0ff-104dc643da96', 'twitter', 'https://twitter.com/patsy_loyal', '3caf90c5-7c7e-4931-82b4-888666cd8bac'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'460fb469-2765-40b8-84a8-189761e38670', 'github', 'patsy-loyal', '3caf90c5-7c7e-4931-82b4-888666cd8bac'
+	'460fb469-2765-40b8-84a8-189761e38670', 'github', 'https://github.com/patsy-loyal', '3caf90c5-7c7e-4931-82b4-888666cd8bac'
 );
 
 
@@ -932,12 +1087,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'2f512451-861c-4d69-aa25-b27ee54d16cb', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'tim@enkanta.io', 'Tim Enchanter',
-	'he/him', '09-09', 'Prefers explosive stand-ups—sometimes literally.'
+	'he/him', '09-09', 'Prefers explosive stand-ups—sometimes literally.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000008?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1000,28 +1155,28 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'6928a770-9921-4f50-ba51-0ae03e49ed43', 'twitter', 'tim_enchanter', '2f512451-861c-4d69-aa25-b27ee54d16cb'
+	'6928a770-9921-4f50-ba51-0ae03e49ed43', 'twitter', 'https://twitter.com/tim_enchanter', '2f512451-861c-4d69-aa25-b27ee54d16cb'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'7e08bf96-9d8b-4a71-adf7-0adf8b0faf96', 'github', 'tim-enchanter', '2f512451-861c-4d69-aa25-b27ee54d16cb'
+	'7e08bf96-9d8b-4a71-adf7-0adf8b0faf96', 'github', 'https://github.com/tim-enchanter', '2f512451-861c-4d69-aa25-b27ee54d16cb'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'04cd9c2d-91a7-4307-85a5-5fc5fdbc114d', 'mastodon', 'tim_enchanter@mastodon.social', '2f512451-861c-4d69-aa25-b27ee54d16cb'
+	'04cd9c2d-91a7-4307-85a5-5fc5fdbc114d', 'mastodon', 'https://mastodon.social/@tim_enchanter', '2f512451-861c-4d69-aa25-b27ee54d16cb'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'ade75613-bc36-4b8c-86d8-1dc9f32fb9b7', 'instagram', 'tim_enchanter', '2f512451-861c-4d69-aa25-b27ee54d16cb'
+	'ade75613-bc36-4b8c-86d8-1dc9f32fb9b7', 'instagram', 'https://instagram.com/tim_enchanter', '2f512451-861c-4d69-aa25-b27ee54d16cb'
 );
 
 
@@ -1039,12 +1194,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'012c9ecf-4897-4879-bd7c-9c877d409626', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'dennis@anarcho-peasants.org', 'Dennis Peasant',
-	'they/them', '11-05', 'Self-appointed voice of the oppressed cubicle worker.'
+	'they/them', '11-05', 'Self-appointed voice of the oppressed cubicle worker.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000009?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1107,35 +1262,35 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'865aa096-3330-40fa-8b9c-feed64938ec0', 'instagram', 'dennis_peasant', '012c9ecf-4897-4879-bd7c-9c877d409626'
+	'865aa096-3330-40fa-8b9c-feed64938ec0', 'instagram', 'https://instagram.com/dennis_peasant', '012c9ecf-4897-4879-bd7c-9c877d409626'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'7457c9a6-16ed-4618-ab62-a1af0a200921', 'twitter', 'dennis_peasant', '012c9ecf-4897-4879-bd7c-9c877d409626'
+	'7457c9a6-16ed-4618-ab62-a1af0a200921', 'twitter', 'https://twitter.com/dennis_peasant', '012c9ecf-4897-4879-bd7c-9c877d409626'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'9021f7b6-5dca-4923-997e-8bd1670184d2', 'linkedin', 'dennis.peasant', '012c9ecf-4897-4879-bd7c-9c877d409626'
+	'9021f7b6-5dca-4923-997e-8bd1670184d2', 'linkedin', 'https://linkedin.com/in/dennis.peasant', '012c9ecf-4897-4879-bd7c-9c877d409626'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'ace08ad3-e235-4b8c-8a50-c59ca470a845', 'github', 'dennis-peasant', '012c9ecf-4897-4879-bd7c-9c877d409626'
+	'ace08ad3-e235-4b8c-8a50-c59ca470a845', 'github', 'https://github.com/dennis-peasant', '012c9ecf-4897-4879-bd7c-9c877d409626'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'33cd809f-917e-4c02-aee3-6d668a99cb7e', 'devto', 'dennispeasant', '012c9ecf-4897-4879-bd7c-9c877d409626'
+	'33cd809f-917e-4c02-aee3-6d668a99cb7e', 'devto', 'https://dev.to/dennispeasant', '012c9ecf-4897-4879-bd7c-9c877d409626'
 );
 
 
@@ -1153,12 +1308,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'76fded46-124d-4b2b-abcc-f1db71bbf622', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'roger@shrubbery.ltd', 'Roger Shrubber',
-	'he/him', '06-22', 'Can acquire, shape, and deliver any shrub at scale.'
+	'he/him', '06-22', 'Can acquire, shape, and deliver any shrub at scale.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000a?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1221,7 +1376,7 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'e82ce081-f1af-4250-ae87-fb2ddc7ba5f8', 'twitter', 'shrubber', '76fded46-124d-4b2b-abcc-f1db71bbf622'
+	'e82ce081-f1af-4250-ae87-fb2ddc7ba5f8', 'twitter', 'https://twitter.com/shrubber', '76fded46-124d-4b2b-abcc-f1db71bbf622'
 );
 
 
@@ -1239,12 +1394,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'89bb6497-0e60-4fc4-b6e3-419c34ce49b1', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'brother.maynard@holyhand.biz', 'Brother Maynard',
-	'he/him', '12-03', 'Keeps sacred texts and grenades perfectly catalogued.'
+	'he/him', '12-03', 'Keeps sacred texts and grenades perfectly catalogued.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000b?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1307,14 +1462,14 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'363535af-3f68-40ad-8072-2cb97d3cbd69', 'twitter', 'maynard_the_holy', '89bb6497-0e60-4fc4-b6e3-419c34ce49b1'
+	'363535af-3f68-40ad-8072-2cb97d3cbd69', 'twitter', 'https://twitter.com/maynard_the_holy', '89bb6497-0e60-4fc4-b6e3-419c34ce49b1'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'cd85e9e2-3153-441c-8065-af740eedfd80', 'instagram', 'maynard_the_holy', '89bb6497-0e60-4fc4-b6e3-419c34ce49b1'
+	'cd85e9e2-3153-441c-8065-af740eedfd80', 'instagram', 'https://instagram.com/maynard_the_holy', '89bb6497-0e60-4fc4-b6e3-419c34ce49b1'
 );
 
 
@@ -1332,12 +1487,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'5a401f5d-e129-40f8-9190-b3615d3cd8d6', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'prince.herbert@castleanthrax.uk', 'Prince Herbert',
-	'he/him', '08-12', 'Longs to turn every memo into a power ballad.'
+	'he/him', '08-12', 'Longs to turn every memo into a power ballad.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000c?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1400,28 +1555,28 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'8943b94d-7343-476f-94f5-507b1b180539', 'linkedin', 'p.herbert', '5a401f5d-e129-40f8-9190-b3615d3cd8d6'
+	'8943b94d-7343-476f-94f5-507b1b180539', 'linkedin', 'https://linkedin.com/in/p.herbert', '5a401f5d-e129-40f8-9190-b3615d3cd8d6'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'17404f29-858c-4a00-9687-1af101b79794', 'twitter', 'p_herbert', '5a401f5d-e129-40f8-9190-b3615d3cd8d6'
+	'17404f29-858c-4a00-9687-1af101b79794', 'twitter', 'https://twitter.com/p_herbert', '5a401f5d-e129-40f8-9190-b3615d3cd8d6'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'fe245bfe-f6c7-4336-8ec7-8f6fad1b7bf1', 'mastodon', 'p_herbert@mastodon.social', '5a401f5d-e129-40f8-9190-b3615d3cd8d6'
+	'fe245bfe-f6c7-4336-8ec7-8f6fad1b7bf1', 'mastodon', 'https://mastodon.social/@p_herbert', '5a401f5d-e129-40f8-9190-b3615d3cd8d6'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'273dd34d-bbc9-401e-9e4a-e9b756cc04c2', 'github', 'p-herbert', '5a401f5d-e129-40f8-9190-b3615d3cd8d6'
+	'273dd34d-bbc9-401e-9e4a-e9b756cc04c2', 'github', 'https://github.com/p-herbert', '5a401f5d-e129-40f8-9190-b3615d3cd8d6'
 );
 
 
@@ -1439,12 +1594,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'e2d65023-1c52-4fa6-ab0a-7277a6707fb7', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'concorde@swiftcourier.io', 'Concorde Squire',
-	'he/him', '02-24', 'Gets messages across enemy lines faster than an unladen swallow.'
+	'he/him', '02-24', 'Gets messages across enemy lines faster than an unladen swallow.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000d?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1514,14 +1669,14 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'452b1bae-e4f8-4fac-8bbc-9e686993b62e', 'twitter', 'concorde_the_squire', 'e2d65023-1c52-4fa6-ab0a-7277a6707fb7'
+	'452b1bae-e4f8-4fac-8bbc-9e686993b62e', 'twitter', 'https://twitter.com/concorde_the_squire', 'e2d65023-1c52-4fa6-ab0a-7277a6707fb7'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'd8c8ff6c-4e5e-4a98-84e1-7e167a568469', 'github', 'concorde-the-squire', 'e2d65023-1c52-4fa6-ab0a-7277a6707fb7'
+	'd8c8ff6c-4e5e-4a98-84e1-7e167a568469', 'github', 'https://github.com/concorde-the-squire', 'e2d65023-1c52-4fa6-ab0a-7277a6707fb7'
 );
 
 
@@ -1573,12 +1728,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'22fa5d4f-1e53-42f3-a00d-7010e7973b12', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'lady.zoot@castleanthrax.uk', 'Lady Zoot',
-	'she/her', '04-28', 'Caters corporate retreats with perilous peril.'
+	'she/her', '04-28', 'Caters corporate retreats with perilous peril.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000e?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1641,21 +1796,21 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'75510145-96e3-4603-903b-9b82e17857e5', 'twitter', 'lady_zoot', '22fa5d4f-1e53-42f3-a00d-7010e7973b12'
+	'75510145-96e3-4603-903b-9b82e17857e5', 'twitter', 'https://twitter.com/lady_zoot', '22fa5d4f-1e53-42f3-a00d-7010e7973b12'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'0f97c5af-bf26-4a8f-b5a0-fcb90d151fdc', 'instagram', 'lady_zoot', '22fa5d4f-1e53-42f3-a00d-7010e7973b12'
+	'0f97c5af-bf26-4a8f-b5a0-fcb90d151fdc', 'instagram', 'https://instagram.com/lady_zoot', '22fa5d4f-1e53-42f3-a00d-7010e7973b12'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'de21efbb-e670-48d6-8c87-932ae2111ec5', 'bluesky', 'lady.zoot', '22fa5d4f-1e53-42f3-a00d-7010e7973b12'
+	'de21efbb-e670-48d6-8c87-932ae2111ec5', 'bluesky', 'https://bsky.app/profile/lady.zoot', '22fa5d4f-1e53-42f3-a00d-7010e7973b12'
 );
 
 
@@ -1673,12 +1828,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'6eb87900-a6d3-4fa3-82e8-70aaa8754053', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'knight.ni@forestsayni.com', 'Knight Ni',
-	'they/them', '09-17', 'Negotiation style: say ‘Ni’ until opponents cave.'
+	'they/them', '09-17', 'Negotiation style: say ‘Ni’ until opponents cave.', 'https://gravatar.com/avatar/000000000000000000000000000000000000000000000000000000000000000f?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1753,12 +1908,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'777b0252-5d54-4fcf-92da-c94715edd5f3', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'historian@grail-docu.net', 'Grail Historian',
-	'they/them', '01-11', 'Keeps getting cut off by sudden cavalry charges.'
+	'they/them', '01-11', 'Keeps getting cut off by sudden cavalry charges.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000010?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -1821,35 +1976,35 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'c4861359-9f8d-403f-8d7b-917d6659bd8f', 'twitter', 'grail_hist', '777b0252-5d54-4fcf-92da-c94715edd5f3'
+	'c4861359-9f8d-403f-8d7b-917d6659bd8f', 'twitter', 'https://twitter.com/grail_hist', '777b0252-5d54-4fcf-92da-c94715edd5f3'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'947cc73f-745f-4bed-bee6-ef1a2dd78727', 'instagram', 'grail_hist', '777b0252-5d54-4fcf-92da-c94715edd5f3'
+	'947cc73f-745f-4bed-bee6-ef1a2dd78727', 'instagram', 'https://instagram.com/grail_hist', '777b0252-5d54-4fcf-92da-c94715edd5f3'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'1fb33b9e-353f-4f05-9a0e-9d243ae74343', 'linkedin', 'grail.hist', '777b0252-5d54-4fcf-92da-c94715edd5f3'
+	'1fb33b9e-353f-4f05-9a0e-9d243ae74343', 'linkedin', 'https://linkedin.com/in/grail.hist', '777b0252-5d54-4fcf-92da-c94715edd5f3'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'ba0db504-ba08-435d-b7bd-2c6898b1b79d', 'github', 'grail-hist', '777b0252-5d54-4fcf-92da-c94715edd5f3'
+	'ba0db504-ba08-435d-b7bd-2c6898b1b79d', 'github', 'https://github.com/grail-hist', '777b0252-5d54-4fcf-92da-c94715edd5f3'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'4670af8f-4094-4f4a-9601-7434c0029429', 'mastodon', 'grail_hist@mastodon.social', '777b0252-5d54-4fcf-92da-c94715edd5f3'
+	'4670af8f-4094-4f4a-9601-7434c0029429', 'mastodon', 'https://mastodon.social/@grail_hist', '777b0252-5d54-4fcf-92da-c94715edd5f3'
 );
 
 
@@ -1867,12 +2022,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'8340b8c6-5a96-4072-8af0-87c4fde2fea0', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'bridge.keeper@threequestions.org', 'Bridge Keeper',
-	'he/him', '03-30', 'You must answer him these questions three—before entering any meeting.'
+	'he/him', '03-30', 'You must answer him these questions three—before entering any meeting.', NULL
 );
 
 -- Add to access table
@@ -1880,7 +2035,7 @@ INSERT INTO "access" (
 	"id", "schemaVersion", "accessLevel", "password", "email", "activatedAt", "profileStatus", "deletedAt"
 )
 VALUES (
-	'8340b8c6-5a96-4072-8af0-87c4fde2fea0', 1, 'volunteer', 'OT4nBsL++OAg32XDOAbnnw==:mCORqpmunCVNhwUURw5VuvxSoKClvH+ma9p/U+flmHL9CgFXWzywa3yJEyq+bQ8tCVONAwTZWPRKfGRTgzss0w==', 'bridge.keeper@threequestions.org', NULL, 'created', NULL
+	'8340b8c6-5a96-4072-8af0-87c4fde2fea0', 1, 'volunteer', 'OT4nBsL++OAg32XDOAbnnw==:mCORqpmunCVNhwUURw5VuvxSoKClvH+ma9p/U+flmHL9CgFXWzywa3yJEyq+bQ8tCVONAwTZWPRKfGRTgzss0w==', 'bridge.keeper@threequestions.org', '2025-06-14T22:04:47Z', 'activated', NULL
 );
 
 -- Add event log to Toronto JS
@@ -1947,12 +2102,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'56da65b8-1b11-4af8-8b88-912df3a0d4bd', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'mrs.bun@whizzo.choc', 'Mrs Bun',
-	'she/her', '12-20', 'Only sells chocolates with at least one outrageous surprise inside.'
+	'she/her', '12-20', 'Only sells chocolates with at least one outrageous surprise inside.', NULL
 );
 
 -- Add to access table
@@ -2015,28 +2170,28 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'4281485f-0299-46dc-8ecb-5a40f7367360', 'twitter', 'mrs_bun', '56da65b8-1b11-4af8-8b88-912df3a0d4bd'
+	'4281485f-0299-46dc-8ecb-5a40f7367360', 'twitter', 'https://twitter.com/mrs_bun', '56da65b8-1b11-4af8-8b88-912df3a0d4bd'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'60072994-052b-4fcf-a384-2d71650f8d0b', 'instagram', 'mrs_bun', '56da65b8-1b11-4af8-8b88-912df3a0d4bd'
+	'60072994-052b-4fcf-a384-2d71650f8d0b', 'instagram', 'https://instagram.com/mrs_bun', '56da65b8-1b11-4af8-8b88-912df3a0d4bd'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'e789f19e-37f7-45ca-99e1-071bac81948e', 'github', 'mrs-bun', '56da65b8-1b11-4af8-8b88-912df3a0d4bd'
+	'e789f19e-37f7-45ca-99e1-071bac81948e', 'github', 'https://github.com/mrs-bun', '56da65b8-1b11-4af8-8b88-912df3a0d4bd'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'033403f8-9367-4d33-b165-19baada61308', 'devto', 'mrs.bun', '56da65b8-1b11-4af8-8b88-912df3a0d4bd'
+	'033403f8-9367-4d33-b165-19baada61308', 'devto', 'https://dev.to/mrs.bun', '56da65b8-1b11-4af8-8b88-912df3a0d4bd'
 );
 
 
@@ -2054,12 +2209,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'fac6e738-ab0a-4a66-ab92-a0e76f2c4ba5', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'camel.spotter@zoology.co', 'Camel Spotter',
-	'they/them', '07-29', 'Hasn’t actually seen a camel—claims they all flew away.'
+	'they/them', '07-29', 'Hasn’t actually seen a camel—claims they all flew away.', NULL
 );
 
 -- Add to access table
@@ -2134,12 +2289,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'2217e267-144e-4651-bfce-87ce653f9f03', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'knight.truth@roundtable.ai', 'Knight OTruth',
-	'he/him', '05-15', 'Slices through red tape—and sometimes interns—seeking honesty.'
+	'he/him', '05-15', 'Slices through red tape—and sometimes interns—seeking honesty.', 'https://gravatar.com/avatar/0000000000000000000000000000000000000000000000000000000000000011?s=200&d=robohash&r=g'
 );
 
 -- Add to access table
@@ -2202,14 +2357,14 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'e110bd62-5b4d-4b61-8e68-854cf63af032', 'twitter', 'knight_otruth', '2217e267-144e-4651-bfce-87ce653f9f03'
+	'e110bd62-5b4d-4b61-8e68-854cf63af032', 'twitter', 'https://twitter.com/knight_otruth', '2217e267-144e-4651-bfce-87ce653f9f03'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'3e0a791f-915a-4bab-9404-d220d91bd1e7', 'mastodon', 'knight_otruth@mastodon.social', '2217e267-144e-4651-bfce-87ce653f9f03'
+	'3e0a791f-915a-4bab-9404-d220d91bd1e7', 'mastodon', 'https://mastodon.social/@knight_otruth', '2217e267-144e-4651-bfce-87ce653f9f03'
 );
 
 
@@ -2227,12 +2382,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	'307a325e-1513-4718-a9b7-106d16c347d2', 1, '2025-06-14T22:04:47Z', '2025-06-14T22:04:47Z',
 	'fish.slapper@dance-troupe.com', 'Fsh Slapper',
-	'they/them', '11-27', 'Delivers constructive feedback via lightly-smoked haddock.'
+	'they/them', '11-27', 'Delivers constructive feedback via lightly-smoked haddock.', NULL
 );
 
 -- Add to access table
@@ -2295,14 +2450,14 @@ INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'1b78f46e-eeb5-46e9-8b12-b885e4c00834', 'twitter', 'fsh', '307a325e-1513-4718-a9b7-106d16c347d2'
+	'1b78f46e-eeb5-46e9-8b12-b885e4c00834', 'twitter', 'https://twitter.com/fsh', '307a325e-1513-4718-a9b7-106d16c347d2'
 );
 
 INSERT INTO "profile_links" (
 	"id", "platform", "url", "profileId"
 )
 VALUES (
-	'87f57c6e-f92e-4f71-97c8-64e1cdba09d3', 'instagram', 'fsh', '307a325e-1513-4718-a9b7-106d16c347d2'
+	'87f57c6e-f92e-4f71-97c8-64e1cdba09d3', 'instagram', 'https://instagram.com/fsh', '307a325e-1513-4718-a9b7-106d16c347d2'
 );
 
 

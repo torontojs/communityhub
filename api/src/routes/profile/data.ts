@@ -31,6 +31,8 @@ export async function doesProfileExist(database: D1Database, id: string) {
 }
 
 export async function nonExistingProfileIds(database: D1Database, ids: string[]) {
+	if (ids.length === 0) { return []; }
+
 	const { results } = await database.prepare(`
 		SELECT profile.id
 		FROM ${DBTables.PROFILE} AS profile
@@ -46,7 +48,7 @@ export async function nonExistingProfileIds(database: D1Database, ids: string[])
 	return [...new Set(ids).difference(existingIds)];
 }
 
-export async function insertProfile(database: D1Database, { email, name, password }: CreateProfileData) {
+export async function insertProfile(database: D1Database, { avatar, email, name, password }: CreateProfileData) {
 	const { id: profileId, schemaVersion, happenedAt, insertedAt } = generateBaseDBfields();
 	const { id: roleId } = generateBaseDBfields();
 
@@ -54,11 +56,11 @@ export async function insertProfile(database: D1Database, { email, name, passwor
 		database.prepare(`
 			INSERT INTO ${DBTables.PROFILE} (
 				id, schemaVersion, happenedAt, insertedAt,
-				email, name
+				email, name, avatar
 			)
 			VALUES (
 				?, ?, ?, ?,
-				?, ?
+				?, ?, ?
 			)
 		`).bind(
 			profileId,
@@ -66,7 +68,8 @@ export async function insertProfile(database: D1Database, { email, name, passwor
 			happenedAt,
 			insertedAt,
 			email,
-			name
+			name,
+			avatar ?? null
 		),
 		database.prepare(`
 			INSERT INTO ${DBTables.ACCESS} (
@@ -115,7 +118,7 @@ export async function updateProfileById(
 			pronouns,
 			birthday,
 			avatar
-		}).filter(([, value]) => value !== null && value !== undefined)
+		}).filter(([key, value]) => key === 'avatar' ? value !== undefined : value !== null && value !== undefined)
 	);
 
 	// Only include links that have URLs and skills that are non-empty
@@ -131,14 +134,10 @@ export async function updateProfileById(
 			UPDATE ${DBTables.PROFILE} AS profile
 			SET
 				${Object.keys(fieldsToUpdate).map((key) => `${key} = ?`).join(', ')}
-			FROM (
-				SELECT id, activatedAt, deletedAt
-				FROM ${DBTables.ACCESS}
-				WHERE
-					access.id = id
-			) AS access
+			FROM ${DBTables.ACCESS} AS access
 			WHERE
 				profile.id = ?
+				AND access.id = profile.id
 				AND access.activatedAt IS NOT NULL
 				AND access.deletedAt IS NULL
 		`).bind(...Object.values(fieldsToUpdate), id)
@@ -213,6 +212,7 @@ export async function getProfileById(database: D1Database, id: string) {
 		database.prepare(`SELECT skill FROM ${DBTables.PROFILE_SKILLS} WHERE profileId = ?`).bind(id),
 		database.prepare(`
 			SELECT
+				team.id,
 				team.name,
 				team.description,
 				role.name AS role,
@@ -242,7 +242,19 @@ export async function getProfileById(database: D1Database, id: string) {
 	return transformProfile(profile);
 }
 
-export async function getAllProfiles(database: D1Database) {
+export async function countAllProfiles(database: D1Database) {
+	const result = await database.prepare(`
+		SELECT COUNT(*) AS count
+		FROM ${DBTables.PROFILE} AS profile
+		JOIN ${DBTables.ACCESS} AS access ON access.id = profile.id
+		WHERE
+			access.activatedAt IS NOT NULL
+			AND access.deletedAt IS NULL
+	`).first<{ count: number }>();
+	return result?.count ?? 0;
+}
+
+export async function getAllProfiles(database: D1Database, limit?: number, offset = 0) {
 	const results = await database.batch([
 		database.prepare(`
 			SELECT profile.*, access.activatedAt, access.deletedAt
@@ -251,10 +263,20 @@ export async function getAllProfiles(database: D1Database) {
 			WHERE
 				access.activatedAt IS NOT NULL
 				AND access.deletedAt IS NULL
+			${limit ? 'LIMIT ? OFFSET ?' : ''}
+		`).bind(...(limit ? [limit, offset] : [])),
+		database.prepare(`
+			SELECT pl.profileId, pl.platform, pl.url
+			FROM ${DBTables.PROFILE_LINKS} AS pl
+			JOIN ${DBTables.ACCESS} AS access ON access.id = pl.profileId
+			WHERE access.activatedAt IS NOT NULL AND access.deletedAt IS NULL
 		`),
-		// TODO: narrow down queries to only active profiles
-		database.prepare(`SELECT profileId, platform, url FROM ${DBTables.PROFILE_LINKS}`),
-		database.prepare(`SELECT profileId, skill FROM ${DBTables.PROFILE_SKILLS}`)
+		database.prepare(`
+			SELECT ps.profileId, ps.skill
+			FROM ${DBTables.PROFILE_SKILLS} AS ps
+			JOIN ${DBTables.ACCESS} AS access ON access.id = ps.profileId
+			WHERE access.activatedAt IS NOT NULL AND access.deletedAt IS NULL
+		`)
 	]);
 
 	const profiles = new Map(

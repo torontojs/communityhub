@@ -1,4 +1,3 @@
-import 'open-props';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import FooterNav from '../../components/Footer/Footer.tsx';

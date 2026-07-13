@@ -2,11 +2,13 @@
 
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
-import { authorizeAdmin, authorizeVolunteer } from '../../middleware/access.ts';
+import { authorizeAdmin, authorizeOrganizer, authorizeVolunteer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { ACCESS_LEVEL, getSession } from '../../utils/auth.ts';
+import { resolveGravatarAvatarUrl } from '../../utils/gravatar.ts';
 import {
+	buildPaginationMeta,
 	type DataResponse,
 	generateDataResponseSchema,
 	generatePaginatedResponseSchema,
@@ -16,10 +18,10 @@ import {
 	statusResponseFormatter,
 	StatusResponseSchema
 } from '../../utils/responses.ts';
-import { IdParamSchema } from '../../utils/validation.ts';
+import { IdParamSchema, PaginationQuerySchema } from '../../utils/validation.ts';
 import { updateProfileStatus } from '../auth/data.ts';
-import { deleteProfileById, doesProfileExist, getAllProfiles, getProfileById, updateProfileById } from './data.ts';
-import { ProfileSchema, UpdateProfileSchema } from './validation.ts';
+import { countAllProfiles, deleteProfileById, doesProfileExist, getAllProfiles, getProfileById, updateProfileById } from './data.ts';
+import { ProfileSchema, PublicProfileSchema, UpdateProfileSchema } from './validation.ts';
 
 export const profileRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
@@ -36,27 +38,91 @@ profileRoutes.openapi(
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(ProfileSchema)) } }
+				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(PublicProfileSchema)) } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid pagination response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
 	}),
 	async (context) => {
-		const profiles = await getAllProfiles(context.env.Database);
+		const pagination = PaginationQuerySchema.safeParse(context.req.query());
+
+		if (!pagination.success) {
+			return context.json(
+				{
+					message: 'Invalid pagination parameters',
+					errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
+		const totalCount = await countAllProfiles(context.env.Database);
+		const { limit: limitCount, page: currentPageCount } = pagination.data;
+		const { offset, ...paginationMeta } = buildPaginationMeta(context.req.url, totalCount, limitCount, currentPageCount);
+		const profiles = await getAllProfiles(context.env.Database, limitCount, offset);
+		const publicProfiles = profiles.map(({ email: _email, birthday: _birthday, ...rest }) => rest);
+
+		return context.json(
+			{
+				data: publicProfiles,
+				...paginationMeta,
+				size: publicProfiles.length
+			} satisfies PaginatedResponse<typeof publicProfiles>,
+			StatusCodes.OKAY
+		);
+	}
+);
+
+profileRoutes.openapi(
+	createRoute({
+		method: 'get',
+		path: '/authenticated',
+		operationId: 'List profiles (authenticated)',
+		summary: 'List profiles with private fields',
+		description: 'Retrieves a list of profiles including email, for authenticated users.',
+		tags: ['Profile'],
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Successful response',
+				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(ProfileSchema)) } }
+			},
+			[StatusCodes.UNAUTHORIZED]: {
+				description: 'No cookies found, invalid or missing token, invalid session or session expired.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid pagination response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		},
+		middleware: [authMiddleware, authorizeOrganizer] as const
+	}),
+	async (context) => {
+		const pagination = PaginationQuerySchema.safeParse(context.req.query());
+
+		if (!pagination.success) {
+			return context.json(
+				{
+					message: 'Invalid pagination parameters',
+					errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
+		const totalCount = await countAllProfiles(context.env.Database);
+		const { limit: limitCount, page: currentPageCount } = pagination.data;
+		const { offset, ...paginationMeta } = buildPaginationMeta(context.req.url, totalCount, limitCount, currentPageCount);
+		const profiles = await getAllProfiles(context.env.Database, limitCount, offset);
 
 		return context.json(
 			{
 				data: profiles,
-				start: 0,
-				end: profiles.length - 1,
-				total: profiles.length,
-				size: profiles.length,
-				currentPage: 1,
-				lastPage: 1,
-				_links: {
-					self: { href: context.req.url },
-					first: { href: context.req.url },
-					last: { href: context.req.url }
-				}
+				...paginationMeta,
+				size: profiles.length
 			} satisfies PaginatedResponse<typeof profiles>,
 			StatusCodes.OKAY
 		);
@@ -100,6 +166,49 @@ profileRoutes.openapi(
 profileRoutes.openapi(
 	createRoute({
 		method: 'get',
+		path: '/{id}/authenticated',
+		operationId: 'Get profile (authenticated)',
+		summary: 'Get profile with private fields',
+		description: 'Retrieves a single profile including private fields, for organizers and administrators.',
+		tags: ['Profile'],
+		request: {
+			params: IdParamSchema
+		},
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Successful response',
+				content: { 'application/json': { schema: generateDataResponseSchema(ProfileSchema) } }
+			},
+			[StatusCodes.UNAUTHORIZED]: {
+				description: 'No cookies found, invalid or missing token, invalid session or session expired.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.FORBIDDEN]: {
+				description: 'The authenticated user does not have organizer access.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.NOT_FOUND]: {
+				description: 'Error response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		},
+		middleware: [authMiddleware, authorizeOrganizer] as const
+	}),
+	async (context) => {
+		const { id } = context.req.valid('param');
+		const profile = await getProfileById(context.env.Database, id);
+
+		if (!profile) {
+			return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
+		}
+
+		return context.json({ data: profile, _links: { self: { href: context.req.url } } } satisfies DataResponse<typeof profile>, StatusCodes.OKAY);
+	}
+);
+
+profileRoutes.openapi(
+	createRoute({
+		method: 'get',
 		path: '/{id}',
 		operationId: 'Get profile',
 		summary: 'Get profile by ID',
@@ -111,7 +220,7 @@ profileRoutes.openapi(
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generateDataResponseSchema(ProfileSchema) } }
+				content: { 'application/json': { schema: generateDataResponseSchema(PublicProfileSchema) } }
 			},
 			[StatusCodes.NOT_FOUND]: {
 				description: 'Error response',
@@ -128,7 +237,8 @@ profileRoutes.openapi(
 			return context.json({ message: 'Profile not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}
 
-		return context.json({ data: profile, _links: { self: { href: context.req.url } } } satisfies DataResponse<typeof profile>, StatusCodes.OKAY);
+		const publicProfile = PublicProfileSchema.parse(profile);
+		return context.json({ data: publicProfile, _links: { self: { href: context.req.url } } } satisfies DataResponse<typeof publicProfile>, StatusCodes.OKAY);
 	}
 );
 
@@ -160,6 +270,10 @@ profileRoutes.openapi(
 			[StatusCodes.FORBIDDEN]: {
 				description: 'Users can only edit their own profiles.',
 				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.BAD_REQUEST]: {
+				description: 'Could not resolve Gravatar avatar URL.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		},
 		middleware: [bodySizeCheck, authMiddleware, authorizeVolunteer] as const
@@ -168,7 +282,7 @@ profileRoutes.openapi(
 		const { id } = context.req.valid('param');
 		const session = getSession(context);
 
-		// For volunteers, only allow if it's their own profile
+		// Non-admins (volunteers and organizers) can only edit their own profile
 		if (session.id !== id && session.access !== ACCESS_LEVEL.ADMIN) {
 			return context.json({ message: 'Can only modify own profile' }, StatusCodes.FORBIDDEN);
 		}
@@ -179,6 +293,15 @@ profileRoutes.openapi(
 		}
 
 		const body = context.req.valid('json');
+
+		if (body.avatar) {
+			const resolvedAvatar = await resolveGravatarAvatarUrl(body.avatar);
+			if (resolvedAvatar === null) {
+				return context.json({ message: 'Could not resolve Gravatar avatar. Please check the URL and try again.' } satisfies StatusResponse, StatusCodes.BAD_REQUEST);
+			}
+			body.avatar = resolvedAvatar;
+		}
+
 		const isUpdated = await updateProfileById(context.env.Database, id, body);
 
 		if (!isUpdated) {

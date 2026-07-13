@@ -10,6 +10,8 @@ import { Threads } from '../Icons/Social/Threads.tsx';
 import { XTwitter } from '../Icons/Social/XTwitter.tsx';
 import StepBar from '../StepBar/StepBar.tsx';
 import './CompleteProfile.css';
+import { getGravatarAvatarUrl, getGravatarUrlType } from '../../utils/gravatar.ts';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 
 interface SocialIcons {
 	id: string;
@@ -35,7 +37,6 @@ type UpdateProfileParams = Omit<ProfileParams, 'email'>;
 
 const platformEnum = ['site', 'slack', 'linkedin', 'github', 'portfolio', 'codepen', 'instagram', 'threads', 'facebook', 'bluesky', 'mastodon', 'twitter', 'devto'];
 
-// Validation helpers
 /**
  * Checks whether a birthday string is in the valid MM-DD format.
  *
@@ -99,10 +100,7 @@ const updateProfile = async (data: UpdateProfileParams, profileId: string) => {
 
 // eslint-disable-next-line max-lines-per-function
 const CompleteProfile = () => {
-	const fileInputRef = useRef<HTMLInputElement>(null);
-	const uploadPhotoButtonRef = useRef<HTMLButtonElement>(null);
 	const skillInputRef = useRef<HTMLInputElement>(null);
-	const avatarUploadStatusRef = useRef<HTMLSpanElement>(null);
 	const slackHandleInputRef = useRef<HTMLInputElement>(null);
 
 	// Social Input Refs
@@ -110,7 +108,6 @@ const CompleteProfile = () => {
 	const githubInputRef = useRef<HTMLInputElement>(null);
 	const sitePortfolioInputRef = useRef<HTMLInputElement>(null);
 
-	const [photoFile, setPhotoFile] = useState<string | null>(null);
 	const [socialIcons, setSocialIcons] = useState<SocialIcons[]>([
 		{ id: 'instagram', name: 'Instagram', element: <Instagram />, inputVisible: false },
 		{ id: 'facebook', name: 'Facebook', element: <Facebook />, inputVisible: false },
@@ -138,28 +135,13 @@ const CompleteProfile = () => {
 		links: [],
 		skills: []
 	});
+	const avatarUrlType = getGravatarUrlType(profileData.avatar);
 
 	const validateSlackHandle = () => {
 		const slackUrl = slackHandleInputRef.current?.value ?? '';
 		const isValid = slackUrl.trim() !== '';
 		setIsSubmissionDisabled(!isValid);
 		return isValid;
-	};
-
-	const handleUploadPhotoButtonClick = () => {
-		fileInputRef.current?.click();
-	};
-
-	const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const file = event.target.files?.[0];
-		if (file) {
-			setPhotoFile(URL.createObjectURL(file));
-		}
-	};
-
-	const handleRemovePhoto = () => {
-		setPhotoFile(null);
-		uploadPhotoButtonRef.current?.focus();
 	};
 
 	const handleAddSkill = (skillName: string) => {
@@ -207,8 +189,9 @@ const CompleteProfile = () => {
 		const updateProfileParams: UpdateProfileParams = {
 			isBasedOnGTA: formData.get('isBasedOnGTA') === 'on',
 			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
-			pronouns: formData.get('pronouns') as string,
+			pronouns: (formData.get('pronouns') as string)?.trim() || undefined,
 			birthday: profileData.birthday,
+			avatar: (formData.get('avatar') as string)?.trim() || undefined,
 			links: linksFromForm,
 			skills: profileData.skills
 		};
@@ -240,6 +223,24 @@ const CompleteProfile = () => {
 		}));
 	};
 
+	const handleAvatarInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+		const { value } = evt.target;
+		setProfileData((prev) => ({
+			...prev,
+			avatar: value
+		}));
+	};
+
+	const handleAvatarInputBlur = async (evt: ChangeEvent<HTMLInputElement>) => {
+		const avatarUrl = await getGravatarAvatarUrl(evt.target.value);
+		if (!avatarUrl) { return; }
+
+		setProfileData((prev) => ({
+			...prev,
+			avatar: avatarUrl
+		}));
+	};
+
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
 		setErrorMessage(null);
@@ -248,10 +249,9 @@ const CompleteProfile = () => {
 		if (!profileId || !validateSlackHandle() || isSubmissionDisabled) { return; }
 
 		const formData = new FormData(event.currentTarget);
-		const profileParams = getProfileParams(formData);
-
 		try {
 			setIsSubmitting(true);
+			const profileParams = getProfileParams(formData);
 			await updateProfile(profileParams, profileId);
 		} catch (error) {
 			if (error instanceof Error) {
@@ -295,6 +295,7 @@ const CompleteProfile = () => {
 					id: data.data?.id,
 					name: data.data?.name,
 					email: data.data?.email,
+					avatar: data.data?.avatar ?? '',
 					isBasedOnGTA: data.data?.isBasedOnGTA,
 					canJoinLocalEvents: data.data?.canJoinLocalEvents
 				};
@@ -335,7 +336,7 @@ const CompleteProfile = () => {
 					{ label: 'Complete your profile' }
 				]}
 			/>
-			<form onSubmit={handleSubmit} encType='multipart/form-data' id='complete-profile-form'>
+			<form onSubmit={handleSubmit} id='complete-profile-form'>
 				<h2>Complete your profile</h2>
 
 				<div id='fields-wrapper'>
@@ -389,19 +390,17 @@ const CompleteProfile = () => {
 								</div>
 								<div>
 									<label htmlFor='pronouns'>Pronouns</label>
-									<input
+									<select
 										className='text-input'
 										id='pronouns'
 										name='pronouns'
-										type='text'
-										list='pronouns-options'
-										placeholder='Your pronouns (optional)'
-									/>
-									<datalist id='pronouns-options'>
-										<option>He/him</option>
-										<option>She/her</option>
-										<option>They/them</option>
-									</datalist>
+										defaultValue=''
+									>
+										<option value='' hidden>Pronouns optional</option>
+										<option value='he/him'>he/him</option>
+										<option value='she/her'>she/her</option>
+										<option value='they/them'>they/them</option>
+									</select>
 								</div>
 								<div>
 									<label>Date of birth</label>
@@ -510,41 +509,29 @@ const CompleteProfile = () => {
 						</summary>
 
 						<div className='details-content-wrapper'>
-							<div className='details-content-file-upload'>
-								{photoFile && (
-									<picture>
-										<img src={photoFile} />
-									</picture>
-								)}
+							<div className='details-content-avatar-url'>
+								<picture>
+									<img src={safeAvatarUrl(profileData.avatar)} alt='' />
+								</picture>
 
-								<div className='details-file-upload-buttons-wrapper'>
-									<span ref={avatarUploadStatusRef} aria-live='polite' aria-atomic='true' role='status' className='file-upload-success'>
-										{photoFile ? 'Avatar uploaded successfully' : ''}
-									</span>
-
-									<Button
-										type='button'
-										onClick={handleUploadPhotoButtonClick}
-										ref={uploadPhotoButtonRef}
-									>
-										Upload {photoFile ? 'New' : 'Your'} Photo{' '}
-									</Button>
+								<div>
+									<label htmlFor='avatar'>Gravatar URL</label>
 									<input
-										ref={fileInputRef}
-										id='image-upload'
-										type='file'
-										accept='image/png, image/jpeg'
-										onChange={handlePhotoUpload}
+										id='avatar'
+										name='avatar'
+										type='url'
+										className='text-input'
+										value={profileData.avatar ?? ''}
+										onChange={handleAvatarInputChange}
+										onBlur={handleAvatarInputBlur}
+										placeholder='https://gravatar.com/profile-name'
 									/>
-									{photoFile && (
-										<Button
-											type='button'
-											hasOutline
-											onClick={handleRemovePhoto}
-										>
-											Remove Photo
-										</Button>
-									)}
+									<p>
+										{avatarUrlType === 'profile' && 'Profile URL detected. The app will save the real image URL.'}
+										{avatarUrlType === 'image' && 'Image URL detected.'}
+										{avatarUrlType === 'empty' && 'Paste a Gravatar profile or image URL. Leave blank to use the default avatar.'}
+										{avatarUrlType === 'invalid' && 'Use a Gravatar profile or image URL.'}
+									</p>
 								</div>
 							</div>
 						</div>
@@ -591,18 +578,20 @@ const CompleteProfile = () => {
 									<label htmlFor='skill'>
 										<span>Your skills</span>
 										<div id='skills'>
-											{profileData?.skills?.map((skill) => (
-												<span key={skill}>
-													{skill}
-													<button
-														type='button'
-														aria-label='Remove Skill'
-														onClick={() => handleRemoveSkill(skill)}
-													>
-														x
-													</button>
-												</span>
-											))}
+											<ul>
+												{profileData?.skills?.map((skill) => (
+													<li key={skill}>
+														{skill}
+														<button
+															type='button'
+															aria-label='Remove Skill'
+															onClick={() => handleRemoveSkill(skill)}
+														>
+															x
+														</button>
+													</li>
+												))}
+											</ul>
 											<input
 												id='skill'
 												ref={skillInputRef}

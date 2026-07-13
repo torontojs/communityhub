@@ -1,8 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import AuthenticatedLayout from '../../components/AuthenticatedLayout/AuthenticatedLayout.tsx';
 import { AuthGate } from '../../components/AuthGate/AuthGate.tsx';
 import Header from '../../components/Header/Header.tsx';
 import '../../index.css';
+import { AuthProvider } from '../../context/AuthContext.tsx';
 import { useHeartBeatProtected } from '../../hooks/useHeartBeat.ts';
 
 const root = document.getElementById('root') as HTMLDivElement;
@@ -10,9 +12,13 @@ const root = document.getElementById('root') as HTMLDivElement;
 createRoot(root).render(
 	(
 		<StrictMode>
-			<AuthGate hook={useHeartBeatProtected}>
-				<Header>Page that requires you to be authenticated and with completed profile</Header>
-			</AuthGate>
+			<AuthProvider>
+				<AuthGate hook={useHeartBeatProtected}>
+					<AuthenticatedLayout>
+						<Header>Page that requires you to be authenticated and with completed profile</Header>
+					</AuthenticatedLayout>
+				</AuthGate>
+			</AuthProvider>
 		</StrictMode>
 	)
 );

@@ -4,6 +4,7 @@ import { authorizeOrganizer } from '../../middleware/access.ts';
 import { authMiddleware } from '../../middleware/auth.ts';
 import { bodySizeCheck } from '../../middleware/body-size.ts';
 import {
+	buildPaginationMeta,
 	generatePaginatedResponseSchema,
 	type PaginatedResponse,
 	StatusCodes,
@@ -11,11 +12,11 @@ import {
 	statusResponseFormatter,
 	StatusResponseSchema
 } from '../../utils/responses.ts';
-import { IdParamSchema } from '../../utils/validation.ts';
+import { IdParamSchema, PaginationQuerySchema } from '../../utils/validation.ts';
 import { nonExistingProfileIds } from '../profile/data.ts';
 import { doesTeamExist } from '../team/data.ts';
 import { addTeamMembers, countAllMembers, deleteTeamMembers, getAllMembers, nonExistingTeamMemberIds, updateTeamMembers } from './data.ts';
-import { AddTeamMembersSchema, TeamMemberInfoSchema, UpdateTeamMembersSchema } from './validation.ts';
+import { AddTeamMembersSchema, PublicTeamMemberInfoSchema, TeamMemberInfoSchema, UpdateTeamMembersSchema } from './validation.ts';
 
 export const teamMemberRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
@@ -35,10 +36,14 @@ teamMemberRoutes.openapi(
 		responses: {
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
-				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(TeamMemberInfoSchema)) } }
+				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(PublicTeamMemberInfoSchema)) } }
 			},
 			[StatusCodes.NOT_FOUND]: {
 				description: 'Error response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid pagination response',
 				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
@@ -51,39 +56,98 @@ teamMemberRoutes.openapi(
 			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
 		}
 
-		// Pagination Setup TODO: Create a utility function for the below?
-		const count = await countAllMembers(context.env.Database, id);
-		const totalMembersCount = (count[0]?.['count']) as number;
-		const limitCount = z.coerce.number().optional().parse(context.req.query()['limit']);
-		const selectedPage = z.coerce.number().optional().parse(context.req.query()['page']);
-		const lastPageCount = !limitCount ? 1 : Math.ceil(totalMembersCount / limitCount);
-		const offset = !limitCount ? 0 : ((selectedPage ? selectedPage - 1 : 1) * limitCount);
+		const pagination = PaginationQuerySchema.safeParse(context.req.query());
+
+		if (!pagination.success) {
+			return context.json(
+				{
+					message: 'Invalid pagination parameters',
+					errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
+		const totalMembersCount = await countAllMembers(context.env.Database, id);
+		const { limit: limitCount, page: currentPageCount } = pagination.data;
+		const { offset, ...paginationMeta } = buildPaginationMeta(context.req.url, totalMembersCount, limitCount, currentPageCount);
 
 		const members = await getAllMembers(context.env.Database, id, limitCount, offset);
-		const firstPage = new URL(context.req.url);
-		firstPage.searchParams.set('limit', limitCount?.toString() ?? '');
-		firstPage.searchParams.set('page', '1');
-		const currentPage = new URL(context.req.url);
-		currentPage.searchParams.set('limit', limitCount?.toString() ?? '');
-		currentPage.searchParams.set('page', selectedPage?.toString() ?? '');
-		const lastPage = new URL(context.req.url);
-		lastPage.searchParams.set('limit', limitCount?.toString() ?? '');
-		lastPage.searchParams.set('page', lastPageCount.toString());
+		const publicMembers = members.map(({ email: _email, ...rest }) => rest);
+
+		return context.json(
+			{
+				data: publicMembers,
+				...paginationMeta,
+				size: members.length
+			} satisfies PaginatedResponse<typeof publicMembers>,
+			StatusCodes.OKAY
+		);
+	}
+);
+
+teamMemberRoutes.openapi(
+	createRoute({
+		method: 'get',
+		path: '/{id}/members/authenticated',
+		operationId: 'List team members (authenticated)',
+		summary: 'List members of a team with private fields',
+		description: 'Retrieves all members of a team including email, for authenticated users.',
+		request: {
+			params: IdParamSchema
+		},
+		tags: ['Team Members'],
+		responses: {
+			[StatusCodes.OKAY]: {
+				description: 'Successful response',
+				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(TeamMemberInfoSchema)) } }
+			},
+			[StatusCodes.UNAUTHORIZED]: {
+				description: 'No cookies found, invalid or missing token, invalid session or session expired.',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.NOT_FOUND]: {
+				description: 'Error response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid pagination response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
+			}
+		},
+		middleware: [authMiddleware, authorizeOrganizer] as const
+	}),
+	async (context) => {
+		const { id } = context.req.valid('param');
+
+		const isTeamIdValid = await doesTeamExist(context.env.Database, id);
+		if (!isTeamIdValid) {
+			return context.json({ message: 'Team not found' } satisfies StatusResponse, StatusCodes.NOT_FOUND);
+		}
+
+		const pagination = PaginationQuerySchema.safeParse(context.req.query());
+
+		if (!pagination.success) {
+			return context.json(
+				{
+					message: 'Invalid pagination parameters',
+					errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
+		const totalMembersCount = await countAllMembers(context.env.Database, id);
+		const { limit: limitCount, page: currentPageCount } = pagination.data;
+		const { offset, ...paginationMeta } = buildPaginationMeta(context.req.url, totalMembersCount, limitCount, currentPageCount);
+
+		const members = await getAllMembers(context.env.Database, id, limitCount, offset);
 
 		return context.json(
 			{
 				data: members,
-				start: offset,
-				end: !limitCount || offset + limitCount > totalMembersCount ? totalMembersCount - 1 : offset + limitCount - 1,
-				total: totalMembersCount,
-				size: members.length,
-				currentPage: selectedPage ?? 1,
-				lastPage: lastPageCount,
-				_links: {
-					self: { href: currentPage.toString() },
-					first: { href: firstPage.toString() },
-					last: { href: lastPage.toString() }
-				}
+				...paginationMeta,
+				size: members.length
 			} satisfies PaginatedResponse<typeof members>,
 			StatusCodes.OKAY
 		);

@@ -16,7 +16,13 @@ export const TeamSchema = BaseDbEntitySchema.extend(
 			.min(1, 'Description must be at least one character long.')
 			.max(LONG_TEXT_SIZE_IN_CHAR, `Description must be at most ${LONG_TEXT_SIZE_IN_CHAR} characters long.`)
 			.optional()
-			.describe('A description for the team. It may include markdown content.')
+			.describe('A description for the team. It may include markdown content.'),
+		memberCount: z
+			.number()
+			.int()
+			.nonnegative()
+			.optional()
+			.describe('Number of active members in the team.')
 	}).shape
 );
 

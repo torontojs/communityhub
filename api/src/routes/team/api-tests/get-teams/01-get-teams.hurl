@@ -7,3 +7,36 @@ jsonpath "$.data[*].id" contains "{{team_id_1}}"
 jsonpath "$.data[*].id" contains "{{team_id_2}}"
 jsonpath "$.data[*].id" contains "{{team_id_3}}"
 jsonpath "$.data[*].id" contains "{{team_id_4}}"
+
+# Omitting page should return the first page instead of skipping the first result
+GET {{host}}/api/teams?limit=1
+HTTP 200
+[Asserts]
+jsonpath "$.start" == 0
+jsonpath "$.currentPage" == 1
+jsonpath "$.size" == 1
+
+# Selecting the second page should return the second result
+GET {{host}}/api/teams?limit=1&page=2
+HTTP 200
+[Asserts]
+jsonpath "$.start" == 1
+jsonpath "$.currentPage" == 2
+jsonpath "$.size" == 1
+
+# A page beyond the last page should return an empty result set
+GET {{host}}/api/teams?limit=1&page=999
+HTTP 200
+[Asserts]
+jsonpath "$.currentPage" == 999
+jsonpath "$.size" == 0
+
+# Invalid pagination values should be rejected
+GET {{host}}/api/teams?limit=0
+HTTP 422
+
+GET {{host}}/api/teams?page=0
+HTTP 422
+
+GET {{host}}/api/teams?limit=abc
+HTTP 422

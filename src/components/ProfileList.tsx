@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { safeAvatarUrl } from '../utils/safeAvatarUrl.ts';
 
 interface VolunteerProfile {
 	id: string;
@@ -29,9 +30,9 @@ const ProfileList = () => {
 	}
 
 	return (
-		<div>
+		<ul className='profile-list'>
 			{profileData.map((profile, index) => (
-				<div key={index} className='card'>
+				<li key={index} className='card'>
 					<div className='card-header'>
 						<h3>Volunteer Profile</h3>
 					</div>
@@ -39,7 +40,7 @@ const ProfileList = () => {
 						<div className='profile-header'>
 							<img
 								className='avatar'
-								src={profile.avatar ?? '/default-avatar.png'}
+								src={safeAvatarUrl(profile.avatar)}
 								alt='Avatar'
 							/>
 							<div>
@@ -77,9 +78,9 @@ const ProfileList = () => {
 								))}
 						</div>
 					</div>
-				</div>
+				</li>
 			))}
-		</div>
+		</ul>
 	);
 };
 

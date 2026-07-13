@@ -3,9 +3,8 @@ import { createRoot } from 'react-dom/client';
 
 import Button from '../../components/Button/Button.tsx';
 
-import 'open-props';
-import './style.css';
 import '../../index.css';
+import './style.css';
 
 const root = document.getElementById('root') as HTMLDivElement;
 

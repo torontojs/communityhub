@@ -4,17 +4,19 @@ import type { CreateTeamData, Team, UpdateTeamData } from './validation.ts';
 
 export async function doesTeamExist(database: D1Database, id: string) {
 	const existingTeam = await database
-		.prepare(`SELECT id FROM ${DBTables.TEAM} WHERE id = ? LIMIT 1`)
+		.prepare(`SELECT id FROM ${DBTables.TEAM} WHERE id = ? AND deletedAt IS NULL LIMIT 1`)
 		.bind(id)
 		.first<{ id: string }>();
 
 	return Boolean(existingTeam);
 }
 
-export async function doesSameTeamNameExist(database: D1Database, name: string) {
+export async function doesSameTeamNameExist(database: D1Database, name: string, excludeId?: string) {
+	const excludeClause = excludeId ? ' AND id != ?' : '';
+	const bindings = excludeId ? [name, excludeId] : [name];
 	const existingTeam = await database
-		.prepare(`SELECT id FROM ${DBTables.TEAM} WHERE name = ? AND deletedAt IS NULL LIMIT 1`)
-		.bind(name)
+		.prepare(`SELECT id FROM ${DBTables.TEAM} WHERE name = ? AND deletedAt IS NULL${excludeClause} LIMIT 1`)
+		.bind(...bindings)
 		.first<{ id: string }>();
 
 	return Boolean(existingTeam);
@@ -80,11 +82,17 @@ export async function updateTeamById(database: D1Database, id: string, data: Upd
 export async function getTeamById(database: D1Database, id: string) {
 	const team = await database
 		.prepare(`
-			SELECT *
-			FROM ${DBTables.TEAM}
+			SELECT team.*,
+				(
+					SELECT COUNT(*)
+					FROM ${DBTables.ROLE} AS role
+					WHERE role.teamId = team.id
+						AND role.deletedAt IS NULL
+				) AS memberCount
+			FROM ${DBTables.TEAM} AS team
 			WHERE
-				id = ?
-				AND deletedAt IS NULL
+				team.id = ?
+				AND team.deletedAt IS NULL
 			LIMIT 1
 		`)
 		.bind(id)
@@ -93,12 +101,30 @@ export async function getTeamById(database: D1Database, id: string) {
 	return team;
 }
 
-export async function getAllTeams(database: D1Database) {
-	const { results } = await database.prepare(`
-		SELECT *
+export async function countAllTeams(database: D1Database) {
+	const result = await database.prepare(`
+		SELECT COUNT(*) AS count
 		FROM ${DBTables.TEAM}
 		WHERE deletedAt IS NULL
-	`).run<Team>();
+	`).first<{ count: number }>();
+
+	return result?.count ?? 0;
+}
+
+export async function getAllTeams(database: D1Database, limit?: number, offset = 0) {
+	const query = database.prepare(`
+		SELECT team.*,
+			(
+				SELECT COUNT(*)
+				FROM ${DBTables.ROLE} AS role
+				WHERE role.teamId = team.id
+					AND role.deletedAt IS NULL
+			) AS memberCount
+		FROM ${DBTables.TEAM} AS team
+		WHERE team.deletedAt IS NULL
+		${limit ? 'LIMIT ? OFFSET ?' : ''}
+	`);
+	const { results } = await (limit ? query.bind(limit, offset) : query).run<Team>();
 
 	return results;
 }

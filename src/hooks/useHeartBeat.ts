@@ -1,178 +1,72 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useAuth } from '../context/AuthContext.tsx';
 
-// Public Page getHeartBeat
+// Kept for ConfirmAccount.tsx direct usage
 export const getHeartBeat = async (): Promise<boolean> => {
 	try {
 		const response = await fetch('/api/auth/heartbeat', {
 			method: 'GET',
 			credentials: 'include'
 		});
-		if (response.status === 200) {
-			return true;
-		}
-		return false;
+		return response.status === 200;
 	} catch (error) {
 		console.error(error);
 		return false;
 	}
 };
 
-// Public Page useHeartBeat
+// Public page: redirect away if already authenticated
 export const useHeartBeat = () => {
-	const [isAuth, setIsAuth] = useState<boolean | null>(null);
+	const { isAuthenticated, isLoading } = useAuth();
 
 	useEffect(() => {
-		const check = async () => {
-			const auth = await getHeartBeat();
-			if (auth) { window.location.href = '/pages/home'; }
-			else {
-				setIsAuth(true);
-			}
-		};
-		void check();
-	}, []);
-	return isAuth;
+		if (isLoading) { return; }
+		if (isAuthenticated) { window.location.href = '/pages/home'; }
+	}, [isAuthenticated, isLoading]);
+
+	if (isLoading) { return null; }
+	if (isAuthenticated) { return null; }
+	return true;
 };
 
-// Protected page check for volunteers, organizers and admin
-export const getHeartBeatProtectedHomePage = async (): Promise<boolean> => {
-	try {
-		const response = await fetch('/api/auth/heartbeat', {
-			method: 'GET',
-			credentials: 'include'
-		});
-
-		const data = await response.json();
-		if (response.status === 200 && data.status === 'profile-completed') {
-			return true;
-		}
-		return false;
-	} catch (error) {
-		console.error(error);
-		return false;
-	}
-};
-
-// Protected page hook
-export const useHeartBeatProtectedHomePage = () => {
-	const [isAuth, setIsAuth] = useState<boolean | null>(null);
-
-	useEffect(() => {
-		const check = async () => {
-			const auth = await getHeartBeatProtectedHomePage();
-			if (!auth) { window.location.href = '/pages/sign-in'; }
-			else {
-				setIsAuth(true);
-			}
-		};
-		void check();
-	}, []);
-	return isAuth;
-};
-// Protected page check for volunteers, organizers and admin
-export const getHeartBeatProtected = async (): Promise<boolean> => {
-	try {
-		const response = await fetch('/api/auth/heartbeat', {
-			method: 'GET',
-			credentials: 'include'
-		});
-
-		const data = await response.json();
-		if (response.status === 200 && data.status === 'profile-completed') {
-			return true;
-		}
-		return false;
-	} catch (error) {
-		console.error(error);
-		return false;
-	}
-};
-
-// Protected page hook
+// Protected page: requires completed profile
 export const useHeartBeatProtected = () => {
-	const [isAuth, setIsAuth] = useState<boolean | null>(null);
+	const { isLoading, profileStatus } = useAuth();
 
 	useEffect(() => {
-		const check = async () => {
-			const auth = await getHeartBeatProtected();
-			if (!auth) { window.location.href = '/pages/sign-in'; }
-			else {
-				setIsAuth(true);
-			}
-		};
-		void check();
-	}, []);
-	return isAuth;
+		if (isLoading) { return; }
+		if (profileStatus !== 'profile-completed') { window.location.href = '/pages/sign-in'; }
+	}, [isLoading, profileStatus]);
+
+	if (isLoading) { return null; }
+	if (profileStatus !== 'profile-completed') { return null; }
+	return true;
 };
 
-// Protected page check for organizers and admins
-export const getHeartBeatProtectedOrganizer = async (): Promise<boolean> => {
-	try {
-		const response = await fetch('/api/auth/heartbeat', {
-			method: 'GET',
-			credentials: 'include'
-		});
-
-		const data = await response.json();
-		if (response.status === 200 && data.access === 'organizer' || data.access === 'admin') {
-			return true;
-		}
-		return false;
-	} catch (error) {
-		console.error(error);
-		return false;
-	}
-};
-
-// Protected organizers and admins page hook
+// Protected organizer/admin page
 export const useHeartBeatProtectedOrganizer = () => {
-	const [isAuth, setIsAuth] = useState<boolean | null>(null);
+	const { isLoading, accessLevel } = useAuth();
 
 	useEffect(() => {
-		const check = async () => {
-			const auth = await getHeartBeatProtectedOrganizer();
-			if (!auth) { window.location.href = '/pages/sign-in'; }
-			else {
-				setIsAuth(true);
-			}
-		};
-		void check();
-	}, []);
-	return isAuth;
+		if (isLoading) { return; }
+		if (accessLevel !== 'organizer' && accessLevel !== 'admin') { window.location.href = '/pages/sign-in'; }
+	}, [isLoading, accessLevel]);
+
+	if (isLoading) { return null; }
+	if (accessLevel !== 'organizer' && accessLevel !== 'admin') { return null; }
+	return true;
 };
 
-// Protected page check for volunteers, organizers and admin
-export const getHeartBeatProtectedAdmin = async (): Promise<boolean> => {
-	try {
-		const response = await fetch('/api/auth/heartbeat', {
-			method: 'GET',
-			credentials: 'include'
-		});
-
-		const data = await response.json();
-		if (response.status === 200 && data.access === 'admin') {
-			return true;
-		}
-		return false;
-	} catch (error) {
-		console.error(error);
-		return false;
-	}
-};
-
-// Protected admin page hook
+// Protected admin page
 export const useHeartBeatProtectedAdmin = () => {
-	const [isAuth, setIsAuth] = useState<boolean | null>(null);
+	const { isLoading, accessLevel } = useAuth();
 
 	useEffect(() => {
-		const check = async () => {
-			const auth = await getHeartBeatProtectedAdmin();
-			if (!auth) { window.location.href = '/pages/sign-in'; }
-			else {
-				setIsAuth(true);
-			}
-		};
-		void check();
-	}, []);
-	return isAuth;
+		if (isLoading) { return; }
+		if (accessLevel !== 'admin') { window.location.href = '/pages/sign-in'; }
+	}, [isLoading, accessLevel]);
+
+	if (isLoading) { return null; }
+	if (accessLevel !== 'admin') { return null; }
+	return true;
 };

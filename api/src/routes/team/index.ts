@@ -5,6 +5,7 @@ import { authMiddleware } from '../../middleware/auth.ts';
 import { bodySizeCheck } from '../../middleware/body-size.ts';
 import { getSession } from '../../utils/auth.ts';
 import {
+	buildPaginationMeta,
 	type DataResponse,
 	generateDataResponseSchema,
 	generatePaginatedResponseSchema,
@@ -14,8 +15,8 @@ import {
 	statusResponseFormatter,
 	StatusResponseSchema
 } from '../../utils/responses.ts';
-import { IdParamSchema } from '../../utils/validation.ts';
-import { deleteTeamById, doesSameTeamNameExist, doesTeamExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
+import { IdParamSchema, PaginationQuerySchema } from '../../utils/validation.ts';
+import { countAllTeams, deleteTeamById, doesSameTeamNameExist, doesTeamExist, getAllTeams, getTeamById, insertTeam, updateTeamById } from './data.ts';
 import { CreateTeamSchema, TeamSchema, UpdateTeamSchema } from './validation.ts';
 
 export const teamRoutes = new OpenAPIHono<EnvironmentBindings>({
@@ -75,27 +76,36 @@ teamRoutes.openapi(
 			[StatusCodes.OKAY]: {
 				description: 'Successful response',
 				content: { 'application/json': { schema: generatePaginatedResponseSchema(z.array(TeamSchema)) } }
+			},
+			[StatusCodes.UNPROCESSABLE_CONTENT]: {
+				description: 'Invalid pagination response',
+				content: { 'application/json': { schema: StatusResponseSchema } }
 			}
 		}
 	}),
 	async (context) => {
-		const teams = await getAllTeams(context.env.Database);
+		const pagination = PaginationQuerySchema.safeParse(context.req.query());
+
+		if (!pagination.success) {
+			return context.json(
+				{
+					message: 'Invalid pagination parameters',
+					errors: pagination.error.issues.map(({ path, message }) => ({ [path.join('.')]: message }))
+				} satisfies StatusResponse,
+				StatusCodes.UNPROCESSABLE_CONTENT
+			);
+		}
+
+		const totalTeamsCount = await countAllTeams(context.env.Database);
+		const { limit: limitCount, page: currentPageCount } = pagination.data;
+		const { offset, ...paginationMeta } = buildPaginationMeta(context.req.url, totalTeamsCount, limitCount, currentPageCount);
+		const teams = await getAllTeams(context.env.Database, limitCount, offset);
 
 		return context.json(
-			// TODO: implement proper pagination
 			{
 				data: teams,
-				start: 0,
-				end: teams.length - 1,
-				total: teams.length,
-				size: teams.length,
-				currentPage: 1,
-				lastPage: 1,
-				_links: {
-					self: { href: context.req.url },
-					first: { href: context.req.url },
-					last: { href: context.req.url }
-				}
+				...paginationMeta,
+				size: teams.length
 			} satisfies PaginatedResponse<typeof teams>,
 			StatusCodes.OKAY
 		);
@@ -239,7 +249,7 @@ teamRoutes.openapi(
 		}
 
 		if (body.name) {
-			const hasExistingTeamName = await doesSameTeamNameExist(context.env.Database, body.name);
+			const hasExistingTeamName = await doesSameTeamNameExist(context.env.Database, body.name, id);
 
 			if (hasExistingTeamName) {
 				return context.json({ message: 'Team already exists' } satisfies StatusResponse, StatusCodes.CONFLICT);

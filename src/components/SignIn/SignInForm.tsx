@@ -18,7 +18,7 @@ const SignInForm = (): React.JSX.Element => {
 				},
 				body: JSON.stringify({ email, password })
 			});
-			if (response.status !== 201) {
+			if (response.status !== 200) {
 				setIsLoading(false);
 				const errorData = await response.json();
 				console.error('Response not ok: ', errorData);

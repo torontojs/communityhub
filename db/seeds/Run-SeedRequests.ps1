@@ -11,6 +11,7 @@ ForEach-Object {
 	$UserId = "'$($_.id)'"
 	$ActivatedAt = $Now
 	$DeletedAt = 'NULL'
+	$Avatar = 'NULL'
 	$DocumentsString = ''
 
 	if ($_.profileStatus -eq 'created') {
@@ -19,6 +20,10 @@ ForEach-Object {
 
 	if ($_.profileStatus -eq 'deleted') {
 		$DeletedAt = $Now
+	}
+
+	if ($_.avatar) {
+		$Avatar = "'$($_.avatar)'"
 	}
 
 	if ($_.documents) {
@@ -97,12 +102,12 @@ VALUES (
 INSERT INTO "profile" (
 	"id", "schemaVersion", "happenedAt", "insertedAt",
 	"email", "name",
-	"pronouns", "birthday", "description"
+	"pronouns", "birthday", "description", "avatar"
 )
 VALUES (
 	$UserId, 1, $Now, $Now,
 	'$($_.email)', '$($_.name)',
-	'$($_.pronouns)', '$($_.birthday)', '$($_.description)'
+	'$($_.pronouns)', '$($_.birthday)', '$($_.description)', $Avatar
 );
 
 -- Add to access table

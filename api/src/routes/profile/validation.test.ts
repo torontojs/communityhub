@@ -14,6 +14,28 @@ describe('UpdateProfileSchema', () => {
 		expect(result.success).toBe(false);
 	});
 
+	test('accepts Gravatar avatar updates', () => {
+		const result = UpdateProfileSchema.safeParse({
+			avatar: 'https://gravatar.com/avatar/973dfe463ec85785f5f95af5ba3906eedb2d931c24e69824a89ea65dba4e813b?s=200&d=mp&r=g'
+		});
+
+		expect(result.success).toBe(true);
+	});
+
+	test('accepts Gravatar profile URL updates', () => {
+		const result = UpdateProfileSchema.safeParse({
+			avatar: 'https://gravatar.com/gleamingb80de23538'
+		});
+
+		expect(result.success).toBe(true);
+	});
+
+	test('rejects non-Gravatar avatar updates', () => {
+		const result = UpdateProfileSchema.safeParse({ avatar: 'https://example.com/avatar.png' });
+
+		expect(result.success).toBe(false);
+	});
+
 	test('accepts empty links array (means "remove all links")', () => {
 		const result = UpdateProfileSchema.safeParse({ links: [] });
 
@@ -56,6 +78,31 @@ describe('UpdateProfileSchema', () => {
 		});
 
 		expect(result.success).toBe(false);
+	});
+
+	test('rejects link with unsafe url scheme', () => {
+		const unsafeUrl = `java${'script'}:alert(1)`;
+		const result = UpdateProfileSchema.safeParse({
+			links: [{ platform: 'github', url: unsafeUrl }]
+		});
+
+		expect(result.success).toBe(false);
+	});
+
+	test('rejects link without an HTTPS url', () => {
+		const result = UpdateProfileSchema.safeParse({
+			links: [{ platform: 'github', url: 'github-user' }]
+		});
+
+		expect(result.success).toBe(false);
+	});
+
+	test('accepts Slack alias without an HTTPS url', () => {
+		const result = UpdateProfileSchema.safeParse({
+			links: [{ platform: 'slack', url: 'ken' }]
+		});
+
+		expect(result.success).toBe(true);
 	});
 
 	test('rejects invalid birthday format', () => {
