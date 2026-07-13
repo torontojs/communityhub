@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DEFAULT_AVATAR } from '../utils/constants.ts';
+import { safeAvatarUrl } from '../utils/safeAvatarUrl.ts';
 
 interface VolunteerProfile {
 	id: string;
@@ -40,7 +40,7 @@ const ProfileList = () => {
 						<div className='profile-header'>
 							<img
 								className='avatar'
-								src={profile.avatar ?? DEFAULT_AVATAR}
+								src={safeAvatarUrl(profile.avatar)}
 								alt='Avatar'
 							/>
 							<div>

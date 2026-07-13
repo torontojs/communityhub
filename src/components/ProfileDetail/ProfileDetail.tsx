@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './ProfileDetail.css';
 import { useAuth } from '../../context/AuthContext.tsx';
-import { DEFAULT_AVATAR } from '../../utils/constants.ts';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import EmptyIcon from '../EmptyIcon/EmptyIcon.tsx';
 import Social from '../Social/Social.tsx';
 import Team from '../Team/Team.tsx';
@@ -96,7 +96,7 @@ const ProfileDetail = ({ profileId }: Props): React.JSX.Element => {
 				<div className='profile-detail-header-container'>
 					<header className='profile-detail-header'>
 						<div className='profile-detail-avatar'>
-							<img src={profile.avatar ?? DEFAULT_AVATAR} alt={`${profile.name} avatar`} />
+							<img src={safeAvatarUrl(profile.avatar)} alt={`${profile.name} avatar`} />
 						</div>
 						<div className='profile-detail-bio'>
 							<h2>{profile.name}</h2>

@@ -1,6 +1,7 @@
 import './TeamMemberCard.css';
 import type { TeamMemberProfile } from '../../types/index.ts';
 import { getInitials } from '../../utils/getInitials.ts';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 
 const TeamMemberCard = (props: TeamMemberProfile) => (
 	<article className='team-member-card'>
@@ -14,7 +15,7 @@ const TeamMemberCard = (props: TeamMemberProfile) => (
 						<picture>
 							<img
 								className='avatar'
-								src={props.avatar}
+								src={safeAvatarUrl(props.avatar)}
 								alt={`${props.profileName} avatar`}
 							/>
 						</picture>

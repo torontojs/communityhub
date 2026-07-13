@@ -5,6 +5,7 @@ HTTP 200
 jsonpath "$.data[*].profileId" contains "{{team_member_id_1}}"
 jsonpath "$.data[*].profileId" contains "{{team_member_id_2}}"
 jsonpath "$.data[*].profileId" contains "{{team_member_id_3}}"
+jsonpath "$.data[0].email" not exists
 
 # Omitting page should return the first page instead of skipping the first result
 GET {{host}}/api/teams/{{team_members_team_id}}/members?limit=1

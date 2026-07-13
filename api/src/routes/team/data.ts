@@ -82,11 +82,17 @@ export async function updateTeamById(database: D1Database, id: string, data: Upd
 export async function getTeamById(database: D1Database, id: string) {
 	const team = await database
 		.prepare(`
-			SELECT *
-			FROM ${DBTables.TEAM}
+			SELECT team.*,
+				(
+					SELECT COUNT(*)
+					FROM ${DBTables.ROLE} AS role
+					WHERE role.teamId = team.id
+						AND role.deletedAt IS NULL
+				) AS memberCount
+			FROM ${DBTables.TEAM} AS team
 			WHERE
-				id = ?
-				AND deletedAt IS NULL
+				team.id = ?
+				AND team.deletedAt IS NULL
 			LIMIT 1
 		`)
 		.bind(id)

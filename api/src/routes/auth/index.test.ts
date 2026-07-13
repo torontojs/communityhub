@@ -15,6 +15,9 @@ beforeEach(async () => {
 
 	const sessionKeys = await env.SessionTokens.list();
 	await Promise.all(sessionKeys.keys.map(async ({ name }) => env.SessionTokens.delete(name)));
+
+	const passwordResetKeys = await env.PasswordResetToken.list();
+	await Promise.all(passwordResetKeys.keys.map(async ({ name }) => env.PasswordResetToken.delete(name)));
 });
 
 describe('Authentication routes', () => {
@@ -128,7 +131,7 @@ describe('Authentication routes', () => {
 			expect(response.status).toBe(StatusCodes.OKAY);
 
 			const remaining = await env.ActivationTokens.list();
-			expect(remaining.keys.find(({ name }) => name === token)).toBeDefined();
+			expect(remaining.keys.find(({ name }) => name === token)).toBeUndefined();
 		});
 
 		it('fails to activate when token is invalid or expired', async () => {
@@ -156,7 +159,7 @@ describe('Authentication routes', () => {
 				body: JSON.stringify(registeredActiveVolunteer)
 			}, env);
 
-			expect(response.status).toBe(StatusCodes.CREATED);
+			expect(response.status).toBe(StatusCodes.OKAY);
 
 			const setCookie = response.headers.get('set-cookie') ?? response.headers.get('Set-Cookie');
 			expect(setCookie).toBeTruthy();
@@ -231,6 +234,31 @@ describe('Authentication routes', () => {
 		it('returns unauthorized when the session token is missing', async () => {
 			const response = await app.request('/api/auth/sign-out', { method: 'POST' }, env);
 			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+		});
+	});
+
+	describe('POST /api/auth/reset-password', () => {
+		it('invalidates a password reset token after successful use', async () => {
+			const token = '99141843-fb98-48ca-90d7-3f7c14831e2c';
+			const email = 'king.arthur@camelot.uk';
+			const password = 'An Extremely Strong Reset Password 42! With Symbols';
+
+			await env.PasswordResetToken.put(token, email, { expirationTtl: 60 });
+			await env.PasswordResetToken.put(email, token, { expirationTtl: 60 });
+
+			const firstResponse = await app.request('/api/auth/reset-password', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token, password })
+			}, env);
+			expect(firstResponse.status).toBe(StatusCodes.OKAY);
+
+			const replayResponse = await app.request('/api/auth/reset-password', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token, password })
+			}, env);
+			expect(replayResponse.status).toBe(StatusCodes.UNPROCESSABLE_CONTENT);
 		});
 	});
 });

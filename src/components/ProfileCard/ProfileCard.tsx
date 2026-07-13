@@ -1,7 +1,7 @@
 import { type ReactElement, useEffect, useState } from 'react';
 import './ProfileCard.css';
 import type { MemberProfile } from '../../types/index.ts';
-import { DEFAULT_AVATAR } from '../../utils/constants.ts';
+import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import { Facebook } from '../Icons/Social/Facebook.tsx';
 import { LinkedIn } from '../Icons/Social/LinkedIn.tsx';
 import { XTwitter } from '../Icons/Social/XTwitter.tsx';
@@ -90,7 +90,7 @@ const ProfileCard = () => {
 							<picture>
 								<img
 									className='user-profile-avatar'
-									src={profileData.avatar ?? DEFAULT_AVATAR}
+									src={safeAvatarUrl(profileData.avatar)}
 									alt={`${profileData.name} Avatar`}
 								/>
 							</picture>
