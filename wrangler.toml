@@ -59,9 +59,11 @@ preview_id = "vms-local-password-reset-token"
 # DEV env configurations
 [env.dev.vars]
 NODE_ENV = "development"
-SENDER_EMAIL="organizers+dev@torontojs.com"
-BASE_URL = "https://vms-dev.torontojs.com"
-FRONTEND_URL = "https://volunteer-dev.torontojs.com"
+# On deployment, Wrangler Toml over write the variables in Cloudflare Dashboard.
+# Ensure these variables align with the variables required in Cloudflare Dashboard.
+# SENDER_EMAIL="organizers+dev@torontojs.com"
+# BASE_URL = "https://vms-dev.torontojs.com"
+# FRONTEND_URL = "https://volunteer-dev.torontojs.com"
 
 [env.dev.assets]
 directory = "dist/client"
