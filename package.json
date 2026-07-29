@@ -47,9 +47,9 @@
 		"zxcvbn": "^4.4.2"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "1.12.4",
-		"@cloudflare/vitest-pool-workers": "0.12.21",
-		"@orangeopensource/hurl": "7.1.7",
+		"@cloudflare/vite-plugin": "1.48.0",
+		"@cloudflare/vitest-pool-workers": "0.19.0",
+		"@orangeopensource/hurl": "8.0.4",
 		"@playwright/test": "^1.61.1",
 		"@types/node": "^22.20.0",
 		"@types/react": "18.3.31",
