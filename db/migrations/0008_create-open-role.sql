@@ -1,10 +1,10 @@
 -- Migration number: 0002 	 2025-01-30T00:58:21.685Z
 
-DROP TABLE IF EXISTS open-role;
+DROP TABLE IF EXISTS open_role;
 
 -- A person's profile inside the database
 -- It should contain no sensitive information
-CREATE TABLE IF NOT EXISTS open-role(
+CREATE TABLE IF NOT EXISTS open_role(
 	-- The UUID, stored as text
 	id TEXT NOT NULL UNIQUE COLLATE BINARY,
 	-- The name of the open role
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS open_role_members(
 	-- The date this open role member was deleted from the database, saved as an ISO timestamp
 	deletedAt DATETIME DEFAULT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY (open_role_id) REFERENCES open-role(id),
+	FOREIGN KEY (open_role_id) REFERENCES open_role(id),
 	FOREIGN KEY (profile_id) REFERENCES profile(id),
-	FOREIGN KEY (open_role_name) REFERENCES open-role(open_role_name)
+	FOREIGN KEY (open_role_name) REFERENCES open_role(open_role_name)
 );
