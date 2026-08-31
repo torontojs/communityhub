@@ -23,6 +23,7 @@ const team = {
 };
 
 test('public profile cards are anonymous, responsive, and link to public details', async ({ page }) => {
+	await page.route('**/api/auth/heartbeat', async (route) => route.fulfill({ status: 401, json: { message: 'Unauthorized' } }));
 	await page.route('**/api/profiles?*', async (route) =>
 		route.fulfill({
 			json: { data: [profile], currentPage: 1, lastPage: 1, total: 1 }
@@ -33,11 +34,32 @@ test('public profile cards are anonymous, responsive, and link to public details
 
 	await expect(page).toHaveURL(/\/pages\/public-profiles\/?$/u);
 	await expect(page.getByRole('navigation', { name: 'Public navigation' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Sign in' })).toHaveAttribute('href', '/pages/sign-in/');
 	await expect(page.locator('.sidebar-left')).toHaveCount(0);
 	await expect(page.getByRole('heading', { name: 'Ada Lovelace' })).toBeVisible();
 	await expect(page.getByText('ada@example.com')).toHaveCount(0);
 	await expect(page.getByRole('link', { name: /Ada Lovelace/u })).toHaveAttribute('href', `/pages/public-profile/?id=${profileId}`);
 	await expect(page.locator('.public-profile-card')).toHaveCSS('min-width', '0px');
+});
+
+test('public navigation links authenticated visitors to their dashboard', async ({ page }) => {
+	await page.route('**/api/auth/heartbeat', async (route) =>
+		route.fulfill({
+			json: {
+				access: 'volunteer',
+				status: 'profile-completed'
+			}
+		}));
+	await page.route('**/api/profiles?*', async (route) =>
+		route.fulfill({
+			json: { data: [profile], currentPage: 1, lastPage: 1, total: 1 }
+		}));
+
+	await page.goto('/pages/public-profiles/');
+
+	await expect(page.getByRole('heading', { name: 'Ada Lovelace' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Dashboard' })).toHaveAttribute('href', '/pages/home/');
+	await expect(page.getByRole('link', { name: 'Sign in' })).toHaveCount(0);
 });
 
 test('public profile detail uses public team links and excludes private fields', async ({ page }) => {

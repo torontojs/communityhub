@@ -37,7 +37,7 @@
 
 .public-navigation a[aria-current='page'] { color: var(--color-accent); }
 
-.public-navigation .public-sign-in {
+.public-navigation .public-session-link {
 	border: var(--border);
 	border-color: var(--color-accent);
 	border-radius: var(--rounded-sm);
@@ -109,7 +109,7 @@
 
 	.public-navigation a { font-size: var(--text-xs); }
 
-	.public-navigation .public-sign-in { padding-inline: var(--spacing-xs); }
+	.public-navigation .public-session-link { padding-inline: var(--spacing-xs); }
 
 	.public-main { padding-block: var(--spacing-md); }
 
