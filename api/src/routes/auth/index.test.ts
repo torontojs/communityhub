@@ -38,10 +38,23 @@ describe('Authentication routes', () => {
 
 			const tokens = await env.ActivationTokens.list();
 			expect(Array.isArray(tokens?.keys)).toBe(true);
-			expect(tokens.keys.length).toBe(1);
+			// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+			expect(tokens.keys.length).toBe(2);
 
-			const [firstActivationTokenKey] = tokens.keys;
+			const firstActivationTokenKey = tokens.keys.find(({ name }) => !name.startsWith('activation-resend:'));
 			assert(firstActivationTokenKey, 'First ActivationToken should exist.');
+			const activationResendKey = tokens.keys.find(({ name }) => name.startsWith('activation-resend:'));
+			assert(activationResendKey, 'Activation resend cooldown should exist.');
+			assert(firstActivationTokenKey.expiration, 'Activation token expiration should exist.');
+			assert(activationResendKey.expiration, 'Activation resend cooldown expiration should exist.');
+			expect(firstActivationTokenKey.expiration).toBe(activationResendKey.expiration);
+			// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+			const expectedTtlSeconds = 60 * 15;
+			// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+			const actualTtlSeconds = firstActivationTokenKey.expiration - Math.floor(Date.now() / 1000);
+			// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+			expect(actualTtlSeconds).toBeGreaterThanOrEqual(expectedTtlSeconds - 5);
+			expect(actualTtlSeconds).toBeLessThanOrEqual(expectedTtlSeconds);
 
 			const stored = await env.ActivationTokens.get(firstActivationTokenKey.name, 'json');
 			expect(stored).toEqual(expect.objectContaining({ email: newUserPayload.email }));
@@ -74,7 +87,73 @@ describe('Authentication routes', () => {
 			expect(profile?.avatar).toBe(newUserPayload.avatar);
 		});
 
-		it.todo('skips creation when the email already exists (idempotent sign-up path)');
+		it('does not resend while an unactivated account is on cooldown', async () => {
+			const payload = {
+				name: 'Cooldown User',
+				email: 'cooldown@example.com',
+				password: 'jfiewofjieowfjo2348219++++'
+			};
+
+			await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(payload)
+			}, env);
+			const tokensBeforeRetry = await env.ActivationTokens.list();
+
+			const response = await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(payload)
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.OKAY);
+			expect((await env.ActivationTokens.list()).keys).toHaveLength(tokensBeforeRetry.keys.length);
+		});
+
+		it('creates a fresh activation token after the resend cooldown', async () => {
+			const payload = {
+				name: 'Resend User',
+				email: 'resend@example.com',
+				password: 'jfiewofjieowfjo2348219++++'
+			};
+
+			await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(payload)
+			}, env);
+			const firstKeys = await env.ActivationTokens.list();
+			const cooldownKey = firstKeys.keys.find(({ name }) => name.startsWith('activation-resend:'));
+			assert(cooldownKey, 'Activation resend cooldown should exist.');
+			await env.ActivationTokens.delete(cooldownKey.name);
+
+			const response = await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(payload)
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.OKAY);
+			const activationKeys = (await env.ActivationTokens.list()).keys.filter(({ name }) => !name.startsWith('activation-resend:'));
+			// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+			expect(activationKeys).toHaveLength(2);
+		});
+
+		it('does not send an activation token for an existing active account', async () => {
+			const response = await app.request('/api/auth/sign-up', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name: 'King Arthur',
+					email: 'king.arthur@camelot.uk',
+					password: 'H0lyGr@il42!L0rd'
+				})
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.OKAY);
+			expect((await env.ActivationTokens.list()).keys).toHaveLength(0);
+		});
 
 		it('rejects sign-up when email is invalid', async () => {
 			const invalidEmailPayload = {

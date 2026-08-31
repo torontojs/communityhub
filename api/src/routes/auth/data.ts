@@ -136,13 +136,17 @@ export async function getHeartbeatInfo(database: D1Database, id: string) {
 	return userInfo;
 }
 
-export async function checkExistingEmail(database: D1Database, email: string) {
-	const existingEmail = await database
-		.prepare(`SELECT email FROM ${DBTables.ACCESS} WHERE email = ? LIMIT 1`)
+export async function getExistingAccount(database: D1Database, email: string) {
+	return database
+		.prepare(`SELECT email, id, activatedAt FROM ${DBTables.ACCESS} WHERE email = ? LIMIT 1`)
 		.bind(email)
-		.first<{ email: string }>();
+		.first<{ email: string, id: string, activatedAt: string | null }>();
+}
 
-	return existingEmail !== null;
+export async function checkExistingEmail(database: D1Database, email: string) {
+	const existingAccount = await getExistingAccount(database, email);
+
+	return existingAccount !== null;
 }
 
 export async function checkActiveEmail(database: D1Database, email: string) {
