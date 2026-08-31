@@ -1,0 +1,81 @@
+name: QA Bug Report
+description: Report a bug found during UAT testing
+title: "[QA]: "
+labels:
+  - "qa"
+projects:
+  - "torontojs/8"
+body:
+  - type: input
+    attributes:
+      label: Journey #
+      description: "The test journey number from the UAT plan, e.g. 1.7, 3.4, 8.7"
+      placeholder: "e.g. 1.7"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: A clear description of the bug
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What should happen?
+      description: The expected behavior from the test plan
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Exact steps the developer can follow
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Severity
+      description: How bad is this bug?
+      options:
+        - "Critical — blocks launch (data loss, auth bypass, crash)"
+        - "Major — feature broken, workaround exists"
+        - "Minor — cosmetic, edge case, non-blocking"
+        - "Suggestion — nice-to-have"
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Test Cycle
+      description: Which cycle was this found in?
+      options:
+        - R1 — Smoke
+        - R2 — Full
+        - R3 — Regression
+        - R4 — Production Smoke
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Environment
+      description: Which environment were you testing?
+      placeholder: "e.g. dev, production"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Browser
+      description: "e.g. Chrome 125, Firefox 130, Safari 17"
+      placeholder: "Chrome 125"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Screenshot / Video
+      description: Paste a screenshot URL or drag an image here
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Any other notes for the developer
