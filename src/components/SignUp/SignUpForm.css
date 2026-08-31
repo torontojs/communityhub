@@ -21,9 +21,9 @@
 	justify-content: space-between;
 
 	& span {
-		color: var(--color-error);
-		font-size: 12px;
-		font-weight: var(--weight-thin);
+		color: var(--color-accent);
+		font-size: var(--text-xs);
+		font-weight: var(--weight-semibold);
 	}
 }
 
@@ -38,9 +38,10 @@
 }
 
 .input-block input:focus {
-	border-color: var(--color-error);
-	outline: none;
-}
+
+	 outline:1.5px solid var(--color-error);
+};
+
 
 .have-account { & p { text-align: center; } }
 
