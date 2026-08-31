@@ -1,0 +1,119 @@
+.public-layout {
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	max-width: 75rem;
+	min-height: 100vh;
+	padding-inline: var(--spacing-md);
+}
+
+.public-header {
+	align-items: center;
+	border-bottom: var(--border);
+	display: flex;
+	justify-content: space-between;
+	min-height: 5.5rem;
+}
+
+.public-brand {
+	display: block;
+	line-height: 0;
+}
+
+.public-brand .logo { margin: 0; }
+
+.public-navigation {
+	align-items: center;
+	display: flex;
+	gap: var(--spacing-md);
+}
+
+.public-navigation a {
+	color: var(--color-black);
+	font-size: var(--text-sm);
+	font-weight: var(--weight-semibold);
+	text-decoration: none;
+}
+
+.public-navigation a[aria-current='page'] { color: var(--color-accent); }
+
+.public-navigation .public-session-link {
+	border: var(--border);
+	border-color: var(--color-accent);
+	border-radius: var(--rounded-sm);
+	color: var(--color-accent);
+	padding: 0.375rem var(--spacing-sm);
+}
+
+.public-main {
+	flex: 1;
+	padding-block: var(--spacing-lg);
+}
+
+.public-page-header { margin-bottom: var(--spacing-lg); }
+
+.public-page-header h1 {
+	color: var(--color-black);
+	font-size: var(--text-2xl);
+	margin: 0 0 var(--spacing-xs);
+}
+
+.public-page-header p {
+	color: var(--color-gray-600);
+	margin: 0;
+}
+
+.public-back-link {
+	display: inline-block;
+	font-size: var(--text-sm);
+	font-weight: var(--weight-semibold);
+	margin-bottom: var(--spacing-md);
+}
+
+.public-card-grid {
+	display: grid;
+	gap: var(--spacing-md);
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.public-status,
+.public-empty-state {
+	border: var(--border);
+	border-color: color-mix(in srgb, var(--color-gray-500) 20%, transparent);
+	border-radius: var(--rounded-md);
+	color: var(--color-gray-600);
+	padding: var(--spacing-lg);
+	text-align: center;
+}
+
+.public-empty-state {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}
+
+@media screen and (max-width: 40rem) {
+	.public-layout { padding-inline: var(--spacing-sm); }
+
+	.public-header { min-height: 4.5rem; }
+
+	.public-brand .logo.small img {
+		height: 3rem;
+		width: 3rem;
+	}
+
+	.public-navigation { gap: var(--spacing-sm); }
+
+	.public-navigation a { font-size: var(--text-xs); }
+
+	.public-navigation .public-session-link { padding-inline: var(--spacing-xs); }
+
+	.public-main { padding-block: var(--spacing-md); }
+
+	.public-page-header h1 { font-size: var(--text-xl); }
+
+	.public-card-grid { grid-template-columns: 1fr; }
+}

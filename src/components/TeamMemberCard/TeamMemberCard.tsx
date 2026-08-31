@@ -3,10 +3,14 @@ import type { TeamMemberProfile } from '../../types/index.ts';
 import { getInitials } from '../../utils/getInitials.ts';
 import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 
-const TeamMemberCard = (props: TeamMemberProfile) => (
+interface Props extends TeamMemberProfile {
+	profileHref?: string;
+}
+
+const TeamMemberCard = (props: Props) => (
 	<article className='team-member-card'>
 		<a
-			href={`/pages/profile?id=${props.profileId}`}
+			href={props.profileHref ?? `/pages/profile?id=${props.profileId}`}
 			className='team-member-profile-link'
 		>
 			<div className='team-member-profile'>

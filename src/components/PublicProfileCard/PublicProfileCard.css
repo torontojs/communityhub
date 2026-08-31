@@ -1,0 +1,83 @@
+.public-profile-card {
+	border: var(--border);
+	border-color: color-mix(in srgb, var(--color-gray-500) 20%, transparent);
+	border-radius: var(--rounded-md);
+	min-width: 0;
+	transition: border-color 180ms ease, box-shadow 180ms ease, translate 180ms ease;
+}
+
+.public-profile-card:hover {
+	border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+	box-shadow: 0 0.5rem 1.25rem color-mix(in srgb, var(--color-black) 8%, transparent);
+	translate: 0 -0.125rem;
+}
+
+.public-profile-card > a {
+	color: var(--color-foreground);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	height: 100%;
+	padding: var(--spacing-md);
+	text-decoration: none;
+}
+
+.public-profile-card-header {
+	align-items: center;
+	display: flex;
+	gap: var(--spacing-sm);
+}
+
+.public-profile-card-avatar {
+	border-radius: var(--rounded-full);
+	flex: 0 0 4rem;
+	height: 4rem;
+	object-fit: cover;
+	width: 4rem;
+}
+
+.public-profile-card-initials {
+	align-items: center;
+	background: var(--color-red-card);
+	color: var(--color-red-text);
+	display: flex;
+	font-weight: var(--weight-bold);
+	justify-content: center;
+}
+
+.public-profile-card-header h2 {
+	font-size: var(--text-lg);
+	line-height: var(--leading-h3);
+	margin: 0;
+}
+
+.public-profile-card-header p,
+.public-profile-card-description { margin: 0; }
+
+.public-profile-card-header p {
+	color: var(--color-gray-600);
+	font-size: var(--text-sm);
+}
+
+.public-profile-card-description {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+}
+
+.public-profile-card-skills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-xs);
+	list-style: none;
+	margin: auto 0 0;
+	padding: 0;
+}
+
+.public-profile-card-skills li {
+	background: var(--color-gray-50);
+	border-radius: var(--rounded-md);
+	font-size: var(--text-sm);
+	padding: 0.125rem 0.5rem;
+}
