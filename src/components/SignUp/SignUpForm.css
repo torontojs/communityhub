@@ -37,11 +37,7 @@
 	width: 100%;
 }
 
-.input-block input:focus {
-
-	 outline:1.5px solid var(--color-error);
-};
-
+.input-block input:focus { outline: 1.5px solid var(--color-error); }
 
 .have-account { & p { text-align: center; } }
 
