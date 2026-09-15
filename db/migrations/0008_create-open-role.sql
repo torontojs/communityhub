@@ -1,6 +1,6 @@
 -- Migration number: 0002 	 2025-01-30T00:58:21.685Z
 
-DROP TABLE IF EXISTS open_role;
+
 -- A person's profile inside the database
 -- It should contain no sensitive information
 CREATE TABLE IF NOT EXISTS open_role(
