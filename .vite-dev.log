@@ -1,0 +1,44 @@
+
+> vms@0.0.1 dev
+> vite dev
+
+✓ Added main entry: O:\codes\communityhub\src\index.html
+✓ Added page: account-ready
+✓ Added page: button-usage
+✓ Added page: check-steps
+✓ Added page: check-your-email
+✓ Added page: complete-profile
+✓ Added page: confirm-account
+✓ Added page: date-usage
+✓ Added page: dev-links
+✓ Added page: forgot-password
+✓ Added page: home
+✓ Added page: notification-box-usage
+✓ Added page: notifications
+✓ Added page: print-documents
+✓ Added page: profile
+✓ Added page: profiles
+✓ Added page: protected-page-admins
+✓ Added page: protected-page-all
+✓ Added page: protected-page-organizers
+✓ Added page: protected-profile
+✓ Added page: reset-password
+✓ Added page: reset-password-success
+✓ Added page: review-conduct-code
+✓ Added page: sign-in
+✓ Added page: sign-up
+✓ Added page: team
+✓ Added page: teams
+✓ Added page: text-input-usage
+✓ Added page: usage-helper-message
+✓ Added page: volunteer
+Using vars defined in .dev.vars
+
+  VITE v7.0.5  ready in 1539 ms
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: http://192.168.26.144:3000/
+  ➜  Debug:   http://localhost:3000/__debug
+  ➜  press h + enter to show help
+6:26:35 pm [vite] Pre-transform error: Failed to load url /sign-up.tsx (resolved id: /sign-up.tsx). Does the file exist?
+6:26:48 pm [vite] Pre-transform error: Failed to load url /sign-in.tsx (resolved id: /sign-in.tsx). Does the file exist?
