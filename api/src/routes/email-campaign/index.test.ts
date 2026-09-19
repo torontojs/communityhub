@@ -84,4 +84,55 @@ describe('Email campaign routes', () => {
 		expect(repeatedCampaign.id).toBe(firstCampaign.id);
 		expect(storedCount?.count).toBe(1);
 	});
+
+	test('resumes a campaign whose previous request died before every recipient was attempted', async () => {
+		const cookie = await signIn('king.arthur@camelot.uk', 'H0lyGr@il42!L0rd');
+		const idempotencyKey = crypto.randomUUID();
+		const body = JSON.stringify({
+			subject: 'Community update',
+			message: 'This is a test community notification.',
+			audience: { mode: 'all' },
+			idempotencyKey
+		});
+		const request = async () =>
+			app.request('/api/email-campaigns', {
+				method: 'POST',
+				headers: { 'Cookie': cookie, 'Content-Type': 'application/json' },
+				body
+			}, env);
+
+		const firstResponse = await request();
+		const firstCampaign = await firstResponse.json<{ id: string, recipientCount: number }>();
+		expect(firstResponse.status).toBe(StatusCodes.CREATED);
+		expect(firstCampaign.recipientCount).toBeGreaterThan(1);
+
+		// Rewind to the state a torn-down Worker leaves behind: campaign still 'sending',
+		// with one recipient never attempted.
+		const strandedRecipient = await env.Database.prepare(
+			'SELECT id FROM email_campaign_recipient WHERE campaignId = ? ORDER BY insertedAt LIMIT 1'
+		).bind(firstCampaign.id).first<{ id: string }>();
+		assert(strandedRecipient, 'Campaign should have at least one recipient.');
+		await env.Database.batch([
+			env.Database.prepare(
+				`UPDATE email_campaign_recipient
+				SET status = 'pending', providerMessageId = NULL, attemptedAt = NULL
+				WHERE id = ?`
+			).bind(strandedRecipient.id),
+			env.Database.prepare(
+				`UPDATE email_campaign SET status = 'sending', sentAt = NULL WHERE id = ?`
+			).bind(firstCampaign.id)
+		]);
+
+		const resumedResponse = await request();
+		const resumedCampaign = await resumedResponse.json<{ id: string, status: string, sentCount: number }>();
+		const stillPending = await env.Database.prepare(
+			`SELECT COUNT(*) AS count FROM email_campaign_recipient WHERE campaignId = ? AND status = 'pending'`
+		).bind(firstCampaign.id).first<{ count: number }>();
+
+		expect(resumedResponse.status).toBe(StatusCodes.OKAY);
+		expect(resumedCampaign.id).toBe(firstCampaign.id);
+		expect(resumedCampaign.status).toBe('sent');
+		expect(resumedCampaign.sentCount).toBe(firstCampaign.recipientCount);
+		expect(stillPending?.count).toBe(0);
+	});
 });

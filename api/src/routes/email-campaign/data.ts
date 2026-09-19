@@ -20,6 +20,16 @@ export interface CampaignRecipient {
 	name: string;
 }
 
+/** The only fields delivery needs, so a resumed campaign can reload recipients cheaply. */
+export type DeliverableRecipient = Pick<CampaignRecipient, 'email' | 'id'>;
+
+export interface CampaignDeliveryState {
+	id: string;
+	status: EmailCampaignStatus;
+	subject: string;
+	message: string;
+}
+
 const ERROR_MESSAGE_MAX_LENGTH = 1000;
 
 function transformAudienceProfile(profile: DatabaseAudienceProfile): AudienceProfile {
@@ -167,6 +177,36 @@ export async function getCampaignByIdempotencyKey(database: D1Database, idempote
 	`).bind(idempotencyKey).first<EmailCampaignSummary>();
 }
 
+/** Delivery-side view of a campaign: enough to resume sending without re-resolving the audience. */
+export async function getCampaignDeliveryState(database: D1Database, idempotencyKey: string) {
+	return database.prepare(`
+		SELECT id, status, subject, message
+		FROM ${DBTables.EMAIL_CAMPAIGN}
+		WHERE idempotencyKey = ?
+		LIMIT 1
+	`).bind(idempotencyKey).first<CampaignDeliveryState>();
+}
+
+/** Recipients of a campaign that were never attempted, in insertion order. */
+export async function getPendingRecipients(database: D1Database, campaignId: string): Promise<DeliverableRecipient[]> {
+	const { results } = await database.prepare(`
+		SELECT id, email
+		FROM ${DBTables.EMAIL_CAMPAIGN_RECIPIENT}
+		WHERE campaignId = ? AND status = 'pending'
+		ORDER BY insertedAt
+	`).bind(campaignId).run<DeliverableRecipient>();
+
+	return results;
+}
+
+/**
+ * Two concurrent sends with the same idempotency key both see no existing campaign and both
+ * insert; the loser trips the UNIQUE index and is expected to fall back to reading the winner.
+ */
+export function isUniqueConstraintError(error: unknown) {
+	return error instanceof Error && /UNIQUE constraint failed/iu.test(error.message);
+}
+
 export async function insertCampaign(
 	database: D1Database,
 	createdBy: string,
@@ -227,18 +267,49 @@ export async function updateRecipientDelivery(
 		`).bind(status, providerMessageId ?? null, errorMessage?.slice(0, ERROR_MESSAGE_MAX_LENGTH) ?? null, new Date().toISOString(), recipientId).run();
 }
 
-export async function finishCampaign(
-	database: D1Database,
-	campaignId: string,
-	status: EmailCampaignStatus,
-	sentCount: number,
-	failedCount: number
-) {
-	return database.prepare(`
+/**
+ * Finalizes a campaign from its recipient rows rather than from in-memory counters, so the
+ * summary stays consistent with the per-recipient records even when a run is cut short.
+ * Recipients still pending mean delivery never finished: the campaign is left in 'sending'
+ * so a later request can resume it instead of reporting a result that never happened.
+ */
+export async function finishCampaign(database: D1Database, campaignId: string) {
+	const counts = await database.prepare(`
+		SELECT
+			COALESCE(SUM(CASE WHEN status = 'sent' THEN 1 ELSE 0 END), 0) AS sentCount,
+			COALESCE(SUM(CASE WHEN status = 'failed' THEN 1 ELSE 0 END), 0) AS failedCount,
+			COALESCE(SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END), 0) AS pendingCount
+		FROM ${DBTables.EMAIL_CAMPAIGN_RECIPIENT}
+		WHERE campaignId = ?
+	`).bind(campaignId).first<{ sentCount: number, failedCount: number, pendingCount: number }>();
+
+	const sentCount = counts?.sentCount ?? 0;
+	const failedCount = counts?.failedCount ?? 0;
+
+	if ((counts?.pendingCount ?? 0) > 0) {
+		await database.prepare(`
+			UPDATE ${DBTables.EMAIL_CAMPAIGN}
+			SET sentCount = ?, failedCount = ?
+			WHERE id = ?
+		`).bind(sentCount, failedCount, campaignId).run();
+
+		return { status: 'sending' satisfies EmailCampaignStatus, sentCount, failedCount };
+	}
+
+	let status: EmailCampaignStatus = 'partially-failed';
+	if (failedCount === 0 && sentCount > 0) {
+		status = 'sent';
+	} else if (sentCount === 0) {
+		status = 'failed';
+	}
+
+	await database.prepare(`
 		UPDATE ${DBTables.EMAIL_CAMPAIGN}
 		SET status = ?, sentCount = ?, failedCount = ?, sentAt = ?
 		WHERE id = ?
 	`).bind(status, sentCount, failedCount, new Date().toISOString(), campaignId).run();
+
+	return { status, sentCount, failedCount };
 }
 
 export async function getRecentCampaigns(database: D1Database) {

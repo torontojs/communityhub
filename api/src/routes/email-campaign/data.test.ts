@@ -86,7 +86,7 @@ describe('Email campaign data', () => {
 		const [campaignRecipient] = campaignRecipients;
 		assert(campaignRecipient, 'Campaign recipient should exist.');
 		await updateRecipientDelivery(env.Database, campaignRecipient.id, 'sent', 'provider-message-id');
-		await finishCampaign(env.Database, campaignId, 'sent', 1, 0);
+		await finishCampaign(env.Database, campaignId);
 
 		const summary = await getCampaignByIdempotencyKey(env.Database, idempotencyKey);
 		const recipient = await env.Database.prepare('SELECT email, status, providerMessageId FROM email_campaign_recipient WHERE campaignId = ?')

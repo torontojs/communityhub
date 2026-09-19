@@ -230,6 +230,18 @@ const EmailCampaignComposer = (): React.JSX.Element => {
 
 			const result = data;
 			setCampaigns((current) => [result, ...current.filter(({ id }) => id !== result.id)]);
+
+			// 'sending' means delivery was cut short. Keep the draft and the idempotency key so
+			// retrying resumes the same campaign instead of reporting a send that never finished.
+			if (result.status === 'sending') {
+				setFeedback({
+					title: 'Notification still sending',
+					message: `${result.sentCount} of ${result.recipientCount} sent so far. Send again to finish the remaining recipients.`,
+					variant: 'error'
+				});
+				return;
+			}
+
 			setFeedback({
 				title: result.failedCount === 0 ? 'Notification sent' : 'Notification partially sent',
 				message: `${result.sentCount} sent${result.failedCount > 0 ? ` and ${result.failedCount} failed` : ''}.`,

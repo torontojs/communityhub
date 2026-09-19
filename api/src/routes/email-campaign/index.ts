@@ -1,4 +1,5 @@
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
+import type { Context } from 'hono';
 import { z } from 'zod';
 import { sendCommunityNotificationEmail } from '../../email/index.ts';
 import { authorizeOrganizer } from '../../middleware/access.ts';
@@ -12,24 +13,32 @@ import {
 	StatusResponseSchema
 } from '../../utils/responses.ts';
 import {
+	type DeliverableRecipient,
 	finishCampaign,
 	getAudienceOptions,
 	getCampaignByIdempotencyKey,
+	getCampaignDeliveryState,
+	getPendingRecipients,
 	getRecentCampaigns,
 	insertCampaign,
+	isUniqueConstraintError,
 	resolveAudience,
 	updateRecipientDelivery
 } from './data.ts';
 import {
 	AudienceOptionsSchema,
+	type CreateEmailCampaign,
 	CreateEmailCampaignSchema,
 	EmailCampaignPreviewSchema,
-	type EmailCampaignStatus,
 	EmailCampaignSummarySchema,
 	PreviewEmailCampaignSchema
 } from './validation.ts';
 
-const MAX_CONCURRENT_EMAILS = 5;
+// Resend's default limit is 2 requests per second. Going wider gets the extra sends
+// throttled, and a throttled send used to be recorded as a permanent failure.
+const MAX_CONCURRENT_EMAILS = 2;
+const HALF_SECOND_MS = 500;
+const RATE_LIMIT_RETRY_DELAYS_MS = [HALF_SECOND_MS, HALF_SECOND_MS * 3, HALF_SECOND_MS * 8];
 // Each recipient costs ~2 subrequests (send + status write). 400 keeps a campaign
 // well under the Worker's 1000-subrequest-per-request limit, so it finishes in one
 // request without a queue. Revisit if the community outgrows this.
@@ -38,6 +47,104 @@ const MAX_RECIPIENTS_PER_CAMPAIGN = 400;
 export const emailCampaignRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
+
+type EmailResponse = Awaited<ReturnType<typeof sendCommunityNotificationEmail>>;
+
+async function delay(milliseconds: number) {
+	await new Promise((resolve) => {
+		setTimeout(resolve, milliseconds);
+	});
+}
+
+function isRateLimited({ error }: EmailResponse) {
+	return error?.name === 'rate_limit_exceeded' || /rate limit|too many requests/iu.test(error?.message ?? '');
+}
+
+/** A throttled send is transient, so it is retried with backoff instead of being recorded as failed. */
+async function sendWithRateLimitRetry(context: Context<EnvironmentBindings>, email: string, data: CreateEmailCampaign) {
+	const parameters = {
+		apiKey: context.env.RESEND_API_KEY,
+		email,
+		message: data.message,
+		senderEmail: context.env.SENDER_EMAIL,
+		subject: data.subject
+	};
+	let response = await sendCommunityNotificationEmail(context, parameters);
+
+	for (const retryDelay of RATE_LIMIT_RETRY_DELAYS_MS) {
+		if (!isRateLimited(response)) {
+			break;
+		}
+
+		await delay(retryDelay);
+		response = await sendCommunityNotificationEmail(context, parameters);
+	}
+
+	return response;
+}
+
+/**
+ * Attempts every recipient, recording each outcome as it goes, then finalizes the campaign from
+ * those records. Recipients are only ever moved off 'pending' once attempted, so a run that dies
+ * partway leaves the rest resumable.
+ */
+async function deliverCampaign(
+	context: Context<EnvironmentBindings>,
+	campaignId: string,
+	data: CreateEmailCampaign,
+	recipients: DeliverableRecipient[]
+) {
+	try {
+		for (let index = 0; index < recipients.length; index += MAX_CONCURRENT_EMAILS) {
+			const recipientBatch = recipients.slice(index, index + MAX_CONCURRENT_EMAILS);
+
+			await Promise.all(recipientBatch.map(async (recipient) => {
+				let providerMessageId: string | undefined;
+				let errorMessage: string | undefined;
+
+				try {
+					const response = await sendWithRateLimitRetry(context, recipient.email, data);
+
+					providerMessageId = response.data?.id;
+					if (response.error || !providerMessageId) {
+						errorMessage = response.error?.message ?? 'Email provider did not return a message ID.';
+					}
+				} catch (error) {
+					errorMessage = error instanceof Error ? error.message : 'Unknown email provider error.';
+				}
+
+				// The status write is guarded too: a failed DB update must not abort the whole batch.
+				try {
+					await updateRecipientDelivery(
+						context.env.Database,
+						recipient.id,
+						errorMessage ? 'failed' : 'sent',
+						providerMessageId,
+						errorMessage
+					);
+				} catch {
+					// Leaving the row 'pending' is correct here: the recipient stays resumable.
+				}
+			}));
+		}
+	} finally {
+		await finishCampaign(context.env.Database, campaignId);
+	}
+}
+
+async function respondWithCampaign(
+	context: Context<EnvironmentBindings>,
+	idempotencyKey: string,
+	statusCode: typeof StatusCodes.CREATED | typeof StatusCodes.OKAY
+) {
+	const campaign = await getCampaignByIdempotencyKey(context.env.Database, idempotencyKey);
+
+	if (!campaign) {
+		throw new Error('Campaign was sent but its summary could not be loaded.');
+	}
+
+	return context.json(campaign, statusCode);
+}
 
 emailCampaignRoutes.openapi(
 	createRoute({
@@ -167,10 +274,20 @@ emailCampaignRoutes.openapi(
 	}),
 	async (context) => {
 		const data = context.req.valid('json');
-		const existingCampaign = await getCampaignByIdempotencyKey(context.env.Database, data.idempotencyKey);
+		const existingCampaign = await getCampaignDeliveryState(context.env.Database, data.idempotencyKey);
 
 		if (existingCampaign) {
-			return context.json(existingCampaign, StatusCodes.OKAY);
+			// A campaign left in 'sending' never finished attempting its recipients, so this
+			// retry resumes it rather than reporting a result that never happened.
+			if (existingCampaign.status === 'sending') {
+				const pendingRecipients = await getPendingRecipients(context.env.Database, existingCampaign.id);
+
+				await (pendingRecipients.length > 0 ?
+					deliverCampaign(context, existingCampaign.id, data, pendingRecipients) :
+					finishCampaign(context.env.Database, existingCampaign.id));
+			}
+
+			return respondWithCampaign(context, data.idempotencyKey, StatusCodes.OKAY);
 		}
 
 		const recipients = await resolveAudience(context.env.Database, data.audience);
@@ -190,68 +307,22 @@ emailCampaignRoutes.openapi(
 		}
 
 		const { id: createdBy } = getSession(context);
-		const { campaignId, recipients: campaignRecipients } = await insertCampaign(context.env.Database, createdBy, data, recipients);
-		let sentCount = 0;
-		let failedCount = 0;
+		let campaignId: string;
+		let campaignRecipients: DeliverableRecipient[];
 
 		try {
-			for (let index = 0; index < campaignRecipients.length; index += MAX_CONCURRENT_EMAILS) {
-				const recipientBatch = campaignRecipients.slice(index, index + MAX_CONCURRENT_EMAILS);
-
-				const batchResults = await Promise.all(recipientBatch.map(async (recipient) => {
-					let providerMessageId: string | undefined;
-					let errorMessage: string | undefined;
-
-					try {
-						const response = await sendCommunityNotificationEmail(context, {
-							apiKey: context.env.RESEND_API_KEY,
-							email: recipient.email,
-							message: data.message,
-							senderEmail: context.env.SENDER_EMAIL,
-							subject: data.subject
-						});
-
-						providerMessageId = response.data?.id;
-						if (response.error || !providerMessageId) {
-							errorMessage = response.error?.message ?? 'Email provider did not return a message ID.';
-						}
-					} catch (error) {
-						errorMessage = error instanceof Error ? error.message : 'Unknown email provider error.';
-					}
-
-					// The status write is guarded too: a failed DB update must not abort the whole batch.
-					try {
-						if (errorMessage) {
-							await updateRecipientDelivery(context.env.Database, recipient.id, 'failed', undefined, errorMessage);
-							return false;
-						}
-
-						await updateRecipientDelivery(context.env.Database, recipient.id, 'sent', providerMessageId);
-						return true;
-					} catch {
-						return false;
-					}
-				}));
-
-				sentCount += batchResults.filter(Boolean).length;
-				failedCount += batchResults.filter((wasSent) => !wasSent).length;
+			({ campaignId, recipients: campaignRecipients } = await insertCampaign(context.env.Database, createdBy, data, recipients));
+		} catch (error) {
+			// A concurrent request with the same key won the insert; defer to its campaign.
+			if (!isUniqueConstraintError(error)) {
+				throw error;
 			}
-		} finally {
-			// Always finalize so a campaign never stays stuck in 'sending', even if the loop throws.
-			let status: EmailCampaignStatus = 'partially-failed';
-			if (failedCount === 0 && sentCount > 0) {
-				status = 'sent';
-			} else if (sentCount === 0) {
-				status = 'failed';
-			}
-			await finishCampaign(context.env.Database, campaignId, status, sentCount, failedCount);
-		}
-		const campaign = await getCampaignByIdempotencyKey(context.env.Database, data.idempotencyKey);
 
-		if (!campaign) {
-			throw new Error('Campaign was sent but its summary could not be loaded.');
+			return respondWithCampaign(context, data.idempotencyKey, StatusCodes.OKAY);
 		}
 
-		return context.json(campaign, StatusCodes.CREATED);
+		await deliverCampaign(context, campaignId, data, campaignRecipients);
+
+		return respondWithCampaign(context, data.idempotencyKey, StatusCodes.CREATED);
 	}
 );
