@@ -1,0 +1,13 @@
+.public-profile-detail .profile-detail-bio h1 {
+	font-size: var(--text-xl);
+	line-height: var(--leading-h2);
+	margin: 0;
+}
+
+@media screen and (max-width: 40rem) {
+	.public-profile-detail .profile-detail-header { align-items: center; }
+
+	.public-profile-detail .profile-detail-bio { margin-left: var(--spacing-sm); }
+
+	.public-profile-detail .profile-detail-bio h1 { font-size: var(--text-lg); }
+}

@@ -1,0 +1,22 @@
+.public-team-summary {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.public-team-summary .team-card-icon { display: flex; }
+
+.public-team-members { margin-top: var(--spacing-lg); }
+
+.public-team-members > h2 {
+	font-size: var(--text-xl);
+	margin: 0 0 var(--spacing-md);
+}
+
+.public-team-members .public-card-grid > li { min-width: 0; }
+
+@media screen and (max-width: 40rem) {
+	.public-team-members { margin-top: var(--spacing-md); }
+
+	.public-team-members > h2 { font-size: var(--text-lg); }
+}

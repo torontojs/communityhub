@@ -1,0 +1,23 @@
+.public-pagination {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-xs);
+	justify-content: center;
+	margin-top: var(--spacing-lg);
+}
+
+.public-pagination button {
+	background: transparent;
+	border: 0;
+	border-radius: var(--rounded-full);
+	color: var(--color-gray-600);
+	cursor: pointer;
+	font-size: var(--text-sm);
+	height: 2rem;
+	width: 2rem;
+}
+
+.public-pagination button[aria-current='page'] {
+	background: var(--color-gray-700);
+	color: var(--color-white);
+}
