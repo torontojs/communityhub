@@ -4,6 +4,7 @@ import { getGravatarUrlType } from '../../utils/gravatar.ts';
 import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import Button from '../Button/Button.tsx';
 import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
+import { ToastContainer, toast } from 'react-toastify';
 
 interface Props {
 	name: string;
@@ -27,16 +28,15 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 	const [avatarUrl, setAvatarUrl] = useState(initialAvatar);
 	const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 	const [avatarInput, setAvatarInput] = useState(initialAvatar);
-	const [avatarError, setAvatarError] = useState('');
 	const avatarPreview = (url: string): string => getGravatarUrlType(url) === 'profile' ? safeAvatarUrl(undefined) : safeAvatarUrl(url);
 
 	const handleAvatarSave = (): void => {
 		const urlType = getGravatarUrlType(avatarInput);
 		if (urlType === 'invalid') {
-			setAvatarError('Please enter a valid Gravatar URL.');
-			return;
+		  toast.error('Please enter a valid Gravatar URL.');
+
+			return ;
 		}
-		setAvatarError('');
 		setAvatarUrl(avatarInput);
 		setIsAvatarModalOpen(false);
 	};
@@ -49,7 +49,6 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 
 	const openAvatarModal = (): void => {
 		setAvatarInput(avatarUrl);
-		setAvatarError('');
 		setIsAvatarModalOpen(true);
 	};
 
@@ -169,15 +168,18 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 							value={avatarInput}
 							onChange={(e) => {
 								setAvatarInput((e.target as HTMLInputElement).value);
-								setAvatarError('');
+							
 							}}
 						/>
-						{avatarError && <p role='alert'>{avatarError}</p>}
 						<div className='general-info-avatar-dialog-actions'>
-							<Button type='button' hasOutline size='small' onClick={handleAvatarRemove}>
+									 <ToastContainer 
+									position='bottom-center' 
+									theme='light'
+									 />
+							<Button id='remove-img' type='button' hasOutline size='small' onClick={handleAvatarRemove}>
 								Remove photo
 							</Button>
-							<Button type='button' isPrimary size='small' onClick={handleAvatarSave}>
+							<Button id='save-img' type='button' isPrimary size='small' onClick={handleAvatarSave}>
 								Save photo
 							</Button>
 						</div>
