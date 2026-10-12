@@ -1,5 +1,6 @@
 import './SocialLinksFormModal.css';
 import Button from '../Button/Button.tsx';
+import { ToastContainer, toast } from 'react-toastify';
 
 interface Links {
 	platform: string;
@@ -36,17 +37,39 @@ const getSocialMediaUrl = (socialMedia: Links[], platformName: string): string =
 
 const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => (
 	<div className='social-links-modal'>
+ 		<ToastContainer position='bottom-center' theme='light' />
 		<form
 			className='social-links-form-modal-container'
 			onSubmit={async (event) => {
+				event.preventDefault();
+				const formData = new FormData(event.currentTarget);
+				const invalidPlatform = socialMediaPlatforms.find((platform) => {
+					const url = (formData.get(platform) as string)?.trim() ?? '';
+					if (!url) { return false; }
+
+					try {
+						return new URL(url).protocol !== 'https:';
+					} catch {
+						return true;
+					}
+				});
+
+				if (invalidPlatform) {
+					const platformName = invalidPlatform.charAt(0).toUpperCase() + invalidPlatform.slice(1);
+					toast.error(`Enter a valid HTTPS URL for ${platformName}.`);
+					return;
+				}
+
 				const isSaved = await onSubmit(event);
 				if (isSaved) {
 					onClose();
+				} else {
+					toast.error('Could not save social links. Check the URLs and try again.');
 				}
 			}}
 		>
 			<div className='title-close'>
-				<h2>Edit Social Links</h2>
+				<h2>Edit social links</h2>
 				<button type='button' onClick={onClose}>
 					<img src='/black-x.png' alt='Black X icon' />
 				</button>
