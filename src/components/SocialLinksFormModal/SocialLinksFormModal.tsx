@@ -1,6 +1,6 @@
 import './SocialLinksFormModal.css';
+import { toast, ToastContainer } from 'react-toastify';
 import Button from '../Button/Button.tsx';
-import { ToastContainer, toast } from 'react-toastify';
 
 interface Links {
 	platform: string;
@@ -37,7 +37,7 @@ const getSocialMediaUrl = (socialMedia: Links[], platformName: string): string =
 
 const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => (
 	<div className='social-links-modal'>
- 		<ToastContainer position='bottom-center' theme='light' />
+		<ToastContainer position='bottom-center' theme='light' />
 		<form
 			className='social-links-form-modal-container'
 			onSubmit={async (event) => {
