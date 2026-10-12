@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import './GeneralInfoFormModal.css';
+import { toast, ToastContainer } from 'react-toastify';
 import { getGravatarUrlType } from '../../utils/gravatar.ts';
 import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import Button from '../Button/Button.tsx';
 import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
-import { ToastContainer, toast } from 'react-toastify';
 
 interface Props {
 	name: string;
@@ -33,9 +33,9 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 	const handleAvatarSave = (): void => {
 		const urlType = getGravatarUrlType(avatarInput);
 		if (urlType === 'invalid') {
-		  toast.error('Please enter a valid Gravatar URL.');
+			toast.error('Please enter a valid Gravatar URL.');
 
-			return ;
+			return;
 		}
 		setAvatarUrl(avatarInput);
 		setIsAvatarModalOpen(false);
@@ -168,14 +168,13 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 							value={avatarInput}
 							onChange={(e) => {
 								setAvatarInput((e.target as HTMLInputElement).value);
-							
 							}}
 						/>
 						<div className='general-info-avatar-dialog-actions'>
-									 <ToastContainer 
-									position='bottom-center' 
-									theme='light'
-									 />
+							<ToastContainer
+								position='bottom-center'
+								theme='light'
+							/>
 							<Button id='remove-img' type='button' hasOutline size='small' onClick={handleAvatarRemove}>
 								Remove photo
 							</Button>

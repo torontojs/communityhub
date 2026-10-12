@@ -191,9 +191,7 @@
 }
 
 #remove-img,
-#save-img {
-	height: auto;
-}
+#save-img { height: auto; }
 
 .general-info-fields {
 	display: flex;
