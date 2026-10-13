@@ -190,6 +190,9 @@
 	justify-content: flex-end;
 }
 
+#remove-img,
+#save-img { height: auto; }
+
 .general-info-fields {
 	display: flex;
 	flex-direction: column;
