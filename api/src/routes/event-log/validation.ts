@@ -6,11 +6,13 @@ export const LogItemSourceEnum = {
 	PROFILE: 'profile',
 	ROLE: 'role',
 	TEAM: 'team',
+	EVENT: 'event',
+	PROJECT: 'project',
 	SPECIAL: 'special'
 } as const;
 
 export const LogItemSourceSchema = z
-	.enum(['profile', 'role', 'team', 'special'])
+	.enum(['profile', 'role', 'team', 'event', 'project', 'special'])
 	.describe('The source of the log item. It is used to relate the id of the item to a table/schema.');
 
 export type LogItemSource = z.infer<typeof LogItemSourceSchema>;

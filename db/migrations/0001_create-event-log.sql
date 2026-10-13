@@ -14,13 +14,13 @@ CREATE TABLE IF NOT EXISTS event_log (
 	-- The UUID for the entity performing the action
 	subject TEXT NOT NULL COLLATE BINARY,
 	-- The source where the subject comes from
-	subjectSource TEXT NOT NULL DEFAULT 'profile' CHECK(subjectSource IN ('profile', 'team', 'role', 'special')),
+	subjectSource TEXT NOT NULL DEFAULT 'profile' CHECK(subjectSource IN ('profile', 'team', 'role','event','project', 'special')),
 	-- The action being performed
 	verb TEXT NOT NULL,
 	-- The UUID for the entity receiving the action
 	object TEXT NOT NULL COLLATE BINARY,
 	-- The source where the object comes from
-	objectSource TEXT NOT NULL DEFAULT 'special' CHECK(objectSource IN ('profile', 'team', 'role', 'special')),
+	objectSource TEXT NOT NULL DEFAULT 'special' CHECK(objectSource IN ('profile', 'team', 'role', 'event', 'project', 'special')),
 	-- The date where this log happened, saved as an ISO timestamp
 	happenedAt DATETIME NOT NULL,
 	-- The date where this log was added to the database, saved as an ISO timestamp
