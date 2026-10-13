@@ -47,3 +47,6 @@ hurl_results.txt
 .claudeignore
 .codexignore
 CLAUDE.md
+
+# Vite log file
+.vite-dev.log
