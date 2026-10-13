@@ -1,4 +1,4 @@
--- Migration number: 0002 	 2025-01-30T00:58:21.685Z
+-- Migration number: 0008	 2025-01-30T00:58:21.685Z
 
 
 -- A person's profile inside the database
