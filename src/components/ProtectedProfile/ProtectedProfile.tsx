@@ -207,10 +207,11 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const handleGeneralInfoSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
+		const rawAvatar = (formData.get('avatar') as string)?.trim();
 
 		const updatedData = {
 			name: (formData.get('name') as string)?.trim(),
-			avatar: (formData.get('avatar') as string)?.trim() || null,
+			avatar: rawAvatar && !rawAvatar.startsWith('/') ? rawAvatar : null,
 			pronouns: (formData.get('pronouns') as string)?.trim() || undefined,
 			canJoinLocalEvents: formData.get('canJoinLocalEvents') === 'on',
 			isBasedOnGTA: formData.get('isBasedOnGTA') === 'on'

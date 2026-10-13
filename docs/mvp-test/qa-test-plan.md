@@ -15,13 +15,13 @@ _\* Not yet updated_
 | Role          | Name          | Email                              | Password                       | Status            |
 | ------------- | ------------- | ---------------------------------- | ------------------------------ | ----------------- |
 | **Admin**     | root          | `root@torontojs.com`               | `correct horse battery staple` | profile-completed |
-| **Organizer** | King Arthur   | `king.arthur@camelot.uk`           | `H0lyGr@il42!`                 | profile-completed |
-| **Organizer** | Black Knight  | `black.knight@bridgeguard.io`      | `ItzJustaFsh!`                 | profile-completed |
-| **Volunteer** | Sir Robin     | `sir.robin@cowardly.co`            | `RunAway!1234`                 | tos-accepted      |
-| **Volunteer** | Sir Lancelot  | `lancelot@heroics.inc`             | `LeapotFaith!`                 | tos-accepted      |
-| **Volunteer** | Tim Enchanter | `tim@enkanta.io`                   | `BOOM!!Fire12`                 | activated         |
-| **Volunteer** | Bridge Keeper | `bridge.keeper@threequestions.org` | `BridgeAns33?`                 | created           |
-| **Deleted**   | Knight Ni     | `knight.ni@forestsayni.com`        | `NiNiNiNi42?!`                 | deleted           |
+| **Organizer** | King Arthur   | `king.arthur@camelot.uk`           | `H0lyGr@il42!L0rd`             | profile-completed |
+| **Organizer** | Black Knight  | `black.knight@bridgeguard.io`      | `ItzJustaFsh!Kn1ght`           | profile-completed |
+| **Volunteer** | Sir Robin     | `sir.robin@cowardly.co`            | `RunAway!1234Run`              | tos-accepted      |
+| **Volunteer** | Sir Lancelot  | `lancelot@heroics.inc`             | `LeapotFaith!L0t`              | tos-accepted      |
+| **Volunteer** | Tim Enchanter | `tim@enkanta.io`                   | `BOOM!!Fire12Tim`              | activated         |
+| **Volunteer** | Bridge Keeper | `bridge.keeper@threequestions.org` | `BridgeAns33?K33p3r`           | created           |
+| **Deleted**   | Knight Ni     | `knight.ni@forestsayni.com`        | `NiNiNiNi42?Kn!ght`            | deleted           |
 
 ## Test Coverage Matrix
 

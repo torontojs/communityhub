@@ -10,12 +10,39 @@ import { hashPassword, validatePassword } from '../../utils/password-hashing.ts'
 import { passwordStrengthCheck } from '../../utils/passwordStrengthCheck.ts';
 import { StatusCodes, type StatusResponse, statusResponseFormatter, StatusResponseSchema } from '../../utils/responses.ts';
 import { insertProfile } from '../profile/data.ts';
-import { activateProfile, checkActiveEmail, checkExistingEmail, getHeartbeatInfo, getLoginInfo, resetPassword, updateProfileStatus } from './data.ts';
+import { activateProfile, checkActiveEmail, checkExistingEmail, getExistingAccount, getHeartbeatInfo, getLoginInfo, resetPassword, updateProfileStatus } from './data.ts';
 import { type HeartbeatResponse, HeartbeatResponseSchema } from './responses.ts';
 import { ActivateSchema, ForgotPasswordSchema, ResetPasswordSchema, ResetPasswordValidTokenSchema, SignInSchema, SignUpSchema } from './validation.ts';
 export const authRoutes = new OpenAPIHono<EnvironmentBindings>({
 	defaultHook: statusResponseFormatter
 });
+
+// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+const ACTIVATION_WINDOW_SECONDS = 60 * 15;
+const ACTIVATION_RESEND_KEY_PREFIX = 'activation-resend:';
+
+async function getActivationResendKey(email: string) {
+	const emailBytes = new TextEncoder().encode(email.toLowerCase());
+	const digest = await crypto.subtle.digest('SHA-256', emailBytes);
+	// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+	const emailHash = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+
+	return `${ACTIVATION_RESEND_KEY_PREFIX}${emailHash}`;
+}
+
+async function sendActivationEmail(context: Parameters<typeof sendAccountConfirmationEmail>[0], { email, id }: { email: string, id: string }) {
+	const token = crypto.randomUUID();
+	const resendKey = await getActivationResendKey(email);
+
+	await context.env.ActivationTokens.put(resendKey, '1', { expirationTtl: ACTIVATION_WINDOW_SECONDS });
+	await context.env.ActivationTokens.put(token, JSON.stringify({ email, id }), { expirationTtl: ACTIVATION_WINDOW_SECONDS });
+	await sendAccountConfirmationEmail(context, {
+		apiKey: context.env.RESEND_API_KEY,
+		senderEmail: context.env.SENDER_EMAIL,
+		token,
+		email
+	});
+}
 
 authRoutes.openapi(
 	createRoute({
@@ -53,9 +80,15 @@ authRoutes.openapi(
 
 		const response = { message: 'Created a new profile and sent an email for confirmation' };
 
-		const emailExists = await checkExistingEmail(context.env.Database, email);
-		if (emailExists) {
-			// INFO: Hide non existing emails to reduce attack surface from guessing registered emails.
+		const existingAccount = await getExistingAccount(context.env.Database, email);
+		if (existingAccount) {
+			const resendKey = await getActivationResendKey(email);
+			const resendOnCooldown = await context.env.ActivationTokens.get(resendKey);
+			if (!existingAccount.activatedAt && !resendOnCooldown) {
+				await sendActivationEmail(context, existingAccount);
+			}
+
+			// INFO: Keep the response generic to prevent account enumeration.
 			return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
 		}
 
@@ -72,21 +105,7 @@ authRoutes.openapi(
 		const { id } = await insertProfile(context.env.Database, { avatar: resolvedAvatar, email, password: hashedPasswordWithSalt, name });
 		await updateProfileStatus(context.env.Database, id);
 
-		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
-		const TEN_MINUTES_IN_SECONDS = 60 * 10;
-		const token = crypto.randomUUID();
-		await context.env.ActivationTokens.put(
-			token,
-			JSON.stringify({ email, id }),
-			{ expirationTtl: TEN_MINUTES_IN_SECONDS }
-		);
-
-		await sendAccountConfirmationEmail(context, {
-			apiKey: context.env.RESEND_API_KEY,
-			senderEmail: context.env.SENDER_EMAIL,
-			token,
-			email
-		});
+		await sendActivationEmail(context, { email, id });
 
 		return context.json(response satisfies StatusResponse, StatusCodes.OKAY);
 	}
