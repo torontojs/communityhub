@@ -2,15 +2,13 @@ import useToastNotificationModel, { type ToastNotificationProps } from './ToastM
 import ToastNotificationView from './ToastView.tsx';
 
 const ToastNotification = (props: ToastNotificationProps) => {
-  const data = useToastNotificationModel(props);
+	const data = useToastNotificationModel(props);
 
-  if (!data.isToastActive) {
-    return null;
-  }
+	if (!data.isToastActive) {
+		return null;
+	}
 
-  return (
-    <ToastNotificationView {...data} />
-  );
+	return <ToastNotificationView {...data} />;
 };
 
 export default ToastNotification;

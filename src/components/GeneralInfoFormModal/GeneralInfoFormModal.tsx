@@ -26,7 +26,7 @@ const pronounOptions = [
 
 const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, isBasedOnGTA, canJoinLocalEvents, onClose, onSubmit }: Props): React.JSX.Element => {
 	const [avatarUrl, setAvatarUrl] = useState(initialAvatar);
-	const [toast, setToast] = useState<{ id: number; variant: 'error' | 'success'; title: string; message: string } | null>(null);
+	const [toast, setToast] = useState<{ id: number, variant: 'error' | 'success', title: string, message: string } | null>(null);
 	const toastId = useRef(0);
 	const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 	const [avatarInput, setAvatarInput] = useState(initialAvatar);

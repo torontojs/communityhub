@@ -36,9 +36,7 @@
 	}
 }
 
-.notification-box-wrapper-slide.toast-hidden {
-	display: none;
-}
+.notification-box-wrapper-slide.toast-hidden { display: none; }
 
 .notification-box-wrapper-slide .notification-box {
 	display: grid;
@@ -86,9 +84,7 @@
 		outline-color: var(--color-border);
 	}
 
-	& * {
-		position: relative;
-	}
+	& * { position: relative; }
 }
 
 .notification-box-wrapper-slide .notification-box > button svg {
@@ -96,9 +92,7 @@
 	height: calc(16rem / 16);
 }
 
-.notification-box-wrapper-slide .notification-box > button span {
-	font-size: calc(14rem / 16);
-}
+.notification-box-wrapper-slide .notification-box > button span { font-size: calc(14rem / 16); }
 
 .notification-box-wrapper-slide .progress-bar {
 	appearance: none;

@@ -1,6 +1,7 @@
+import { useRef, useState } from 'react';
 import './SocialLinksFormModal.css';
-import { toast, ToastContainer } from 'react-toastify';
 import Button from '../Button/Button.tsx';
+import ToastNotificationBox from '../ToastNotificationBox/Toast/Toast.tsx';
 
 interface Links {
 	platform: string;
@@ -35,28 +36,43 @@ const getSocialMediaUrl = (socialMedia: Links[], platformName: string): string =
 	return res?.url ?? '';
 };
 
-const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => (
+
+const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => {
+	const [toastMessage, setToastMessage] = useState<{ id: number; message: string } | null>(null);
+	const toastId = useRef(0);
+
+	const showErrorToast = (message: string): void => {
+		toastId.current += 1;
+		setToastMessage({ id: toastId.current, message });
+	};
+
+	return (
 	<div className='social-links-modal'>
-		<ToastContainer position='bottom-center' theme='light' />
+		{toastMessage && (
+			<ToastNotificationBox key={toastMessage.id} title='Unable to continue' variant='error' isToastActive>
+				{toastMessage.message}
+			</ToastNotificationBox>
+		)}
 		<form
 			className='social-links-form-modal-container'
 			onSubmit={async (event) => {
 				event.preventDefault();
 				const formData = new FormData(event.currentTarget);
 				const invalidPlatform = socialMediaPlatforms.find((platform) => {
-					const url = (formData.get(platform) as string)?.trim() ?? '';
-					if (!url) { return false; }
-
-					try {
-						return new URL(url).protocol !== 'https:';
-					} catch {
-						return true;
+					const validUrl = (formData.get(platform) as string)?.trim() ?? '';
+					if (validUrl) {
+							try {
+								return new URL(validUrl).protocol !== 'https:' 
+						} catch {
+							return true;
+						}
 					}
+					return false;
 				});
 
 				if (invalidPlatform) {
 					const platformName = invalidPlatform.charAt(0).toUpperCase() + invalidPlatform.slice(1);
-					toast.error(`Enter a valid HTTPS URL for ${platformName}.`);
+					showErrorToast(`Enter a valid HTTPS URL for ${platformName}.`);
 					return;
 				}
 
@@ -64,7 +80,7 @@ const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): Rea
 				if (isSaved) {
 					onClose();
 				} else {
-					toast.error('Could not save social links. Check the URLs and try again.');
+					showErrorToast('Could not save social links. Check the URLs and try again.');
 				}
 			}}
 		>
@@ -99,6 +115,7 @@ const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): Rea
 			</div>
 		</form>
 	</div>
-);
+	);
+};
 
 export default SocialLinksFormModal;
