@@ -190,8 +190,7 @@
 	justify-content: flex-end;
 }
 
-#remove-img,
-#save-img { height: auto; }
+.user-profile-img { height: auto; }
 
 .general-info-fields {
 	display: flex;
