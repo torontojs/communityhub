@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './GeneralInfoFormModal.css';
-import { toast, ToastContainer } from 'react-toastify';
 import { getGravatarUrlType } from '../../utils/gravatar.ts';
 import { safeAvatarUrl } from '../../utils/safeAvatarUrl.ts';
 import Button from '../Button/Button.tsx';
 import TextInputComponent from '../TextInputComponent/TextInputComponent.tsx';
+import ToastNotificationBox from '../ToastNotificationBox/Toast/Toast.tsx';
 
 interface Props {
 	name: string;
@@ -26,14 +26,21 @@ const pronounOptions = [
 
 const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, isBasedOnGTA, canJoinLocalEvents, onClose, onSubmit }: Props): React.JSX.Element => {
 	const [avatarUrl, setAvatarUrl] = useState(initialAvatar);
+	const [toast, setToast] = useState<{ id: number; variant: 'error' | 'success'; title: string; message: string } | null>(null);
+	const toastId = useRef(0);
 	const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 	const [avatarInput, setAvatarInput] = useState(initialAvatar);
 	const avatarPreview = (url: string): string => getGravatarUrlType(url) === 'profile' ? safeAvatarUrl(undefined) : safeAvatarUrl(url);
 
+	const showToast = (variant: 'error' | 'success', title: string, message: string): void => {
+		toastId.current += 1;
+		setToast({ id: toastId.current, variant, title, message });
+	};
+
 	const handleAvatarSave = (): void => {
 		const urlType = getGravatarUrlType(avatarInput);
 		if (urlType === 'invalid') {
-			toast.error('Please enter a valid Gravatar URL.');
+			showToast('error', 'Invalid Gravatar URL', 'Please enter a valid Gravatar URL.');
 
 			return;
 		}
@@ -58,12 +65,17 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 				className='general-info-form-modal-container'
 				onSubmit={async (event) => {
 					const isSaved = await onSubmit(event);
-					if (isSaved) {
-						onClose();
+					if (!isSaved) {
+						showToast('error', 'Unable to save changes', 'Please check the information and try again.');
 					}
 				}}
 			>
 				<div className='title-close'>
+					{toast && (
+						<ToastNotificationBox key={toast.id} title={toast.title} variant={toast.variant} isToastActive>
+							{toast.message}
+						</ToastNotificationBox>
+					)}
 					<h2>Edit General Information</h2>
 					<Button className='general-info-modal-close-button' type='button' onClick={onClose} aria-label='Close edit general information modal'>
 						<img src='/black-x.png' alt='Black X icon' />
@@ -171,14 +183,10 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 							}}
 						/>
 						<div className='general-info-avatar-dialog-actions'>
-							<ToastContainer
-								position='bottom-center'
-								theme='light'
-							/>
-							<Button id='remove-img' type='button' hasOutline size='small' onClick={handleAvatarRemove}>
+							<Button className='user-profile-img' type='button' hasOutline size='small' onClick={handleAvatarRemove}>
 								Remove photo
 							</Button>
-							<Button id='save-img' type='button' isPrimary size='small' onClick={handleAvatarSave}>
+							<Button className='user-profile-img' type='button' isPrimary size='small' onClick={handleAvatarSave}>
 								Save photo
 							</Button>
 						</div>
