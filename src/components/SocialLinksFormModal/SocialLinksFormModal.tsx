@@ -1,5 +1,7 @@
+import { useRef, useState } from 'react';
 import './SocialLinksFormModal.css';
 import Button from '../Button/Button.tsx';
+import ToastNotificationBox from '../ToastNotificationBox/Toast/Toast.tsx';
 
 interface Links {
 	platform: string;
@@ -34,19 +36,56 @@ const getSocialMediaUrl = (socialMedia: Links[], platformName: string): string =
 	return res?.url ?? '';
 };
 
-const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => (
+
+const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): React.JSX.Element => {
+	const [toastMessage, setToastMessage] = useState<{ id: number; message: string } | null>(null);
+	const toastId = useRef(0);
+
+	const showErrorToast = (message: string): void => {
+		toastId.current += 1;
+		setToastMessage({ id: toastId.current, message });
+	};
+
+	return (
 	<div className='social-links-modal'>
+		{toastMessage && (
+			<ToastNotificationBox key={toastMessage.id} title='Unable to continue' variant='error' isToastActive>
+				{toastMessage.message}
+			</ToastNotificationBox>
+		)}
 		<form
 			className='social-links-form-modal-container'
 			onSubmit={async (event) => {
+				event.preventDefault();
+				const formData = new FormData(event.currentTarget);
+				const invalidPlatform = socialMediaPlatforms.find((platform) => {
+					const validUrl = (formData.get(platform) as string)?.trim() ?? '';
+					if (validUrl) {
+							try {
+								return new URL(validUrl).protocol !== 'https:' 
+						} catch {
+							return true;
+						}
+					}
+					return false;
+				});
+
+				if (invalidPlatform) {
+					const platformName = invalidPlatform.charAt(0).toUpperCase() + invalidPlatform.slice(1);
+					showErrorToast(`Enter a valid HTTPS URL for ${platformName}.`);
+					return;
+				}
+
 				const isSaved = await onSubmit(event);
 				if (isSaved) {
 					onClose();
+				} else {
+					showErrorToast('Could not save social links. Check the URLs and try again.');
 				}
 			}}
 		>
 			<div className='title-close'>
-				<h2>Edit Social Links</h2>
+				<h2>Edit social links</h2>
 				<button type='button' onClick={onClose}>
 					<img src='/black-x.png' alt='Black X icon' />
 				</button>
@@ -76,6 +115,7 @@ const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): Rea
 			</div>
 		</form>
 	</div>
-);
+	);
+};
 
 export default SocialLinksFormModal;

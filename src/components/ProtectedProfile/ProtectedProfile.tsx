@@ -10,6 +10,7 @@ import GeneralInfoFormModal from '../GeneralInfoFormModal/GeneralInfoFormModal.t
 import SkillsFormModal from '../SkillsFormModal/SkillsFormModal.tsx';
 import Social from '../Social/Social.tsx';
 import SocialLinksFormModal from '../SocialLinksFormModal/SocialLinksFormModal.tsx';
+import ToastNotificationBox from '../ToastNotificationBox/Toast/Toast.tsx';
 import Team from '../Team/Team.tsx';
 
 interface Links {
@@ -52,6 +53,14 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [socialLinksModal, setSocialLinksModal] = useState<boolean>(false);
 	const [generalInfoModal, setGeneralInfoModal] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [profileUpdatedToast, setProfileUpdatedToast] = useState<{ id: number; message: string } | null>(null);
+
+	const showProfileUpdatedToast = (message: string): void => {
+		setProfileUpdatedToast((currentToast) => ({
+			id: (currentToast?.id ?? 0) + 1,
+			message
+		}));
+	};
 
 	useEffect(() => {
 		async function fetchProtectedProfile() {
@@ -226,6 +235,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		if (result.pronouns !== undefined) { setPronoun(result.pronouns ?? ''); }
 		setCanJoinLocalEvents(result.canJoinLocalEvents ?? null);
 		setIsBasedOnGTA(result.isBasedOnGTA ?? null);
+		showProfileUpdatedToast('Profile information updated successfully.');
 		return true;
 	};
 
@@ -250,6 +260,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		if (!result) { return false; }
 
 		setLinks(result);
+		showProfileUpdatedToast('Social links updated successfully.');
 		return true;
 	};
 
@@ -269,6 +280,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		if (!result) { return false; }
 
 		setSkills(result);
+		showProfileUpdatedToast('Skills updated successfully.');
 		return true;
 	};
 
@@ -282,6 +294,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 		if (updatedDescription === null) { return false; }
 
 		setDescription(updatedDescription);
+		showProfileUpdatedToast('Description updated successfully.');
 		return true;
 	};
 
@@ -295,6 +308,16 @@ export const ProtectedProfile = (): React.JSX.Element => {
 
 	return (
 		<AuthenticatedLayout activePage='profile' mainClassName='protected-profile-page'>
+			{profileUpdatedToast && (
+				<ToastNotificationBox
+					key={profileUpdatedToast.id}
+					title='Profile updated'
+					variant='success'
+					isToastActive
+				>
+						{profileUpdatedToast.message}
+				</ToastNotificationBox>
+			)}
 			<h1>My Profile</h1>
 			<article className='profile'>
 				<div className='profile-header-container'>
