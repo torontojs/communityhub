@@ -10,8 +10,8 @@ import GeneralInfoFormModal from '../GeneralInfoFormModal/GeneralInfoFormModal.t
 import SkillsFormModal from '../SkillsFormModal/SkillsFormModal.tsx';
 import Social from '../Social/Social.tsx';
 import SocialLinksFormModal from '../SocialLinksFormModal/SocialLinksFormModal.tsx';
-import ToastNotificationBox from '../ToastNotificationBox/Toast/Toast.tsx';
 import Team from '../Team/Team.tsx';
+import ToastNotificationBox from '../ToastNotificationBox/Toast/Toast.tsx';
 
 interface Links {
 	platform: string;
@@ -53,7 +53,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 	const [socialLinksModal, setSocialLinksModal] = useState<boolean>(false);
 	const [generalInfoModal, setGeneralInfoModal] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [profileUpdatedToast, setProfileUpdatedToast] = useState<{ id: number; message: string } | null>(null);
+	const [profileUpdatedToast, setProfileUpdatedToast] = useState<{ id: number, message: string } | null>(null);
 
 	const showProfileUpdatedToast = (message: string): void => {
 		setProfileUpdatedToast((currentToast) => ({
@@ -315,7 +315,7 @@ export const ProtectedProfile = (): React.JSX.Element => {
 					variant='success'
 					isToastActive
 				>
-						{profileUpdatedToast.message}
+					{profileUpdatedToast.message}
 				</ToastNotificationBox>
 			)}
 			<h1>My Profile</h1>
