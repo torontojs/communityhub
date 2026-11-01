@@ -111,6 +111,23 @@ export async function getLoginInfo(database: D1Database, email: string) {
 	return loginInfo;
 }
 
+export async function getActiveAccessLevel(database: D1Database, id: string) {
+	const result = await database
+		.prepare(`
+			SELECT accessLevel AS access
+			FROM ${DBTables.ACCESS}
+			WHERE
+				id = ?
+				AND activatedAt IS NOT NULL
+				AND deletedAt IS NULL
+			LIMIT 1
+		`)
+		.bind(id)
+		.first<{ access: AccessLevel }>();
+
+	return result?.access;
+}
+
 export async function getHeartbeatInfo(database: D1Database, id: string) {
 	const userInfo = await database
 		.prepare(`

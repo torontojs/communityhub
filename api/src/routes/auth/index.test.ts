@@ -286,7 +286,7 @@ describe('Authentication routes', () => {
 		it('signs out and invalidates the session when a valid session token is provided', async () => {
 			const token = '00000000-0000-0000-0000-000000000000';
 			const sessionPayload = {
-				id: token,
+				id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8',
 				name: 'King Arthur',
 				email: 'king.arthur@camelot.uk',
 				password: 'H0lyGr@il42!',
@@ -370,6 +370,61 @@ describe('Authentication routes', () => {
 				body: JSON.stringify({ token, password })
 			}, env);
 			expect(replayResponse.status).toBe(StatusCodes.UNPROCESSABLE_CONTENT);
+		});
+	});
+
+	describe('Session revalidation', () => {
+		const organizer = {
+			id: '3c5123c0-8548-4a02-a83c-32e9ce67eae8',
+			email: 'king.arthur@camelot.uk',
+			password: 'H0lyGr@il42!L0rd'
+		};
+
+		async function signInAsOrganizer() {
+			const response = await app.request('/api/auth/sign-in', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email: organizer.email, password: organizer.password })
+			}, env);
+			expect(response.status).toBe(StatusCodes.OKAY);
+
+			const token = /auth_token=([^;]+)/u.exec(response.headers.get('set-cookie') ?? '')?.[1];
+			assert(token, 'Expected an auth_token cookie');
+
+			return token;
+		}
+
+		it('rejects and removes an existing session once the account is deactivated', async () => {
+			const token = await signInAsOrganizer();
+
+			await env.Database
+				.prepare('UPDATE access SET deletedAt = ? WHERE id = ?')
+				.bind(new Date().toISOString(), organizer.id)
+				.run();
+
+			const response = await app.request('/api/teams', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json', 'Cookie': `auth_token=${token}` },
+				body: JSON.stringify({ name: 'Grinch Team', description: 'Created by a deactivated organizer' })
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+			expect(await env.SessionTokens.get(token)).toBeNull();
+		});
+
+		it('applies access level changes to an existing session', async () => {
+			const token = await signInAsOrganizer();
+
+			await env.Database
+				.prepare('UPDATE access SET accessLevel = ? WHERE id = ?')
+				.bind('volunteer', organizer.id)
+				.run();
+
+			const response = await app.request('/api/profiles/authenticated', {
+				headers: { Cookie: `auth_token=${token}` }
+			}, env);
+
+			expect(response.status).toBe(StatusCodes.FORBIDDEN);
 		});
 	});
 });
