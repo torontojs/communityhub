@@ -2,6 +2,7 @@ import type { Context } from 'hono';
 import { getCookie, setCookie } from 'hono/cookie';
 import type { CookieOptions } from 'hono/utils/cookie';
 import z from 'zod';
+import { getActiveAccessLevel } from '../routes/auth/data.ts';
 
 /** One Day */
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
@@ -129,9 +130,16 @@ export async function revalidateSession(context: ContextWithBindings) {
 		return;
 	}
 
+	// The account may have been deactivated or had its access level changed since sign-in
+	const currentAccess = await getActiveAccessLevel(context.env.Database, session.id);
+	if (!currentAccess) {
+		await deleteSession({ context, sessionToken });
+		return;
+	}
+
 	const extendedSession = await extendExistingSession({
 		sessionToken,
-		session,
+		session: { ...session, access: currentAccess },
 		context
 	});
 
