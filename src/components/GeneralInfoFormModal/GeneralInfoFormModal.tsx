@@ -65,7 +65,9 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 				className='general-info-form-modal-container'
 				onSubmit={async (event) => {
 					const isSaved = await onSubmit(event);
-					if (!isSaved) {
+					if (isSaved) {
+						onClose();
+					} else {
 						showToast('error', 'Unable to save changes', 'Please check the information and try again.');
 					}
 				}}
@@ -183,10 +185,10 @@ const GeneralInfoFormModal = ({ name, email, avatar: initialAvatar, pronouns, is
 							}}
 						/>
 						<div className='general-info-avatar-dialog-actions'>
-							<Button className='user-profile-img' type='button' hasOutline size='small' onClick={handleAvatarRemove}>
+							<Button type='button' hasOutline size='small' onClick={handleAvatarRemove}>
 								Remove photo
 							</Button>
-							<Button className='user-profile-img' type='button' isPrimary size='small' onClick={handleAvatarSave}>
+							<Button type='button' isPrimary size='small' onClick={handleAvatarSave}>
 								Save photo
 							</Button>
 						</div>

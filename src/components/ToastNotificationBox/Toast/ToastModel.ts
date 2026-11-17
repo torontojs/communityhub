@@ -8,11 +8,11 @@ export interface ToastNotificationProps {
 	onDismiss?(event?: React.MouseEvent<HTMLButtonElement>): void;
 	children?: React.ReactNode;
 	isToastActive?: boolean;
-	timer?: number;
+	initialCountdown?: number;
 }
 
-const DEFAULT_TIMER = 100;
-const TIMER_DECREMENT = 3;
+const DEFAULT_INITIAL_COUNTDOWN = 100;
+const COUNTDOWN_DECREMENT = 3;
 const TIMER_INTERVAL_MS = 90;
 
 const useToastNotificationModel = ({
@@ -21,9 +21,9 @@ const useToastNotificationModel = ({
 	onDismiss,
 	children,
 	isToastActive = false,
-	timer = DEFAULT_TIMER
+	initialCountdown = DEFAULT_INITIAL_COUNTDOWN
 }: ToastNotificationProps) => {
-	const [currentTimer, setCurrentTimer] = useState(timer);
+	const [countdown, setCountdown] = useState(initialCountdown);
 	const [isToastHidden, setIsToastHidden] = useState(false);
 
 	const dismissToast = (event?: React.MouseEvent<HTMLButtonElement>): void => {
@@ -41,27 +41,27 @@ const useToastNotificationModel = ({
 			return;
 		}
 
-		setCurrentTimer(timer);
+		setCountdown(initialCountdown);
 		setIsToastHidden(false);
 
-		if (timer <= 0) {
+		if (initialCountdown <= 0) {
 			setIsToastHidden(true);
 			return;
 		}
 
-		let remainingTime = timer;
+		let remainingCountdown = initialCountdown;
 		const intervalId = window.setInterval(() => {
-			remainingTime = Math.max(0, remainingTime - TIMER_DECREMENT);
-			setCurrentTimer(remainingTime);
+			remainingCountdown = Math.max(0, remainingCountdown - COUNTDOWN_DECREMENT);
+			setCountdown(remainingCountdown);
 
-			if (remainingTime === 0) {
+			if (remainingCountdown === 0) {
 				setIsToastHidden(true);
 				window.clearInterval(intervalId);
 			}
 		}, TIMER_INTERVAL_MS);
 
 		return () => window.clearInterval(intervalId);
-	}, [isToastActive, isToastHidden, timer]);
+	}, [isToastActive, isToastHidden, initialCountdown]);
 
 	return {
 		title,
@@ -70,7 +70,8 @@ const useToastNotificationModel = ({
 		children,
 		isToastActive,
 		isToastHidden,
-		timer: currentTimer
+		initialCountdown,
+		countdown
 	};
 };
 

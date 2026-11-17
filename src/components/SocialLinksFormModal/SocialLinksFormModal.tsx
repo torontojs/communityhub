@@ -84,7 +84,7 @@ const SocialLinksFormModal = ({ linksArrayProp, onClose, onSubmit }: Props): Rea
 				}}
 			>
 				<div className='title-close'>
-					<h2>Edit social links</h2>
+					<h2>Edit Social Links</h2>
 					<button type='button' onClick={onClose}>
 						<img src='/black-x.png' alt='Black X icon' />
 					</button>

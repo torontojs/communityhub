@@ -60,4 +60,12 @@
 		color: var(--color-black);
 		cursor: not-allowed;
 	}
+
+	@media (max-width: 400px) {
+		&[data-size='small'] {
+			font-size: var(--text-xs);
+			height: 3rem;
+			padding: 0 var(--spacing-sm);
+		}
+	}
 }
