@@ -60,6 +60,11 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "npm"
 
+      - name: Install Hurl runtime dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes libxml2
+
       - name: Install dependencies
         run: npm clean-install --save-dev
 
