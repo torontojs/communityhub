@@ -13,6 +13,7 @@ auth-token: cookie "auth_token"
 # Try to update team member
 PATCH {{host}}/api/teams/{{update_member_team_id}}/members
 Cookie: auth_token={{auth-token}}
+Connection: close
 [{
 	"id": "{{try_update_member_id}}",
 	"name": "Update member - Volunteer"
