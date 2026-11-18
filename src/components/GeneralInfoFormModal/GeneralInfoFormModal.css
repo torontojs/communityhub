@@ -190,6 +190,8 @@
 	justify-content: flex-end;
 }
 
+.general-info-avatar-dialog-actions button { height: auto; }
+
 .general-info-fields {
 	display: flex;
 	flex-direction: column;
